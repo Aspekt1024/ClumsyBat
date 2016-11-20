@@ -1,0 +1,54 @@
+﻿using UnityEngine;
+using System.Collections.Generic;
+using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
+
+[XmlRoot("LevelCollection")]
+public class LevelContainer {
+
+    public struct CaveType
+    {
+        public int TopIndex;
+        public int BottomIndex;
+        public ShroomPool.ShroomType[] Shrooms;
+        public StalPool.StalType[] Stals;
+        public MothPool.MothType[] Moths;
+    }
+    
+    public struct ClumsyType
+    {
+        public Vector2 Pos;
+        public Vector2 Scale;
+        public Quaternion Rotation;
+    }
+
+    [XmlArray("CaveList"), XmlArrayItem("Cave")]
+    public CaveType[] Caves;
+
+    public ClumsyType Clumsy;
+
+    public void Save(string path)
+    {
+        var serializer = new XmlSerializer(typeof(LevelContainer));
+        using (var stream = new FileStream(path, FileMode.Create))
+        {
+            serializer.Serialize(stream, this);
+        }
+    }
+
+    public static LevelContainer Load(string path)
+    {
+        var serializer = new XmlSerializer(typeof(LevelContainer));
+        using (var stream = new FileStream(path, FileMode.Open))
+        {
+            return serializer.Deserialize(stream) as LevelContainer;
+        }
+    }
+
+    public static LevelContainer LoadFromText(string text)
+    {
+        var serializer = new XmlSerializer(typeof(LevelContainer));
+        return serializer.Deserialize(new StringReader(text)) as LevelContainer;
+    }
+}
