@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     private bool bGameStarted = false;
     private bool bGamePaused = false;
     private bool bGameResuming = false;
+    private bool bAtEnd = false;
     private float ResumeTimerStart;
     private float ResumeTimer = 3f;
     private Vector2 SavedVelocity = Vector2.zero;
@@ -71,13 +72,17 @@ public class PlayerController : MonoBehaviour
 
         if (bIsAlive)
         {
-            //Fog.transform.position = transform.position;
             if (bGameStarted && !bGameResuming)
             {
                 Level.AddDistance(Time.deltaTime, PlayerSpeed, bIsRushing);
                 if (Time.time - RushStartTime > RushTimer && bIsRushing)
                 {
                     StartCoroutine("EndRushAnim");
+                }
+                if (Level.AtCaveEnd())
+                {
+                    bAtEnd = true;
+                    transform.position += new Vector3(Time.deltaTime * PlayerSpeed * Toolbox.Instance.LevelSpeed, 0f, 0f);
                 }
             }
 
@@ -195,7 +200,10 @@ public class PlayerController : MonoBehaviour
                 }
                 break;
             case "ExitTrigger":
-                Debug.Log("Game Won!");
+                CircleCollider2D ClumsyCollider = GetComponent<CircleCollider2D>();
+                ClumsyCollider.enabled = false;
+                PlayerRigidBody.isKinematic = true;
+                StartCoroutine("CaveExitAnimation");
                 break;
             case "Spore":
                 Fog.Minimise();
@@ -289,7 +297,7 @@ public class PlayerController : MonoBehaviour
         bIsRushing = false;
         PlayerRigidBody.gravityScale = GravityScale;
         
-        while (PlayerRigidBody.position.x > PlayerStartPos.x)
+        while (PlayerRigidBody.position.x > PlayerStartPos.x && !bAtEnd)
         {
             float NewSpeed = 3 - (2*PlayerRigidBody.position.x / (PlayerRigidBody.position.x + PlayerStartPos.x));
             PlayerRigidBody.velocity = new Vector2(-NewSpeed, PlayerRigidBody.velocity.y);
@@ -297,6 +305,25 @@ public class PlayerController : MonoBehaviour
         }
         PlayerRigidBody.velocity = new Vector2(0, PlayerRigidBody.velocity.y);
         Anim.Play("Flap", 0, 0);
+    }
+
+    IEnumerator CaveExitAnimation()
+    {
+        Vector2 TargetExitPoint = new Vector2(Toolbox.TileSizeX / 2f, 0f);
+        while (transform.position.x < TargetExitPoint.x)
+        {
+            float XShift = Time.deltaTime * Toolbox.Instance.LevelSpeed;
+            float YShift = (TargetExitPoint.y - transform.position.y) / (4 * Toolbox.Instance.LevelSpeed);
+            transform.position += new Vector3(XShift, YShift, 0f);
+            yield return null;
+        }
+        Level.LevelWon();
+        bGamePaused = true;
+    }
+
+    IEnumerator CaveEntranceAnimation()
+    {
+        yield return null;
     }
 }
 

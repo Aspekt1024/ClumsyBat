@@ -24,6 +24,7 @@ public class StatsHandler : MonoBehaviour {
     public int MostMoths = 0;
     public int TotalMoths = 0;
     public int Highscore = 0;       // Not currently in use
+    public int LevelsCompleted = 0;
 
     private List<Pref> PrefList = new List<Pref>();
 
@@ -57,6 +58,11 @@ public class StatsHandler : MonoBehaviour {
         // bash through objects
 	}
 
+    public void LevelWon(int Level)
+    {
+        LevelsCompleted++;
+    }
+
     public void SaveStats()
     {
         PlayerPrefs.SetInt("Highscore", Highscore);
@@ -74,6 +80,7 @@ public class StatsHandler : MonoBehaviour {
         PlayerPrefs.SetInt("Deaths", Deaths);
         PlayerPrefs.SetInt("MostMoths", MostMoths);
         PlayerPrefs.SetInt("TotalMoths", TotalMoths);
+        PlayerPrefs.SetInt("LevelsCompleted", LevelsCompleted);
 
         PlayerPrefs.Save();
     }
@@ -95,6 +102,7 @@ public class StatsHandler : MonoBehaviour {
         Deaths = PlayerPrefs.GetInt("Deaths");
         MostMoths = PlayerPrefs.GetInt("MostMoths");
         TotalMoths = PlayerPrefs.GetInt("TotalMoths");
+        LevelsCompleted = PlayerPrefs.GetInt("LevelsCompleted");
     }
 
     private void SetupPrefList()
@@ -115,6 +123,7 @@ public class StatsHandler : MonoBehaviour {
         AddPref("ToothDeaths", "Int");
         AddPref("TimesDashed", "Int");
         AddPref("TotalJumps", "Int");
+        AddPref("LevelsCompleted", "Int");
     }
 
     private void SetupPlayerPrefs()

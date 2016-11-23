@@ -32,6 +32,13 @@ public class MainMenu : MonoBehaviour {
     void Start()
     {
         //GetComponent<AudioSource>().Play();
+        if (Toolbox.Instance.MenuScreen == Toolbox.MenuSelector.LevelSelect)
+        {
+            Caves.position = new Vector3(-TileSizeX, 0f, 0f);
+            MidBG.position = new Vector3(-TileSizeX / 3, 0f, 0f);
+            MainPanel.transform.position = new Vector3(-TileSizeX, 0f, 0f);
+            LevelSelectPanel.transform.position = new Vector3(0f, 0f, 0f);
+        }
     }
 
     private void GetBackgrounds()

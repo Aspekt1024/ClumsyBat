@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LevelScript : MonoBehaviour {
 
@@ -10,12 +11,13 @@ public class LevelScript : MonoBehaviour {
     
     // Game objects created at runtime
     private GameObject LevelScripts;
-    private Cave Cave;
+    private LevelObjectHandler LevelObjects;
 
     // Gameplay attributes
     public const float LevelScrollSpeed = 4;    // first initialisation of LevelSpeed
     private bool bGameStarted = false;
     private bool bGamePaused = false;
+    private bool bAtEnd = false;
     private float GameSpeed = 1f;
     private float PrevGameSpeed;
 
@@ -52,6 +54,22 @@ public class LevelScript : MonoBehaviour {
         if (!bGameStarted || bGamePaused) { Stats.IdleTime += Time.deltaTime; return; }
         Stats.PlayTime += Time.deltaTime;
         ScoreText.text = Mathf.FloorToInt(Stats.Distance).ToString() + "m";
+
+        if (LevelObjects.AtCaveEnd())
+        {
+            SetMovementForExit();
+        }
+    }
+
+    private void SetMovementForExit()
+    {
+        bAtEnd = true;
+        Background.SetVelocity(0);
+    }
+
+    public bool AtCaveEnd()
+    {
+        return bAtEnd;
     }
 
     void SetLevel()
@@ -67,18 +85,18 @@ public class LevelScript : MonoBehaviour {
         if (Level == -1)
         {
             LevelNum = "Endless";
-            Cave.SetMode(bIsEndless: true);
+            LevelObjects.SetMode(bIsEndless: true);
         }
         else
         {
-            Cave.SetMode(bIsEndless: false);
+            LevelObjects.SetMode(bIsEndless: false);
         }
         LevelText.text = "Level: " + LevelNum;
     }
 
     void CreateGameObjects()
     {
-        Cave = LevelScripts.AddComponent<Cave>();
+        LevelObjects = LevelScripts.AddComponent<LevelObjectHandler>();
     }
 
     public void UpdateGameSpeed(float _gameSpeed)
@@ -87,7 +105,7 @@ public class LevelScript : MonoBehaviour {
         float Speed = GameSpeed * LevelScrollSpeed;
         
         Background.SetVelocity(Speed);
-        Cave.SetVelocity(Speed);
+        LevelObjects.SetVelocity(Speed);
     }
 
     public void HorribleDeath()
@@ -103,7 +121,7 @@ public class LevelScript : MonoBehaviour {
     {
         bGameStarted = true;
         UpdateGameSpeed(1);
-        Cave.SetVelocity(LevelScrollSpeed);
+        LevelObjects.SetVelocity(LevelScrollSpeed);
 
         PauseButton.SetActive(true);
         Destroy(TapToStartText);
@@ -177,6 +195,14 @@ public class LevelScript : MonoBehaviour {
 
     public void DestroyOnScreenEvils()
     {
-        Cave.DestroyOnScreenHazards();
+        LevelObjects.DestroyOnScreenHazards();
+    }
+
+    public void LevelWon()
+    {
+        Stats.LevelWon(Toolbox.Instance.Level);
+        Toolbox.Instance.MenuScreen = Toolbox.MenuSelector.LevelSelect;
+        Stats.SaveStats();
+        SceneManager.LoadScene("Play");
     }
 }

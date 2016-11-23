@@ -10,12 +10,21 @@ public class Toolbox : Singleton<Toolbox>
     public float LevelSpeed { get; set; }
     public float GravityScale { get; set; }
     public int Level { get; set; }
+    public const float TileSizeX = 19.2f;
+
+    public enum MenuSelector
+    {
+        LevelSelect,
+        MainMenu
+    }
+    public MenuSelector MenuScreen { get; set; }
 
     void Awake()
     {
-        HoldingArea = new Vector3(100, 0, 0);
+        HoldingArea = new Vector2(100, 0);
         LevelSpeed = 4f;
         GravityScale = 4f;
+        MenuScreen = MenuSelector.MainMenu;
     }
 
 
