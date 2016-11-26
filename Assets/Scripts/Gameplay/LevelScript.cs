@@ -106,6 +106,14 @@ public class LevelScript : MonoBehaviour {
         
         Background.SetVelocity(Speed);
         LevelObjects.SetVelocity(Speed);
+        if (Speed == 0)
+        {
+            LevelObjects.SetPaused(true);
+        }
+        else
+        {
+            LevelObjects.SetPaused(false);
+        }
     }
 
     public void HorribleDeath()

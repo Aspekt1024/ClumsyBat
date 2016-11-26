@@ -44,7 +44,7 @@ public class LevelEditorActions : MonoBehaviour {
         StoreMushrooms();
         StoreMoths();
         StoreClumsy();
-
+        
         string LevelName = "Level" + LevelNum + ".xml";
         string PathName = "Assets/Resources/LevelXML";
         Level.Save(Path.Combine(PathName, LevelName));
@@ -55,15 +55,26 @@ public class LevelEditorActions : MonoBehaviour {
     {
         foreach (Transform Cave in CaveParent)
         {
-            int CaveType = int.Parse(Cave.name.Substring(Cave.name.Length-1, 1)) - 1;
             int index = Mathf.RoundToInt(Cave.position.x / TileSizeX);
             if (Cave.name.Contains("Top"))
             {
+                int CaveType = int.Parse(Cave.name.Substring(Cave.name.Length - 1, 1)) - 1;
                 Level.Caves[index].TopIndex = CaveType;
             }
-            else
+            else if (Cave.name.Contains("Bottom"))
             {
+                int CaveType = int.Parse(Cave.name.Substring(Cave.name.Length - 1, 1)) - 1;
                 Level.Caves[index].BottomIndex = CaveType;
+            }
+            else if (Cave.name == "CaveEntrance")
+            {
+                Level.Caves[index].BottomIndex = 1000;
+                Level.Caves[index].TopIndex = 1000;
+            }
+            else if (Cave.name == "CaveExit")
+            {
+                Level.Caves[index].BottomIndex = 1001;
+                Level.Caves[index].TopIndex = 1001;
             }
         }
     }
@@ -113,7 +124,7 @@ public class LevelEditorActions : MonoBehaviour {
             NewStal.Pos = new Vector2(Stal.position.x - TileSizeX * index, Stal.position.y);
             NewStal.Scale = Stal.localScale;
             NewStal.Rotation = Stal.localRotation;
-            NewStal.DropEnabled = Stal.GetComponent<Stalactite>().IsUnstable();
+            NewStal.DropEnabled = Stal.GetComponent<Stalactite>().UnstableStalactite;
             Level.Caves[index].Stals[StalNum[index]] = NewStal;
             StalNum[index]++;
         }
@@ -217,11 +228,26 @@ public class LevelEditorActions : MonoBehaviour {
         for (int i = 0; i < Level.Caves.Length; i++)
         {
             LevelContainer.CaveType Cave = Level.Caves[i];
-            GameObject CaveBottom = (GameObject)Instantiate(Resources.Load("Caves/CaveBottom" + (Cave.BottomIndex + 1)), Caves.transform);
-            GameObject CaveTop = (GameObject)Instantiate(Resources.Load("Caves/CaveTop" + (Cave.TopIndex + 1)), Caves.transform);
-            CaveBottom.name = "CaveBottom" + (Cave.BottomIndex + 1).ToString();
-            CaveTop.name = "CaveTop" + (Cave.TopIndex + 1).ToString();
-            CaveBottom.transform.position = new Vector3(TileSizeX * i, 0f, CaveZ);
+            GameObject CaveBottom = null; ;
+            GameObject CaveTop = null;
+            if (Cave.TopIndex == 1000)
+            {
+                CaveTop = (GameObject)Instantiate(Resources.Load("Caves/CaveEntrance"), Caves.transform);
+                CaveTop.name = "CaveEntrance";
+            }
+            else if (Cave.TopIndex == 1001)
+            {
+                CaveTop = (GameObject)Instantiate(Resources.Load("Caves/CaveExit"), Caves.transform);
+                CaveTop.name = "CaveExit";
+            }
+            else
+            {
+                CaveBottom = (GameObject)Instantiate(Resources.Load("Caves/CaveBottom" + (Cave.BottomIndex + 1)), Caves.transform);
+                CaveTop = (GameObject)Instantiate(Resources.Load("Caves/CaveTop" + (Cave.TopIndex + 1)), Caves.transform);
+                CaveBottom.name = "CaveBottom" + (Cave.BottomIndex + 1).ToString();
+                CaveTop.name = "CaveTop" + (Cave.TopIndex + 1).ToString();
+                CaveBottom.transform.position = new Vector3(TileSizeX * i, 0f, CaveZ);
+            }
             CaveTop.transform.position = new Vector3(TileSizeX * i, 0f, CaveZ);
 
             foreach(StalPool.StalType Stal in Cave.Stals)

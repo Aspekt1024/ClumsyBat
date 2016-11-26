@@ -66,4 +66,12 @@ public class MothPool {
             Moth.SetSpeed(Speed);
         }
     }
+
+    public void SetPaused(bool PauseGame)
+    {
+        foreach (Moth Moth in Moths)
+        {
+            Moth.SetPaused(PauseGame);
+        }
+    }
 }

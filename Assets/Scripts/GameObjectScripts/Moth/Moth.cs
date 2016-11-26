@@ -10,6 +10,7 @@ public class Moth : MonoBehaviour {
 
     private const float MothZLayer = 1f;
 
+    private bool Paused = false;
     private float Speed = 0;
     private float Phase = 0;
     private const float Pi = Mathf.PI;
@@ -29,7 +30,7 @@ public class Moth : MonoBehaviour {
 	
 	void Update ()
     {
-        if (!bIsActive || Speed == 0) { return; }
+        if (!bIsActive || Paused) { return; }
         MoveMothAlongPath();
     }
 
@@ -58,14 +59,12 @@ public class Moth : MonoBehaviour {
     public void SetSpeed(float _speed)
     {
         Speed = -_speed;
-        if (_speed == 0)
-        {
-            MothAnimator.enabled = false;
-        }
-        else
-        {
-            MothAnimator.enabled = true;
-        }
+    }
+
+    public void SetPaused(bool GamePaused)
+    {
+        Paused = GamePaused;
+        MothAnimator.enabled = !GamePaused;
     }
 
     public void ReturnToInactivePool()

@@ -4,8 +4,8 @@ using System.Collections.Generic;
 public class CavePool : MonoBehaviour {
     
     private const int NumCaves = 2;
-    public const int NumTopCaveTypes = 4;
-    public const int NumBottomCaveTypes = 4;
+    public const int NumTopCaveTypes = 5;
+    public const int NumBottomCaveTypes = 5;
 
     private int CaveIndexTopFirst;
     private int CaveIndexTopSecond;
@@ -127,7 +127,7 @@ public class CavePool : MonoBehaviour {
 
     public void SetNextCavePiece(int NextTopType, int NextBottomType)
     {
-        if (NextTopType == -1)
+        if (NextTopType == -1 || NextTopType == 1001)
         {
             CaveState = CaveStates.End;
             PlaceCaveExit();

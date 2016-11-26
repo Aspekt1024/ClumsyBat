@@ -124,7 +124,6 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        // 1024x709
         if (!bIsAlive) { return; }
 
         if (!bGameStarted) { StartGame(); }

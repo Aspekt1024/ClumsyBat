@@ -67,6 +67,14 @@ public class ShroomPool {
         }
     }
 
+    public void SetPaused(bool PauseGame)
+    {
+        foreach (Mushroom Shroom in Shrooms)
+        {
+            Shroom.SetPaused(PauseGame);
+        }
+    }
+
     public void CheckAndDestroy()
     {
         foreach (Mushroom Shroom in Shrooms)

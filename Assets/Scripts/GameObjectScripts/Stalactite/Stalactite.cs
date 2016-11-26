@@ -13,10 +13,12 @@ public class Stalactite : MonoBehaviour {
         public bool bIsActive;
     }
 
+    private bool Paused = false;
     private float Speed;
     private const float StalZLayer = 4;
 
     private StalacType Stal;
+    private bool bDropTriggered;
     public bool UnstableStalactite;
     private Player Player;
 
@@ -28,7 +30,7 @@ public class Stalactite : MonoBehaviour {
         Stal.bIsActive = false;
         Stal.bInitialPosSet = false;
         Player = FindObjectOfType<Player>();
-        UnstableStalactite = false;
+        bDropTriggered = false;
     }
 
     void FixedUpdate()
@@ -40,9 +42,9 @@ public class Stalactite : MonoBehaviour {
     void Update ()
     {
         if (!Stal.bDropEnabled) { return; }
-        if ((Player.transform.position.x + 10 > transform.position.x) && !UnstableStalactite)
+        if ((Player.transform.position.x + 10 > transform.position.x) && !bDropTriggered)
         {
-            UnstableStalactite = true;
+            bDropTriggered = true;
             StartCoroutine("Shake");
         }
 	}
@@ -53,7 +55,7 @@ public class Stalactite : MonoBehaviour {
         Stal.Collider.enabled = true;
         Stal.Renderer.enabled = true;
         Stal.bDropEnabled = bDropEnabled;
-        UnstableStalactite = false;
+        bDropTriggered = false;
         if (!Stal.bInitialPosSet)
         {
             Stal.bInitialPosSet = true;
@@ -82,13 +84,18 @@ public class Stalactite : MonoBehaviour {
         Speed = _speed;
     }
 
+    public void SetPaused(bool PauseGame)
+    {
+        Paused = PauseGame;
+    }
+
     IEnumerator Shake()
     {
         float ShakeTime = 0;
         bool bRotateForward = true;
         while (Stal.bDropEnabled)
         {
-            if (Speed > 0)
+            if (!Paused)
             {
                 if (bRotateForward)
                 {
@@ -118,7 +125,7 @@ public class Stalactite : MonoBehaviour {
     {
         while (transform.position.y > -20)
         {
-            if (Speed > 0)
+            if (!Paused)
             {
                 transform.position = new Vector3(transform.position.x, transform.position.y - 0.25f, StalZLayer);
             }
@@ -137,8 +144,8 @@ public class Stalactite : MonoBehaviour {
         }
     }
 
-    public bool IsUnstable()
-    {
-        return UnstableStalactite;
-    }
+    //public bool IsUnstable()
+    //{
+    //    return bDropTriggered;
+    //}
 }

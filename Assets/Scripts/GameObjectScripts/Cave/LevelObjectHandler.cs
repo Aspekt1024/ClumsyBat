@@ -56,6 +56,10 @@ public class LevelObjectHandler : MonoBehaviour {
 
     void Update()
     {
+        if (AtCaveEnd())
+        {
+            SetVelocity(0);
+        }
         if (CaveIndex > Level.Caves.Length) { return; }
         if (Caves.GetPositionX() <= 0)
         {
@@ -69,7 +73,8 @@ public class LevelObjectHandler : MonoBehaviour {
         int NextTopCaveType = GetNextTopCaveType();
         int NextBottomCaveType = GetNextBottomCaveType();
         Caves.SetNextCavePiece(NextTopCaveType, NextBottomCaveType);
-        if (CaveIndex < Level.Caves.Length)
+
+        if (CaveIndex < Level.Caves.Length || bEndlessMode)
         {
             SetCaveObstacles(CaveIndex);
         }
@@ -138,8 +143,31 @@ public class LevelObjectHandler : MonoBehaviour {
 
     public void SetVelocity(float Speed)
     {
-        Caves.SetVelocity(Speed);
-        UpdateObjectSpeed(Speed);
+        if (AtCaveEnd())
+        {
+            Caves.SetVelocity(0);
+            UpdateObjectSpeed(0);
+        }
+        else
+        {
+            Caves.SetVelocity(Speed);
+            UpdateObjectSpeed(Speed);
+        }
+    }
+
+    public void SetPaused(bool PauseGame)
+    {
+        // Caves?
+        Shrooms.SetPaused(PauseGame);
+        Stals.SetPaused(PauseGame);
+        Moths.SetPaused(PauseGame);
+    }
+
+    private void UpdateObjectSpeed(float Speed)
+    {
+        Shrooms.SetVelocity(Speed);
+        Stals.SetVelocity(Speed);
+        Moths.SetVelocity(Speed);
     }
 
     private void LoadLevel()
@@ -156,11 +184,22 @@ public class LevelObjectHandler : MonoBehaviour {
 
         if (bEndlessMode)
         {
+            Caves.PlaceCaveEntrance();
             Caves.SetNextCavePiece(EndlessCave.GetRandomTopType(), EndlessCave.GetRandomBottomType());
         }
         else
         {
-            Caves.SetNextCavePiece(Level.Caves[0].TopIndex, Level.Caves[0].BottomIndex);
+            if (Level.Caves[0].TopIndex == 1000)
+            {
+                CaveIndex++;
+                Caves.SetNextCavePiece(Level.Caves[1].TopIndex, Level.Caves[1].BottomIndex);
+                SetCaveObstacles(1);
+            }
+            else
+            {
+                Caves.SetNextCavePiece(Level.Caves[0].TopIndex, Level.Caves[0].BottomIndex);
+            }
+            SetCaveObstacles(0);
         }
     }
     
@@ -194,13 +233,6 @@ public class LevelObjectHandler : MonoBehaviour {
             Obstacles[int.Parse(Obj.name) - 1] = Obstacle;
         }
         return Obstacles;
-    }
-
-    private void UpdateObjectSpeed(float Speed)
-    {
-        Shrooms.SetVelocity(Speed);
-        Stals.SetVelocity(Speed);
-        Moths.SetVelocity(Speed);
     }
 
     public void DestroyOnScreenHazards()

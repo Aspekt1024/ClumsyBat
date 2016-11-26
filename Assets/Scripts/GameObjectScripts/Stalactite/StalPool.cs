@@ -67,6 +67,14 @@ public class StalPool {
         }
     }
 
+    public void SetPaused(bool PauseGame)
+    {
+        foreach (Stalactite Stal in Stals)
+        {
+            Stal.SetPaused(PauseGame);
+        }
+    }
+
     public void CheckAndDestroy()
     {
         foreach (Stalactite Stal in Stals)

@@ -15,6 +15,8 @@ public class Mushroom : MonoBehaviour {
     private Player Player;
     private float Speed;
 
+    private bool Paused;
+
     private const float ShroomZLayer = 5f;
 
     void Awake () {
@@ -61,7 +63,7 @@ public class Mushroom : MonoBehaviour {
         MushroomAnimator.Play("ReleaseSpore", 0, 0);
         while (AnimationTimer < AnimationDuration)
         {
-            if (Speed > 0)
+            if (!Paused)
             {
                 AnimationTimer += Time.deltaTime;
             }
@@ -141,16 +143,13 @@ public class Mushroom : MonoBehaviour {
     public void SetSpeed(float _speed)
     {
         Speed = _speed;
-        if (_speed == 0)
-        {
-            MushroomAnimator.enabled = false;
-            SporeAnimator.enabled = false;
-        }
-        else
-        {
-            MushroomAnimator.enabled = true;
-            SporeAnimator.enabled = true;
-        }
+    }
+
+    public void SetPaused(bool PauseGame)
+    {
+        Paused = PauseGame;
+        MushroomAnimator.enabled = !PauseGame;
+        SporeAnimator.enabled = !PauseGame;
     }
 
 }

@@ -77,7 +77,7 @@ public class StatsScript : MonoBehaviour {
     {
         NewStat("Best Distance", ((int)MS.Stats.BestDistance), "m");
         NewStat("Total Distance", ((int)MS.Stats.TotalDistance), "m");
-        NewStat("Levels Completed", ((int)MS.Stats.LevelsCompleted), "m");
+        NewStat("Levels Completed", ((int)MS.Stats.LevelsCompleted), "");
         NewStat("Most Moths Eaten", MS.Stats.MostMoths, "");
         NewStat("Total Moths Eaten", MS.Stats.TotalMoths, "");
         NewStat("Total Deaths", MS.Stats.Deaths, "");
