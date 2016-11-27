@@ -137,7 +137,7 @@ public class PlayerController : MonoBehaviour
         Level.Stats.TotalJumps++;
         PlayerRigidBody.velocity = Vector2.zero;
         PlayerRigidBody.AddForce(JumpForce);
-        GetComponent<AudioSource>().Play();
+        //GetComponent<AudioSource>().Play();
         Anim.Play("Flap", 0, 0.5f);
     }
 
@@ -175,6 +175,12 @@ public class PlayerController : MonoBehaviour
         Level.HorribleDeath();
         Fog.PlayerDeath();
         
+        foreach (Transform ClumsyObjects in transform)
+        {
+            ClumsyObjects.GetComponent<Rigidbody2D>().isKinematic = false;
+            ClumsyObjects.GetComponent<Rigidbody2D>().velocity = new Vector2(5f, 1f);
+            ClumsyObjects.GetComponent<Animator>().enabled = false;
+        }
         Anim.Play("Die", 0, 0.25f);
         //Anim.enabled = false;
     }
@@ -336,7 +342,6 @@ public class PlayerController : MonoBehaviour
         
         while (transform.position.x < TargetPoint.x)
         {
-            Debug.Log(Toolbox.Instance.LevelSpeed);
             float XPos = transform.position.x + Time.deltaTime * Toolbox.Instance.LevelSpeed * 1.7f;
             float XPercent = 1 - (TargetPoint.x - transform.position.x) / (TargetPoint.x - StartPoint.x);
             float YPos = StartPoint.y + (TargetPoint.y - StartPoint.y) * XPercent * XPercent * XPercent;

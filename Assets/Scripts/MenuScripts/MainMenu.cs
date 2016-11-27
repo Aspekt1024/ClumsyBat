@@ -20,6 +20,7 @@ public class MainMenu : MonoBehaviour {
     private const float TileSizeX = 19.2f;
     private const float AnimDuration = 0.5f;
 
+
     void Awake()
     {
         RuntimeScripts = new GameObject();
@@ -32,12 +33,32 @@ public class MainMenu : MonoBehaviour {
     void Start()
     {
         //GetComponent<AudioSource>().Play();
+        SetupLevelSelect();
         if (Toolbox.Instance.MenuScreen == Toolbox.MenuSelector.LevelSelect)
         {
             Caves.position = new Vector3(-TileSizeX, 0f, 0f);
             MidBG.position = new Vector3(-TileSizeX / 3, 0f, 0f);
             MainPanel.transform.position = new Vector3(-TileSizeX, 0f, 0f);
             LevelSelectPanel.transform.position = new Vector3(0f, 0f, 0f);
+        }
+    }
+
+    private void SetupLevelSelect()
+    {
+        RectTransform LvlButtons = GameObject.Find("LevelButtons").GetComponent<RectTransform>();
+        foreach (RectTransform LvlButton in LvlButtons)
+        {
+            int Level = int.Parse(LvlButton.name.Substring(2, LvlButton.name.Length - 2));
+            if (Stats.CompletionData.IsUnlocked(Level) || Level == 1)
+            {
+                LvlButton.GetComponent<Image>().enabled = true;
+                LvlButton.GetComponent<Button>().enabled = true;
+            }
+            else
+            {
+                LvlButton.GetComponent<Image>().enabled = false;
+                LvlButton.GetComponent<Button>().enabled = false;
+            }
         }
     }
 

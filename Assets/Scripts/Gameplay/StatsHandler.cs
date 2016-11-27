@@ -25,6 +25,8 @@ public class StatsHandler : MonoBehaviour {
     public int TotalMoths = 0;
     public int Highscore = 0;       // Not currently in use
     public int LevelsCompleted = 0;
+    
+    public CompletionDataControl CompletionData;
 
     private List<Pref> PrefList = new List<Pref>();
 
@@ -39,6 +41,8 @@ public class StatsHandler : MonoBehaviour {
         SetupPrefList();
         SetupPlayerPrefs();
         GetPersistentStats();
+        CompletionData = new CompletionDataControl();
+        CompletionData.Load();
     }
 
     void Update ()
@@ -56,11 +60,15 @@ public class StatsHandler : MonoBehaviour {
         // Dash 
         // Exterminator (destroy objects)
         // bash through objects
+        // I love lamp
 	}
 
     public void LevelWon(int Level)
     {
         LevelsCompleted++;
+        CompletionData.SetCompleted(Level, true, false, false);
+        CompletionData.UnlockLevels(Level, true, false, false);
+        CompletionData.Save();
     }
 
     public void SaveStats()
