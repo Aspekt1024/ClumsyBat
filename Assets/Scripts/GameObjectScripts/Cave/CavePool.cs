@@ -43,7 +43,7 @@ public class CavePool : MonoBehaviour {
         SetupCavePool();
 	}
 
-    void Update()
+    void FixedUpdate()
     {
         if (CaveState == CaveStates.End)
         {

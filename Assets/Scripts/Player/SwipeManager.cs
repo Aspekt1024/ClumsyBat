@@ -17,7 +17,7 @@ public class SwipeManager : MonoBehaviour
 {
     private SwipeDirection Direction = SwipeDirection.None;
 
-    private float SwipeResistanceX = 50f;
+    private float SwipeResistanceX = 70f;
     private float TouchStartPos;
     private float TouchStartTime;
     private const float StationaryTime = 0.07f;
@@ -30,8 +30,11 @@ public class SwipeManager : MonoBehaviour
     {
         foreach (Touch touch in Input.touches)
         {
-            if (EventSystem.current.IsPointerOverGameObject(touch.fingerId)) { break; }
-
+            if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
+            {
+                break;
+            }
+            
             switch (touch.phase)
             {
                 case TouchPhase.Began:

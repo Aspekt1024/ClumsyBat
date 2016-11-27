@@ -37,6 +37,9 @@ public class LevelObjectHandler : MonoBehaviour {
         LoadLevel();
         EndlessCave = new CaveRandomiser();
         SetupStartingCaves();
+
+        Debug.Log("Level " + Toolbox.Instance.Level + " loaded.");
+        GameObject.Find("Clumsy").GetComponent<PlayerController>().LevelStart();
     }
 
     public bool AtCaveEnd()
@@ -72,7 +75,15 @@ public class LevelObjectHandler : MonoBehaviour {
         CaveIndex++;
         int NextTopCaveType = GetNextTopCaveType();
         int NextBottomCaveType = GetNextBottomCaveType();
-        Caves.SetNextCavePiece(NextTopCaveType, NextBottomCaveType, Level.Caves[CaveIndex].bTopSecretPath, Level.Caves[CaveIndex].bBottomSecretPath);
+
+        bool NextTopIsSecret = false;
+        bool NextBottomIsSecret = false;
+        if (CaveIndex < Level.Caves.Length)
+        {
+            NextTopIsSecret = Level.Caves[CaveIndex].bTopSecretPath;
+            NextBottomIsSecret = Level.Caves[CaveIndex].bBottomSecretPath;
+        }
+        Caves.SetNextCavePiece(NextTopCaveType, NextBottomCaveType, NextTopIsSecret, NextBottomIsSecret);
 
         if (CaveIndex < Level.Caves.Length || bEndlessMode)
         {
@@ -173,7 +184,6 @@ public class LevelObjectHandler : MonoBehaviour {
     private void LoadLevel()
     {
         if (bEndlessMode) { return; }
-        Debug.Log("loading Level: " + Toolbox.Instance.Level);
         TextAsset LevelTxt = (TextAsset)Resources.Load("LevelXML/Level" + Toolbox.Instance.Level);
         Level = LevelContainer.LoadFromText(LevelTxt.text);
     }

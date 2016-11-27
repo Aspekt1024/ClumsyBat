@@ -65,6 +65,11 @@ public class PlayerController : MonoBehaviour
         InputObject = new GameObject();
         InputManager = InputObject.AddComponent<SwipeManager>();
     }
+
+    public void LevelStart()
+    {
+        StartCoroutine("CaveEntranceAnimation");
+    }
     
     void Update()
     {
@@ -106,6 +111,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Die by being off-screen
+        if (!bGameStarted) { return; }
         Vector2 ScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
         if (ScreenPosition.y > Screen.height || ScreenPosition.y < 0)
         {
@@ -124,9 +130,8 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        if (!bIsAlive) { return; }
-
-        if (!bGameStarted) { StartGame(); }
+        if (!bIsAlive || !bGameStarted) { return; }
+        
         if (bGamePaused) { ResumeGame(); }
 
         Level.Stats.TotalJumps++;
@@ -147,6 +152,7 @@ public class PlayerController : MonoBehaviour
     // Die by Collision
     void OnCollisionEnter2D(Collision2D other)
     {
+        if (!bGameStarted) { return; }
         if (other.collider.GetComponent<Stalactite>())
         {
             Level.Stats.ToothDeaths++;
@@ -322,7 +328,23 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator CaveEntranceAnimation()
     {
-        yield return null;
+        Vector3 StartPoint = new Vector3(-Toolbox.TileSizeX / 2f, 0f, transform.position.z);
+        Vector2 TargetPoint = new Vector2(-5f, 2f);
+        transform.position = StartPoint;
+        
+        yield return new WaitForSeconds(0.4f);
+        
+        while (transform.position.x < TargetPoint.x)
+        {
+            Debug.Log(Toolbox.Instance.LevelSpeed);
+            float XPos = transform.position.x + Time.deltaTime * Toolbox.Instance.LevelSpeed * 1.7f;
+            float XPercent = 1 - (TargetPoint.x - transform.position.x) / (TargetPoint.x - StartPoint.x);
+            float YPos = StartPoint.y + (TargetPoint.y - StartPoint.y) * XPercent * XPercent * XPercent;
+            transform.position = new Vector3(XPos, YPos, transform.position.z);
+            yield return null;
+        }
+        StartGame();
+        PlayerRigidBody.velocity = new Vector2(0f, JumpForce.y/80);
     }
 }
 

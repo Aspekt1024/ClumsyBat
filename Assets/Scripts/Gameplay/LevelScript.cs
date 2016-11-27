@@ -23,7 +23,6 @@ public class LevelScript : MonoBehaviour {
 
     public Text ScoreText;
     public Text HighScoreText;
-    public Text TapToStartText;
     public Text PauseText;
     public Text LevelText;
 
@@ -132,7 +131,6 @@ public class LevelScript : MonoBehaviour {
         LevelObjects.SetVelocity(LevelScrollSpeed);
 
         PauseButton.SetActive(true);
-        Destroy(TapToStartText);
     }
 
     public void PauseGame()
