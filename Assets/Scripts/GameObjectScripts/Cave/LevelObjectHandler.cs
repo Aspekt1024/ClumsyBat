@@ -72,7 +72,7 @@ public class LevelObjectHandler : MonoBehaviour {
         CaveIndex++;
         int NextTopCaveType = GetNextTopCaveType();
         int NextBottomCaveType = GetNextBottomCaveType();
-        Caves.SetNextCavePiece(NextTopCaveType, NextBottomCaveType);
+        Caves.SetNextCavePiece(NextTopCaveType, NextBottomCaveType, Level.Caves[CaveIndex].bTopSecretPath, Level.Caves[CaveIndex].bBottomSecretPath);
 
         if (CaveIndex < Level.Caves.Length || bEndlessMode)
         {
@@ -185,19 +185,19 @@ public class LevelObjectHandler : MonoBehaviour {
         if (bEndlessMode)
         {
             Caves.PlaceCaveEntrance();
-            Caves.SetNextCavePiece(EndlessCave.GetRandomTopType(), EndlessCave.GetRandomBottomType());
+            Caves.SetNextCavePiece(EndlessCave.GetRandomTopType(), EndlessCave.GetRandomBottomType(), false, false);
         }
         else
         {
             if (Level.Caves[0].TopIndex == 1000)
             {
                 CaveIndex++;
-                Caves.SetNextCavePiece(Level.Caves[1].TopIndex, Level.Caves[1].BottomIndex);
+                Caves.SetNextCavePiece(Level.Caves[1].TopIndex, Level.Caves[1].BottomIndex, Level.Caves[1].bTopSecretPath, Level.Caves[1].bBottomSecretPath);
                 SetCaveObstacles(1);
             }
             else
             {
-                Caves.SetNextCavePiece(Level.Caves[0].TopIndex, Level.Caves[0].BottomIndex);
+                Caves.SetNextCavePiece(Level.Caves[0].TopIndex, Level.Caves[0].BottomIndex, Level.Caves[0].bTopSecretPath, Level.Caves[0].bBottomSecretPath);
             }
             SetCaveObstacles(0);
         }

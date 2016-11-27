@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 
 public class CavePool : MonoBehaviour {
-    
+
     private const int NumCaves = 2;
     public const int NumTopCaveTypes = 5;
     public const int NumBottomCaveTypes = 5;
+    public const int NumTopCaveExits = 1;
+    public const int NumBottomCaveExits = 1;
 
     private int CaveIndexTopFirst;
     private int CaveIndexTopSecond;
@@ -14,10 +16,7 @@ public class CavePool : MonoBehaviour {
 
     private const float CaveZPos = 0f;
     private Vector2 CaveVelocity = new Vector2(0f, 0f);
-
-    private List<CaveType> TopPool = new List<CaveType>();
-    private List<CaveType> BottomPool = new List<CaveType>();
-
+    
     private enum CaveStates
     {
         Start,
@@ -25,17 +24,19 @@ public class CavePool : MonoBehaviour {
         End,
         Final
     }
-
     private CaveStates CaveState;
 
     private struct CaveType
     {
         public bool bIsActive;
+        public bool bHasSecretPath;
         public Rigidbody2D CaveBody;
     }
     private CaveType CaveEntrance;
     private CaveType CaveExit;
-    
+    private List<CaveType> TopPool = new List<CaveType>();
+    private List<CaveType> BottomPool = new List<CaveType>();
+
     void Awake()
     {
         SetupCaveEnds();
@@ -90,26 +91,32 @@ public class CavePool : MonoBehaviour {
         CaveExit.CaveBody.position = Toolbox.Instance.HoldingArea;
 
         CaveEntrance.bIsActive = false;
+        CaveEntrance.bHasSecretPath = false;
         CaveExit.bIsActive = false;
+        CaveExit.bHasSecretPath = false;
     }
 
     private void SetupCavePool()
     {
-        for (int CaveTypeNum = 1; CaveTypeNum <= NumTopCaveTypes; CaveTypeNum++)
+        for (int CaveTypeNum = 1; CaveTypeNum <= NumTopCaveTypes + NumTopCaveExits; CaveTypeNum++)
         {
             for (int i = 0; i < NumCaves; i++)
             {
-                GameObject Cave = (GameObject)Instantiate(Resources.Load("Caves/CaveTop" + CaveTypeNum.ToString()));
+                int CaveIndex = (CaveTypeNum > NumTopCaveTypes ? (CaveTypeNum - NumTopCaveTypes) : CaveTypeNum);
+                string CavePathStr = "Caves/CaveTop" + (CaveTypeNum > NumTopCaveTypes ? "Exit" : "") + CaveIndex.ToString();
+                GameObject Cave = (GameObject)Instantiate(Resources.Load(CavePathStr));
                 Cave.name = "CaveTop" + CaveTypeNum.ToString() + "_" + i.ToString();
                 Cave.transform.position = new Vector3(5 * Toolbox.TileSizeX, 0f, CaveZPos);
                 TopPool.Add(GetCaveAttributes(Cave));
             }
         }
-        for (int CaveTypeNum = 1; CaveTypeNum <= NumBottomCaveTypes; CaveTypeNum++)
+        for (int CaveTypeNum = 1; CaveTypeNum <= NumBottomCaveTypes + NumBottomCaveExits; CaveTypeNum++)
         {
             for (int i = 0; i < NumCaves; i++)
             {
-                GameObject Cave = (GameObject)Instantiate(Resources.Load("Caves/CaveBottom" + CaveTypeNum.ToString()));
+                int CaveIndex = (CaveTypeNum > NumBottomCaveTypes ? (CaveTypeNum - NumBottomCaveTypes) : CaveTypeNum);
+                string CavePathStr = "Caves/CaveBottom" + (CaveTypeNum > NumBottomCaveTypes ? "Exit" : "") + CaveIndex.ToString();
+                GameObject Cave = (GameObject)Instantiate(Resources.Load(CavePathStr));
                 Cave.name = "CaveBottom" + CaveTypeNum.ToString() + "_" + i.ToString();
                 Cave.transform.position = new Vector3(5 * Toolbox.TileSizeX, 0f, CaveZPos);
                 BottomPool.Add(GetCaveAttributes(Cave));
@@ -125,7 +132,7 @@ public class CavePool : MonoBehaviour {
         return NewCave;
     }
 
-    public void SetNextCavePiece(int NextTopType, int NextBottomType)
+    public void SetNextCavePiece(int NextTopType, int NextBottomType, bool bTopSecret, bool bBottomSecret)
     {
         if (NextTopType == -1 || NextTopType == 1001)
         {
@@ -134,8 +141,8 @@ public class CavePool : MonoBehaviour {
             return;
         }
 
-        int NextTopIndex = NumCaves * NextTopType;
-        int NextBottomIndex = NumCaves * NextBottomType;
+        int NextTopIndex = NumCaves * (NextTopType + (bTopSecret ? NumTopCaveTypes : 0));
+        int NextBottomIndex = NumCaves * (NextBottomType + (bBottomSecret ? NumBottomCaveTypes : 0));
         if (NextTopIndex == CaveIndexTopSecond) { NextTopIndex++; }
         if (NextBottomIndex == CaveIndexBottomSecond) { NextBottomIndex++; }
 
@@ -252,6 +259,5 @@ public class CavePool : MonoBehaviour {
         CaveExit.bIsActive = true;
         CaveExit.CaveBody.position = new Vector3(Xoffset + Toolbox.TileSizeX, 0f, 0f);
         CaveExit.CaveBody.velocity = CaveVelocity;
-
     }
 }

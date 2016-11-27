@@ -38,6 +38,7 @@ public class LevelEditorActions : MonoBehaviour {
         CaveParent = GameObject.Find("Caves").GetComponent<Transform>();
         GetNumSections();
         Level.Caves = new LevelContainer.CaveType[NumSections];
+        InitialiseCaveList();
         StoreCaveIndexes();
 
         StoreStalactites();
@@ -51,22 +52,26 @@ public class LevelEditorActions : MonoBehaviour {
         Debug.Log("Level data saved to " + PathName + "/" + LevelName);
     }
 
+    private void InitialiseCaveList()
+    {
+        for (int i = 0; i < NumSections; i++)
+        {
+            Level.Caves[i].TopIndex = 0;
+            Level.Caves[i].BottomIndex = 0;
+            Level.Caves[i].bTopSecretPath = false;
+            Level.Caves[i].bBottomSecretPath = false;
+            Level.Caves[i].Shrooms = new ShroomPool.ShroomType[0];
+            Level.Caves[i].Stals = new StalPool.StalType[0];
+            Level.Caves[i].Moths = new MothPool.MothType[0];
+        }
+    }
+
     private void StoreCaveIndexes()
     {
         foreach (Transform Cave in CaveParent)
         {
             int index = Mathf.RoundToInt(Cave.position.x / TileSizeX);
-            if (Cave.name.Contains("Top"))
-            {
-                int CaveType = int.Parse(Cave.name.Substring(Cave.name.Length - 1, 1)) - 1;
-                Level.Caves[index].TopIndex = CaveType;
-            }
-            else if (Cave.name.Contains("Bottom"))
-            {
-                int CaveType = int.Parse(Cave.name.Substring(Cave.name.Length - 1, 1)) - 1;
-                Level.Caves[index].BottomIndex = CaveType;
-            }
-            else if (Cave.name == "CaveEntrance")
+            if (Cave.name == "CaveEntrance")
             {
                 Level.Caves[index].BottomIndex = 1000;
                 Level.Caves[index].TopIndex = 1000;
@@ -75,6 +80,24 @@ public class LevelEditorActions : MonoBehaviour {
             {
                 Level.Caves[index].BottomIndex = 1001;
                 Level.Caves[index].TopIndex = 1001;
+            }
+            else if (Cave.name.Contains("Top"))
+            {
+                int CaveType = int.Parse(Cave.name.Substring(Cave.name.Length - 1, 1)) - 1;
+                Level.Caves[index].TopIndex = CaveType;
+                if (Cave.name.Contains("Exit"))
+                {
+                    Level.Caves[index].bTopSecretPath = true;
+                }
+            }
+            else if (Cave.name.Contains("Bottom"))
+            {
+                int CaveType = int.Parse(Cave.name.Substring(Cave.name.Length - 1, 1)) - 1;
+                Level.Caves[index].BottomIndex = CaveType;
+                if (Cave.name.Contains("Exit"))
+                {
+                    Level.Caves[index].bBottomSecretPath = true;
+                }
             }
         }
     }
@@ -242,10 +265,12 @@ public class LevelEditorActions : MonoBehaviour {
             }
             else
             {
-                CaveBottom = (GameObject)Instantiate(Resources.Load("Caves/CaveBottom" + (Cave.BottomIndex + 1)), Caves.transform);
-                CaveTop = (GameObject)Instantiate(Resources.Load("Caves/CaveTop" + (Cave.TopIndex + 1)), Caves.transform);
-                CaveBottom.name = "CaveBottom" + (Cave.BottomIndex + 1).ToString();
-                CaveTop.name = "CaveTop" + (Cave.TopIndex + 1).ToString();
+                string CaveBottomName = "CaveBottom" + (Cave.bBottomSecretPath ? "Exit" : "") + (Cave.BottomIndex + 1).ToString();
+                string CaveTopName = "CaveTop" + (Cave.bTopSecretPath ? "Exit" : "") + (Cave.TopIndex + 1).ToString();
+                CaveBottom = (GameObject)Instantiate(Resources.Load("Caves/" + CaveBottomName), Caves.transform);
+                CaveTop = (GameObject)Instantiate(Resources.Load("Caves/" + CaveTopName), Caves.transform);
+                CaveBottom.name = CaveBottomName;
+                CaveTop.name = CaveTopName;
                 CaveBottom.transform.position = new Vector3(TileSizeX * i, 0f, CaveZ);
             }
             CaveTop.transform.position = new Vector3(TileSizeX * i, 0f, CaveZ);
