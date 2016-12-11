@@ -15,7 +15,7 @@ public class Moth : MonoBehaviour {
         Blue
     }
 
-    private const float MothZLayer = -1.5f;
+    private const float MothZLayer = -4f;
 
     private bool Paused = false;
     private float Speed = 0;

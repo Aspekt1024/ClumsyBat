@@ -255,6 +255,11 @@ public class PlayerController : MonoBehaviour
         Anim.enabled = true;
     }
 
+    public void PauseButtonPressed()
+    {
+        PauseGame(ShowMenu: true);
+    }
+
     public void PauseGame(bool ShowMenu = true)
     {
         bGamePaused = true;
