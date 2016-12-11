@@ -16,6 +16,7 @@ public class CavePool : MonoBehaviour {
 
     private const float CaveZPos = 0f;
     private Vector2 CaveVelocity = new Vector2(0f, 0f);
+
     
     private enum CaveStates
     {
@@ -37,8 +38,11 @@ public class CavePool : MonoBehaviour {
     private List<CaveType> TopPool = new List<CaveType>();
     private List<CaveType> BottomPool = new List<CaveType>();
 
+    private Transform CaveParent = null;
+
     void Awake()
     {
+        CaveParent = GameObject.Find("Caves").GetComponent<Transform>();
         SetupCaveEnds();
         SetupCavePool();
 	}
@@ -82,18 +86,15 @@ public class CavePool : MonoBehaviour {
     
     private void SetupCaveEnds()
     {
-        GameObject NewPiece = (GameObject)Instantiate(Resources.Load("Caves/CaveEntrance"));
+        GameObject NewPiece = (GameObject)Instantiate(Resources.Load("Caves/CaveEntrance"), Toolbox.Instance.HoldingArea, new Quaternion(), CaveParent);
         CaveEntrance.CaveBody = NewPiece.GetComponent<Rigidbody2D>();
-        CaveEntrance.CaveBody.position = Toolbox.Instance.HoldingArea;
-
-        NewPiece = (GameObject)Instantiate(Resources.Load("Caves/CaveExit"));
-        CaveExit.CaveBody = NewPiece.GetComponent<Rigidbody2D>();
-        CaveExit.CaveBody.position = Toolbox.Instance.HoldingArea;
-
-        CaveEntrance.bIsActive = false;
         CaveEntrance.bHasSecretPath = false;
-        CaveExit.bIsActive = false;
+        CaveEntrance.bIsActive = false;
+
+        NewPiece = (GameObject)Instantiate(Resources.Load("Caves/CaveExit"), Toolbox.Instance.HoldingArea, new Quaternion(), CaveParent);
+        CaveExit.CaveBody = NewPiece.GetComponent<Rigidbody2D>();
         CaveExit.bHasSecretPath = false;
+        CaveExit.bIsActive = false;
     }
 
     private void SetupCavePool()
@@ -104,9 +105,8 @@ public class CavePool : MonoBehaviour {
             {
                 int CaveIndex = (CaveTypeNum > NumTopCaveTypes ? (CaveTypeNum - NumTopCaveTypes) : CaveTypeNum);
                 string CavePathStr = "Caves/CaveTop" + (CaveTypeNum > NumTopCaveTypes ? "Exit" : "") + CaveIndex.ToString();
-                GameObject Cave = (GameObject)Instantiate(Resources.Load(CavePathStr));
+                GameObject Cave = (GameObject)Instantiate(Resources.Load(CavePathStr), Toolbox.Instance.HoldingArea, new Quaternion(), CaveParent);
                 Cave.name = "CaveTop" + CaveTypeNum.ToString() + "_" + i.ToString();
-                Cave.transform.position = new Vector3(5 * Toolbox.TileSizeX, 0f, CaveZPos);
                 TopPool.Add(GetCaveAttributes(Cave));
             }
         }
@@ -116,9 +116,8 @@ public class CavePool : MonoBehaviour {
             {
                 int CaveIndex = (CaveTypeNum > NumBottomCaveTypes ? (CaveTypeNum - NumBottomCaveTypes) : CaveTypeNum);
                 string CavePathStr = "Caves/CaveBottom" + (CaveTypeNum > NumBottomCaveTypes ? "Exit" : "") + CaveIndex.ToString();
-                GameObject Cave = (GameObject)Instantiate(Resources.Load(CavePathStr));
+                GameObject Cave = (GameObject)Instantiate(Resources.Load(CavePathStr), Toolbox.Instance.HoldingArea, new Quaternion(), CaveParent);
                 Cave.name = "CaveBottom" + CaveTypeNum.ToString() + "_" + i.ToString();
-                Cave.transform.position = new Vector3(5 * Toolbox.TileSizeX, 0f, CaveZPos);
                 BottomPool.Add(GetCaveAttributes(Cave));
             }
         }
