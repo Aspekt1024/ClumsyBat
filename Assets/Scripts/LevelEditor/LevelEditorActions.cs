@@ -197,7 +197,7 @@ public class LevelEditorActions : MonoBehaviour {
             NewMoth.Pos = new Vector2(Moth.position.x - TileSizeX * index, Moth.position.y);
             NewMoth.Scale = Moth.localScale;
             NewMoth.Rotation = Moth.localRotation;
-            NewMoth.Gold = Moth.GetComponent<Moth>().IsGold;
+            NewMoth.Colour = Moth.GetComponent<Moth>().Colour;
             Level.Caves[index].Moths[MothNum[index]] = NewMoth;
             MothNum[index]++;
         }
@@ -298,7 +298,7 @@ public class LevelEditorActions : MonoBehaviour {
                 NewMoth.transform.position = new Vector3(Moth.Pos.x + i * TileSizeX, Moth.Pos.y, MothZ);
                 NewMoth.transform.localScale = Moth.Scale;
                 NewMoth.transform.localRotation = Moth.Rotation;
-                NewMoth.GetComponent<Moth>().IsGold = Moth.Gold;
+                NewMoth.GetComponent<Moth>().Colour = Moth.Colour;
             }
         }
     }

@@ -43,8 +43,16 @@
 			float4 frag(vertexOutput input) : COLOR
 			{
 				float ray = length(_PlayerPos.xy - input.WSPos.xy);
-				float alpha = smoothstep(_LightDist, _LightDist + 3, ray);
-				return float4(0, 0, 0, alpha*0.85);
+				//float alpha = smoothstep(_LightDist, _LightDist + 3, ray);
+				if (ray <= _LightDist)
+				{
+					//return float4(0.7, 0.7, 0.7, 0.4);
+					return float4(0, 0, 0, 0);
+				}
+				else
+				{
+					return float4(0, 0, 0, 0.85);
+				}
 			}
 			ENDCG
 		}

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<LevelCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <CaveList>
+    <Cave>
+      <TopIndex>1000</TopIndex>
+      <BottomIndex>1000</BottomIndex>
+      <bTopSecretPath>false</bTopSecretPath>
+      <bBottomSecretPath>false</bBottomSecretPath>
+      <Shrooms />
+      <Stals>
+        <StalType>
+          <Pos>
+            <x>8.21</x>
+            <y>2.76</y>
+          </Pos>
+          <Scale>
+            <x>1</x>
+            <y>1</y>
+          </Scale>
+          <Rotation>
+            <x>0</x>
+            <y>0</y>
+            <z>0</z>
+            <w>1</w>
+            <eulerAngles>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+            </eulerAngles>
+          </Rotation>
+          <DropEnabled>false</DropEnabled>
+        </StalType>
+      </Stals>
+      <Moths />
+    </Cave>
+    <Cave>
+      <TopIndex>0</TopIndex>
+      <BottomIndex>0</BottomIndex>
+      <bTopSecretPath>false</bTopSecretPath>
+      <bBottomSecretPath>false</bBottomSecretPath>
+      <Shrooms />
+      <Stals />
+      <Moths>
+        <MothType>
+          <Pos>
+            <x>-7.410001</x>
+            <y>1.3</y>
+          </Pos>
+          <Scale>
+            <x>1</x>
+            <y>1</y>
+          </Scale>
+          <Rotation>
+            <x>0</x>
+            <y>0</y>
+            <z>0</z>
+            <w>1</w>
+            <eulerAngles>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+            </eulerAngles>
+          </Rotation>
+          <Gold>false</Gold>
+        </MothType>
+      </Moths>
+    </Cave>
+    <Cave>
+      <TopIndex>0</TopIndex>
+      <BottomIndex>0</BottomIndex>
+      <bTopSecretPath>false</bTopSecretPath>
+      <bBottomSecretPath>false</bBottomSecretPath>
+      <Shrooms />
+      <Stals />
+      <Moths />
+    </Cave>
+    <Cave>
+      <TopIndex>1001</TopIndex>
+      <BottomIndex>1001</BottomIndex>
+      <bTopSecretPath>false</bTopSecretPath>
+      <bBottomSecretPath>false</bBottomSecretPath>
+      <Shrooms />
+      <Stals />
+      <Moths />
+    </Cave>
+  </CaveList>
+  <Clumsy>
+    <Pos>
+      <x>-1.11</x>
+      <y>1.88</y>
+    </Pos>
+    <Scale>
+      <x>0.177492425</x>
+      <y>0.194299191</y>
+    </Scale>
+    <Rotation>
+      <x>0</x>
+      <y>0</y>
+      <z>-0.248385772</z>
+      <w>0.968661249</w>
+      <eulerAngles>
+        <x>0</x>
+        <y>0</y>
+        <z>331.236</z>
+      </eulerAngles>
+    </Rotation>
+  </Clumsy>
+</LevelCollection>

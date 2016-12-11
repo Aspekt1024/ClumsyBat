@@ -7,6 +7,7 @@ public class Stalactite : MonoBehaviour {
     {
         public PolygonCollider2D Collider;
         public SpriteRenderer Renderer;
+        public Animator Anim;
         public Vector2 initialPos;
         public bool bInitialPosSet;
         public bool bDropEnabled;
@@ -26,11 +27,14 @@ public class Stalactite : MonoBehaviour {
     {
         Stal.Collider = GetComponent<PolygonCollider2D>();
         Stal.Renderer = GetComponent<SpriteRenderer>();
+        Stal.Anim = GetComponent<Animator>();
         Stal.bDropEnabled = false;
         Stal.bIsActive = false;
         Stal.bInitialPosSet = false;
         Player = FindObjectOfType<Player>();
         bDropTriggered = false;
+        Stal.Anim.Play("Static", 0, 0f);
+        Stal.Anim.enabled = true;
     }
 
     void FixedUpdate()
@@ -139,9 +143,28 @@ public class Stalactite : MonoBehaviour {
         Vector2 ScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
         if (ScreenPosition.x < Screen.width)
         {
-            DeactivateStal();
-            // TODO set animation etc
+            Stal.Collider.enabled = false;
+            StartCoroutine("CrumbleAnim");
         }
+    }
+
+    private IEnumerator CrumbleAnim()
+    {
+        Crumble();
+        yield return new WaitForSeconds(0.67f);
+        DeactivateStal();
+    }
+
+    public void Crumble()
+    {
+        Stal.Anim.enabled = true;
+        Stal.Anim.Play("Crumble", 0, 0f);
+    }
+
+    public void Crack()
+    {
+        Stal.Anim.enabled = true;
+        Stal.Anim.Play("Crack", 0, 0f);
     }
 
     //public bool IsUnstable()

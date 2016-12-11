@@ -41,8 +41,7 @@ public class StatsHandler : MonoBehaviour {
         SetupPrefList();
         SetupPlayerPrefs();
         GetPersistentStats();
-        CompletionData = new CompletionDataControl();
-        CompletionData.Load();
+        CreateCompletionDataObject();
     }
 
     void Update ()
@@ -62,6 +61,13 @@ public class StatsHandler : MonoBehaviour {
         // bash through objects
         // I love lamp
 	}
+
+    private void CreateCompletionDataObject()
+    {
+        GameObject CompletionDataObject = new GameObject("Completion Data");
+        CompletionData = CompletionDataObject.AddComponent<CompletionDataControl>();
+        CompletionData.Load();
+    }
 
     public void LevelWon(int Level)
     {
@@ -91,6 +97,7 @@ public class StatsHandler : MonoBehaviour {
         PlayerPrefs.SetInt("LevelsCompleted", LevelsCompleted);
 
         PlayerPrefs.Save();
+        CompletionData.Save();
     }
 
     private void GetPersistentStats()

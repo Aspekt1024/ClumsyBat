@@ -6,9 +6,16 @@ public class Moth : MonoBehaviour {
     private Transform MothSprite = null;
     private Animator MothAnimator = null;
     private bool bIsActive = false;
-    public bool IsGold;
+    public MothColour Colour;
 
-    private const float MothZLayer = 1f;
+    public enum MothColour
+    {
+        Green,
+        Gold,
+        Blue
+    }
+
+    private const float MothZLayer = -1.5f;
 
     private bool Paused = false;
     private float Speed = 0;
@@ -85,21 +92,25 @@ public class Moth : MonoBehaviour {
         }
     }
 
-    public void ActivateMoth(bool _isGold)
+    public void ActivateMoth(MothColour _colour)
     {
         // TODO determine where in the vertical space the moth can spawn
         const float Range = 2f;
         float MothYPos = Range * Random.value - Range / 2;
         transform.position = new Vector3(transform.position.x, MothYPos, MothZLayer); // TODO replace this?
         bIsActive = true;
-        IsGold = _isGold;
-        if (IsGold)
+        Colour = _colour;
+        switch (_colour)
         {
-            MothAnimator.Play("MothGoldAnimation", 0, 0f);
-        }
-        else
-        {
-            MothAnimator.Play("MothGreenAnimation", 0, 0f);
+            case MothColour.Green:
+                MothAnimator.Play("MothGreenAnimation", 0, 0f);
+                break;
+            case MothColour.Blue:
+                MothAnimator.Play("MothBlueAnimation", 0, 0f);
+                break;
+            case MothColour.Gold:
+                MothAnimator.Play("MothGoldAnimation", 0, 0f);
+                break;
         }
     }
 

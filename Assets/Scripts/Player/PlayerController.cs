@@ -13,11 +13,16 @@ public class PlayerController : MonoBehaviour
 {
     public FogEffect Fog;
     public LevelScript Level;
-    public Text PauseText;
+
+    private GameObject InputObject;
+    private SwipeManager InputManager;
 
     private Vector3 PlayerStartPos = new Vector3(-5.5f, -1.5f, -2f);
     private Vector3 PlayerHoldingArea = new Vector3(-10f, -10f, 0f);
     private Rigidbody2D PlayerRigidBody;
+    private Rigidbody2D LanternBody;
+    private Animator Anim;
+    private Animator LanternAnimator;
 
     private bool bGameStarted = false;
     private bool bGamePaused = false;
@@ -38,9 +43,6 @@ public class PlayerController : MonoBehaviour
     private const float RushTimer = 0.26f;
     private const float RushSpeed = 7f;
 
-    private GameObject InputObject;
-    private SwipeManager InputManager;
-    private Animator Anim;
 
     public event PlayerDeathHandler PlayerDeath; // not currently used. Kept for reference (events!)
     
@@ -60,9 +62,18 @@ public class PlayerController : MonoBehaviour
         PlayerRigidBody.gravityScale = GravityScale;
 
         Anim = GetComponent<Animator>();
-        Anim.enabled = false;
 
-        InputObject = new GameObject();
+        foreach (Transform ClumsyObjects in transform)
+        {
+            if (ClumsyObjects.name == "Lantern")
+            {
+                LanternBody = ClumsyObjects.GetComponent<Rigidbody2D>();
+                LanternAnimator = ClumsyObjects.GetComponent<Animator>();
+            }
+        }
+        LanternAnimator.Play("LanternSwing", 0, 0f);
+
+        InputObject = new GameObject("Game Scripts");
         InputManager = InputObject.AddComponent<SwipeManager>();
     }
 
@@ -126,6 +137,11 @@ public class PlayerController : MonoBehaviour
                 bGameOverOverlay = true;
             }
         }
+
+        if (transform.position.y < 1f && !Level.Stats.CompletionData.ToolTipComplete(CompletionDataControl.ToolTipID.SecondJump))
+        {
+            StartCoroutine("ToolTipPause", CompletionDataControl.ToolTipID.SecondJump);
+        }
     }
 
     void Jump()
@@ -137,8 +153,10 @@ public class PlayerController : MonoBehaviour
         Level.Stats.TotalJumps++;
         PlayerRigidBody.velocity = Vector2.zero;
         PlayerRigidBody.AddForce(JumpForce);
+        LanternAnimator.Play("LanternSwing", 0, 0f);
         //GetComponent<AudioSource>().Play();
         Anim.Play("Flap", 0, 0.5f);
+
     }
 
     void Rush()
@@ -156,6 +174,7 @@ public class PlayerController : MonoBehaviour
         if (other.collider.GetComponent<Stalactite>())
         {
             Level.Stats.ToothDeaths++;
+            other.collider.GetComponent<Stalactite>().Crack();
         }
         else
         {
@@ -175,14 +194,11 @@ public class PlayerController : MonoBehaviour
         Level.HorribleDeath();
         Fog.PlayerDeath();
         
-        foreach (Transform ClumsyObjects in transform)
-        {
-            ClumsyObjects.GetComponent<Rigidbody2D>().isKinematic = false;
-            ClumsyObjects.GetComponent<Rigidbody2D>().velocity = new Vector2(5f, 1f);
-            ClumsyObjects.GetComponent<Animator>().enabled = false;
-        }
+        LanternBody.isKinematic = false;
+        LanternBody.velocity = new Vector2(5f, 1f); // TODO randomise this and add rotational force?
+        LanternAnimator.enabled = false;
+
         Anim.Play("Die", 0, 0.25f);
-        //Anim.enabled = false;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -190,25 +206,7 @@ public class PlayerController : MonoBehaviour
         switch (other.name)
         {
             case "MothTrigger":
-                Level.Stats.MothsEaten++;
-                if (Level.Stats.MothsEaten > Level.Stats.MostMoths)
-                {
-                    Level.Stats.MostMoths++;
-                }
-                Level.Stats.TotalMoths++;
-                Moth MothScript = other.GetComponentInParent<Moth>();
-                MothScript.ReturnToInactivePool();
-                if (MothScript.IsGold)
-                {
-                    // TODO Level.Stats.GoldMoths++; etc
-                    Hypersonic();
-                    Fog.Echolocate();
-                }
-                else
-                {
-                    // TODO Level.Stats.GreenMoths++; etc
-                    Fog.Echolocate();
-                }
+                ConsumeMoth(other);
                 break;
             case "ExitTrigger":
                 CircleCollider2D ClumsyCollider = GetComponent<CircleCollider2D>();
@@ -218,6 +216,31 @@ public class PlayerController : MonoBehaviour
                 break;
             case "Spore":
                 Fog.Minimise();
+                break;
+        }
+    }
+
+    private void ConsumeMoth(Collider2D MothCollider)
+    {
+        Level.Stats.MothsEaten++;
+        if (Level.Stats.MothsEaten > Level.Stats.MostMoths)
+        {
+            Level.Stats.MostMoths++;
+        }
+        Level.Stats.TotalMoths++;
+        Moth MothScript = MothCollider.GetComponentInParent<Moth>();
+        MothScript.ReturnToInactivePool();
+        switch (MothScript.Colour)
+        {
+            case Moth.MothColour.Green:
+                Fog.Echolocate();
+                break;
+            case Moth.MothColour.Gold:
+                Hypersonic();
+                Fog.Echolocate();
+                break;
+            case Moth.MothColour.Blue:
+                Fog.Echolocate();
                 break;
         }
     }
@@ -232,10 +255,10 @@ public class PlayerController : MonoBehaviour
         Anim.enabled = true;
     }
 
-    public void PauseGame()
+    public void PauseGame(bool ShowMenu = true)
     {
         bGamePaused = true;
-        Level.PauseGame();
+        Level.PauseGame(ShowMenu);
         SavedVelocity = PlayerRigidBody.velocity;
         PlayerRigidBody.Sleep();
         Fog.Pause();
@@ -255,16 +278,17 @@ public class PlayerController : MonoBehaviour
         Level.Stats.SaveStats();
         ResumeTimerStart = Time.time;
         bGameResuming = true;
-        PauseText.text = ResumeTimer.ToString();
         StartCoroutine("UpdateResumeTimer");
     }
 
     IEnumerator UpdateResumeTimer()
     {
+        Level.GameMenu.Hide();
+        Level.ResumeButton.SetActive(false);
         while (ResumeTimerStart + ResumeTimer > Time.time)
         {
             float TimeRemaining = ResumeTimerStart + ResumeTimer - Time.time;
-            PauseText.text = Mathf.Ceil(TimeRemaining).ToString();
+            Level.GameHUD.SetResumeTimer(TimeRemaining);
             yield return null;
         }
         ResumeGameplay();
@@ -274,7 +298,7 @@ public class PlayerController : MonoBehaviour
     {
         bGamePaused = false;
         bGameResuming = false;
-        PauseText.enabled = false;
+        Level.GameHUD.HideResumeTimer();
         PlayerRigidBody.WakeUp();
         PlayerRigidBody.velocity = SavedVelocity;
         Level.ResumeGame();
@@ -335,7 +359,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator CaveEntranceAnimation()
     {
         Vector3 StartPoint = new Vector3(-Toolbox.TileSizeX / 2f, 0f, transform.position.z);
-        Vector2 TargetPoint = new Vector2(-5f, 2f);
+        Vector2 TargetPoint = new Vector2(-5f, 1.3f);
         transform.position = StartPoint;
         
         yield return new WaitForSeconds(0.4f);
@@ -350,6 +374,24 @@ public class PlayerController : MonoBehaviour
         }
         StartGame();
         PlayerRigidBody.velocity = new Vector2(0f, JumpForce.y/80);
+
+        if (!Level.Stats.CompletionData.ToolTipComplete(CompletionDataControl.ToolTipID.FirstJump))
+        {
+            StartCoroutine("ToolTipPause", CompletionDataControl.ToolTipID.FirstJump);
+        }
+    }
+
+    private IEnumerator ToolTipPause(CompletionDataControl.ToolTipID ttID)
+    {
+        Level.Stats.CompletionData.ShowToolTip(ttID);
+        PauseGame(ShowMenu: false);
+        while (!InputManager.TapRegistered() && !Input.GetKeyUp("space"))
+        {
+            yield return null;
+        }
+        Level.Stats.CompletionData.HideToolTip();
+        ResumeGameplay();
+        Jump();
     }
 }
 

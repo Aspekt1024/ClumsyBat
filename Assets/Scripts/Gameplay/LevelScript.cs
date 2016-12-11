@@ -20,13 +20,14 @@ public class LevelScript : MonoBehaviour {
     private bool bAtEnd = false;
     private float GameSpeed = 1f;
     private float PrevGameSpeed;
-
+    
+    // TODO move all this to the UI script
     public Text ScoreText;
     public Text HighScoreText;
-    public Text PauseText;
     public Text LevelText;
 
-    public GameObject GameoverMenu;
+    public GameMenuOverlay GameMenu;
+    public GameUI GameHUD;
     public GameObject PauseButton;      // TODO replace with bottom panel
     public GameObject ResumeButton;     // TODO replace
 
@@ -36,6 +37,8 @@ public class LevelScript : MonoBehaviour {
     {
         LevelScripts = new GameObject("Level Scripts");
         Stats = LevelScripts.AddComponent<StatsHandler>();
+        // TODO remove this
+        Stats.CompletionData.ClearCompletionData();
     }
 
     void Start ()
@@ -133,18 +136,19 @@ public class LevelScript : MonoBehaviour {
         PauseButton.SetActive(true);
     }
 
-    public void PauseGame()
+    public void PauseGame(bool ShowMenu = true)
     {
         // TODO Play pause sound
         bGamePaused = true;
         PrevGameSpeed = GameSpeed;
         UpdateGameSpeed(0);
 
-        // TODO Replace with delegates
-        ResumeButton.SetActive(true);
         PauseButton.SetActive(false);
-        PauseText.enabled = true;
-        PauseText.text = "Game Paused";
+        if (ShowMenu)
+        {
+            GameMenu.PauseGame();
+            ResumeButton.SetActive(true);
+        }
         Stats.SaveStats();
     }
 
@@ -166,7 +170,7 @@ public class LevelScript : MonoBehaviour {
     public void ShowGameoverMenu()
     {
         Stats.SaveStats();
-        GameoverMenu.SetActive(true);
+        GameMenu.GameOver();
 
         // Hide any other unnecessary UI elements
         PauseButton.SetActive(false);
@@ -195,8 +199,7 @@ public class LevelScript : MonoBehaviour {
     {
         ResumeButton.SetActive(false);
         PauseButton.SetActive(false);
-        GameoverMenu.SetActive(false);
-        PauseText.enabled = false;
+        GameMenu.Hide();
     }
 
     public void DestroyOnScreenEvils()
@@ -209,6 +212,7 @@ public class LevelScript : MonoBehaviour {
         Stats.LevelWon(Toolbox.Instance.Level);
         Toolbox.Instance.MenuScreen = Toolbox.MenuSelector.LevelSelect;
         Stats.SaveStats();
-        SceneManager.LoadScene("Play");
+        GameObject.Find("Clumsy").GetComponent<PlayerController>().PauseGame(ShowMenu: false);
+        GameMenu.WinGame();
     }
 }

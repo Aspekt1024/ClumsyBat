@@ -15,7 +15,7 @@ public class MothPool {
         public Vector2 Pos;
         public Vector2 Scale;
         public Quaternion Rotation;
-        public bool Gold;
+        public Moth.MothColour Colour;
     }
 
     Moth[] Moths = null;
@@ -55,7 +55,7 @@ public class MothPool {
             NewMoth.transform.position = new Vector3(Moth.Pos.x + XOffset, Moth.Pos.y, MothZLayer);
             NewMoth.transform.localScale = Moth.Scale;
             NewMoth.transform.localRotation = Moth.Rotation;
-            NewMoth.ActivateMoth(Moth.Gold);
+            NewMoth.ActivateMoth(Moth.Colour);
         }
     }
 
