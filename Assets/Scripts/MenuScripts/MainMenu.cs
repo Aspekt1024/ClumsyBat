@@ -10,37 +10,19 @@ public class MainMenu : MonoBehaviour {
     private GameObject RuntimeScripts;
     public StatsHandler Stats;
 
-    private GameObject Backgrounds;
-    private Transform Caves;
-    private Transform MidBG;
-
-    private GameObject MainPanel;
-    private GameObject LevelSelectPanel;
-
-    private const float TileSizeX = 19.2f;
-    private const float AnimDuration = 0.5f;
-
+    private MenuScroller Scroller;
 
     void Awake()
     {
-        RuntimeScripts = new GameObject();
-        RuntimeScripts.name = "Runtime Scripts";
+        RuntimeScripts = new GameObject("Runtime Scripts");
         Stats = RuntimeScripts.AddComponent<StatsHandler>();
-
-        GetBackgrounds();
+        Scroller = RuntimeScripts.AddComponent<MenuScroller>();
     }
 
     void Start()
     {
         //GetComponent<AudioSource>().Play();
         SetupLevelSelect();
-        if (Toolbox.Instance.MenuScreen == Toolbox.MenuSelector.LevelSelect)
-        {
-            Caves.position = new Vector3(-TileSizeX, 0f, 0f);
-            MidBG.position = new Vector3(-TileSizeX / 3, 0f, 0f);
-            MainPanel.transform.position = new Vector3(-TileSizeX, 0f, 0f);
-            LevelSelectPanel.transform.position = new Vector3(0f, 0f, 0f);
-        }
     }
 
     private void SetupLevelSelect()
@@ -62,24 +44,6 @@ public class MainMenu : MonoBehaviour {
         }
     }
 
-    private void GetBackgrounds()
-    {
-        Backgrounds = GameObject.Find("Background");
-        foreach (Transform ChildObj in Backgrounds.transform)
-        {
-            if (ChildObj.name == "CavePieces")
-            {
-                Caves = ChildObj;
-            }
-            if (ChildObj.name == "MidBackground")
-            {
-                MidBG = ChildObj;
-            }
-        }
-        MainPanel = GameObject.Find("MainScreen");
-        LevelSelectPanel = GameObject.Find("LevelSelectScreen");
-    }
-
     void Update()
     {
         Stats.IdleTime += Time.deltaTime;
@@ -88,56 +52,12 @@ public class MainMenu : MonoBehaviour {
     public void PlayButtonClicked()
     {
         Stats.SaveStats();
-        StartCoroutine("MoveToLevelSelect");
+        Scroller.LevelSelect();
     }
 
     public void ReturnToMainScreen()
     {
-        StartCoroutine("MoveToMainMenu");
-    }
-
-    private IEnumerator MoveToMainMenu()
-    {
-        float AnimTime = 0f;
-        float StartX = Caves.position.x;
-        const float EndX = 0f;
-        float XPos = StartX;
-
-        while (AnimTime < AnimDuration)
-        {
-            XPos = StartX - (StartX - EndX) * (AnimTime / AnimDuration);
-            Caves.position = new Vector3(XPos, 0f, 0f);
-            MidBG.position = new Vector3(XPos/3, 0f, 0f);
-            MainPanel.transform.position = new Vector3(XPos, 0f, 0f);
-            LevelSelectPanel.transform.position = new Vector3(XPos + TileSizeX, 0f, 0f);
-            AnimTime += Time.deltaTime;
-            yield return null;
-        }
-        Caves.position = new Vector3(EndX, 0f, 0f);
-        MidBG.position = new Vector3(EndX, 0f, 0f);
-        MainPanel.transform.position = new Vector3(EndX, 0f, 0f);
-        LevelSelectPanel.transform.position = new Vector3(EndX + TileSizeX, 0f, 0f);
-    }
-
-    private IEnumerator MoveToLevelSelect()
-    {
-        float AnimTime = 0f;
-        float XPos = 0f;
-        while (AnimTime < AnimDuration)
-        {
-            XPos = -TileSizeX * (AnimTime / AnimDuration);
-            Caves.position = new Vector3(XPos, 0f, 0f);
-            MidBG.position = new Vector3(XPos/3, 0f, 0f);
-            MainPanel.transform.position = new Vector3(XPos, 0f, 0f);
-            LevelSelectPanel.transform.position = new Vector3(XPos + TileSizeX, 0f, 0f);
-
-            AnimTime += Time.deltaTime;
-            yield return null;
-        }
-        Caves.position = new Vector3(-TileSizeX, 0f, 0f);
-        MidBG.position = new Vector3(-TileSizeX / 3, 0f, 0f);
-        MainPanel.transform.position = new Vector3(-TileSizeX, 0f, 0f);
-        LevelSelectPanel.transform.position = new Vector3(0f, 0f, 0f);
+        Scroller.MainMenu();
     }
 
     public void QuitButtonClicked()
@@ -165,7 +85,6 @@ public class MainMenu : MonoBehaviour {
         MenuButtons.SetActive(true);
         Destroy(StatsOverlay);
     }
-
 
     // Level Selects
     private void LoadLevel(int LevelNum)
