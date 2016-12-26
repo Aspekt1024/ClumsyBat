@@ -6,7 +6,8 @@ public class MenuScroller : MonoBehaviour {
 
     private RectTransform MainPanel;
     private RectTransform LevelPanel;
-    private RectTransform MenuScrollRect;
+    private RectTransform StatsPanel;
+    private RectTransform LevelContentRect;
     
     private Transform Caves;
     private Transform MidBG;
@@ -14,10 +15,20 @@ public class MenuScroller : MonoBehaviour {
     private const float TileSizeX = 19.2f;
     private const float AnimDuration = 0.5f;
 
+    private float LevelSelectPosX = 1.5f*TileSizeX;
+    private const float MainMenuPosX = 0f;
+    private const float StatsPosX = -TileSizeX;
+
+    private bool bLevelCaveStartStored;
+    private float LevelCaveStartX;
+
+    private float LevelPanelStartX;
+
     private enum MenuStates
     {
         MainMenu,
-        LevelSelect
+        LevelSelect,
+        StatsScreen
     }
     private MenuStates MenuState = MenuStates.MainMenu;
 
@@ -25,11 +36,27 @@ public class MenuScroller : MonoBehaviour {
     {
         GetUIComponents();
         InitialiseMenu();
+        float AspectRatio = GameObject.Find("Main Camera").GetComponent<Camera>().aspect;
+        LevelSelectPosX *= (1.5f + AspectRatio) / (2 * AspectRatio);
+        //LevelContentRect.sizeDelta = new Vector3(LevelContentRect.rect.x * AspectRatio / 1.5f, 0f, 0f);
+        Transform LST = GameObject.Find("LevelSelectImg").GetComponent<Transform>();
+        LST.localScale *= 1.5f / AspectRatio;
+        LevelPanelStartX = LevelPanel.position.x;
+        bLevelCaveStartStored = false;
     }
 
 	void Update ()
     {
         MidBG.position = new Vector3(Caves.position.x * 0.5f, 0f, MidBG.position.z);
+        if (MenuState == MenuStates.LevelSelect)
+        {
+            Caves.position = new Vector2(LevelContentRect.position.x - LevelCaveStartX - LevelSelectPosX, 0f);
+        }
+
+        if (LevelPanel.position.y != 0f)
+        {
+            FinaliseMenuPosition();
+        }
 	}
 
     private void InitialiseMenu()
@@ -38,98 +65,120 @@ public class MenuScroller : MonoBehaviour {
         {
             MenuState = MenuStates.LevelSelect;
         }
-
-        switch (MenuState)
-        {
-            case MenuStates.MainMenu:
-                //LockToMainMenu();
-                MenuScrollRect.GetComponent<ScrollRect>().horizontal = false;
-                break;
-            case MenuStates.LevelSelect:
-                //LockToLevelSelect();
-                MenuScrollRect.GetComponent<ScrollRect>().horizontal = true;
-                break;
-            default:
-                //LockToMainMenu();
-                MenuScrollRect.GetComponent<ScrollRect>().horizontal = false;
-                break;
-        }
+        FinaliseMenuPosition();
     }
 
     private void GetUIComponents()
     {
         MainPanel = GameObject.Find("MainScreen").GetComponent<RectTransform>();
-        LevelPanel = GameObject.Find("LevelSelect").GetComponent<RectTransform>();
-        MenuScrollRect = GameObject.Find("MenuScrollRect").GetComponent<RectTransform>();
+        LevelPanel = GameObject.Find("LevelScrollRect").GetComponent<RectTransform>();
+        StatsPanel = GameObject.Find("StatsPanel").GetComponent<RectTransform>();
+        LevelContentRect = GameObject.Find("Content").GetComponent<RectTransform>();
 
         GetBackgrounds();
     }
 
     public void MainMenu()
     {
-        StartCoroutine("MoveToMainMenu");
-    }
-    
-    private IEnumerator MoveToMainMenu()
-    {
-        float AnimTime = 0f;
-        float StartX = Caves.position.x;
-        const float EndX = 0f;
-        float XPos = StartX;
 
-        while (AnimTime < AnimDuration)
+        if (bLevelCaveStartStored && MenuState == MenuStates.LevelSelect)
         {
-            XPos = StartX - (StartX - EndX) * (AnimTime / AnimDuration);
-            Caves.position = new Vector2(XPos, 0f);
-            MainPanel.position = new Vector2(XPos, 0f);
-            LevelPanel.position = new Vector2(XPos + TileSizeX, 0f);
-            AnimTime += Time.deltaTime;
-            yield return null;
+            LevelContentRect.position = new Vector2(LevelCaveStartX, 0f);
         }
-        LockToMainMenu();
-    }
 
-    private void LockToMainMenu()
-    {
-        Caves.position = new Vector2(0f, 0f);
-        MainPanel.position = new Vector2(0f, 0f);
-        LevelPanel.position = new Vector2(TileSizeX, 0f);
-        MenuScrollRect.GetComponent<ScrollRect>().horizontal = false;
+        MenuState = MenuStates.MainMenu;
+        StartCoroutine("MoveMenu");
     }
 
     public void LevelSelect()
     {
-        StartCoroutine("MoveToLevelSelect");
+        MenuState = MenuStates.LevelSelect;
+        StartCoroutine("MoveMenu");
     }
 
-    private IEnumerator MoveToLevelSelect()
+    public void StatsScreen()
     {
-        float AnimTime = 0f;
-        float XPos = 0f;
-        while (AnimTime < AnimDuration)
-        {
-            XPos = -TileSizeX * (AnimTime / AnimDuration);
-            Caves.position = new Vector2(XPos, 0f);
-            MainPanel.position = new Vector2(XPos, 0f);
-            LevelPanel.position = new Vector2(XPos + TileSizeX,0f);
+        MenuState = MenuStates.StatsScreen;
+        StartCoroutine("MoveMenu");
+    }
 
-            AnimTime += Time.deltaTime;
+    private IEnumerator MoveMenu()
+    {
+        float AnimTimer = 0f;
+        float StartX = Caves.position.x;
+        float EndX = 0f;
+        switch (MenuState)
+        {
+            case MenuStates.MainMenu:
+                EndX = -MainMenuPosX;
+                break;
+            case MenuStates.LevelSelect:
+                EndX = -LevelSelectPosX;
+                break;
+            case MenuStates.StatsScreen:
+                EndX = -StatsPosX;
+                break;
+        }
+
+        float XPos;
+        while (AnimTimer < AnimDuration)
+        {
+            XPos = StartX - (StartX - EndX) * (AnimTimer / AnimDuration);
+            Caves.position = new Vector2(XPos, 0f);
+            MainPanel.position = new Vector2(MainMenuPosX + XPos, 0f);
+            StatsPanel.position = new Vector2(StatsPosX + XPos, 0f);
+            LevelPanel.position = new Vector2(LevelSelectPosX + XPos, 0f);
+            AnimTimer += Time.deltaTime;
             yield return null;
         }
-        LockToLevelSelect();
+        FinaliseMenuPosition();
     }
 
-    private void LockToLevelSelect()
+    private void FinaliseMenuPosition()
     {
-        Caves.position = new Vector2(-TileSizeX, 0f);
-        MainPanel.position = new Vector2(-TileSizeX, 0f);
-        LevelPanel.position = new Vector2(0f, 0f);
-        MenuScrollRect.GetComponent<ScrollRect>().horizontal = true;
+        float XOffset = 0f;
+        switch (MenuState)
+        {
+            case MenuStates.MainMenu:
+                XOffset = MainMenuPosX;
+                break;
+            case MenuStates.LevelSelect:
+                XOffset = LevelSelectPosX;
+                break;
+            case MenuStates.StatsScreen:
+                XOffset = StatsPosX;
+                break;
+        }
+
+        Caves.position = new Vector2(0f - XOffset, 0f);
+        MainPanel.position = new Vector2(MainMenuPosX - XOffset, 0f);
+        StatsPanel.position = new Vector2(StatsPosX - XOffset, 0f);
+        LevelPanel.position = new Vector2(LevelSelectPosX - XOffset, 0f);
+        
+        if (MenuState == MenuStates.LevelSelect && !bLevelCaveStartStored)
+        {
+            bLevelCaveStartStored = true;
+            LevelCaveStartX = LevelContentRect.position.x;
+        }
+
+        if (MenuState == MenuStates.LevelSelect)
+        {
+            LevelPanel.GetComponent<ScrollRect>().horizontal = true;
+        }
+        else
+        {
+            LevelPanel.GetComponent<ScrollRect>().horizontal = false;
+        }
     }
 
     private void GetBackgrounds()
     {
         Caves = GameObject.Find("CavePieces").GetComponent<Transform>();
         MidBG = GameObject.Find("MidBackground").GetComponent<Transform>();
+    }
+
+    public float GetAnimDuration()
+    {
+        return AnimDuration;
     }
 }

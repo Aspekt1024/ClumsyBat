@@ -6,7 +6,7 @@ using System.Collections;
 public class MainMenu : MonoBehaviour {
     
     public GameObject MenuButtons;
-    private GameObject StatsOverlay;
+    public GameObject NavButtons;
     private GameObject RuntimeScripts;
     public StatsHandler Stats;
 
@@ -23,6 +23,8 @@ public class MainMenu : MonoBehaviour {
     {
         //GetComponent<AudioSource>().Play();
         SetupLevelSelect();
+        SetupStatsScreen();
+        NavButtons.SetActive(false);
     }
 
     private void SetupLevelSelect()
@@ -44,6 +46,11 @@ public class MainMenu : MonoBehaviour {
         }
     }
 
+    private void SetupStatsScreen()
+    {
+        GameObject.Find("StatsPanel").GetComponent<StatsUI>().CreateStatText();
+    }
+
     void Update()
     {
         Stats.IdleTime += Time.deltaTime;
@@ -53,11 +60,13 @@ public class MainMenu : MonoBehaviour {
     {
         Stats.SaveStats();
         Scroller.LevelSelect();
+        NavButtons.SetActive(true);
     }
 
     public void ReturnToMainScreen()
     {
         Scroller.MainMenu();
+        NavButtons.SetActive(false);
     }
 
     public void QuitButtonClicked()
@@ -66,24 +75,16 @@ public class MainMenu : MonoBehaviour {
         Application.Quit();
     }
 
+    public void StatsButtonClicked()
+    {
+        Scroller.StatsScreen();
+        NavButtons.SetActive(true);
+    }
+
     public void ClearDataButtonClicked()
     {
         // TODO setup menu to ask "Are you sure?"
         Stats.ClearPlayerPrefs();
-    }
-
-    public void StatsButtonClicked()
-    {
-        MenuButtons.SetActive(false);
-        StatsOverlay = (GameObject)Instantiate(Resources.Load("StatsOverlay"));
-        StatsOverlay.GetComponent<Canvas>().worldCamera = FindObjectOfType<Camera>();
-        StatsOverlay.GetComponent<StatsScript>().CreateStatText(this);
-    }
-
-    public void StatsOKButtonClicked()
-    {
-        MenuButtons.SetActive(true);
-        Destroy(StatsOverlay);
     }
 
     // Level Selects

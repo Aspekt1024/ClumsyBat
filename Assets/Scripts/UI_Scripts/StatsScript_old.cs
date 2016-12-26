@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 // TODO display time in hh:mm:ss
 
-public class StatsScript : MonoBehaviour {
+public class StatsScript_old : MonoBehaviour {
 
     private List<Stat> Stats = new List<Stat>();
 
@@ -30,15 +30,9 @@ public class StatsScript : MonoBehaviour {
         public string unit;
     }
 
-	void Awake () {
-        foreach (Transform trans in transform)
-        {
-            if (trans.name == "OKButton")
-            {
-                trans.GetComponent<Button>().onClick.AddListener(() => MS.StatsOKButtonClicked());
-                break;
-            }
-        }
+	void Awake ()
+    {
+        MS = GameObject.Find("Scripts").GetComponent<MainMenu>();
     }
 
     void Update()
@@ -49,10 +43,8 @@ public class StatsScript : MonoBehaviour {
         }
     }
 
-    public void CreateStatText(MainMenu Caller)
+    public void CreateStatText()
     {
-        MS = Caller;
-
         InitialiseStatsList();
 
         ScrollView = GetScrollView();
@@ -227,11 +219,11 @@ public class StatsScript : MonoBehaviour {
     {
         foreach (RectTransform RT in ScrollView)
         {
-            if (RT.name == "Viewport")
+            if (RT.name == "StatViewport")
             {
                 foreach (RectTransform RT2 in RT.GetComponent<RectTransform>())
                 {
-                    if (RT2.name == "Content")
+                    if (RT2.name == "StatContent")
                     {
                         return RT2;
                     }
@@ -244,7 +236,7 @@ public class StatsScript : MonoBehaviour {
     {
         foreach (RectTransform RT in GetComponent<RectTransform>())
         {
-            if (RT.name == "Scroll View")
+            if (RT.name == "StatScrollView")
             {
                 return RT;
             }
