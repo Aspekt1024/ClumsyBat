@@ -15,8 +15,7 @@ public class CompletionDataControl : MonoBehaviour {
 
     public enum ToolTipID
     {
-        FirstJump = 0,
-        SecondJump,
+        SecondJump = 0,
         FirstDeath
     }
 

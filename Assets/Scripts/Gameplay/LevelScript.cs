@@ -38,7 +38,6 @@ public class LevelScript : MonoBehaviour {
         LevelScripts = new GameObject("Level Scripts");
         Stats = LevelScripts.AddComponent<StatsHandler>();
         // TODO remove this
-        //Stats.CompletionData.ClearCompletionData();
         Stats.CompletionData.ResetTooltips();
     }
 
