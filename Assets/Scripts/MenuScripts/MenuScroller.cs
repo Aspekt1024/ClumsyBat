@@ -22,7 +22,6 @@ public class MenuScroller : MonoBehaviour {
 
     private bool bLevelCaveStartStored;
     private float LevelCaveStartX;
-    private float LevelPanelStartX;
 
     private float CurrentLevel;
 
@@ -67,7 +66,6 @@ public class MenuScroller : MonoBehaviour {
         LevelSelectPosX *= (1.5f + AspectRatio) / (2 * AspectRatio);
         Transform LST = GameObject.Find("LevelSelectImg").GetComponent<Transform>();
         LST.localScale *= 1.5f / AspectRatio;
-        LevelPanelStartX = LevelPanel.position.x;
         bLevelCaveStartStored = false;
     }
 

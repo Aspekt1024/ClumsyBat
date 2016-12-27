@@ -36,8 +36,7 @@ public class CompletionDataControl : MonoBehaviour {
 
     private void SetToolTipText()
     {
-        ToolTipText[(int)ToolTipID.FirstJump] = "Tap anywhere on the screen to tell Clumsy to flap his wings";
-        ToolTipText[(int)ToolTipID.SecondJump] = "If Clumsy touches the rocks, he will get scared and faint. Keep tapping to help Clumsy avoid the rocks!";
+        ToolTipText[(int)ToolTipID.SecondJump] = "Tap to flap!";
     }
 
     public void Save()
@@ -64,6 +63,12 @@ public class CompletionDataControl : MonoBehaviour {
         file.Close();
         Load();
         Debug.Log("Completion Data Cleared");
+    }
+
+    public void ResetTooltips()
+    {
+        ToolTipCompletion = new bool[NumTooltips];
+        Save();
     }
 
     public void Load()

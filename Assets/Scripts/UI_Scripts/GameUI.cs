@@ -42,4 +42,9 @@ public class GameUI : MonoBehaviour {
     {
         ResumeTimerText.enabled = false;
     }
+
+    public void SetStartText(string StartText)
+    {
+        ResumeTimerText.text = StartText;
+    }
 }

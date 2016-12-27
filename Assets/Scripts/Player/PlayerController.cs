@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     private Animator Anim;
     private Animator LanternAnimator;
 
+    private bool bToolTipWait = false;
     private bool bGameStarted = false;
     private bool bGamePaused = false;
     private bool bGameResuming = false;
@@ -79,7 +80,7 @@ public class PlayerController : MonoBehaviour
 
     public void LevelStart()
     {
-        StartCoroutine("CaveEntranceAnimation");
+        StartCoroutine("LevelStartCountdown");
     }
     
     void Update()
@@ -146,6 +147,11 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
+        if (!Level.Stats.CompletionData.ToolTipComplete(CompletionDataControl.ToolTipID.SecondJump) || bToolTipWait)
+        {
+            return;
+        }
+
         if (!bIsAlive || !bGameStarted) { return; }
         
         if (bGamePaused) { ResumeGame(); }
@@ -161,7 +167,7 @@ public class PlayerController : MonoBehaviour
 
     void Rush()
     {
-        if (!bIsAlive || bIsRushing || bGamePaused || !bGameStarted) { return; }
+        if (!bIsAlive || bIsRushing || bGamePaused || !bGameStarted || bToolTipWait) { return; }
         Level.Stats.TimesDashed++;
         StartCoroutine("StartRushAnim");
         // TODO Rush cooldown and failed rush when on cooldown?
@@ -367,8 +373,6 @@ public class PlayerController : MonoBehaviour
         Vector2 TargetPoint = new Vector2(-5f, 1.3f);
         transform.position = StartPoint;
         
-        yield return new WaitForSeconds(0.4f);
-        
         while (transform.position.x < TargetPoint.x)
         {
             float XPos = transform.position.x + Time.deltaTime * Toolbox.Instance.LevelSpeed * 1.7f;
@@ -377,19 +381,54 @@ public class PlayerController : MonoBehaviour
             transform.position = new Vector3(XPos, YPos, transform.position.z);
             yield return null;
         }
-        StartGame();
-        PlayerRigidBody.velocity = new Vector2(0f, JumpForce.y/80);
+    }
 
-        if (!Level.Stats.CompletionData.ToolTipComplete(CompletionDataControl.ToolTipID.FirstJump))
+    private IEnumerator LevelStartCountdown()
+    {
+        const float TimeToReachDest = 0.6f;
+        const float CountdownDuration = 3f - TimeToReachDest;
+        float CountdownTimer = 0f;
+
+        bool bEntranceAnimStarted = false;
+        while (CountdownTimer < CountdownDuration + TimeToReachDest)
         {
-            StartCoroutine("ToolTipPause", CompletionDataControl.ToolTipID.FirstJump);
+            CountdownTimer += Time.deltaTime;
+            if (Level.Stats.CompletionData.ToolTipComplete(CompletionDataControl.ToolTipID.SecondJump))
+            {
+                Level.GameHUD.SetResumeTimer(CountdownDuration - CountdownTimer + TimeToReachDest);
+            }
+            else if (!bEntranceAnimStarted)
+            {
+                CountdownTimer = CountdownDuration;
+            }
+            if (CountdownTimer >= CountdownDuration && !bEntranceAnimStarted)
+            {
+                bEntranceAnimStarted = true;
+                StartCoroutine("CaveEntranceAnimation");
+            }
+            yield return null;
         }
+
+        StartGame();
+        PlayerRigidBody.velocity = new Vector2(0f, JumpForce.y / 80);
+        if (Level.Stats.CompletionData.ToolTipComplete(CompletionDataControl.ToolTipID.SecondJump))
+        {
+            Level.GameHUD.SetStartText("GO!");
+            yield return new WaitForSeconds(0.6f);
+        }
+
+        Level.GameHUD.HideResumeTimer();
     }
 
     private IEnumerator ToolTipPause(CompletionDataControl.ToolTipID ttID)
     {
+        bToolTipWait = true;
+        PlayerRigidBody.velocity = new Vector2(0f, 0f);
         Level.Stats.CompletionData.ShowToolTip(ttID);
+
         PauseGame(ShowMenu: false);
+        yield return new WaitForSeconds(0.3f);
+        bToolTipWait = false;
         while (!InputManager.TapRegistered() && !Input.GetKeyUp("space"))
         {
             yield return null;
