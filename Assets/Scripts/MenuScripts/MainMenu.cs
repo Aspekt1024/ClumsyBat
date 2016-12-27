@@ -6,7 +6,6 @@ using System.Collections;
 public class MainMenu : MonoBehaviour {
     
     public GameObject MenuButtons;
-    public GameObject NavButtons;
     private GameObject RuntimeScripts;
     public StatsHandler Stats;
 
@@ -24,17 +23,23 @@ public class MainMenu : MonoBehaviour {
         //GetComponent<AudioSource>().Play();
         SetupLevelSelect();
         SetupStatsScreen();
-        NavButtons.SetActive(false);
     }
 
     private void SetupLevelSelect()
     {
+        int HighestLevel = 1;
+         // TODO force this to only be on the main path once we've decided how many levels will exist on it
+
         RectTransform LvlButtons = GameObject.Find("LevelButtons").GetComponent<RectTransform>();
         foreach (RectTransform LvlButton in LvlButtons)
         {
             int Level = int.Parse(LvlButton.name.Substring(2, LvlButton.name.Length - 2));
             if (Stats.CompletionData.IsUnlocked(Level) || Level == 1)
             {
+                if (Level > HighestLevel)
+                {
+                    HighestLevel = Level;
+                }
                 LvlButton.GetComponent<Image>().enabled = true;
                 LvlButton.GetComponent<Button>().enabled = true;
             }
@@ -44,6 +49,13 @@ public class MainMenu : MonoBehaviour {
                 LvlButton.GetComponent<Button>().enabled = false;
             }
         }
+
+        // TODO confirm this after we decide how many levels there will be
+        if (HighestLevel > 9)
+        {
+            HighestLevel = 1;
+        }
+        Scroller.SetCurrentLevel(HighestLevel);
     }
 
     private void SetupStatsScreen()
@@ -60,13 +72,11 @@ public class MainMenu : MonoBehaviour {
     {
         Stats.SaveStats();
         Scroller.LevelSelect();
-        NavButtons.SetActive(true);
     }
 
     public void ReturnToMainScreen()
     {
         Scroller.MainMenu();
-        NavButtons.SetActive(false);
     }
 
     public void QuitButtonClicked()
@@ -77,8 +87,8 @@ public class MainMenu : MonoBehaviour {
 
     public void StatsButtonClicked()
     {
+        Stats.SaveStats();
         Scroller.StatsScreen();
-        NavButtons.SetActive(true);
     }
 
     public void ClearDataButtonClicked()
@@ -90,6 +100,7 @@ public class MainMenu : MonoBehaviour {
     // Level Selects
     private void LoadLevel(int LevelNum)
     {
+        Stats.SaveStats();
         Toolbox.Instance.Level = LevelNum;
         SceneManager.LoadScene("Levels");
     }

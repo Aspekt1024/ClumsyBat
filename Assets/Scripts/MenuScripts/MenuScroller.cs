@@ -8,7 +8,8 @@ public class MenuScroller : MonoBehaviour {
     private RectTransform LevelPanel;
     private RectTransform StatsPanel;
     private RectTransform LevelContentRect;
-    
+    private NavButtonHandler NavButtons;
+
     private Transform Caves;
     private Transform MidBG;
 
@@ -21,10 +22,11 @@ public class MenuScroller : MonoBehaviour {
 
     private bool bLevelCaveStartStored;
     private float LevelCaveStartX;
-
     private float LevelPanelStartX;
 
-    private enum MenuStates
+    private float CurrentLevel;
+
+    public enum MenuStates
     {
         MainMenu,
         LevelSelect,
@@ -36,13 +38,8 @@ public class MenuScroller : MonoBehaviour {
     {
         GetUIComponents();
         InitialiseMenu();
-        float AspectRatio = GameObject.Find("Main Camera").GetComponent<Camera>().aspect;
-        LevelSelectPosX *= (1.5f + AspectRatio) / (2 * AspectRatio);
-        //LevelContentRect.sizeDelta = new Vector3(LevelContentRect.rect.x * AspectRatio / 1.5f, 0f, 0f);
-        Transform LST = GameObject.Find("LevelSelectImg").GetComponent<Transform>();
-        LST.localScale *= 1.5f / AspectRatio;
-        LevelPanelStartX = LevelPanel.position.x;
-        bLevelCaveStartStored = false;
+        SetupScreenSizing();
+        SetupNavButtonHandler();
     }
 
 	void Update ()
@@ -58,6 +55,28 @@ public class MenuScroller : MonoBehaviour {
             FinaliseMenuPosition();
         }
 	}
+
+    public void SetCurrentLevel(int Level)
+    {
+        CurrentLevel = Level;
+    }
+
+    private void SetupScreenSizing()
+    {
+        float AspectRatio = GameObject.Find("Main Camera").GetComponent<Camera>().aspect;
+        LevelSelectPosX *= (1.5f + AspectRatio) / (2 * AspectRatio);
+        Transform LST = GameObject.Find("LevelSelectImg").GetComponent<Transform>();
+        LST.localScale *= 1.5f / AspectRatio;
+        LevelPanelStartX = LevelPanel.position.x;
+        bLevelCaveStartStored = false;
+    }
+
+    private void SetupNavButtonHandler()
+    {
+        GameObject RuntimeScripts = GameObject.Find("Runtime Scripts");
+        NavButtons = RuntimeScripts.AddComponent<NavButtonHandler>();
+        NavButtons.SetupNavButtons(MenuState);
+    }
 
     private void InitialiseMenu()
     {
@@ -104,21 +123,11 @@ public class MenuScroller : MonoBehaviour {
 
     private IEnumerator MoveMenu()
     {
+        NavButtons.SetupNavButtons(MenuState);
+
         float AnimTimer = 0f;
         float StartX = Caves.position.x;
-        float EndX = 0f;
-        switch (MenuState)
-        {
-            case MenuStates.MainMenu:
-                EndX = -MainMenuPosX;
-                break;
-            case MenuStates.LevelSelect:
-                EndX = -LevelSelectPosX;
-                break;
-            case MenuStates.StatsScreen:
-                EndX = -StatsPosX;
-                break;
-        }
+        float EndX = -GetXOffset();
 
         float XPos;
         while (AnimTimer < AnimDuration)
@@ -128,13 +137,35 @@ public class MenuScroller : MonoBehaviour {
             MainPanel.position = new Vector2(MainMenuPosX + XPos, 0f);
             StatsPanel.position = new Vector2(StatsPosX + XPos, 0f);
             LevelPanel.position = new Vector2(LevelSelectPosX + XPos, 0f);
+
             AnimTimer += Time.deltaTime;
             yield return null;
         }
         FinaliseMenuPosition();
+
+        if (MenuState == MenuStates.LevelSelect)
+        {
+            GotoCurrentLevel();
+        }
     }
 
     private void FinaliseMenuPosition()
+    {
+        float XOffset = GetXOffset();
+
+        Caves.position = new Vector2(0f - XOffset, 0f);
+        MainPanel.position = new Vector2(MainMenuPosX - XOffset, 0f);
+        StatsPanel.position = new Vector2(StatsPosX - XOffset, 0f);
+        LevelPanel.position = new Vector2(LevelSelectPosX - XOffset, 0f);
+        
+        if (MenuState == MenuStates.LevelSelect && !bLevelCaveStartStored)
+        {
+            bLevelCaveStartStored = true;
+            LevelCaveStartX = LevelContentRect.position.x;
+        }
+    }
+
+    private float GetXOffset()
     {
         float XOffset = 0f;
         switch (MenuState)
@@ -149,26 +180,44 @@ public class MenuScroller : MonoBehaviour {
                 XOffset = StatsPosX;
                 break;
         }
+        return XOffset;
+    }
 
-        Caves.position = new Vector2(0f - XOffset, 0f);
-        MainPanel.position = new Vector2(MainMenuPosX - XOffset, 0f);
-        StatsPanel.position = new Vector2(StatsPosX - XOffset, 0f);
-        LevelPanel.position = new Vector2(LevelSelectPosX - XOffset, 0f);
-        
-        if (MenuState == MenuStates.LevelSelect && !bLevelCaveStartStored)
-        {
-            bLevelCaveStartStored = true;
-            LevelCaveStartX = LevelContentRect.position.x;
-        }
+    private void GotoCurrentLevel()
+    {
+        float MaxPosX = 7f;
+        RectTransform LvlButton = null;
+        LvlButton = GameObject.Find("Lv" + CurrentLevel).GetComponent<RectTransform>();
+        if (!LvlButton) { return; }
 
-        if (MenuState == MenuStates.LevelSelect)
+        float LvlButtonPosX = LvlButton.position.x - LevelContentRect.position.x;
+        if (LvlButtonPosX > MaxPosX)
         {
-            LevelPanel.GetComponent<ScrollRect>().horizontal = true;
+            float XShift = LvlButtonPosX - MaxPosX;
+            float NormalisedPosition = XShift / LevelContentRect.rect.width * 100f; // TODO convert 100 to scalevalue
+            StartCoroutine("GotoLevelAnim", NormalisedPosition);
         }
-        else
+    }
+
+    private IEnumerator GotoLevelAnim(float NormalisedPosition)
+    {
+        const float AnimDuration = 0.5f;
+        float AnimTimer = 0f;
+        float StartPos = 0f;
+        float EndPos = NormalisedPosition;
+
+        ScrollRect LevelScrollRect = LevelPanel.GetComponent<ScrollRect>();
+
+        float Pos;
+        while (AnimTimer < AnimDuration)
         {
-            LevelPanel.GetComponent<ScrollRect>().horizontal = false;
+            Pos = StartPos - (StartPos - EndPos) * (AnimTimer / AnimDuration);
+            LevelScrollRect.horizontalNormalizedPosition = Pos;
+
+            AnimTimer += Time.deltaTime;
+            yield return null;
         }
+        LevelScrollRect.horizontalNormalizedPosition = NormalisedPosition;
     }
 
     private void GetBackgrounds()
