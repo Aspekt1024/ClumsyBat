@@ -223,6 +223,12 @@ public class PlayerController : MonoBehaviour
             case "Spore":
                 Fog.Minimise();
                 break;
+            case "MothSensor":
+                if (!Level.Stats.CompletionData.ToolTipComplete(CompletionDataControl.ToolTipID.FirstMoth))
+                {
+                    StartCoroutine("ToolTipPause", CompletionDataControl.ToolTipID.FirstMoth);
+                }
+                break;
         }
     }
 
@@ -423,7 +429,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator ToolTipPause(CompletionDataControl.ToolTipID ttID)
     {
         bToolTipWait = true;
-        PlayerRigidBody.velocity = new Vector2(0f, 0f);
+        //PlayerRigidBody.velocity = new Vector2(0f, 0f);
         Level.Stats.CompletionData.ShowToolTip(ttID);
 
         PauseGame(ShowMenu: false);

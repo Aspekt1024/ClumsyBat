@@ -90,21 +90,21 @@ public class GameMenuOverlay : MonoBehaviour {
             GetMenuObjects();
         }
         MenuHeader.Text.text = "GAME OVER";
-        SubText.Text.text = "CLUMSY DIDN'T MAKE IT...";
+        SubText.Text.text = "Clumsy didn't make it...";
     }
 
     public void PauseGame()
     {
         gameObject.SetActive(true);
         MenuHeader.Text.text = "GAME PAUSED";
-        SubText.Text.text = "CLUMSY WILL WAIT FOR YOU...";
+        SubText.Text.text = "Clumsy will wait for you...";
     }
 
     public void WinGame()
     {
         gameObject.SetActive(true);
         MenuHeader.Text.text = "LEVEL COMPLETE!";
-        SubText.Text.text = "CLUMSY MADE IT!";
+        SubText.Text.text = "Clumsy made it!";
     }
 
     public void Hide()

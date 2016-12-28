@@ -16,7 +16,8 @@ public class CompletionDataControl : MonoBehaviour {
     public enum ToolTipID
     {
         SecondJump = 0,
-        FirstDeath
+        FirstDeath,
+        FirstMoth
     }
 
     private CompletionDataContainer.LevelType[] LevelCompletion = new CompletionDataContainer.LevelType[NumLevels];
@@ -36,6 +37,7 @@ public class CompletionDataControl : MonoBehaviour {
     private void SetToolTipText()
     {
         ToolTipText[(int)ToolTipID.SecondJump] = "Tap to flap!";
+        ToolTipText[(int)ToolTipID.FirstMoth] = "It's getting dark! Collect moths to fuel the lantern.";
     }
 
     public void Save()
