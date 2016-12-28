@@ -7,6 +7,9 @@ public class Moth : MonoBehaviour {
     private Animator MothAnimator = null;
     private bool bIsActive = false;
     public MothColour Colour;
+    private bool bConsumption = false;
+
+    private Transform Lantern = null;
 
     public enum MothColour
     {
@@ -33,6 +36,7 @@ public class Moth : MonoBehaviour {
                 MothAnimator.enabled = false;
             }
         }
+        Lantern = GameObject.Find("Lantern").GetComponent<Transform>();
     }
 	
 	void Update ()
@@ -72,6 +76,36 @@ public class Moth : MonoBehaviour {
     {
         Paused = GamePaused;
         MothAnimator.enabled = !GamePaused;
+    }
+
+    public void ConsumeMoth()
+    {
+        if (!bConsumption)
+        {
+            bConsumption = true;
+            StartCoroutine("ConsumeAnim");
+        }
+    }
+
+    private IEnumerator ConsumeAnim()
+    {
+        transform.localScale *= 32f;
+        MothAnimator.Play("MothGreenExplosion", 0, 0f);
+
+        Vector3 StartPos = transform.position;
+        const float AnimDuration = 0.5f;
+        float AnimTimer = 0f;
+
+        while (AnimTimer < AnimDuration)
+        {
+            AnimTimer += Time.deltaTime;
+            float XOffset = StartPos.x - (StartPos.x - Lantern.position.x) * (AnimTimer / AnimDuration);
+            float YOffset = StartPos.y - (StartPos.y - (AnimTimer / AnimDuration) * Lantern.position.y);
+            transform.position = new Vector3(XOffset, YOffset, StartPos.z);
+            yield return null;
+        }
+        ReturnToInactivePool();
+        bConsumption = false;
     }
 
     public void ReturnToInactivePool()

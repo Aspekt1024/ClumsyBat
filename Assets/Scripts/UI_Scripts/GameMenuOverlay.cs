@@ -54,29 +54,13 @@ public class GameMenuOverlay : MonoBehaviour {
         if (!gameObject.activeSelf) { gameObject.SetActive(true); }
 
         MenuPanel = GameObject.Find("GameMenuPanel").GetComponent<RectTransform>();
-        foreach (RectTransform Obj in MenuPanel)
-        {
-            switch (Obj.name)
-            {
-                case "MenuHeader":
-                    MenuHeader.RectTransform = Obj;
-                    MenuHeader.Text = Obj.GetComponent<Text>();
-                    break;
-                case "SubText":
-                    SubText.RectTransform = Obj;
-                    SubText.Text = Obj.GetComponent<Text>();
-                    break;
-                case "RestartButton":
-                    //TODO RestartButton = Obj;
-                    break;
-                case "MainMenuButton":
-                    //TODO MainMenuButton = Obj;
-                    break;
-                default:
-                    Debug.Log(Obj.name);
-                    break;
-            }
-        }
+        MenuHeader.RectTransform = GameObject.Find("MenuHeader").GetComponent<RectTransform>();
+        MenuHeader.Text = MenuHeader.RectTransform.GetComponent<Text>();
+        SubText.RectTransform = GameObject.Find("SubText").GetComponent<RectTransform>();
+        SubText.Text = SubText.RectTransform.GetComponent<Text>();
+        //TODO RestartButton
+        //TODO MainMenuButton
+        //TODO Resume button
     }
 
     public void GameOver()

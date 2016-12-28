@@ -21,8 +21,9 @@ public class PlayerController : MonoBehaviour
     private Vector3 PlayerHoldingArea = new Vector3(-10f, -10f, 0f);
     private Rigidbody2D PlayerRigidBody;
     private Rigidbody2D LanternBody;
+    private Lantern Lantern;
     private Animator Anim;
-    private Animator LanternAnimator;
+    //private Animator LanternAnimator;
 
     private bool bToolTipWait = false;
     private bool bGameStarted = false;
@@ -64,15 +65,10 @@ public class PlayerController : MonoBehaviour
 
         Anim = GetComponent<Animator>();
 
-        foreach (Transform ClumsyObjects in transform)
-        {
-            if (ClumsyObjects.name == "Lantern")
-            {
-                LanternBody = ClumsyObjects.GetComponent<Rigidbody2D>();
-                LanternAnimator = ClumsyObjects.GetComponent<Animator>();
-            }
-        }
-        LanternAnimator.Play("LanternSwing", 0, 0f);
+        LanternBody = GameObject.Find("Lantern").GetComponent<Rigidbody2D>();
+        Lantern = LanternBody.GetComponent<Lantern>();
+        //LanternAnimator = ClumsyObjects.GetComponent<Animator>();
+        //LanternAnimator.Play("LanternSwing", 0, 0f);
 
         InputObject = new GameObject("Game Scripts");
         InputManager = InputObject.AddComponent<SwipeManager>();
@@ -159,7 +155,7 @@ public class PlayerController : MonoBehaviour
         Level.Stats.TotalJumps++;
         PlayerRigidBody.velocity = Vector2.zero;
         PlayerRigidBody.AddForce(JumpForce);
-        LanternAnimator.Play("LanternSwing", 0, 0f);
+        //LanternAnimator.Play("LanternSwing", 0, 0f);
         //GetComponent<AudioSource>().Play();
         Anim.Play("Flap", 0, 0.5f);
 
@@ -202,7 +198,6 @@ public class PlayerController : MonoBehaviour
         
         LanternBody.isKinematic = false;
         LanternBody.velocity = new Vector2(5f, 1f); // TODO randomise this and add rotational force?
-        LanternAnimator.enabled = false;
 
         Anim.Play("Die", 0, 0.25f);
     }
@@ -241,7 +236,7 @@ public class PlayerController : MonoBehaviour
         }
         Level.Stats.TotalMoths++;
         Moth MothScript = MothCollider.GetComponentInParent<Moth>();
-        MothScript.ReturnToInactivePool();
+        MothScript.ConsumeMoth();
         switch (MothScript.Colour)
         {
             case Moth.MothColour.Green:
@@ -281,6 +276,7 @@ public class PlayerController : MonoBehaviour
         Fog.Pause();
         Level.Stats.SaveStats();
         Anim.enabled = false;
+        Lantern.PauseHinge();
     }
 
     void Hypersonic()
@@ -321,6 +317,7 @@ public class PlayerController : MonoBehaviour
         Level.ResumeGame();
         Fog.Resume();
         Anim.enabled = true;
+        Lantern.ResumeHinge();
     }
 
     IEnumerator StartRushAnim()
@@ -331,6 +328,7 @@ public class PlayerController : MonoBehaviour
         PlayerRigidBody.velocity = new Vector2(8f, 0f);
 
         Anim.Play("Rush", 0, 0);
+        Lantern.AddRushForce();
 
         yield return new WaitForSeconds(0.07f);
 
