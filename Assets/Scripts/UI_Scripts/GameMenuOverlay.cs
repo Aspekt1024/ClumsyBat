@@ -98,7 +98,7 @@ public class GameMenuOverlay : MonoBehaviour {
 
     private IEnumerator PanelDropAnim()
     {
-        const float AnimDuration = 0.35f;
+        const float AnimDuration = 0.28f;
         float AnimTimer = 0f;
         MenuPanel.position = new Vector3(MenuPanel.position.x, 10f, MenuPanel.position.z);
 

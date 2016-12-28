@@ -1,15 +1,17 @@
 fileFormatVersion: 2
-guid: 22c99ca850ba2ba4fac923506e3646c8
-timeCreated: 1481454918
+guid: 7613ceed9f0836944b16a5c0539adad0
+timeCreated: 1482933184
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: ClumsyBatFlapAnimation_0
     21300002: ClumsyBatFlapAnimation_1
+    21300004: ClumsyBatFlapAnimation_2
+    21300006: ClumsyBatFlapAnimation_3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     linearTexture: 0
     correctGamma: 0
     fadeOut: 0
@@ -32,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     filterMode: -1
-    aniso: 16
+    aniso: -1
     mipBias: -1
     wrapMode: 1
   nPOTScale: 0
@@ -60,8 +62,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 512
-        height: 512
+        width: 1024
+        height: 709
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -71,10 +73,36 @@ TextureImporter:
       name: ClumsyBatFlapAnimation_1
       rect:
         serializedVersion: 2
-        x: 512
+        x: 1024
         y: 0
-        width: 512
-        height: 512
+        width: 1024
+        height: 709
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ClumsyBatFlapAnimation_2
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 0
+        width: 1024
+        height: 709
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ClumsyBatFlapAnimation_3
+      rect:
+        serializedVersion: 2
+        x: 3072
+        y: 0
+        width: 1024
+        height: 709
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

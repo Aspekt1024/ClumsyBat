@@ -34,7 +34,7 @@ public class FogEffect : MonoBehaviour {
     void Start()
     {
         Stats = FindObjectOfType<StatsHandler>();
-        Lantern = GameObject.Find("Clumsy").GetComponent<Transform>();  // TODO Change Clumsy to Lantern once it can be centered
+        Lantern = GameObject.Find("Lantern").GetComponent<Transform>();
 
         EchoScale = EcholocateScale;
         EcholocateActivatedTime = Time.time;

@@ -15,6 +15,14 @@ public class Lantern : MonoBehaviour {
         
 	}
 
+    public void Drop()
+    {
+        LanternHinge.enabled = false;
+        GetComponent<Rigidbody2D>().velocity = new Vector2(Random.Range(1f, 5f), 1f);
+        GetComponent<Rigidbody2D>().AddTorque(Random.Range(100f, 600f));
+        GetComponent<PolygonCollider2D>().enabled = true;
+    }
+
     public void AddRushForce()
     {
         JointMotor2D LanternMotor = LanternHinge.motor;

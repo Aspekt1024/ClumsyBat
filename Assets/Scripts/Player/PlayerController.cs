@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D LanternBody;
     private Lantern Lantern;
     private Animator Anim;
-    //private Animator LanternAnimator;
+    private JumpClearance Clearance;
 
     private bool bToolTipWait = false;
     private bool bGameStarted = false;
@@ -62,13 +62,12 @@ public class PlayerController : MonoBehaviour
         PlayerRigidBody = GetComponent<Rigidbody2D>();
         PlayerRigidBody.isKinematic = true;
         PlayerRigidBody.gravityScale = GravityScale;
+        Clearance = GameObject.Find("JumpClearance").GetComponent<JumpClearance>();
 
         Anim = GetComponent<Animator>();
 
         LanternBody = GameObject.Find("Lantern").GetComponent<Rigidbody2D>();
         Lantern = LanternBody.GetComponent<Lantern>();
-        //LanternAnimator = ClumsyObjects.GetComponent<Animator>();
-        //LanternAnimator.Play("LanternSwing", 0, 0f);
 
         InputObject = new GameObject("Game Scripts");
         InputManager = InputObject.AddComponent<SwipeManager>();
@@ -82,6 +81,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         if (bGamePaused || bGameResuming || bGameOverOverlay) { return; }
+        Clearance.transform.position = transform.position;
 
         if (bIsAlive)
         {
@@ -155,7 +155,6 @@ public class PlayerController : MonoBehaviour
         Level.Stats.TotalJumps++;
         PlayerRigidBody.velocity = Vector2.zero;
         PlayerRigidBody.AddForce(JumpForce);
-        //LanternAnimator.Play("LanternSwing", 0, 0f);
         //GetComponent<AudioSource>().Play();
         Anim.Play("Flap", 0, 0.5f);
 
@@ -195,9 +194,7 @@ public class PlayerController : MonoBehaviour
         PlayerRigidBody.velocity = new Vector2(1, 0);
         Level.HorribleDeath();
         Fog.PlayerDeath();
-        
-        LanternBody.isKinematic = false;
-        LanternBody.velocity = new Vector2(5f, 1f); // TODO randomise this and add rotational force?
+        Lantern.Drop();
 
         Anim.Play("Die", 0, 0.25f);
     }
@@ -286,7 +283,6 @@ public class PlayerController : MonoBehaviour
 
     public void ResumeGame()
     {
-        // Start the resume sequence (countdown from 3)
         if (bGameResuming) { return; }
         Level.Stats.SaveStats();
         ResumeTimerStart = Time.time;
@@ -428,17 +424,28 @@ public class PlayerController : MonoBehaviour
     {
         bToolTipWait = true;
         Level.Stats.CompletionData.ShowToolTip(ttID);
+        const float TooltipPauseDuration = 0.7f;
 
         PauseGame(ShowMenu: false);
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(TooltipPauseDuration);
         bToolTipWait = false;
+        Level.Stats.CompletionData.ShowTapToResume();
+        InputManager.TapRegistered(); // Clears the flag any taps so the user doesn't skip over the tooltip
         while (!InputManager.TapRegistered() && !Input.GetKeyUp("space"))
         {
             yield return null;
         }
         Level.Stats.CompletionData.HideToolTip();
         ResumeGameplay();
-        Jump();
+        if (Clearance.IsEmpty())
+        {
+            Jump();
+        }
+        else
+        {
+            PlayerRigidBody.velocity = Vector2.zero;
+            PlayerRigidBody.AddForce(JumpForce/3);
+        }
     }
 }
 
