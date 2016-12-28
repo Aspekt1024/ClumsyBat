@@ -429,7 +429,6 @@ public class PlayerController : MonoBehaviour
     private IEnumerator ToolTipPause(CompletionDataControl.ToolTipID ttID)
     {
         bToolTipWait = true;
-        //PlayerRigidBody.velocity = new Vector2(0f, 0f);
         Level.Stats.CompletionData.ShowToolTip(ttID);
 
         PauseGame(ShowMenu: false);

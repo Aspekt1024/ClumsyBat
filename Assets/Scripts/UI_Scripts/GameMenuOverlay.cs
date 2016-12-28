@@ -7,6 +7,7 @@ public class GameMenuOverlay : MonoBehaviour {
 
     private StatsHandler Stats;
 
+    private RectTransform MenuPanel = null;
     private TextType MenuHeader;
     private TextType SubText;
 
@@ -24,7 +25,8 @@ public class GameMenuOverlay : MonoBehaviour {
     }
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
         Stats = FindObjectOfType<StatsHandler>();
         GetMenuObjects();
 	}
@@ -51,33 +53,28 @@ public class GameMenuOverlay : MonoBehaviour {
     {
         if (!gameObject.activeSelf) { gameObject.SetActive(true); }
 
-        foreach (RectTransform Panel in gameObject.GetComponent<RectTransform>())
+        MenuPanel = GameObject.Find("GameMenuPanel").GetComponent<RectTransform>();
+        foreach (RectTransform Obj in MenuPanel)
         {
-            if (Panel.name == "GameMenuPanel")
+            switch (Obj.name)
             {
-                foreach (RectTransform Obj in Panel.GetComponent<RectTransform>())
-                {
-                    switch (Obj.name)
-                    {
-                        case "MenuHeader":
-                            MenuHeader.RectTransform = Obj;
-                            MenuHeader.Text = Obj.GetComponent<Text>();
-                            break;
-                        case "SubText":
-                            SubText.RectTransform = Obj;
-                            SubText.Text = Obj.GetComponent<Text>();
-                            break;
-                        case "RestartButton":
-                            //TODO RestartButton = Obj;
-                            break;
-                        case "MainMenuButton":
-                            //TODO MainMenuButton = Obj;
-                            break;
-                        default:
-                            Debug.Log(Obj.name);
-                            break;
-                    }
-                }
+                case "MenuHeader":
+                    MenuHeader.RectTransform = Obj;
+                    MenuHeader.Text = Obj.GetComponent<Text>();
+                    break;
+                case "SubText":
+                    SubText.RectTransform = Obj;
+                    SubText.Text = Obj.GetComponent<Text>();
+                    break;
+                case "RestartButton":
+                    //TODO RestartButton = Obj;
+                    break;
+                case "MainMenuButton":
+                    //TODO MainMenuButton = Obj;
+                    break;
+                default:
+                    Debug.Log(Obj.name);
+                    break;
             }
         }
     }
@@ -91,6 +88,7 @@ public class GameMenuOverlay : MonoBehaviour {
         }
         MenuHeader.Text.text = "GAME OVER";
         SubText.Text.text = "Clumsy didn't make it...";
+        StartCoroutine("PanelDropAnim");
     }
 
     public void PauseGame()
@@ -98,6 +96,7 @@ public class GameMenuOverlay : MonoBehaviour {
         gameObject.SetActive(true);
         MenuHeader.Text.text = "GAME PAUSED";
         SubText.Text.text = "Clumsy will wait for you...";
+        StartCoroutine("PanelDropAnim");
     }
 
     public void WinGame()
@@ -105,10 +104,27 @@ public class GameMenuOverlay : MonoBehaviour {
         gameObject.SetActive(true);
         MenuHeader.Text.text = "LEVEL COMPLETE!";
         SubText.Text.text = "Clumsy made it!";
+        StartCoroutine("PanelDropAnim");
     }
 
     public void Hide()
     {
         gameObject.SetActive(false);
+    }
+
+    private IEnumerator PanelDropAnim()
+    {
+        const float AnimDuration = 0.35f;
+        float AnimTimer = 0f;
+        MenuPanel.position = new Vector3(MenuPanel.position.x, 10f, MenuPanel.position.z);
+
+        while (AnimTimer < AnimDuration)
+        {
+            AnimTimer += Time.deltaTime;
+            MenuPanel.position = new Vector3(MenuPanel.position.x, (10f - (AnimTimer / AnimDuration) * 10f), MenuPanel.position.z);
+            yield return null;
+        }
+
+        MenuPanel.position = new Vector3(MenuPanel.position.x, 0f, MenuPanel.position.z);
     }
 }

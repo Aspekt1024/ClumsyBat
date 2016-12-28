@@ -46,8 +46,15 @@
 				//float alpha = smoothstep(_LightDist, _LightDist + 3, ray);
 				if (ray <= _LightDist)
 				{
-					//return float4(0.7, 0.7, 0.7, 0.4);
 					return float4(0, 0, 0, 0);
+				}
+				else if (ray - 1 <= _LightDist)
+				{
+					return float4(0, 0, 0, 0.4);
+				}
+				else if (ray - 2 <= _LightDist)
+				{
+					return float4(0, 0, 0, 0.65);
 				}
 				else
 				{
