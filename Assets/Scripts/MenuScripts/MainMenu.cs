@@ -11,6 +11,14 @@ public class MainMenu : MonoBehaviour {
 
     private MenuScroller Scroller;
 
+    private struct LvButton
+    {
+        public LevelButton Script;
+        public bool bClicked;
+    }
+    private const int NumLevels = 9;
+    private LvButton[] Buttons = new LvButton[NumLevels];
+
     void Awake()
     {
         RuntimeScripts = new GameObject("Runtime Scripts");
@@ -34,6 +42,11 @@ public class MainMenu : MonoBehaviour {
         foreach (RectTransform LvlButton in LvlButtons)
         {
             int Level = int.Parse(LvlButton.name.Substring(2, LvlButton.name.Length - 2));
+            if (Level == 1)
+            {
+                Buttons[Level].Script = LvlButton.GetComponent<LevelButton>();
+                Buttons[Level].bClicked = false;
+            }
             if (Stats.CompletionData.IsUnlocked(Level) || Level == 1)
             {
                 if (Level > HighestLevel)
@@ -98,21 +111,25 @@ public class MainMenu : MonoBehaviour {
     }
 
     // Level Selects
-    private void LoadLevel(int LevelNum)
+    private void LevelClick(int LevelNum)
     {
         Stats.SaveStats();
-        Toolbox.Instance.Level = LevelNum;
-        SceneManager.LoadScene("Levels");
+        bool bLoadLevel = Buttons[LevelNum].Script.Clicked();
+        if (bLoadLevel)
+        {
+            Toolbox.Instance.Level = LevelNum;
+            SceneManager.LoadScene("Levels");
+        }
     }
 
-    public void LvEndlessButtonClicked() { LoadLevel(-1); }
-    public void Lv1BtnClick() { LoadLevel(1); }
-    public void Lv2BtnClick() { LoadLevel(2); }
-    public void Lv3BtnClick() { LoadLevel(3); }
-    public void Lv4BtnClick() { LoadLevel(4); }
-    public void Lv5BtnClick() { LoadLevel(5); }
-    public void Lv6BtnClick() { LoadLevel(6); }
-    public void Lv7BtnClick() { LoadLevel(7); }
-    public void Lv8BtnClick() { LoadLevel(8); }
-    public void Lv9BtnClick() { LoadLevel(9); }
+    public void LvEndlessButtonClicked() { LevelClick(-1); }
+    public void Lv1BtnClick() { LevelClick(1); }
+    public void Lv2BtnClick() { LevelClick(2); }
+    public void Lv3BtnClick() { LevelClick(3); }
+    public void Lv4BtnClick() { LevelClick(4); }
+    public void Lv5BtnClick() { LevelClick(5); }
+    public void Lv6BtnClick() { LevelClick(6); }
+    public void Lv7BtnClick() { LevelClick(7); }
+    public void Lv8BtnClick() { LevelClick(8); }
+    public void Lv9BtnClick() { LevelClick(9); }
 }

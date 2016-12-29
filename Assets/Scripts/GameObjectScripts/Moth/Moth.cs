@@ -78,30 +78,44 @@ public class Moth : MonoBehaviour {
         MothAnimator.enabled = !GamePaused;
     }
 
-    public void ConsumeMoth()
+    public float ConsumeMoth()
     {
+        const float AnimDuration = 1f;
         if (!bConsumption)
         {
             bConsumption = true;
-            StartCoroutine("ConsumeAnim");
+            StartCoroutine("ConsumeAnim", AnimDuration);
         }
+        return AnimDuration;
     }
 
-    private IEnumerator ConsumeAnim()
+    private IEnumerator ConsumeAnim(float AnimDuration)
     {
-        transform.localScale *= 32f;
-        MothAnimator.Play("MothGreenExplosion", 0, 0f);
+        switch (Colour)
+        {
+            case MothColour.Green:
+                MothAnimator.Play("MothGreenExplosion", 0, 0f);
+                break;
+            case MothColour.Blue:
+                MothAnimator.Play("MothBlueExplosion", 0, 0f);
+                break;
+            case MothColour.Gold:
+                MothAnimator.Play("MothGoldExplosion", 0, 0f);
+                break;
+        }
 
         Vector3 StartPos = transform.position;
-        const float AnimDuration = 0.5f;
         float AnimTimer = 0f;
 
         while (AnimTimer < AnimDuration)
         {
-            AnimTimer += Time.deltaTime;
-            float XOffset = StartPos.x - (StartPos.x - Lantern.position.x) * (AnimTimer / AnimDuration);
-            float YOffset = StartPos.y - (StartPos.y - (AnimTimer / AnimDuration) * Lantern.position.y);
-            transform.position = new Vector3(XOffset, YOffset, StartPos.z);
+            if (!Paused)
+            {
+                AnimTimer += Time.deltaTime;
+                float XOffset = StartPos.x - (StartPos.x - Lantern.position.x) * (AnimTimer / AnimDuration);
+                float YOffset = StartPos.y - (StartPos.y - (AnimTimer / AnimDuration) * Lantern.position.y);
+                transform.position = new Vector3(XOffset, YOffset, StartPos.z);
+            }
             yield return null;
         }
         ReturnToInactivePool();
@@ -116,14 +130,8 @@ public class Moth : MonoBehaviour {
 
     public bool IsActive
     {
-        get
-        {
-            return bIsActive;
-        }
-        set
-        {
-            bIsActive = value;
-        }
+        get { return bIsActive; }
+        set { bIsActive = value; }
     }
 
     public void ActivateMoth(MothColour _colour)

@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Handles the "light source" of the Lantern
+/// </summary>
 public class FogEffect : MonoBehaviour {
 
     public Material material;
@@ -8,20 +11,20 @@ public class FogEffect : MonoBehaviour {
 
     private const float FullSizeDuration = 7f;      // How long the light source stays at max after activation
     private const float EcholocateScale = 10f;      // How large the echo vision can get
-    private const float ShrinkDuration = 4f;        // How long the echo vision takes to fade
     private const float VisionSetupTime = .7f;      // How long it takes the vision to increase to full size
-    private const float MinFogScale = -0.4f;
+    private float ShrinkDuration = 4f;              // How long the echo vision takes to fade
+    private float MinFogScale = -0.4f;
 
     private float InitialScale;
     private float EchoScale;
-    private float EcholocateActivatedTime;   // Time the echo locate ability was activated
+    private float EcholocateActivatedTime;          // Time the echo locate ability was activated
 
-    private bool bAbilityPaused = true;      // Handles whether the ability degenerates
-    private bool bAbilityActivating = false; // Quick animation to increase field of view
-    private bool bPlayerIsAlive = true;
+    private bool bAbilityPaused = true;             // Handles whether the ability degenerates
+    private bool bAbilityActivating = false;        // Quick animation to increase field of view
 
     private bool bIsMinimised = false;
-    private float MinimiseStartTime;
+    private float MinimiseStartTime = 0f;
+    private float ScaleModifier = 1f;
     private const float MinimisedDuration = 5f;
 
     private const float PulseRadius = 0.4f;
@@ -40,14 +43,13 @@ public class FogEffect : MonoBehaviour {
         EcholocateActivatedTime = Time.time;
         material.SetVector("_PlayerPos", Lantern.position);
         material.SetFloat("_LightDist", EcholocateScale);
+        material.SetFloat("_DarknessAlpha", 0.85f);
 
         bIsMinimised = false;
         
     }
     void Update()
     {
-        if (!bPlayerIsAlive) { return; }
-
         if (bAbilityPaused)
         {
             EcholocateActivatedTime += Time.deltaTime;
@@ -61,6 +63,7 @@ public class FogEffect : MonoBehaviour {
                 Stats.DarknessTime += Time.deltaTime;
             }
 
+            // Make the light source breathe
             PulseTimer += Time.deltaTime;
             if (PulseTimer >= PulseDuration)
             {
@@ -104,16 +107,12 @@ public class FogEffect : MonoBehaviour {
             EchoScale = EcholocateScale;
         }
 
-        if (bIsMinimised)
+        EchoScale *= ScaleModifier;
+            
+        if (bIsMinimised && Time.time > MinimiseStartTime + MinimisedDuration)
         {
-            if (MinimiseStartTime + MinimisedDuration < Time.time)
-            {
-                bIsMinimised = false;
-            }
-            else
-            {
-                EchoScale *= 0.2f;
-            }
+            StartCoroutine("ChangeScale", 1f);
+            bIsMinimised = false;
         }
 
         return EchoScale;
@@ -122,22 +121,62 @@ public class FogEffect : MonoBehaviour {
     public void Echolocate()
     {
         // Increase size from current scale to max scale
-        InitialScale = EchoScale;
+        InitialScale = EchoScale / ScaleModifier;
         bAbilityActivating = true;
         EcholocateActivatedTime = Time.time;
     }
 
-    public void PlayerDeath()
+    public void EndOfLevel()
     {
-        bPlayerIsAlive = false;
-        EchoScale = MinFogScale;
+        bAbilityPaused = false;
+        if (EcholocateActivatedTime + FullSizeDuration >= Time.time)
+        {
+            EcholocateActivatedTime = Time.time - FullSizeDuration;
+        }
+        MinFogScale = -3f;
+        ShrinkDuration = 1.5f;
+        StartCoroutine("FogFader");
+    }
+
+    private IEnumerator FogFader()
+    {
+        const float StartAlpha = 0.85f;
+        const float EndAlpha = 0f;
+        const float AnimDuration = 3f;
+        float AnimTimer = 0f;
+
+        while(AnimTimer < AnimDuration)
+        {
+            AnimTimer += Time.deltaTime;
+            float Alpha = StartAlpha - (StartAlpha - EndAlpha) * (AnimTimer / AnimDuration);
+            material.SetFloat("_DarknessAlpha", Alpha);
+            yield return null;
+        }
     }
 
     public void Minimise()
     {
-        // TODO give this an animation to decrease and increase FoV
+        if (!bIsMinimised)
+        {
+            StartCoroutine("ChangeScale", 0.2f);
+        }
         MinimiseStartTime = Time.time;
         bIsMinimised = true;
+    }
+
+    private IEnumerator ChangeScale(float Scale)
+    {
+        float StartModifier = ScaleModifier;
+        float AnimTimer = 0f;
+        const float AnimDuration = 0.5f;
+
+        while (AnimTimer < AnimDuration)
+        {
+            AnimTimer += Time.deltaTime;
+            ScaleModifier = StartModifier - (StartModifier - Scale) * (AnimTimer / AnimDuration);
+            yield return null;
+        }
+        ScaleModifier = Scale;
     }
 
     public void Pause() { bAbilityPaused = true; }

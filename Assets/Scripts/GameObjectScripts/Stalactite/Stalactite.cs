@@ -164,7 +164,28 @@ public class Stalactite : MonoBehaviour {
     public void Crack()
     {
         Stal.Anim.enabled = true;
-        Stal.Anim.Play("Crack", 0, 0f);
+        StartCoroutine("Impact");
+    }
+
+    private IEnumerator Impact()
+    {
+        float ImpactTime = 0;
+        const float ImpactDuration = 0.3f;
+        bool bForward = true;
+        bool bCracked = false;
+        
+        while (ImpactTime < ImpactDuration)
+        {
+            transform.position += new Vector3(bForward ? 0.1f : -0.1f, 0f, 0f);
+            bForward = !bForward;
+            yield return new WaitForSeconds(0.08f);
+            ImpactTime += 0.09f;
+            if (!bCracked)
+            {
+                bCracked = true;
+                Stal.Anim.Play("Crack", 0, 0f);
+            }
+        }
     }
 
     //public bool IsUnstable()

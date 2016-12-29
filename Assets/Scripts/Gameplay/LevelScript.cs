@@ -120,10 +120,13 @@ public class LevelScript : MonoBehaviour {
 
     public void HorribleDeath()
     {
-        // Stop all objects in the level moving and bring up the gameover screen
-        // TODO move Gameover overlay handler here
-        bGamePaused = true;
-        UpdateGameSpeed(0);
+        //bGamePaused = true;
+        GameSpeed = 0f;
+        float Speed = GameSpeed * LevelScrollSpeed;
+
+        Background.SetVelocity(Speed);
+        LevelObjects.SetVelocity(Speed);
+
         GetComponent<AudioSource>().Stop();
     }
 

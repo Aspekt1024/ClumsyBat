@@ -1,26 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Handles the physics of the Lantern carried by Clumsy
+/// </summary>
 public class Lantern : MonoBehaviour {
 
     private HingeJoint2D LanternHinge = null;
+    private Rigidbody2D LanternBody = null;
+    private PolygonCollider2D LanternCollider = null;
     
 	void Start ()
     {
         LanternHinge = GetComponent<HingeJoint2D>();
-	}
-	
-	void Update ()
-    {
-        
+        LanternBody = GetComponent<Rigidbody2D>();
+        LanternCollider = GetComponent<PolygonCollider2D>();
 	}
 
     public void Drop()
     {
         LanternHinge.enabled = false;
-        GetComponent<Rigidbody2D>().velocity = new Vector2(Random.Range(1f, 5f), 1f);
-        GetComponent<Rigidbody2D>().AddTorque(Random.Range(100f, 600f));
-        GetComponent<PolygonCollider2D>().enabled = true;
+        LanternBody.velocity = new Vector2(Random.Range(1f, 5f), 1f);
+        LanternBody.AddTorque(Random.Range(100f, 600f));
+        LanternCollider.enabled = true;
     }
 
     public void AddRushForce()
@@ -41,13 +43,13 @@ public class Lantern : MonoBehaviour {
     public void PauseHinge()
     {
         LanternHinge.enabled = false;
-        GetComponent<Rigidbody2D>().velocity = Vector3.zero;
-        GetComponent<Rigidbody2D>().isKinematic = true;
+        LanternBody.velocity = Vector3.zero;
+        LanternBody.isKinematic = true;
     }
 
     public void ResumeHinge()
     {
         LanternHinge.enabled = true;
-        GetComponent<Rigidbody2D>().isKinematic = false;
+        LanternBody.isKinematic = false;
     }
 }

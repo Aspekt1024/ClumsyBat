@@ -193,7 +193,6 @@ public class PlayerController : MonoBehaviour
         PlayerRigidBody.gravityScale = GravityScale;
         PlayerRigidBody.velocity = new Vector2(1, 0);
         Level.HorribleDeath();
-        Fog.PlayerDeath();
         Lantern.Drop();
 
         Anim.Play("Die", 0, 0.25f);
@@ -204,7 +203,7 @@ public class PlayerController : MonoBehaviour
         switch (other.name)
         {
             case "MothTrigger":
-                ConsumeMoth(other);
+                StartCoroutine("ConsumeMoth", other);
                 break;
             case "ExitTrigger":
                 CircleCollider2D ClumsyCollider = GetComponent<CircleCollider2D>();
@@ -224,7 +223,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void ConsumeMoth(Collider2D MothCollider)
+    private IEnumerator ConsumeMoth(Collider2D MothCollider)
     {
         Level.Stats.MothsEaten++;
         if (Level.Stats.MothsEaten > Level.Stats.MostMoths)
@@ -233,7 +232,17 @@ public class PlayerController : MonoBehaviour
         }
         Level.Stats.TotalMoths++;
         Moth MothScript = MothCollider.GetComponentInParent<Moth>();
-        MothScript.ConsumeMoth();
+        float AnimationWaitTime = MothScript.ConsumeMoth();
+        float AnimTimer = 0f;
+        while (AnimTimer < AnimationWaitTime)
+        {
+            if (!bGamePaused)
+            {
+                AnimTimer += Time.deltaTime;
+            }
+            yield return null;
+        }
+
         switch (MothScript.Colour)
         {
             case Moth.MothColour.Green:
@@ -363,7 +372,10 @@ public class PlayerController : MonoBehaviour
             transform.position += new Vector3(XShift, YShift, 0f);
             yield return null;
         }
+        transform.position = PlayerHoldingArea;
+        LanternBody.transform.position = new Vector3(LanternBody.transform.position.x + .3f, LanternBody.transform.position.y, LanternBody.transform.position.z);
         Level.LevelWon();
+        Fog.EndOfLevel();
         bGamePaused = true;
     }
 
@@ -430,7 +442,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(TooltipPauseDuration);
         bToolTipWait = false;
         Level.Stats.CompletionData.ShowTapToResume();
-        InputManager.TapRegistered(); // Clears the flag any taps so the user doesn't skip over the tooltip
+        InputManager.ClearInput();
         while (!InputManager.TapRegistered() && !Input.GetKeyUp("space"))
         {
             yield return null;

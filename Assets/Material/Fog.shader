@@ -2,6 +2,7 @@
 	Properties{
 		_MainTex("Color (RGBA)", Color) = (0, 0, 0, 1)
 		_PlayerPos("Player Pos", Vector) = (0, 0, 0, 0)
+		_DarknessAlpha("Darkness Alpha", Float) = 0.85
 		_LightDist("Light Distance", Float) = 1
 	}
 	SubShader {
@@ -21,6 +22,7 @@
 			uniform sampler2D _MainTex;
 			uniform float4 _PlayerPos;
 			uniform float _LightDist;
+			uniform float _DarknessAlpha;
 
 			struct vertexInput {
 				float4 vertex : POSITION;
@@ -52,13 +54,13 @@
 				{
 					return float4(0, 0, 0, 0.4);
 				}
-				else if (ray - 2 <= _LightDist)
+				else if (ray - 1.85 <= _LightDist)
 				{
 					return float4(0, 0, 0, 0.65);
 				}
 				else
 				{
-					return float4(0, 0, 0, 0.85);
+					return float4(0, 0, 0, _DarknessAlpha);
 				}
 			}
 			ENDCG

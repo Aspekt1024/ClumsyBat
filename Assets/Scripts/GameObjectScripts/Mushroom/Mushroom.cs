@@ -85,7 +85,7 @@ public class Mushroom : MonoBehaviour {
         float AnimationTimer = 0f;
         while (AnimationTimer < AnimationDuration)
         {
-            if (Speed > 0)
+            if (!Paused)
             {
                 MoveSporeUpward(AnimationTimer / AnimationDuration, 1f, 3f);
                 AnimationTimer += Time.deltaTime;
@@ -102,7 +102,7 @@ public class Mushroom : MonoBehaviour {
         float AnimationTimer = 0f;
         while (AnimationTimer < AnimationDuration)
         {
-            if (Speed > 0)
+            if (!Paused)
             {
                 MoveSporeUpward(AnimationTimer / AnimationDuration, 3f, 4f);
                 AnimationTimer += Time.deltaTime;

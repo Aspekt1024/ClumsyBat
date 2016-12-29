@@ -62,7 +62,6 @@ public class StatsUI : MonoBehaviour {
         {
             AddTextToCanvas(Stats[i], i);
         }
-
     }
     void InitialiseStatsList()
     {
@@ -244,6 +243,6 @@ public class StatsUI : MonoBehaviour {
 
     void SetContentSize()
     {
-        ScrollViewContent.sizeDelta = new Vector2(ScrollViewContent.rect.width, Stats.Count * TxtHeight);
+        ScrollViewContent.sizeDelta = new Vector2(0f, Stats.Count * TxtHeight);
     }
 }

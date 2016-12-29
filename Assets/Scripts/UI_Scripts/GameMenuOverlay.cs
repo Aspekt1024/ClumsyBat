@@ -101,14 +101,36 @@ public class GameMenuOverlay : MonoBehaviour {
         const float AnimDuration = 0.28f;
         float AnimTimer = 0f;
         MenuPanel.position = new Vector3(MenuPanel.position.x, 10f, MenuPanel.position.z);
-
         while (AnimTimer < AnimDuration)
         {
             AnimTimer += Time.deltaTime;
             MenuPanel.position = new Vector3(MenuPanel.position.x, (10f - (AnimTimer / AnimDuration) * 10f), MenuPanel.position.z);
+            GameObject.Find("BackPanel").GetComponent<Image>().color = new Color(0f, 0f, 0f, 0.65f * (AnimTimer / AnimDuration));
             yield return null;
         }
 
+        StartCoroutine("Bounce", 1);
+        yield return new WaitForSeconds(0.18f);
+        StartCoroutine("Bounce", -0.5);
+
         MenuPanel.position = new Vector3(MenuPanel.position.x, 0f, MenuPanel.position.z);
+    }
+
+    private IEnumerator Bounce(float YDist)
+    {
+        float AnimTimer = 0;
+        const float AnimDuration = 0.18f;
+
+        float StartY = MenuPanel.position.y;
+        float EndY = MenuPanel.position.y + YDist;
+
+        while (AnimTimer < AnimDuration)
+        {
+            AnimTimer += Time.deltaTime;
+            float AnimRatio = -Mathf.Sin(Mathf.PI * AnimTimer / AnimDuration);
+            float YPos = StartY - (AnimRatio) * (StartY - EndY);
+            MenuPanel.position = new Vector3(MenuPanel.position.x, YPos, MenuPanel.position.z);
+            yield return null;
+        }
     }
 }

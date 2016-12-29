@@ -112,4 +112,9 @@ public class SwipeManager : MonoBehaviour
             return false;
         }
     }
+
+    public void ClearInput()
+    {
+        Direction = SwipeDirection.None;
+    }
 }
