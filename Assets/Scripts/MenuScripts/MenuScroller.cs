@@ -34,6 +34,7 @@ public class MenuScroller : MonoBehaviour {
     }
     private MenuStates MenuState = MenuStates.MainMenu;
     private bool bMenuTransition = false;
+    private bool bMenuAtFullSpeed = false;
 
     void Awake()
     {
@@ -45,15 +46,15 @@ public class MenuScroller : MonoBehaviour {
 
 	void Update ()
     {
-        MidBG.position = new Vector3(Caves.position.x * 0.5f, 0f, MidBG.position.z);
         if (MenuState == MenuStates.LevelSelect && !bMenuTransition)
         {
             Caves.position = new Vector2(LevelContentRect.position.x - LevelCaveStartX - LevelSelectPosX, 0f);
         }
+        MidBG.position = new Vector3(Caves.position.x * 0.5f, 0f, MidBG.position.z);
 
         if (LevelScroller.position.y != 0f)
         {
-            FinaliseMenuPosition();
+            //FinaliseMenuPosition();
         }
 	}
 
@@ -97,12 +98,15 @@ public class MenuScroller : MonoBehaviour {
 
     public void MainMenu()
     {
-        if (bLevelCaveStartStored && MenuState == MenuStates.LevelSelect)
+        if (MenuState == MenuStates.LevelSelect)
         {
-            LevelContentRect.position = new Vector2(LevelCaveStartX, 0f);
+            StartCoroutine("LeaveLevelAnim");
         }
-        MenuState = MenuStates.MainMenu;
-        StartCoroutine("MoveMenu");
+        else
+        {
+            MenuState = MenuStates.MainMenu;
+            StartCoroutine("MoveMenu");
+        }
     }
 
     public void LevelSelect()
@@ -136,6 +140,10 @@ public class MenuScroller : MonoBehaviour {
             {
                 MovementRatio = 1f - Mathf.Cos(Mathf.PI / 2f * (AnimTimer / AnimDuration));
             }
+            else if (bMenuAtFullSpeed)
+            {
+                MovementRatio = Mathf.Sin(Mathf.PI / 2f * (AnimTimer / AnimDuration));
+            }
             else
             {
                 MovementRatio = (1f - Mathf.Cos(Mathf.PI * (AnimTimer / AnimDuration))) / 2f;
@@ -144,10 +152,11 @@ public class MenuScroller : MonoBehaviour {
             Caves.position = new Vector3(XPos, 0f, 0f);
             MainPanel.position = new Vector3(MainMenuPosX + XPos, 0f, 0f);
             StatsPanel.position = new Vector3(StatsPosX + XPos, 0f, 0f);
-            LevelScroller.position = new Vector3(LevelSelectPosX + XPos, 0f, 0f);
+            LevelScroller.position = new Vector3(LevelScrollInitialPos + XPos, 0f, 0f);
 
             yield return new WaitForSeconds(0.01f);
         }
+        bMenuAtFullSpeed = false;
         FinaliseMenuPosition();
         if (bLevelScrollRequired)
         {
@@ -168,10 +177,6 @@ public class MenuScroller : MonoBehaviour {
         {
             bLevelCaveStartStored = true;
             LevelCaveStartX = LevelContentRect.position.x + LevelScrollInitialPos - LevelSelectPosX;
-        }
-        if (MenuState == MenuStates.MainMenu)
-        {
-            StartCoroutine("LeaveLevelAnim");
         }
         bMenuTransition = false;
     }
@@ -252,16 +257,19 @@ public class MenuScroller : MonoBehaviour {
         while (AnimTimer < AnimDuration)
         {
             AnimTimer += Time.deltaTime;
-            float MovementRatio = Mathf.Sin(Mathf.PI / 2f * (AnimTimer / AnimDuration));
+            float MovementRatio = 1f - Mathf.Cos(Mathf.PI / 2f * (AnimTimer / AnimDuration));
             float Pos = StartPos - (StartPos - EndPos) * MovementRatio;
             LevelScrollRect.horizontalNormalizedPosition = Pos;
             yield return null;
         }
+        bMenuAtFullSpeed = true;
+        MenuState = MenuStates.MainMenu;
+        StartCoroutine("MoveMenu");
     }
 
     private void GetBackgrounds()
     {
-        Caves = GameObject.Find("CavePieces").GetComponent<Transform>();
+        Caves = GameObject.Find("CavePieces").GetComponent<RectTransform>();
         MidBG = GameObject.Find("MidBackground").GetComponent<Transform>();
     }
 
