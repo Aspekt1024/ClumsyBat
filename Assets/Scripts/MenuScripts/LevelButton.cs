@@ -54,6 +54,8 @@ public class LevelButton : MonoBehaviour {
     public void Unclick()
     {
         bClicked = false;
+        LevelName.enabled = false;
+        NamePanel.GetComponent<Image>().enabled = false;
     }
 
     private void LoadLevel(int LevelNum)

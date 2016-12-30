@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour
     private Animator Anim;
     private JumpClearance Clearance;
 
+    private const float GameStartupTime = 1f;
+
     private bool bToolTipWait = false;
     private bool bGameStarted = false;
     private bool bGamePaused = false;
@@ -401,6 +403,10 @@ public class PlayerController : MonoBehaviour
         const float CountdownDuration = 3f - TimeToReachDest;
         float CountdownTimer = 0f;
 
+        yield return new WaitForSeconds(GameStartupTime);
+        Level.GameMenu.RemoveLoadingOverlay();
+        yield return null;
+
         bool bEntranceAnimStarted = false;
         while (CountdownTimer < CountdownDuration + TimeToReachDest)
         {
@@ -413,6 +419,7 @@ public class PlayerController : MonoBehaviour
             {
                 CountdownTimer = CountdownDuration;
             }
+
             if (CountdownTimer >= CountdownDuration && !bEntranceAnimStarted)
             {
                 bEntranceAnimStarted = true;

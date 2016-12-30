@@ -27,6 +27,14 @@ public class StatsHandler : MonoBehaviour {
     public int LevelsCompleted = 0;
     
     public CompletionDataControl CompletionData;
+    
+    public struct UserSettings
+    {
+        public bool Music;
+        public bool SFX;
+        public bool Tooltips;
+    }
+    public UserSettings Settings;
 
     private List<Pref> PrefList = new List<Pref>();
 
@@ -42,6 +50,7 @@ public class StatsHandler : MonoBehaviour {
         SetupPlayerPrefs();
         GetPersistentStats();
         CreateCompletionDataObject();
+        LoadUserSettings();
     }
 
     void Update ()
@@ -69,12 +78,26 @@ public class StatsHandler : MonoBehaviour {
         CompletionData.Load();
     }
 
+    private void LoadUserSettings()
+    {
+        Settings.Music = PlayerPrefs.GetInt("MusicON") == 1 ? true : false;
+        Settings.SFX = PlayerPrefs.GetInt("SFXON") == 1 ? true : false;
+        Settings.Tooltips = PlayerPrefs.GetInt("TooltipsON") == 1 ? true : false;
+    }
+
+    private void SaveUserSettings()
+    {
+        PlayerPrefs.SetInt("MusicON", Settings.Music ? 1 : 0);
+        PlayerPrefs.SetInt("SFXON", Settings.SFX ? 1 : 0);
+        PlayerPrefs.SetInt("TooltipsON", Settings.Tooltips ? 1 : 0);
+    }
+
     public void LevelWon(int Level)
     {
         LevelsCompleted++;
         CompletionData.SetCompleted(Level, true, false, false);
         CompletionData.UnlockLevels(Level, true, false, false);
-        CompletionData.Save();
+        SaveStats();
     }
 
     public void SaveStats()
@@ -96,8 +119,9 @@ public class StatsHandler : MonoBehaviour {
         PlayerPrefs.SetInt("TotalMoths", TotalMoths);
         PlayerPrefs.SetInt("LevelsCompleted", LevelsCompleted);
 
-        PlayerPrefs.Save();
+        SaveUserSettings();
         CompletionData.Save();
+        PlayerPrefs.Save();
     }
 
     private void GetPersistentStats()

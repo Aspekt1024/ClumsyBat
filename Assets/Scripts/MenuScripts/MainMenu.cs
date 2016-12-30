@@ -8,6 +8,7 @@ public class MainMenu : MonoBehaviour {
     public GameObject MenuButtons;
     private GameObject RuntimeScripts;
     public StatsHandler Stats;
+    public GameObject LoadingOverlay;
 
     private MenuScroller Scroller;
 
@@ -17,13 +18,14 @@ public class MainMenu : MonoBehaviour {
         public bool bClicked;
     }
     private const int NumLevels = 9;
-    private LvButton[] Buttons = new LvButton[NumLevels];
+    private LvButton[] Buttons = new LvButton[NumLevels+1];
 
     void Awake()
     {
         RuntimeScripts = new GameObject("Runtime Scripts");
         Stats = RuntimeScripts.AddComponent<StatsHandler>();
         Scroller = RuntimeScripts.AddComponent<MenuScroller>();
+        LoadingOverlay = GameObject.Find("LoadScreen");
     }
 
     void Start()
@@ -31,6 +33,7 @@ public class MainMenu : MonoBehaviour {
         //GetComponent<AudioSource>().Play();
         SetupLevelSelect();
         SetupStatsScreen();
+        LoadingOverlay.SetActive(false);
     }
 
     private void SetupLevelSelect()
@@ -42,7 +45,7 @@ public class MainMenu : MonoBehaviour {
         foreach (RectTransform LvlButton in LvlButtons)
         {
             int Level = int.Parse(LvlButton.name.Substring(2, LvlButton.name.Length - 2));
-            if (Level == 1)
+            if (Level > 0 && Level <= NumLevels)
             {
                 Buttons[Level].Script = LvlButton.GetComponent<LevelButton>();
                 Buttons[Level].bClicked = false;
@@ -55,6 +58,7 @@ public class MainMenu : MonoBehaviour {
                 }
                 LvlButton.GetComponent<Image>().enabled = true;
                 LvlButton.GetComponent<Button>().enabled = true;
+                // TODO change button image here by calling Enabled/Completed etc function in Levelbutton
             }
             else
             {
@@ -117,8 +121,29 @@ public class MainMenu : MonoBehaviour {
         bool bLoadLevel = Buttons[LevelNum].Script.Clicked();
         if (bLoadLevel)
         {
-            Toolbox.Instance.Level = LevelNum;
-            SceneManager.LoadScene("Levels");
+            StartCoroutine("LoadLevel", LevelNum);
+        }
+        else
+        {
+            for (int index = 1; index <= NumLevels; index++)
+            {
+                if (index != LevelNum && Buttons[index].Script != null)
+                {
+                    Buttons[index].Script.Unclick();
+                }
+            }
+        }
+    }
+
+    private IEnumerator LoadLevel(int LevelNum)
+    {
+        Toolbox.Instance.Level = LevelNum;
+        AsyncOperation LevelLoader = SceneManager.LoadSceneAsync("Levels");
+        LoadingOverlay.SetActive(true);
+
+        while (!LevelLoader.isDone)
+        {
+            yield return null;
         }
     }
 
