@@ -80,5 +80,4 @@ public class GameMenuOverlay : MonoBehaviour {
         CanvasGrp.interactable = Active;
         CanvasGrp.blocksRaycasts = Active;
     }
-
 }
