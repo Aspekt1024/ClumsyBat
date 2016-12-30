@@ -15,8 +15,7 @@ public class GameMenuOverlay : MonoBehaviour {
         SetCanvasActive(LoadingOverlay, true);
         Menu = FindObjectOfType<DropdownMenu>();
     }
-
-    // Use this for initialization
+    
     void Start ()
     {
         Stats = FindObjectOfType<StatsHandler>();
@@ -81,5 +80,4 @@ public class GameMenuOverlay : MonoBehaviour {
         CanvasGrp.interactable = Active;
         CanvasGrp.blocksRaycasts = Active;
     }
-
 }
