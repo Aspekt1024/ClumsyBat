@@ -27,7 +27,7 @@ public class StatsHandler : MonoBehaviour {
     public int LevelsCompleted = 0;
     
     public CompletionDataControl CompletionData;
-    
+
     public struct UserSettings
     {
         public bool Music;
@@ -35,7 +35,7 @@ public class StatsHandler : MonoBehaviour {
         public bool Tooltips;
     }
     public UserSettings Settings;
-
+    
     private List<Pref> PrefList = new List<Pref>();
 
     private struct Pref

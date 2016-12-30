@@ -8,8 +8,7 @@ public class DropdownOptionsMenu : MonoBehaviour {
     private Animator ToggleMusic = null;
     private Animator ToggleSFX = null;
     private Animator ToggleTooltips = null;
-
-    // Use this for initialization
+    
     void Start ()
     {
         Stats = FindObjectOfType<StatsHandler>();

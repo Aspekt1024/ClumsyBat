@@ -18,7 +18,7 @@ public class MainMenu : MonoBehaviour {
         public bool bClicked;
     }
     private const int NumLevels = 9;
-    private LvButton[] Buttons = new LvButton[NumLevels+1];
+    private LvButton[] Buttons = new LvButton[NumLevels + 1];
 
     void Awake()
     {
@@ -33,7 +33,6 @@ public class MainMenu : MonoBehaviour {
         //GetComponent<AudioSource>().Play();
         SetupLevelSelect();
         SetupStatsScreen();
-        LoadingOverlay.SetActive(false);
     }
 
     private void SetupLevelSelect()
@@ -58,7 +57,6 @@ public class MainMenu : MonoBehaviour {
                 }
                 LvlButton.GetComponent<Image>().enabled = true;
                 LvlButton.GetComponent<Button>().enabled = true;
-                // TODO change button image here by calling Enabled/Completed etc function in Levelbutton
             }
             else
             {
@@ -121,6 +119,7 @@ public class MainMenu : MonoBehaviour {
         bool bLoadLevel = Buttons[LevelNum].Script.Clicked();
         if (bLoadLevel)
         {
+            Toolbox.Instance.Level = LevelNum;
             StartCoroutine("LoadLevel", LevelNum);
         }
         else
@@ -139,7 +138,7 @@ public class MainMenu : MonoBehaviour {
     {
         Toolbox.Instance.Level = LevelNum;
         AsyncOperation LevelLoader = SceneManager.LoadSceneAsync("Levels");
-        LoadingOverlay.SetActive(true);
+        LoadingOverlay.GetComponent<LoadScreen>().SetupLoadScreen();
 
         while (!LevelLoader.isDone)
         {
@@ -147,7 +146,7 @@ public class MainMenu : MonoBehaviour {
         }
     }
 
-    public void LvEndlessButtonClicked() { LevelClick(-1); }
+public void LvEndlessButtonClicked() { LevelClick(-1); }
     public void Lv1BtnClick() { LevelClick(1); }
     public void Lv2BtnClick() { LevelClick(2); }
     public void Lv3BtnClick() { LevelClick(3); }

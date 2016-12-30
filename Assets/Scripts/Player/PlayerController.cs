@@ -112,7 +112,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // For debugging
-        if (Input.GetKeyUp("space"))
+        if (Input.GetKeyUp("w"))
         {
             Jump();
         } else if (Input.GetKeyUp("a"))
@@ -304,7 +304,6 @@ public class PlayerController : MonoBehaviour
     IEnumerator UpdateResumeTimer()
     {
         Level.GameMenu.Hide();
-        Level.ResumeButton.SetActive(false);
         while (ResumeTimerStart + ResumeTimer > Time.time)
         {
             float TimeRemaining = ResumeTimerStart + ResumeTimer - Time.time;

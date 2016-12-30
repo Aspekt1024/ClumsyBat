@@ -23,13 +23,11 @@ public class DropdownInGameMenu : MonoBehaviour {
 
     void Awake()
     {
-        Menu = FindObjectOfType<DropdownMenu>();
     }
-
-    // Use this for initialization
+    
     void Start ()
     {
-        //GetMenuButtons();
+        Menu = FindObjectOfType<DropdownMenu>();
         GetMenuObjects();
     }
 

@@ -15,8 +15,7 @@ public class GameMenuOverlay : MonoBehaviour {
         SetCanvasActive(LoadingOverlay, true);
         Menu = FindObjectOfType<DropdownMenu>();
     }
-
-    // Use this for initialization
+    
     void Start ()
     {
         Stats = FindObjectOfType<StatsHandler>();

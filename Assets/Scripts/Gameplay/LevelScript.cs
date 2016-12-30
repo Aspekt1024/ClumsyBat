@@ -28,8 +28,7 @@ public class LevelScript : MonoBehaviour {
 
     public GameMenuOverlay GameMenu;
     public GameUI GameHUD;
-    public GameObject PauseButton;      // TODO replace with bottom panel
-    public GameObject ResumeButton;     // TODO replace
+    public GameObject PauseButton;
 
     public StatsHandler Stats;
 
@@ -37,8 +36,6 @@ public class LevelScript : MonoBehaviour {
     {
         LevelScripts = new GameObject("Level Scripts");
         Stats = LevelScripts.AddComponent<StatsHandler>();
-        // TODO remove this
-        Stats.CompletionData.ResetTooltips();
     }
 
     void Start ()
@@ -150,7 +147,6 @@ public class LevelScript : MonoBehaviour {
         if (ShowMenu)
         {
             GameMenu.PauseGame();
-            ResumeButton.SetActive(true);
         }
         Stats.SaveStats();
     }
@@ -160,8 +156,7 @@ public class LevelScript : MonoBehaviour {
         // Play resume sound
         bGamePaused = false;
         UpdateGameSpeed(PrevGameSpeed);
-
-        ResumeButton.SetActive(false);
+        
         PauseButton.SetActive(true);
     }
 
@@ -177,7 +172,6 @@ public class LevelScript : MonoBehaviour {
 
         // Hide any other unnecessary UI elements
         PauseButton.SetActive(false);
-        ResumeButton.SetActive(false);
     }
 
     public void AddDistance(double TimeTravelled, float PlayerSpeed, bool bIsDashing)
@@ -200,7 +194,6 @@ public class LevelScript : MonoBehaviour {
 
     void SetupUIElements()
     {
-        ResumeButton.SetActive(false);
         PauseButton.SetActive(false);
         GameMenu.Hide();
     }

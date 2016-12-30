@@ -1,0 +1,16 @@
+diff a/Assets/Scripts/Gameplay/StatsHandler.cs b/Assets/Scripts/Gameplay/StatsHandler.cs	(rejected hunks)
+@@ -27,6 +27,14 @@
+     public int LevelsCompleted = 0;
+     
+     public CompletionDataControl CompletionData;
++    
++    public struct UserSettings
++    {
++        public bool Music;
++        public bool SFX;
++        public bool Tooltips;
++    }
++    public UserSettings Settings;
+ 
+     private List<Pref> PrefList = new List<Pref>();
+ 
