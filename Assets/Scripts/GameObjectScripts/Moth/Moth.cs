@@ -113,7 +113,7 @@ public class Moth : MonoBehaviour {
             {
                 AnimTimer += Time.deltaTime;
                 float XOffset = StartPos.x - (StartPos.x - Lantern.position.x) * (AnimTimer / AnimDuration);
-                float YOffset = StartPos.y - (StartPos.y - (AnimTimer / AnimDuration) * Lantern.position.y);
+                float YOffset = StartPos.y - (StartPos.y - Lantern.position.y) * (AnimTimer / AnimDuration);
                 transform.position = new Vector3(XOffset, YOffset, StartPos.z);
             }
             yield return null;
@@ -137,9 +137,11 @@ public class Moth : MonoBehaviour {
     public void ActivateMoth(MothColour _colour)
     {
         // TODO determine where in the vertical space the moth can spawn
-        const float Range = 2f;
-        float MothYPos = Range * Random.value - Range / 2;
-        transform.position = new Vector3(transform.position.x, MothYPos, MothZLayer); // TODO replace this?
+        //const float Range = 2f;
+        //float MothYPos = Range * Random.value - Range / 2;
+
+        Phase = 0f;
+        transform.position = new Vector3(transform.position.x, transform.position.y, MothZLayer); // TODO replace this?
         bIsActive = true;
         Colour = _colour;
         switch (_colour)

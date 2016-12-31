@@ -50,6 +50,10 @@
 				{
 					return float4(0, 0, 0, 0);
 				}
+				else if (ray - 0.09 <= _LightDist)
+				{
+					return float4(0, 0, 0.7, 0.07);
+				}
 				else if (ray - 1 <= _LightDist)
 				{
 					return float4(0, 0, 0, 0.4);

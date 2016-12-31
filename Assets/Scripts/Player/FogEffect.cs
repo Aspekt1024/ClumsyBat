@@ -39,10 +39,10 @@ public class FogEffect : MonoBehaviour {
         Stats = FindObjectOfType<StatsHandler>();
         Lantern = GameObject.Find("Lantern").GetComponent<Transform>();
 
-        EchoScale = EcholocateScale;
+        EchoScale = 0f;
         EcholocateActivatedTime = Time.time;
         material.SetVector("_PlayerPos", Lantern.position);
-        material.SetFloat("_LightDist", EcholocateScale);
+        material.SetFloat("_LightDist", EchoScale);
         material.SetFloat("_DarknessAlpha", 0.85f);
 
         bIsMinimised = false;
@@ -62,20 +62,25 @@ public class FogEffect : MonoBehaviour {
                 EchoScale = MinFogScale;
                 Stats.DarknessTime += Time.deltaTime;
             }
-
-            // Make the light source breathe
+            
             PulseTimer += Time.deltaTime;
-            if (PulseTimer >= PulseDuration)
-            {
-                PulseTimer -= PulseDuration;
-                bPulseIncreasing = !bPulseIncreasing;
-            }
-            float Pulse = PulseRadius * (PulseTimer / PulseDuration);
-            EchoScale += (bPulseIncreasing ? Pulse : (PulseRadius - Pulse));
+            EchoScale += GetLightPulse();
             material.SetFloat("_LightDist", EchoScale);
         }
         Vector4 pos = Lantern.position;
         material.SetVector("_PlayerPos", pos);
+    }
+
+    private float GetLightPulse()
+    {
+        // Makes the light source breathe
+        if (PulseTimer >= PulseDuration)
+        {
+            PulseTimer -= PulseDuration;
+            bPulseIncreasing = !bPulseIncreasing;
+        }
+        float Pulse = PulseRadius * (PulseTimer / PulseDuration);
+        return (bPulseIncreasing ? Pulse : (PulseRadius - Pulse));
     }
 
     private float GetEchoScale()
@@ -138,6 +143,11 @@ public class FogEffect : MonoBehaviour {
         StartCoroutine("FogFader");
     }
 
+    public void StartOfLevel()
+    {
+        StartCoroutine("LevelStartAnim");
+    }
+
     private IEnumerator FogFader()
     {
         const float StartAlpha = 0.85f;
@@ -152,6 +162,32 @@ public class FogEffect : MonoBehaviour {
             material.SetFloat("_DarknessAlpha", Alpha);
             yield return null;
         }
+    }
+
+    private IEnumerator LevelStartAnim()
+    {
+        bAbilityPaused = true;
+
+        yield return new WaitForSeconds(1f);
+
+        float AnimTime = 0f;
+        const float AnimDuration = 2.5f;
+        yield return null;
+
+        while (AnimTime < AnimDuration)
+        {
+            AnimTime += Time.deltaTime;
+
+            EchoScale = EcholocateScale * (AnimTime / AnimDuration);
+
+            PulseTimer += Time.deltaTime;
+            EchoScale += GetLightPulse();
+            material.SetFloat("_LightDist", EchoScale);
+
+            yield return null;
+        }
+
+        bAbilityPaused = false;
     }
 
     public void Minimise()

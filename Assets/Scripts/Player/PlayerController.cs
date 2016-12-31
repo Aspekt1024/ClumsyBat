@@ -410,6 +410,8 @@ public class PlayerController : MonoBehaviour
         Level.GameMenu.RemoveLoadingOverlay();
         yield return null;
 
+        Fog.StartOfLevel();
+
         bool bEntranceAnimStarted = false;
         while (CountdownTimer < CountdownDuration + TimeToReachDest)
         {
