@@ -12,6 +12,7 @@ public class DropdownInGameMenu : MonoBehaviour {
     public GameObject MainMenuBtn = null;
     public GameObject RestartBtn = null;
     public GameObject ResumeBtn = null;
+    public GameObject LevelSelectBtn = null;
 
     private struct TextType
     {
@@ -48,6 +49,7 @@ public class DropdownInGameMenu : MonoBehaviour {
         RestartBtn.SetActive(true);
         OptionsBtn.SetActive(false);
         ResumeBtn.SetActive(false);
+        LevelSelectBtn.SetActive(false);
 
         PositionMenuBtn(RestartBtn, GetButtonPosX(1, 4));
         PositionMenuBtn(MainMenuBtn, GetButtonPosX(2, 4));
@@ -67,6 +69,7 @@ public class DropdownInGameMenu : MonoBehaviour {
         RestartBtn.SetActive(true);
         OptionsBtn.SetActive(true);
         ResumeBtn.SetActive(true);
+        LevelSelectBtn.SetActive(false);
 
         PositionMenuBtn(RestartBtn, GetButtonPosX(1, 4));
         PositionMenuBtn(MainMenuBtn, GetButtonPosX(2, 4));
@@ -84,12 +87,13 @@ public class DropdownInGameMenu : MonoBehaviour {
         ShareBtn.SetActive(false);
         MainMenuBtn.SetActive(true);
         RestartBtn.SetActive(true);
-        OptionsBtn.SetActive(true);
+        OptionsBtn.SetActive(false);
         ResumeBtn.SetActive(false);
+        LevelSelectBtn.SetActive(true);
 
         PositionMenuBtn(RestartBtn, GetButtonPosX(1, 3));
         PositionMenuBtn(MainMenuBtn, GetButtonPosX(2, 3));
-        PositionMenuBtn(OptionsBtn, GetButtonPosX(3, 3));
+        PositionMenuBtn(LevelSelectBtn, GetButtonPosX(3, 3));
         
         MenuHeader.Text.text = "GAME OVER";
         SubText.Text.text = "Clumsy didn't make it...";

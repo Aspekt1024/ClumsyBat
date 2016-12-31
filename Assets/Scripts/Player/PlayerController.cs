@@ -317,6 +317,7 @@ public class PlayerController : MonoBehaviour
     {
         bGamePaused = false;
         bGameResuming = false;
+        InputManager.ClearInput();
         Level.GameHUD.HideResumeTimer();
         PlayerRigidBody.WakeUp();
         PlayerRigidBody.velocity = SavedVelocity;
