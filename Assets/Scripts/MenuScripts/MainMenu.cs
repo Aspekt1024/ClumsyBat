@@ -33,7 +33,6 @@ public class MainMenu : MonoBehaviour {
         //GetComponent<AudioSource>().Play();
         GetLevelButtons();
         SetupLevelSelect();
-        SetupStatsScreen();
     }
 
     private void GetLevelButtons()
@@ -112,11 +111,6 @@ public class MainMenu : MonoBehaviour {
         }
 
         return HighestLevel;
-    }
-
-    private void SetupStatsScreen()
-    {
-        GameObject.Find("StatsPanel").GetComponent<StatsUI>().CreateStatText();
     }
 
     void Update()

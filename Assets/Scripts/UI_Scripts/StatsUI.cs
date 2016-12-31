@@ -49,13 +49,13 @@ public class StatsUI : MonoBehaviour {
 
         ScrollView = GetScrollView();
         ScrollViewContent = GetScrollViewContent();
-        
-        YScale = GameObject.Find("ScrollOverlay").GetComponent<RectTransform>().localScale.y;
-        XScale = GameObject.Find("ScrollOverlay").GetComponent<RectTransform>().localScale.x;
+
+        YScale = GameObject.Find("GameMenuOverlay").GetComponent<RectTransform>().localScale.y;
+        XScale = GameObject.Find("GameMenuOverlay").GetComponent<RectTransform>().localScale.x;
         
         SetContentSize();
 
-        YTop = ScrollViewContent.position.y - TxtHeight/2*YScale;
+        YTop = ScrollViewContent.position.y - 2*TxtHeight*YScale;
         XLeft = ScrollViewContent.position.x - ((ScrollView.rect.width - DescTxtWidth) / 2 - TxtPad) * XScale;
 
         for (int i = 0; i < Stats.Count; i++)
@@ -63,6 +63,7 @@ public class StatsUI : MonoBehaviour {
             AddTextToCanvas(Stats[i], i);
         }
     }
+
     void InitialiseStatsList()
     {
         NewStat("Best Distance", ((int)MS.Stats.BestDistance), "m");
@@ -243,6 +244,6 @@ public class StatsUI : MonoBehaviour {
 
     void SetContentSize()
     {
-        ScrollViewContent.sizeDelta = new Vector2(0f, Stats.Count * TxtHeight);
+        ScrollViewContent.sizeDelta = new Vector2(0f, (Stats.Count + 3) * TxtHeight);
     }
 }

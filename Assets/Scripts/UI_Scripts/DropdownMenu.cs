@@ -6,12 +6,13 @@ public class DropdownMenu : MonoBehaviour {
     
     private RectTransform MenuPanel = null;
     private CanvasGroup MainPanel = null;
+    private CanvasGroup StatsPanel = null;
     private CanvasGroup OptionsPanel = null;
     private Image MenuBackPanel = null;
 
     public DropdownInGameMenu InGameMenu;
     public DropdownOptionsMenu OptionsMenu;
-    //public DropdownStats StatsMenu;
+    public DropdownStatsMenu StatsMenu;
 
     private const float BounceDuration = 0.18f;
     private const float PanelDropAnimDuration = 0.30f;
@@ -23,22 +24,36 @@ public class DropdownMenu : MonoBehaviour {
     void Awake ()
     {
         GetMenuObjects();
-        SetCanvasActive(MainPanel, true);
-        SetCanvasActive(OptionsPanel, false);
+        if (MainPanel) { SetCanvasActive(MainPanel, true); }
+        if (OptionsPanel) { SetCanvasActive(OptionsPanel, false); }
+        if (StatsPanel) { SetCanvasActive(StatsPanel, false); }
     }
     
     private void SetCanvasActive(CanvasGroup CanvasGrp, bool Active)
     {
-        CanvasGrp.alpha = (Active ? 1f : 0f);
-        CanvasGrp.interactable = Active;
-        CanvasGrp.blocksRaycasts = Active;
+        if (CanvasGrp)
+        {
+            CanvasGrp.alpha = (Active ? 1f : 0f);
+            CanvasGrp.interactable = Active;
+            CanvasGrp.blocksRaycasts = Active;
+        }
     }
 
     public void ShowOptions()
     {
         SetCanvasActive(MainPanel, false);
         SetCanvasActive(OptionsPanel, true);
+        SetCanvasActive(StatsPanel, false);
         OptionsMenu.SetToggleStates();
+        StartCoroutine("PanelDropAnim", true);
+    }
+
+    public void ShowStats()
+    {
+        SetCanvasActive(MainPanel, false);
+        SetCanvasActive(OptionsPanel, false);
+        SetCanvasActive(StatsPanel, true);
+        StatsMenu.Show();
         StartCoroutine("PanelDropAnim", true);
     }
 
@@ -46,6 +61,11 @@ public class DropdownMenu : MonoBehaviour {
     {
         MenuPanel.position = new Vector3(MenuPanel.position.x, MenuTopPos, MenuPanel.position.z);
         MenuBackPanel.color = Color.clear;
+    }
+
+    public void RaiseMenu()
+    {
+        StartCoroutine("PanelDropAnim", false);
     }
 
     private IEnumerator MenuSwitchAnim(bool bOptionsMenu)
@@ -78,12 +98,14 @@ public class DropdownMenu : MonoBehaviour {
                 case "OptionsPanel":
                     OptionsPanel = RT.GetComponent<CanvasGroup>();
                     break;
-                // TODO case "StatsPanel":
+                case "StatsPanel":
+                    StatsPanel = RT.GetComponent<CanvasGroup>();
+                    break;
             }
         }
         if (MainPanel) { InGameMenu = MainPanel.GetComponent<DropdownInGameMenu>(); }
         if (OptionsPanel) { OptionsMenu = OptionsPanel.GetComponent<DropdownOptionsMenu>(); }
-        // TODO stats menu
+        if (StatsPanel) { StatsMenu = StatsPanel.GetComponent<DropdownStatsMenu>(); }
     }
 
     private IEnumerator PanelDropAnim(bool bEnteringScreen)
