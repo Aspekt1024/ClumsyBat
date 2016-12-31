@@ -3,19 +3,18 @@ using System.Collections;
 
 public class DropdownStatsMenu : MonoBehaviour {
 
-    private CanvasGroup StatsPanel = null;
+    private StatsUI StatsScript = null;
     private CanvasGroup StatsMask = null;
+
+    void Awake()
+    {
+        StatsScript = gameObject.AddComponent<StatsUI>();
+    }
 
 	void Start ()
     {
         StatsMask = GameObject.Find("StatsMask").GetComponent<CanvasGroup>();
-        StatsPanel = GameObject.Find("StatsPanel").GetComponent<CanvasGroup>();
 	}
-
-    void Update()
-    {
-        //StatsPanel.GetComponent<RectTransform>().position = GameObject.Find("ContentPanel").GetComponent<RectTransform>().position;
-    }
 
     public void Show()
     {
@@ -33,6 +32,6 @@ public class DropdownStatsMenu : MonoBehaviour {
 
     public void CreateStats()
     {
-        StatsPanel.GetComponent<StatsUI>().CreateStatText();
+        StatsScript.CreateStatText();
     }
 }
