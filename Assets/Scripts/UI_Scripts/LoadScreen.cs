@@ -22,10 +22,17 @@ public class LoadScreen : MonoBehaviour {
         }
     }
 
-    public void SetupLoadScreen()
+    public void ShowLoadScreen()
     {
         LoadingCanvas.alpha = 1f;
         LoadingCanvas.blocksRaycasts = true;
         LoadingCanvas.interactable = true;
+    }
+
+    public void HideLoadScreen()
+    {
+        LoadingCanvas.alpha = 0f;
+        LoadingCanvas.blocksRaycasts = false;
+        LoadingCanvas.interactable = false;
     }
 }

@@ -206,7 +206,6 @@ public class LevelScript : MonoBehaviour {
     public void LevelWon()
     {
         Stats.LevelWon(Toolbox.Instance.Level);
-        Toolbox.Instance.MenuScreen = Toolbox.MenuSelector.LevelSelect;
         Stats.SaveStats();
         GameObject.Find("Clumsy").GetComponent<PlayerController>().PauseGame(ShowMenu: false);
         GameMenu.WinGame();

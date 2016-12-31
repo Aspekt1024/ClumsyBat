@@ -104,7 +104,6 @@ public class SwipeManager : MonoBehaviour
     {
         if (Direction == SwipeDirection.Tap)
         {
-            Debug.Log("Tap Registered");
             Direction = SwipeDirection.None;
             return true;
         }
@@ -116,7 +115,6 @@ public class SwipeManager : MonoBehaviour
 
     public void ClearInput()
     {
-        Debug.Log("input cleared");
         Direction = SwipeDirection.None;
     }
 }

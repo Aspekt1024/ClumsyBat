@@ -6,12 +6,13 @@ public class LevelButton : MonoBehaviour {
 
     private RectTransform NamePanel = null;
     private Text LevelName = null;
-    private enum ButtonStates
+    public enum LevelStates
     {
         Disabled,
         Enabled,
         Completed
     }
+    public LevelStates LevelState;
 
     private bool bClicked = false;
 
@@ -29,11 +30,6 @@ public class LevelButton : MonoBehaviour {
         LevelName.enabled = false;
         NamePanel.GetComponent<Image>().enabled = false;
     }
-	
-	void Update ()
-    {
-	
-	}
 
     public bool Clicked()
     {
@@ -56,13 +52,15 @@ public class LevelButton : MonoBehaviour {
         bClicked = false;
         LevelName.enabled = false;
         NamePanel.GetComponent<Image>().enabled = false;
-
     }
 
-    private void LoadLevel(int LevelNum)
+    public bool LevelAvailable()
     {
-        //Stats.SaveStats();
-        //Toolbox.Instance.Level = LevelNum;
-        //SceneManager.LoadScene("Levels");
+        bool Available = false;
+        if (LevelState == LevelStates.Completed || LevelState == LevelStates.Enabled)
+        {
+            Available = true;
+        }
+        return Available;
     }
 }

@@ -1,18 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using System.Collections;
 
 public class GameMenuOverlay : MonoBehaviour {
 
     private StatsHandler Stats;
-    private CanvasGroup LoadingOverlay = null;
+    private LoadScreen LoadingOverlay = null;
     private DropdownMenu Menu = null;
     
     void Awake()
     {
-        LoadingOverlay = GameObject.Find("LoadScreen").GetComponent<CanvasGroup>();
-        SetCanvasActive(LoadingOverlay, true);
+        LoadingOverlay = GameObject.Find("LoadScreen").GetComponent<LoadScreen>();
         Menu = FindObjectOfType<DropdownMenu>();
     }
     
@@ -21,36 +18,52 @@ public class GameMenuOverlay : MonoBehaviour {
         Stats = FindObjectOfType<StatsHandler>();
     }
 
+    /// <summary>
+    /// Button presses
+    /// </summary>
+    
     public void MenuButtonPressed()
     {
+        Toolbox.Instance.MenuScreen = Toolbox.MenuSelector.MainMenu;
+        LoadingOverlay.ShowLoadScreen();
         Stats.SaveStats();
-        // TODO loading screen
         SceneManager.LoadScene("Play");
     }
 
     public void RestartButtonPressed()
     {
-        // TODO loading screen
+        LoadingOverlay.ShowLoadScreen();
         Stats.SaveStats();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void OptionsButtonPressed()
     {
-        Stats.SaveStats(); // Just because
         Menu.StartCoroutine("MenuSwitchAnim", true);
     }
 
     public void BackToMainPressed()
     {
+        Stats.SaveStats(); // Just because
         Menu.StartCoroutine("MenuSwitchAnim", false);
     }
-    
-    public void RemoveLoadingOverlay()
+
+    public void NextButtonPressed()
     {
-        SetCanvasActive(LoadingOverlay, false);
+        Toolbox.Instance.MenuScreen = Toolbox.MenuSelector.LevelSelect;
+        LoadingOverlay.ShowLoadScreen();
+        SceneManager.LoadScene("Play");
     }
-    
+
+    public void ShareButtonPressed()
+    {
+
+    }
+
+    /// <summary>
+    /// Gameplay Events
+    /// </summary>
+   
     public void GameOver()
     {
         Menu.InGameMenu.GameOver();
@@ -74,10 +87,8 @@ public class GameMenuOverlay : MonoBehaviour {
         Menu.Hide();
     }
 
-    private void SetCanvasActive(CanvasGroup CanvasGrp, bool Active)
+    public void RemoveLoadingOverlay()
     {
-        CanvasGrp.alpha = (Active ? 1f : 0f);
-        CanvasGrp.interactable = Active;
-        CanvasGrp.blocksRaycasts = Active;
+        LoadingOverlay.HideLoadScreen();
     }
 }

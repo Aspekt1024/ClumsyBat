@@ -9,6 +9,7 @@ public class MenuScroller : MonoBehaviour {
     private RectTransform StatsPanel;
     private RectTransform LevelContentRect;
     private NavButtonHandler NavButtons;
+    private ScrollRect LevelScrollRect;
 
     private Transform Caves;
     private Transform MidBG;
@@ -51,16 +52,15 @@ public class MenuScroller : MonoBehaviour {
             Caves.position = new Vector2(LevelContentRect.position.x - LevelCaveStartX - LevelSelectPosX, 0f);
         }
         MidBG.position = new Vector3(Caves.position.x * 0.5f, 0f, MidBG.position.z);
-
-        if (LevelScroller.position.y != 0f)
-        {
-            //FinaliseMenuPosition();
-        }
 	}
 
     public void SetCurrentLevel(int Level)
     {
         CurrentLevel = Level;
+        if (Toolbox.Instance.MenuScreen == Toolbox.MenuSelector.LevelSelect)
+        {
+            JumpToCurrentLevel();
+        }
     }
 
     private void SetupScreenSizing()
@@ -81,8 +81,14 @@ public class MenuScroller : MonoBehaviour {
         {
             MenuState = MenuStates.LevelSelect;
         }
+
         LevelScrollInitialPos = LevelScroller.position.x;
         FinaliseMenuPosition();
+    }
+
+    private void JumpToCurrentLevel()
+    {
+        GotoCurrentLevel(Instantly: true);
     }
 
     private void GetUIComponents()
@@ -91,6 +97,7 @@ public class MenuScroller : MonoBehaviour {
         LevelScroller = GameObject.Find("LevelScrollRect").GetComponent<RectTransform>();
         StatsPanel = GameObject.Find("StatsPanel").GetComponent<RectTransform>();
         LevelContentRect = GameObject.Find("Content").GetComponent<RectTransform>();
+        LevelScrollRect = LevelScroller.GetComponent<ScrollRect>();
 
         GetBackgrounds();
     }
@@ -212,7 +219,7 @@ public class MenuScroller : MonoBehaviour {
         return ButtonPosX;
     }
 
-    private void GotoCurrentLevel()
+    private void GotoCurrentLevel(bool Instantly = false)
     {
         const float MaxPosX = 7f;
         float LvlButtonPosX = GetButtonPosX();
@@ -221,7 +228,14 @@ public class MenuScroller : MonoBehaviour {
             float XShift = LvlButtonPosX - MaxPosX;
             float ContentScale = GameObject.Find("ScrollOverlay").GetComponent<RectTransform>().localScale.x;
             float NormalisedPosition = XShift / LevelContentRect.rect.width / ContentScale;
-            StartCoroutine("GotoLevelAnim", NormalisedPosition);
+            if (!Instantly)
+            {
+                StartCoroutine("GotoLevelAnim", NormalisedPosition);
+            }
+            else
+            {
+                LevelScrollRect.horizontalNormalizedPosition = NormalisedPosition;
+            }
         }
     }
 
@@ -231,8 +245,6 @@ public class MenuScroller : MonoBehaviour {
         float AnimTimer = 0f;
         float StartPos = 0f;
         float EndPos = NormalisedPosition;
-
-        ScrollRect LevelScrollRect = LevelScroller.GetComponent<ScrollRect>();
         
         while (AnimTimer < AnimDuration)
         {

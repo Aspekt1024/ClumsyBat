@@ -31,46 +31,87 @@ public class MainMenu : MonoBehaviour {
     void Start()
     {
         //GetComponent<AudioSource>().Play();
+        GetLevelButtons();
         SetupLevelSelect();
         SetupStatsScreen();
     }
 
-    private void SetupLevelSelect()
+    private void GetLevelButtons()
     {
-        int HighestLevel = 1;
-         // TODO force this to only be on the main path once we've decided how many levels will exist on it
-
         RectTransform LvlButtons = GameObject.Find("LevelButtons").GetComponent<RectTransform>();
         foreach (RectTransform LvlButton in LvlButtons)
         {
             int Level = int.Parse(LvlButton.name.Substring(2, LvlButton.name.Length - 2));
-            if (Level > 0 && Level <= NumLevels)
+            if (Level >= 1 && Level <= NumLevels)   // TODO confirm what to do with index 0
             {
                 Buttons[Level].Script = LvlButton.GetComponent<LevelButton>();
                 Buttons[Level].bClicked = false;
-            }
-            if (Stats.CompletionData.IsUnlocked(Level) || Level == 1)
-            {
-                if (Level > HighestLevel)
+
+                // TODO setup button states (images) here
+                if (Stats.CompletionData.IsUnlocked(Level) || Level == 1)
                 {
-                    HighestLevel = Level;
+                    LvlButton.GetComponent<Image>().enabled = true;
+                    LvlButton.GetComponent<Button>().enabled = true;
+                    if (Stats.CompletionData.IsCompleted(Level))
+                    {
+                        Buttons[Level].Script.LevelState = LevelButton.LevelStates.Completed;
+                    }
+                    else
+                    {
+                        Buttons[Level].Script.LevelState = LevelButton.LevelStates.Enabled;
+                    }
                 }
-                LvlButton.GetComponent<Image>().enabled = true;
-                LvlButton.GetComponent<Button>().enabled = true;
+                else
+                {
+                    LvlButton.GetComponent<Image>().enabled = false;
+                    LvlButton.GetComponent<Button>().enabled = false;
+                    Buttons[Level].Script.LevelState = LevelButton.LevelStates.Disabled;
+                }
             }
-            else
+        }
+    }
+
+    private void SetupLevelSelect()
+    {
+        int Level = 1;
+
+        if (Toolbox.Instance.MenuScreen == Toolbox.MenuSelector.LevelSelect)
+        {
+            Level = Toolbox.Instance.Level;
+        }
+        else
+        {
+            Level = GetHighestLevel();
+        }
+        Scroller.SetCurrentLevel(Level);
+    }
+
+    private int GetHighestLevel()
+    {
+        int HighestLevel = 1;
+
+        for (int index = 1; index <= NumLevels; index++)
+        {
+            if (Buttons[index].Script)
             {
-                LvlButton.GetComponent<Image>().enabled = false;
-                LvlButton.GetComponent<Button>().enabled = false;
+                if (Buttons[index].Script.LevelAvailable())
+                {
+                    if (index > HighestLevel)
+                    {
+                        HighestLevel = index;
+                    }
+                }
             }
         }
 
+        // TODO force this to only be on the main path once we've decided how many levels will exist on it
         // TODO confirm this after we decide how many levels there will be
-        if (HighestLevel > 9)
+        if (HighestLevel > NumLevels)
         {
             HighestLevel = 1;
         }
-        Scroller.SetCurrentLevel(HighestLevel);
+
+        return HighestLevel;
     }
 
     private void SetupStatsScreen()
@@ -138,7 +179,7 @@ public class MainMenu : MonoBehaviour {
     {
         Toolbox.Instance.Level = LevelNum;
         AsyncOperation LevelLoader = SceneManager.LoadSceneAsync("Levels");
-        LoadingOverlay.GetComponent<LoadScreen>().SetupLoadScreen();
+        LoadingOverlay.GetComponent<LoadScreen>().ShowLoadScreen();
 
         while (!LevelLoader.isDone)
         {

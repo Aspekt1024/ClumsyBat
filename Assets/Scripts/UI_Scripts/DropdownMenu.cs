@@ -7,14 +7,18 @@ public class DropdownMenu : MonoBehaviour {
     private RectTransform MenuPanel = null;
     private CanvasGroup MainPanel = null;
     private CanvasGroup OptionsPanel = null;
+    private Image MenuBackPanel = null;
 
     public DropdownInGameMenu InGameMenu;
     public DropdownOptionsMenu OptionsMenu;
     //public DropdownStats StatsMenu;
 
     private const float BounceDuration = 0.18f;
-    private const float PanelDropAnimDuration = 0.28f;
+    private const float PanelDropAnimDuration = 0.30f;
     private bool bKeepMenuAlpha = false;
+
+    private const float MenuTopPos = 11f;
+    private const float MenuBottomPos = 0f;
 
     void Awake ()
     {
@@ -40,7 +44,8 @@ public class DropdownMenu : MonoBehaviour {
 
     public void Hide()
     {
-        StartCoroutine("PanelDropAnim", false);
+        MenuPanel.position = new Vector3(MenuPanel.position.x, MenuTopPos, MenuPanel.position.z);
+        MenuBackPanel.color = Color.clear;
     }
 
     private IEnumerator MenuSwitchAnim(bool bOptionsMenu)
@@ -61,6 +66,7 @@ public class DropdownMenu : MonoBehaviour {
         if (!gameObject.activeSelf) { gameObject.SetActive(true); }
 
         MenuPanel = GameObject.Find("GameMenuPanel").GetComponent<RectTransform>();
+        MenuBackPanel = GameObject.Find("BackPanel").GetComponent<Image>();
         RectTransform ContentPanel = GameObject.Find("ContentPanel").GetComponent<RectTransform>();
         foreach (RectTransform RT in ContentPanel)
         {
@@ -90,12 +96,11 @@ public class DropdownMenu : MonoBehaviour {
 
         const float AnimDuration = PanelDropAnimDuration;
         float AnimTimer = 0f;
-        float StartPos = (bEnteringScreen ? 10f : 0f);
-        float EndPos = (bEnteringScreen ? 0f : 10f);
+        float StartPos = (bEnteringScreen ? MenuTopPos : MenuBottomPos);
+        float EndPos = (bEnteringScreen ? MenuBottomPos : MenuTopPos);
         float StartAlpha = (bEnteringScreen ? 0f : 0.65f);
         float EndAlpha = (bEnteringScreen ? 0.65f : 0f);
         MenuPanel.position = new Vector3(MenuPanel.position.x, StartPos, MenuPanel.position.z);
-        Image MenuBackPanel = GameObject.Find("BackPanel").GetComponent<Image>();
 
         while (AnimTimer < AnimDuration)
         {
