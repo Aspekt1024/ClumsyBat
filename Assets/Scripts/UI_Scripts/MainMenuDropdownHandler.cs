@@ -2,15 +2,13 @@
 using System.Collections;
 
 public class MainMenuDropdownHandler : MonoBehaviour {
-
-    private StatsHandler Stats = null;
+    
     private DropdownMenu Menu = null;
     private MenuScroller Scroller = null;
 
     void Start ()
     {
         Menu = FindObjectOfType<DropdownMenu>();
-        Stats = FindObjectOfType<StatsHandler>();
         Scroller = FindObjectOfType<MenuScroller>();
         Menu.Hide();
         Menu.StatsMenu.CreateStats();

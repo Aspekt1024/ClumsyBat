@@ -9,12 +9,25 @@ public class Lantern : MonoBehaviour {
     private HingeJoint2D LanternHinge = null;
     private Rigidbody2D LanternBody = null;
     private PolygonCollider2D LanternCollider = null;
+    private Animator LanternAnimator = null;
     
+    public enum LanternColour
+    {
+        Green,
+        Gold,
+        Blue
+    }
+    private LanternColour Colour;
+
 	void Start ()
     {
         LanternHinge = GetComponent<HingeJoint2D>();
         LanternBody = GetComponent<Rigidbody2D>();
         LanternCollider = GetComponent<PolygonCollider2D>();
+        LanternAnimator = GetComponent<Animator>();
+
+        Colour = LanternColour.Green;
+        LanternAnimator.Play("LanternGreen", 0, 0f);
 	}
 
     public void Drop()
@@ -51,5 +64,22 @@ public class Lantern : MonoBehaviour {
     {
         LanternHinge.enabled = true;
         LanternBody.isKinematic = false;
+    }
+
+    public void ChangeColour(LanternColour LColour)
+    {
+        Colour = LColour;
+        switch (Colour)
+        {
+            case LanternColour.Green:
+                LanternAnimator.Play("LanternGreen", 0, 0f);
+                break;
+            case LanternColour.Gold:
+                LanternAnimator.Play("LanternGold", 0, 0f);
+                break;
+            case LanternColour.Blue:
+                LanternAnimator.Play("LanternBlue", 0, 0f);
+                break;
+        }
     }
 }

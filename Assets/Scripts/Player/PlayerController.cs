@@ -248,13 +248,16 @@ public class PlayerController : MonoBehaviour
         switch (MothScript.Colour)
         {
             case Moth.MothColour.Green:
+                Lantern.ChangeColour(Lantern.LanternColour.Green);
                 Fog.Echolocate();
                 break;
             case Moth.MothColour.Gold:
+                Lantern.ChangeColour(Lantern.LanternColour.Gold);
                 Hypersonic();
                 Fog.Echolocate();
                 break;
             case Moth.MothColour.Blue:
+                Lantern.ChangeColour(Lantern.LanternColour.Blue);
                 Fog.Echolocate();
                 break;
         }
