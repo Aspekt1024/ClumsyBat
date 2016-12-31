@@ -77,8 +77,8 @@ public class Mushroom : MonoBehaviour {
     private IEnumerator ReleaseSpores()
     {
         MushroomAnimator.Play("Normal", 0, 0);
-        SporeAnimator.Play("Rise", 0, 0);
-        Spore.transform.position = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z - 0.1f);
+        SporeAnimator.Play("SporeAnim", 0, 0f);
+        Spore.transform.position = new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z - 0.1f);
         Spore.SetActive(true);
 
         const float AnimationDuration = 0.8f;
@@ -87,26 +87,7 @@ public class Mushroom : MonoBehaviour {
         {
             if (!Paused)
             {
-                MoveSporeUpward(AnimationTimer / AnimationDuration, 1f, 3f);
                 AnimationTimer += Time.deltaTime;
-            }
-            yield return null;
-        }
-        StartCoroutine("DissipateSpore");
-    }
-
-    private IEnumerator DissipateSpore()
-    {
-        SporeAnimator.Play("Grow", 0, 0);
-        const float AnimationDuration = 0.3f;
-        float AnimationTimer = 0f;
-        while (AnimationTimer < AnimationDuration)
-        {
-            if (!Paused)
-            {
-                MoveSporeUpward(AnimationTimer / AnimationDuration, 3f, 4f);
-                AnimationTimer += Time.deltaTime;
-                IncreaseSporeCollider(AnimationTimer / AnimationDuration);
             }
             yield return null;
         }
@@ -116,12 +97,6 @@ public class Mushroom : MonoBehaviour {
     private void IncreaseSporeCollider(float AnimationPosition)
     {
         SporeCollider.radius = 0.4f + 0.4f * AnimationPosition;
-    }
-
-    private void MoveSporeUpward(float AnimationPosition, float StartY, float EndY)
-    {
-        float YPos = transform.position.y + StartY + (AnimationPosition * (EndY - StartY));
-        Spore.transform.position = new Vector3(Spore.transform.position.x, YPos, Spore.transform.position.z);
     }
 
     public void DeactivateMushroom()
