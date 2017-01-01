@@ -45,26 +45,21 @@ public class MainMenu : MonoBehaviour {
             {
                 Buttons[Level].Script = LvlButton.GetComponent<LevelButton>();
                 Buttons[Level].bClicked = false;
-
-                // TODO setup button states (images) here
+                
                 if (Stats.CompletionData.IsUnlocked(Level) || Level == 1)
                 {
-                    LvlButton.GetComponent<Image>().enabled = true;
-                    LvlButton.GetComponent<Button>().enabled = true;
                     if (Stats.CompletionData.IsCompleted(Level))
                     {
-                        Buttons[Level].Script.LevelState = LevelButton.LevelStates.Completed;
+                        Buttons[Level].Script.SetLevelState(LevelButton.LevelStates.Completed);
                     }
                     else
                     {
-                        Buttons[Level].Script.LevelState = LevelButton.LevelStates.Enabled;
+                        Buttons[Level].Script.SetLevelState(LevelButton.LevelStates.Enabled);
                     }
                 }
                 else
                 {
-                    LvlButton.GetComponent<Image>().enabled = false;
-                    LvlButton.GetComponent<Button>().enabled = false;
-                    Buttons[Level].Script.LevelState = LevelButton.LevelStates.Disabled;
+                    Buttons[Level].Script.SetLevelState(LevelButton.LevelStates.Disabled);
                 }
             }
         }
