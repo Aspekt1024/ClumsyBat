@@ -79,18 +79,17 @@ public class LevelScript : MonoBehaviour {
             Toolbox.Instance.Level = DefaultLevel;
             Level = DefaultLevel;
         }
-
-        string LevelNum = Level.ToString();
+        
         if (Level == -1)
         {
-            LevelNum = "Endless";
+            LevelText.text = "Level: Endless";
             LevelObjects.SetMode(bIsEndless: true);
         }
         else
         {
+            LevelText.text = "Level: " + Toolbox.Instance.LevelNames[Level];
             LevelObjects.SetMode(bIsEndless: false);
         }
-        LevelText.text = "Level: " + LevelNum;
     }
 
     void CreateGameObjects()
@@ -158,11 +157,6 @@ public class LevelScript : MonoBehaviour {
         UpdateGameSpeed(PrevGameSpeed);
         
         PauseButton.SetActive(true);
-    }
-
-    void OnGUI()
-    {
-        //Debug.Log("Something");
     }
 
     public void ShowGameoverMenu()

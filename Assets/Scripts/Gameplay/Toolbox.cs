@@ -31,6 +31,7 @@ public class Toolbox : Singleton<Toolbox>
         MenuScreen = MenuSelector.MainMenu;
         
         SetupZLayers();
+        SetupLevelNames();
     }
 
     private void SetupZLayers()
@@ -55,8 +56,24 @@ public class Toolbox : Singleton<Toolbox>
         ZLayers.Add("FarBackground", 2f);       // Child of Background (20)
     }
 
-    // TODO Level names?
-
+    private void SetupLevelNames()
+    {
+        LevelNames.Add(1, "Darkness");
+        LevelNames.Add(2, "Impasse");
+        LevelNames.Add(3, "Blind Hope");
+        LevelNames.Add(4, "Shayla");
+        LevelNames.Add(5, "Promise");
+        LevelNames.Add(6, "Courage");
+        LevelNames.Add(7, "Echo");
+        LevelNames.Add(8, "Location");
+        LevelNames.Add(9, "9ine");
+        LevelNames.Add(10, "Tenpin");
+        LevelNames.Add(11, "Elfen");
+        LevelNames.Add(12, "Oceans");
+        LevelNames.Add(13, "Luck");
+        LevelNames.Add(14, "Spaceship");
+        LevelNames.Add(15, "Hit");
+    }
 
     /*// (optional) allow runtime registration of global objects
     static public T RegisterComponent<T>() where T : Component

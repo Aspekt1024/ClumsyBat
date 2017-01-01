@@ -44,6 +44,7 @@ public class LevelButton : MonoBehaviour {
 
 	void Start ()
     {
+        LevelName.text = Toolbox.Instance.LevelNames[LevelNum];
         LevelName.enabled = false;
         NamePanel.GetComponent<Image>().enabled = false;
     }
@@ -83,7 +84,6 @@ public class LevelButton : MonoBehaviour {
         else
         {
             NamePanel.GetComponent<Image>().enabled = true;
-            SetClickedColour();
             LevelName.enabled = true;
             bClicked = true;
         }
@@ -128,25 +128,9 @@ public class LevelButton : MonoBehaviour {
         }
     }
 
-    private void SetClickedColour()
-    {
-        switch (LevelState)
-        {
-            case LevelStates.Hidden:
-                return;
-            case LevelStates.Disabled:
-                return;
-            case LevelStates.Enabled:
-                LevelImage.color = new Color(1f, 1f, 0.6f);
-                break;
-            case LevelStates.Completed:
-                LevelImage.color = new Color(0.6f, 1f, 1f);
-                break;
-        }
-    }
-
     private void UpdateClickedColour()
     {
+        const float IntensityDepth = 0.9f;
         const float ButtonAnimationDuration = 1f;
         if (ButtonAnimationTimer > ButtonAnimationDuration)
         {
@@ -154,10 +138,10 @@ public class LevelButton : MonoBehaviour {
             bAnimationReverse = !bAnimationReverse;
         }
 
-        float Intensity = 0.4f * (ButtonAnimationTimer / ButtonAnimationDuration);
+        float Intensity = IntensityDepth * (ButtonAnimationTimer / ButtonAnimationDuration);
         if (bAnimationReverse)
         {
-            Intensity += 0.6f + Intensity;
+            Intensity += (1 - IntensityDepth) + Intensity;
         }
         else
         {
@@ -167,17 +151,11 @@ public class LevelButton : MonoBehaviour {
         switch (LevelState)
         {
             case LevelStates.Completed:
-                LevelImage.color = new Color(Intensity, 1f, 1f);
+                LevelImage.color = new Color(1f, 1f, Intensity);
                 break;
             case LevelStates.Enabled:
                 LevelImage.color = new Color(1f, 1f, Intensity);
                 break;
         }
-    }
-
-    public void SetLevelName(string lvlName)
-    {
-        LevelName.text = lvlName;
-        // TODO Setup LevelNames list in an accessible place... Stats?
     }
 }

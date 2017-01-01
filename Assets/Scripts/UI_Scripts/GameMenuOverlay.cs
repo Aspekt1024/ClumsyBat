@@ -76,9 +76,7 @@ public class GameMenuOverlay : MonoBehaviour {
 
     public void WinGame()
     {
-        // TODO get level name
-        // TODO probably need to do other things here too...
-        string LevelName = "Level " + Toolbox.Instance.Level;
+        string LevelName = Toolbox.Instance.LevelNames[Toolbox.Instance.Level];
         Menu.InGameMenu.LevelComplete(LevelName);
     }
 
