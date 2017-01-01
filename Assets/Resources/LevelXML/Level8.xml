@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<LevelCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <CaveList>
+    <Cave>
+      <TopIndex>0</TopIndex>
+      <BottomIndex>0</BottomIndex>
+      <bTopSecretPath>false</bTopSecretPath>
+      <bBottomSecretPath>false</bBottomSecretPath>
+      <Shrooms />
+      <Stals />
+      <Moths />
+      <Spiders />
+    </Cave>
+    <Cave>
+      <TopIndex>0</TopIndex>
+      <BottomIndex>1</BottomIndex>
+      <bTopSecretPath>false</bTopSecretPath>
+      <bBottomSecretPath>false</bBottomSecretPath>
+      <Shrooms />
+      <Stals />
+      <Moths>
+        <MothType>
+          <Pos>
+            <x>5.84999847</x>
+            <y>1.15</y>
+          </Pos>
+          <Scale>
+            <x>1</x>
+            <y>1</y>
+          </Scale>
+          <Rotation>
+            <x>0</x>
+            <y>0</y>
+            <z>0</z>
+            <w>1</w>
+            <eulerAngles>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+            </eulerAngles>
+          </Rotation>
+          <Colour>Green</Colour>
+        </MothType>
+      </Moths>
+      <Spiders>
+        <SpiderType>
+          <Pos>
+            <x>-7.66959572</x>
+            <y>4.43649769</y>
+          </Pos>
+          <Scale>
+            <x>0.316308379</x>
+            <y>0.3163084</y>
+          </Scale>
+          <Rotation>
+            <x>0</x>
+            <y>0</y>
+            <z>0</z>
+            <w>1</w>
+            <eulerAngles>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+            </eulerAngles>
+          </Rotation>
+          <bSwinging>false</bSwinging>
+        </SpiderType>
+      </Spiders>
+    </Cave>
+  </CaveList>
+  <Clumsy>
+    <Pos>
+      <x>-5.5</x>
+      <y>0</y>
+    </Pos>
+    <Scale>
+      <x>0.177492425</x>
+      <y>0.194299191</y>
+    </Scale>
+    <Rotation>
+      <x>0</x>
+      <y>0</y>
+      <z>-0.248385772</z>
+      <w>0.968661249</w>
+      <eulerAngles>
+        <x>0</x>
+        <y>0</y>
+        <z>331.236</z>
+      </eulerAngles>
+    </Rotation>
+  </Clumsy>
+</LevelCollection>

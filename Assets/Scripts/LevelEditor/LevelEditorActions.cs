@@ -13,12 +13,13 @@ public class LevelEditorActions : MonoBehaviour {
     Transform CaveParent = null;
     private int NumSections = 0;
 
-    private const float TileSizeX = 19.2f;  // TODO have this a toolbox const
-    private const float CaveZ = 0f;
-    private const float StalZ = 1f;
-    private const float ShroomZ = 2f;
-    private const float MothZ = 3f;
-    private const float ClumsyZ = -1f;
+    private float TileSizeX;
+    private float CaveZ;
+    private float StalZ;
+    private float ShroomZ;
+    private float MothZ;
+    private float ClumsyZ;
+    private float SpiderZ;
 
     void Awake()
     {
@@ -30,7 +31,20 @@ public class LevelEditorActions : MonoBehaviour {
 
     void Start()
     {
+        SetZLayers();
+
         Level = new LevelContainer();
+    }
+
+    private void SetZLayers()
+    {
+        TileSizeX = Toolbox.TileSizeX;
+        CaveZ = Toolbox.Instance.ZLayers["Cave"];
+        StalZ = Toolbox.Instance.ZLayers["Stalactite"];
+        ShroomZ = Toolbox.Instance.ZLayers["Mushroom"];
+        MothZ = Toolbox.Instance.ZLayers["Moth"];
+        ClumsyZ = Toolbox.Instance.ZLayers["Player"];
+        SpiderZ = Toolbox.Instance.ZLayers["Spider"];
     }
 
     public void SaveBtn()
@@ -45,6 +59,7 @@ public class LevelEditorActions : MonoBehaviour {
         StoreMushrooms();
         StoreMoths();
         StoreClumsy();
+        StoreSpiders();
         
         string LevelName = "Level" + LevelNum + ".xml";
         string PathName = "Assets/Resources/LevelXML";
@@ -63,6 +78,7 @@ public class LevelEditorActions : MonoBehaviour {
             Level.Caves[i].Shrooms = new ShroomPool.ShroomType[0];
             Level.Caves[i].Stals = new StalPool.StalType[0];
             Level.Caves[i].Moths = new MothPool.MothType[0];
+            Level.Caves[i].Spiders = new SpiderPool.SpiderType[0];
         }
     }
 
@@ -203,6 +219,31 @@ public class LevelEditorActions : MonoBehaviour {
         }
     }
 
+    private void StoreSpiders()
+    {
+        Transform SpiderParent = GameObject.Find("Spiders").GetComponent<Transform>();
+        int[] SpiderCounts = new int[NumSections];
+        SpiderCounts = GetObjCounts(SpiderParent);
+        for (int i = 0; i < NumSections; i++)
+        {
+            Level.Caves[i].Spiders = new SpiderPool.SpiderType[SpiderCounts[i]];
+        }
+
+        int[] SpiderNum = new int[NumSections];
+        foreach (Transform Spider in SpiderParent)
+        {
+            int index = Mathf.RoundToInt(Spider.position.x / TileSizeX);
+
+            SpiderPool.SpiderType NewSpider = Level.Caves[index].Spiders[SpiderNum[index]];
+            NewSpider.Pos = new Vector2(Spider.position.x - TileSizeX * index, Spider.position.y);
+            NewSpider.Scale = Spider.localScale;
+            NewSpider.Rotation = Spider.localRotation;
+            NewSpider.bSwinging = Spider.GetComponent<SpiderClass>().SwingingSpider;
+            Level.Caves[index].Spiders[SpiderNum[index]] = NewSpider;
+            SpiderNum[index]++;
+        }
+    }
+
     private void StoreClumsy()
     {
         Transform Clumsy = GameObject.Find("Clumsy").GetComponent<Transform>();
@@ -236,11 +277,13 @@ public class LevelEditorActions : MonoBehaviour {
         GameObject Stals = new GameObject("Stalactites");
         GameObject Shrooms = new GameObject("Mushrooms");
         GameObject Moths = new GameObject("Moths");
+        GameObject Spiders = new GameObject("Spiders");
         
         Caves.transform.SetParent(LevelObj.transform);
         Stals.transform.SetParent(LevelObj.transform);
         Shrooms.transform.SetParent(LevelObj.transform);
         Moths.transform.SetParent(LevelObj.transform);
+        Spiders.transform.SetParent(LevelObj.transform);
 
         GameObject Clumsy = (GameObject) Instantiate(Resources.Load("Clumsy"), LevelObj.transform);
         Clumsy.name = "Clumsy";
@@ -299,6 +342,15 @@ public class LevelEditorActions : MonoBehaviour {
                 NewMoth.transform.localScale = Moth.Scale;
                 NewMoth.transform.localRotation = Moth.Rotation;
                 NewMoth.GetComponent<Moth>().Colour = Moth.Colour;
+            }
+
+            foreach (SpiderPool.SpiderType Spider in Cave.Spiders)
+            {
+                GameObject NewSpider = (GameObject)Instantiate(Resources.Load("Obstacles/Spider"), Spiders.transform);
+                NewSpider.transform.position = new Vector3(Spider.Pos.x + i * TileSizeX, Spider.Pos.y, SpiderZ);
+                NewSpider.transform.localScale = Spider.Scale;
+                NewSpider.transform.localRotation = Spider.Rotation;
+                NewSpider.GetComponent<SpiderClass>().SwingingSpider = Spider.bSwinging;
             }
         }
     }

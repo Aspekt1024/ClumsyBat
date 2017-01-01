@@ -16,6 +16,7 @@ public class LevelContainer {
         public ShroomPool.ShroomType[] Shrooms;
         public StalPool.StalType[] Stals;
         public MothPool.MothType[] Moths;
+        public SpiderPool.SpiderType[] Spiders;
     }
     
     public struct ClumsyType

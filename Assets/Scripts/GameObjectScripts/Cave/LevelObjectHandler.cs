@@ -17,6 +17,7 @@ public class LevelObjectHandler : MonoBehaviour {
         public StalPool.StalType[] StalList;
         public ShroomPool.ShroomType[] MushroomList;
         public MothPool.MothType[] MothList;
+        public SpiderPool.SpiderType[] SpiderList;
     }
     
     private LevelContainer Level;
@@ -30,6 +31,7 @@ public class LevelObjectHandler : MonoBehaviour {
     private ShroomPool Shrooms;
     private MothPool Moths;
     private StalPool Stals;
+    private SpiderPool Spiders;
 
     void Start ()
     {   
@@ -55,6 +57,7 @@ public class LevelObjectHandler : MonoBehaviour {
         Shrooms = new ShroomPool();
         Stals = new StalPool();
         Moths = new MothPool();
+        Spiders = new SpiderPool();
     }
 
     void Update()
@@ -141,6 +144,7 @@ public class LevelObjectHandler : MonoBehaviour {
         if (ObjectList.MushroomList != null) { Shrooms.SetupMushroomsInList(ObjectList.MushroomList, XOffset); }
         if (ObjectList.StalList != null) { Stals.SetupStalactitesInList(ObjectList.StalList, XOffset); }
         if (ObjectList.MothList != null) { Moths.SetupMothsInList(ObjectList.MothList, XOffset); }
+        if (ObjectList.SpiderList != null) { Spiders.SetupSpidersInList(ObjectList.SpiderList, XOffset); }
     }
 
     private CaveListType GetCaveObjectList(int Index)
@@ -149,6 +153,7 @@ public class LevelObjectHandler : MonoBehaviour {
         ObjectList.StalList = Level.Caves[Index].Stals;
         ObjectList.MushroomList = Level.Caves[Index].Shrooms;
         ObjectList.MothList = Level.Caves[Index].Moths;
+        ObjectList.SpiderList = Level.Caves[Index].Spiders;
         return ObjectList;
     }
 
@@ -172,6 +177,7 @@ public class LevelObjectHandler : MonoBehaviour {
         Shrooms.SetPaused(PauseGame);
         Stals.SetPaused(PauseGame);
         Moths.SetPaused(PauseGame);
+        Spiders.SetPaused(PauseGame);
     }
 
     private void UpdateObjectSpeed(float Speed)
@@ -179,6 +185,7 @@ public class LevelObjectHandler : MonoBehaviour {
         Shrooms.SetVelocity(Speed);
         Stals.SetVelocity(Speed);
         Moths.SetVelocity(Speed);
+        Spiders.SetVelocity(Speed);
     }
 
     private void LoadLevel()
@@ -245,10 +252,27 @@ public class LevelObjectHandler : MonoBehaviour {
         return Obstacles;
     }
 
+    private SpiderClass[] GetSpider(Transform Spiders)
+    {
+        SpiderClass[] SpiderList = new SpiderClass[Spiders.transform.childCount];
+        foreach (Transform Obj in Spiders.transform)
+        {
+            SpiderClass Spider = Obj.GetComponentInChildren<SpiderClass>();
+            if (!Spider)
+            {
+                Debug.Log("Error: No script set to " + Spider.name + "/" + Obj.name);
+            }
+            Spider.DeactivateSpider();
+            SpiderList[int.Parse(Obj.name) - 1] = Spider;
+        }
+        return SpiderList;
+    }
+
     public void DestroyOnScreenHazards()
     {
         Stals.CheckAndDestroy();
         Shrooms.CheckAndDestroy();
+        Spiders.CheckAndDestroy();
     }
     
     public void SetMode(bool bIsEndless)

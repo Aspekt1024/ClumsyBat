@@ -5,6 +5,7 @@ public class StalPool {
     public StalPool()
     {
         SetupStalactitePool();
+        StalZLayer = Toolbox.Instance.ZLayers["Stalactite"];
     }
 
     private const int NumStalsInPool = 15;
@@ -20,7 +21,7 @@ public class StalPool {
 
     Stalactite[] Stals = null;
     int Index = 0;
-    private const float StalZLayer = 4f;
+    private float StalZLayer;
 
     private Stalactite GetStalactiteFromPool()
     {

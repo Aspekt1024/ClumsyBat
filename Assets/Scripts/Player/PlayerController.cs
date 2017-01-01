@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     public FogEffect Fog;
     public LevelScript Level;
     public Hypersonic Hypersonic;
+    // TODO Rush Component
+    // TODO Jump Component?
 
     private GameObject InputObject;
     private SwipeManager InputManager;
