@@ -5,6 +5,7 @@ public class Moth : MonoBehaviour {
     
     private Transform MothSprite = null;
     private Animator MothAnimator = null;
+    private Collider2D MothCollider = null;
     private bool bIsActive = false;
     public MothColour Colour;
     private bool bConsumption = false;
@@ -36,6 +37,7 @@ public class Moth : MonoBehaviour {
                 MothAnimator.enabled = false;
             }
         }
+        GetMothCollider();
         Lantern = GameObject.Find("Lantern").GetComponent<Transform>();
     }
 	
@@ -43,6 +45,18 @@ public class Moth : MonoBehaviour {
     {
         if (!bIsActive || Paused) { return; }
         MoveMothAlongPath();
+    }
+
+    private void GetMothCollider()
+    {
+        Transform MothParent = GetComponentInParent<Transform>();
+        foreach (Transform MothChild in MothParent)
+        {
+            if (MothChild.name == "MothTrigger")
+            {
+                MothCollider = MothChild.GetComponent<Collider2D>();
+            }
+        }
     }
 
     private void MoveMothAlongPath()
@@ -84,6 +98,7 @@ public class Moth : MonoBehaviour {
         if (!bConsumption)
         {
             bConsumption = true;
+            MothCollider.enabled = false;
             StartCoroutine("ConsumeAnim", AnimDuration);
         }
         return AnimDuration;
@@ -151,6 +166,7 @@ public class Moth : MonoBehaviour {
         //const float Range = 2f;
         //float MothYPos = Range * Random.value - Range / 2;
 
+        MothCollider.enabled = true;
         Phase = 0f;
         transform.position = new Vector3(transform.position.x, transform.position.y, MothZLayer); // TODO replace this?
         bIsActive = true;

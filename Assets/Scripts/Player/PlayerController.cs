@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
 {
     public FogEffect Fog;
     public LevelScript Level;
+    public Hypersonic Hypersonic;
 
     private GameObject InputObject;
     private SwipeManager InputManager;
@@ -253,7 +254,7 @@ public class PlayerController : MonoBehaviour
                 break;
             case Moth.MothColour.Gold:
                 Lantern.ChangeColour(Lantern.LanternColour.Gold);
-                Hypersonic();
+                StartHypersonic();
                 Fog.Echolocate();
                 break;
             case Moth.MothColour.Blue:
@@ -290,8 +291,9 @@ public class PlayerController : MonoBehaviour
         Lantern.PauseHinge();
     }
 
-    void Hypersonic()
+    private void StartHypersonic()
     {
+        Hypersonic.ActivateHypersonic();
         Level.DestroyOnScreenEvils();
     }
 
