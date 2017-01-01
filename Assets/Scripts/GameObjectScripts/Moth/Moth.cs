@@ -104,17 +104,28 @@ public class Moth : MonoBehaviour {
                 break;
         }
 
-        Vector3 StartPos = transform.position;
+        float LantenFollowTime = AnimDuration / 2f;
         float AnimTimer = 0f;
+        Vector3 StartPos = new Vector3();
+        bool bStartPosSet = false;
 
         while (AnimTimer < AnimDuration)
         {
             if (!Paused)
             {
                 AnimTimer += Time.deltaTime;
-                float XOffset = StartPos.x - (StartPos.x - Lantern.position.x) * (AnimTimer / AnimDuration);
-                float YOffset = StartPos.y - (StartPos.y - Lantern.position.y) * (AnimTimer / AnimDuration);
-                transform.position = new Vector3(XOffset, YOffset, StartPos.z);
+                if (AnimTimer > AnimDuration - LantenFollowTime)
+                {
+                    if (!bStartPosSet)
+                    {
+                        StartPos = transform.position;
+                        bStartPosSet = true;
+                    }
+                    float TimeRatio = (AnimTimer - (AnimDuration - LantenFollowTime)) / LantenFollowTime;
+                    float XOffset = StartPos.x - (StartPos.x - Lantern.position.x) * TimeRatio;
+                    float YOffset = StartPos.y - (StartPos.y - Lantern.position.y) * TimeRatio;
+                    transform.position = new Vector3(XOffset, YOffset, StartPos.z);
+                }
             }
             yield return null;
         }

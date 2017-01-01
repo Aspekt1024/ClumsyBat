@@ -84,6 +84,7 @@ public class DropdownMenu : MonoBehaviour {
     private void GetMenuObjects()
     {
         if (!gameObject.activeSelf) { gameObject.SetActive(true); }
+        SetCanvasActive(gameObject.GetComponent<CanvasGroup>(), true);
 
         MenuPanel = GameObject.Find("GameMenuPanel").GetComponent<RectTransform>();
         MenuBackPanel = GameObject.Find("BackPanel").GetComponent<Image>();

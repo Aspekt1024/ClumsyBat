@@ -22,14 +22,9 @@ public class Mushroom : MonoBehaviour {
     void Awake () {
         MushroomRenderer = GetComponent<SpriteRenderer>();
         MushroomAnimator = GetComponent<Animator>();
-        Player = FindObjectOfType<Player>();
+        Player = FindObjectOfType<Player>();    // TODO remove this once we use triggers (needed for tooltips)
 
-        Spore = (GameObject)Instantiate(Resources.Load("Obstacles/Spore"));
-        Spore.transform.position = Toolbox.Instance.HoldingArea;
-        Spore.name = "Spore";
-        Spore.SetActive(false);
-        SporeAnimator = Spore.GetComponent<Animator>();
-        SporeCollider = Spore.GetComponent<CircleCollider2D>();
+        SetupSpore();
     }
 	
     void FixedUpdate()
@@ -41,11 +36,6 @@ public class Mushroom : MonoBehaviour {
 	void Update ()
     {
         if (!bIsActive) { return; }
-        
-        if (Spore.activeSelf)
-        {
-            Spore.transform.position = new Vector3(Spore.transform.position.x - Speed * Time.deltaTime, Spore.transform.position.y, Spore.transform.position.z);
-        }
 
         if (!bIsTriggered && (Player.transform.position.x + 10 > transform.position.x))
         {
@@ -54,18 +44,35 @@ public class Mushroom : MonoBehaviour {
         }
 	}
 
+    private void SetupSpore()
+    {
+        Vector3 SporePos = new Vector3(transform.position.x, transform.position.y, transform.position.z + 0.1f);
+        Spore = (GameObject)Instantiate(Resources.Load("Obstacles/Spore"), SporePos, new Quaternion(), transform);
+        Spore.name = "Spore";
+        SporeAnimator = Spore.GetComponent<Animator>();
+        SporeCollider = Spore.GetComponent<CircleCollider2D>();
+        SporeCollider.offset = new Vector2(0f, 0.4f);
+        Spore.SetActive(false);
+    }
+
     private IEnumerator PrepareSpores()
     {
         float AnimationTimer = 0f;
         const float AnimationDuration = 1.2f;
+        const float ReleaseSporesTime = 0.4f;
+        bool bReleaseSporeAnimationTriggered = false;
         Vector3 OriginalScale = transform.localScale;
 
-        MushroomAnimator.Play("ReleaseSpore", 0, 0);
         while (AnimationTimer < AnimationDuration)
         {
             if (!Paused)
             {
                 AnimationTimer += Time.deltaTime;
+                if (AnimationTimer > AnimationDuration - ReleaseSporesTime && !bReleaseSporeAnimationTriggered)
+                {
+                    MushroomAnimator.Play("ReleaseSpore", 0, 0f);
+                    bReleaseSporeAnimationTriggered = true;
+                }
             }
             yield return null;
         }
@@ -76,27 +83,34 @@ public class Mushroom : MonoBehaviour {
 
     private IEnumerator ReleaseSpores()
     {
-        MushroomAnimator.Play("Normal", 0, 0);
+        const float AnimationDuration = 1f;
+        const float SporeRiseTime = 0.29f;
         SporeAnimator.Play("SporeAnim", 0, 0f);
-        Spore.transform.position = new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z - 0.1f);
         Spore.SetActive(true);
 
-        const float AnimationDuration = 0.8f;
         float AnimationTimer = 0f;
         while (AnimationTimer < AnimationDuration)
         {
             if (!Paused)
             {
                 AnimationTimer += Time.deltaTime;
+                if (AnimationTimer <= SporeRiseTime)
+                {
+                    float Distance = (1f + 2f * (AnimationTimer / SporeRiseTime));
+                    float XPos = transform.position.x + Spore.transform.up.x * Distance;
+                    float YPos = transform.position.y + Spore.transform.up.y * Distance;
+                    Spore.transform.position = new Vector3(XPos, YPos, Spore.transform.position.z);
+                }
+                else
+                {
+                    float SporeExpandRatio = (AnimationTimer - SporeRiseTime) / (AnimationDuration - SporeRiseTime);
+                    SporeCollider.radius = 1f;  // TODO could make this expand over time using SporeExpandTime
+                    SporeCollider.offset = new Vector2(0f, 0.4f - 0.7f * SporeExpandRatio);
+                }
             }
             yield return null;
         }
         Spore.SetActive(false);
-    }
-
-    private void IncreaseSporeCollider(float AnimationPosition)
-    {
-        SporeCollider.radius = 0.4f + 0.4f * AnimationPosition;
     }
 
     public void DeactivateMushroom()
@@ -113,6 +127,7 @@ public class Mushroom : MonoBehaviour {
         MushroomRenderer.enabled = true;
         Spore.SetActive(false);
         transform.position = new Vector3(transform.position.x, transform.position.y, ShroomZLayer);
+        Spore.transform.Rotate(Vector3.forward * 16f);  // Offset the spore trajectory to line up with the shroom graphic
     }
 
     public void SetSpeed(float _speed)
