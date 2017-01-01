@@ -25,6 +25,8 @@ public class StatsHandler : MonoBehaviour {
     public int TotalMoths = 0;
     public int Highscore = 0;       // Not currently in use
     public int LevelsCompleted = 0;
+    public int Currency = 0;
+    public int TotalCurrency = 0;
     
     public CompletionDataControl CompletionData;
 
@@ -118,6 +120,8 @@ public class StatsHandler : MonoBehaviour {
         PlayerPrefs.SetInt("MostMoths", MostMoths);
         PlayerPrefs.SetInt("TotalMoths", TotalMoths);
         PlayerPrefs.SetInt("LevelsCompleted", LevelsCompleted);
+        PlayerPrefs.SetInt("Currency", Currency);
+        PlayerPrefs.SetInt("TotalCurrency", TotalCurrency);
 
         SaveUserSettings();
         CompletionData.Save();
@@ -142,6 +146,8 @@ public class StatsHandler : MonoBehaviour {
         MostMoths = PlayerPrefs.GetInt("MostMoths");
         TotalMoths = PlayerPrefs.GetInt("TotalMoths");
         LevelsCompleted = PlayerPrefs.GetInt("LevelsCompleted");
+        Currency = PlayerPrefs.GetInt("Currency");
+        TotalCurrency = PlayerPrefs.GetInt("TotalCurrency");
     }
 
     private void SetupPrefList()
@@ -163,6 +169,8 @@ public class StatsHandler : MonoBehaviour {
         AddPref("TimesDashed", "Int");
         AddPref("TotalJumps", "Int");
         AddPref("LevelsCompleted", "Int");
+        AddPref("Currency", "Int");
+        AddPref("TotalCurrency", "Int");
     }
 
     private void SetupPlayerPrefs()

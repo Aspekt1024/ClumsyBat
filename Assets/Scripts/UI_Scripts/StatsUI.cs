@@ -66,8 +66,10 @@ public class StatsUI : MonoBehaviour {
 
     void InitialiseStatsList()
     {
-        NewStat("Best Distance", ((int)MS.Stats.BestDistance), "m");
+        //NewStat("Best Distance", ((int)MS.Stats.BestDistance), "m");
         NewStat("Total Distance", ((int)MS.Stats.TotalDistance), "m");
+        NewStat("Currency", MS.Stats.Currency, "");
+        NewStat("TotalCurrency", MS.Stats.TotalCurrency, "");
         NewStat("Levels Completed", (MS.Stats.LevelsCompleted), "");
         NewStat("Most Moths Eaten", MS.Stats.MostMoths, "");
         NewStat("Total Moths Eaten", MS.Stats.TotalMoths, "");

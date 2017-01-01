@@ -20,15 +20,9 @@ public class LevelScript : MonoBehaviour {
     private bool bAtEnd = false;
     private float GameSpeed = 1f;
     private float PrevGameSpeed;
-    
-    // TODO move all this to the UI script
-    public Text ScoreText;
-    public Text HighScoreText;
-    public Text LevelText;
 
     public GameMenuOverlay GameMenu;
     public GameUI GameHUD;
-    public GameObject PauseButton;
 
     public StatsHandler Stats;
 
@@ -36,14 +30,14 @@ public class LevelScript : MonoBehaviour {
     {
         LevelScripts = new GameObject("Level Scripts");
         Stats = LevelScripts.AddComponent<StatsHandler>();
+        GameHUD = GameObject.Find("UI_Overlay").GetComponent<GameUI>();
     }
 
     void Start ()
     {
         CreateGameObjects();
-        SetupUIElements();
+        GameMenu.Hide();
         Toolbox.Instance.LevelSpeed = LevelScrollSpeed;
-        HighScoreText.text = "Best Distance: " + ((int)Stats.BestDistance).ToString() + "m";
         SetLevel();
     }
 	
@@ -52,7 +46,6 @@ public class LevelScript : MonoBehaviour {
         Stats.TotalTime += Time.deltaTime;
         if (!bGameStarted || bGamePaused) { Stats.IdleTime += Time.deltaTime; return; }
         Stats.PlayTime += Time.deltaTime;
-        ScoreText.text = Mathf.FloorToInt(Stats.Distance).ToString() + "m";
 
         if (LevelObjects.AtCaveEnd())
         {
@@ -79,17 +72,8 @@ public class LevelScript : MonoBehaviour {
             Toolbox.Instance.Level = DefaultLevel;
             Level = DefaultLevel;
         }
-        
-        if (Level == -1)
-        {
-            LevelText.text = "Level: Endless";
-            LevelObjects.SetMode(bIsEndless: true);
-        }
-        else
-        {
-            LevelText.text = "Level: " + Toolbox.Instance.LevelNames[Level];
-            LevelObjects.SetMode(bIsEndless: false);
-        }
+
+        LevelObjects.SetMode(bIsEndless: Level == -1 ? true : false);
     }
 
     void CreateGameObjects()
@@ -131,8 +115,6 @@ public class LevelScript : MonoBehaviour {
         bGameStarted = true;
         UpdateGameSpeed(1);
         LevelObjects.SetVelocity(LevelScrollSpeed);
-
-        PauseButton.SetActive(true);
     }
 
     public void PauseGame(bool ShowMenu = true)
@@ -142,10 +124,10 @@ public class LevelScript : MonoBehaviour {
         PrevGameSpeed = GameSpeed;
         UpdateGameSpeed(0);
 
-        PauseButton.SetActive(false);
         if (ShowMenu)
         {
             GameMenu.PauseGame();
+            GameHUD.GamePaused(true);
         }
         Stats.SaveStats();
     }
@@ -155,17 +137,14 @@ public class LevelScript : MonoBehaviour {
         // Play resume sound
         bGamePaused = false;
         UpdateGameSpeed(PrevGameSpeed);
-        
-        PauseButton.SetActive(true);
+        GameHUD.GamePaused(false);
     }
 
     public void ShowGameoverMenu()
     {
         Stats.SaveStats();
         GameMenu.GameOver();
-
-        // Hide any other unnecessary UI elements
-        PauseButton.SetActive(false);
+        GameHUD.GameOver();
     }
 
     public void AddDistance(double TimeTravelled, float PlayerSpeed, bool bIsDashing)
@@ -177,19 +156,11 @@ public class LevelScript : MonoBehaviour {
         }
         Stats.Distance += AddDist;
         Stats.TotalDistance += AddDist;
-        ScoreText.text = (int)Stats.Distance + "m";
 
         if (Stats.Distance > Stats.BestDistance)
         {
             Stats.BestDistance = Stats.Distance;
-            HighScoreText.text = "Best Distance: " + (int)Stats.Distance + "m";
         }
-    }
-
-    void SetupUIElements()
-    {
-        PauseButton.SetActive(false);
-        GameMenu.Hide();
     }
 
     public void DestroyOnScreenEvils()

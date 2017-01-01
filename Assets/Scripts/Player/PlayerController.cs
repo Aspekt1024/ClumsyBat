@@ -245,22 +245,28 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
 
+        int CurrencyValue = 0;
         switch (MothScript.Colour)
         {
             case Moth.MothColour.Green:
+                CurrencyValue = 1;
                 Lantern.ChangeColour(Lantern.LanternColour.Green);
                 Fog.Echolocate();
                 break;
             case Moth.MothColour.Gold:
+                CurrencyValue = 2;
                 Lantern.ChangeColour(Lantern.LanternColour.Gold);
                 StartHypersonic();
                 Fog.Echolocate();
                 break;
             case Moth.MothColour.Blue:
+                CurrencyValue = 3;
                 Lantern.ChangeColour(Lantern.LanternColour.Blue);
                 Fog.Echolocate();
                 break;
         }
+        Level.Stats.Currency += CurrencyValue;
+        Level.Stats.TotalCurrency += CurrencyValue;
     }
 
     void StartGame()
