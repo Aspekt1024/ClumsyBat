@@ -47,8 +47,7 @@ public class PlayerController : MonoBehaviour
     private float RushStartTime;
     private const float RushTimer = 0.26f;
     private const float RushSpeed = 7f;
-
-
+    
     public event PlayerDeathHandler PlayerDeath; // not currently used. Kept for reference (events!)
     
     protected virtual void OnDeath(EventArgs e)

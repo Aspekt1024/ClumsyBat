@@ -34,7 +34,7 @@ public class Hypersonic : MonoBehaviour {
         while (AnimTimer < AnimationDuration)
         {
             AnimTimer += Time.deltaTime;
-            HypersonicBody.position = Lantern.position;
+            HypersonicBody.position = new Vector3(Lantern.position.x, Lantern.position.y, Toolbox.Instance.ZLayers["Hypersonic"]);
             yield return null;
         }
         HypersonicSprite.enabled = false;

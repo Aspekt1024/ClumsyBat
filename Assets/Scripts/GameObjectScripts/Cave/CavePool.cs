@@ -14,7 +14,7 @@ public class CavePool : MonoBehaviour {
     private int CaveIndexBottomFirst;
     private int CaveIndexBottomSecond;
 
-    private const float CaveZPos = 0f;
+    private float CaveZPos;
     private Vector2 CaveVelocity = new Vector2(0f, 0f);
 
     
@@ -42,6 +42,7 @@ public class CavePool : MonoBehaviour {
 
     void Awake()
     {
+        CaveZPos = Toolbox.Instance.ZLayers["Cave"];
         CaveParent = GameObject.Find("Caves").GetComponent<Transform>();
         SetupCaveEnds();
         SetupCavePool();

@@ -10,7 +10,7 @@ enum DepthIndex
 public class ParralaxBG : MonoBehaviour {
 
     private float ScrollSpeed = 0;
-    public const float ZLayer = 20f;
+    public float ZLayer;
     public float tileSizeX = 19.2f;
     public const float FrontBGSpeed = 0.3f;
     public const float MidBGSpeed = 0.1f;
@@ -35,6 +35,11 @@ public class ParralaxBG : MonoBehaviour {
     private Rigidbody2D[] FrontBGPieces = new Rigidbody2D[2];
     private Rigidbody2D[] MidBGPieces = new Rigidbody2D[2];
     private Rigidbody2D[] RearBGPieces = new Rigidbody2D[2];
+
+    void Awake ()
+    {
+        ZLayer = Toolbox.Instance.ZLayers["Background"];
+    }
 
     void Start()
     {

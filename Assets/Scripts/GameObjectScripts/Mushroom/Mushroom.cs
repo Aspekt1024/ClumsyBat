@@ -17,9 +17,12 @@ public class Mushroom : MonoBehaviour {
 
     private bool Paused;
 
-    private const float ShroomZLayer = 5f;
+    private float ShroomZLayer;
+    private float SporeZLayer;
 
     void Awake () {
+        ShroomZLayer = Toolbox.Instance.ZLayers["Mushroom"];
+        SporeZLayer = Toolbox.Instance.ZLayers["Spore"];
         MushroomRenderer = GetComponent<SpriteRenderer>();
         MushroomAnimator = GetComponent<Animator>();
         Player = FindObjectOfType<Player>();    // TODO remove this once we use triggers (needed for tooltips)
@@ -46,7 +49,7 @@ public class Mushroom : MonoBehaviour {
 
     private void SetupSpore()
     {
-        Vector3 SporePos = new Vector3(transform.position.x, transform.position.y, transform.position.z + 0.1f);
+        Vector3 SporePos = new Vector3(transform.position.x, transform.position.y, SporeZLayer);
         Spore = (GameObject)Instantiate(Resources.Load("Obstacles/Spore"), SporePos, new Quaternion(), transform);
         Spore.name = "Spore";
         SporeAnimator = Spore.GetComponent<Animator>();
@@ -99,7 +102,7 @@ public class Mushroom : MonoBehaviour {
                     float Distance = (1f + 2f * (AnimationTimer / SporeRiseTime));
                     float XPos = transform.position.x + Spore.transform.up.x * Distance;
                     float YPos = transform.position.y + Spore.transform.up.y * Distance;
-                    Spore.transform.position = new Vector3(XPos, YPos, Spore.transform.position.z);
+                    Spore.transform.position = new Vector3(XPos, YPos, SporeZLayer);
                 }
                 else
                 {

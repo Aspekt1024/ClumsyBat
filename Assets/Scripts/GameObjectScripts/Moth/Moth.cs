@@ -19,7 +19,7 @@ public class Moth : MonoBehaviour {
         Blue
     }
 
-    private const float MothZLayer = -4f;
+    private float MothZLayer;
 
     private bool Paused = false;
     private float Speed = 0;
@@ -28,6 +28,7 @@ public class Moth : MonoBehaviour {
     
     void Awake ()
     {
+        MothZLayer = Toolbox.Instance.ZLayers["Moth"];
         foreach (Transform GO in transform)
         {
             if (GO.name == "MothSprite")

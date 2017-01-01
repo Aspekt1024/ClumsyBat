@@ -16,7 +16,7 @@ public class Stalactite : MonoBehaviour {
 
     private bool Paused = false;
     private float Speed;
-    private const float StalZLayer = 4;
+    private float StalZLayer;
 
     private StalacType Stal;
     private bool bDropTriggered;
@@ -25,6 +25,7 @@ public class Stalactite : MonoBehaviour {
 
     void Awake ()
     {
+        StalZLayer = Toolbox.Instance.ZLayers["Stalactite"];
         Stal.Collider = GetComponent<PolygonCollider2D>();
         Stal.Renderer = GetComponent<SpriteRenderer>();
         Stal.Anim = GetComponent<Animator>();
