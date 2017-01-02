@@ -93,7 +93,6 @@ public class CompletionDataControl : MonoBehaviour {
             ToolTipOverlay.SetActive(true);
             GameObject.Find("TapToResume").GetComponent<Text>().enabled = false;
             ToolTipTextBox.GetComponent<Text>().text = ToolTipText[(int)ttID];
-            SetToolTipComplete(ttID);
         }
     }
 

@@ -124,6 +124,7 @@ public class PlayerController : MonoBehaviour
             Rush();
         }
 
+        if (!bGameStarted) { return; }
         CheckForDeath();
 
         if (transform.position.y < 1f && !Level.Stats.CompletionData.ToolTipComplete(CompletionDataControl.ToolTipID.SecondJump))
@@ -135,7 +136,6 @@ public class PlayerController : MonoBehaviour
     private void CheckForDeath()
     {
         // Die by being off-screen
-        if (!bGameStarted) { return; }
         Vector2 ScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
         if (ScreenPosition.y > Screen.height || ScreenPosition.y < 0)
         {
@@ -493,6 +493,7 @@ public class PlayerController : MonoBehaviour
             PlayerRigidBody.velocity = Vector2.zero;
             PlayerRigidBody.AddForce(JumpForce/3);
         }
+        Level.Stats.CompletionData.SetToolTipComplete(ttID);
     }
 }
 

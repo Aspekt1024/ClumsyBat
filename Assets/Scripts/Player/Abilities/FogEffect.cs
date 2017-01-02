@@ -21,6 +21,7 @@ public class FogEffect : MonoBehaviour {
 
     private bool bAbilityPaused = true;             // Handles whether the ability degenerates
     private bool bAbilityActivating = false;        // Quick animation to increase field of view
+    private bool bAbilityAnimating = false;         // Startup Animation flag
 
     private bool bIsMinimised = false;
     private float MinimiseStartTime = 0f;
@@ -38,19 +39,19 @@ public class FogEffect : MonoBehaviour {
     {
         Stats = FindObjectOfType<StatsHandler>();
         Lantern = GameObject.Find("Lantern").GetComponent<Transform>();
-
-        EchoScale = 0f;
+        
         EcholocateActivatedTime = Time.time;
         material.SetVector("_PlayerPos", Lantern.position);
         material.SetFloat("_LightDist", EchoScale);
         material.SetFloat("_DarknessAlpha", 0.85f);
 
         bIsMinimised = false;
-        
+        EchoScale = -3f;
     }
+
     void Update()
     {
-        if (bAbilityPaused)
+        if (bAbilityPaused || bAbilityAnimating)
         {
             EcholocateActivatedTime += Time.deltaTime;
         }
@@ -145,7 +146,34 @@ public class FogEffect : MonoBehaviour {
 
     public void StartOfLevel()
     {
-        StartCoroutine("LevelStartAnim");
+        EchoScale = -3f;
+        float AnimDuration = 2.2f;
+        if (!Stats.CompletionData.ToolTipComplete(CompletionDataControl.ToolTipID.SecondJump))
+        {
+            AnimDuration = 0.7f;
+        }
+        StartCoroutine("LevelStartAnim", AnimDuration);
+    }
+
+    private IEnumerator LevelStartAnim(float AnimDuration)
+    {
+        bAbilityPaused = false;
+        bAbilityAnimating = true;
+
+        float AnimTime = 0f;
+        while (AnimTime < AnimDuration)
+        {
+            AnimTime += Time.deltaTime;
+
+            EchoScale = (EcholocateScale - 3 * (1 - AnimTime / AnimDuration)) * (AnimTime / AnimDuration);
+
+            PulseTimer += Time.deltaTime;
+            EchoScale += GetLightPulse();
+            material.SetFloat("_LightDist", EchoScale);
+
+            yield return null;
+        }
+        bAbilityAnimating = false;
     }
 
     private IEnumerator FogFader()
@@ -155,39 +183,13 @@ public class FogEffect : MonoBehaviour {
         const float AnimDuration = 3f;
         float AnimTimer = 0f;
 
-        while(AnimTimer < AnimDuration)
+        while (AnimTimer < AnimDuration)
         {
             AnimTimer += Time.deltaTime;
             float Alpha = StartAlpha - (StartAlpha - EndAlpha) * (AnimTimer / AnimDuration);
             material.SetFloat("_DarknessAlpha", Alpha);
             yield return null;
         }
-    }
-
-    private IEnumerator LevelStartAnim()
-    {
-        bAbilityPaused = true;
-
-        yield return new WaitForSeconds(1f);
-
-        float AnimTime = 0f;
-        const float AnimDuration = 2.5f;
-        yield return null;
-
-        while (AnimTime < AnimDuration)
-        {
-            AnimTime += Time.deltaTime;
-
-            EchoScale = EcholocateScale * (AnimTime / AnimDuration);
-
-            PulseTimer += Time.deltaTime;
-            EchoScale += GetLightPulse();
-            material.SetFloat("_LightDist", EchoScale);
-
-            yield return null;
-        }
-
-        bAbilityPaused = false;
     }
 
     public void Minimise()
