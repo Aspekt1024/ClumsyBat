@@ -146,7 +146,7 @@ public class Lantern : MonoBehaviour {
         while (AnimTimer < ShrinkDuration)
         {
             AnimTimer += Time.deltaTime;
-            Light.transform.localScale = LightScale * (1f - AnimTimer / ShrinkDuration);
+            Light.transform.localScale = LightScale * (1f - 0.8f * AnimTimer / ShrinkDuration);
             yield return null;
         }
         SetColour();
@@ -155,7 +155,7 @@ public class Lantern : MonoBehaviour {
         while (AnimTimer < PulseDuration)
         {
             AnimTimer += Time.deltaTime;
-            Light.transform.localScale = LightScale * (1.5f * AnimTimer / ShrinkDuration);
+            Light.transform.localScale = LightScale * (0.2f + 1.3f * AnimTimer / ShrinkDuration);
             yield return null;
         }
 

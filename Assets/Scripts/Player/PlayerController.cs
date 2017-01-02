@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour
 
         CheckForDeath();
 
-        if (transform.position.y < 1f && !Level.Stats.CompletionData.ToolTipComplete(CompletionDataControl.ToolTipID.SecondJump))
+        if (transform.position.y < 1f && !Level.Stats.CompletionData.ToolTipComplete(CompletionDataControl.ToolTipID.SecondJump) && Level.Stats.Settings.Tooltips)
         {
             StartCoroutine("ToolTipPause", CompletionDataControl.ToolTipID.SecondJump);
         }
@@ -123,7 +123,7 @@ public class PlayerController : MonoBehaviour
     private void ProcessInput()
     {
         if (bToolTipWait || !bGameStarted) { return; }
-        if (!Level.Stats.CompletionData.ToolTipComplete(CompletionDataControl.ToolTipID.SecondJump)) { return; }
+        if (!Level.Stats.CompletionData.ToolTipComplete(CompletionDataControl.ToolTipID.SecondJump) && Level.Stats.Settings.Tooltips) { return; }
 
         if (InputManager.SwipeRegistered())
         {
@@ -256,7 +256,7 @@ public class PlayerController : MonoBehaviour
                 Fog.Minimise();
                 break;
             case "MothSensor":
-                if (!Level.Stats.CompletionData.ToolTipComplete(CompletionDataControl.ToolTipID.FirstMoth))
+                if (!Level.Stats.CompletionData.ToolTipComplete(CompletionDataControl.ToolTipID.FirstMoth) && Level.Stats.Settings.Tooltips)
                 {
                     StartCoroutine("ToolTipPause", CompletionDataControl.ToolTipID.FirstMoth);
                 }

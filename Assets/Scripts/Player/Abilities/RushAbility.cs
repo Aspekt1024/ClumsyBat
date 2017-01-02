@@ -7,7 +7,7 @@ public class RushAbility : MonoBehaviour {
     private bool bEnabled = false;
     private int AbilityLevel = 1;
 
-    private float CooldownDuration = 5f;        // TODO calculate this from level
+    private float CooldownDuration = 5f;
     private float CooldownRemaining = 0f;
 
     private bool bIsRushing = false;
@@ -32,9 +32,9 @@ public class RushAbility : MonoBehaviour {
 
         PlayerControl = PlayerRef;
         Lantern = LanternRef;
-
         PlayerBody = PlayerControl.GetComponent<Rigidbody2D>();
-        
+
+        SetCooldownDuration();
     }
 
     void Update ()
@@ -73,7 +73,12 @@ public class RushAbility : MonoBehaviour {
     {
         bPaused = _paused;
     }
-    
+
+    private void SetCooldownDuration()
+    {
+        CooldownDuration = 5f - 0.5f * AbilityLevel;
+    }
+
     private IEnumerator RushStartAnimation()
     {
         bIsRushing = true;
