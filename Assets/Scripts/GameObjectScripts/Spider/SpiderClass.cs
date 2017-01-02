@@ -102,7 +102,6 @@ public class SpiderClass : MonoBehaviour {
 
     IEnumerator Drop()
     {
-        Debug.Log("Prep");
         float ShakeTime = 0;
         const float ShakeDuration = 0.6f;
         bool bRotateForward = true;

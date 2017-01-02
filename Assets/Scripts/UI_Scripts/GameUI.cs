@@ -8,8 +8,19 @@ public class GameUI : MonoBehaviour {
     private Button PauseButton;
     private Text ScoreText;
     private Text CurrencyText;
+    private Text CollectedCurrencyText;
     private Text LevelText;
-    private Text ResumeTimerText = null;
+    private Text ResumeTimerText;
+
+    // We're keeping these to isolate the values from the stats when we do the level won currency collect animation
+    private int Currency = 0;
+    private int CollectedCurrency = 0;
+
+    private bool bPulseAnimating = false;
+    private Vector3 CurrencyScale;
+    private Vector3 CollectedCurrencyScale;
+    private RectTransform CurrencyRT;
+    private RectTransform CollectedCurrencyRT;
 
     private StatsHandler Stats = null;
 
@@ -26,7 +37,37 @@ public class GameUI : MonoBehaviour {
     {
         if (bGamePaused) { return; }
         ScoreText.text = ((int)Stats.Distance).ToString() + "m";
+    }
+
+    private void SetupUI()
+    {
         CurrencyText.text = Stats.Currency.ToString();
+        EnablePauseButton(true);
+        UpdateCurrency(Pulse: false);
+    }
+
+    public void UpdateCurrency(bool Pulse)
+    {
+        Currency = Stats.Currency;
+        CollectedCurrency = Stats.CollectedCurrency;
+        if (Pulse)
+        {
+            StartCoroutine("PulseText", CollectedCurrencyRT);
+        }
+        SetCurrencyText();
+    }
+
+    private void SetCurrencyText()
+    {
+        if (CollectedCurrency > 0)
+        {
+            CollectedCurrencyText.text = "+ " + CollectedCurrency.ToString();
+        }
+        else
+        {
+            CollectedCurrencyText.text = string.Empty;
+        }
+        CurrencyText.text = Currency.ToString();
     }
 
     private void GetTextObjects()
@@ -50,6 +91,11 @@ public class GameUI : MonoBehaviour {
                     break;
                 case "CurrencyText":
                     CurrencyText = RT.GetComponent<Text>();
+                    CurrencyRT = RT;
+                    break;
+                case "CollectedCurrencyText":
+                    CollectedCurrencyText = RT.GetComponent<Text>();
+                    CollectedCurrencyRT = RT;
                     break;
             }
         }
@@ -74,21 +120,16 @@ public class GameUI : MonoBehaviour {
         ResumeTimerText.text = StartText;
     }
 
-    private void SetupUI()
+    public void SetLevelText(int Level)
     {
-        CurrencyText.text = Stats.Currency.ToString();
-        EnablePauseButton(true);
-    }
-
-    private void SetLevelText()
-    {
-        if (Toolbox.Instance.Level == -1)
+        // Note: this must be called by the LevelScript once the level has been set in the Toolbox
+        if (Level == -1)
         {
             LevelText.text = "Level: Endless";
         }
         else
         {
-            LevelText.text = "Level: " + Toolbox.Instance.LevelNames[Toolbox.Instance.Level];
+            LevelText.text = "Level: " + Toolbox.Instance.LevelNames[Level];
         }
     }
 
@@ -101,11 +142,91 @@ public class GameUI : MonoBehaviour {
     public void GameOver()
     {
         EnablePauseButton(false);
+        StartCoroutine("ProcessCurrency", false);
     }
 
     private void EnablePauseButton(bool bEnabled)
     {
         PauseButton.interactable = bEnabled;
         PauseImage.enabled = bEnabled;
+    }
+
+    public void LevelWon()
+    {
+        EnablePauseButton(false);
+        StartCoroutine("ProcessCurrency", true);
+    }
+
+    private IEnumerator ProcessCurrency(bool bCollect)
+    {
+        // Note: Currency has already been processed elsewhere
+        // This is just an animation
+        float AnimTimer = 0f;
+        const float AnimDuration = 1f;
+        float FromCurrency = CollectedCurrency;
+        float ToCurrency = Currency;
+        
+        CurrencyScale = CurrencyRT.localScale;
+        CollectedCurrencyScale = CollectedCurrencyRT.localScale;
+        
+        while (AnimTimer < AnimDuration)
+        {
+            AnimTimer += Time.deltaTime;
+            float Delta = AnimTimer / AnimDuration;
+
+            if (bCollect)
+            {
+                int OldCurrency = Currency;
+                Currency = (int)(ToCurrency - ((1 - Delta) * FromCurrency));
+                if (OldCurrency != Currency)
+                {
+                    CurrencyRT.localScale = CurrencyScale;
+                    StartCoroutine("PulseText", CurrencyRT);
+                }
+            }
+            int OldCollectedCurrency = CollectedCurrency;
+            CollectedCurrency = (int)((1 - Delta) * FromCurrency);
+            if (CollectedCurrency != OldCollectedCurrency)
+            {
+                CollectedCurrencyRT.localScale = CollectedCurrencyScale;
+                StartCoroutine("PulseText", CollectedCurrencyRT);
+            }
+            
+            while (bPulseAnimating && CollectedCurrency == 0)
+            {
+                AnimTimer += Time.deltaTime;
+                yield return null;
+            }
+
+            SetCurrencyText();
+            yield return null;
+        }
+    }
+
+    private IEnumerator PulseText(RectTransform TextObject)
+    {
+        float AnimTimer = 0f;
+        const float AnimDuration = 0.2f;
+        const float ScaleMax = 0.25f;
+
+        Vector3 StartScale = TextObject.localScale;
+
+        bPulseAnimating = true;
+        while (AnimTimer < AnimDuration)
+        {
+            float Scale = 1f;
+            if (AnimTimer > AnimDuration / 2)
+            {
+                Scale = (1f + ScaleMax) - (ScaleMax * (AnimTimer - AnimDuration / 2) / (AnimDuration / 2));
+            }
+            else
+            {
+                Scale = 1f + (ScaleMax * AnimTimer / (AnimDuration / 2));
+            }
+            TextObject.localScale = StartScale * Scale;
+            AnimTimer += Time.deltaTime;
+            yield return null;
+        }
+        bPulseAnimating = false;
     }
 }

@@ -72,7 +72,7 @@ public class LevelScript : MonoBehaviour {
             Toolbox.Instance.Level = DefaultLevel;
             Level = DefaultLevel;
         }
-
+        GameHUD.SetLevelText(Level);
         LevelObjects.SetMode(bIsEndless: Level == -1 ? true : false);
     }
 
@@ -170,9 +170,10 @@ public class LevelScript : MonoBehaviour {
 
     public void LevelWon()
     {
+        GameHUD.LevelWon();
+        GameMenu.WinGame();
         Stats.LevelWon(Toolbox.Instance.Level);
         Stats.SaveStats();
         GameObject.Find("Clumsy").GetComponent<PlayerController>().PauseGame(ShowMenu: false);
-        GameMenu.WinGame();
     }
 }

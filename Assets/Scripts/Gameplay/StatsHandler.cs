@@ -6,6 +6,7 @@ public class StatsHandler : MonoBehaviour {
     // Stat keeping (active in-game only)
     public int Score;
     public int MothsEaten;
+    public int CollectedCurrency;
     public float Distance = 0;
 
     // Stat data (persistent)
@@ -96,6 +97,10 @@ public class StatsHandler : MonoBehaviour {
 
     public void LevelWon(int Level)
     {
+        Currency += CollectedCurrency;
+        TotalCurrency += CollectedCurrency;
+        CollectedCurrency = 0;
+
         LevelsCompleted++;
         CompletionData.SetCompleted(Level, true, false, false);
         CompletionData.UnlockLevels(Level, true, false, false);

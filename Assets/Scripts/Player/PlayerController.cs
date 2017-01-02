@@ -75,6 +75,8 @@ public class PlayerController : MonoBehaviour
 
         InputObject = new GameObject("Game Scripts");
         InputManager = InputObject.AddComponent<SwipeManager>();
+
+        Level.Stats.CollectedCurrency = 0;
     }
 
     public void LevelStart()
@@ -267,8 +269,8 @@ public class PlayerController : MonoBehaviour
                 Fog.Echolocate();
                 break;
         }
-        Level.Stats.Currency += CurrencyValue;
-        Level.Stats.TotalCurrency += CurrencyValue;
+        Level.Stats.CollectedCurrency += CurrencyValue;
+        Level.GameHUD.UpdateCurrency(Pulse: true);
     }
 
     void StartGame()
