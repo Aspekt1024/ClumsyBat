@@ -77,6 +77,8 @@ public class PlayerController : MonoBehaviour
         InputManager = InputObject.AddComponent<SwipeManager>();
 
         Level.Stats.CollectedCurrency = 0;
+
+        transform.position = new Vector3(-Toolbox.TileSizeX / 2f, 0f, transform.position.z);
     }
 
     public void LevelStart()
@@ -308,7 +310,7 @@ public class PlayerController : MonoBehaviour
         Fog.Pause();
         Level.Stats.SaveStats();
         Anim.enabled = false;
-        Lantern.PauseHinge();
+        Lantern.GamePaused(true);
     }
 
     private void StartHypersonic()
@@ -350,7 +352,7 @@ public class PlayerController : MonoBehaviour
         Level.ResumeGame();
         Fog.Resume();
         Anim.enabled = true;
-        Lantern.ResumeHinge();
+        Lantern.GamePaused(false);
     }
 
     IEnumerator StartRushAnim()
@@ -409,9 +411,8 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator CaveEntranceAnimation()
     {
-        Vector3 StartPoint = new Vector3(-Toolbox.TileSizeX / 2f, 0f, transform.position.z);
+        Vector3 StartPoint = transform.position;
         Vector2 TargetPoint = new Vector2(-5f, 1.3f);
-        transform.position = StartPoint;
         
         while (transform.position.x < TargetPoint.x)
         {

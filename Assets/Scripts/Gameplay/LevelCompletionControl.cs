@@ -36,7 +36,8 @@ public class CompletionDataControl : MonoBehaviour {
 
     private void SetToolTipText()
     {
-        ToolTipText[(int)ToolTipID.SecondJump] = "Tap to flap!";
+        // TODO could set up as a dictionary
+        ToolTipText[(int)ToolTipID.SecondJump] = "Tap anywhere to flap!";
         ToolTipText[(int)ToolTipID.FirstMoth] = "It's getting dark! Collect moths to fuel the lantern.";
     }
 
@@ -57,9 +58,11 @@ public class CompletionDataControl : MonoBehaviour {
     {
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Open(Application.persistentDataPath + "/CompletionData.dat", FileMode.Create);
+
         CompletionDataContainer BlankGameData = new CompletionDataContainer();
         BlankGameData.Data.LevelData = new CompletionDataContainer.LevelType[NumLevels];
         BlankGameData.Data.ToolTipData = new bool[NumTooltips];
+
         bf.Serialize(file, BlankGameData);
         file.Close();
         Load();
@@ -69,6 +72,12 @@ public class CompletionDataControl : MonoBehaviour {
     public void ResetTooltips()
     {
         ToolTipCompletion = new bool[NumTooltips];
+        Save();
+    }
+
+    public void ClearLevelProgress()
+    {
+        LevelCompletion = new CompletionDataContainer.LevelType[NumLevels];
         Save();
     }
 
