@@ -41,6 +41,7 @@ public class DropdownMenu : MonoBehaviour {
 
     public void ShowOptions()
     {
+        OptionsMenu.InitialiseOptionsView();
         SetCanvasActive(MainPanel, false);
         SetCanvasActive(OptionsPanel, true);
         SetCanvasActive(StatsPanel, false);
@@ -63,9 +64,10 @@ public class DropdownMenu : MonoBehaviour {
         MenuBackPanel.color = Color.clear;
     }
 
-    public void RaiseMenu()
+    public float RaiseMenu()
     {
         StartCoroutine("PanelDropAnim", false);
+        return PanelDropAnimDuration;
     }
 
     private IEnumerator MenuSwitchAnim(bool bOptionsMenu)

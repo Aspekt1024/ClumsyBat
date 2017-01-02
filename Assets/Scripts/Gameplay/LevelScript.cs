@@ -113,6 +113,7 @@ public class LevelScript : MonoBehaviour {
     public void StartGame()
     {
         bGameStarted = true;
+        GameHUD.StartGame();
         UpdateGameSpeed(1);
         LevelObjects.SetVelocity(LevelScrollSpeed);
     }

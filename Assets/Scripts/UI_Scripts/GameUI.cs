@@ -22,6 +22,9 @@ public class GameUI : MonoBehaviour {
     private RectTransform CurrencyRT;
     private RectTransform CollectedCurrencyRT;
 
+    private RectTransform ResumeTimerRT;
+    private int ResumeTime;
+
     private StatsHandler Stats = null;
 
     private bool bGamePaused = false;
@@ -42,7 +45,7 @@ public class GameUI : MonoBehaviour {
     private void SetupUI()
     {
         CurrencyText.text = Stats.Currency.ToString();
-        EnablePauseButton(true);
+        EnablePauseButton(false);
         UpdateCurrency(Pulse: false);
     }
 
@@ -78,6 +81,7 @@ public class GameUI : MonoBehaviour {
             {
                 case "ResumeTimerText":
                     ResumeTimerText = RT.GetComponent<Text>();
+                    ResumeTimerRT = RT;
                     break;
                 case "PauseButton":
                     PauseButton = RT.GetComponent<Button>();
@@ -107,7 +111,16 @@ public class GameUI : MonoBehaviour {
         {
             ResumeTimerText.enabled = true;
         }
-        ResumeTimerText.text = Mathf.Ceil(TimeRemaining).ToString();
+        if (ResumeTime != Mathf.CeilToInt(TimeRemaining))
+        {
+            ResumeTime = Mathf.CeilToInt(TimeRemaining);
+            if (ResumeTime == 0)
+            {
+                return;
+            }
+            StartCoroutine("PulseText", ResumeTimerRT);
+            ResumeTimerText.text = ResumeTime.ToString();
+        }
     }
 
     public void HideResumeTimer()
@@ -117,6 +130,7 @@ public class GameUI : MonoBehaviour {
 
     public void SetStartText(string StartText)
     {
+        StartCoroutine("PulseText", ResumeTimerRT);
         ResumeTimerText.text = StartText;
     }
 
@@ -136,7 +150,12 @@ public class GameUI : MonoBehaviour {
     public void GamePaused(bool Paused)
     {
         bGamePaused = Paused;
-        EnablePauseButton(false);
+        EnablePauseButton(!Paused);
+    }
+
+    public void StartGame()
+    {
+        EnablePauseButton(true);
     }
 
     public void GameOver()
@@ -164,7 +183,7 @@ public class GameUI : MonoBehaviour {
         float AnimTimer = 0f;
         const float AnimDuration = 1f;
         float FromCurrency = CollectedCurrency;
-        float ToCurrency = Currency;
+        float ToCurrency = Currency + CollectedCurrency;
         
         CurrencyScale = CurrencyRT.localScale;
         CollectedCurrencyScale = CollectedCurrencyRT.localScale;
@@ -173,17 +192,18 @@ public class GameUI : MonoBehaviour {
         {
             AnimTimer += Time.deltaTime;
             float Delta = AnimTimer / AnimDuration;
-
+            
             if (bCollect)
             {
                 int OldCurrency = Currency;
-                Currency = (int)(ToCurrency - ((1 - Delta) * FromCurrency));
+                Currency = (int)(ToCurrency - (int)((1 - Delta) * FromCurrency));
                 if (OldCurrency != Currency)
                 {
                     CurrencyRT.localScale = CurrencyScale;
                     StartCoroutine("PulseText", CurrencyRT);
                 }
             }
+
             int OldCollectedCurrency = CollectedCurrency;
             CollectedCurrency = (int)((1 - Delta) * FromCurrency);
             if (CollectedCurrency != OldCollectedCurrency)

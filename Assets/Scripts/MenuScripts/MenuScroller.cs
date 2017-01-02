@@ -119,10 +119,11 @@ public class MenuScroller : MonoBehaviour {
         StartCoroutine("MoveMenu");
     }
 
-    public void StatsScreen()
+    public float StatsScreen()
     {
         MenuState = MenuStates.StatsScreen;
         StartCoroutine("MoveMenu");
+        return AnimDuration;
     }
 
     private IEnumerator MoveMenu()
@@ -257,10 +258,17 @@ public class MenuScroller : MonoBehaviour {
     private IEnumerator LeaveLevelAnim()
     {
         ScrollRect LevelScrollRect = LevelScroller.GetComponent<ScrollRect>();
+
         const float AnimDuration = 0.5f;
         float AnimTimer = 0f;
         float StartPos = LevelScrollRect.horizontalNormalizedPosition;
         float EndPos = 0f;
+        
+        if (LevelScrollRect.horizontalNormalizedPosition == 0f)
+        {
+            AnimTimer = AnimDuration;
+        }
+
         while (AnimTimer < AnimDuration)
         {
             AnimTimer += Time.deltaTime;

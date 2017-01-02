@@ -124,6 +124,16 @@ public class PlayerController : MonoBehaviour
             Rush();
         }
 
+        CheckForDeath();
+
+        if (transform.position.y < 1f && !Level.Stats.CompletionData.ToolTipComplete(CompletionDataControl.ToolTipID.SecondJump))
+        {
+            StartCoroutine("ToolTipPause", CompletionDataControl.ToolTipID.SecondJump);
+        }
+    }
+
+    private void CheckForDeath()
+    {
         // Die by being off-screen
         if (!bGameStarted) { return; }
         Vector2 ScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
@@ -136,15 +146,16 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                Level.ShowGameoverMenu();
-                bGameOverOverlay = true;
+                StartCoroutine("GameOverSequence");
             }
         }
+    }
 
-        if (transform.position.y < 1f && !Level.Stats.CompletionData.ToolTipComplete(CompletionDataControl.ToolTipID.SecondJump))
-        {
-            StartCoroutine("ToolTipPause", CompletionDataControl.ToolTipID.SecondJump);
-        }
+    private IEnumerator GameOverSequence()
+    {
+        bGameOverOverlay = true;
+        yield return new WaitForSeconds(1f);
+        Level.ShowGameoverMenu();
     }
 
     void Jump()
@@ -310,15 +321,16 @@ public class PlayerController : MonoBehaviour
     {
         if (bGameResuming) { return; }
         Level.Stats.SaveStats();
-        ResumeTimerStart = Time.time;
         bGameResuming = true;
         StartCoroutine("UpdateResumeTimer");
     }
 
     IEnumerator UpdateResumeTimer()
     {
-        Level.GameMenu.Hide();
-        while (ResumeTimerStart + ResumeTimer > Time.time)
+        float WaitTime = Level.GameMenu.RaiseMenu();
+        yield return new WaitForSeconds(WaitTime);
+        ResumeTimerStart = Time.time;
+        while (ResumeTimerStart + ResumeTimer - WaitTime > Time.time)
         {
             float TimeRemaining = ResumeTimerStart + ResumeTimer - Time.time;
             Level.GameHUD.SetResumeTimer(TimeRemaining);

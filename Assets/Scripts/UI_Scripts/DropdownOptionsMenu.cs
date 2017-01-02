@@ -29,6 +29,11 @@ public class DropdownOptionsMenu : MonoBehaviour {
     {
         Stats = FindObjectOfType<StatsHandler>();
         GetMenuObjects();
+        InitialiseOptionsView();
+    }
+
+    public void InitialiseOptionsView()
+    {
         SetPanelVisible(OptionsMainPanel, true);
         SetPanelVisible(OptionsYesNoPanel, false);
         SetPanelVisible(OptionsOKPanel, false);

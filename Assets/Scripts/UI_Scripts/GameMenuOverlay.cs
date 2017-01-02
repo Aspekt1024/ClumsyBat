@@ -85,6 +85,12 @@ public class GameMenuOverlay : MonoBehaviour {
         Menu.Hide();
     }
 
+    public float RaiseMenu()
+    {
+        float WaitTime = Menu.RaiseMenu();
+        return WaitTime;
+    }
+
     public void RemoveLoadingOverlay()
     {
         LoadingOverlay.HideLoadScreen();

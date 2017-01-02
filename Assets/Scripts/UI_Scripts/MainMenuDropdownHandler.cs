@@ -16,30 +16,46 @@ public class MainMenuDropdownHandler : MonoBehaviour {
 
     public void OptionsPressed()
     {
-        Scroller.StatsScreen();
-        // yield reutrn waitforsetcon thruewjakfs
+        StartCoroutine("ShowOptions");
+    }
+
+    private IEnumerator ShowOptions()
+    {
+        float WaitTime = Scroller.StatsScreen();
+        yield return new WaitForSeconds(WaitTime);
         Menu.ShowOptions();
     }
 
     public void OptionsBackPressed()
     {
-        Menu.RaiseMenu();
-        // yield
+        StartCoroutine("HideDropdown", false);
+    }
+
+    private IEnumerator HideDropdown(bool bStatsMenu)
+    {
+        float WaitTime = Menu.RaiseMenu();
+        yield return new WaitForSeconds(WaitTime);
         Scroller.MainMenu();
+        if (bStatsMenu)
+        {
+            Menu.StatsMenu.Hide();
+        }
     }
 
     public void StatsPressed()
     {
-        Scroller.StatsScreen();
-        // yield
+        StartCoroutine("ShowStats");
+    }
+
+    private IEnumerator ShowStats()
+    {
+        float WaitTime = Scroller.StatsScreen();
+        yield return new WaitForSeconds(WaitTime);
         Menu.ShowStats();
     }
 
     public void StatsBackPressed()
     {
-        Menu.RaiseMenu();
-        // yield
-        Scroller.MainMenu();
-        Menu.StatsMenu.Hide();
+        StartCoroutine("HideDropdown", true);
     }
 }
