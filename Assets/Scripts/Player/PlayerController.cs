@@ -19,8 +19,7 @@ public class PlayerController : MonoBehaviour
 
     private GameObject InputObject;
     private SwipeManager InputManager;
-
-    private Vector3 PlayerStartPos = new Vector3(-5.5f, -1.5f, -2f);
+    
     private Vector3 PlayerHoldingArea = new Vector3(-10f, -10f, 0f);
     private Rigidbody2D PlayerRigidBody;
     private Rigidbody2D LanternBody;
@@ -34,22 +33,19 @@ public class PlayerController : MonoBehaviour
     private bool bGameStarted = false;
     private bool bGamePaused = false;
     private bool bGameResuming = false;
-    private bool bAtEnd = false;
     private float ResumeTimerStart;
     private float ResumeTimer = 3f;
     private Vector2 SavedVelocity = Vector2.zero;
 
     private bool bIsAlive = true;
-    private bool bIsRushing = false;
     private bool bGameOverOverlay = false;
 
     public Vector2 JumpForce = new Vector2(0, 700);
     private const float GravityScale = 3;
     private float PlayerSpeed;
-    private float RushStartTime;
-    private const float RushTimer = 0.26f;
-    private const float RushSpeed = 7f;
-    
+
+    private RushAbility Rush;
+
     public event PlayerDeathHandler PlayerDeath; // not currently used. Kept for reference (events!)
     
     protected virtual void OnDeath(EventArgs e)
@@ -79,6 +75,15 @@ public class PlayerController : MonoBehaviour
         Level.Stats.CollectedCurrency = 0;
 
         transform.position = new Vector3(-Toolbox.TileSizeX / 2f, 0f, transform.position.z);
+        SetupAbilities();
+    }
+
+    private void SetupAbilities()
+    {
+        GameObject AbilityScripts = new GameObject("Ability Scripts");
+        Rush = AbilityScripts.AddComponent<RushAbility>();
+
+        Rush.Setup(Level.Stats, this, Lantern);
     }
 
     public void LevelStart()
@@ -95,44 +100,60 @@ public class PlayerController : MonoBehaviour
         {
             if (bGameStarted && !bGameResuming)
             {
-                Level.AddDistance(Time.deltaTime, PlayerSpeed, bIsRushing);
-                if (Time.time - RushStartTime > RushTimer && bIsRushing)
-                {
-                    StartCoroutine("EndRushAnim");
-                }
+                Level.AddDistance(Time.deltaTime, PlayerSpeed);
                 if (Level.AtCaveEnd())
                 {
-                    bAtEnd = true;
+                    Rush.CaveEndReached();
                     transform.position += new Vector3(Time.deltaTime * PlayerSpeed * Toolbox.Instance.LevelSpeed, 0f, 0f);
                 }
             }
-
-            if (InputManager.SwipeRegistered())
-            {
-                Rush();
-            }
-            if (InputManager.TapRegistered())
-            {
-                Jump();
-            }
+            ProcessInput();
         }
 
-        // For debugging
-        if (Input.GetKeyUp("w"))
-        {
-            Jump();
-        } else if (Input.GetKeyUp("a"))
-        {
-            Rush();
-        }
+        if (!bGameStarted) { return; }  // TODO see if we still need this
 
-        if (!bGameStarted) { return; }
         CheckForDeath();
 
         if (transform.position.y < 1f && !Level.Stats.CompletionData.ToolTipComplete(CompletionDataControl.ToolTipID.SecondJump))
         {
             StartCoroutine("ToolTipPause", CompletionDataControl.ToolTipID.SecondJump);
         }
+    }
+
+    private void ProcessInput()
+    {
+        if (bToolTipWait || !bGameStarted) { return; }
+        if (!Level.Stats.CompletionData.ToolTipComplete(CompletionDataControl.ToolTipID.SecondJump)) { return; }
+
+        if (InputManager.SwipeRegistered())
+        {
+            ProcessSwipe();
+        }
+        if (InputManager.TapRegistered())
+        {
+            ProcessTap();
+        }
+        
+        if (Input.GetKeyUp("w"))
+        {
+            ProcessTap();
+        }
+        else if (Input.GetKeyUp("a"))
+        {
+            ProcessSwipe();
+        }
+    }
+
+    private void ProcessTap()
+    {
+        if (bGamePaused) { ResumeGame(); }
+        Jump();
+    }
+
+    private void ProcessSwipe()
+    {
+        if (bGamePaused) { return; }
+        Rush.Activate();
     }
 
     private void CheckForDeath()
@@ -153,6 +174,24 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void SetGravity(float gravity)
+    {
+        PlayerRigidBody.gravityScale = (gravity == -1 ? GravityScale : gravity);
+    }
+    public void SetVelocity(Vector2 velocity)
+    {
+        PlayerRigidBody.velocity = velocity;
+    }
+    public void SetAnimation(string AnimationName)
+    {
+        Anim.Play(AnimationName, 0, 0f);
+    }
+    public void SetPlayerSpeed(float Speed)
+    {
+        PlayerSpeed = Speed;
+        Level.UpdateGameSpeed(PlayerSpeed);
+    }
+
     private IEnumerator GameOverSequence()
     {
         bGameOverOverlay = true;
@@ -162,29 +201,11 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        if (!Level.Stats.CompletionData.ToolTipComplete(CompletionDataControl.ToolTipID.SecondJump) || bToolTipWait)
-        {
-            return;
-        }
-
-        if (!bIsAlive || !bGameStarted) { return; }
-        
-        if (bGamePaused) { ResumeGame(); }
-
         Level.Stats.TotalJumps++;
         PlayerRigidBody.velocity = Vector2.zero;
         PlayerRigidBody.AddForce(JumpForce);
         //GetComponent<AudioSource>().Play();
         Anim.Play("Flap", 0, 0.5f);
-
-    }
-
-    void Rush()
-    {
-        if (!bIsAlive || bIsRushing || bGamePaused || !bGameStarted || bToolTipWait) { return; }
-        Level.Stats.TimesDashed++;
-        StartCoroutine("StartRushAnim");
-        // TODO Rush cooldown and failed rush when on cooldown?
     }
 
     // Die by Collision
@@ -311,6 +332,12 @@ public class PlayerController : MonoBehaviour
         Level.Stats.SaveStats();
         Anim.enabled = false;
         Lantern.GamePaused(true);
+        AbilitiesPaused(true);
+    }
+
+    private void AbilitiesPaused(bool bPauseAbility)
+    {
+        Rush.GamePaused(bPauseAbility);
     }
 
     private void StartHypersonic()
@@ -353,43 +380,7 @@ public class PlayerController : MonoBehaviour
         Fog.Resume();
         Anim.enabled = true;
         Lantern.GamePaused(false);
-    }
-
-    IEnumerator StartRushAnim()
-    {
-        bIsRushing = true;
-        RushStartTime = Time.time;
-        PlayerRigidBody.gravityScale = 0f;
-        PlayerRigidBody.velocity = new Vector2(8f, 0f);
-
-        Anim.Play("Rush", 0, 0);
-        Lantern.AddRushForce();
-
-        yield return new WaitForSeconds(0.07f);
-
-        if (bIsAlive)
-        {
-            PlayerSpeed = RushSpeed;
-            Level.UpdateGameSpeed(PlayerSpeed);
-            PlayerRigidBody.velocity = Vector2.zero;
-        }
-    }
-
-    IEnumerator EndRushAnim()
-    {
-        PlayerSpeed = 1f;
-        Level.UpdateGameSpeed(PlayerSpeed);
-        bIsRushing = false;
-        PlayerRigidBody.gravityScale = GravityScale;
-        
-        while (PlayerRigidBody.position.x > PlayerStartPos.x && !bAtEnd)
-        {
-            float NewSpeed = 3 - (2*PlayerRigidBody.position.x / (PlayerRigidBody.position.x + PlayerStartPos.x));
-            PlayerRigidBody.velocity = new Vector2(-NewSpeed, PlayerRigidBody.velocity.y);
-            yield return null;
-        }
-        PlayerRigidBody.velocity = new Vector2(0, PlayerRigidBody.velocity.y);
-        Anim.Play("Flap", 0, 0);
+        AbilitiesPaused(false);
     }
 
     IEnumerator CaveExitAnimation()

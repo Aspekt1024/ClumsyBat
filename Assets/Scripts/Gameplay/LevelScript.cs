@@ -148,13 +148,9 @@ public class LevelScript : MonoBehaviour {
         GameHUD.GameOver();
     }
 
-    public void AddDistance(double TimeTravelled, float PlayerSpeed, bool bIsDashing)
+    public void AddDistance(double TimeTravelled, float PlayerSpeed)
     {
         float AddDist = (float)TimeTravelled * PlayerSpeed * Toolbox.Instance.LevelSpeed;
-        if (bIsDashing)
-        {
-            Stats.DashDistance += AddDist;
-        }
         Stats.Distance += AddDist;
         Stats.TotalDistance += AddDist;
 

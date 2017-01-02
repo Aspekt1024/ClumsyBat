@@ -12,6 +12,7 @@ public class Toolbox : Singleton<Toolbox>
     public float GravityScale { get; set; }
     public int Level { get; set; }
     public const float TileSizeX = 19.2f;
+    public const float PlayerStartX = -5.5f;
 
     public Dictionary<string, float> ZLayers = new Dictionary<string, float>();
     public Dictionary<int, string> LevelNames = new Dictionary<int, string>();

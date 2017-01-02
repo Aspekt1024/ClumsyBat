@@ -30,6 +30,7 @@ public class StatsHandler : MonoBehaviour {
     public int TotalCurrency = 0;
     
     public CompletionDataControl CompletionData;
+    public AbilityControl AbilityData;
 
     public struct UserSettings
     {
@@ -53,6 +54,7 @@ public class StatsHandler : MonoBehaviour {
         SetupPlayerPrefs();
         GetPersistentStats();
         CreateCompletionDataObject();
+        CreateAbilityDataObject();
         LoadUserSettings();
     }
 
@@ -79,6 +81,13 @@ public class StatsHandler : MonoBehaviour {
         GameObject CompletionDataObject = new GameObject("Completion Data");
         CompletionData = CompletionDataObject.AddComponent<CompletionDataControl>();
         CompletionData.Load();
+    }
+
+    private void CreateAbilityDataObject()
+    {
+        GameObject AbilityDataObject = new GameObject("Ability Data");
+        AbilityData = AbilityDataObject.AddComponent<AbilityControl>();
+        AbilityData.Load();
     }
 
     private void LoadUserSettings()
@@ -130,6 +139,7 @@ public class StatsHandler : MonoBehaviour {
 
         SaveUserSettings();
         CompletionData.Save();
+        AbilityData.Save();
         PlayerPrefs.Save();
     }
 
