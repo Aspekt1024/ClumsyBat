@@ -25,18 +25,56 @@ public class AbilityControl : MonoBehaviour {
         if (File.Exists(Application.persistentDataPath + "/AbilityData.dat"))
         {
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(Application.persistentDataPath + "/AbilityData.dat", FileMode.Open);
-            AbilityContainer AbilityData = (AbilityContainer)bf.Deserialize(file);
+            FileStream file;
+            file = File.Open(Application.persistentDataPath + "/AbilityData.dat", FileMode.Open);
+
+            AbilityContainer AbilityData;
+            try
+            {
+                AbilityData = (AbilityContainer)bf.Deserialize(file);
+            }
+            catch
+            {
+                AbilityData = new AbilityContainer();
+                Debug.Log("Unable to load existing ability data set");
+            }
             file.Close();
 
             Abilities = AbilityData.Data;
         }
+
+        if (!Abilities.AbilitiesCreated)
+        {
+            InitialiseAbilities();
+        }
+    }
+
+    private void InitialiseAbilities()
+    {
+        Abilities.Rush = NewAbility();
+        Abilities.Hypersonic = NewAbility();
+        Abilities.LanternDurationLevel = NewAbility();
+        Abilities.AbilitiesCreated = true;
+        Save();
+        Debug.Log("New abilitity data set saved");
+    }
+
+    private AbilityContainer.AbilityType NewAbility()
+    {
+        AbilityContainer.AbilityType Ability = new AbilityContainer.AbilityType();
+        Ability.AbilityLevel = 1;
+        Ability.AbilityAvailable = false;
+        Ability.AbilityUnlocked = false;
+        Ability.UpgradeAvailable = false;
+        return Ability;
     }
 
     public void Save()
     {
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Open(Application.persistentDataPath + "/AbilityData.dat", FileMode.OpenOrCreate);
+        FileStream file;
+
+        file = File.Open(Application.persistentDataPath + "/AbilityData.dat", FileMode.OpenOrCreate);
 
         AbilityContainer AbilityData = new AbilityContainer();
         AbilityData.Data = Abilities;
@@ -65,8 +103,8 @@ public class AbilityControl : MonoBehaviour {
     public AbilityContainer.AbilityType GetHypersonicStats() { return Abilities.Hypersonic; }
     public void SaveHypersonicStats(AbilityContainer.AbilityType HyperSonic) { Abilities.Hypersonic = HyperSonic; }
 
-    public AbilityContainer.AbilityType GetLanternDurationStats() { return Abilities.LanternDuration; }
-    public void SaveLanternDurationStats(AbilityContainer.AbilityType LanternDuration) { Abilities.Rush = LanternDuration; }
+    public AbilityContainer.AbilityType GetLanternDurationStats() { return Abilities.LanternDurationLevel; }
+    public void SaveLanternDurationStats(AbilityContainer.AbilityType LanternDurationLevel) { Abilities.LanternDurationLevel = LanternDurationLevel; }
 }
 
 [Serializable]
@@ -75,16 +113,19 @@ public class AbilityContainer
     [Serializable]
     public struct AbilityType
     {
-        public bool AbilityUnlocked;
         public int AbilityLevel;
+        public bool AbilityUnlocked;
+        public bool AbilityAvailable;
+        public bool UpgradeAvailable;
     }
 
     [Serializable]
     public struct AbilityDataType
     {
+        public bool AbilitiesCreated;
         public AbilityType Rush;
         public AbilityType Hypersonic;
-        public AbilityType LanternDuration;
+        public AbilityType LanternDurationLevel;
         // Lantern view distance
         // Moth Magnet
         // Moth value

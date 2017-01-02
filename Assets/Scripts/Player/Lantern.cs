@@ -21,7 +21,9 @@ public class Lantern : MonoBehaviour {
     }
     private LanternColour Colour = LanternColour.Green;
     private bool Paused;
+    private bool bDropped = false;
     private bool bColourChanging = false;
+    private Vector2 StoredVelocity;
     private Vector2 LightScale;     // Flicker and change colour will be centered around the initial scale
 
     void Start ()
@@ -86,6 +88,7 @@ public class Lantern : MonoBehaviour {
 
     public void Drop()
     {
+        bDropped = true;
         gameObject.GetComponent<PolygonCollider2D>().enabled = true;
         LanternHinge.enabled = false;
         LanternBody.velocity = new Vector2(Random.Range(1f, 5f), 1f);
@@ -110,12 +113,15 @@ public class Lantern : MonoBehaviour {
     public void GamePaused(bool bPaused)
     {
         Paused = bPaused;
-        LanternHinge.enabled = !bPaused;
-        LanternBody.isKinematic = bPaused;
-        if (bPaused)
+        if (Paused)
         {
+            StoredVelocity = LanternBody.velocity;
             LanternBody.velocity = Vector3.zero;
         }
+        LanternHinge.enabled = !bPaused;
+        LanternBody.isKinematic = bPaused;
+        if (bDropped) { LanternHinge.enabled = false; }
+        if(!Paused) { LanternBody.velocity = StoredVelocity; }
     }
 
     public void ChangeColour(LanternColour LColour)

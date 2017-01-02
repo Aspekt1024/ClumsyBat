@@ -20,8 +20,10 @@ public class DropdownOptionsMenu : MonoBehaviour {
 
     private enum YesNo
     {
-        ResetData,
-        ResetTooltips
+        ResetAllData,
+        ResetTooltips,
+        ResetStats,
+        ResetLevelProgress
     }
     private YesNo ConfirmOption;
     
@@ -63,7 +65,7 @@ public class DropdownOptionsMenu : MonoBehaviour {
 
     public void ResetDataPressed()
     {
-        ConfirmOption = YesNo.ResetData;
+        ConfirmOption = YesNo.ResetAllData;
         OptionText.text = "Are you sure you want to reset all game data? This is not reversible!";
         SetPanelVisible(OptionsMainPanel, false);
         SetPanelVisible(OptionsYesNoPanel, true);
@@ -73,7 +75,7 @@ public class DropdownOptionsMenu : MonoBehaviour {
     {
         switch(ConfirmOption)
         {
-            case YesNo.ResetData:
+            case YesNo.ResetAllData:
                 OptionConfirmText.text = "Game Data has been reset!";
                 Stats.CompletionData.ClearCompletionData();
                 Stats.ClearPlayerPrefs();
@@ -97,7 +99,7 @@ public class DropdownOptionsMenu : MonoBehaviour {
     {
         switch(ConfirmOption)
         {
-            case YesNo.ResetData:
+            case YesNo.ResetAllData:
                 FindObjectOfType<LoadScreen>().ShowLoadScreen();
                 SceneManager.LoadScene("Play");
                 break;
@@ -112,12 +114,14 @@ public class DropdownOptionsMenu : MonoBehaviour {
     {
         Stats.Settings.Music = !Stats.Settings.Music;
         ToggleMusic.Play(Stats.Settings.Music ? "MusicON" : "MusicOFF");
+        // TODO turn music ON/OFF
     }
 
     public void ToggleSFXPressed()
     {
         Stats.Settings.SFX = !Stats.Settings.SFX;
         ToggleSFX.Play(Stats.Settings.SFX ? "SFXON" : "SFXOFF");
+        // TODO turn SFX ON/OFF
     }
 
     public void ToggleTooltipsPressed()

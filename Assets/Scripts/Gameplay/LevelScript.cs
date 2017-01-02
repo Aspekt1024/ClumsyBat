@@ -124,11 +124,11 @@ public class LevelScript : MonoBehaviour {
         bGamePaused = true;
         PrevGameSpeed = GameSpeed;
         UpdateGameSpeed(0);
+        GameHUD.GamePaused(true);
 
         if (ShowMenu)
         {
             GameMenu.PauseGame();
-            GameHUD.GamePaused(true);
         }
         Stats.SaveStats();
     }

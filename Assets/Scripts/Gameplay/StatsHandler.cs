@@ -60,7 +60,7 @@ public class StatsHandler : MonoBehaviour {
 
     void Update ()
     {
-	    // TODO achievements
+        // TODO achievements
 
         // 500 Miles
         // Blind as a bat
@@ -74,7 +74,12 @@ public class StatsHandler : MonoBehaviour {
         // Exterminator (destroy objects)
         // bash through objects
         // I love lamp
-	}
+        //Bat - astrophe! : clumsy fell 1000 times
+        //Batzilla : clumsy used hypersonic 50 times
+        //Seeing - eye - bat : clumsy used echo location 100 times
+        //Bat in Black: clumsy completed a level without consuming a single moth
+
+    }
 
     private void CreateCompletionDataObject()
     {

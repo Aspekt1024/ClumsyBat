@@ -11,6 +11,8 @@ public class GameUI : MonoBehaviour {
     private Text CollectedCurrencyText;
     private Text LevelText;
     private Text ResumeTimerText;
+    private RectTransform CooldownBar;
+    private Image CooldownImage;
 
     // We're keeping these to isolate the values from the stats when we do the level won currency collect animation
     private int Currency = 0;
@@ -24,6 +26,7 @@ public class GameUI : MonoBehaviour {
 
     private RectTransform ResumeTimerRT;
     private int ResumeTime;
+    private bool bCooldownReady = false;
 
     private StatsHandler Stats = null;
 
@@ -55,7 +58,7 @@ public class GameUI : MonoBehaviour {
         CollectedCurrency = Stats.CollectedCurrency;
         if (Pulse)
         {
-            StartCoroutine("PulseText", CollectedCurrencyRT);
+            StartCoroutine("PulseObject", CollectedCurrencyRT);
         }
         SetCurrencyText();
     }
@@ -101,6 +104,16 @@ public class GameUI : MonoBehaviour {
                     CollectedCurrencyText = RT.GetComponent<Text>();
                     CollectedCurrencyRT = RT;
                     break;
+                case "CooldownPanel":
+                    foreach (RectTransform childRT in RT)
+                    {
+                        if (childRT.name == "CooldownBar")
+                        {
+                            CooldownBar = childRT;
+                            CooldownImage = childRT.GetComponent<Image>();
+                        }
+                    }
+                    break;
             }
         }
     }
@@ -118,7 +131,7 @@ public class GameUI : MonoBehaviour {
             {
                 return;
             }
-            StartCoroutine("PulseText", ResumeTimerRT);
+            StartCoroutine("PulseObject", ResumeTimerRT);
             ResumeTimerText.text = ResumeTime.ToString();
         }
     }
@@ -130,7 +143,7 @@ public class GameUI : MonoBehaviour {
 
     public void SetStartText(string StartText)
     {
-        StartCoroutine("PulseText", ResumeTimerRT);
+        StartCoroutine("PulseObject", ResumeTimerRT);
         ResumeTimerText.text = StartText;
     }
 
@@ -176,6 +189,22 @@ public class GameUI : MonoBehaviour {
         StartCoroutine("ProcessCurrency", true);
     }
 
+    public void SetCooldown(float Ratio)
+    {
+        CooldownBar.localScale = new Vector2(Ratio, CooldownBar.localScale.y);
+        if (Ratio == 1f && !bCooldownReady)
+        {
+            StartCoroutine("PulseObject", CooldownBar);
+            bCooldownReady = true;
+            CooldownImage.color = new Color(212 / 255f, 195 / 255f, 126 / 255f);
+        }
+        else if (Ratio < 1 && bCooldownReady)
+        {
+            bCooldownReady = false;
+            CooldownImage.color = new Color(110 / 255f, 229 / 255f, 119 / 255f);
+        }
+    }
+
     private IEnumerator ProcessCurrency(bool bCollect)
     {
         // Note: Currency has already been processed elsewhere
@@ -200,7 +229,7 @@ public class GameUI : MonoBehaviour {
                 if (OldCurrency != Currency)
                 {
                     CurrencyRT.localScale = CurrencyScale;
-                    StartCoroutine("PulseText", CurrencyRT);
+                    StartCoroutine("PulseObject", CurrencyRT);
                 }
             }
 
@@ -209,7 +238,7 @@ public class GameUI : MonoBehaviour {
             if (CollectedCurrency != OldCollectedCurrency)
             {
                 CollectedCurrencyRT.localScale = CollectedCurrencyScale;
-                StartCoroutine("PulseText", CollectedCurrencyRT);
+                StartCoroutine("PulseObject", CollectedCurrencyRT);
             }
             
             while (bPulseAnimating && CollectedCurrency == 0)
@@ -223,7 +252,7 @@ public class GameUI : MonoBehaviour {
         }
     }
 
-    private IEnumerator PulseText(RectTransform TextObject)
+    private IEnumerator PulseObject(RectTransform TextObject)
     {
         float AnimTimer = 0f;
         const float AnimDuration = 0.2f;

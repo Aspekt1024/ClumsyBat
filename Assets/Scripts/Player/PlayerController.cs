@@ -233,6 +233,7 @@ public class PlayerController : MonoBehaviour
         PlayerRigidBody.gravityScale = GravityScale;
         PlayerRigidBody.velocity = new Vector2(1, 0);
         Level.HorribleDeath();
+        Rush.GamePaused(true);
         Lantern.Drop();
 
         Anim.Play("Die", 0, 0.25f);
@@ -351,6 +352,7 @@ public class PlayerController : MonoBehaviour
         if (bGameResuming) { return; }
         Level.Stats.SaveStats();
         bGameResuming = true;
+        
         StartCoroutine("UpdateResumeTimer");
     }
 
@@ -359,7 +361,8 @@ public class PlayerController : MonoBehaviour
         float WaitTime = Level.GameMenu.RaiseMenu();
         yield return new WaitForSeconds(WaitTime);
         ResumeTimerStart = Time.time;
-        while (ResumeTimerStart + ResumeTimer - WaitTime > Time.time)
+        
+        while (bIsAlive && ResumeTimerStart + ResumeTimer - WaitTime > Time.time)
         {
             float TimeRemaining = ResumeTimerStart + ResumeTimer - Time.time;
             Level.GameHUD.SetResumeTimer(TimeRemaining);
@@ -380,7 +383,11 @@ public class PlayerController : MonoBehaviour
         Fog.Resume();
         Anim.enabled = true;
         Lantern.GamePaused(false);
-        AbilitiesPaused(false);
+
+        if (bIsAlive)
+        {
+            Rush.GamePaused(false);
+        }
     }
 
     IEnumerator CaveExitAnimation()
@@ -470,7 +477,7 @@ public class PlayerController : MonoBehaviour
         bToolTipWait = false;
         Level.Stats.CompletionData.ShowTapToResume();
         InputManager.ClearInput();
-        while (!InputManager.TapRegistered() && !Input.GetKeyUp("space"))
+        while (!InputManager.TapRegistered() && !Input.GetKeyUp("w"))
         {
             yield return null;
         }

@@ -23,13 +23,27 @@ public class RushAbility : MonoBehaviour {
     Lantern Lantern = null;
 
     Rigidbody2D PlayerBody = null;
-    
+
+    public void Setup(StatsHandler StatsRef, PlayerController PlayerRef, Lantern LanternRef)
+    {
+        Stats = StatsRef;
+        bEnabled = Stats.AbilityData.GetRushStats().AbilityUnlocked;
+        AbilityLevel = Stats.AbilityData.GetRushStats().AbilityLevel;
+
+        PlayerControl = PlayerRef;
+        Lantern = LanternRef;
+
+        PlayerBody = PlayerControl.GetComponent<Rigidbody2D>();
+        
+    }
+
     void Update ()
     {
         if (bPaused) { return; }
 
         CooldownRemaining -= Time.deltaTime;
         RushTimeRemaining -= Time.deltaTime;
+        PlayerControl.Level.GameHUD.SetCooldown(1f - Mathf.Clamp(CooldownRemaining / CooldownDuration, 0f, 1f));
 
         if (bIsRushing)
         {
@@ -43,30 +57,16 @@ public class RushAbility : MonoBehaviour {
 
     public void Activate()
     {
-        Debug.Log("Attempting rush");
-        //if (!bEnabled) { return; }
+        //if (!bEnabled) { return; }    // TODO figure out where to get this ability
         if (CooldownRemaining > 0)
         {
             // TODO rush fail animation
             return;
         }
-        Debug.Log("Rush!!!");
 
         Stats.TimesDashed++;
         CooldownRemaining = CooldownDuration;
         StartCoroutine("RushStartAnimation");
-    }
-
-    public void Setup(StatsHandler StatsRef, PlayerController PlayerRef, Lantern LanternRef)
-    {
-        Stats = StatsRef;
-        bEnabled = Stats.AbilityData.GetRushStats().AbilityUnlocked;
-        AbilityLevel = Stats.AbilityData.GetRushStats().AbilityLevel;
-
-        PlayerControl = PlayerRef;
-        Lantern = LanternRef;
-
-        PlayerBody = PlayerControl.GetComponent<Rigidbody2D>();
     }
 
     public void GamePaused(bool _paused)
