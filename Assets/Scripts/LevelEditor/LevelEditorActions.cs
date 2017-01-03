@@ -14,6 +14,7 @@ public class LevelEditorActions : MonoBehaviour
 
     Transform CaveParent = null;
     private int NumSections = 0;
+    private int LoadedLevelNum;
 
     private float TileSizeX;
     private float CaveZ;
@@ -38,15 +39,34 @@ public class LevelEditorActions : MonoBehaviour
         SetZLayers();
         Level = new LevelContainer();
         SetLevelNum();
-        
         CaveParent = GameObject.Find("Caves").GetComponent<Transform>();
+        LevelObj = GameObject.Find("Level");
     }
 
     void Update()
     {
+        if (CaveParent != null)
+        {
+            SetLevelStats();
+            LineUpCaves();
+        }
+        else
+        {
+            Debug.Log("lost gameobject");
+        }
+    }
+
+    private void SetLevelStats()
+    {
         GetNumSections();
-        Level.Caves = new LevelContainer.CaveType[NumSections];
-        LineUpCaves();
+        int Sections = NumSections;
+        float DistOffset = 0f;
+        float Distance = Sections * 19.2f - DistOffset;
+        float TimeTaken = Distance / 4f;
+        GameObject.Find("LevelNumText2").GetComponent<Text>().text = "Level: " + LoadedLevelNum;
+        GameObject.Find("NumSectionsText").GetComponent<Text>().text = "Sections: " + Sections.ToString();
+        GameObject.Find("DistanceText").GetComponent<Text>().text = "Distance: " + Distance + "m";
+        GameObject.Find("TimeText").GetComponent<Text>().text = "Time to complete: " + TimeTaken + " sec";
     }
 
     private void LineUpCaves()
@@ -87,7 +107,7 @@ public class LevelEditorActions : MonoBehaviour
 
     public void SaveBtn()
     {
-        CaveParent = GameObject.Find("Caves").GetComponent<Transform>();
+        if (CaveParent == null) { CaveParent = GameObject.Find("Caves").GetComponent<Transform>(); }
         GetNumSections();
         Level.Caves = new LevelContainer.CaveType[NumSections];
         InitialiseCaveList();
@@ -187,6 +207,7 @@ public class LevelEditorActions : MonoBehaviour
 
     public void GetNumSections()
     {
+        NumSections = 2;
         foreach (Transform Cave in CaveParent)
         {
             if (Cave.name.Contains("Cave"))
@@ -379,25 +400,39 @@ public class LevelEditorActions : MonoBehaviour
         Level = LevelContainer.LoadFromText(LevelTxt.text);
         ClearLevelObjects();
         SetLevelObjects();
+        LoadedLevelNum = LevelNum;
     }
 
     private void ClearLevelObjects()
     {
-        Destroy(GameObject.Find("Level"));
-        LevelObj = new GameObject("Level");
+        Destroy(GameObject.Find("Stalactites"));
+        Destroy(GameObject.Find("Mushrooms"));
+        Destroy(GameObject.Find("Moths"));
+        Destroy(GameObject.Find("Spiders"));
+        Destroy(GameObject.Find("Webs"));
+        Destroy(GameObject.Find("Triggers"));
+        Destroy(GameObject.Find("Clumsy"));
+
+        foreach(Transform Cave in CaveParent)
+        {
+            Destroy(Cave.gameObject);
+        }
     }
 
     private void SetLevelObjects()
     {
-        GameObject Caves = new GameObject("Caves");
+        if (LevelObj == null) {
+            Debug.Log("Lost level");
+            LevelObj = new GameObject("Level");
+        }
         GameObject Stals = new GameObject("Stalactites");
         GameObject Shrooms = new GameObject("Mushrooms");
         GameObject Moths = new GameObject("Moths");
         GameObject Spiders = new GameObject("Spiders");
         GameObject Webs = new GameObject("Webs");
         GameObject Triggers = new GameObject("Triggers");
+        GameObject Caves = CaveParent.gameObject;
 
-        Caves.transform.SetParent(LevelObj.transform);
         Stals.transform.SetParent(LevelObj.transform);
         Shrooms.transform.SetParent(LevelObj.transform);
         Moths.transform.SetParent(LevelObj.transform);
