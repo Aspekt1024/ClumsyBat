@@ -23,6 +23,7 @@ public class LevelEditorActions : MonoBehaviour
     private float ClumsyZ;
     private float SpiderZ;
     private float WebZ;
+    private float TriggerZ;
 
     void Awake()
     {
@@ -37,6 +38,38 @@ public class LevelEditorActions : MonoBehaviour
         SetZLayers();
         Level = new LevelContainer();
         SetLevelNum();
+        
+        CaveParent = GameObject.Find("Caves").GetComponent<Transform>();
+    }
+
+    void Update()
+    {
+        GetNumSections();
+        Level.Caves = new LevelContainer.CaveType[NumSections];
+        LineUpCaves();
+    }
+
+    private void LineUpCaves()
+    {
+        foreach (Transform Cave in CaveParent)
+        {
+            int index = Mathf.RoundToInt(Cave.position.x / TileSizeX);
+            PolygonCollider2D Collider = Cave.GetComponent<PolygonCollider2D>();
+            if (Collider != null)
+            {
+                Collider.enabled = false;
+            }
+
+            SpriteRenderer Renderer = Cave.GetComponent<SpriteRenderer>();
+            if (Renderer != null)
+            {
+                if (Cave.name != Renderer.sprite.name)
+                {
+                    Cave.name = Renderer.sprite.name;
+                }
+            }
+            Cave.transform.position = new Vector3(index * TileSizeX, 0f, CaveZ);
+        }
     }
 
     private void SetZLayers()
@@ -49,6 +82,7 @@ public class LevelEditorActions : MonoBehaviour
         ClumsyZ = Toolbox.Instance.ZLayers["Player"];
         SpiderZ = Toolbox.Instance.ZLayers["Spider"];
         WebZ = Toolbox.Instance.ZLayers["Web"];
+        TriggerZ = Toolbox.Instance.ZLayers["Trigger"];
     }
 
     public void SaveBtn()
@@ -481,7 +515,7 @@ public class LevelEditorActions : MonoBehaviour
         foreach (TriggerHandler.TriggerType Trigger in TriggerList)
         {
             GameObject NewTrigger = (GameObject)Instantiate(Resources.Load("Interactables/Trigger"), Triggers.transform);
-            NewTrigger.transform.position = new Vector3(Trigger.Pos.x + PosIndex * TileSizeX, Trigger.Pos.y, 0f);
+            NewTrigger.transform.position = new Vector3(Trigger.Pos.x + PosIndex * TileSizeX, Trigger.Pos.y, TriggerZ);
             NewTrigger.transform.localScale = Trigger.Scale;
             NewTrigger.transform.localRotation = Trigger.Rotation;
             NewTrigger.GetComponent<TriggerClass>().EventID = Trigger.EventID;

@@ -17,7 +17,7 @@ public class MainMenu : MonoBehaviour {
         public LevelButton Script;
         public bool bClicked;
     }
-    private const int NumLevels = 9;
+    private const int NumLevels = 9;    // TODO move to level handler
     private LvButton[] Buttons = new LvButton[NumLevels + 1];
 
     void Awake()

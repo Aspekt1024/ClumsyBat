@@ -35,9 +35,6 @@ public class TriggerHandler {
         FirstDeath,
         FirstStalLevel
     }
-
-    // TODO ToolTip dictionary
-    // takes an EventID and converts to Tooltip String
     
     TriggerClass[] Triggers = null;
     int Index = 0;
@@ -72,7 +69,7 @@ public class TriggerHandler {
     {
         foreach (TriggerType Trigger in TriggerList)
         {
-            float TriggerZLayer = TriggerZLayer = Toolbox.Instance.ZLayers["Trigger"];
+            float TriggerZLayer = Toolbox.Instance.ZLayers["Trigger"];
             TriggerClass NewTrigger = GetTriggerFromPool();
             NewTrigger.transform.position = new Vector3(Trigger.Pos.x + XOffset, Trigger.Pos.y, TriggerZLayer);
             NewTrigger.transform.localScale = Trigger.Scale;
