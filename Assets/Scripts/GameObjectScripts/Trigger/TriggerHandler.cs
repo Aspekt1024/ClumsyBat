@@ -19,21 +19,13 @@ public class TriggerHandler {
         public Vector2 Scale;
         public Quaternion Rotation;
         public EventType EventType;
-        public EventID EventID;
+        public TooltipHandler.EventID EventID;
     }
 
     public enum EventType
     {
         Tooltip,
         Dialogue
-    }
-    
-    public enum EventID
-    {
-        FirstJump,
-        FirstMoth,
-        FirstDeath,
-        FirstStalLevel
     }
     
     TriggerClass[] Triggers = null;
@@ -86,8 +78,13 @@ public class TriggerHandler {
         }
     }
 
-    public void ActivateTooltip(EventID EventID)
+    public void ActivateTooltip(TooltipHandler.EventID EventID)
     {
         TooltipControl.ShowTooltip(EventID);
+    }
+
+    public void ActivateDialogue(TooltipHandler.EventID EventID)
+    {
+        TooltipControl.ShowDialogue(EventID);
     }
 }

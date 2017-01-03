@@ -13,6 +13,7 @@ public class LevelEditorActions : MonoBehaviour
     public int LevelNum;
 
     Transform CaveParent = null;
+    Transform MothParent = null;
     private int NumSections = 0;
     private int LoadedLevelNum;
 
@@ -39,7 +40,8 @@ public class LevelEditorActions : MonoBehaviour
         SetZLayers();
         Level = new LevelContainer();
         SetLevelNum();
-        CaveParent = GameObject.Find("Caves").GetComponent<Transform>();
+        CaveParent = GameObject.Find("Caves").transform;
+        MothParent = GameObject.Find("Moths").transform;
         LevelObj = GameObject.Find("Level");
     }
 
@@ -50,10 +52,56 @@ public class LevelEditorActions : MonoBehaviour
             SetLevelStats();
             LineUpCaves();
         }
-        else
+
+        if (MothParent != null)
         {
-            Debug.Log("lost gameobject");
+            SetMothColours();
         }
+    }
+
+    private void SetMothColours()
+    {
+        foreach (Transform Moth in MothParent)
+        {
+            Moth MothScript = Moth.GetComponent<Moth>();
+            SpriteRenderer MothRenderer = Moth.GetComponentInChildren<SpriteRenderer>();
+            switch (MothScript.Colour)
+            {
+                case global::Moth.MothColour.Blue:
+                    MothRenderer.color = new Color(0f, 0f, 1f);
+                    break;
+                case global::Moth.MothColour.Green:
+                    MothRenderer.color = new Color(0f, 1f, 0f);
+                    break;
+                case global::Moth.MothColour.Gold:
+                    MothRenderer.color = new Color(1f, 1f, 0f);
+                    break;
+            }
+        }
+    }
+
+    private void PlaceOnInput()
+    {
+        //Vector2 Pos = GUIUtility.GUIToScreenPoint(Event.current.mousePosition);
+        //Debug.Log(Input.mousePosition.ToString());
+
+        //Debug.Log(Pos);
+
+        Transform MothParent = GameObject.Find("Moths").transform;
+        Transform ShroomParent = GameObject.Find("Mushrooms").transform;
+        if (Input.GetKeyUp("m"))
+        {
+            //GameObject NewMoth = (GameObject)Instantiate(Resources.Load("Collectibles/Moth"), new Vector3(Pos.x, Pos.y, MothZ), new Quaternion(), MothParent);
+        }
+        else if (Input.GetKeyUp("h"))
+        {
+            GameObject NewShroom = (GameObject)Instantiate(Resources.Load("Obstacles/Mushroom"), ShroomParent);
+        }
+        else if (Input.GetKeyUp("s"))
+        {
+
+        }
+
     }
 
     private void SetLevelStats()
@@ -150,6 +198,7 @@ public class LevelEditorActions : MonoBehaviour
     private void SetLevelNum()
     {
         GameObject.Find("LevelNumText").GetComponent<Text>().text = "Level: " + LevelNum.ToString();
+        LoadedLevelNum = LevelNum;
     }
 
     private void InitialiseCaveList()
@@ -432,6 +481,7 @@ public class LevelEditorActions : MonoBehaviour
         GameObject Webs = new GameObject("Webs");
         GameObject Triggers = new GameObject("Triggers");
         GameObject Caves = CaveParent.gameObject;
+        MothParent = Moths.transform;
 
         Stals.transform.SetParent(LevelObj.transform);
         Shrooms.transform.SetParent(LevelObj.transform);

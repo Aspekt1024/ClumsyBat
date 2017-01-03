@@ -9,7 +9,6 @@ public class Stalactite : MonoBehaviour {
         public SpriteRenderer Renderer;
         public Animator Anim;
         public Vector2 initialPos;
-        public bool bInitialPosSet;
         public bool bDropEnabled;
         public bool bIsActive;
     }
@@ -31,7 +30,6 @@ public class Stalactite : MonoBehaviour {
         Stal.Anim = GetComponent<Animator>();
         Stal.bDropEnabled = false;
         Stal.bIsActive = false;
-        Stal.bInitialPosSet = false;
         Player = FindObjectOfType<Player>();
         bDropTriggered = false;
         Stal.Anim.Play("Static", 0, 0f);
@@ -61,15 +59,6 @@ public class Stalactite : MonoBehaviour {
         Stal.Renderer.enabled = true;
         Stal.bDropEnabled = bDropEnabled;
         bDropTriggered = false;
-        if (!Stal.bInitialPosSet)
-        {
-            Stal.bInitialPosSet = true;
-            Stal.initialPos = transform.position;
-        }
-        else
-        {
-            transform.position = new Vector3(Stal.initialPos.x, Stal.initialPos.y, StalZLayer);
-        }
     }
     public void DeactivateStal()
     {

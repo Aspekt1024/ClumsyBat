@@ -15,7 +15,7 @@ public class TriggerClass : MonoBehaviour {
     private TriggerHandler THandler;
 
     public TriggerHandler.EventType EventType;
-    public TriggerHandler.EventID EventID;
+    public TooltipHandler.EventID EventID;
 
     private float TriggerZLayer;
 
@@ -44,6 +44,9 @@ public class TriggerClass : MonoBehaviour {
             case (TriggerHandler.EventType.Tooltip):
                 THandler.ActivateTooltip(EventID);
                 break;
+            case (TriggerHandler.EventType.Dialogue):
+                THandler.ActivateDialogue(EventID);
+                break;
         }
         
         DeactivateTrigger();
@@ -54,7 +57,7 @@ public class TriggerClass : MonoBehaviour {
         THandler = Handler;
     }
 
-    public void ActivateTrigger(TriggerHandler.EventType eType, TriggerHandler.EventID eID)
+    public void ActivateTrigger(TriggerHandler.EventType eType, TooltipHandler.EventID eID)
     {
         Trigger.bIsActive = true;
         EventType = eType;
