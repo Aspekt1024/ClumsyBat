@@ -17,6 +17,8 @@ public class LevelContainer {
         public StalPool.StalType[] Stals;
         public MothPool.MothType[] Moths;
         public SpiderPool.SpiderType[] Spiders;
+        public WebPool.WebType[] Webs;
+        public TriggerHandler.TriggerType[] Triggers;
     }
     
     public struct ClumsyType

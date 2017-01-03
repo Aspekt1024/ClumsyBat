@@ -148,7 +148,8 @@ public class FogEffect : MonoBehaviour {
     {
         EchoScale = -3f;
         float AnimDuration = 2.2f;
-        if (!Stats.CompletionData.ToolTipComplete(CompletionDataControl.ToolTipID.SecondJump))
+        // First level is a tutorial level, so we're changing the animation for this only
+        if (Toolbox.Instance.Level == 1)
         {
             AnimDuration = 0.7f;
         }

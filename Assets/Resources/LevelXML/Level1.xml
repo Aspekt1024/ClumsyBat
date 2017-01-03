@@ -9,6 +9,9 @@
       <Shrooms />
       <Stals />
       <Moths />
+      <Spiders />
+      <Webs />
+      <Triggers />
     </Cave>
     <Cave>
       <TopIndex>0</TopIndex>
@@ -41,6 +44,9 @@
           <Colour>Green</Colour>
         </MothType>
       </Moths>
+      <Spiders />
+      <Webs />
+      <Triggers />
     </Cave>
   </CaveList>
   <Clumsy>

@@ -32,6 +32,33 @@
         </StalType>
       </Stals>
       <Moths />
+      <Spiders />
+      <Webs />
+      <Triggers>
+        <TriggerType>
+          <Pos>
+            <x>-3.39</x>
+            <y>-0.45</y>
+          </Pos>
+          <Scale>
+            <x>1</x>
+            <y>0.2</y>
+          </Scale>
+          <Rotation>
+            <x>0</x>
+            <y>0</y>
+            <z>0</z>
+            <w>1</w>
+            <eulerAngles>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+            </eulerAngles>
+          </Rotation>
+          <EventType>Tooltip</EventType>
+          <EventID>FirstJump</EventID>
+        </TriggerType>
+      </Triggers>
     </Cave>
     <Cave>
       <TopIndex>2</TopIndex>
@@ -106,7 +133,7 @@
               <z>0</z>
             </eulerAngles>
           </Rotation>
-          <Gold>false</Gold>
+          <Colour>Green</Colour>
         </MothType>
         <MothType>
           <Pos>
@@ -128,9 +155,12 @@
               <z>0</z>
             </eulerAngles>
           </Rotation>
-          <Gold>false</Gold>
+          <Colour>Green</Colour>
         </MothType>
       </Moths>
+      <Spiders />
+      <Webs />
+      <Triggers />
     </Cave>
     <Cave>
       <TopIndex>0</TopIndex>
@@ -205,9 +235,12 @@
               <z>0</z>
             </eulerAngles>
           </Rotation>
-          <Gold>false</Gold>
+          <Colour>Green</Colour>
         </MothType>
       </Moths>
+      <Spiders />
+      <Webs />
+      <Triggers />
     </Cave>
     <Cave>
       <TopIndex>1001</TopIndex>
@@ -237,15 +270,18 @@
               <z>0</z>
             </eulerAngles>
           </Rotation>
-          <Gold>false</Gold>
+          <Colour>Green</Colour>
         </MothType>
       </Moths>
+      <Spiders />
+      <Webs />
+      <Triggers />
     </Cave>
   </CaveList>
   <Clumsy>
     <Pos>
-      <x>-1.11</x>
-      <y>1.88</y>
+      <x>-4.83</x>
+      <y>1</y>
     </Pos>
     <Scale>
       <x>0.177492425</x>

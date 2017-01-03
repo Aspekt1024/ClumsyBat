@@ -18,6 +18,8 @@ public class LevelObjectHandler : MonoBehaviour {
         public ShroomPool.ShroomType[] MushroomList;
         public MothPool.MothType[] MothList;
         public SpiderPool.SpiderType[] SpiderList;
+        public WebPool.WebType[] WebList;
+        public TriggerHandler.TriggerType[] TriggerList;
     }
     
     private LevelContainer Level;
@@ -32,6 +34,8 @@ public class LevelObjectHandler : MonoBehaviour {
     private MothPool Moths;
     private StalPool Stals;
     private SpiderPool Spiders;
+    private WebPool Webs;
+    private TriggerHandler Triggers;
 
     void Start ()
     {   
@@ -58,6 +62,8 @@ public class LevelObjectHandler : MonoBehaviour {
         Stals = new StalPool();
         Moths = new MothPool();
         Spiders = new SpiderPool();
+        Webs = new WebPool();
+        Triggers = new TriggerHandler();
     }
 
     void Update()
@@ -145,6 +151,8 @@ public class LevelObjectHandler : MonoBehaviour {
         if (ObjectList.StalList != null) { Stals.SetupStalactitesInList(ObjectList.StalList, XOffset); }
         if (ObjectList.MothList != null) { Moths.SetupMothsInList(ObjectList.MothList, XOffset); }
         if (ObjectList.SpiderList != null) { Spiders.SetupSpidersInList(ObjectList.SpiderList, XOffset); }
+        if (ObjectList.WebList != null) { Webs.SetupWebsInList(ObjectList.WebList, XOffset); }
+        if (ObjectList.TriggerList != null) { Triggers.SetupTriggersInList(ObjectList.TriggerList, XOffset); }
     }
 
     private CaveListType GetCaveObjectList(int Index)
@@ -154,6 +162,8 @@ public class LevelObjectHandler : MonoBehaviour {
         ObjectList.MushroomList = Level.Caves[Index].Shrooms;
         ObjectList.MothList = Level.Caves[Index].Moths;
         ObjectList.SpiderList = Level.Caves[Index].Spiders;
+        ObjectList.WebList = Level.Caves[Index].Webs;
+        ObjectList.TriggerList = Level.Caves[Index].Triggers;
         return ObjectList;
     }
 
@@ -178,6 +188,7 @@ public class LevelObjectHandler : MonoBehaviour {
         Stals.SetPaused(PauseGame);
         Moths.SetPaused(PauseGame);
         Spiders.SetPaused(PauseGame);
+        Webs.SetPaused(PauseGame);
     }
 
     private void UpdateObjectSpeed(float Speed)
@@ -186,6 +197,8 @@ public class LevelObjectHandler : MonoBehaviour {
         Stals.SetVelocity(Speed);
         Moths.SetVelocity(Speed);
         Spiders.SetVelocity(Speed);
+        Webs.SetVelocity(Speed);
+        Triggers.SetVelocity(Speed);
     }
 
     private void LoadLevel()
@@ -220,6 +233,7 @@ public class LevelObjectHandler : MonoBehaviour {
         }
     }
     
+    /*
     private Mushroom[] GetShroomList(Transform Shrooms)
     {
         Mushroom[] ShroomList = new Mushroom[Shrooms.childCount];
@@ -266,7 +280,7 @@ public class LevelObjectHandler : MonoBehaviour {
             SpiderList[int.Parse(Obj.name) - 1] = Spider;
         }
         return SpiderList;
-    }
+    }*/
 
     public void DestroyOnScreenHazards()
     {

@@ -7,6 +7,7 @@ public class MenuScroller : MonoBehaviour {
     private RectTransform MainPanel;
     private RectTransform LevelScroller;
     private RectTransform LevelContentRect;
+    private RectTransform UpgradesPanel;
     private NavButtonHandler NavButtons;
     private ScrollRect LevelScrollRect;
 
@@ -14,12 +15,14 @@ public class MenuScroller : MonoBehaviour {
     private Transform MidBG;
 
     private const float TileSizeX = 19.2f;
-    private const float AnimDuration = 1.0f;
+    private const float TransitionDuration = 1.0f;
 
     private float LevelScrollInitialPos;
-    private float LevelSelectPosX = 1.5f*TileSizeX;
+    private float UpgradesInitialPos;
+    private const float LevelSelectPosX = 1.5f * TileSizeX;
     private const float MainMenuPosX = 0f;
     private const float StatsPosX = -TileSizeX;
+    private const float UpgradesPosX = -2f * TileSizeX;
 
     private bool bLevelCaveStartStored;
     private float LevelCaveStartX;
@@ -30,7 +33,8 @@ public class MenuScroller : MonoBehaviour {
     {
         MainMenu,
         LevelSelect,
-        StatsScreen
+        StatsScreen,
+        Upgrades
     }
     private MenuStates MenuState = MenuStates.MainMenu;
     private bool bMenuTransition = false;
@@ -82,6 +86,7 @@ public class MenuScroller : MonoBehaviour {
         }
 
         LevelScrollInitialPos = LevelScroller.position.x;
+        UpgradesInitialPos = UpgradesPanel.position.x;
         FinaliseMenuPosition();
     }
 
@@ -96,6 +101,7 @@ public class MenuScroller : MonoBehaviour {
         LevelScroller = GameObject.Find("LevelScrollRect").GetComponent<RectTransform>();
         LevelContentRect = GameObject.Find("Content").GetComponent<RectTransform>();
         LevelScrollRect = LevelScroller.GetComponent<ScrollRect>();
+        UpgradesPanel = GameObject.Find("UpgradesPanel").GetComponent<RectTransform>();
 
         GetBackgrounds();
     }
@@ -123,7 +129,13 @@ public class MenuScroller : MonoBehaviour {
     {
         MenuState = MenuStates.StatsScreen;
         StartCoroutine("MoveMenu");
-        return AnimDuration;
+        return TransitionDuration;
+    }
+
+    public void UpgradesScreen()
+    {
+        MenuState = MenuStates.Upgrades;
+        StartCoroutine("MoveMenu");
     }
 
     private IEnumerator MoveMenu()
@@ -137,26 +149,27 @@ public class MenuScroller : MonoBehaviour {
 
         bool bLevelScrollRequired = MenuState == MenuStates.LevelSelect ? LevelScrollRequired() : false;
 
-        while (AnimTimer <= AnimDuration)
+        while (AnimTimer <= TransitionDuration)
         {
             AnimTimer += Time.deltaTime;
             float MovementRatio;
             if (bLevelScrollRequired)
             {
-                MovementRatio = 1f - Mathf.Cos(Mathf.PI / 2f * (AnimTimer / AnimDuration));
+                MovementRatio = 1f - Mathf.Cos(Mathf.PI / 2f * (AnimTimer / TransitionDuration));
             }
             else if (bMenuAtFullSpeed)
             {
-                MovementRatio = Mathf.Sin(Mathf.PI / 2f * (AnimTimer / AnimDuration));
+                MovementRatio = Mathf.Sin(Mathf.PI / 2f * (AnimTimer / TransitionDuration));
             }
             else
             {
-                MovementRatio = (1f - Mathf.Cos(Mathf.PI * (AnimTimer / AnimDuration))) / 2f;
+                MovementRatio = (1f - Mathf.Cos(Mathf.PI * (AnimTimer / TransitionDuration))) / 2f;
             }
             float XPos = StartX - (StartX - EndX) * MovementRatio;
             Caves.position = new Vector3(XPos, 0f, 0f);
             MainPanel.position = new Vector3(MainMenuPosX + XPos, 0f, 0f);
             LevelScroller.position = new Vector3(LevelScrollInitialPos + XPos, 0f, 0f);
+            UpgradesPanel.position = new Vector3(UpgradesInitialPos + XPos, 0f, 0f);
 
             yield return new WaitForSeconds(0.01f);
         }
@@ -175,6 +188,7 @@ public class MenuScroller : MonoBehaviour {
         Caves.position = new Vector2(0f - XOffset, 0f);
         MainPanel.position = new Vector2(MainMenuPosX - XOffset, 0f);
         LevelScroller.position = new Vector2((LevelScrollInitialPos - XOffset), 0f);
+        UpgradesPanel.position = new Vector2(UpgradesInitialPos - XOffset, 0f);
 
         if (MenuState == MenuStates.LevelSelect && !bLevelCaveStartStored)
         {
@@ -197,6 +211,9 @@ public class MenuScroller : MonoBehaviour {
                 break;
             case MenuStates.StatsScreen:
                 XOffset = StatsPosX;
+                break;
+            case MenuStates.Upgrades:
+                XOffset = UpgradesInitialPos;
                 break;
         }
         return XOffset;
@@ -290,6 +307,6 @@ public class MenuScroller : MonoBehaviour {
 
     public float GetAnimDuration()
     {
-        return AnimDuration;
+        return TransitionDuration;
     }
 }

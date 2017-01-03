@@ -5,41 +5,13 @@ using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-public class CompletionDataControl : MonoBehaviour {
+public class LevelCompletionDataControl : MonoBehaviour {
 
     public const int NumLevels = 14;
-    public const int NumTooltips = 3;
-
-    GameObject ToolTipOverlay = null;
-    RectTransform ToolTipTextBox = null;
-
-    public enum ToolTipID
-    {
-        SecondJump = 0,
-        FirstDeath,
-        FirstMoth
-    }
+    public const int NumTooltips = 3;   // TODO remove this
 
     private CompletionDataContainer.LevelType[] LevelCompletion = new CompletionDataContainer.LevelType[NumLevels];
-    private bool[] ToolTipCompletion = new bool[NumTooltips];
-    private string[] ToolTipText = new string[NumTooltips];
-
-    void Awake()
-    {
-        ToolTipOverlay = (GameObject)Instantiate(Resources.Load("ToolTipOverlay"));
-        ToolTipOverlay.GetComponent<Canvas>().worldCamera = FindObjectOfType<Camera>();
-        ToolTipTextBox = GetToolTipTextBox();
-        ToolTipOverlay.SetActive(false);
-
-        SetToolTipText();
-    }
-
-    private void SetToolTipText()
-    {
-        // TODO could set up as a dictionary
-        ToolTipText[(int)ToolTipID.SecondJump] = "Tap anywhere to flap!";
-        ToolTipText[(int)ToolTipID.FirstMoth] = "It's getting dark! Collect moths to fuel the lantern.";
-    }
+    private bool[] ToolTipCompletion = new bool[NumTooltips];   // TODO remove this
 
     public void Save()
     {
@@ -95,44 +67,7 @@ public class CompletionDataControl : MonoBehaviour {
         }
     }
 
-    public void ShowToolTip(ToolTipID ttID)
-    {
-        if (!ToolTipComplete(ttID))
-        {
-            ToolTipOverlay.SetActive(true);
-            GameObject.Find("TapToResume").GetComponent<Text>().enabled = false;
-            ToolTipTextBox.GetComponent<Text>().text = ToolTipText[(int)ttID];
-        }
-    }
 
-    public void ShowTapToResume()
-    {
-        GameObject.Find("TapToResume").GetComponent<Text>().enabled = true;
-    }
-
-    public void HideToolTip()
-    {
-        ToolTipOverlay.SetActive(false);
-    }
-
-
-    private RectTransform GetToolTipTextBox()
-    {
-        foreach (RectTransform Panel in ToolTipOverlay.GetComponent<RectTransform>())
-        {
-            if (Panel.name == "ToolTipPanel")
-            {
-                foreach(RectTransform RT in Panel.GetComponent<RectTransform>())
-                {
-                    if (RT.name == "ToolTipTextBox")
-                    {
-                        return RT;
-                    }
-                }
-            }
-        }
-        return null;
-    }
 
     public void SetCompleted(int Level, bool bMainPath, bool bSecretPath1, bool bSecretPath2)
     {
@@ -163,9 +98,6 @@ public class CompletionDataControl : MonoBehaviour {
     public bool SecretPath1Completed(int Level) { return LevelCompletion[Level-1].SecretPath1; }
     public bool SecretPath2Completed(int Level) { return LevelCompletion[Level-1].SecretPath2; }
     public int GetNumLevels() { return NumLevels; }
-
-    public void SetToolTipComplete(ToolTipID ttID) { ToolTipCompletion[(int)ttID] = true; }
-    public bool ToolTipComplete(ToolTipID ttID) { return ToolTipCompletion[(int)ttID]; }
 }
 
 [Serializable]
@@ -187,7 +119,7 @@ class CompletionDataContainer
     public struct GameDataType
     {
         public LevelType[] LevelData;
-        public bool[] ToolTipData;
+        public bool[] ToolTipData;  // TODO remove this
     }
     public GameDataType Data;
 }

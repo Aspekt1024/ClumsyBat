@@ -9,7 +9,6 @@ public class SpiderClass : MonoBehaviour {
         public Renderer Renderer;
         public Animator Anim;
         public Vector2 initialPos;
-        public bool bInitialPosSet;
         public bool bSwingEnabled;
         public bool bIsActive;
     }
@@ -39,7 +38,6 @@ public class SpiderClass : MonoBehaviour {
         Spider.Anim = GetComponent<Animator>();
         Spider.bSwingEnabled = false;
         Spider.bIsActive = false;
-        Spider.bInitialPosSet = false;
         Player = FindObjectOfType<Player>();
         Spider.Anim.Play("Normal", 0, 0f);
         Spider.Anim.enabled = true;
@@ -68,15 +66,6 @@ public class SpiderClass : MonoBehaviour {
         Spider.Renderer.enabled = true;
         Spider.bSwingEnabled = bDropEnabled;
         SpiderState = SpiderStates.Normal;
-        if (!Spider.bInitialPosSet)
-        {
-            Spider.bInitialPosSet = true;
-            Spider.initialPos = transform.position;
-        }
-        else
-        {
-            transform.position = new Vector3(Spider.initialPos.x, Spider.initialPos.y, SpiderZLayer);
-        }
     }
     public void DeactivateSpider()
     {

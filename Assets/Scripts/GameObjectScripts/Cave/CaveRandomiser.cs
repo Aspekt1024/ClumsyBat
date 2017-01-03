@@ -27,6 +27,7 @@ public class CaveRandomiser {
         ShroomPool.ShroomType[] ShroomList = new ShroomPool.ShroomType[0];
         MothPool.MothType[] MothList = new MothPool.MothType[0];
         SpiderPool.SpiderType[] SpiderList = new SpiderPool.SpiderType[0];
+        WebPool.WebType[] WebList = new WebPool.WebType[0];
 
         const int NumStals = 8;
         int LowerIndex = 0;
@@ -86,6 +87,8 @@ public class CaveRandomiser {
         ObjectList.MushroomList = ShroomList;
         ObjectList.MothList = MothList;
         ObjectList.SpiderList = SpiderList;
+        ObjectList.WebList = WebList;
+        ObjectList.TriggerList = null;
 
         return ObjectList;
     }

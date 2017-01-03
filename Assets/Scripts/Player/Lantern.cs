@@ -116,12 +116,14 @@ public class Lantern : MonoBehaviour {
         if (Paused)
         {
             StoredVelocity = LanternBody.velocity;
-            LanternBody.velocity = Vector3.zero;
+            LanternBody.isKinematic = true;
         }
-        LanternHinge.enabled = !bPaused;
-        LanternBody.isKinematic = bPaused;
-        if (bDropped) { LanternHinge.enabled = false; }
-        if(!Paused) { LanternBody.velocity = StoredVelocity; }
+        else
+        {
+            LanternBody.isKinematic = false;
+            LanternBody.velocity = StoredVelocity;
+        }
+        LanternHinge.enabled = (bDropped ? false : !bPaused);
     }
 
     public void ChangeColour(LanternColour LColour)

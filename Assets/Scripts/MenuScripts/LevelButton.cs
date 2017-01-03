@@ -6,6 +6,8 @@ public class LevelButton : MonoBehaviour {
 
     private Sprite AvailableImage;
     private Sprite CompletedImage;
+    private Sprite AvailableClickedImage;
+    private Sprite CompletedClickedImage;
     private Sprite UnavailableImage;
 
     private Image LevelImage = null;
@@ -53,23 +55,20 @@ public class LevelButton : MonoBehaviour {
     {
         if (!bClicked || (LevelState != LevelStates.Enabled && LevelState != LevelStates.Completed)) { return; }
         ButtonAnimationTimer += Time.deltaTime;
-        UpdateClickedColour();
     }
 
     private void GetLevelImages()
     {
         AvailableImage = Resources.Load<Sprite>("LevelButtons/Level" + LevelNum + "Available");
-        CompletedImage = Resources.Load<Sprite>("LevelButtons/Level" + LevelNum + "Complete");
+        AvailableClickedImage = Resources.Load<Sprite>("LevelButtons/Level" + LevelNum + "AvailableClicked");
+        CompletedImage = Resources.Load<Sprite>("LevelButtons/Level" + LevelNum + "Completed");
+        CompletedClickedImage = Resources.Load<Sprite>("LevelButtons/Level" + LevelNum + "CompletedClicked");
         UnavailableImage = Resources.Load<Sprite>("LevelButtons/LevelUnavailable");
 
-        if (AvailableImage == null)
-        {
-            AvailableImage = Resources.Load<Sprite>("LevelButtons/LevelAvailableNotFound");
-        }
-        if (CompletedImage == null)
-        {
-            CompletedImage = Resources.Load<Sprite>("LevelButtons/LevelCompleteNotFound");
-        }
+        if (AvailableImage == null) { AvailableImage = Resources.Load<Sprite>("LevelButtons/LevelAvailableNotFound"); }
+        if (AvailableClickedImage == null) { AvailableClickedImage = AvailableImage; }
+        if (CompletedImage == null) { CompletedImage = Resources.Load<Sprite>("LevelButtons/LevelCompleteNotFound"); }
+        if (CompletedClickedImage == null) { CompletedClickedImage = CompletedImage; }
     }
 
     public bool Clicked()
@@ -86,6 +85,7 @@ public class LevelButton : MonoBehaviour {
             NamePanel.GetComponent<Image>().enabled = true;
             LevelName.enabled = true;
             bClicked = true;
+            SetLevelImage();
         }
         return bLoadLevel;
     }
@@ -95,7 +95,7 @@ public class LevelButton : MonoBehaviour {
         bClicked = false;
         LevelName.enabled = false;
         NamePanel.GetComponent<Image>().enabled = false;
-        LevelImage.color = new Color(1f, 1f, 1f);
+        SetLevelImage();
     }
 
     public bool LevelAvailable()
@@ -111,6 +111,11 @@ public class LevelButton : MonoBehaviour {
     public void SetLevelState(LevelStates State)
     {
         LevelState = State;
+        SetLevelImage();
+    }
+
+    private void SetLevelImage()
+    {
         switch (LevelState)
         {
             case LevelStates.Hidden:
@@ -120,16 +125,18 @@ public class LevelButton : MonoBehaviour {
                 LevelImage.sprite = UnavailableImage;
                 break;
             case LevelStates.Enabled:
-                LevelImage.sprite = AvailableImage;
+                LevelImage.sprite = bClicked ? AvailableClickedImage : AvailableImage;
                 break;
             case LevelStates.Completed:
-                LevelImage.sprite = CompletedImage;
+                LevelImage.sprite = bClicked ? CompletedClickedImage : CompletedImage;
                 break;
         }
     }
 
     private void UpdateClickedColour()
     {
+        // No longer in use but kept for reference.
+        // If this is still out of use in Feb 2016, delete it.
         const float IntensityDepth = 0.9f;
         const float ButtonAnimationDuration = 1f;
         if (ButtonAnimationTimer > ButtonAnimationDuration)

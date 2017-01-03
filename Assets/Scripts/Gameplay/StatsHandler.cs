@@ -29,7 +29,7 @@ public class StatsHandler : MonoBehaviour {
     public int Currency = 0;
     public int TotalCurrency = 0;
     
-    public CompletionDataControl CompletionData;
+    public LevelCompletionDataControl CompletionData;
     public AbilityControl AbilityData;
 
     public struct UserSettings
@@ -84,7 +84,7 @@ public class StatsHandler : MonoBehaviour {
     private void CreateCompletionDataObject()
     {
         GameObject CompletionDataObject = new GameObject("Completion Data");
-        CompletionData = CompletionDataObject.AddComponent<CompletionDataControl>();
+        CompletionData = CompletionDataObject.AddComponent<LevelCompletionDataControl>();
         CompletionData.Load();
     }
 

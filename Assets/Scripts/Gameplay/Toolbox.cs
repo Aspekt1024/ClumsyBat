@@ -46,12 +46,15 @@ public class Toolbox : Singleton<Toolbox>
         ZLayers.Add("CaveEndFront", -2f);
         ZLayers.Add("Lantern", -1.1f);
         ZLayers.Add("Player", -1f);
+        ZLayers.Add("LanternLight", -0.8f);
+        // TODO WebFront 0.1f?
         ZLayers.Add("Cave", 0f);
         ZLayers.Add("Hypersonic", 1f);
         ZLayers.Add("Spore", 3.9f);
         ZLayers.Add("Stalactite", 4f);
         ZLayers.Add("Mushroom", 5f);
         ZLayers.Add("Spider", 6f);
+        ZLayers.Add("Web", 7f);
         ZLayers.Add("Background", 20f);
         ZLayers.Add("NearBackground", 0f);      // Child of Background (20)
         ZLayers.Add("MidBackground", 1f);       // Child of Background (20)

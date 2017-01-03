@@ -113,17 +113,11 @@ public class PlayerController : MonoBehaviour
         if (!bGameStarted) { return; }  // TODO see if we still need this
 
         CheckForDeath();
-
-        if (transform.position.y < 1f && !Level.Stats.CompletionData.ToolTipComplete(CompletionDataControl.ToolTipID.SecondJump) && Level.Stats.Settings.Tooltips)
-        {
-            StartCoroutine("ToolTipPause", CompletionDataControl.ToolTipID.SecondJump);
-        }
     }
 
     private void ProcessInput()
     {
         if (bToolTipWait || !bGameStarted) { return; }
-        if (!Level.Stats.CompletionData.ToolTipComplete(CompletionDataControl.ToolTipID.SecondJump) && Level.Stats.Settings.Tooltips) { return; }
 
         if (InputManager.SwipeRegistered())
         {
@@ -254,12 +248,6 @@ public class PlayerController : MonoBehaviour
                 break;
             case "Spore":
                 Fog.Minimise();
-                break;
-            case "MothSensor":
-                if (!Level.Stats.CompletionData.ToolTipComplete(CompletionDataControl.ToolTipID.FirstMoth) && Level.Stats.Settings.Tooltips)
-                {
-                    StartCoroutine("ToolTipPause", CompletionDataControl.ToolTipID.FirstMoth);
-                }
                 break;
         }
     }
@@ -438,7 +426,9 @@ public class PlayerController : MonoBehaviour
         while (CountdownTimer < CountdownDuration + TimeToReachDest)
         {
             CountdownTimer += Time.deltaTime;
-            if (Level.Stats.CompletionData.ToolTipComplete(CompletionDataControl.ToolTipID.SecondJump))
+
+            // First level is special (tutorial) so we're going to change the animation for this one only
+            if (Toolbox.Instance.Level == 1)
             {
                 Level.GameHUD.SetResumeTimer(CountdownDuration - CountdownTimer + TimeToReachDest);
             }
@@ -457,7 +447,7 @@ public class PlayerController : MonoBehaviour
 
         StartGame();
         PlayerRigidBody.velocity = new Vector2(0f, JumpForce.y / 80);
-        if (Level.Stats.CompletionData.ToolTipComplete(CompletionDataControl.ToolTipID.SecondJump))
+        if (Toolbox.Instance.Level == 1)
         {
             Level.GameHUD.SetStartText("GO!");
             yield return new WaitForSeconds(0.6f);
@@ -466,22 +456,19 @@ public class PlayerController : MonoBehaviour
         Level.GameHUD.HideResumeTimer();
     }
 
-    private IEnumerator ToolTipPause(CompletionDataControl.ToolTipID ttID)
+    public void WaitForTooltip(bool bWait)
     {
-        bToolTipWait = true;
-        Level.Stats.CompletionData.ShowToolTip(ttID);
-        const float TooltipPauseDuration = 0.7f;
-
-        PauseGame(ShowMenu: false);
-        yield return new WaitForSeconds(TooltipPauseDuration);
-        bToolTipWait = false;
-        Level.Stats.CompletionData.ShowTapToResume();
+        bToolTipWait = bWait;
         InputManager.ClearInput();
-        while (!InputManager.TapRegistered() && !Input.GetKeyUp("w"))
+
+        if (bWait)
         {
-            yield return null;
+            PauseGame(ShowMenu: false);
         }
-        Level.Stats.CompletionData.HideToolTip();
+    }
+
+    public void TooltipResume()
+    {
         ResumeGameplay();
         if (Clearance.IsEmpty())
         {
@@ -490,9 +477,14 @@ public class PlayerController : MonoBehaviour
         else
         {
             PlayerRigidBody.velocity = Vector2.zero;
-            PlayerRigidBody.AddForce(JumpForce/3);
+            PlayerRigidBody.AddForce(JumpForce / 3);
         }
-        Level.Stats.CompletionData.SetToolTipComplete(ttID);
     }
+
+    public SwipeManager GetInputManager()
+    {
+        return InputManager;
+    }
+
 }
 
