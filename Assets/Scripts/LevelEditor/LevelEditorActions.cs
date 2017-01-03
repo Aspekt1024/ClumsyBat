@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using System.Collections;
 using System.IO;
 
@@ -35,6 +36,7 @@ public class LevelEditorActions : MonoBehaviour
     {
         SetZLayers();
         Level = new LevelContainer();
+        SetLevelNum();
     }
 
     private void SetZLayers()
@@ -69,6 +71,31 @@ public class LevelEditorActions : MonoBehaviour
         string PathName = "Assets/Resources/LevelXML";
         Level.Save(Path.Combine(PathName, LevelName));
         Debug.Log("Level data saved to " + PathName + "/" + LevelName);
+    }
+
+    public void SaveAndTestButton()
+    {
+        SaveBtn();
+        Toolbox.Instance.Level = LevelNum;
+        Toolbox.Instance.Debug = true;
+        SceneManager.LoadScene("Levels");
+    }
+
+    public void LevelUp()
+    {
+        LevelNum++;
+        SetLevelNum();
+    }
+
+    public void LevelDown()
+    {
+        LevelNum--;
+        SetLevelNum();
+    }
+
+    private void SetLevelNum()
+    {
+        GameObject.Find("LevelNumText").GetComponent<Text>().text = "Level: " + LevelNum.ToString();
     }
 
     private void InitialiseCaveList()

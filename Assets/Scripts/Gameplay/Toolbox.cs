@@ -13,6 +13,7 @@ public class Toolbox : Singleton<Toolbox>
     public int Level { get; set; }
     public const float TileSizeX = 19.2f;
     public const float PlayerStartX = -5.5f;
+    public bool Debug = false;
 
     public Dictionary<string, float> ZLayers = new Dictionary<string, float>();
     public Dictionary<int, string> LevelNames = new Dictionary<int, string>();
@@ -47,6 +48,7 @@ public class Toolbox : Singleton<Toolbox>
         ZLayers.Add("Lantern", -1.1f);
         ZLayers.Add("Player", -1f);
         ZLayers.Add("LanternLight", -0.8f);
+        ZLayers.Add("Trigger", -0.5f);
         // TODO WebFront 0.1f?
         ZLayers.Add("Cave", 0f);
         ZLayers.Add("Hypersonic", 1f);

@@ -173,6 +173,7 @@ public class MainMenu : MonoBehaviour {
     private IEnumerator LoadLevel(int LevelNum)
     {
         Toolbox.Instance.Level = LevelNum;
+        Toolbox.Instance.Debug = false;
         AsyncOperation LevelLoader = SceneManager.LoadSceneAsync("Levels");
         LoadingOverlay.GetComponent<LoadScreen>().ShowLoadScreen();
 

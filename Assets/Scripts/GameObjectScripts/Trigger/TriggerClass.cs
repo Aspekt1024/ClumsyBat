@@ -17,16 +17,19 @@ public class TriggerClass : MonoBehaviour {
     public TriggerHandler.EventType EventType;
     public TriggerHandler.EventID EventID;
 
+    private float TriggerZLayer;
+
     void Awake()
     {
         Trigger.bIsActive = false;
         Trigger.Collider = GetComponent<BoxCollider2D>();
+        TriggerZLayer = Toolbox.Instance.ZLayers["Trigger"];
     }
 
     void FixedUpdate()
     {
         if (!Trigger.bIsActive) { return; }
-        transform.position += new Vector3(-Speed * Time.deltaTime, 0, 0);
+        transform.position += new Vector3(-Speed * Time.deltaTime, 0f, 0f);
     }
 
     void Update()
@@ -57,12 +60,16 @@ public class TriggerClass : MonoBehaviour {
         EventType = eType;
         EventID = eID;
         Trigger.Collider.enabled = true;
+        gameObject.GetComponent<SpriteRenderer>().enabled = Toolbox.Instance.Debug;
+        transform.position = new Vector3(transform.position.x, transform.position.y, TriggerZLayer);
     }
 
     public void DeactivateTrigger()
     {
         Trigger.bIsActive = false;
         Trigger.Collider.enabled = false;
+        transform.position = Toolbox.Instance.HoldingArea;
+        
     }
 
     public bool IsActive()

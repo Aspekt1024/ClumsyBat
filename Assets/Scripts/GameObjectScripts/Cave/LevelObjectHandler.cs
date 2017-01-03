@@ -232,55 +232,6 @@ public class LevelObjectHandler : MonoBehaviour {
             SetCaveObstacles(0);
         }
     }
-    
-    /*
-    private Mushroom[] GetShroomList(Transform Shrooms)
-    {
-        Mushroom[] ShroomList = new Mushroom[Shrooms.childCount];
-        foreach (Transform Obj in Shrooms.transform)
-        {
-            Mushroom Shroom = Obj.GetComponentInChildren<Mushroom>();
-            if (!Shroom)
-            {
-                Debug.Log("Error: No script set to Mushroom: " + Shrooms.name + "/" + Obj.name);
-            }
-            Shroom.DeactivateMushroom();
-            ShroomList[int.Parse(Obj.name) - 1] = Shroom;
-        }
-        return ShroomList;
-    }
-
-    private Stalactite[] GetStalList(Transform Stals)
-    {
-        Stalactite[] Obstacles = new Stalactite[Stals.transform.childCount];
-        foreach (Transform Obj in Stals.transform)
-        {
-            Stalactite Obstacle = Obj.GetComponentInChildren<Stalactite>();
-            if (!Obstacle)
-            {
-                Debug.Log("Error: No script set to Obstacle: " + Stals.name + "/" + Obj.name);
-            }
-            Obstacle.DeactivateStal();
-            Obstacles[int.Parse(Obj.name) - 1] = Obstacle;
-        }
-        return Obstacles;
-    }
-
-    private SpiderClass[] GetSpider(Transform Spiders)
-    {
-        SpiderClass[] SpiderList = new SpiderClass[Spiders.transform.childCount];
-        foreach (Transform Obj in Spiders.transform)
-        {
-            SpiderClass Spider = Obj.GetComponentInChildren<SpiderClass>();
-            if (!Spider)
-            {
-                Debug.Log("Error: No script set to " + Spider.name + "/" + Obj.name);
-            }
-            Spider.DeactivateSpider();
-            SpiderList[int.Parse(Obj.name) - 1] = Spider;
-        }
-        return SpiderList;
-    }*/
 
     public void DestroyOnScreenHazards()
     {

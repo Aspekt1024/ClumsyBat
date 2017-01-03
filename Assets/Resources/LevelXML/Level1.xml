@@ -2,8 +2,44 @@
 <LevelCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <CaveList>
     <Cave>
-      <TopIndex>0</TopIndex>
-      <BottomIndex>0</BottomIndex>
+      <TopIndex>1000</TopIndex>
+      <BottomIndex>1000</BottomIndex>
+      <bTopSecretPath>false</bTopSecretPath>
+      <bBottomSecretPath>false</bBottomSecretPath>
+      <Shrooms />
+      <Stals />
+      <Moths />
+      <Spiders />
+      <Webs />
+      <Triggers>
+        <TriggerType>
+          <Pos>
+            <x>-2.96999979</x>
+            <y>-0.539999962</y>
+          </Pos>
+          <Scale>
+            <x>2.45812559</x>
+            <y>2.4462502</y>
+          </Scale>
+          <Rotation>
+            <x>0</x>
+            <y>0</y>
+            <z>0</z>
+            <w>1</w>
+            <eulerAngles>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+            </eulerAngles>
+          </Rotation>
+          <EventType>Tooltip</EventType>
+          <EventID>FirstJump</EventID>
+        </TriggerType>
+      </Triggers>
+    </Cave>
+    <Cave>
+      <TopIndex>2</TopIndex>
+      <BottomIndex>1</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
       <Shrooms />
@@ -15,7 +51,7 @@
     </Cave>
     <Cave>
       <TopIndex>0</TopIndex>
-      <BottomIndex>1</BottomIndex>
+      <BottomIndex>0</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
       <Shrooms />
@@ -23,8 +59,8 @@
       <Moths>
         <MothType>
           <Pos>
-            <x>5.84999847</x>
-            <y>1.15</y>
+            <x>8.349998</x>
+            <y>0.597134352</y>
           </Pos>
           <Scale>
             <x>1</x>
@@ -46,13 +82,49 @@
       </Moths>
       <Spiders />
       <Webs />
+      <Triggers>
+        <TriggerType>
+          <Pos>
+            <x>2.84999847</x>
+            <y>0.83</y>
+          </Pos>
+          <Scale>
+            <x>1</x>
+            <y>9.3874855</y>
+          </Scale>
+          <Rotation>
+            <x>0</x>
+            <y>0</y>
+            <z>0</z>
+            <w>1</w>
+            <eulerAngles>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+            </eulerAngles>
+          </Rotation>
+          <EventType>Tooltip</EventType>
+          <EventID>FirstMoth</EventID>
+        </TriggerType>
+      </Triggers>
+    </Cave>
+    <Cave>
+      <TopIndex>1001</TopIndex>
+      <BottomIndex>1001</BottomIndex>
+      <bTopSecretPath>false</bTopSecretPath>
+      <bBottomSecretPath>false</bBottomSecretPath>
+      <Shrooms />
+      <Stals />
+      <Moths />
+      <Spiders />
+      <Webs />
       <Triggers />
     </Cave>
   </CaveList>
   <Clumsy>
     <Pos>
-      <x>-5.5</x>
-      <y>0</y>
+      <x>-4.83</x>
+      <y>1</y>
     </Pos>
     <Scale>
       <x>0.177492425</x>

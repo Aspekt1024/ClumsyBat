@@ -35,7 +35,7 @@ public class TooltipHandler : MonoBehaviour {
     {
         // TODO set this up better...
         PlayerControl = FindObjectOfType<PlayerController>();
-        Stats = FindObjectOfType<StatsHandler>();
+        Stats = PlayerControl.Level.Stats;
         InputManager = PlayerControl.GetInputManager();
 	}
 	
@@ -43,7 +43,6 @@ public class TooltipHandler : MonoBehaviour {
     {
         if (!Stats.Settings.Tooltips) { return; }
         StartCoroutine("DisplayTooltip", TooltipID);
-        
     }
 
     private IEnumerator DisplayTooltip(TriggerHandler.EventID ttID)

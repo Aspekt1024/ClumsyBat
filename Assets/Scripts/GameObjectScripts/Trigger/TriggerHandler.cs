@@ -72,8 +72,9 @@ public class TriggerHandler {
     {
         foreach (TriggerType Trigger in TriggerList)
         {
+            float TriggerZLayer = TriggerZLayer = Toolbox.Instance.ZLayers["Trigger"];
             TriggerClass NewTrigger = GetTriggerFromPool();
-            NewTrigger.transform.position = new Vector3(Trigger.Pos.x + XOffset, Trigger.Pos.y, 0f);
+            NewTrigger.transform.position = new Vector3(Trigger.Pos.x + XOffset, Trigger.Pos.y, TriggerZLayer);
             NewTrigger.transform.localScale = Trigger.Scale;
             NewTrigger.transform.localRotation = Trigger.Rotation;
             NewTrigger.ActivateTrigger(Trigger.EventType, Trigger.EventID);

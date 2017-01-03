@@ -428,7 +428,7 @@ public class PlayerController : MonoBehaviour
             CountdownTimer += Time.deltaTime;
 
             // First level is special (tutorial) so we're going to change the animation for this one only
-            if (Toolbox.Instance.Level == 1)
+            if (Toolbox.Instance.Level != 1)
             {
                 Level.GameHUD.SetResumeTimer(CountdownDuration - CountdownTimer + TimeToReachDest);
             }
@@ -486,5 +486,9 @@ public class PlayerController : MonoBehaviour
         return InputManager;
     }
 
+    public bool GameStarted()
+    {
+        return bGameStarted;
+    }
 }
 
