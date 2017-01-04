@@ -130,7 +130,7 @@ public class Mushroom : MonoBehaviour {
         MushroomRenderer.enabled = true;
         Spore.SetActive(false);
         transform.position = new Vector3(transform.position.x, transform.position.y, ShroomZLayer);
-        Spore.transform.Rotate(Vector3.forward * 16f);  // Offset the spore trajectory to line up with the shroom graphic
+        Spore.transform.Rotate(Vector3.forward * 16f);  // Offsets the spore trajectory to line up with the shroom graphic
     }
 
     public void SetSpeed(float _speed)
@@ -145,4 +145,11 @@ public class Mushroom : MonoBehaviour {
         SporeAnimator.enabled = !PauseGame;
     }
 
+    public void DestroyMushroom()
+    {
+        // TODO animation
+        // TODO coroutine
+        // TODO whatever
+        DeactivateMushroom();
+    }
 }

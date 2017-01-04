@@ -77,12 +77,4 @@ public class SpiderPool {
             Spider.SetPaused(PauseGame);
         }
     }
-
-    public void CheckAndDestroy()
-    {
-        foreach (SpiderClass Spider in Spiders)
-        {
-            Spider.DestroySpiderIfInScreen();
-        }
-    }
 }

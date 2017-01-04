@@ -84,6 +84,7 @@ public class PlayerController : MonoBehaviour
         Rush = AbilityScripts.AddComponent<RushAbility>();
 
         Rush.Setup(Level.Stats, this, Lantern);
+        Hypersonic.Setup(Level.Stats, this, Lantern);
     }
 
     public void LevelStart()

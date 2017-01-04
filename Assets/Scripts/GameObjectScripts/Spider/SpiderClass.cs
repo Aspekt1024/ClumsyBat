@@ -127,27 +127,16 @@ public class SpiderClass : MonoBehaviour {
         }
     }
 
-    public void DestroySpiderIfInScreen()
+    public void DestroySpider()
     {
-        if (!Spider.bIsActive) { return; }
-        Vector2 ScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
-        if (ScreenPosition.x < Screen.width)
-        {
-            Spider.Collider.enabled = false;
-            StartCoroutine("DestroySpider");
-        }
+        StartCoroutine("KillIt");
     }
 
-    private IEnumerator DestroySpider()
-    {
-        KillIt();
-        yield return new WaitForSeconds(0.67f);
-        DeactivateSpider();
-    }
-
-    public void KillIt()
+    private IEnumerator KillIt()
     {
         Spider.Anim.enabled = true;
-        Spider.Anim.Play("Crumble", 0, 0f);
+        //Spider.Anim.Play("Crumble", 0, 0f);   // TODO anim
+        yield return new WaitForSeconds(0.67f);
+        DeactivateSpider();
     }
 }
