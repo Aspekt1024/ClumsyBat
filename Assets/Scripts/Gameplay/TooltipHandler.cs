@@ -7,29 +7,40 @@ using UnityEngine.UI;
 public class TooltipHandler : MonoBehaviour {
 
     private PlayerController PlayerControl;
-    private StatsHandler Stats;
     private SwipeManager InputManager;
 
     private GameObject ToolTipOverlay = null;
     private RectTransform ToolTipTextBox = null;
+    
+    private Dictionary<DialogueID, TooltipID[]> DialogueSet = new Dictionary<DialogueID, TooltipID[]>();
+    private Dictionary<TooltipID, string> DialogueDict = new Dictionary<TooltipID, string>();
 
-    private Dictionary<EventID, string> TooltipDict = new Dictionary<EventID, string>();
-    private Dictionary<EventID, DialogueID[]> DialogueSet = new Dictionary<EventID, DialogueID[]>();
-    private Dictionary<DialogueID, string> DialogueDict = new Dictionary<DialogueID, string>();
-
-    public enum EventID
+    // DialogueID is used for the DialogueSet Dictionary
+    // Referenced in the editor
+    public enum DialogueID
     {
         FirstJump,
         FirstMoth,
         FirstDeath,
         StalLevel,
+        NoMoreStals,
+        ActuallyMoreStals,
         FirstStalDrop
     }
 
-    public enum DialogueID
+    // TooltipID references the individual pieces of dialogue defined in the DialogueSet
+    private enum TooltipID
     {
+        FirstJump,
+        FirstMoth,
+        FirstDeath,
+        StalLevel,
         StalDrop1,
-        StalDrop2
+        StalDrop2,
+        StalDrop3,
+        NoMoreStals,
+        ActuallyMoreStals,
+
     }
 
     void Awake()
@@ -39,98 +50,68 @@ public class TooltipHandler : MonoBehaviour {
         ToolTipTextBox = GetToolTipTextBox();
         ToolTipOverlay.SetActive(false);
 
-        SetToolTipText();
         SetDialogueIDs();
         SetDialogueText();
     }
 
-    private void SetToolTipText()
-    {
-        TooltipDict.Add(EventID.FirstJump, "Tap anywhere to flap!");
-        TooltipDict.Add(EventID.FirstMoth, "It's getting dark! Collect moths to fuel the lantern.");
-        TooltipDict.Add(EventID.StalLevel, "This is as far as I've ever been. Be careful!");
-    }
-
     private void SetDialogueIDs()
     {
-        DialogueSet.Add(EventID.FirstStalDrop, new DialogueID[] { DialogueID.StalDrop1, DialogueID.StalDrop2 } );
+        DialogueSet.Add(DialogueID.FirstJump, new TooltipID[] { TooltipID.FirstJump } );
+        DialogueSet.Add(DialogueID.FirstMoth, new TooltipID[] { TooltipID.FirstMoth } );
+        DialogueSet.Add(DialogueID.StalLevel, new TooltipID[] { TooltipID.StalLevel } );
+        DialogueSet.Add(DialogueID.FirstStalDrop, new TooltipID[] { TooltipID.StalDrop1, TooltipID.StalDrop2, TooltipID.StalDrop3 } );
+        DialogueSet.Add(DialogueID.NoMoreStals, new TooltipID[] { TooltipID.NoMoreStals });
+        DialogueSet.Add(DialogueID.ActuallyMoreStals, new TooltipID[] { TooltipID.ActuallyMoreStals });
     }
 
     private void SetDialogueText()
     {
-        DialogueDict.Add(DialogueID.StalDrop1, "Did you see that?!");
-        DialogueDict.Add(DialogueID.StalDrop2, "Oh right, you're a bat. Of course you didn't.");
+        DialogueDict.Add(TooltipID.FirstJump, "Tap anywhere to flap!");
+        DialogueDict.Add(TooltipID.FirstMoth, "It's getting dark! Collect moths to fuel the lantern.");
+        DialogueDict.Add(TooltipID.StalLevel, "This is as far as I've ever been. Be careful!");
+        DialogueDict.Add(TooltipID.StalDrop1, "Did you see that?!");
+        DialogueDict.Add(TooltipID.StalDrop2, "Oh right, you're a bat. Of course you didn't.");
+        DialogueDict.Add(TooltipID.StalDrop3, "Watch for falling objects!" );
+        DialogueDict.Add(TooltipID.NoMoreStals, "Whew, we got through it! Hopefully that's it.");
+        DialogueDict.Add(TooltipID.ActuallyMoreStals, "... That wasn't it. I think this game is going to be hard.");
     }
 
     void Start ()
     {
         // TODO set this up better...
         PlayerControl = FindObjectOfType<PlayerController>();
-        Stats = PlayerControl.Level.Stats;
         InputManager = PlayerControl.GetInputManager();
 	}
-	
-    public void ShowTooltip(EventID TooltipID)
+    
+    public void ShowDialogue(DialogueID EventID)
     {
-        if (!Stats.Settings.Tooltips) { return; }
-        StartCoroutine("DisplayTooltip", TooltipID);
+        TooltipID[] Dialogue = DialogueSet[EventID];
+        StartCoroutine("SetupDialogue", Dialogue);
     }
 
-    private IEnumerator DisplayTooltip(EventID ttID)
+    private IEnumerator SetupDialogue(DialogueID[] Dialogue)
     {
         PlayerControl.WaitForTooltip(true);
-        EnableTooltip(ttID);
-
-        const float TooltipPauseDuration = 0.7f;
-        yield return new WaitForSeconds(TooltipPauseDuration);
-
-        PlayerControl.WaitForTooltip(false);
-        ShowTapToResume();
-
-        while (!InputManager.TapRegistered() && !Input.GetKeyUp("w"))
+        foreach (TooltipID Speech in Dialogue)
         {
-            yield return null;
-        }
-
-        PlayerControl.TooltipResume();
-        HideToolTip();
-    }
-    
-    public void EnableTooltip(EventID ttID)
-    {
-        ToolTipOverlay.SetActive(true);
-        GameObject.Find("TapToResume").GetComponent<Text>().enabled = false;
-        ToolTipTextBox.GetComponent<Text>().text = TooltipDict[ttID];
-    }
-    
-    public void ShowDialogue(EventID EventID)
-    {
-        DialogueID[] Dialogue = DialogueSet[EventID];
-        StartCoroutine("DisplayDialogue", Dialogue);
-    }
-
-    public IEnumerator DisplayDialogue(DialogueID[] Dialogue)
-    {
-        PlayerControl.WaitForTooltip(true);
-        foreach (DialogueID Piece in Dialogue)
-        {
-            yield return StartCoroutine("EnableDialogue", Piece);
+            yield return StartCoroutine("ShowTooltip", Speech);
         }
         PlayerControl.WaitForTooltip(false);
         PlayerControl.TooltipResume();
         HideToolTip();
     }
 
-    public IEnumerator EnableDialogue(DialogueID Piece)
+    private IEnumerator ShowTooltip(TooltipID Speech)
     {
         ToolTipOverlay.SetActive(true);
         GameObject.Find("TapToResume").GetComponent<Text>().enabled = false;
-        ToolTipTextBox.GetComponent<Text>().text = DialogueDict[Piece];
+        ToolTipTextBox.GetComponent<Text>().text = DialogueDict[Speech];
         
         const float TooltipPauseDuration = 0.7f;
         yield return new WaitForSeconds(TooltipPauseDuration);
         ShowTapToResume();
-        
+
+        InputManager.ClearInput();
         while (!InputManager.TapRegistered() && !Input.GetKeyUp("w"))
         {
             yield return null;

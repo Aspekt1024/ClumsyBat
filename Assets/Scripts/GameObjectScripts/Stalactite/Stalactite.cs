@@ -7,31 +7,53 @@ public class Stalactite : MonoBehaviour {
     {
         public PolygonCollider2D Collider;
         public SpriteRenderer Renderer;
+        public Rigidbody2D Body;
+        public SpriteRenderer TriggerSprite;
         public Animator Anim;
-        public Vector2 initialPos;
-        public bool bDropEnabled;
+        public StalState State;
         public bool bIsActive;
+    }
+
+    public enum FallType
+    {
+        Custom,
+        NoFall,
+        Under_Easy,
+        Under_Hard,
+        Under_Dash,
+        Over_Easy,
+        Over_Hard,
+        PreFall_Early,
+        PreFall_VeryEarly,
+        PostFall
+    }
+
+    public enum StalState
+    {
+        Normal,
+        Shaking,
+        Falling,
+        Exploding 
     }
 
     private bool Paused = false;
     private float Speed;
-    private float StalZLayer;
 
     private StalacType Stal;
-    private bool bDropTriggered;
-    public bool UnstableStalactite;
     private Player Player;
+    
+    // These variables are set in the level editor
+    // UnstableStalactite is the only one used during gameplay
+    public bool UnstableStalactite;
+    public FallType FallPreset;
+    public bool Flipped;
 
     void Awake ()
     {
-        StalZLayer = Toolbox.Instance.ZLayers["Stalactite"];
-        Stal.Collider = GetComponent<PolygonCollider2D>();
-        Stal.Renderer = GetComponent<SpriteRenderer>();
-        Stal.Anim = GetComponent<Animator>();
-        Stal.bDropEnabled = false;
+        GetStalComponents();
+        Stal.State = StalState.Normal;
         Stal.bIsActive = false;
         Player = FindObjectOfType<Player>();
-        bDropTriggered = false;
         Stal.Anim.Play("Static", 0, 0f);
         Stal.Anim.enabled = true;
     }
@@ -44,28 +66,56 @@ public class Stalactite : MonoBehaviour {
 
     void Update ()
     {
-        if (!Stal.bDropEnabled) { return; }
-        if ((Player.transform.position.x + 10 > transform.position.x) && !bDropTriggered)
+        if (!UnstableStalactite) { return; }
+        if ((Player.transform.position.x + 10 > transform.position.x) && Stal.State == StalState.Normal)
         {
-            bDropTriggered = true;
+            Stal.State = StalState.Shaking;
             StartCoroutine("Shake");
         }
 	}
 
-    public void ActivateStal(bool bDropEnabled)
+    private void GetStalComponents()
+    {
+        foreach (Transform StalChild in transform)
+        {
+            if (StalChild.name == "StalObject")
+            {
+                Stal.Body = StalChild.GetComponent<Rigidbody2D>();
+                Stal.Anim = StalChild.GetComponent<Animator>();
+                Stal.Collider = StalChild.GetComponent<PolygonCollider2D>();
+                Stal.Renderer = StalChild.GetComponent<SpriteRenderer>();
+            }
+            if (StalChild.name == "StalTrigger")
+            {
+                Stal.TriggerSprite = StalChild.GetComponent<SpriteRenderer>();
+            }
+        }
+    }
+
+    public void ActivateStal(bool bDropEnabled, Vector2 TriggerPos)
     {
         Stal.bIsActive = true;
         Stal.Collider.enabled = true;
         Stal.Renderer.enabled = true;
-        Stal.bDropEnabled = bDropEnabled;
-        bDropTriggered = false;
+        UnstableStalactite = bDropEnabled;
+        Stal.TriggerSprite.enabled = Toolbox.Instance.Debug && UnstableStalactite;
     }
     public void DeactivateStal()
     {
-        // TODO replace collider and renderer with the Transform itself
+        // TODO Stal.GO (transform.gameObject).SetActive(false);
         Stal.bIsActive = false;
         Stal.Collider.enabled = false;
         Stal.Renderer.enabled = false;
+    }
+
+    void OnTriggerEnter2D()
+    {
+        if (UnstableStalactite && Stal.State != StalState.Falling)
+        {
+            Stal.State = StalState.Falling;
+            Stal.Body.velocity = new Vector2(0f, -2f);
+            Stal.Body.isKinematic = false;
+        }
     }
 
     public bool IsActive()
@@ -85,45 +135,25 @@ public class Stalactite : MonoBehaviour {
 
     IEnumerator Shake()
     {
+        const float ShakeInterval = 0.09f;
         float ShakeTime = 0;
         bool bRotateForward = true;
-        while (Stal.bDropEnabled)
+        while (Stal.State == StalState.Shaking)
         {
             if (!Paused)
             {
                 if (bRotateForward)
                 {
-                    transform.Rotate(Vector3.forward * 3);
+                    Stal.Body.transform.Rotate(Vector3.forward * 2.5f);
                 }
                 else
                 {
-                    transform.Rotate(Vector3.back * 3);
+                    Stal.Body.transform.Rotate(Vector3.back * 2.5f);
                 }
                 bRotateForward = !bRotateForward;
             }
-            yield return new WaitForSeconds(0.09f);
-            ShakeTime += 0.09f;
-            if (ShakeTime > 1.2f)
-            {
-                break;
-            }
-        }
-        if (Stal.bDropEnabled)
-        {
-            Stal.bDropEnabled = false;
-            StartCoroutine("Falling");
-        }
-    }
-
-    IEnumerator Falling()
-    {
-        while (transform.position.y > -20)
-        {
-            if (!Paused)
-            {
-                transform.position = new Vector3(transform.position.x, transform.position.y - 0.25f, StalZLayer);
-            }
-            yield return null;
+            yield return new WaitForSeconds(ShakeInterval);
+            ShakeTime += ShakeInterval;
         }
     }
 

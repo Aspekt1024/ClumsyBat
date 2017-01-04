@@ -11,9 +11,13 @@ public class LevelEditorActions : MonoBehaviour
 
     GameObject LevelObj = null;
     public int LevelNum;
+    public bool DebugMode;
+
+    StalactiteEditor StalEditControl = new StalactiteEditor();
 
     Transform CaveParent = null;
     Transform MothParent = null;
+    Transform StalParent = null;
     private int NumSections = 0;
     private int LoadedLevelNum;
 
@@ -29,6 +33,7 @@ public class LevelEditorActions : MonoBehaviour
 
     void Awake()
     {
+        Toolbox.Instance.Debug = DebugMode;
         if (LevelNum == 0)
         {
             Debug.Log("No Level Set!!!!");
@@ -37,12 +42,14 @@ public class LevelEditorActions : MonoBehaviour
 
     void Start()
     {
-        SetZLayers();
         Level = new LevelContainer();
-        SetLevelNum();
         CaveParent = GameObject.Find("Caves").transform;
         MothParent = GameObject.Find("Moths").transform;
+        StalParent = GameObject.Find("Stalactites").transform;
         LevelObj = GameObject.Find("Level");
+        SetZLayers();
+        SetLevelNum();
+        LoadBtn();
     }
 
     void Update()
@@ -55,15 +62,31 @@ public class LevelEditorActions : MonoBehaviour
 
         if (MothParent != null)
         {
-            SetMothColours();
+            AlignMoths();
         }
+        
+        StalEditControl.ProcessStalactites(StalParent);
     }
 
-    private void SetMothColours()
+    private void AlignMoths()
     {
         foreach (Transform Moth in MothParent)
         {
             Moth MothScript = Moth.GetComponent<Moth>();
+            Transform MothTF = null;
+            foreach (Transform TF in Moth.transform)
+            {
+                if (TF.name == "MothTrigger")
+                {
+                    MothTF = TF;
+                }
+            }
+
+            if (MothTF.position != Moth.transform.position)
+            {
+                MothTF.position = Moth.transform.position;
+            }
+
             SpriteRenderer MothRenderer = Moth.GetComponentInChildren<SpriteRenderer>();
             switch (MothScript.Colour)
             {
@@ -77,10 +100,12 @@ public class LevelEditorActions : MonoBehaviour
                     MothRenderer.color = new Color(1f, 1f, 0f);
                     break;
             }
+            
         }
     }
 
-    private void PlaceOnInput()
+    // TODO couldn't figure this out... try again later
+    /*private void PlaceOnInput()
     {
         //Vector2 Pos = GUIUtility.GUIToScreenPoint(Event.current.mousePosition);
         //Debug.Log(Input.mousePosition.ToString());
@@ -102,7 +127,7 @@ public class LevelEditorActions : MonoBehaviour
 
         }
 
-    }
+    }*/
 
     private void SetLevelStats()
     {
@@ -136,8 +161,10 @@ public class LevelEditorActions : MonoBehaviour
                     Cave.name = Renderer.sprite.name;
                 }
             }
+
             Cave.transform.position = new Vector3(index * TileSizeX, 0f, CaveZ);
         }
+
     }
 
     private void SetZLayers()
@@ -151,6 +178,8 @@ public class LevelEditorActions : MonoBehaviour
         SpiderZ = Toolbox.Instance.ZLayers["Spider"];
         WebZ = Toolbox.Instance.ZLayers["Web"];
         TriggerZ = Toolbox.Instance.ZLayers["Trigger"];
+
+        StalEditControl.SetZLayers(TriggerZ);
     }
 
     public void SaveBtn()
@@ -175,11 +204,10 @@ public class LevelEditorActions : MonoBehaviour
         Debug.Log("Level data saved to " + PathName + "/" + LevelName);
     }
 
-    public void SaveAndTestButton()
+    public void TestButton()
     {
-        SaveBtn();
         Toolbox.Instance.Level = LevelNum;
-        Toolbox.Instance.Debug = true;
+        Toolbox.Instance.Debug = DebugMode;
         SceneManager.LoadScene("Levels");
     }
 
@@ -198,7 +226,6 @@ public class LevelEditorActions : MonoBehaviour
     private void SetLevelNum()
     {
         GameObject.Find("LevelNumText").GetComponent<Text>().text = "Level: " + LevelNum.ToString();
-        LoadedLevelNum = LevelNum;
     }
 
     private void InitialiseCaveList()
@@ -294,13 +321,25 @@ public class LevelEditorActions : MonoBehaviour
         int[] StalNum = new int[NumSections];
         foreach (Transform Stal in StalParent)
         {
+            Transform StalObj = null;
+            Transform StalTrigger = null;
+            foreach (Transform StalChild in Stal)
+            {
+                if (StalChild.name == "StalObject") { StalObj = StalChild; }
+                else if (StalChild.name == "StalTrigger") { StalTrigger = StalChild; }
+            }
+
             int index = Mathf.RoundToInt(Stal.position.x / TileSizeX);
 
             StalPool.StalType NewStal = Level.Caves[index].Stals[StalNum[index]];
+            Stalactite StalScript = Stal.GetComponent<Stalactite>();
             NewStal.Pos = new Vector2(Stal.position.x - TileSizeX * index, Stal.position.y);
-            NewStal.Scale = Stal.localScale;
-            NewStal.Rotation = Stal.localRotation;
-            NewStal.DropEnabled = Stal.GetComponent<Stalactite>().UnstableStalactite;
+            NewStal.Scale = StalObj.localScale;
+            NewStal.Rotation = StalObj.localRotation;
+            NewStal.DropEnabled = StalScript.UnstableStalactite;
+            NewStal.Flipped = StalScript.Flipped;
+            NewStal.FallPreset = StalScript.FallPreset;
+            NewStal.TriggerPos = new Vector2(StalTrigger.position.x - TileSizeX * index, StalTrigger.position.y);
             Level.Caves[index].Stals[StalNum[index]] = NewStal;
             StalNum[index]++;
         }
@@ -482,6 +521,7 @@ public class LevelEditorActions : MonoBehaviour
         GameObject Triggers = new GameObject("Triggers");
         GameObject Caves = CaveParent.gameObject;
         MothParent = Moths.transform;
+        StalParent = Stals.transform;
 
         Stals.transform.SetParent(LevelObj.transform);
         Shrooms.transform.SetParent(LevelObj.transform);
@@ -538,10 +578,23 @@ public class LevelEditorActions : MonoBehaviour
         foreach (StalPool.StalType Stal in StalList)
         {
             GameObject NewStal = (GameObject)Instantiate(Resources.Load("Obstacles/Stalactite"), Stals.transform);
+            Transform StalObj = null;
+            Transform StalTrigger = null;
+            Stalactite StalScript = NewStal.GetComponent<Stalactite>();
+
+            foreach (Transform StalChild in NewStal.transform)
+            {
+                if (StalChild.name == "StalObject") { StalObj = StalChild; }
+                else if (StalChild.name == "StalTrigger") { StalTrigger = StalChild; }
+            }
+
             NewStal.transform.position = new Vector3(Stal.Pos.x + PosIndex * TileSizeX, Stal.Pos.y, StalZ);
-            NewStal.transform.localScale = Stal.Scale;
-            NewStal.transform.localRotation = Stal.Rotation;
-            NewStal.GetComponent<Stalactite>().UnstableStalactite = Stal.DropEnabled;
+            StalObj.localScale = Stal.Scale;
+            StalObj.localRotation = Stal.Rotation;
+            StalScript.FallPreset = Stal.FallPreset;
+            StalScript.Flipped = Stal.Flipped;
+            StalScript.UnstableStalactite = Stal.DropEnabled;
+            StalTrigger.position = new Vector2(Stal.TriggerPos.x + PosIndex * TileSizeX, Stal.TriggerPos.y);
         }
     }
 

@@ -8,9 +8,16 @@ public class Moth : MonoBehaviour {
     private Collider2D MothCollider = null;
     private bool bIsActive = false;
     public MothColour Colour;
+    private MothStates MothState = MothStates.Normal;
     private bool bConsumption = false;
 
     private Transform Lantern = null;
+
+    private enum MothStates
+    {
+        Normal,
+        ConsumeFollow
+    }
 
     public enum MothColour
     {
@@ -31,14 +38,21 @@ public class Moth : MonoBehaviour {
         MothZLayer = Toolbox.Instance.ZLayers["Moth"];
         foreach (Transform GO in transform)
         {
-            if (GO.name == "MothSprite")
+            if (GO.name == "MothTrigger")
             {
                 MothSprite = GO;
                 MothAnimator = GO.GetComponent<Animator>();
                 MothAnimator.enabled = false;
+                MothCollider = GO.GetComponent<Collider2D>();
+            }
+            else if (GO.name == "PathBox")
+            {
+                if (!Toolbox.Instance.Debug)
+                {
+                    Destroy(GO.gameObject);
+                }
             }
         }
-        GetMothCollider();
         Lantern = GameObject.Find("Lantern").GetComponent<Transform>();
     }
 	
@@ -46,18 +60,6 @@ public class Moth : MonoBehaviour {
     {
         if (!bIsActive || Paused) { return; }
         MoveMothAlongPath();
-    }
-
-    private void GetMothCollider()
-    {
-        Transform MothParent = GetComponentInParent<Transform>();
-        foreach (Transform MothChild in MothParent)
-        {
-            if (MothChild.name == "MothTrigger")
-            {
-                MothCollider = MothChild.GetComponent<Collider2D>();
-            }
-        }
     }
 
     private void MoveMothAlongPath()
@@ -79,7 +81,11 @@ public class Moth : MonoBehaviour {
         float YOffset = 0.06f * PathSpeed * Mathf.Cos(Pi / 180 * MothAngle * -MothAxis.z);
         if (float.IsNaN(XOffset)) { XOffset = 0; }
         if (float.IsNaN(YOffset)) { YOffset = 0; }
-        transform.position += new Vector3(XOffset + Speed * Time.deltaTime, YOffset, 0);
+        if (MothState == MothStates.Normal)
+        {
+            transform.position += new Vector3(Speed * Time.deltaTime, 0f, 0f);
+            MothSprite.transform.position += new Vector3(XOffset, YOffset, 0f);
+        }
     }
 
     public void SetSpeed(float _speed)
@@ -107,18 +113,7 @@ public class Moth : MonoBehaviour {
 
     private IEnumerator ConsumeAnim(float AnimDuration)
     {
-        switch (Colour)
-        {
-            case MothColour.Green:
-                MothAnimator.Play("MothGreenExplosion", 0, 0f);
-                break;
-            case MothColour.Blue:
-                MothAnimator.Play("MothBlueExplosion", 0, 0f);
-                break;
-            case MothColour.Gold:
-                MothAnimator.Play("MothGoldExplosion", 0, 0f);
-                break;
-        }
+        PlayExplosionAnim();
 
         float LantenFollowTime = AnimDuration / 2f;
         float AnimTimer = 0f;
@@ -134,13 +129,14 @@ public class Moth : MonoBehaviour {
                 {
                     if (!bStartPosSet)
                     {
-                        StartPos = transform.position;
+                        MothState = MothStates.ConsumeFollow;
+                        StartPos = MothSprite.transform.position;
                         bStartPosSet = true;
                     }
                     float TimeRatio = (AnimTimer - (AnimDuration - LantenFollowTime)) / LantenFollowTime;
                     float XOffset = StartPos.x - (StartPos.x - Lantern.position.x) * TimeRatio;
                     float YOffset = StartPos.y - (StartPos.y - Lantern.position.y) * TimeRatio;
-                    transform.position = new Vector3(XOffset, YOffset, StartPos.z);
+                    MothSprite.transform.position = new Vector3(XOffset, YOffset, StartPos.z);
                 }
             }
             yield return null;
@@ -149,9 +145,26 @@ public class Moth : MonoBehaviour {
         bConsumption = false;
     }
 
+    private void PlayExplosionAnim()
+    {
+        switch (Colour)
+        {
+            case MothColour.Green:
+                MothAnimator.Play("MothGreenExplosion", 0, 0f);
+                break;
+            case MothColour.Blue:
+                MothAnimator.Play("MothBlueExplosion", 0, 0f);
+                break;
+            case MothColour.Gold:
+                MothAnimator.Play("MothGoldExplosion", 0, 0f);
+                break;
+        }
+    }
+
     public void ReturnToInactivePool()
     {
         transform.position = Toolbox.Instance.HoldingArea;
+        MothSprite.transform.position = transform.position;
         IsActive = false;
     }
 
@@ -170,6 +183,7 @@ public class Moth : MonoBehaviour {
         MothCollider.enabled = true;
         Phase = 0f;
         transform.position = new Vector3(transform.position.x, transform.position.y, MothZLayer); // TODO replace this?
+        MothSprite.transform.position = transform.position;
         bIsActive = true;
         Colour = _colour;
         switch (_colour)

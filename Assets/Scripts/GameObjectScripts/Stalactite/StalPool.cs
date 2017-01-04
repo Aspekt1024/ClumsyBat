@@ -16,7 +16,10 @@ public class StalPool {
         public Vector2 Pos;
         public Vector2 Scale;
         public Quaternion Rotation;
+        public Vector2 TriggerPos;
         public bool DropEnabled;
+        public bool Flipped;
+        public Stalactite.FallType FallPreset;
     }
 
     Stalactite[] Stals = null;
@@ -53,10 +56,20 @@ public class StalPool {
         foreach (StalType Stal in StalList)
         {
             Stalactite NewStal = GetStalactiteFromPool();
+            Transform StalObj = null;
+            Transform StalTrigger = null;
+
+            foreach (Transform StalChild in NewStal.transform)
+            {
+                if (StalChild.name == "StalObject") { StalObj = StalChild; }
+                else if (StalChild.name == "StalTrigger") { StalTrigger = StalChild; }
+            }
+
             NewStal.transform.position = new Vector3(Stal.Pos.x + XOffset, Stal.Pos.y, StalZLayer);
-            NewStal.transform.localScale = Stal.Scale;
-            NewStal.transform.localRotation = Stal.Rotation;
-            NewStal.ActivateStal(Stal.DropEnabled);
+            StalObj.localScale = Stal.Scale;
+            StalObj.localRotation = Stal.Rotation;
+            NewStal.ActivateStal(Stal.DropEnabled, Stal.TriggerPos);
+            StalTrigger.position = new Vector3(Stal.TriggerPos.x + XOffset, Stal.TriggerPos.y, StalZLayer);
         }
     }
 

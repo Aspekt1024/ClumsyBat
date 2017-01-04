@@ -8,7 +8,6 @@ public class SpiderClass : MonoBehaviour {
         public Collider2D Collider;
         public Renderer Renderer;
         public Animator Anim;
-        public Vector2 initialPos;
         public bool bSwingEnabled;
         public bool bIsActive;
     }

@@ -206,10 +206,10 @@ public class PlayerController : MonoBehaviour
     void OnCollisionEnter2D(Collision2D other)
     {
         if (!bGameStarted) { return; }
-        if (other.collider.GetComponent<Stalactite>())
+        if (other.collider.name == "StalObject")
         {
             Level.Stats.ToothDeaths++;
-            other.collider.GetComponent<Stalactite>().Crack();
+            other.collider.GetComponentInParent<Stalactite>().Crack();
         }
         else
         {
@@ -447,7 +447,7 @@ public class PlayerController : MonoBehaviour
 
         StartGame();
         PlayerRigidBody.velocity = new Vector2(0f, JumpForce.y / 80);
-        if (Toolbox.Instance.Level == 1)
+        if (Toolbox.Instance.Level != 1)
         {
             Level.GameHUD.SetStartText("GO!");
             yield return new WaitForSeconds(0.6f);

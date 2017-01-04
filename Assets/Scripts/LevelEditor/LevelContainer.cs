@@ -53,7 +53,8 @@ public class LevelContainer {
 
     public static LevelContainer LoadFromText(string text)
     {
-        var serializer = new XmlSerializer(typeof(LevelContainer));
-        return serializer.Deserialize(new StringReader(text)) as LevelContainer;
+        XmlSerializer serializer = new XmlSerializer(typeof(LevelContainer));
+        LevelContainer LC = serializer.Deserialize(new StringReader(text)) as LevelContainer;
+        return LC;
     }
 }

@@ -32,7 +32,7 @@
               <z>0</z>
             </eulerAngles>
           </Rotation>
-          <EventType>Tooltip</EventType>
+          <EventType>Dialogue</EventType>
           <EventID>FirstJump</EventID>
         </TriggerType>
       </Triggers>
@@ -59,8 +59,8 @@
       <Moths>
         <MothType>
           <Pos>
-            <x>8.349998</x>
-            <y>0.597134352</y>
+            <x>8.140999</x>
+            <y>0.587</y>
           </Pos>
           <Scale>
             <x>1</x>
@@ -103,7 +103,7 @@
               <z>0</z>
             </eulerAngles>
           </Rotation>
-          <EventType>Tooltip</EventType>
+          <EventType>Dialogue</EventType>
           <EventID>FirstMoth</EventID>
         </TriggerType>
       </Triggers>
