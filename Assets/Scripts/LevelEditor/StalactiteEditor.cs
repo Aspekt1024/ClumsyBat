@@ -54,10 +54,9 @@ public class StalactiteEditor {
 
     private void LockSpritePosition()
     {
-        if (Stal.localScale != Vector3.one)
+        if (Stal.position != StalBody.position)
         {
-            StalBody.localScale = Stal.localScale;
-            Stal.localScale = Vector3.one;
+            StalBody.position = Stal.position;
         }
     }
 
@@ -68,6 +67,12 @@ public class StalactiteEditor {
             StalBody.localRotation = Stal.localRotation;
             if (StalScript.Flipped) { StalBody.Rotate(Vector3.forward * 180f); }
             Stal.localRotation = new Quaternion();
+        }
+
+        if (Stal.localScale != Vector3.one)
+        {
+            StalBody.localScale = Stal.localScale;
+            Stal.localScale = Vector3.one;
         }
     }
 
@@ -96,13 +101,13 @@ public class StalactiteEditor {
     {
         TriggerDict.Add(Stalactite.FallType.Over_Easy, -2.3f);
         TriggerDict.Add(Stalactite.FallType.Over_Hard, -2f);
-        TriggerDict.Add(Stalactite.FallType.Under_Easy, 1f);
+        TriggerDict.Add(Stalactite.FallType.Under_Easy, 0.8f);
         TriggerDict.Add(Stalactite.FallType.Under_Hard, 0.5f);
         TriggerDict.Add(Stalactite.FallType.Under_Dash, -1f);
         TriggerDict.Add(Stalactite.FallType.PostFall, 2f);
         TriggerDict.Add(Stalactite.FallType.PreFall_Early, -2.8f);
         TriggerDict.Add(Stalactite.FallType.PreFall_VeryEarly, -5.2f);
-        TriggerDict.Add(Stalactite.FallType.NoFall, -10f);
+        TriggerDict.Add(Stalactite.FallType.NoFall, 10f);
     }
 
     public void SetZLayers(float TriggerZLayer)

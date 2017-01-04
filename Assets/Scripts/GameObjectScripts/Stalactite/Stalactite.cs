@@ -33,14 +33,16 @@ public class Stalactite : MonoBehaviour {
         Normal,
         Shaking,
         Falling,
-        Exploding 
+        Exploding
     }
 
     private bool Paused = false;
     private float Speed;
+    private bool bCracked;
 
     private StalacType Stal;
     private Player Player;
+    private PlayerController PlayerControl;
     
     // These variables are set in the level editor
     // UnstableStalactite is the only one used during gameplay
@@ -54,8 +56,10 @@ public class Stalactite : MonoBehaviour {
         Stal.State = StalState.Normal;
         Stal.bIsActive = false;
         Player = FindObjectOfType<Player>();
+        PlayerControl = Player.GetComponent<PlayerController>();
         Stal.Anim.Play("Static", 0, 0f);
         Stal.Anim.enabled = true;
+        bCracked = false;
     }
 
     void FixedUpdate()
@@ -71,6 +75,12 @@ public class Stalactite : MonoBehaviour {
         {
             Stal.State = StalState.Shaking;
             StartCoroutine("Shake");
+        }
+
+        if (!PlayerControl) { return; } // Editor clumsy has no player control
+        if (!PlayerControl.IsAlive() && Stal.State == StalState.Shaking)
+        {
+            Stal.State = StalState.Normal;
         }
 	}
 
@@ -99,6 +109,8 @@ public class Stalactite : MonoBehaviour {
         Stal.Renderer.enabled = true;
         UnstableStalactite = bDropEnabled;
         Stal.TriggerSprite.enabled = Toolbox.Instance.Debug && UnstableStalactite;
+        Stal.Anim.Play("Static", 0, 0f);
+        bCracked = false;
     }
     public void DeactivateStal()
     {
@@ -112,10 +124,17 @@ public class Stalactite : MonoBehaviour {
     {
         if (UnstableStalactite && Stal.State != StalState.Falling)
         {
-            Stal.State = StalState.Falling;
-            Stal.Body.velocity = new Vector2(0f, -2f);
-            Stal.Body.isKinematic = false;
+            Drop();
         }
+    }
+
+    private void Drop()
+    {
+        Stal.Anim.enabled = false;  // TODO play drop animation once available
+
+        Stal.State = StalState.Falling;
+        Stal.Body.velocity = new Vector2(0f, -2f);
+        Stal.Body.isKinematic = false;
     }
 
     public bool IsActive()
@@ -154,7 +173,13 @@ public class Stalactite : MonoBehaviour {
             }
             yield return new WaitForSeconds(ShakeInterval);
             ShakeTime += ShakeInterval;
+            if (ShakeTime > 1f && !bCracked)
+            {
+                bCracked = true;
+                Stal.Anim.Play("SlowCrack", 0, 0f);
+            }
         }
+        Stal.Body.transform.Rotate(Vector3.zero);   // Prevents rotating once we exit the while loop
     }
 
     public void DestroyStalactiteIfInScreen()
@@ -192,9 +217,8 @@ public class Stalactite : MonoBehaviour {
         float ImpactTime = 0;
         const float ImpactDuration = 0.3f;
         bool bForward = true;
-        bool bCracked = false;
         
-        while (ImpactTime < ImpactDuration)
+        while (ImpactTime < ImpactDuration && !bCracked)
         {
             transform.position += new Vector3(bForward ? 0.1f : -0.1f, 0f, 0f);
             bForward = !bForward;
@@ -203,13 +227,10 @@ public class Stalactite : MonoBehaviour {
             if (!bCracked)
             {
                 bCracked = true;
+                Stal.Anim.enabled = true;
                 Stal.Anim.Play("Crack", 0, 0f);
             }
         }
+        if (UnstableStalactite) { Drop(); }
     }
-
-    //public bool IsUnstable()
-    //{
-    //    return bDropTriggered;
-    //}
 }

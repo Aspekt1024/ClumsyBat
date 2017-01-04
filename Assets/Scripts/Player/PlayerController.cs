@@ -490,5 +490,10 @@ public class PlayerController : MonoBehaviour
     {
         return bGameStarted;
     }
+
+    public bool IsAlive()
+    {
+        return bIsAlive;
+    }
 }
 

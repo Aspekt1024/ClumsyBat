@@ -10,37 +10,11 @@
       <Stals>
         <StalType>
           <Pos>
-            <x>5.24</x>
-            <y>5.44</y>
-          </Pos>
-          <Scale>
-            <x>1</x>
-            <y>1</y>
-          </Scale>
-          <Rotation>
-            <x>0</x>
-            <y>0</y>
-            <z>-0.109706305</z>
-            <w>0.9939641</w>
-            <eulerAngles>
-              <x>0</x>
-              <y>0</y>
-              <z>347.403229</z>
-            </eulerAngles>
-          </Rotation>
-          <TriggerPos>
-            <x>-4.76</x>
-            <y>5.44</y>
-          </TriggerPos>
-          <DropEnabled>false</DropEnabled>
-        </StalType>
-        <StalType>
-          <Pos>
             <x>7.89</x>
             <y>-2.29</y>
           </Pos>
           <Scale>
-            <x>1</x>
+            <x>1.16234791</x>
             <y>1</y>
           </Scale>
           <Rotation>
@@ -59,6 +33,8 @@
             <y>-2.29</y>
           </TriggerPos>
           <DropEnabled>false</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>Custom</FallPreset>
         </StalType>
       </Stals>
       <Moths />
@@ -75,11 +51,39 @@
       <Stals>
         <StalType>
           <Pos>
+            <x>-9.450001</x>
+            <y>5.67</y>
+          </Pos>
+          <Scale>
+            <x>1.19999993</x>
+            <y>1</y>
+          </Scale>
+          <Rotation>
+            <x>0</x>
+            <y>0</y>
+            <z>-0.109706305</z>
+            <w>0.9939641</w>
+            <eulerAngles>
+              <x>0</x>
+              <y>0</y>
+              <z>347.403229</z>
+            </eulerAngles>
+          </Rotation>
+          <TriggerPos>
+            <x>-19.45</x>
+            <y>5.67</y>
+          </TriggerPos>
+          <DropEnabled>false</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>Custom</FallPreset>
+        </StalType>
+        <StalType>
+          <Pos>
             <x>-0.0700016</x>
             <y>5.23</y>
           </Pos>
           <Scale>
-            <x>1</x>
+            <x>1.209375</x>
             <y>1</y>
           </Scale>
           <Rotation>
@@ -98,11 +102,13 @@
             <y>5.23</y>
           </TriggerPos>
           <DropEnabled>false</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>Custom</FallPreset>
         </StalType>
         <StalType>
           <Pos>
-            <x>-8.650001</x>
-            <y>-3.52</y>
+            <x>-8.260001</x>
+            <y>-3.68</y>
           </Pos>
           <Scale>
             <x>1.57095122</x>
@@ -120,18 +126,20 @@
             </eulerAngles>
           </Rotation>
           <TriggerPos>
-            <x>-18.6500015</x>
-            <y>-3.52</y>
+            <x>-18.2600021</x>
+            <y>-3.68</y>
           </TriggerPos>
           <DropEnabled>false</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>Custom</FallPreset>
         </StalType>
         <StalType>
           <Pos>
-            <x>-4.840001</x>
-            <y>-3.43</y>
+            <x>-4.920001</x>
+            <y>-3.74</y>
           </Pos>
           <Scale>
-            <x>1.36672759</x>
+            <x>1.50034714</x>
             <y>1.36672723</y>
           </Scale>
           <Rotation>
@@ -146,18 +154,20 @@
             </eulerAngles>
           </Rotation>
           <TriggerPos>
-            <x>-14.8400011</x>
-            <y>-3.43</y>
+            <x>-14.920001</x>
+            <y>-3.74</y>
           </TriggerPos>
           <DropEnabled>false</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>Custom</FallPreset>
         </StalType>
         <StalType>
           <Pos>
-            <x>-2.960001</x>
-            <y>5.76</y>
+            <x>-2.8200016</x>
+            <y>5.99</y>
           </Pos>
           <Scale>
-            <x>1.36672759</x>
+            <x>1.49537</x>
             <y>1.36672723</y>
           </Scale>
           <Rotation>
@@ -172,36 +182,40 @@
             </eulerAngles>
           </Rotation>
           <TriggerPos>
-            <x>-12.960001</x>
-            <y>5.76</y>
+            <x>-12.8200016</x>
+            <y>5.99</y>
           </TriggerPos>
           <DropEnabled>false</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>Custom</FallPreset>
         </StalType>
         <StalType>
           <Pos>
-            <x>6.49</x>
-            <y>-3.28</y>
+            <x>5.80999947</x>
+            <y>-4.2</y>
           </Pos>
           <Scale>
             <x>1.36672759</x>
             <y>1.36672723</y>
           </Scale>
           <Rotation>
-            <x>1.16294106E-10</x>
-            <y>-5.31118942E-12</y>
-            <z>-0.9827387</z>
-            <w>0.184999362</w>
+            <x>-1.14846722E-10</x>
+            <y>-1.904629E-11</y>
+            <z>0.999714136</z>
+            <w>0.0239102263</w>
             <eulerAngles>
-              <x>1.86724924E-09</x>
-              <y>-1.32088855E-08</y>
-              <z>201.322189</z>
+              <x>1.86725035E-09</x>
+              <y>-1.32088882E-08</y>
+              <z>177.259827</z>
             </eulerAngles>
           </Rotation>
           <TriggerPos>
-            <x>-3.51000023</x>
-            <y>-3.28</y>
+            <x>-4.19000053</x>
+            <y>-4.2</y>
           </TriggerPos>
           <DropEnabled>false</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>Custom</FallPreset>
         </StalType>
         <StalType>
           <Pos>
@@ -213,13 +227,13 @@
             <y>1.36672723</y>
           </Scale>
           <Rotation>
-            <x>1.16104917E-10</x>
-            <y>8.49708151E-12</y>
+            <x>1.16104973E-10</x>
+            <y>8.497097E-12</y>
             <z>-0.997731</z>
             <w>0.0673273653</w>
             <eulerAngles>
-              <x>1.86725124E-09</x>
-              <y>-1.32089E-08</y>
+              <x>1.86725324E-09</x>
+              <y>-1.32089051E-08</y>
               <z>187.721</z>
             </eulerAngles>
           </Rotation>
@@ -228,6 +242,8 @@
             <y>-4.73</y>
           </TriggerPos>
           <DropEnabled>false</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>Custom</FallPreset>
         </StalType>
         <StalType>
           <Pos>
@@ -239,14 +255,14 @@
             <y>1.36672723</y>
           </Scale>
           <Rotation>
-            <x>1.16084212E-10</x>
-            <y>8.77392256E-12</y>
-            <z>-0.9978887</z>
-            <w>0.06494792</w>
+            <x>-1.15161256E-10</x>
+            <y>-1.70414845E-11</y>
+            <z>0.999979</z>
+            <w>0.00648036646</w>
             <eulerAngles>
-              <x>1.86724969E-09</x>
-              <y>-1.32088847E-08</y>
-              <z>187.447723</z>
+              <x>1.86725124E-09</x>
+              <y>-1.32088855E-08</y>
+              <z>179.2574</z>
             </eulerAngles>
           </Rotation>
           <TriggerPos>
@@ -254,6 +270,36 @@
             <y>-4.59</y>
           </TriggerPos>
           <DropEnabled>false</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>Custom</FallPreset>
+        </StalType>
+        <StalType>
+          <Pos>
+            <x>7.779999</x>
+            <y>5.55</y>
+          </Pos>
+          <Scale>
+            <x>1.41250038</x>
+            <y>1</y>
+          </Scale>
+          <Rotation>
+            <x>0</x>
+            <y>0</y>
+            <z>0</z>
+            <w>1</w>
+            <eulerAngles>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+            </eulerAngles>
+          </Rotation>
+          <TriggerPos>
+            <x>-2.22000122</x>
+            <y>5.55</y>
+          </TriggerPos>
+          <DropEnabled>false</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>Custom</FallPreset>
         </StalType>
       </Stals>
       <Moths>
@@ -278,6 +324,28 @@
             </eulerAngles>
           </Rotation>
           <Colour>Green</Colour>
+        </MothType>
+        <MothType>
+          <Pos>
+            <x>-1.17000008</x>
+            <y>-2.68</y>
+          </Pos>
+          <Scale>
+            <x>1</x>
+            <y>1</y>
+          </Scale>
+          <Rotation>
+            <x>0</x>
+            <y>0</y>
+            <z>0</z>
+            <w>1</w>
+            <eulerAngles>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+            </eulerAngles>
+          </Rotation>
+          <Colour>Gold</Colour>
         </MothType>
       </Moths>
       <Spiders />
@@ -316,6 +384,8 @@
             <y>-0.539999962</y>
           </TriggerPos>
           <DropEnabled>true</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>Custom</FallPreset>
         </StalType>
         <StalType>
           <Pos>
@@ -342,6 +412,8 @@
             <y>-4.35</y>
           </TriggerPos>
           <DropEnabled>false</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>Custom</FallPreset>
         </StalType>
         <StalType>
           <Pos>
@@ -368,9 +440,34 @@
             <y>1.39000034</y>
           </TriggerPos>
           <DropEnabled>true</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>Custom</FallPreset>
         </StalType>
       </Stals>
-      <Moths />
+      <Moths>
+        <MothType>
+          <Pos>
+            <x>5.39999771</x>
+            <y>3.33</y>
+          </Pos>
+          <Scale>
+            <x>1</x>
+            <y>1</y>
+          </Scale>
+          <Rotation>
+            <x>0</x>
+            <y>0</y>
+            <z>0</z>
+            <w>1</w>
+            <eulerAngles>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+            </eulerAngles>
+          </Rotation>
+          <Colour>Green</Colour>
+        </MothType>
+      </Moths>
       <Spiders />
       <Webs />
       <Triggers>
@@ -400,17 +497,214 @@
       </Triggers>
     </Cave>
     <Cave>
-      <TopIndex>0</TopIndex>
-      <BottomIndex>2</BottomIndex>
+      <TopIndex>2</TopIndex>
+      <BottomIndex>3</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
       <Shrooms />
-      <Stals />
+      <Stals>
+        <StalType>
+          <Pos>
+            <x>-2.630001</x>
+            <y>5.67</y>
+          </Pos>
+          <Scale>
+            <x>1.33972669</x>
+            <y>1.33972621</y>
+          </Scale>
+          <Rotation>
+            <x>0</x>
+            <y>0</y>
+            <z>0</z>
+            <w>1</w>
+            <eulerAngles>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+            </eulerAngles>
+          </Rotation>
+          <TriggerPos>
+            <x>-7.830002</x>
+            <y>1.43000031</y>
+          </TriggerPos>
+          <DropEnabled>true</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>PreFall_VeryEarly</FallPreset>
+        </StalType>
+        <StalType>
+          <Pos>
+            <x>-2.61000061</x>
+            <y>-5.18</y>
+          </Pos>
+          <Scale>
+            <x>1.24573123</x>
+            <y>1.04869807</y>
+          </Scale>
+          <Rotation>
+            <x>-1.14846722E-10</x>
+            <y>-1.904629E-11</y>
+            <z>0.999714136</z>
+            <w>0.0239102263</w>
+            <eulerAngles>
+              <x>1.86725035E-09</x>
+              <y>-1.32088882E-08</y>
+              <z>177.259827</z>
+            </eulerAngles>
+          </Rotation>
+          <TriggerPos>
+            <x>-12.6100006</x>
+            <y>-5.18</y>
+          </TriggerPos>
+          <DropEnabled>false</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>Custom</FallPreset>
+        </StalType>
+        <StalType>
+          <Pos>
+            <x>-5.19000244</x>
+            <y>-5.06</y>
+          </Pos>
+          <Scale>
+            <x>1.36672759</x>
+            <y>1.36672723</y>
+          </Scale>
+          <Rotation>
+            <x>1.16104973E-10</x>
+            <y>8.497097E-12</y>
+            <z>-0.997731</z>
+            <w>0.0673273653</w>
+            <eulerAngles>
+              <x>1.86725324E-09</x>
+              <y>-1.32089051E-08</y>
+              <z>187.721</z>
+            </eulerAngles>
+          </Rotation>
+          <TriggerPos>
+            <x>-15.1900024</x>
+            <y>-5.06</y>
+          </TriggerPos>
+          <DropEnabled>false</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>Custom</FallPreset>
+        </StalType>
+        <StalType>
+          <Pos>
+            <x>-3.87000275</x>
+            <y>-5.39</y>
+          </Pos>
+          <Scale>
+            <x>1.36672759</x>
+            <y>1.36672723</y>
+          </Scale>
+          <Rotation>
+            <x>-1.15161256E-10</x>
+            <y>-1.70414845E-11</y>
+            <z>0.999979</z>
+            <w>0.00648036646</w>
+            <eulerAngles>
+              <x>1.86725124E-09</x>
+              <y>-1.32088855E-08</y>
+              <z>179.2574</z>
+            </eulerAngles>
+          </Rotation>
+          <TriggerPos>
+            <x>-13.8700027</x>
+            <y>-5.39</y>
+          </TriggerPos>
+          <DropEnabled>false</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>Custom</FallPreset>
+        </StalType>
+        <StalType>
+          <Pos>
+            <x>-0.05000305</x>
+            <y>5.49</y>
+          </Pos>
+          <Scale>
+            <x>1.22104025</x>
+            <y>1.22104025</y>
+          </Scale>
+          <Rotation>
+            <x>0</x>
+            <y>0</y>
+            <z>0</z>
+            <w>1</w>
+            <eulerAngles>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+            </eulerAngles>
+          </Rotation>
+          <TriggerPos>
+            <x>-4.500004</x>
+            <y>-0.100000381</y>
+          </TriggerPos>
+          <DropEnabled>true</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>Custom</FallPreset>
+        </StalType>
+        <StalType>
+          <Pos>
+            <x>1.98999786</x>
+            <y>5.68</y>
+          </Pos>
+          <Scale>
+            <x>1.22104025</x>
+            <y>1.22104025</y>
+          </Scale>
+          <Rotation>
+            <x>0</x>
+            <y>0</y>
+            <z>0</z>
+            <w>1</w>
+            <eulerAngles>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+            </eulerAngles>
+          </Rotation>
+          <TriggerPos>
+            <x>-0.8100014</x>
+            <y>1.44</y>
+          </TriggerPos>
+          <DropEnabled>true</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>PreFall_Early</FallPreset>
+        </StalType>
+        <StalType>
+          <Pos>
+            <x>6.539997</x>
+            <y>-4.32</y>
+          </Pos>
+          <Scale>
+            <x>1.45633769</x>
+            <y>1.45633686</y>
+          </Scale>
+          <Rotation>
+            <x>1.13391865E-10</x>
+            <y>2.63592689E-11</y>
+            <z>-0.9991942</z>
+            <w>0.0401365645</w>
+            <eulerAngles>
+              <x>3.53964014E-09</x>
+              <y>-1.28620457E-08</y>
+              <z>184.600555</z>
+            </eulerAngles>
+          </Rotation>
+          <TriggerPos>
+            <x>-3.460003</x>
+            <y>-4.32</y>
+          </TriggerPos>
+          <DropEnabled>false</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>Custom</FallPreset>
+        </StalType>
+      </Stals>
       <Moths>
         <MothType>
           <Pos>
-            <x>-3.090004</x>
-            <y>0.88</y>
+            <x>4.409996</x>
+            <y>0.34</y>
           </Pos>
           <Scale>
             <x>1</x>
@@ -435,17 +729,214 @@
       <Triggers />
     </Cave>
     <Cave>
-      <TopIndex>4</TopIndex>
+      <TopIndex>3</TopIndex>
       <BottomIndex>1</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
       <Shrooms />
-      <Stals />
+      <Stals>
+        <StalType>
+          <Pos>
+            <x>-9.110001</x>
+            <y>5.54</y>
+          </Pos>
+          <Scale>
+            <x>1.3431443</x>
+            <y>1.22104025</y>
+          </Scale>
+          <Rotation>
+            <x>0</x>
+            <y>0</y>
+            <z>0</z>
+            <w>1</w>
+            <eulerAngles>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+            </eulerAngles>
+          </Rotation>
+          <TriggerPos>
+            <x>-7.11000061</x>
+            <y>1.30000019</y>
+          </TriggerPos>
+          <DropEnabled>true</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>PostFall</FallPreset>
+        </StalType>
+        <StalType>
+          <Pos>
+            <x>1.699997</x>
+            <y>-5.06</y>
+          </Pos>
+          <Scale>
+            <x>1.36672759</x>
+            <y>1.36672723</y>
+          </Scale>
+          <Rotation>
+            <x>-1.15161256E-10</x>
+            <y>-1.70414845E-11</y>
+            <z>0.999979</z>
+            <w>0.00648036646</w>
+            <eulerAngles>
+              <x>1.86725124E-09</x>
+              <y>-1.32088855E-08</y>
+              <z>179.2574</z>
+            </eulerAngles>
+          </Rotation>
+          <TriggerPos>
+            <x>-8.300003</x>
+            <y>-5.06</y>
+          </TriggerPos>
+          <DropEnabled>false</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>Custom</FallPreset>
+        </StalType>
+        <StalType>
+          <Pos>
+            <x>-0.410003662</x>
+            <y>-4.73</y>
+          </Pos>
+          <Scale>
+            <x>1.36672759</x>
+            <y>1.36672723</y>
+          </Scale>
+          <Rotation>
+            <x>1.16104973E-10</x>
+            <y>8.497097E-12</y>
+            <z>-0.997731</z>
+            <w>0.0673273653</w>
+            <eulerAngles>
+              <x>1.86725324E-09</x>
+              <y>-1.32089051E-08</y>
+              <z>187.721</z>
+            </eulerAngles>
+          </Rotation>
+          <TriggerPos>
+            <x>-10.4100037</x>
+            <y>-4.73</y>
+          </TriggerPos>
+          <DropEnabled>false</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>Custom</FallPreset>
+        </StalType>
+        <StalType>
+          <Pos>
+            <x>3.61000061</x>
+            <y>-4.47</y>
+          </Pos>
+          <Scale>
+            <x>1.04142952</x>
+            <y>0.8771521</y>
+          </Scale>
+          <Rotation>
+            <x>-1.14846722E-10</x>
+            <y>-1.904629E-11</y>
+            <z>0.999714136</z>
+            <w>0.0239102263</w>
+            <eulerAngles>
+              <x>1.86725035E-09</x>
+              <y>-1.32088882E-08</y>
+              <z>177.259827</z>
+            </eulerAngles>
+          </Rotation>
+          <TriggerPos>
+            <x>-6.38999939</x>
+            <y>-4.47</y>
+          </TriggerPos>
+          <DropEnabled>false</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>Custom</FallPreset>
+        </StalType>
+        <StalType>
+          <Pos>
+            <x>8.529999</x>
+            <y>5.77</y>
+          </Pos>
+          <Scale>
+            <x>1.3431443</x>
+            <y>1.22104025</y>
+          </Scale>
+          <Rotation>
+            <x>0</x>
+            <y>0</y>
+            <z>0</z>
+            <w>1</w>
+            <eulerAngles>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+            </eulerAngles>
+          </Rotation>
+          <TriggerPos>
+            <x>9.330002</x>
+            <y>1.53000021</y>
+          </TriggerPos>
+          <DropEnabled>true</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>Under_Easy</FallPreset>
+        </StalType>
+        <StalType>
+          <Pos>
+            <x>-1.63000488</x>
+            <y>5.41</y>
+          </Pos>
+          <Scale>
+            <x>1.3431443</x>
+            <y>1.22104025</y>
+          </Scale>
+          <Rotation>
+            <x>0</x>
+            <y>0</y>
+            <z>0</z>
+            <w>1</w>
+            <eulerAngles>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+            </eulerAngles>
+          </Rotation>
+          <TriggerPos>
+            <x>0.369995117</x>
+            <y>1.17000008</y>
+          </TriggerPos>
+          <DropEnabled>true</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>PostFall</FallPreset>
+        </StalType>
+        <StalType>
+          <Pos>
+            <x>4.909996</x>
+            <y>5.82</y>
+          </Pos>
+          <Scale>
+            <x>1.3431443</x>
+            <y>1.22104025</y>
+          </Scale>
+          <Rotation>
+            <x>0</x>
+            <y>0</y>
+            <z>-0.0890296847</z>
+            <w>0.99602896</w>
+            <eulerAngles>
+              <x>0</x>
+              <y>0</y>
+              <z>349.784424</z>
+            </eulerAngles>
+          </Rotation>
+          <TriggerPos>
+            <x>6.909996</x>
+            <y>1.5800004</y>
+          </TriggerPos>
+          <DropEnabled>false</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>PostFall</FallPreset>
+        </StalType>
+      </Stals>
       <Moths>
         <MothType>
           <Pos>
-            <x>3.29999542</x>
-            <y>2.19</y>
+            <x>3.0799942</x>
+            <y>1.48</y>
           </Pos>
           <Scale>
             <x>1</x>
@@ -471,11 +962,124 @@
     </Cave>
     <Cave>
       <TopIndex>1</TopIndex>
-      <BottomIndex>4</BottomIndex>
+      <BottomIndex>1</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
       <Shrooms />
-      <Stals />
+      <Stals>
+        <StalType>
+          <Pos>
+            <x>1.44999313</x>
+            <y>-5.72</y>
+          </Pos>
+          <Scale>
+            <x>1.45633769</x>
+            <y>1.45633686</y>
+          </Scale>
+          <Rotation>
+            <x>-1.14846722E-10</x>
+            <y>-1.904629E-11</y>
+            <z>0.999714136</z>
+            <w>0.0239102263</w>
+            <eulerAngles>
+              <x>1.86725035E-09</x>
+              <y>-1.32088882E-08</y>
+              <z>177.259827</z>
+            </eulerAngles>
+          </Rotation>
+          <TriggerPos>
+            <x>-8.550007</x>
+            <y>-5.72</y>
+          </TriggerPos>
+          <DropEnabled>false</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>Custom</FallPreset>
+        </StalType>
+        <StalType>
+          <Pos>
+            <x>7.66</x>
+            <y>5.77</y>
+          </Pos>
+          <Scale>
+            <x>1.3431443</x>
+            <y>1.22104025</y>
+          </Scale>
+          <Rotation>
+            <x>0</x>
+            <y>0</y>
+            <z>0</z>
+            <w>1</w>
+            <eulerAngles>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+            </eulerAngles>
+          </Rotation>
+          <TriggerPos>
+            <x>4.859997</x>
+            <y>1.53000021</y>
+          </TriggerPos>
+          <DropEnabled>true</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>PreFall_Early</FallPreset>
+        </StalType>
+        <StalType>
+          <Pos>
+            <x>-0.340000153</x>
+            <y>-5.27</y>
+          </Pos>
+          <Scale>
+            <x>1.49516082</x>
+            <y>1.16129</y>
+          </Scale>
+          <Rotation>
+            <x>0</x>
+            <y>0</y>
+            <z>-0.9996734</z>
+            <w>0.02555466</w>
+            <eulerAngles>
+              <x>0</x>
+              <y>0</y>
+              <z>182.928665</z>
+            </eulerAngles>
+          </Rotation>
+          <TriggerPos>
+            <x>-10.34</x>
+            <y>-5.27</y>
+          </TriggerPos>
+          <DropEnabled>false</DropEnabled>
+          <Flipped>true</Flipped>
+          <FallPreset>Custom</FallPreset>
+        </StalType>
+        <StalType>
+          <Pos>
+            <x>-4.460003</x>
+            <y>5.18</y>
+          </Pos>
+          <Scale>
+            <x>1.3431443</x>
+            <y>1.22104025</y>
+          </Scale>
+          <Rotation>
+            <x>0.008704359</x>
+            <y>-0.0006388821</y>
+            <z>0.07319823</z>
+            <w>0.9972792</w>
+            <eulerAngles>
+              <x>1.000142</x>
+              <y>-2.66844911E-08</y>
+              <z>8.395728</z>
+            </eulerAngles>
+          </Rotation>
+          <TriggerPos>
+            <x>-2.460003</x>
+            <y>0.940000057</y>
+          </TriggerPos>
+          <DropEnabled>false</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>PostFall</FallPreset>
+        </StalType>
+      </Stals>
       <Moths>
         <MothType>
           <Pos>
@@ -510,11 +1114,64 @@
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
       <Shrooms />
-      <Stals />
+      <Stals>
+        <StalType>
+          <Pos>
+            <x>-5.790001</x>
+            <y>5.37</y>
+          </Pos>
+          <Scale>
+            <x>1.3431443</x>
+            <y>1.22104025</y>
+          </Scale>
+          <Rotation>
+            <x>0</x>
+            <y>0</y>
+            <z>0</z>
+            <w>1</w>
+            <eulerAngles>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+            </eulerAngles>
+          </Rotation>
+          <TriggerPos>
+            <x>2.01000214</x>
+            <y>1.13000011</y>
+          </TriggerPos>
+          <DropEnabled>true</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>Custom</FallPreset>
+        </StalType>
+      </Stals>
       <Moths />
       <Spiders />
       <Webs />
-      <Triggers />
+      <Triggers>
+        <TriggerType>
+          <Pos>
+            <x>-1.44000244</x>
+            <y>0.6</y>
+          </Pos>
+          <Scale>
+            <x>1</x>
+            <y>11.4500237</y>
+          </Scale>
+          <Rotation>
+            <x>0</x>
+            <y>0</y>
+            <z>0</z>
+            <w>1</w>
+            <eulerAngles>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+            </eulerAngles>
+          </Rotation>
+          <EventType>Dialogue</EventType>
+          <EventID>ThatGotReal</EventID>
+        </TriggerType>
+      </Triggers>
     </Cave>
   </CaveList>
   <Clumsy>

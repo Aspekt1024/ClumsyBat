@@ -19,28 +19,32 @@ public class TooltipHandler : MonoBehaviour {
     // Referenced in the editor
     public enum DialogueID
     {
+        FirstDeath,
         FirstJump,
         FirstMoth,
-        FirstDeath,
+        AllOnYourOwn,
         StalLevel,
         NoMoreStals,
         ActuallyMoreStals,
-        FirstStalDrop
+        FirstStalDrop,
+        ThatGotReal,
     }
 
     // TooltipID references the individual pieces of dialogue defined in the DialogueSet
     private enum TooltipID
     {
+        FirstDeath,
         FirstJump,
         FirstMoth,
-        FirstDeath,
+        AllOnYourOwn1,
+        AllOnYourOwn2,
         StalLevel,
         StalDrop1,
         StalDrop2,
         StalDrop3,
         NoMoreStals,
         ActuallyMoreStals,
-
+        ThatGotReal
     }
 
     void Awake()
@@ -58,22 +62,29 @@ public class TooltipHandler : MonoBehaviour {
     {
         DialogueSet.Add(DialogueID.FirstJump, new TooltipID[] { TooltipID.FirstJump } );
         DialogueSet.Add(DialogueID.FirstMoth, new TooltipID[] { TooltipID.FirstMoth } );
+        DialogueSet.Add(DialogueID.AllOnYourOwn, new TooltipID[] { TooltipID.AllOnYourOwn1, TooltipID.AllOnYourOwn2 } );
         DialogueSet.Add(DialogueID.StalLevel, new TooltipID[] { TooltipID.StalLevel } );
         DialogueSet.Add(DialogueID.FirstStalDrop, new TooltipID[] { TooltipID.StalDrop1, TooltipID.StalDrop2, TooltipID.StalDrop3 } );
         DialogueSet.Add(DialogueID.NoMoreStals, new TooltipID[] { TooltipID.NoMoreStals });
         DialogueSet.Add(DialogueID.ActuallyMoreStals, new TooltipID[] { TooltipID.ActuallyMoreStals });
+        DialogueSet.Add(DialogueID.ThatGotReal, new TooltipID[] { TooltipID.ThatGotReal });
+        //DialogueSet.Add(DialogueID, new TooltipID[] {  });
     }
 
     private void SetDialogueText()
     {
         DialogueDict.Add(TooltipID.FirstJump, "Tap anywhere to flap!");
         DialogueDict.Add(TooltipID.FirstMoth, "It's getting dark! Collect moths to fuel the lantern.");
+        DialogueDict.Add(TooltipID.AllOnYourOwn1, "You made it! I mean, of course you made it!");
+        DialogueDict.Add(TooltipID.AllOnYourOwn2, "The path to the village is just through here.");
         DialogueDict.Add(TooltipID.StalLevel, "This is as far as I've ever been. Be careful!");
-        DialogueDict.Add(TooltipID.StalDrop1, "Did you see that?!");
+        DialogueDict.Add(TooltipID.StalDrop1, "Did you see that!?");
         DialogueDict.Add(TooltipID.StalDrop2, "Oh right, you're a bat. Of course you didn't.");
         DialogueDict.Add(TooltipID.StalDrop3, "Watch for falling objects!" );
-        DialogueDict.Add(TooltipID.NoMoreStals, "Whew, we got through it! Hopefully that's it.");
-        DialogueDict.Add(TooltipID.ActuallyMoreStals, "... That wasn't it. I think this game is going to be hard.");
+        DialogueDict.Add(TooltipID.NoMoreStals, "Whew, we got through it! Wasn't that easy!?");
+        DialogueDict.Add(TooltipID.ActuallyMoreStals, "... I was wrong. I think it's going to get a lot harder.");
+        DialogueDict.Add(TooltipID.ThatGotReal, "Well that got real! Keep going, we're not far away.");
+        //DialogueDict.Add(TooltipID, "");
     }
 
     void Start ()

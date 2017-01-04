@@ -175,7 +175,31 @@
       <Moths />
       <Spiders />
       <Webs />
-      <Triggers />
+      <Triggers>
+        <TriggerType>
+          <Pos>
+            <x>0.159996033</x>
+            <y>1.26</y>
+          </Pos>
+          <Scale>
+            <x>1</x>
+            <y>8.749988</y>
+          </Scale>
+          <Rotation>
+            <x>0</x>
+            <y>0</y>
+            <z>0</z>
+            <w>1</w>
+            <eulerAngles>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+            </eulerAngles>
+          </Rotation>
+          <EventType>Dialogue</EventType>
+          <EventID>AllOnYourOwn</EventID>
+        </TriggerType>
+      </Triggers>
     </Cave>
   </CaveList>
   <Clumsy>
