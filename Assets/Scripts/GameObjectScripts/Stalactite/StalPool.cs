@@ -88,12 +88,4 @@ public class StalPool {
             Stal.SetPaused(PauseGame);
         }
     }
-
-    public void CheckAndDestroy()
-    {
-        foreach (Stalactite Stal in Stals)
-        {
-            Stal.DestroyStalactiteIfInScreen();
-        }
-    }
 }

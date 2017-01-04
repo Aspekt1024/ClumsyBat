@@ -233,13 +233,6 @@ public class LevelObjectHandler : MonoBehaviour {
         }
     }
 
-    public void DestroyOnScreenHazards()
-    {
-        Stals.CheckAndDestroy();
-        Shrooms.CheckAndDestroy();
-        Spiders.CheckAndDestroy();
-    }
-    
     public void SetMode(bool bIsEndless)
     {
         bEndlessMode = bIsEndless;

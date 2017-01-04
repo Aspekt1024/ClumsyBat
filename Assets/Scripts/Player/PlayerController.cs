@@ -14,7 +14,8 @@ public class PlayerController : MonoBehaviour
     public FogEffect Fog;
     public LevelScript Level;
     public Hypersonic Hypersonic;
-    // TODO Rush Component
+
+    private RushAbility Rush;
     // TODO Jump Component?
 
     private GameObject InputObject;
@@ -44,7 +45,6 @@ public class PlayerController : MonoBehaviour
     private const float GravityScale = 3;
     private float PlayerSpeed;
 
-    private RushAbility Rush;
 
     public event PlayerDeathHandler PlayerDeath; // not currently used. Kept for reference (events!)
     
@@ -332,7 +332,6 @@ public class PlayerController : MonoBehaviour
     private void StartHypersonic()
     {
         Hypersonic.ActivateHypersonic();
-        Level.DestroyOnScreenEvils();
     }
 
     public void ResumeGame()

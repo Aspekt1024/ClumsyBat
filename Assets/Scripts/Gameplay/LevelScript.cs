@@ -160,11 +160,6 @@ public class LevelScript : MonoBehaviour {
         }
     }
 
-    public void DestroyOnScreenEvils()
-    {
-        LevelObjects.DestroyOnScreenHazards();
-    }
-
     public void LevelWon()
     {
         GameHUD.LevelWon();

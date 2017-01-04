@@ -71,7 +71,7 @@ public class Stalactite : MonoBehaviour {
     void Update ()
     {
         if (!UnstableStalactite) { return; }
-        if ((Player.transform.position.x + 10 > transform.position.x) && Stal.State == StalState.Normal)
+        if ((Player.transform.position.x + 10 > transform.position.x) && Stal.State == StalState.Normal && PlayerControl.IsAlive())
         {
             Stal.State = StalState.Shaking;
             StartCoroutine("Shake");
@@ -182,12 +182,11 @@ public class Stalactite : MonoBehaviour {
         Stal.Body.transform.Rotate(Vector3.zero);   // Prevents rotating once we exit the while loop
     }
 
-    public void DestroyStalactiteIfInScreen()
+    public void DestroyStalactite()
     {
-        if (!Stal.bIsActive) { return; }
-        Vector2 ScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
-        if (ScreenPosition.x < Screen.width)
+        if (Stal.State != StalState.Exploding)
         {
+            Stal.State = StalState.Exploding;
             Stal.Collider.enabled = false;
             StartCoroutine("CrumbleAnim");
         }
@@ -195,15 +194,10 @@ public class Stalactite : MonoBehaviour {
 
     private IEnumerator CrumbleAnim()
     {
-        Crumble();
-        yield return new WaitForSeconds(0.67f);
-        DeactivateStal();
-    }
-
-    public void Crumble()
-    {
         Stal.Anim.enabled = true;
         Stal.Anim.Play("Crumble", 0, 0f);
+        yield return new WaitForSeconds(0.67f);
+        DeactivateStal();
     }
 
     public void Crack()
