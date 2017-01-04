@@ -6,7 +6,7 @@ public class TriggerHandler {
     public TriggerHandler()
     {
         SetupTriggerPool();
-        TooltipControl = GameObject.Find("Scripts").AddComponent<TooltipHandler>();
+        TooltipControl = GameObject.Find("Scripts").GetComponent<TooltipHandler>();
     }
     
     private const int NumTriggersInPool = 4;

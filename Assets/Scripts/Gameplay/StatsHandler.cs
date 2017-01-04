@@ -31,6 +31,7 @@ public class StatsHandler : MonoBehaviour {
     
     public LevelCompletionDataControl CompletionData;
     public AbilityControl AbilityData;
+    public StoryEventControl Story;
 
     public struct UserSettings
     {
@@ -53,8 +54,7 @@ public class StatsHandler : MonoBehaviour {
         SetupPrefList();
         SetupPlayerPrefs();
         GetPersistentStats();
-        CreateCompletionDataObject();
-        CreateAbilityDataObject();
+        CreateDataObjects();
         LoadUserSettings();
     }
 
@@ -81,18 +81,15 @@ public class StatsHandler : MonoBehaviour {
 
     }
 
-    private void CreateCompletionDataObject()
+    private void CreateDataObjects()
     {
-        GameObject CompletionDataObject = new GameObject("Completion Data");
-        CompletionData = CompletionDataObject.AddComponent<LevelCompletionDataControl>();
+        GameObject DataObject = new GameObject("DataObjects");
+        CompletionData = DataObject.AddComponent<LevelCompletionDataControl>();
+        AbilityData = DataObject.AddComponent<AbilityControl>();
+        Story = DataObject.AddComponent<StoryEventControl>();
         CompletionData.Load();
-    }
-
-    private void CreateAbilityDataObject()
-    {
-        GameObject AbilityDataObject = new GameObject("Ability Data");
-        AbilityData = AbilityDataObject.AddComponent<AbilityControl>();
         AbilityData.Load();
+        Story.Load();
     }
 
     private void LoadUserSettings()

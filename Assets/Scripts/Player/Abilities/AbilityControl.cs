@@ -83,7 +83,7 @@ public class AbilityControl : MonoBehaviour {
         file.Close();
     }
 
-    public void ClearCompletionData()
+    public void ClearAbilityData()
     {
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Open(Application.persistentDataPath + "/AbilityData.dat", FileMode.Create);

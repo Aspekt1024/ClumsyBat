@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
 using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -8,10 +6,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 public class LevelCompletionDataControl : MonoBehaviour {
 
     public const int NumLevels = 14;
-    public const int NumTooltips = 3;   // TODO remove this
 
     private CompletionDataContainer.LevelType[] LevelCompletion = new CompletionDataContainer.LevelType[NumLevels];
-    private bool[] ToolTipCompletion = new bool[NumTooltips];   // TODO remove this
 
     public void Save()
     {
@@ -20,7 +16,6 @@ public class LevelCompletionDataControl : MonoBehaviour {
 
         CompletionDataContainer GameData = new CompletionDataContainer();
         GameData.Data.LevelData = LevelCompletion;
-        GameData.Data.ToolTipData = ToolTipCompletion;
 
         bf.Serialize(file, GameData);
         file.Close();
@@ -33,18 +28,11 @@ public class LevelCompletionDataControl : MonoBehaviour {
 
         CompletionDataContainer BlankGameData = new CompletionDataContainer();
         BlankGameData.Data.LevelData = new CompletionDataContainer.LevelType[NumLevels];
-        BlankGameData.Data.ToolTipData = new bool[NumTooltips];
 
         bf.Serialize(file, BlankGameData);
         file.Close();
         Load();
         Debug.Log("Completion Data Cleared");
-    }
-
-    public void ResetTooltips()
-    {
-        ToolTipCompletion = new bool[NumTooltips];
-        Save();
     }
 
     public void ClearLevelProgress()
@@ -63,11 +51,8 @@ public class LevelCompletionDataControl : MonoBehaviour {
             file.Close();
 
             LevelCompletion = GameData.Data.LevelData;
-            ToolTipCompletion = GameData.Data.ToolTipData;
         }
     }
-
-
 
     public void SetCompleted(int Level, bool bMainPath, bool bSecretPath1, bool bSecretPath2)
     {
@@ -119,7 +104,6 @@ class CompletionDataContainer
     public struct GameDataType
     {
         public LevelType[] LevelData;
-        public bool[] ToolTipData;  // TODO remove this
     }
     public GameDataType Data;
 }

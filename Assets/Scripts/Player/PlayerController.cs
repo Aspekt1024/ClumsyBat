@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 
+using StoryEventID = StoryEventControl.StoryEvents;
+
 public delegate void PlayerDeathHandler(object sender, EventArgs e);
 
 /// <summary>
@@ -284,6 +286,7 @@ public class PlayerController : MonoBehaviour
             case Moth.MothColour.Gold:
                 CurrencyValue = 2;
                 Lantern.ChangeColour(Lantern.LanternColour.Gold);
+                Level.Stats.Story.TriggerEvent(StoryEventID.FirstGoldMoth);
                 StartHypersonic();
                 Fog.Echolocate();
                 break;
@@ -327,7 +330,15 @@ public class PlayerController : MonoBehaviour
 
     private void AbilitiesPaused(bool bPauseAbility)
     {
-        Rush.GamePaused(bPauseAbility);
+        if (bIsAlive && !bPauseAbility)
+        {
+            Rush.GamePaused(bPauseAbility);
+        }
+        else
+        {
+            Rush.GamePaused(bPauseAbility);
+            Hypersonic.GamePaused(bPauseAbility);
+        }
     }
 
     private void StartHypersonic()
@@ -371,11 +382,8 @@ public class PlayerController : MonoBehaviour
         Fog.Resume();
         Anim.enabled = true;
         Lantern.GamePaused(false);
-
-        if (bIsAlive)
-        {
-            Rush.GamePaused(false);
-        }
+        Hypersonic.GamePaused(false);
+        AbilitiesPaused(false);
     }
 
     IEnumerator CaveExitAnimation()

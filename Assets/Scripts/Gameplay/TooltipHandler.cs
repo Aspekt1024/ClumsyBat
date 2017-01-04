@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-
 public class TooltipHandler : MonoBehaviour {
 
     private PlayerController PlayerControl;
@@ -31,7 +30,7 @@ public class TooltipHandler : MonoBehaviour {
     }
 
     // TooltipID references the individual pieces of dialogue defined in the DialogueSet
-    private enum TooltipID
+    public enum TooltipID
     {
         FirstDeath,
         FirstJump,
@@ -44,7 +43,9 @@ public class TooltipHandler : MonoBehaviour {
         StalDrop3,
         NoMoreStals,
         ActuallyMoreStals,
-        ThatGotReal
+        ThatGotReal,
+        FirstGoldMoth1,
+        FirstGoldMoth2,
     }
 
     void Awake()
@@ -84,6 +85,8 @@ public class TooltipHandler : MonoBehaviour {
         DialogueDict.Add(TooltipID.NoMoreStals, "Whew, we got through it! Wasn't that easy!?");
         DialogueDict.Add(TooltipID.ActuallyMoreStals, "... I was wrong. I think it's going to get a lot harder.");
         DialogueDict.Add(TooltipID.ThatGotReal, "Well that got real! Keep going, we're not far away.");
+        DialogueDict.Add(TooltipID.FirstGoldMoth1, "Oh wow! A gold moth!");
+        DialogueDict.Add(TooltipID.FirstGoldMoth2, "Rumor has it that these possess incredible power");
         //DialogueDict.Add(TooltipID, "");
     }
 
@@ -96,11 +99,12 @@ public class TooltipHandler : MonoBehaviour {
     
     public void ShowDialogue(DialogueID EventID)
     {
+        if (!PlayerControl.IsAlive()) { return; }
         TooltipID[] Dialogue = DialogueSet[EventID];
         StartCoroutine("SetupDialogue", Dialogue);
     }
 
-    private IEnumerator SetupDialogue(DialogueID[] Dialogue)
+    public IEnumerator SetupDialogue(DialogueID[] Dialogue)
     {
         PlayerControl.WaitForTooltip(true);
         foreach (TooltipID Speech in Dialogue)

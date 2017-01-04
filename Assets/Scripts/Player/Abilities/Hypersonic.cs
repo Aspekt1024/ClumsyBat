@@ -60,6 +60,12 @@ public class Hypersonic : MonoBehaviour {
         }
     }
 
+    public void GamePaused(bool Paused)
+    {
+        bPaused = Paused;
+        HypersonicAnimator.enabled = !Paused;
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.name == "StalObject" && bCanDestroyStals)

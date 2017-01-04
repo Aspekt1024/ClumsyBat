@@ -82,7 +82,7 @@ public class DropdownOptionsMenu : MonoBehaviour {
                 break;
             case YesNo.ResetTooltips:
                 OptionConfirmText.text = "Tooltips have been reset!";
-                Stats.CompletionData.ResetTooltips();
+                //Stats.CompletionData.ResetTooltips();     // TODO redo the options
                 break;
         }
         SetPanelVisible(OptionsYesNoPanel, false);
