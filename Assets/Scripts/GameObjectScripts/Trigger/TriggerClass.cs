@@ -42,7 +42,10 @@ public class TriggerClass : MonoBehaviour {
         switch (EventType)
         {
             case (TriggerHandler.EventType.Dialogue):
-                THandler.ActivateDialogue(EventID);
+                if (Toolbox.Instance.ShowLevelTooltips)
+                {
+                    THandler.ActivateDialogue(EventID);
+                }
                 break;
         }
         

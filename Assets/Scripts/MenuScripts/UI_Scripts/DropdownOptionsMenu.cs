@@ -66,7 +66,7 @@ public class DropdownOptionsMenu : MonoBehaviour {
     public void ResetDataPressed()
     {
         ConfirmOption = YesNo.ResetAllData;
-        OptionText.text = "Are you sure you want to reset all game data? This is not reversible!";
+        OptionText.text = "Are you sure you want to erase your story progress? This is not reversible!";
         SetPanelVisible(OptionsMainPanel, false);
         SetPanelVisible(OptionsYesNoPanel, true);
     }
@@ -76,9 +76,8 @@ public class DropdownOptionsMenu : MonoBehaviour {
         switch(ConfirmOption)
         {
             case YesNo.ResetAllData:
-                OptionConfirmText.text = "Game Data has been reset!";
-                Stats.CompletionData.ClearCompletionData();
-                Stats.ClearPlayerPrefs();
+                OptionConfirmText.text = "Story has been reset!";
+                Stats.ResetStoryData();
                 break;
             case YesNo.ResetTooltips:
                 OptionConfirmText.text = "Tooltips have been reset!";

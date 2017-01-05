@@ -3,38 +3,42 @@ using System.Collections;
 
 public class RushAbility : MonoBehaviour {
 
-    private bool bPaused = false;
-    private bool bEnabled = false;
-    private int AbilityLevel = 1;
+    private AbilityContainer.AbilityType RushStats;
 
-    private float CooldownDuration = 5f;
-    private float CooldownRemaining = 0f;
+    private int NumMothsToRecharge;
+    private bool EpicDashEnabled;
+    private int MaxCharges;
 
+    private int NumCharges = 0;
+    private int NumMoths = 0;
     private bool bIsRushing = false;
     private float RushTimeRemaining = 0f;
+    private float CooldownRemaining = 0f;
+
     private const float RushDuration = 0.26f;
     private const float RushSpeed = 7f;
     private const float NormalSpeed = 1f;
+    private const float CooldownDuration = 1.5f;
 
+    private bool bPaused = false;
     private bool bAtCaveEnd = false;
 
     StatsHandler Stats = null;
     PlayerController PlayerControl = null;
-    Lantern Lantern = null;
-
     Rigidbody2D PlayerBody = null;
-
+    Lantern Lantern = null;
+    
     public void Setup(StatsHandler StatsRef, PlayerController PlayerRef, Lantern LanternRef)
     {
         Stats = StatsRef;
-        bEnabled = Stats.AbilityData.GetRushStats().AbilityUnlocked;
-        AbilityLevel = Stats.AbilityData.GetRushStats().AbilityLevel;
+        RushStats = Stats.AbilityData.GetRushStats();
 
         PlayerControl = PlayerRef;
         Lantern = LanternRef;
         PlayerBody = PlayerControl.GetComponent<Rigidbody2D>();
 
-        SetCooldownDuration();
+        SetAbilityAttributes();
+        SetupHUDBar();
     }
 
     void Update ()
@@ -57,26 +61,54 @@ public class RushAbility : MonoBehaviour {
 
     public void Activate()
     {
-        //if (!bEnabled) { return; }    // TODO figure out where to get this ability
-        if (CooldownRemaining > 0)
-        {
-            // TODO rush fail animation
-            return;
-        }
+        if (!RushStats.AbilityAvailable) { return; }
+        if (CooldownRemaining > 0) { return; }
 
         Stats.TimesDashed++;
         CooldownRemaining = CooldownDuration;
         StartCoroutine("RushStartAnimation");
     }
 
+    private void SetAbilityAttributes()
+    {
+        NumMoths = 0;
+        NumMothsToRecharge = 3;
+        MaxCharges = 1;
+        EpicDashEnabled = false;
+
+        if (RushStats.AbilityLevel >= 2) { NumMothsToRecharge = 2; }
+        if (RushStats.AbilityLevel >= 3) { MaxCharges = 2; }
+        if (RushStats.AbilityLevel >= 4) { NumMothsToRecharge = 1; }
+        if (RushStats.AbilityLevel >= 5) { MaxCharges = 3; }
+        if (RushStats.AbilityEvolution == 2) { EpicDashEnabled = true; }
+    }
+
+    public void MothConsumed()
+    {
+        NumMoths++;
+        if (NumMoths == NumMothsToRecharge)
+        {
+            NumCharges = Mathf.Clamp(NumCharges++, 0, MaxCharges);
+            NumMoths = (NumCharges == MaxCharges ? 1 : 0);
+        }
+        PlayerControl.Level.GameHUD.SetCooldown(NumMoths / NumMothsToRecharge);
+    }
+
+    private void SetupHUDBar()
+    {
+        if (RushStats.AbilityAvailable)
+        {
+            PlayerControl.Level.GameHUD.ShowCooldown(true);
+        }
+        else
+        {
+            PlayerControl.Level.GameHUD.ShowCooldown(false);
+        }
+    }
+
     public void GamePaused(bool _paused)
     {
         bPaused = _paused;
-    }
-
-    private void SetCooldownDuration()
-    {
-        CooldownDuration = 5f - 0.5f * AbilityLevel;
     }
 
     private IEnumerator RushStartAnimation()
@@ -85,7 +117,14 @@ public class RushAbility : MonoBehaviour {
         RushTimeRemaining = RushDuration;
         PlayerControl.SetGravity(0f);
         PlayerControl.SetVelocity(new Vector2(8f, 0f));
-        PlayerControl.SetAnimation("Rush");
+        if (EpicDashEnabled)
+        {
+            PlayerControl.SetAnimation("Rush"); // TODO special dash
+        }
+        else
+        {
+            PlayerControl.SetAnimation("Rush");
+        }
         Lantern.AddRushForce();
 
         const float StartupDuration = 0.07f;

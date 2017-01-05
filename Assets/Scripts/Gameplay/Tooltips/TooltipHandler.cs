@@ -8,12 +8,12 @@ public class TooltipHandler : MonoBehaviour {
 
     private PlayerController PlayerControl;
     private SwipeManager InputManager;
-
-    private GameObject ToolTipOverlay = null;
-    private RectTransform ToolTipTextBox = null;
+    private TooltipController TooltipControl = null;
     
     private Dictionary<DialogueID, TooltipID[]> DialogueSet = new Dictionary<DialogueID, TooltipID[]>();
     private Dictionary<TooltipID, string> DialogueDict = new Dictionary<TooltipID, string>();
+    
+    bool bLastDialogue = false;
 
     // DialogueID is used for the DialogueSet Dictionary
     // Referenced in the editor
@@ -21,6 +21,7 @@ public class TooltipHandler : MonoBehaviour {
     {
         FirstDeath,
         FirstJump,
+        SecondJump,
         FirstMoth,
         AllOnYourOwn,
         StalLevel,
@@ -35,6 +36,7 @@ public class TooltipHandler : MonoBehaviour {
     {
         FirstDeath,
         FirstJump,
+        SecondJump,
         FirstMoth,
         AllOnYourOwn1,
         AllOnYourOwn2,
@@ -51,10 +53,8 @@ public class TooltipHandler : MonoBehaviour {
 
     void Awake()
     {
-        ToolTipOverlay = (GameObject)Instantiate(Resources.Load("ToolTipOverlay"));
-        ToolTipOverlay.GetComponent<Canvas>().worldCamera = FindObjectOfType<Camera>();
-        ToolTipTextBox = GetToolTipTextBox();
-        ToolTipOverlay.SetActive(false);
+        GameObject ToolTipOverlay = (GameObject)Instantiate(Resources.Load("ToolTipOverlay"));
+        TooltipControl = ToolTipOverlay.GetComponent<TooltipController>();
 
         SetDialogueIDs();
         SetDialogueText();
@@ -67,7 +67,8 @@ public class TooltipHandler : MonoBehaviour {
 
     private void SetDialogueIDs()
     {
-        DialogueSet.Add(DialogueID.FirstJump, new TooltipID[] { TooltipID.FirstJump } );
+        DialogueSet.Add(DialogueID.FirstJump, new TooltipID[] { TooltipID.FirstJump });
+        DialogueSet.Add(DialogueID.SecondJump, new TooltipID[] { TooltipID.SecondJump });
         DialogueSet.Add(DialogueID.FirstMoth, new TooltipID[] { TooltipID.FirstMoth } );
         DialogueSet.Add(DialogueID.AllOnYourOwn, new TooltipID[] { TooltipID.AllOnYourOwn1, TooltipID.AllOnYourOwn2 } );
         DialogueSet.Add(DialogueID.StalLevel, new TooltipID[] { TooltipID.StalLevel } );
@@ -80,8 +81,9 @@ public class TooltipHandler : MonoBehaviour {
 
     private void SetDialogueText()
     {
-        DialogueDict.Add(TooltipID.FirstDeath, "(placeholder) Try again!");
+        DialogueDict.Add(TooltipID.FirstDeath, "Don't worry, we can try again!");
         DialogueDict.Add(TooltipID.FirstJump, "Tap anywhere to flap!");
+        DialogueDict.Add(TooltipID.SecondJump, "Keep tapping to keep Clumsy in the air.");
         DialogueDict.Add(TooltipID.FirstMoth, "It's getting dark! Collect moths to fuel the lantern.");
         DialogueDict.Add(TooltipID.AllOnYourOwn1, "You made it! I mean, of course you made it!");
         DialogueDict.Add(TooltipID.AllOnYourOwn2, "The path to the village is just through here.");
@@ -115,57 +117,58 @@ public class TooltipHandler : MonoBehaviour {
     public IEnumerator SetupDialogue(DialogueID[] Dialogue)
     {
         PlayerControl.WaitForTooltip(true);
+        bool bFirstDialogue = true;
+        bLastDialogue = false;
+        int NumItems = Dialogue.Length;
         foreach (TooltipID Speech in Dialogue)
         {
-            yield return StartCoroutine("ShowTooltip", Speech);
+            NumItems--;
+            if (NumItems == 0)
+            {
+                bLastDialogue = true;
+            }
+            TooltipControl.SetText(DialogueDict[Speech]);
+            if (bFirstDialogue)
+            {
+                yield return TooltipControl.StartCoroutine("OpenTooltip");
+            }
+            yield return StartCoroutine("ShowTooltip", bFirstDialogue);
+            bFirstDialogue = false;
         }
         PlayerControl.WaitForTooltip(false);
         PlayerControl.TooltipResume();
-        HideToolTip();
+        TooltipControl.StartCoroutine("CloseTooltip");
     }
 
-    private IEnumerator ShowTooltip(TooltipID Speech)
+    private IEnumerator ShowTooltip(bool bFirstDialogue)
     {
-        ToolTipOverlay.SetActive(true);
-        GameObject.Find("TapToResume").GetComponent<Text>().enabled = false;
-        ToolTipTextBox.GetComponent<Text>().text = DialogueDict[Speech];
+        if (bFirstDialogue)
+        {
+            yield return TooltipControl.StartCoroutine("ShowText", true);
+        }
+        else
+        {
+            yield return TooltipControl.StartCoroutine("ShowText", false);
+            yield return TooltipControl.StartCoroutine("ShowText", true);
+        }
         
         const float TooltipPauseDuration = 0.7f;
         yield return new WaitForSeconds(TooltipPauseDuration);
-        ShowTapToResume();
+
+        if (bLastDialogue)
+        {
+            TooltipControl.ShowTapToPlay();
+        }
+        else
+        {
+            TooltipControl.ShowTapToResume();
+        }
 
         InputManager.ClearInput();
         while (!InputManager.TapRegistered() && !Input.GetKeyUp("w"))
         {
             yield return null;
         }
-    }
-
-    public void ShowTapToResume()
-    {
-        GameObject.Find("TapToResume").GetComponent<Text>().enabled = true;
-    }
-
-    public void HideToolTip()
-    {
-        ToolTipOverlay.SetActive(false);
-    }
-    
-    private RectTransform GetToolTipTextBox()
-    {
-        foreach (RectTransform Panel in ToolTipOverlay.GetComponent<RectTransform>())
-        {
-            if (Panel.name == "ToolTipPanel")
-            {
-                foreach (RectTransform RT in Panel.GetComponent<RectTransform>())
-                {
-                    if (RT.name == "ToolTipTextBox")
-                    {
-                        return RT;
-                    }
-                }
-            }
-        }
-        return null;
+        TooltipControl.HideResumeImages();
     }
 }

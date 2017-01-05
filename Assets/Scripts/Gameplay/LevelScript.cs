@@ -73,6 +73,7 @@ public class LevelScript : MonoBehaviour {
             Level = DefaultLevel;
         }
         GameHUD.SetLevelText(Level);
+        Toolbox.Instance.ShowLevelTooltips = (Stats.CompletionData.IsCompleted(Level) ? false : true);
         LevelObjects.SetMode(bIsEndless: Level == -1 ? true : false);
     }
 

@@ -444,7 +444,7 @@ public class PlayerController : MonoBehaviour
             CountdownTimer += Time.deltaTime;
 
             // First level is special (tutorial) so we're going to change the animation for this one only
-            if (Toolbox.Instance.Level != 1 || Toolbox.Instance.TooltipCompleted(TooltipHandler.DialogueID.FirstJump))
+            if (!VeryFirstStartupSequenceRequired())
             {
                 Level.GameHUD.SetResumeTimer(CountdownDuration - CountdownTimer + TimeToReachDest);
             }
@@ -463,13 +463,27 @@ public class PlayerController : MonoBehaviour
 
         StartGame();
         PlayerRigidBody.velocity = new Vector2(0f, JumpForce.y / 80);
-        if (Toolbox.Instance.Level != 1 || Toolbox.Instance.TooltipCompleted(TooltipHandler.DialogueID.FirstJump))
+        if (!VeryFirstStartupSequenceRequired())
         {
             Level.GameHUD.SetStartText("GO!");
             yield return new WaitForSeconds(0.6f);
         }
 
         Level.GameHUD.HideResumeTimer();
+    }
+
+    public bool VeryFirstStartupSequenceRequired()
+    {
+        if (Toolbox.Instance.Level == 1
+            && !Toolbox.Instance.TooltipCompleted(TooltipHandler.DialogueID.FirstJump)
+            && Toolbox.Instance.ShowLevelTooltips)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public void WaitForTooltip(bool bWait)

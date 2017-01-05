@@ -35,6 +35,29 @@
           <EventType>Dialogue</EventType>
           <EventID>FirstJump</EventID>
         </TriggerType>
+        <TriggerType>
+          <Pos>
+            <x>0.24</x>
+            <y>-0.539999962</y>
+          </Pos>
+          <Scale>
+            <x>2.45812559</x>
+            <y>2.4462502</y>
+          </Scale>
+          <Rotation>
+            <x>0</x>
+            <y>0</y>
+            <z>0</z>
+            <w>1</w>
+            <eulerAngles>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+            </eulerAngles>
+          </Rotation>
+          <EventType>Dialogue</EventType>
+          <EventID>SecondJump</EventID>
+        </TriggerType>
       </Triggers>
     </Cave>
     <Cave>

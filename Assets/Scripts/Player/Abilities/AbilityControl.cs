@@ -63,6 +63,7 @@ public class AbilityControl : MonoBehaviour {
     {
         AbilityContainer.AbilityType Ability = new AbilityContainer.AbilityType();
         Ability.AbilityLevel = 1;
+        Ability.AbilityEvolution = 1;
         Ability.AbilityAvailable = false;
         Ability.AbilityUnlocked = false;
         Ability.UpgradeAvailable = false;
@@ -114,6 +115,7 @@ public class AbilityContainer
     public struct AbilityType
     {
         public int AbilityLevel;
+        public int AbilityEvolution;
         public bool AbilityUnlocked;
         public bool AbilityAvailable;
         public bool UpgradeAvailable;

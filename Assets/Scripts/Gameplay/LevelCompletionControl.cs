@@ -82,6 +82,7 @@ public class LevelCompletionDataControl : MonoBehaviour {
     public bool IsCompleted(int Level) { return LevelCompletion[Level-1].LevelCompleted; }
     public bool SecretPath1Completed(int Level) { return LevelCompletion[Level-1].SecretPath1; }
     public bool SecretPath2Completed(int Level) { return LevelCompletion[Level-1].SecretPath2; }
+    public bool AllMothsGathered(int Level) { return LevelCompletion[Level - 1].Star1; }
     public int GetNumLevels() { return NumLevels; }
 }
 
@@ -92,12 +93,12 @@ class CompletionDataContainer
     public struct LevelType
     {
         public bool LevelCompleted;
+        public bool LevelUnlocked;
         public bool SecretPath1;
         public bool SecretPath2;
-        public bool LevelUnlocked;
-        //public bool Star1;
-        //public bool Star2;
-        //public bool Star3;
+        public bool Star1;
+        public bool Star2;
+        public bool Star3;
     }
 
     [Serializable]

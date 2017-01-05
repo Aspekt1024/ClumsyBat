@@ -16,6 +16,7 @@ public class Toolbox : Singleton<Toolbox>
     public const float PlayerStartX = -5.5f;
     public bool Debug = false;
     public bool TooltipCompletionPersist = false;
+    public bool ShowLevelTooltips = true;
 
     public bool[] TooltipCompletion = new bool[Enum.GetNames(typeof(TooltipHandler.DialogueID)).Length];
     public Dictionary<string, float> ZLayers = new Dictionary<string, float>();

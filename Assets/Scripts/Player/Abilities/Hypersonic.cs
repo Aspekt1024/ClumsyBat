@@ -3,9 +3,7 @@ using System.Collections;
 
 public class Hypersonic : MonoBehaviour {
 
-    private bool bPaused = false;
-    private bool bEnabled = false;
-    private int AbilityLevel;
+    private AbilityContainer.AbilityType HyperStats;
 
     private int NumPulses;
     private bool bCanDestroyStals;
@@ -17,10 +15,12 @@ public class Hypersonic : MonoBehaviour {
     private Animator HypersonicAnimator;
     private CircleCollider2D HypersonicCollider;
 
+    private bool bPaused = false;
+
     StatsHandler Stats = null;
     private Lantern Lantern;
-
-	void Start ()
+    
+    void Start ()
     {
         HypersonicBody = GetComponent<Transform>();
         HypersonicAnimator = GetComponentInChildren<Animator>();
@@ -34,8 +34,7 @@ public class Hypersonic : MonoBehaviour {
     public void Setup(StatsHandler StatsRef, PlayerController PlayerRef, Lantern LanternRef)
     {
         Stats = StatsRef;
-        bEnabled = Stats.AbilityData.GetHypersonicStats().AbilityAvailable;
-        AbilityLevel = Stats.AbilityData.GetHypersonicStats().AbilityLevel;
+        HyperStats = Stats.AbilityData.GetHypersonicStats();
         
         Lantern = LanternRef;
 
@@ -46,15 +45,15 @@ public class Hypersonic : MonoBehaviour {
     {
         NumPulses = 1;
         bCanDestroyStals = true;
-        if (AbilityLevel >= 2) { NumPulses = 2; }
-        if (AbilityLevel >= 3) { bCanDestroyShrooms = true; } else { bCanDestroyShrooms = false; }
-        if (AbilityLevel >= 4) { NumPulses = 3; }
-        if (AbilityLevel >= 5) { bCanDestroySpiders = true; } else { bCanDestroySpiders = false; }
+        if (HyperStats.AbilityLevel >= 2) { NumPulses = 2; }
+        if (HyperStats.AbilityLevel >= 3) { bCanDestroyShrooms = true; } else { bCanDestroyShrooms = false; }
+        if (HyperStats.AbilityLevel >= 4) { NumPulses = 3; }
+        if (HyperStats.AbilityLevel >= 5) { bCanDestroySpiders = true; } else { bCanDestroySpiders = false; }
     }
 
     public void ActivateHypersonic()
     {
-        if (bEnabled || !bEnabled)
+        if (HyperStats.AbilityAvailable)
         {
             StartCoroutine("HypersonicAbilityGO");
         }

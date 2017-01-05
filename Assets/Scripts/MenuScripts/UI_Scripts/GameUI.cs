@@ -32,10 +32,14 @@ public class GameUI : MonoBehaviour {
 
     private bool bGamePaused = false;
     
+    void Awake()
+    {
+        GetTextObjects();
+    }
+
 	void Start ()
     {
         Stats = FindObjectOfType<StatsHandler>();
-        GetTextObjects();
         SetupUI();
 	}
 	
@@ -203,6 +207,11 @@ public class GameUI : MonoBehaviour {
             bCooldownReady = false;
             CooldownImage.color = new Color(110 / 255f, 229 / 255f, 119 / 255f);
         }
+    }
+
+    public void ShowCooldown(bool bShow)
+    {
+        CooldownImage.enabled = bShow;
     }
 
     private IEnumerator ProcessCurrency(bool bCollect)

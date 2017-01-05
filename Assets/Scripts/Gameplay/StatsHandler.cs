@@ -113,6 +113,15 @@ public class StatsHandler : MonoBehaviour {
         PlayerPrefs.SetInt("TooltipsON", Settings.Tooltips ? 1 : 0);
     }
 
+    public void ResetStoryData()
+    {
+        CompletionData.ClearCompletionData();
+        Story.ClearStoryEventData();
+        AbilityData.ClearAbilityData();
+        CollectedCurrency = 0;
+        SaveStats();
+    }
+
     public void LevelWon(int Level)
     {
         Currency += CollectedCurrency;
@@ -125,6 +134,9 @@ public class StatsHandler : MonoBehaviour {
         SaveStats();
     }
 
+    /// <summary>
+    /// Saves all game data
+    /// </summary>
     public void SaveStats()
     {
         PlayerPrefs.SetInt("Highscore", Highscore);

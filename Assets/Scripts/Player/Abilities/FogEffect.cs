@@ -8,6 +8,7 @@ public class FogEffect : MonoBehaviour {
 
     public Material material;
     private Transform Lantern;
+    private PlayerController PlayerControl;
 
     private const float FullSizeDuration = 7f;      // How long the light source stays at max after activation
     private const float EcholocateScale = 10f;      // How large the echo vision can get
@@ -39,6 +40,7 @@ public class FogEffect : MonoBehaviour {
     {
         Stats = FindObjectOfType<StatsHandler>();
         Lantern = GameObject.Find("Lantern").GetComponent<Transform>();
+        PlayerControl = FindObjectOfType<PlayerController>();
         
         EcholocateActivatedTime = Time.time;
         material.SetVector("_PlayerPos", Lantern.position);
@@ -149,7 +151,7 @@ public class FogEffect : MonoBehaviour {
         EchoScale = -3f;
         float AnimDuration = 2.2f;
         // First level is a tutorial level, so we're changing the animation for this only
-        if (Toolbox.Instance.Level == 1 && !Toolbox.Instance.TooltipCompleted(TooltipHandler.DialogueID.FirstJump))
+        if (PlayerControl.VeryFirstStartupSequenceRequired())
         {
             AnimDuration = 0.7f;
         }
