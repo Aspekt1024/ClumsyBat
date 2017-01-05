@@ -82,8 +82,8 @@
       <Moths>
         <MothType>
           <Pos>
-            <x>8.140999</x>
-            <y>0.587</y>
+            <x>1.30999756</x>
+            <y>0.82</y>
           </Pos>
           <Scale>
             <x>1</x>
@@ -108,7 +108,7 @@
       <Triggers>
         <TriggerType>
           <Pos>
-            <x>2.84999847</x>
+            <x>-1.90999985</x>
             <y>0.83</y>
           </Pos>
           <Scale>

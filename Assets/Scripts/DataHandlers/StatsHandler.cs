@@ -119,6 +119,7 @@ public class StatsHandler : MonoBehaviour {
         Story.ClearStoryEventData();
         AbilityData.ClearAbilityData();
         CollectedCurrency = 0;
+        Currency = 0;
         SaveStats();
     }
 

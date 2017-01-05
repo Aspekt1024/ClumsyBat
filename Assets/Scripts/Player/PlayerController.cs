@@ -179,10 +179,7 @@ public class PlayerController : MonoBehaviour
         {
             yield return StartCoroutine(Level.Stats.Story.TriggerEventCoroutine(StoryEventID.FirstDeath));
         }
-        else
-        {
-            yield return new WaitForSeconds(1f);
-        }
+        yield return new WaitForSeconds(1f);
         Level.ShowGameoverMenu();
     }
 

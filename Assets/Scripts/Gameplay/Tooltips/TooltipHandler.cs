@@ -12,7 +12,8 @@ public class TooltipHandler : MonoBehaviour {
     
     private Dictionary<DialogueID, TooltipID[]> DialogueSet = new Dictionary<DialogueID, TooltipID[]>();
     private Dictionary<TooltipID, string> DialogueDict = new Dictionary<TooltipID, string>();
-    
+
+    bool bFirstDialogue = false;
     bool bLastDialogue = false;
 
     // DialogueID is used for the DialogueSet Dictionary
@@ -127,12 +128,11 @@ public class TooltipHandler : MonoBehaviour {
             {
                 bLastDialogue = true;
             }
-            TooltipControl.SetText(DialogueDict[Speech]);
             if (bFirstDialogue)
             {
                 yield return TooltipControl.StartCoroutine("OpenTooltip");
             }
-            yield return StartCoroutine("ShowTooltip", bFirstDialogue);
+            yield return StartCoroutine("ShowTooltip", Speech);
             bFirstDialogue = false;
         }
         PlayerControl.WaitForTooltip(false);
@@ -140,15 +140,17 @@ public class TooltipHandler : MonoBehaviour {
         TooltipControl.StartCoroutine("CloseTooltip");
     }
 
-    private IEnumerator ShowTooltip(bool bFirstDialogue)
+    private IEnumerator ShowTooltip(TooltipID Speech)
     {
         if (bFirstDialogue)
         {
+            TooltipControl.SetText(DialogueDict[Speech]);
             yield return TooltipControl.StartCoroutine("ShowText", true);
         }
         else
         {
             yield return TooltipControl.StartCoroutine("ShowText", false);
+            TooltipControl.SetText(DialogueDict[Speech]);
             yield return TooltipControl.StartCoroutine("ShowText", true);
         }
         

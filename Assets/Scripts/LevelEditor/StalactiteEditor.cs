@@ -99,15 +99,8 @@ public class StalactiteEditor {
 
     private void SetupTriggerDict()
     {
-        TriggerDict.Add(Stalactite.FallType.Over_Easy, -2.3f);
-        TriggerDict.Add(Stalactite.FallType.Over_Hard, -2f);
-        TriggerDict.Add(Stalactite.FallType.Under_Easy, 0.8f);
-        TriggerDict.Add(Stalactite.FallType.Under_Hard, 0.5f);
-        TriggerDict.Add(Stalactite.FallType.Under_Dash, -1f);
-        TriggerDict.Add(Stalactite.FallType.PostFall, 2f);
-        TriggerDict.Add(Stalactite.FallType.PreFall_Early, -2.8f);
-        TriggerDict.Add(Stalactite.FallType.PreFall_VeryEarly, -5.2f);
-        TriggerDict.Add(Stalactite.FallType.NoFall, 10f);
+        TriggerDict.Add(Stalactite.FallType.Standard, -3.2f);
+        TriggerDict.Add(Stalactite.FallType.PreFall, -3.8f);
     }
 
     public void SetZLayers(float TriggerZLayer)
