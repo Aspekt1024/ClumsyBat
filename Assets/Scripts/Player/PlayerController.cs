@@ -171,6 +171,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private IEnumerator GameOverSequence()
+    {
+        bGameOverOverlay = true;
+        transform.position = PlayerHoldingArea;
+        if (!Level.Stats.Story.EventCompleted(StoryEventID.FirstDeath))
+        {
+            yield return StartCoroutine(Level.Stats.Story.TriggerEventCoroutine(StoryEventID.FirstDeath));
+        }
+        else
+        {
+            yield return new WaitForSeconds(1f);
+        }
+        Level.ShowGameoverMenu();
+    }
+
     public void SetGravity(float gravity)
     {
         PlayerRigidBody.gravityScale = (gravity == -1 ? GravityScale : gravity);
@@ -187,13 +202,6 @@ public class PlayerController : MonoBehaviour
     {
         PlayerSpeed = Speed;
         Level.UpdateGameSpeed(PlayerSpeed);
-    }
-
-    private IEnumerator GameOverSequence()
-    {
-        bGameOverOverlay = true;
-        yield return new WaitForSeconds(1f);
-        Level.ShowGameoverMenu();
     }
 
     void Jump()
@@ -436,7 +444,7 @@ public class PlayerController : MonoBehaviour
             CountdownTimer += Time.deltaTime;
 
             // First level is special (tutorial) so we're going to change the animation for this one only
-            if (Toolbox.Instance.Level != 1)
+            if (Toolbox.Instance.Level != 1 || Toolbox.Instance.TooltipCompleted(TooltipHandler.DialogueID.FirstJump))
             {
                 Level.GameHUD.SetResumeTimer(CountdownDuration - CountdownTimer + TimeToReachDest);
             }
@@ -455,7 +463,7 @@ public class PlayerController : MonoBehaviour
 
         StartGame();
         PlayerRigidBody.velocity = new Vector2(0f, JumpForce.y / 80);
-        if (Toolbox.Instance.Level != 1)
+        if (Toolbox.Instance.Level != 1 || Toolbox.Instance.TooltipCompleted(TooltipHandler.DialogueID.FirstJump))
         {
             Level.GameHUD.SetStartText("GO!");
             yield return new WaitForSeconds(0.6f);

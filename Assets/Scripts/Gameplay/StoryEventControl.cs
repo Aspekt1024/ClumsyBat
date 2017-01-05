@@ -26,17 +26,22 @@ public class StoryEventControl : MonoBehaviour {
         SetupTooltipDict();
     }
 
-    private void SetupTooltipDict()
-    {
-        TooltipSet.Add(StoryEvents.FirstGoldMoth, new ToolID[] { ToolID.FirstGoldMoth1, ToolID.FirstGoldMoth2 } );
-    }
 
     public void TriggerEvent(StoryEvents EventID)
     {
-        if (!StoryData[(int)EventID] && PlayerControl.IsAlive())
+        if (!EventCompleted(EventID) && PlayerControl.IsAlive())
         {
-            StartCoroutine("ShowStoryDialogue", EventID);
+            StartCoroutine("TriggerEventCoroutine", EventID);
         }
+    }
+    public IEnumerator TriggerEventCoroutine(StoryEvents EventID)
+    {
+        yield return StartCoroutine("ShowStoryDialogue", EventID);
+    }
+
+    public bool EventCompleted(StoryEvents EventID)
+    {
+        return StoryData[(int)EventID];
     }
     
     private IEnumerator ShowStoryDialogue(StoryEvents EventID)
@@ -95,6 +100,13 @@ public class StoryEventControl : MonoBehaviour {
         file.Close();
         Load();
         Debug.Log("Story Event Data Cleared");
+    }
+    
+    private void SetupTooltipDict()
+    {
+        TooltipSet.Add(StoryEvents.FirstGoldMoth, new ToolID[] { ToolID.FirstGoldMoth1, ToolID.FirstGoldMoth2 });
+        TooltipSet.Add(StoryEvents.FirstDeath, new ToolID[] { ToolID.FirstDeath });
+        //TooltipSet.Add(StoryEvents, new ToolID[] { ToolID });
     }
 }
 

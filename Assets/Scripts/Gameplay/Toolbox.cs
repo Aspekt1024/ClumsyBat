@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections.Generic;
 
 public class Toolbox : Singleton<Toolbox>
@@ -14,7 +15,9 @@ public class Toolbox : Singleton<Toolbox>
     public const float TileSizeX = 19.2f;
     public const float PlayerStartX = -5.5f;
     public bool Debug = false;
+    public bool TooltipCompletionPersist = false;
 
+    public bool[] TooltipCompletion = new bool[Enum.GetNames(typeof(TooltipHandler.DialogueID)).Length];
     public Dictionary<string, float> ZLayers = new Dictionary<string, float>();
     public Dictionary<int, string> LevelNames = new Dictionary<int, string>();
 
@@ -82,14 +85,20 @@ public class Toolbox : Singleton<Toolbox>
         LevelNames.Add(15, "Hit");
     }
 
-    /*// (optional) allow runtime registration of global objects
-    static public T RegisterComponent<T>() where T : Component
+    // The below functions relate to session level tooltips
+    // Tooltips are shown the first time a level is started, but not on restarting the level
+    public bool TooltipCompleted(TooltipHandler.DialogueID TooltipID)
     {
-        return Instance.GetOrAddComponent<T>();
+        return TooltipCompletion[(int)TooltipID];
     }
-    Note: to run this, need to create MonoBehaviourExtended.cs
-    See http://wiki.unity3d.com/index.php/Toolbox
-     */
+    public void SetTooltipComplete(TooltipHandler.DialogueID TooltipID)
+    {
+        TooltipCompletion[(int)TooltipID] = true;
+    }
+    public void ResetTooltips()
+    {
+        TooltipCompletion = new bool[Enum.GetNames(typeof(TooltipHandler.DialogueID)).Length];
+    }
 }
 
 [System.Serializable]

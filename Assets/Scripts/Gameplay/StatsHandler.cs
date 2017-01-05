@@ -92,6 +92,13 @@ public class StatsHandler : MonoBehaviour {
         Story.Load();
     }
 
+    private void SaveDataObjects()
+    {
+        CompletionData.Save();
+        AbilityData.Save();
+        Story.Save();
+    }
+
     private void LoadUserSettings()
     {
         Settings.Music = PlayerPrefs.GetInt("MusicON") == 1 ? true : false;
@@ -139,9 +146,8 @@ public class StatsHandler : MonoBehaviour {
         PlayerPrefs.SetInt("Currency", Currency);
         PlayerPrefs.SetInt("TotalCurrency", TotalCurrency);
 
+        SaveDataObjects();
         SaveUserSettings();
-        CompletionData.Save();
-        AbilityData.Save();
         PlayerPrefs.Save();
     }
 

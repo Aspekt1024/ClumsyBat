@@ -36,6 +36,15 @@ public class Stalactite : MonoBehaviour {
         Exploding
     }
 
+    public enum CrackState
+    {
+        Normal,
+        Crack1,
+        Crack2,
+        Crack3,
+        Exploding
+    }
+
     private bool Paused = false;
     private float Speed;
     private bool bCracked;

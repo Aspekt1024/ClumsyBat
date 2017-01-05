@@ -56,16 +56,16 @@ public class Moth : MonoBehaviour {
         Lantern = GameObject.Find("Lantern").GetComponent<Transform>();
     }
 	
-	void Update ()
+	void FixedUpdate ()
     {
         if (!bIsActive || Paused) { return; }
-        MoveMothAlongPath();
+        MoveMothAlongPath(Time.deltaTime);
     }
 
-    private void MoveMothAlongPath()
+    private void MoveMothAlongPath(float time)
     {
         float PathSpeed = 0.7f;
-        Phase += Toolbox.Instance.LevelSpeed * Time.deltaTime * PathSpeed;
+        Phase += Toolbox.Instance.LevelSpeed * time * PathSpeed;
         if (Phase > 2 * Pi)
         {
             Phase -= 2 * Pi;

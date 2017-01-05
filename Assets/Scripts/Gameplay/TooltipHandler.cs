@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -57,6 +58,11 @@ public class TooltipHandler : MonoBehaviour {
 
         SetDialogueIDs();
         SetDialogueText();
+
+        if (!Toolbox.Instance.TooltipCompletionPersist)
+        {
+            Toolbox.Instance.ResetTooltips();
+        }
     }
 
     private void SetDialogueIDs()
@@ -74,6 +80,7 @@ public class TooltipHandler : MonoBehaviour {
 
     private void SetDialogueText()
     {
+        DialogueDict.Add(TooltipID.FirstDeath, "(placeholder) Try again!");
         DialogueDict.Add(TooltipID.FirstJump, "Tap anywhere to flap!");
         DialogueDict.Add(TooltipID.FirstMoth, "It's getting dark! Collect moths to fuel the lantern.");
         DialogueDict.Add(TooltipID.AllOnYourOwn1, "You made it! I mean, of course you made it!");
@@ -99,7 +106,8 @@ public class TooltipHandler : MonoBehaviour {
     
     public void ShowDialogue(DialogueID EventID)
     {
-        if (!PlayerControl.IsAlive()) { return; }
+        if (!PlayerControl.IsAlive() || Toolbox.Instance.TooltipCompleted(EventID)) { return; }
+        Toolbox.Instance.SetTooltipComplete(EventID);
         TooltipID[] Dialogue = DialogueSet[EventID];
         StartCoroutine("SetupDialogue", Dialogue);
     }
