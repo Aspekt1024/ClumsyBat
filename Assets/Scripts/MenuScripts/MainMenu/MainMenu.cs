@@ -46,9 +46,9 @@ public class MainMenu : MonoBehaviour {
                 Buttons[Level].Script = LvlButton.GetComponent<LevelButton>();
                 Buttons[Level].bClicked = false;
                 
-                if (Stats.CompletionData.IsUnlocked(Level) || Level == 1)
+                if (Stats.LevelData.IsUnlocked(Level) || Level == 1)
                 {
-                    if (Stats.CompletionData.IsCompleted(Level))
+                    if (Stats.LevelData.IsCompleted(Level))
                     {
                         Buttons[Level].Script.SetLevelState(LevelButton.LevelStates.Completed);
                     }

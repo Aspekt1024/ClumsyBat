@@ -18,13 +18,10 @@ public class TooltipController : MonoBehaviour {
     private RectTransform ResumeNextRT = null;
     private RectTransform ResumePlayRT = null;
 
-    private float TooltipStartY;
-
     void Awake()
     {
         GetTooltipComponents();
         gameObject.GetComponent<Canvas>().worldCamera = FindObjectOfType<Camera>();
-        TooltipStartY = TooltipPanel.position.y;
         ShowTooltipCanvas(false);
     }
 

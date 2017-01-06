@@ -175,9 +175,9 @@ public class PlayerController : MonoBehaviour
     {
         bGameOverOverlay = true;
         transform.position = PlayerHoldingArea;
-        if (!Level.Stats.Story.EventCompleted(StoryEventID.FirstDeath))
+        if (!Level.Stats.StoryData.EventCompleted(StoryEventID.FirstDeath))
         {
-            yield return StartCoroutine(Level.Stats.Story.TriggerEventCoroutine(StoryEventID.FirstDeath));
+            yield return StartCoroutine(Level.Stats.StoryData.TriggerEventCoroutine(StoryEventID.FirstDeath));
         }
         yield return new WaitForSeconds(1f);
         Level.ShowGameoverMenu();
@@ -291,7 +291,7 @@ public class PlayerController : MonoBehaviour
             case Moth.MothColour.Gold:
                 CurrencyValue = 2;
                 Lantern.ChangeColour(Lantern.LanternColour.Gold);
-                Level.Stats.Story.TriggerEvent(StoryEventID.FirstGoldMoth);
+                Level.Stats.StoryData.TriggerEvent(StoryEventID.FirstGoldMoth);
                 StartHypersonic();
                 Fog.Echolocate();
                 break;

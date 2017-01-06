@@ -338,7 +338,6 @@ public class LevelEditorActions : MonoBehaviour
             NewStal.Rotation = StalObj.localRotation;
             NewStal.DropEnabled = StalScript.UnstableStalactite;
             NewStal.Flipped = StalScript.Flipped;
-            NewStal.FallPreset = StalScript.FallPreset;
             NewStal.TriggerPos = new Vector2(StalTrigger.position.x - TileSizeX * index, StalTrigger.position.y);
             Level.Caves[index].Stals[StalNum[index]] = NewStal;
             StalNum[index]++;
@@ -577,7 +576,8 @@ public class LevelEditorActions : MonoBehaviour
         if (StalList == null) { return; }
         foreach (StalPool.StalType Stal in StalList)
         {
-            GameObject NewStal = (GameObject)Instantiate(Resources.Load("Obstacles/Stalactite"), Stals.transform);
+            GameObject NewStal = (GameObject)Instantiate(Resources.Load("Obstacles/EditorStalactite"), Stals.transform);
+            NewStal.name = "Stalactite";
             Transform StalObj = null;
             Transform StalTrigger = null;
             Stalactite StalScript = NewStal.GetComponent<Stalactite>();
@@ -591,7 +591,6 @@ public class LevelEditorActions : MonoBehaviour
             NewStal.transform.position = new Vector3(Stal.Pos.x + PosIndex * TileSizeX, Stal.Pos.y, StalZ);
             StalObj.localScale = Stal.Scale;
             StalObj.localRotation = Stal.Rotation;
-            StalScript.FallPreset = Stal.FallPreset;
             StalScript.Flipped = Stal.Flipped;
             StalScript.UnstableStalactite = Stal.DropEnabled;
             StalTrigger.position = new Vector2(Stal.TriggerPos.x + PosIndex * TileSizeX, Stal.TriggerPos.y);

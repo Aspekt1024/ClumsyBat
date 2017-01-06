@@ -2,11 +2,6 @@
 using System.Collections.Generic;
 
 public class StalactiteEditor {
-    
-    public StalactiteEditor()
-    {
-        SetupTriggerDict();
-    }
 
     private Transform StalParent = null;
     private float TriggerZ;
@@ -15,8 +10,6 @@ public class StalactiteEditor {
     Stalactite StalScript = null;
     Transform StalBody = null;
     SpriteRenderer StalTrigger = null;
-
-    private Dictionary<Stalactite.FallType, float> TriggerDict = new Dictionary<Stalactite.FallType, float>();
 
     public void ProcessStalactites(Transform _StalParent)
     {
@@ -81,26 +74,11 @@ public class StalactiteEditor {
         if (StalScript.UnstableStalactite)
         {
             StalTrigger.enabled = true;
-            if (StalScript.FallPreset != Stalactite.FallType.Custom)
-            {
-                float TriggerXOffset = TriggerDict[StalScript.FallPreset];
-                StalTrigger.transform.position = new Vector3(Stal.position.x + TriggerXOffset, StalTrigger.transform.position.y, TriggerZ);
-            }
-            else
-            {
-                StalTrigger.transform.position = new Vector3(StalTrigger.transform.position.x, StalTrigger.transform.position.y, TriggerZ);
-            }
         }
         else
         {
             StalTrigger.enabled = false;
         }
-    }
-
-    private void SetupTriggerDict()
-    {
-        TriggerDict.Add(Stalactite.FallType.Standard, -3.2f);
-        TriggerDict.Add(Stalactite.FallType.PreFall, -3.8f);
     }
 
     public void SetZLayers(float TriggerZLayer)

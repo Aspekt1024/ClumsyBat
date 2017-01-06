@@ -29,9 +29,9 @@ public class StatsHandler : MonoBehaviour {
     public int Currency = 0;
     public int TotalCurrency = 0;
     
-    public LevelCompletionDataControl CompletionData;
+    public LevelDataControl LevelData;
     public AbilityControl AbilityData;
-    public StoryEventControl Story;
+    public StoryEventControl StoryData;
 
     public struct UserSettings
     {
@@ -84,19 +84,19 @@ public class StatsHandler : MonoBehaviour {
     private void CreateDataObjects()
     {
         GameObject DataObject = new GameObject("DataObjects");
-        CompletionData = DataObject.AddComponent<LevelCompletionDataControl>();
+        LevelData = DataObject.AddComponent<LevelDataControl>();
         AbilityData = DataObject.AddComponent<AbilityControl>();
-        Story = DataObject.AddComponent<StoryEventControl>();
-        CompletionData.Load();
+        StoryData = DataObject.AddComponent<StoryEventControl>();
+        LevelData.Load();
         AbilityData.Load();
-        Story.Load();
+        StoryData.Load();
     }
 
     private void SaveDataObjects()
     {
-        CompletionData.Save();
+        LevelData.Save();
         AbilityData.Save();
-        Story.Save();
+        StoryData.Save();
     }
 
     private void LoadUserSettings()
@@ -115,8 +115,8 @@ public class StatsHandler : MonoBehaviour {
 
     public void ResetStoryData()
     {
-        CompletionData.ClearCompletionData();
-        Story.ClearStoryEventData();
+        LevelData.ClearCompletionData();
+        StoryData.ClearStoryEventData();
         AbilityData.ClearAbilityData();
         CollectedCurrency = 0;
         Currency = 0;
@@ -125,13 +125,23 @@ public class StatsHandler : MonoBehaviour {
 
     public void LevelWon(int Level)
     {
+        // TODO move this to the LevelCompletionControl Class
         Currency += CollectedCurrency;
         TotalCurrency += CollectedCurrency;
         CollectedCurrency = 0;
 
+        LevelDataContainer.LevelType LevelCompletion = new LevelDataContainer.LevelType();
+        LevelCompletion.LevelCompleted = true;
+        LevelCompletion.LevelUnlocked = true;
+        LevelCompletion.SecretPath1 = false;
+        LevelCompletion.SecretPath2 = false;
+        LevelCompletion.Star1 = false;
+        LevelCompletion.Star2 = false;
+        LevelCompletion.Star3 = false;
+
         LevelsCompleted++;
-        CompletionData.SetCompleted(Level, true, false, false);
-        CompletionData.UnlockLevels(Level, true, false, false);
+        LevelData.SetCompleted(Level, LevelCompletion);
+        LevelData.UnlockLevels(Level, LevelCompletion);
         SaveStats();
     }
 

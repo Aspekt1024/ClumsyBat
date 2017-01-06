@@ -14,31 +14,19 @@ public class Stalactite : MonoBehaviour {
         public bool bExploding;
     }
 
-    public enum FallType
-    {
-        Custom,
-        Standard,
-        PreFall
-    }
-
     private bool Paused = false;
     private float Speed;
     
     private StalacType Stal;
-    private Player Player;
-    private PlayerController PlayerControl;
     
     // These variables are set in the level editor
     public bool UnstableStalactite;
-    public FallType FallPreset;
     public bool Flipped;
 
     void Awake ()
     {
         GetStalComponents();
         Stal.bIsActive = false;
-        Player = FindObjectOfType<Player>();
-        PlayerControl = Player.GetComponent<PlayerController>();
         Stal.Anim.enabled = true;
         Stal.Body.gravityScale = 0f;
     }
@@ -99,7 +87,6 @@ public class Stalactite : MonoBehaviour {
 
     public void SetPaused(bool PauseGame)
     {
-        Debug.Log(PauseGame);
         Paused = PauseGame;
         Stal.Anim.PauseAnimation(PauseGame);
         Stal.DropControl.SetPaused(PauseGame);
@@ -140,7 +127,7 @@ public class Stalactite : MonoBehaviour {
         {
             if (!Paused)
             {
-                transform.position += new Vector3(bForward ? ImpactIntensity : -ImpactIntensity, 0f, 0f);
+                Stal.Body.transform.position += new Vector3(bForward ? ImpactIntensity : -ImpactIntensity, 0f, 0f);
                 bForward = !bForward;
                 ImpactTime += Period;
             }

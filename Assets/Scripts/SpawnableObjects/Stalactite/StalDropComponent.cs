@@ -11,7 +11,10 @@ public class StalDropComponent : MonoBehaviour {
     private Transform PlayerBody = null;
     private PlayerController PlayerControl = null;
 
-    private const float GravityScale = 2f;
+    [HideInInspector]
+    public const float FallDuration = 1.2f;
+    [HideInInspector]
+    public const float FallDistance = 20f;
 
     private bool Paused = false;
     private Vector2 StoredVelocity = Vector2.zero;
@@ -26,19 +29,14 @@ public class StalDropComponent : MonoBehaviour {
     
     void Awake()
     {
-        TriggerSprite = GetComponent<SpriteRenderer>();
-        Stal = GetComponentInParent<Stalactite>();
-        Anim = Stal.GetComponentInChildren<StalAnimationHandler>();
-        StalBody = Stal.GetComponentInChildren<Rigidbody2D>();
-        PlayerBody = GameObject.FindGameObjectWithTag("Player").transform;
-        PlayerControl = PlayerBody.GetComponent<PlayerController>();
+        GetComponentList();
     }
 
     void Update()
     {
         if (!Stal.IsActive() || !Stal.UnstableStalactite) { return; }
 
-        if ((PlayerBody.position.x + 7 > transform.position.x) && State == DropStates.None && PlayerControl.IsAlive())
+        if ((PlayerBody.position.x + 8f > transform.position.x) && State == DropStates.None && PlayerControl.IsAlive())
         {
             State = DropStates.Shaking;
             StartCoroutine("Shake");
@@ -80,9 +78,21 @@ public class StalDropComponent : MonoBehaviour {
         {
             yield return null;
         }
-        StalBody.velocity = new Vector2(0f, -2f);
-        StalBody.isKinematic = false;
-        StalBody.gravityScale = GravityScale;
+        float FallTime = 0f;
+        float StartingYPos = StalBody.transform.position.y;
+        while (FallTime < FallDuration)
+        {
+            if (!Paused)
+            {
+                FallTime += Time.deltaTime;
+                float YPos = StartingYPos - FallDistance * Mathf.Pow((FallTime / FallDuration), 2);
+                StalBody.transform.position = new Vector3(StalBody.transform.position.x, YPos, StalBody.transform.position.z);
+            }
+            yield return null;
+        }
+        //StalBody.velocity = new Vector2(0f, -2f);
+        //StalBody.isKinematic = false;
+        //StalBody.gravityScale = GravityScale;
     }
     
     IEnumerator Shake()
@@ -117,6 +127,24 @@ public class StalDropComponent : MonoBehaviour {
             {
                 StalBody.isKinematic = false;
                 StalBody.velocity = StoredVelocity;
+            }
+        }
+    }
+
+    private void GetComponentList()
+    {
+        PlayerBody = GameObject.FindGameObjectWithTag("Player").transform;
+        PlayerControl = PlayerBody.GetComponent<PlayerController>();
+        
+        TriggerSprite = GetComponent<SpriteRenderer>();
+        Stal = GetComponentInParent<Stalactite>();
+        Anim = Stal.GetComponentInChildren<StalAnimationHandler>();
+
+        foreach (Transform TF in Stal.GetComponent<Transform>())
+        {
+            if (TF.name == "StalObject")
+            {
+                StalBody = TF.GetComponent<Rigidbody2D>();
             }
         }
     }

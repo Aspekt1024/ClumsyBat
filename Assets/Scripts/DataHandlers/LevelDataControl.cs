@@ -3,18 +3,18 @@ using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-public class LevelCompletionDataControl : MonoBehaviour {
+public class LevelDataControl : MonoBehaviour {
 
     public const int NumLevels = 14;
 
-    private CompletionDataContainer.LevelType[] LevelCompletion = new CompletionDataContainer.LevelType[NumLevels];
+    private LevelDataContainer.LevelType[] LevelCompletion = new LevelDataContainer.LevelType[NumLevels];
 
     public void Save()
     {
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Open(Application.persistentDataPath + "/CompletionData.dat", FileMode.OpenOrCreate);
 
-        CompletionDataContainer GameData = new CompletionDataContainer();
+        LevelDataContainer GameData = new LevelDataContainer();
         GameData.Data.LevelData = LevelCompletion;
 
         bf.Serialize(file, GameData);
@@ -26,18 +26,18 @@ public class LevelCompletionDataControl : MonoBehaviour {
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Open(Application.persistentDataPath + "/CompletionData.dat", FileMode.Create);
 
-        CompletionDataContainer BlankGameData = new CompletionDataContainer();
-        BlankGameData.Data.LevelData = new CompletionDataContainer.LevelType[NumLevels];
+        LevelDataContainer BlankGameData = new LevelDataContainer();
+        BlankGameData.Data.LevelData = new LevelDataContainer.LevelType[NumLevels];
 
         bf.Serialize(file, BlankGameData);
         file.Close();
         Load();
-        Debug.Log("Completion Data Cleared");
+        Debug.Log("Level Data Cleared");
     }
 
     public void ClearLevelProgress()
     {
-        LevelCompletion = new CompletionDataContainer.LevelType[NumLevels];
+        LevelCompletion = new LevelDataContainer.LevelType[NumLevels];
         Save();
     }
 
@@ -47,32 +47,36 @@ public class LevelCompletionDataControl : MonoBehaviour {
         {
             BinaryFormatter bf = new BinaryFormatter();
             FileStream file = File.Open(Application.persistentDataPath + "/CompletionData.dat", FileMode.Open);
-            CompletionDataContainer GameData = (CompletionDataContainer)bf.Deserialize(file);
+            LevelDataContainer GameData = (LevelDataContainer)bf.Deserialize(file);
             file.Close();
 
             LevelCompletion = GameData.Data.LevelData;
         }
     }
 
-    public void SetCompleted(int Level, bool bMainPath, bool bSecretPath1, bool bSecretPath2)
+    public void SetCompleted(int Level, LevelDataContainer.LevelType LevelData)
     {
-        LevelCompletion[Level-1].LevelCompleted = bMainPath;
-        LevelCompletion[Level-1].SecretPath1 = bSecretPath1;
-        LevelCompletion[Level-1].SecretPath2 = bSecretPath2;
+        LevelCompletion[Level-1].LevelCompleted &= LevelData.LevelCompleted;
+        LevelCompletion[Level-1].SecretPath1 &= LevelData.SecretPath1;
+        LevelCompletion[Level - 1].SecretPath2 &= LevelData.SecretPath2;
+        LevelCompletion[Level - 1].Star1 &= LevelData.Star1;
+        LevelCompletion[Level - 1].Star2 &= LevelData.Star2;
+        LevelCompletion[Level - 1].Star3 &= LevelData.Star3;
+
     }
 
-    public void UnlockLevels(int Level, bool bMainPath, bool bSecretPath1, bool bSecretPath2)
+    public void UnlockLevels(int Level, LevelDataContainer.LevelType LevelData)
     {
         switch (Level)
         {
             case 3:
-                if (bSecretPath1)
+                if (LevelData.SecretPath1)
                 {
-                    LevelCompletion[10-1].LevelUnlocked = true;
+                    LevelCompletion[10-1].LevelUnlocked = true; // TODO define which secret paths point where
                 }
                 break;
         }
-        if (bMainPath && Level < NumLevels)
+        if (LevelData.LevelCompleted && Level < NumLevels)
         {
             LevelCompletion[Level].LevelUnlocked = true;
         }
@@ -87,7 +91,7 @@ public class LevelCompletionDataControl : MonoBehaviour {
 }
 
 [Serializable]
-class CompletionDataContainer
+public class LevelDataContainer
 {
     [Serializable]
     public struct LevelType

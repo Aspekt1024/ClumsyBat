@@ -10,29 +10,31 @@
       <Stals>
         <StalType>
           <Pos>
-            <x>7.7</x>
-            <y>4.6</y>
+            <x>7.28</x>
+            <y>5.09</y>
           </Pos>
           <Scale>
-            <x>0.7569286</x>
-            <y>0.7569286</y>
+            <x>0.9036044</x>
+            <y>0.9036043</y>
           </Scale>
           <Rotation>
             <x>0</x>
             <y>0</y>
-            <z>-0.094957985</z>
-            <w>0.9954813</w>
+            <z>0</z>
+            <w>1</w>
             <eulerAngles>
               <x>0</x>
               <y>0</y>
-              <z>349.1022</z>
+              <z>0</z>
             </eulerAngles>
           </Rotation>
           <TriggerPos>
-            <x>0</x>
-            <y>0</y>
+            <x>5.588891</x>
+            <y>1.04</y>
           </TriggerPos>
-          <DropEnabled>false</DropEnabled>
+          <DropEnabled>true</DropEnabled>
+          <Flipped>false</Flipped>
+          <FallPreset>Custom</FallPreset>
         </StalType>
       </Stals>
       <Moths />

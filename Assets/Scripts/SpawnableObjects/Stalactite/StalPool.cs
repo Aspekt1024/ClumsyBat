@@ -19,7 +19,6 @@ public class StalPool {
         public Vector2 TriggerPos;
         public bool DropEnabled;
         public bool Flipped;
-        public Stalactite.FallType FallPreset;
     }
 
     Stalactite[] Stals = null;
