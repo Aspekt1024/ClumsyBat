@@ -89,14 +89,6 @@ public class LevelScript : MonoBehaviour {
         
         Background.SetVelocity(Speed);
         LevelObjects.SetVelocity(Speed);
-        if (Speed == 0)
-        {
-            LevelObjects.SetPaused(true);
-        }
-        else
-        {
-            LevelObjects.SetPaused(false);
-        }
     }
 
     public void HorribleDeath()
@@ -116,6 +108,7 @@ public class LevelScript : MonoBehaviour {
         bGameStarted = true;
         GameHUD.StartGame();
         UpdateGameSpeed(1);
+        LevelObjects.SetPaused(false);
         LevelObjects.SetVelocity(LevelScrollSpeed);
     }
 
@@ -125,6 +118,7 @@ public class LevelScript : MonoBehaviour {
         bGamePaused = true;
         PrevGameSpeed = GameSpeed;
         UpdateGameSpeed(0);
+        LevelObjects.SetPaused(true);
         GameHUD.GamePaused(true);
 
         if (ShowMenu)
@@ -139,6 +133,7 @@ public class LevelScript : MonoBehaviour {
         // Play resume sound
         bGamePaused = false;
         UpdateGameSpeed(PrevGameSpeed);
+        LevelObjects.SetPaused(false);
         GameHUD.GamePaused(false);
     }
 

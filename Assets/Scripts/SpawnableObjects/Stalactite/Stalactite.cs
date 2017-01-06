@@ -8,10 +8,10 @@ public class Stalactite : MonoBehaviour {
         public PolygonCollider2D Collider;
         public SpriteRenderer Renderer;
         public Rigidbody2D Body;
-        public SpriteRenderer TriggerSprite;
         public StalAnimationHandler Anim;
-        public StalState State;
+        public StalDropComponent DropControl;
         public bool bIsActive;
+        public bool bExploding;
     }
 
     public enum FallType
@@ -19,14 +19,6 @@ public class Stalactite : MonoBehaviour {
         Custom,
         Standard,
         PreFall
-    }
-
-    public enum StalState
-    {
-        Normal,
-        Shaking,
-        Falling,
-        Exploding
     }
 
     private bool Paused = false;
@@ -44,11 +36,11 @@ public class Stalactite : MonoBehaviour {
     void Awake ()
     {
         GetStalComponents();
-        Stal.State = StalState.Normal;
         Stal.bIsActive = false;
         Player = FindObjectOfType<Player>();
         PlayerControl = Player.GetComponent<PlayerController>();
         Stal.Anim.enabled = true;
+        Stal.Body.gravityScale = 0f;
     }
 
     void FixedUpdate()
@@ -57,36 +49,22 @@ public class Stalactite : MonoBehaviour {
         transform.position += new Vector3(-Speed * Time.deltaTime, 0, 0);
     }
 
-    void Update ()
-    {
-        if (!UnstableStalactite) { return; }
-        if ((Player.transform.position.x + 7 > transform.position.x) && Stal.State == StalState.Normal && PlayerControl.IsAlive())
-        {
-            Stal.State = StalState.Shaking;
-            StartCoroutine("Shake");
-        }
-
-        if (!PlayerControl) { return; } // Editor clumsy has no player control
-        if (!PlayerControl.IsAlive() && Stal.State == StalState.Shaking)
-        {
-            Stal.State = StalState.Normal;
-        }
-	}
-
     private void GetStalComponents()
     {
+        const string StalObject = "StalObject";
+        const string TriggerObject = "StalTrigger";
         foreach (Transform StalChild in transform)
         {
-            if (StalChild.name == "StalObject")
+            if (StalChild.name == StalObject)
             {
                 Stal.Body = StalChild.GetComponent<Rigidbody2D>();
                 Stal.Anim = StalChild.GetComponent<StalAnimationHandler>();
                 Stal.Collider = StalChild.GetComponent<PolygonCollider2D>();
                 Stal.Renderer = StalChild.GetComponent<SpriteRenderer>();
             }
-            if (StalChild.name == "StalTrigger")
+            if (StalChild.name == TriggerObject)
             {
-                Stal.TriggerSprite = StalChild.GetComponent<SpriteRenderer>();
+                Stal.DropControl = StalChild.GetComponent<StalDropComponent>();
             }
         }
     }
@@ -94,38 +72,19 @@ public class Stalactite : MonoBehaviour {
     public void ActivateStal(bool bDropEnabled, Vector2 TriggerPos)
     {
         Stal.bIsActive = true;
+        Stal.bExploding = false;
         Stal.Collider.enabled = true;
         Stal.Renderer.enabled = true;
         UnstableStalactite = bDropEnabled;
-        Stal.TriggerSprite.enabled = Toolbox.Instance.Debug && UnstableStalactite;
+
         Stal.Anim.NewStalactite();
-    }
+        Stal.DropControl.NewStalactite();
+}
     public void DeactivateStal()
     {
-        // TODO Stal.GO (transform.gameObject).SetActive(false);
         Stal.bIsActive = false;
         Stal.Collider.enabled = false;
         Stal.Renderer.enabled = false;
-    }
-
-    void OnTriggerEnter2D()
-    {
-        if (UnstableStalactite && Stal.State != StalState.Falling)
-        {
-            StartCoroutine("Drop");
-        }
-    }
-
-    private IEnumerator Drop()
-    {
-        Stal.Anim.CrackAndFall();
-        while (!Stal.Anim.ReadyToFall())
-        {
-            yield return null;
-        }
-        Stal.State = StalState.Falling;
-        Stal.Body.velocity = new Vector2(0f, -2f);
-        Stal.Body.isKinematic = false;
     }
 
     public bool IsActive()
@@ -140,31 +99,17 @@ public class Stalactite : MonoBehaviour {
 
     public void SetPaused(bool PauseGame)
     {
+        Debug.Log(PauseGame);
         Paused = PauseGame;
-    }
-
-    IEnumerator Shake()
-    {
-        const float ShakeInterval = 0.07f;
-        const float ShakeIntensity = 1.8f;
-        bool bRotateForward = true;
-        while (Stal.State == StalState.Shaking)
-        {
-            if (!Paused)
-            {
-                Stal.Body.transform.Rotate(new Vector3(0, 0, (bRotateForward ? ShakeIntensity : - ShakeIntensity)));
-                bRotateForward = !bRotateForward;
-            }
-            yield return new WaitForSeconds(ShakeInterval);
-        }
-        Stal.Body.transform.Rotate(Vector3.zero);   // Prevents rotating once we exit the while loop
+        Stal.Anim.PauseAnimation(PauseGame);
+        Stal.DropControl.SetPaused(PauseGame);
     }
 
     public void DestroyStalactite()
     {
-        if (Stal.State != StalState.Exploding)
+        if (!Stal.bExploding)
         {
-            Stal.State = StalState.Exploding;
+            Stal.bExploding = true;
             Stal.Collider.enabled = false;
             StartCoroutine("CrumbleAnim");
         }
@@ -193,11 +138,19 @@ public class Stalactite : MonoBehaviour {
         Stal.Anim.CrackOnImpact();
         while (ImpactTime < ImpactDuration)
         {
-            transform.position += new Vector3(bForward ? ImpactIntensity : -ImpactIntensity, 0f, 0f);
-            bForward = !bForward;
+            if (!Paused)
+            {
+                transform.position += new Vector3(bForward ? ImpactIntensity : -ImpactIntensity, 0f, 0f);
+                bForward = !bForward;
+                ImpactTime += Period;
+            }
             yield return new WaitForSeconds(Period);
-            ImpactTime += Period;
         }
-        if (UnstableStalactite) { StartCoroutine("Drop"); }
+        if (UnstableStalactite) { Stal.DropControl.Drop(); }
+    }
+
+    public bool IsPaused()
+    {
+        return Paused;
     }
 }

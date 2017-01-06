@@ -145,13 +145,13 @@ public class TooltipHandler : MonoBehaviour {
         if (bFirstDialogue)
         {
             TooltipControl.SetText(DialogueDict[Speech]);
-            yield return TooltipControl.StartCoroutine("ShowText", true);
+            TooltipControl.StartCoroutine("ShowText", true);
         }
         else
         {
             yield return TooltipControl.StartCoroutine("ShowText", false);
             TooltipControl.SetText(DialogueDict[Speech]);
-            yield return TooltipControl.StartCoroutine("ShowText", true);
+            TooltipControl.StartCoroutine("ShowText", true);
         }
         
         const float TooltipPauseDuration = 0.7f;

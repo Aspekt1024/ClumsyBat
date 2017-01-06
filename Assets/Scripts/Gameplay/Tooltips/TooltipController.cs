@@ -116,17 +116,18 @@ public class TooltipController : MonoBehaviour {
 
     public IEnumerator ShowText(bool Show)
     {
-        ToolTipText.enabled = true;
         ResumeNextText.enabled = false;
         ResumeNextImage.enabled = false;
         ResumePlayImage.enabled = false;
         if (Show)
         {
+            ToolTipText.enabled = true;
             yield return StartCoroutine("PopOutObject", ToolTipTextRT);
         }
         else
         {
             yield return StartCoroutine("PopInObject", ToolTipTextRT);
+            ToolTipText.enabled = false;
         }
     }
     

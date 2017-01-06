@@ -7,6 +7,7 @@ public class StalAnimationHandler : MonoBehaviour
 
     private StalBehaviour Behaviour;
     private Animator Anim;
+    private Stalactite Stal;
 
     public enum StalBehaviour
     {
@@ -20,18 +21,20 @@ public class StalAnimationHandler : MonoBehaviour
     void Awake()
     {
         Anim = GetComponent<Animator>();
+        Stal = GetComponentInParent<Stalactite>();
         NewStalactite();
     }
 
     void Update()
     {
+        if (!Stal.IsActive()) { return; }
         if (Anim.GetCurrentAnimatorStateInfo(0).IsName("Crack") && Anim.enabled)
         {
             NormCrackTime = Anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
             if (Behaviour == StalBehaviour.Impacted)
             {
-                // If Clumsy hit a static stalactite then exit on frame 5
-                if (NormCrackTime * 7 > 5)
+                // If Clumsy hit a static stalactite then exit on frame 4
+                if (NormCrackTime * 7 > 3)
                 {
                     Anim.enabled = false;
                 }
@@ -108,6 +111,11 @@ public class StalAnimationHandler : MonoBehaviour
         {
             return false;
         }
+    }
+
+    public void PauseAnimation(bool Paused)
+    {
+        Anim.speed = (Paused ? 0f : 1f);
     }
 }
 
