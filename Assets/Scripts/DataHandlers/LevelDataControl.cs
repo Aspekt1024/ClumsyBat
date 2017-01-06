@@ -56,12 +56,12 @@ public class LevelDataControl : MonoBehaviour {
 
     public void SetCompleted(int Level, LevelDataContainer.LevelType LevelData)
     {
-        LevelCompletion[Level-1].LevelCompleted &= LevelData.LevelCompleted;
-        LevelCompletion[Level-1].SecretPath1 &= LevelData.SecretPath1;
-        LevelCompletion[Level - 1].SecretPath2 &= LevelData.SecretPath2;
-        LevelCompletion[Level - 1].Star1 &= LevelData.Star1;
-        LevelCompletion[Level - 1].Star2 &= LevelData.Star2;
-        LevelCompletion[Level - 1].Star3 &= LevelData.Star3;
+        LevelCompletion[Level-1].LevelCompleted |= LevelData.LevelCompleted;
+        LevelCompletion[Level-1].SecretPath1 |= LevelData.SecretPath1;
+        LevelCompletion[Level-1].SecretPath2 |= LevelData.SecretPath2;
+        LevelCompletion[Level-1].Achievement1 |= LevelData.Achievement1;
+        LevelCompletion[Level-1].Achievement2 |= LevelData.Achievement2;
+        LevelCompletion[Level-1].Achievement3 |= LevelData.Achievement3;
 
     }
 
@@ -69,13 +69,15 @@ public class LevelDataControl : MonoBehaviour {
     {
         switch (Level)
         {
+            // TODO define which secret paths point where
             case 3:
                 if (LevelData.SecretPath1)
                 {
-                    LevelCompletion[10-1].LevelUnlocked = true; // TODO define which secret paths point where
+                    LevelCompletion[10-1].LevelUnlocked = true; 
                 }
                 break;
         }
+
         if (LevelData.LevelCompleted && Level < NumLevels)
         {
             LevelCompletion[Level].LevelUnlocked = true;
@@ -86,7 +88,7 @@ public class LevelDataControl : MonoBehaviour {
     public bool IsCompleted(int Level) { return LevelCompletion[Level-1].LevelCompleted; }
     public bool SecretPath1Completed(int Level) { return LevelCompletion[Level-1].SecretPath1; }
     public bool SecretPath2Completed(int Level) { return LevelCompletion[Level-1].SecretPath2; }
-    public bool AllMothsGathered(int Level) { return LevelCompletion[Level - 1].Star1; }
+    public bool AllMothsGathered(int Level) { return LevelCompletion[Level - 1].Achievement1; }
     public int GetNumLevels() { return NumLevels; }
 }
 
@@ -100,9 +102,9 @@ public class LevelDataContainer
         public bool LevelUnlocked;
         public bool SecretPath1;
         public bool SecretPath2;
-        public bool Star1;
-        public bool Star2;
-        public bool Star3;
+        public bool Achievement1;
+        public bool Achievement2;
+        public bool Achievement3;
     }
 
     [Serializable]

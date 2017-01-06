@@ -87,12 +87,13 @@ public class StalDropComponent : MonoBehaviour {
                 FallTime += Time.deltaTime;
                 float YPos = StartingYPos - FallDistance * Mathf.Pow((FallTime / FallDuration), 2);
                 StalBody.transform.position = new Vector3(StalBody.transform.position.x, YPos, StalBody.transform.position.z);
+                yield return new WaitForSeconds(0.01f);
             }
-            yield return new WaitForSeconds(0.01f);
+            else
+            {
+                yield return null;
+            }
         }
-        //StalBody.velocity = new Vector2(0f, -2f);
-        //StalBody.isKinematic = false;
-        //StalBody.gravityScale = GravityScale;
     }
     
     IEnumerator Shake()

@@ -135,9 +135,9 @@ public class StatsHandler : MonoBehaviour {
         LevelCompletion.LevelUnlocked = true;
         LevelCompletion.SecretPath1 = false;
         LevelCompletion.SecretPath2 = false;
-        LevelCompletion.Star1 = false;
-        LevelCompletion.Star2 = false;
-        LevelCompletion.Star3 = false;
+        LevelCompletion.Achievement1 = false;
+        LevelCompletion.Achievement2 = false;
+        LevelCompletion.Achievement3 = false;
 
         LevelsCompleted++;
         LevelData.SetCompleted(Level, LevelCompletion);
