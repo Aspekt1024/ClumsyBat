@@ -39,12 +39,13 @@ public class StalTriggerPlacement : MonoBehaviour {
 
         float Dist = (AnimationTime + TimeToReachDest) * ClumsySpeed;
 
-        Trigger.position = new Vector3(Body.position.x - Dist + Trigger.localScale.x / 2f, Trigger.position.y, Trigger.position.z);
+        float XPos = Body.position.x - Body.localScale.x * 1/3f - Dist + Trigger.localScale.x / 2f;
+        Trigger.position = new Vector3(XPos, Trigger.position.y, Trigger.position.z);
     }
 
     private void PositionTelegraph()
     {
-        float Dist = Body.position.x - (Trigger.position.x - Trigger.localScale.x / 2f);
+        float Dist = Body.position.x - Body.localScale.x * 1/3f - (Trigger.position.x - Trigger.localScale.x / 2f);
         float TimeToReachDest = (Dist / ClumsySpeed) - AnimationTime;
         float DistanceToFall = StalDropComponent.FallDistance * Mathf.Pow((TimeToReachDest / StalDropComponent.FallDuration), 2);
         transform.position = new Vector3(transform.position.x, Body.position.y - DistanceToFall + transform.localScale.y / 2f, TriggerZ);

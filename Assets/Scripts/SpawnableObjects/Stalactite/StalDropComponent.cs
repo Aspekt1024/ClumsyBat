@@ -88,7 +88,7 @@ public class StalDropComponent : MonoBehaviour {
                 float YPos = StartingYPos - FallDistance * Mathf.Pow((FallTime / FallDuration), 2);
                 StalBody.transform.position = new Vector3(StalBody.transform.position.x, YPos, StalBody.transform.position.z);
             }
-            yield return null;
+            yield return new WaitForSeconds(0.01f);
         }
         //StalBody.velocity = new Vector2(0f, -2f);
         //StalBody.isKinematic = false;
