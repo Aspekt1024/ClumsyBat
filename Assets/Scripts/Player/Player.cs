@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections;
 
 using StoryEventID = StoryEventControl.StoryEvents;
+using PlayerSounds = ClumsyAudioControl.PlayerSounds;
 
 public class Player : MonoBehaviour {
 
@@ -128,7 +129,7 @@ public class Player : MonoBehaviour {
         Stats.TotalJumps++;
         _playerRigidBody.velocity = Vector2.zero;
         _playerRigidBody.AddForce(_flapForce);
-        _audioControl.PlaySound(ClumsyAudioControl.PlayerSounds.Flap, 0.5f);
+        _audioControl.PlaySound(PlayerSounds.Flap);
         _anim.Play("Flap", 0, 0.5f);
     }
 
@@ -176,7 +177,7 @@ public class Player : MonoBehaviour {
         {
             if (_shield.IsInUse()) return;
             _shield.ConsumeCharge();
-            _audioControl.PlaySound(ClumsyAudioControl.PlayerSounds.Collision, 1f);
+            _audioControl.PlaySound(PlayerSounds.Collision);
         }
         else
         {
@@ -188,7 +189,7 @@ public class Player : MonoBehaviour {
             {
                 Stats.RockDeaths++; // TODO check for other objects
             }
-            _audioControl.PlaySound(ClumsyAudioControl.PlayerSounds.Collision, 1f);
+            _audioControl.PlaySound(PlayerSounds.Collision);
             Die();
         }
     }
