@@ -2,8 +2,6 @@
 using System;
 using System.Collections;
 
-using StoryEventID = StoryEventControl.StoryEvents;
-
 public delegate void PlayerDeathHandler(object sender, EventArgs e);
 
 /// <summary>

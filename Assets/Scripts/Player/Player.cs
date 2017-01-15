@@ -20,11 +20,13 @@ public class Player : MonoBehaviour {
     private Lantern _lantern;
     private Animator _anim;
     private JumpClearance _clearance;
+    private ClumsyAudioControl _audioControl;
 
-    private readonly Vector3 _playerHoldingArea = new Vector3(-10f, -10f, 0f);        // Where Clumsy goes to die
-    private Vector2 _jumpForce = new Vector2(0, 600);
+    private readonly Vector3 _playerHoldingArea = new Vector3(-100f, 0f, 0f);        // Where Clumsy goes to die
+    private readonly Vector2 _flapForce = new Vector2(0f, 480f);
+    private readonly Vector2 _nudgeForce = new Vector2(0f, 400f);
     private const float ClumsyX = -5f;
-    private const float GravityScale = 3;
+    private const float GravityScale = 3f;
     private Vector2 _savedVelocity = Vector2.zero;
     private float _playerSpeed;
 
@@ -41,17 +43,13 @@ public class Player : MonoBehaviour {
     }
     private PlayerState _state = PlayerState.Startup;
 
-    public Player(FlapComponent flap)
-    {
-        _flap = flap;
-    }
-
-    void Start ()
+    private void Start ()
     {
         _playerSpeed = 1f;
         _playerRigidBody = GetComponent<Rigidbody2D>();
         _playerRigidBody.isKinematic = true;
         _playerRigidBody.gravityScale = GravityScale;
+        _audioControl = gameObject.AddComponent<ClumsyAudioControl>();
         GameObject clearanceGameObj = GameObject.Find("JumpClearance");
         if (clearanceGameObj)
         {
@@ -74,12 +72,18 @@ public class Player : MonoBehaviour {
         Level.Stats.CollectedCurrency = 0;
     }
 
-    void Update ()
+    private void Update ()
     {
         if (_state == PlayerState.Normal)
         {
             _clearance.transform.position = transform.position;
             Level.AddDistance(Time.deltaTime, _playerSpeed);
+
+            if (transform.position.x < ClumsyX && !_shield.IsInUse())
+            {
+                Level.UpdateGameSpeed(0f);
+                transform.position += Vector3.right * 0.03f;
+            }
 
             if (_bCaveEndReached)
             {
@@ -123,14 +127,14 @@ public class Player : MonoBehaviour {
     {
         Stats.TotalJumps++;
         _playerRigidBody.velocity = Vector2.zero;
-        _playerRigidBody.AddForce(_jumpForce);
-        //GetComponent<AudioSource>().Play();
+        _playerRigidBody.AddForce(_flapForce);
+        _audioControl.PlaySound(ClumsyAudioControl.PlayerSounds.Flap, 0.5f);
         _anim.Play("Flap", 0, 0.5f);
     }
 
     public void SetGravity(float gravity)
     {
-        _playerRigidBody.gravityScale = Math.Abs(gravity - (-1f)) < 0.01f ? GravityScale : gravity;
+        _playerRigidBody.gravityScale = Math.Abs(gravity - (-1f)) < 0.001f ? GravityScale : gravity;
     }
     public void SetVelocity(Vector2 velocity)
     {
@@ -161,7 +165,7 @@ public class Player : MonoBehaviour {
         }
     }
     
-    void OnCollisionEnter2D(Collision2D other)
+    private void OnCollisionEnter2D(Collision2D other)
     {
         if (_state != PlayerState.Normal) { return; }
         _rush.Deactivate();
@@ -170,7 +174,9 @@ public class Player : MonoBehaviour {
 
         if (_shield.IsAvailable())
         {
+            if (_shield.IsInUse()) return;
             _shield.ConsumeCharge();
+            _audioControl.PlaySound(ClumsyAudioControl.PlayerSounds.Collision, 1f);
         }
         else
         {
@@ -182,6 +188,7 @@ public class Player : MonoBehaviour {
             {
                 Stats.RockDeaths++; // TODO check for other objects
             }
+            _audioControl.PlaySound(ClumsyAudioControl.PlayerSounds.Collision, 1f);
             Die();
         }
     }
@@ -287,7 +294,7 @@ public class Player : MonoBehaviour {
         _playerRigidBody.isKinematic = false;
         Fog.Resume();
         _anim.enabled = true;
-        SetVelocity(new Vector2(0f, _jumpForce.y / 80));
+        _playerRigidBody.AddForce(_nudgeForce);
     }
 
     public void PauseGame(bool gamePaused)
@@ -358,7 +365,7 @@ public class Player : MonoBehaviour {
         else
         {
             _playerRigidBody.velocity = Vector2.zero;
-            _playerRigidBody.AddForce(_jumpForce / 3);
+            _playerRigidBody.AddForce(_nudgeForce);
         }
     }
 

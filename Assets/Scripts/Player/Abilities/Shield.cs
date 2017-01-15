@@ -3,78 +3,77 @@ using System.Collections;
 
 public class Shield : MonoBehaviour {
 
-    private int ShieldCharges = 0;
-    private int MaxCharges = 1;
-    private bool bPaused;
+    private int _shieldCharges;
+    private const int MaxCharges = 1;
+    private bool _bPaused;
 
-    private Player ThePlayer;
-    private Lantern Lantern;
-    private Rigidbody2D PlayerBody;
-    private Animator PlayerAnim;
+    private Player _thePlayer;
+    private Lantern _lantern;
+    private Rigidbody2D _playerBody;
+    private Animator _playerAnim;
     //private StatsHandler Stats;
 
     private enum ShieldStates
     {
         Idle,
-        Disabled,
         Activated
     }
-    private ShieldStates State = ShieldStates.Idle;
-    
+    private ShieldStates _state = ShieldStates.Idle;
+
     public void ConsumeCharge()
     {
-        if (State == ShieldStates.Idle && ShieldCharges > 0)
+        if (_state == ShieldStates.Idle && _shieldCharges > 0)
         {
-            ShieldCharges--;
+            _shieldCharges--;
             StartCoroutine("ShieldUp");
         }
-        else if (PlayerBody.position.y < 0f)
+        else if (_playerBody.position.y < 0f)
         {
-            PlayerBody.velocity = new Vector2(PlayerBody.velocity.x, 4f);
+            _playerBody.velocity = new Vector2(_playerBody.velocity.x, 4f);
         }
     }
 
     private IEnumerator ShieldUp()
     {
-        State = ShieldStates.Activated;
-        ThePlayer.GetComponent<SpriteRenderer>().color = new Color(0.6f, 0.6f, 1f);
+        _state = ShieldStates.Activated;
+        _thePlayer.GetComponent<SpriteRenderer>().color = new Color(0.6f, 0.6f, 1f);
         // TODO animations
         // PlayerAnim.Play("Knockback", 0, 0f);
         yield return StartCoroutine("Knockback");
 
-        PlayerAnim.Play("Flap", 0, 0f);
+        _playerAnim.Play("Flap", 0, 0f);
         yield return StartCoroutine("MoveForward");
 
-        State = ShieldStates.Idle;
-        ThePlayer.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f);
+        _state = ShieldStates.Idle;
+        _thePlayer.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f);
     }
 
     private IEnumerator Knockback()
     {
-        float KnockbackTimer = 0f;
-        const float KnockbackDuration = 0.4f;
+        float knockbackTimer = 0f;
+        const float knockbackDuration = 0.4f;
 
-        if (!ThePlayer.AtCaveEnd()) { PlayerBody.velocity = new Vector2(-8f, PlayerBody.velocity.y); }
+        if (!_thePlayer.AtCaveEnd()) { _playerBody.velocity = new Vector2(-8f, _playerBody.velocity.y); }
         
-        while (KnockbackTimer < KnockbackDuration)
+        while (knockbackTimer < knockbackDuration)
         {
-            if (!bPaused)
+            if (!_bPaused)
             {
-                float DisplacementX = PlayerBody.position.x - ThePlayer.GetHomePositionX();
-                if (DisplacementX < -1f)
+                float displacementX = _playerBody.position.x - _thePlayer.GetHomePositionX();
+                if (displacementX < -1f)
                 {
-                    PlayerBody.position -= new Vector2(DisplacementX + 1f, 0f);
+                    _playerBody.position -= new Vector2(displacementX + 1f, 0f);
                 }
 
-                if (!ThePlayer.AtCaveEnd())
+                if (!_thePlayer.AtCaveEnd())
                 {
-                    if (DisplacementX > 0f)
+                    if (displacementX > 0f)
                     {
-                        PlayerBody.position -= new Vector2(DisplacementX, 0f);
+                        _playerBody.position -= new Vector2(displacementX, 0f);
                     }
-                    ThePlayer.Level.UpdateGameSpeed(DisplacementX * 1.6f);
+                    _thePlayer.Level.UpdateGameSpeed(displacementX * 1.6f);
                 }
-                KnockbackTimer += Time.deltaTime;
+                knockbackTimer += Time.deltaTime;
             }
             yield return null;
         }
@@ -82,41 +81,42 @@ public class Shield : MonoBehaviour {
 
     private IEnumerator MoveForward()
     {
-        float MoveForwardTimer = 0f;
-        const float MoveForwardDuration = 0.4f;
-        float PlayerStartX = PlayerBody.position.x;
-        float PlayerEndX = ThePlayer.GetHomePositionX();
-        const float GameSpeedStart = 0f;
-        const float GameSpeedEnd = 1f;
+        float moveForwardTimer = 0f;
+        const float moveForwardDuration = 0.4f;
+        float playerStartX = _playerBody.position.x;
+        float playerEndX = _thePlayer.GetHomePositionX();
+        const float gameSpeedStart = 0f;
+        const float gameSpeedEnd = 1f;
 
-        while (MoveForwardTimer < MoveForwardDuration && !ThePlayer.AtCaveEnd())
+        while (moveForwardTimer < moveForwardDuration && !_thePlayer.AtCaveEnd())
         {
-            if (!bPaused && ThePlayer.IsAlive())
+            if (!_bPaused && _thePlayer.IsAlive())
             {
-                MoveForwardTimer += Time.deltaTime;
-                PlayerBody.position = new Vector2(PlayerStartX - (PlayerStartX - PlayerEndX) * (MoveForwardTimer / MoveForwardDuration), PlayerBody.position.y);
-                ThePlayer.Level.UpdateGameSpeed(GameSpeedStart - (GameSpeedStart - GameSpeedEnd) * (MoveForwardTimer / MoveForwardDuration));
+                moveForwardTimer += Time.deltaTime;
+                _playerBody.position = new Vector2(playerStartX - (playerStartX - playerEndX) * (moveForwardTimer / moveForwardDuration), _playerBody.position.y);
+                _thePlayer.Level.UpdateGameSpeed(gameSpeedStart - (gameSpeedStart - gameSpeedEnd) * (moveForwardTimer / moveForwardDuration));
             }
             yield return null;
         }
-        ThePlayer.Level.UpdateGameSpeed(1f);
+        _thePlayer.Level.UpdateGameSpeed(1f);
     }
 
-    public void Setup(StatsHandler StatsRef, Player PlayerRef, Lantern LanternRef)
+    public void Setup(StatsHandler statsRef, Player playerRef, Lantern lanternRef)
     {
         //Stats = StatsRef;
         //ShieldStats = Stats.AbilityData.GetShieldStats();
         //SetAbilityAttributes();
 
-        ThePlayer = PlayerRef;
-        Lantern = LanternRef;
-        PlayerBody = ThePlayer.GetComponent<Rigidbody2D>();
-        PlayerAnim = ThePlayer.GetComponent<Animator>();
+        _thePlayer = playerRef;
+        _lantern = lanternRef;
+        _playerBody = _thePlayer.GetComponent<Rigidbody2D>();
+        _playerAnim = _thePlayer.GetComponent<Animator>();
 
     }
 
-    public void GamePaused(bool bGamePaused) { bPaused = bGamePaused; }
-    public bool IsAvailable() { return (ShieldCharges > 0 || State == ShieldStates.Activated); }
-    public void AddCharge() { if (ShieldCharges < MaxCharges) { ShieldCharges++; } }
+    public void GamePaused(bool bGamePaused) { _bPaused = bGamePaused; }
+    public bool IsAvailable() { return (_shieldCharges > 0 || _state == ShieldStates.Activated); }
+    public void AddCharge() { if (_shieldCharges < MaxCharges) { _shieldCharges++; } }
+    public bool IsInUse() { return _state == ShieldStates.Activated; }
 
 }

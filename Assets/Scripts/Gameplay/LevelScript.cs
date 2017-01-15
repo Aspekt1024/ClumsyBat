@@ -11,6 +11,7 @@ public class LevelScript : MonoBehaviour {
 
     private GameObject _levelScripts;
     private LevelObjectHandler _levelObjects;
+    private AudioSource _audioControl;
 
     // Gameplay attributes
     public const float LevelScrollSpeed = 5f;    // first initialisation of LevelSpeed
@@ -24,6 +25,7 @@ public class LevelScript : MonoBehaviour {
     {
         _levelScripts = new GameObject("Level Scripts");
         Stats = _levelScripts.AddComponent<StatsHandler>();
+        _audioControl = _levelScripts.AddComponent<AudioSource>();
         GameHUD = GameObject.Find("UI_Overlay").GetComponent<GameUI>();
     }
 
@@ -156,5 +158,9 @@ public class LevelScript : MonoBehaviour {
         Stats.LevelWon(Toolbox.Instance.Level);
         Stats.SaveStats();
         GameObject.Find("Clumsy").GetComponent<PlayerController>().PauseGame(ShowMenu: false);
+
+        // TODO add sound to sound controller script
+        var victoryClip = (AudioClip) Resources.Load("Audio/LevelComplete");
+        _audioControl.PlayOneShot(victoryClip);
     }
 }

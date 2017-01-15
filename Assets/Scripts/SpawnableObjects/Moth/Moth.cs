@@ -1,16 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Moth : MonoBehaviour {
 
     private Transform _mothSprite;
     private Animator _mothAnimator;
     private Collider2D _mothCollider;
+    private AudioSource _mothAudio;
     private bool _bIsActive;
     public MothColour Colour;
     private MothStates _mothState = MothStates.Normal;
     private bool _bConsumption;
     private Transform _lantern;
+
+    private enum MothAudioNames
+    {
+        Flutter,
+        Morph,
+        Consume
+    }
+
+    private readonly Dictionary<MothAudioNames, AudioClip> _mothAudioDict = new Dictionary<MothAudioNames, AudioClip>();
 
     private enum MothStates
     {
@@ -34,6 +45,7 @@ public class Moth : MonoBehaviour {
     private void Awake ()
     {
         _mothZLayer = Toolbox.Instance.ZLayers["Moth"];
+        _mothAudio = GetComponent<AudioSource>();
         foreach (Transform gameObj in transform)
         {
             if (gameObj.name == "MothTrigger")
@@ -53,13 +65,19 @@ public class Moth : MonoBehaviour {
         }
         GameObject lanternObj = GameObject.Find("Lantern");
         if (lanternObj) { _lantern = lanternObj.GetComponent<Transform>(); }
-        
+
+        LoadSoundClips();
     }
 	
 	private void FixedUpdate ()
     {
         if (!_bIsActive || _paused) { return; }
         MoveMothAlongPath(Time.deltaTime);
+    }
+
+    private void LoadSoundClips()
+    {
+        _mothAudioDict.Add(MothAudioNames.Consume, Resources.Load<AudioClip>("Audio/LanternConsumeMoth"));
     }
 
     private void MoveMothAlongPath(float time)
@@ -150,6 +168,7 @@ public class Moth : MonoBehaviour {
 
     private void PlayExplosionAnim()
     {
+        //_mothAudio.PlayOneShot(Resources.Load<AudioClip>("LanternConsumeMoth"));  // TODO moth morph sound
         switch (Colour)
         {
             case MothColour.Green:
@@ -166,6 +185,7 @@ public class Moth : MonoBehaviour {
 
     public void ReturnToInactivePool()
     {
+        _mothAudio.PlayOneShot(_mothAudioDict[MothAudioNames.Consume]);
         transform.position = Toolbox.Instance.HoldingArea;
         _mothSprite.transform.position = transform.position;
         IsActive = false;
@@ -179,14 +199,14 @@ public class Moth : MonoBehaviour {
 
     public void ActivateMoth(MothColour colour)
     {
-        // TODO determine where in the vertical space the moth can spawn
+        // TODO determine where in the vertical space the moth can spawn (endless mode only)
         //const float Range = 2f;
         //float MothYPos = Range * Random.value - Range / 2;
 
         _mothAnimator.enabled = true;
         _mothCollider.enabled = true;
         _phase = 0f;
-        transform.position = new Vector3(transform.position.x, transform.position.y, _mothZLayer); // TODO replace this?
+        transform.position = new Vector3(transform.position.x, transform.position.y, _mothZLayer); // TODO remove this once we have everything nicely bundled in the 'Level' Gameobject
         _mothSprite.transform.position = transform.position;
         _bIsActive = true;
         Colour = colour;
