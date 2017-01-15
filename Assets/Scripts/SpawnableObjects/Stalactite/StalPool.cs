@@ -8,7 +8,7 @@ public class StalPool {
         StalZLayer = Toolbox.Instance.ZLayers["Stalactite"];
     }
 
-    private const int NumStalsInPool = 20;
+    private const int NumStalsInPool = 25;
     private const string StalResourcePath = "Obstacles/Stalactite";
 
     public struct StalType

@@ -29,7 +29,7 @@ public class StoryEventControl : MonoBehaviour {
 
     public void TriggerEvent(StoryEvents EventID)
     {
-        if (!EventCompleted(EventID) && PlayerControl.IsAlive())
+        if (!EventCompleted(EventID) && PlayerControl.ThePlayer.IsAlive())
         {
             StartCoroutine("TriggerEventCoroutine", EventID);
         }

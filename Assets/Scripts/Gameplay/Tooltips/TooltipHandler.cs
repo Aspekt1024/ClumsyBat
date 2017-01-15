@@ -109,7 +109,7 @@ public class TooltipHandler : MonoBehaviour {
     
     public void ShowDialogue(DialogueID EventID)
     {
-        if (!PlayerControl.IsAlive() || Toolbox.Instance.TooltipCompleted(EventID)) { return; }
+        if (!PlayerControl.ThePlayer.IsAlive() || Toolbox.Instance.TooltipCompleted(EventID)) { return; }
         Toolbox.Instance.SetTooltipComplete(EventID);
         TooltipID[] Dialogue = DialogueSet[EventID];
         StartCoroutine("SetupDialogue", Dialogue);

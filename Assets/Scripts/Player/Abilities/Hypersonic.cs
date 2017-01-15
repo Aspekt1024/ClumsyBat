@@ -31,7 +31,7 @@ public class Hypersonic : MonoBehaviour {
         HypersonicCollider.enabled = false;
     }
 
-    public void Setup(StatsHandler StatsRef, PlayerController PlayerRef, Lantern LanternRef)
+    public void Setup(StatsHandler StatsRef, Player PlayerRef, Lantern LanternRef)
     {
         Stats = StatsRef;
         HyperStats = Stats.AbilityData.GetHypersonicStats();

@@ -1,53 +1,47 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class LevelScript : MonoBehaviour {
 
     public int DefaultLevel = 1;
-
-    // Game objects not created at runtime
-    public ParralaxBG Background;
     
-    // Game objects created at runtime
-    private GameObject LevelScripts;
-    private LevelObjectHandler LevelObjects;
-
-    // Gameplay attributes
-    public const float LevelScrollSpeed = 4;    // first initialisation of LevelSpeed
-    private bool bGameStarted = false;
-    private bool bGamePaused = false;
-    private bool bAtEnd = false;
-    private float GameSpeed = 1f;
-    private float PrevGameSpeed;
-
+    public ParralaxBG Background;
     public GameMenuOverlay GameMenu;
     public GameUI GameHUD;
-
     public StatsHandler Stats;
 
-    void Awake()
+    private GameObject _levelScripts;
+    private LevelObjectHandler _levelObjects;
+
+    // Gameplay attributes
+    public const float LevelScrollSpeed = 5f;    // first initialisation of LevelSpeed
+    private bool _bGameStarted;
+    private bool _bGamePaused;
+    private bool _bAtEnd;
+    private float _gameSpeed = 1f;
+    private float _prevGameSpeed;
+
+    private void Awake()
     {
-        LevelScripts = new GameObject("Level Scripts");
-        Stats = LevelScripts.AddComponent<StatsHandler>();
+        _levelScripts = new GameObject("Level Scripts");
+        Stats = _levelScripts.AddComponent<StatsHandler>();
         GameHUD = GameObject.Find("UI_Overlay").GetComponent<GameUI>();
     }
 
-    void Start ()
+    private void Start ()
     {
         CreateGameObjects();
         GameMenu.Hide();
         Toolbox.Instance.LevelSpeed = LevelScrollSpeed;
         SetLevel();
     }
-	
-	void Update ()
+
+    private void Update ()
     {
         Stats.TotalTime += Time.deltaTime;
-        if (!bGameStarted || bGamePaused) { Stats.IdleTime += Time.deltaTime; return; }
+        if (!_bGameStarted || _bGamePaused) { Stats.IdleTime += Time.deltaTime; return; }
         Stats.PlayTime += Time.deltaTime;
 
-        if (LevelObjects.AtCaveEnd())
+        if (_levelObjects.AtCaveEnd())
         {
             SetMovementForExit();
         }
@@ -55,73 +49,72 @@ public class LevelScript : MonoBehaviour {
 
     private void SetMovementForExit()
     {
-        bAtEnd = true;
+        _bAtEnd = true;
         Background.SetVelocity(0);
     }
 
     public bool AtCaveEnd()
     {
-        return bAtEnd;
+        return _bAtEnd;
     }
 
-    void SetLevel()
+    private void SetLevel()
     {
-        int Level = Toolbox.Instance.Level;
-        if (Level == 0)
+        int level = Toolbox.Instance.Level;
+        if (level == 0)
         {
             Toolbox.Instance.Level = DefaultLevel;
-            Level = DefaultLevel;
+            level = DefaultLevel;
         }
-        GameHUD.SetLevelText(Level);
-        Toolbox.Instance.ShowLevelTooltips = (Stats.LevelData.IsCompleted(Level) ? false : true);
-        LevelObjects.SetMode(bIsEndless: Level == -1 ? true : false);
+        GameHUD.SetLevelText(level);
+        Toolbox.Instance.ShowLevelTooltips = (!Stats.LevelData.IsCompleted(level));
+        _levelObjects.SetMode(bIsEndless: level == -1);
     }
 
-    void CreateGameObjects()
+    private void CreateGameObjects()
     {
-        LevelObjects = LevelScripts.AddComponent<LevelObjectHandler>();
+        _levelObjects = _levelScripts.AddComponent<LevelObjectHandler>();
     }
 
-    public void UpdateGameSpeed(float _gameSpeed)
+    public void UpdateGameSpeed(float gameSpeed)
     {
-        GameSpeed = _gameSpeed;
-        float Speed = GameSpeed * LevelScrollSpeed;
+        _gameSpeed = gameSpeed;
+        float speed = _gameSpeed * LevelScrollSpeed;
         
-        Background.SetVelocity(Speed);
-        LevelObjects.SetVelocity(Speed);
+        Background.SetVelocity(speed);
+        _levelObjects.SetVelocity(speed);
     }
 
     public void HorribleDeath()
     {
-        //bGamePaused = true;
-        GameSpeed = 0f;
-        float Speed = GameSpeed * LevelScrollSpeed;
+        _gameSpeed = 0f;
+        float speed = _gameSpeed * LevelScrollSpeed;
 
-        Background.SetVelocity(Speed);
-        LevelObjects.SetVelocity(Speed);
+        Background.SetVelocity(speed);
+        _levelObjects.SetVelocity(speed);
 
         GetComponent<AudioSource>().Stop();
     }
 
     public void StartGame()
     {
-        bGameStarted = true;
+        _bGameStarted = true;
         GameHUD.StartGame();
         UpdateGameSpeed(1);
-        LevelObjects.SetPaused(false);
-        LevelObjects.SetVelocity(LevelScrollSpeed);
+        _levelObjects.SetPaused(false);
+        _levelObjects.SetVelocity(LevelScrollSpeed);
     }
 
-    public void PauseGame(bool ShowMenu = true)
+    public void PauseGame(bool showMenu = true)
     {
         // TODO Play pause sound
-        bGamePaused = true;
-        PrevGameSpeed = GameSpeed;
+        _bGamePaused = true;
+        _prevGameSpeed = _gameSpeed;
         UpdateGameSpeed(0);
-        LevelObjects.SetPaused(true);
+        _levelObjects.SetPaused(true);
         GameHUD.GamePaused(true);
 
-        if (ShowMenu)
+        if (showMenu)
         {
             GameMenu.PauseGame();
         }
@@ -131,9 +124,9 @@ public class LevelScript : MonoBehaviour {
     public void ResumeGame()
     {
         // Play resume sound
-        bGamePaused = false;
-        UpdateGameSpeed(PrevGameSpeed);
-        LevelObjects.SetPaused(false);
+        _bGamePaused = false;
+        UpdateGameSpeed(_prevGameSpeed);
+        _levelObjects.SetPaused(false);
         GameHUD.GamePaused(false);
     }
 
@@ -144,11 +137,11 @@ public class LevelScript : MonoBehaviour {
         GameHUD.GameOver();
     }
 
-    public void AddDistance(double TimeTravelled, float PlayerSpeed)
+    public void AddDistance(double timeTravelled, float playerSpeed)
     {
-        float AddDist = (float)TimeTravelled * PlayerSpeed * Toolbox.Instance.LevelSpeed;
-        Stats.Distance += AddDist;
-        Stats.TotalDistance += AddDist;
+        float addDist = (float)timeTravelled * playerSpeed * Toolbox.Instance.LevelSpeed;
+        Stats.Distance += addDist;
+        Stats.TotalDistance += addDist;
 
         if (Stats.Distance > Stats.BestDistance)
         {

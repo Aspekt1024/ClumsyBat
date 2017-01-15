@@ -136,12 +136,6 @@ public class MainMenu : MonoBehaviour {
         Scroller.StatsScreen();
     }
 
-    public void UpgradesButtonClicked()
-    {
-        Stats.SaveStats();
-        Scroller.UpgradesScreen();
-    }
-
     public void ClearDataButtonClicked()
     {
         // TODO setup menu to ask "Are you sure?"

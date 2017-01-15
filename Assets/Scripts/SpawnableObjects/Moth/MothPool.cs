@@ -41,6 +41,7 @@ public class MothPool {
             GameObject MothObj = (GameObject)MonoBehaviour.Instantiate(Resources.Load(MothResourcePath));
             Moth Moth = MothObj.GetComponent<Moth>();
             MothObj.transform.position = Toolbox.Instance.HoldingArea;
+            Moth.PauseAnimation();
             MothList[i] = Moth;
         }
         Moths = MothList;

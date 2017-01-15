@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System.Collections;
 using System.IO;
 
 public class LevelEditorActions : MonoBehaviour
@@ -9,29 +8,28 @@ public class LevelEditorActions : MonoBehaviour
 
     public LevelContainer Level;
 
-    GameObject LevelObj = null;
+    private GameObject _levelObj;
     public int LevelNum;
     public bool DebugMode;
 
-    StalactiteEditor StalEditControl = new StalactiteEditor();
+    private readonly StalactiteEditor _stalEditControl = new StalactiteEditor();
 
-    Transform CaveParent = null;
-    Transform MothParent = null;
-    Transform StalParent = null;
-    private int NumSections = 0;
-    private int LoadedLevelNum;
+    private Transform _caveParent;
+    private Transform _mothParent;
+    private Transform _stalParent;
+    private int _numSections;
+    private int _loadedLevelNum;
 
-    private float TileSizeX;
-    private float CaveZ;
-    private float StalZ;
-    private float ShroomZ;
-    private float MothZ;
-    private float ClumsyZ;
-    private float SpiderZ;
-    private float WebZ;
-    private float TriggerZ;
+    private float _tileSizeX;
+    private float _caveZ;
+    private float _stalZ;
+    private float _shroomZ;
+    private float _mothZ;
+    private float _spiderZ;
+    private float _webZ;
+    private float _triggerZ;
 
-    void Awake()
+    private void Awake()
     {
         Toolbox.Instance.Debug = DebugMode;
         if (LevelNum == 0)
@@ -40,64 +38,59 @@ public class LevelEditorActions : MonoBehaviour
         }
     }
 
-    void Start()
+    private void Start()
     {
         Level = new LevelContainer();
-        CaveParent = GameObject.Find("Caves").transform;
-        MothParent = GameObject.Find("Moths").transform;
-        StalParent = GameObject.Find("Stalactites").transform;
-        LevelObj = GameObject.Find("Level");
+        _caveParent = GameObject.Find("Caves").transform;
+        _mothParent = GameObject.Find("Moths").transform;
+        _stalParent = GameObject.Find("Stalactites").transform;
+        _levelObj = GameObject.Find("Level");
         SetZLayers();
         SetLevelNum();
         LoadBtn();
     }
 
-    void Update()
+    private void Update()
     {
-        if (CaveParent != null)
+        if (_caveParent != null)
         {
             SetLevelStats();
             LineUpCaves();
         }
 
-        if (MothParent != null)
+        if (_mothParent != null)
         {
             AlignMoths();
         }
         
-        StalEditControl.ProcessStalactites(StalParent);
+        _stalEditControl.ProcessStalactites(_stalParent);
     }
 
     private void AlignMoths()
     {
-        foreach (Transform Moth in MothParent)
+        foreach (Transform moth in _mothParent)
         {
-            Moth MothScript = Moth.GetComponent<Moth>();
-            Transform MothTF = null;
-            foreach (Transform TF in Moth.transform)
+            Moth mothScript = moth.GetComponent<Moth>();
+            foreach (Transform mothTf in moth.transform)
             {
-                if (TF.name == "MothTrigger")
+                if (mothTf.name != "MothTrigger") continue;
+                if (mothTf.position != moth.transform.position)
                 {
-                    MothTF = TF;
+                    mothTf.position = moth.transform.position;
                 }
             }
-
-            if (MothTF.position != Moth.transform.position)
+            
+            SpriteRenderer mothRenderer = moth.GetComponentInChildren<SpriteRenderer>();
+            switch (mothScript.Colour)
             {
-                MothTF.position = Moth.transform.position;
-            }
-
-            SpriteRenderer MothRenderer = Moth.GetComponentInChildren<SpriteRenderer>();
-            switch (MothScript.Colour)
-            {
-                case global::Moth.MothColour.Blue:
-                    MothRenderer.color = new Color(0f, 0f, 1f);
+                case Moth.MothColour.Blue:
+                    mothRenderer.color = new Color(0f, 0f, 1f);
                     break;
-                case global::Moth.MothColour.Green:
-                    MothRenderer.color = new Color(0f, 1f, 0f);
+                case Moth.MothColour.Green:
+                    mothRenderer.color = new Color(0f, 1f, 0f);
                     break;
-                case global::Moth.MothColour.Gold:
-                    MothRenderer.color = new Color(1f, 1f, 0f);
+                case Moth.MothColour.Gold:
+                    mothRenderer.color = new Color(1f, 1f, 0f);
                     break;
             }
             
@@ -132,61 +125,58 @@ public class LevelEditorActions : MonoBehaviour
     private void SetLevelStats()
     {
         GetNumSections();
-        int Sections = NumSections;
-        float DistOffset = 0f;
-        float Distance = Sections * 19.2f - DistOffset;
-        float TimeTaken = Distance / 4f;
-        GameObject.Find("LevelNumText2").GetComponent<Text>().text = "Level: " + LoadedLevelNum;
-        GameObject.Find("NumSectionsText").GetComponent<Text>().text = "Sections: " + Sections.ToString();
-        GameObject.Find("DistanceText").GetComponent<Text>().text = "Distance: " + Distance + "m";
-        GameObject.Find("TimeText").GetComponent<Text>().text = "Time to complete: " + TimeTaken + " sec";
+        int sections = _numSections;
+        const float distOffset = 0f;
+        float distance = sections * 19.2f - distOffset;
+        float timeTaken = distance / 4f;
+        GameObject.Find("LevelNumText2").GetComponent<Text>().text = "Level: " + _loadedLevelNum;
+        GameObject.Find("NumSectionsText").GetComponent<Text>().text = "Sections: " + sections;
+        GameObject.Find("DistanceText").GetComponent<Text>().text = "Distance: " + distance + "m";
+        GameObject.Find("TimeText").GetComponent<Text>().text = "Time to complete: " + timeTaken + " sec";
     }
 
     private void LineUpCaves()
     {
-        foreach (Transform Cave in CaveParent)
+        foreach (Transform cave in _caveParent)
         {
-            int index = Mathf.RoundToInt(Cave.position.x / TileSizeX);
-            PolygonCollider2D Collider = Cave.GetComponent<PolygonCollider2D>();
-            if (Collider != null)
+            int index = Mathf.RoundToInt(cave.position.x / _tileSizeX);
+            PolygonCollider2D caveCollider = cave.GetComponent<PolygonCollider2D>();
+            if (caveCollider != null)
             {
-                Collider.enabled = false;
+                caveCollider.enabled = false;
             }
 
-            SpriteRenderer Renderer = Cave.GetComponent<SpriteRenderer>();
-            if (Renderer != null)
+            SpriteRenderer caveRenderer = cave.GetComponent<SpriteRenderer>();
+            if (caveRenderer != null)
             {
-                if (Cave.name != Renderer.sprite.name)
+                if (cave.name != caveRenderer.sprite.name)
                 {
-                    Cave.name = Renderer.sprite.name;
+                    cave.name = caveRenderer.sprite.name;
                 }
             }
-
-            Cave.transform.position = new Vector3(index * TileSizeX, 0f, CaveZ);
+            cave.transform.position = new Vector3(index * _tileSizeX, 0f, _caveZ);
         }
-
     }
 
     private void SetZLayers()
     {
-        TileSizeX = Toolbox.TileSizeX;
-        CaveZ = Toolbox.Instance.ZLayers["Cave"];
-        StalZ = Toolbox.Instance.ZLayers["Stalactite"];
-        ShroomZ = Toolbox.Instance.ZLayers["Mushroom"];
-        MothZ = Toolbox.Instance.ZLayers["Moth"];
-        ClumsyZ = Toolbox.Instance.ZLayers["Player"];
-        SpiderZ = Toolbox.Instance.ZLayers["Spider"];
-        WebZ = Toolbox.Instance.ZLayers["Web"];
-        TriggerZ = Toolbox.Instance.ZLayers["Trigger"];
+        _tileSizeX = Toolbox.TileSizeX;
+        _caveZ = Toolbox.Instance.ZLayers["Cave"];
+        _stalZ = Toolbox.Instance.ZLayers["Stalactite"];
+        _shroomZ = Toolbox.Instance.ZLayers["Mushroom"];
+        _mothZ = Toolbox.Instance.ZLayers["Moth"];
+        _spiderZ = Toolbox.Instance.ZLayers["Spider"];
+        _webZ = Toolbox.Instance.ZLayers["Web"];
+        _triggerZ = Toolbox.Instance.ZLayers["Trigger"];
 
-        StalEditControl.SetZLayers(TriggerZ);
+        _stalEditControl.SetZLayers(_triggerZ);
     }
 
     public void SaveBtn()
     {
-        if (CaveParent == null) { CaveParent = GameObject.Find("Caves").GetComponent<Transform>(); }
+        if (_caveParent == null) { _caveParent = GameObject.Find("Caves").GetComponent<Transform>(); }
         GetNumSections();
-        Level.Caves = new LevelContainer.CaveType[NumSections];
+        Level.Caves = new LevelContainer.CaveType[_numSections];
         InitialiseCaveList();
         StoreCaveIndexes();
 
@@ -198,10 +188,10 @@ public class LevelEditorActions : MonoBehaviour
         StoreWebs();
         StoreTriggers();
 
-        string LevelName = "Level" + LevelNum + ".xml";
-        string PathName = "Assets/Resources/LevelXML";
-        Level.Save(Path.Combine(PathName, LevelName));
-        Debug.Log("Level data saved to " + PathName + "/" + LevelName);
+        string levelName = "Level" + LevelNum + ".xml";
+        const string pathName = "Assets/Resources/LevelXML";
+        Level.Save(Path.Combine(pathName, levelName));
+        Debug.Log("Level data saved to " + pathName + "/" + levelName);
     }
 
     public void TestButton()
@@ -230,7 +220,7 @@ public class LevelEditorActions : MonoBehaviour
 
     private void InitialiseCaveList()
     {
-        for (int i = 0; i < NumSections; i++)
+        for (int i = 0; i < _numSections; i++)
         {
             Level.Caves[i].TopIndex = 0;
             Level.Caves[i].BottomIndex = 0;
@@ -247,33 +237,33 @@ public class LevelEditorActions : MonoBehaviour
 
     private void StoreCaveIndexes()
     {
-        foreach (Transform Cave in CaveParent)
+        foreach (Transform cave in _caveParent)
         {
-            int index = Mathf.RoundToInt(Cave.position.x / TileSizeX);
-            if (Cave.name == "CaveEntrance")
+            int index = Mathf.RoundToInt(cave.position.x / _tileSizeX);
+            if (cave.name == "CaveEntrance")
             {
                 Level.Caves[index].BottomIndex = 1000;
                 Level.Caves[index].TopIndex = 1000;
             }
-            else if (Cave.name == "CaveExit")
+            else if (cave.name == "CaveExit")
             {
                 Level.Caves[index].BottomIndex = 1001;
                 Level.Caves[index].TopIndex = 1001;
             }
-            else if (Cave.name.Contains("Top"))
+            else if (cave.name.Contains("Top"))
             {
-                int CaveType = int.Parse(Cave.name.Substring(Cave.name.Length - 1, 1)) - 1;
-                Level.Caves[index].TopIndex = CaveType;
-                if (Cave.name.Contains("Exit"))
+                int caveType = int.Parse(cave.name.Substring(cave.name.Length - 1, 1)) - 1;
+                Level.Caves[index].TopIndex = caveType;
+                if (cave.name.Contains("Exit"))
                 {
                     Level.Caves[index].bTopSecretPath = true;
                 }
             }
-            else if (Cave.name.Contains("Bottom"))
+            else if (cave.name.Contains("Bottom"))
             {
-                int CaveType = int.Parse(Cave.name.Substring(Cave.name.Length - 1, 1)) - 1;
-                Level.Caves[index].BottomIndex = CaveType;
-                if (Cave.name.Contains("Exit"))
+                int caveType = int.Parse(cave.name.Substring(cave.name.Length - 1, 1)) - 1;
+                Level.Caves[index].BottomIndex = caveType;
+                if (cave.name.Contains("Exit"))
                 {
                     Level.Caves[index].bBottomSecretPath = true;
                 }
@@ -283,211 +273,209 @@ public class LevelEditorActions : MonoBehaviour
 
     public void GetNumSections()
     {
-        NumSections = 2;
-        foreach (Transform Cave in CaveParent)
+        _numSections = 2;
+        foreach (Transform cave in _caveParent)
         {
-            if (Cave.name.Contains("Cave"))
+            if (cave.name.Contains("Cave"))
             {
-                int index = Mathf.RoundToInt(Cave.position.x / TileSizeX);
-                if (index + 1 > NumSections)
+                int index = Mathf.RoundToInt(cave.position.x / _tileSizeX);
+                if (index + 1 > _numSections)
                 {
-                    NumSections = index + 1;
+                    _numSections = index + 1;
                 }
             }
         }
     }
 
-    private int[] GetObjCounts(Transform ObjParent)
+    private int[] GetObjCounts(Transform objParent)
     {
-        int[] ObjCounts = new int[NumSections];
-        foreach (Transform Obj in ObjParent)
+        int[] objCounts = new int[_numSections];
+        foreach (Transform obj in objParent)
         {
-            int index = Mathf.RoundToInt(Obj.position.x / TileSizeX);
-            ObjCounts[index]++;
+            int index = Mathf.RoundToInt(obj.position.x / _tileSizeX);
+            objCounts[index]++;
         }
-        return ObjCounts;
+        return objCounts;
     }
 
     private void StoreStalactites()
     {
-        Transform StalParent = GameObject.Find("Stalactites").GetComponent<Transform>();
-        int[] StalCounts = new int[NumSections];
-        StalCounts = GetObjCounts(StalParent);
-        for (int i = 0; i < NumSections; i++)
+        Transform stalParent = GameObject.Find("Stalactites").GetComponent<Transform>();
+        var stalCounts = GetObjCounts(stalParent);
+        for (int i = 0; i < _numSections; i++)
         {
-            Level.Caves[i].Stals = new StalPool.StalType[StalCounts[i]];
+            Level.Caves[i].Stals = new StalPool.StalType[stalCounts[i]];
         }
 
-        int[] StalNum = new int[NumSections];
-        foreach (Transform Stal in StalParent)
+        int[] stalNum = new int[_numSections];
+        foreach (Transform stal in stalParent)
         {
-            Transform StalObj = null;
-            Transform StalTrigger = null;
-            foreach (Transform StalChild in Stal)
+            Transform stalObj = null;
+            Transform stalTrigger = null;
+            foreach (Transform stalChild in stal)
             {
-                if (StalChild.name == "StalObject") { StalObj = StalChild; }
-                else if (StalChild.name == "StalTrigger") { StalTrigger = StalChild; }
+                if (stalChild.name == "StalObject") { stalObj = stalChild; }
+                else if (stalChild.name == "StalTrigger") { stalTrigger = stalChild; }
             }
 
-            int index = Mathf.RoundToInt(Stal.position.x / TileSizeX);
+            int index = Mathf.RoundToInt(stal.position.x / _tileSizeX);
 
-            StalPool.StalType NewStal = Level.Caves[index].Stals[StalNum[index]];
-            Stalactite StalScript = Stal.GetComponent<Stalactite>();
-            NewStal.Pos = new Vector2(Stal.position.x - TileSizeX * index, Stal.position.y);
-            NewStal.Scale = StalObj.localScale;
-            NewStal.Rotation = StalObj.localRotation;
-            NewStal.DropEnabled = StalScript.UnstableStalactite;
-            NewStal.Flipped = StalScript.Flipped;
-            NewStal.TriggerPos = new Vector2(StalTrigger.position.x - TileSizeX * index, StalTrigger.position.y);
-            Level.Caves[index].Stals[StalNum[index]] = NewStal;
-            StalNum[index]++;
+            StalPool.StalType newStal = Level.Caves[index].Stals[stalNum[index]];
+            Stalactite stalScript = stal.GetComponent<Stalactite>();
+            newStal.Pos = new Vector2(stal.position.x - _tileSizeX * index, stal.position.y);
+            if (stalObj != null)
+            {
+                newStal.Scale = stalObj.localScale;
+                newStal.Rotation = stalObj.localRotation;
+            }
+            newStal.DropEnabled = stalScript.UnstableStalactite;
+            newStal.Flipped = stalScript.Flipped;
+            if (stalTrigger != null)
+                newStal.TriggerPos = new Vector2(stalTrigger.position.x - _tileSizeX * index, stalTrigger.position.y);
+            Level.Caves[index].Stals[stalNum[index]] = newStal;
+            stalNum[index]++;
         }
     }
 
     private void StoreMushrooms()
     {
-        Transform ShroomParent = GameObject.Find("Mushrooms").GetComponent<Transform>();
-        int[] ShroomCounts = new int[NumSections];
-        ShroomCounts = GetObjCounts(ShroomParent);
-        for (int i = 0; i < NumSections; i++)
+        Transform shroomParent = GameObject.Find("Mushrooms").GetComponent<Transform>();
+        var shroomCounts = GetObjCounts(shroomParent);
+        for (int i = 0; i < _numSections; i++)
         {
-            Level.Caves[i].Shrooms = new ShroomPool.ShroomType[ShroomCounts[i]];
+            Level.Caves[i].Shrooms = new ShroomPool.ShroomType[shroomCounts[i]];
         }
 
-        int[] ShroomNum = new int[NumSections];
-        foreach (Transform Shroom in ShroomParent)
+        int[] shroomNum = new int[_numSections];
+        foreach (Transform shroom in shroomParent)
         {
-            int index = Mathf.RoundToInt(Shroom.position.x / TileSizeX);
+            int index = Mathf.RoundToInt(shroom.position.x / _tileSizeX);
 
-            ShroomPool.ShroomType NewShroom = Level.Caves[index].Shrooms[ShroomNum[index]];
-            NewShroom.Pos = new Vector2(Shroom.position.x - TileSizeX * index, Shroom.position.y);
-            NewShroom.Scale = Shroom.localScale;
-            NewShroom.Rotation = Shroom.localRotation;
-            NewShroom.SpecialEnabled = false;
-            Level.Caves[index].Shrooms[ShroomNum[index]] = NewShroom;
-            ShroomNum[index]++;
+            ShroomPool.ShroomType newShroom = Level.Caves[index].Shrooms[shroomNum[index]];
+            newShroom.Pos = new Vector2(shroom.position.x - _tileSizeX * index, shroom.position.y);
+            newShroom.Scale = shroom.localScale;
+            newShroom.Rotation = shroom.localRotation;
+            newShroom.SpecialEnabled = false;
+            Level.Caves[index].Shrooms[shroomNum[index]] = newShroom;
+            shroomNum[index]++;
         }
     }
 
     private void StoreMoths()
     {
-        Transform MothParent = GameObject.Find("Moths").GetComponent<Transform>();
-        int[] MothCounts = new int[NumSections];
-        MothCounts = GetObjCounts(MothParent);
-        for (int i = 0; i < NumSections; i++)
+        Transform mothParent = GameObject.Find("Moths").GetComponent<Transform>();
+        var mothCounts = GetObjCounts(mothParent);
+        for (int i = 0; i < _numSections; i++)
         {
-            Level.Caves[i].Moths = new MothPool.MothType[MothCounts[i]];
+            Level.Caves[i].Moths = new MothPool.MothType[mothCounts[i]];
         }
 
-        int[] MothNum = new int[NumSections];
-        foreach (Transform Moth in MothParent)
+        int[] mothNum = new int[_numSections];
+        foreach (Transform moth in mothParent)
         {
-            int index = Mathf.RoundToInt(Moth.position.x / TileSizeX);
+            int index = Mathf.RoundToInt(moth.position.x / _tileSizeX);
 
-            MothPool.MothType NewMoth = Level.Caves[index].Moths[MothNum[index]];
-            NewMoth.Pos = new Vector2(Moth.position.x - TileSizeX * index, Moth.position.y);
-            NewMoth.Scale = Moth.localScale;
-            NewMoth.Rotation = Moth.localRotation;
-            NewMoth.Colour = Moth.GetComponent<Moth>().Colour;
-            Level.Caves[index].Moths[MothNum[index]] = NewMoth;
-            MothNum[index]++;
+            MothPool.MothType newMoth = Level.Caves[index].Moths[mothNum[index]];
+            newMoth.Pos = new Vector2(moth.position.x - _tileSizeX * index, moth.position.y);
+            newMoth.Scale = moth.localScale;
+            newMoth.Rotation = moth.localRotation;
+            newMoth.Colour = moth.GetComponent<Moth>().Colour;
+            Level.Caves[index].Moths[mothNum[index]] = newMoth;
+            mothNum[index]++;
         }
     }
 
     private void StoreSpiders()
     {
-        Transform SpiderParent = GameObject.Find("Spiders").GetComponent<Transform>();
-        int[] SpiderCounts = new int[NumSections];
-        SpiderCounts = GetObjCounts(SpiderParent);
-        for (int i = 0; i < NumSections; i++)
+        Transform spiderParent = GameObject.Find("Spiders").GetComponent<Transform>();
+        var spiderCounts = GetObjCounts(spiderParent);
+        for (int i = 0; i < _numSections; i++)
         {
-            Level.Caves[i].Spiders = new SpiderPool.SpiderType[SpiderCounts[i]];
+            Level.Caves[i].Spiders = new SpiderPool.SpiderType[spiderCounts[i]];
         }
 
-        int[] SpiderNum = new int[NumSections];
-        foreach (Transform Spider in SpiderParent)
+        int[] spiderNum = new int[_numSections];
+        foreach (Transform spider in spiderParent)
         {
-            int index = Mathf.RoundToInt(Spider.position.x / TileSizeX);
+            int index = Mathf.RoundToInt(spider.position.x / _tileSizeX);
 
-            SpiderPool.SpiderType NewSpider = Level.Caves[index].Spiders[SpiderNum[index]];
-            NewSpider.Pos = new Vector2(Spider.position.x - TileSizeX * index, Spider.position.y);
-            NewSpider.Scale = Spider.localScale;
-            NewSpider.Rotation = Spider.localRotation;
-            NewSpider.bSwinging = Spider.GetComponent<SpiderClass>().SwingingSpider;
-            Level.Caves[index].Spiders[SpiderNum[index]] = NewSpider;
-            SpiderNum[index]++;
+            SpiderPool.SpiderType newSpider = Level.Caves[index].Spiders[spiderNum[index]];
+            newSpider.Pos = new Vector2(spider.position.x - _tileSizeX * index, spider.position.y);
+            newSpider.Scale = spider.localScale;
+            newSpider.Rotation = spider.localRotation;
+            newSpider.bSwinging = spider.GetComponent<SpiderClass>().SwingingSpider;
+            Level.Caves[index].Spiders[spiderNum[index]] = newSpider;
+            spiderNum[index]++;
         }
     }
 
     private void StoreWebs()
     {
-        Transform WebParent = GameObject.Find("Webs").GetComponent<Transform>();
-        int[] WebCounts = new int[NumSections];
-        WebCounts = GetObjCounts(WebParent);
-        for (int i = 0; i < NumSections; i++)
+        Transform webParent = GameObject.Find("Webs").GetComponent<Transform>();
+        var webCounts = GetObjCounts(webParent);
+        for (int i = 0; i < _numSections; i++)
         {
-            Level.Caves[i].Webs = new WebPool.WebType[WebCounts[i]];
+            Level.Caves[i].Webs = new WebPool.WebType[webCounts[i]];
         }
 
-        int[] WebNum = new int[NumSections];
-        foreach (Transform Web in WebParent)
+        int[] webNum = new int[_numSections];
+        foreach (Transform web in webParent)
         {
-            int index = Mathf.RoundToInt(Web.position.x / TileSizeX);
+            int index = Mathf.RoundToInt(web.position.x / _tileSizeX);
 
-            WebPool.WebType NewWeb = Level.Caves[index].Webs[WebNum[index]];
-            NewWeb.Pos = new Vector2(Web.position.x - TileSizeX * index, Web.position.y);
-            NewWeb.Scale = Web.localScale;
-            NewWeb.Rotation = Web.localRotation;
-            NewWeb.bSpecialWeb = Web.GetComponent<WebClass>().SpecialWeb;
-            Level.Caves[index].Webs[WebNum[index]] = NewWeb;
-            WebNum[index]++;
+            WebPool.WebType newWeb = Level.Caves[index].Webs[webNum[index]];
+            newWeb.Pos = new Vector2(web.position.x - _tileSizeX * index, web.position.y);
+            newWeb.Scale = web.localScale;
+            newWeb.Rotation = web.localRotation;
+            newWeb.bSpecialWeb = web.GetComponent<WebClass>().SpecialWeb;
+            Level.Caves[index].Webs[webNum[index]] = newWeb;
+            webNum[index]++;
         }
     }
 
     private void StoreTriggers()
     {
-        Transform TriggerParent = GameObject.Find("Triggers").GetComponent<Transform>();
-        int[] TriggerCounts = new int[NumSections];
-        TriggerCounts = GetObjCounts(TriggerParent);
-        for (int i = 0; i < NumSections; i++)
+        Transform triggerParent = GameObject.Find("Triggers").GetComponent<Transform>();
+        var triggerCounts = GetObjCounts(triggerParent);
+        for (int i = 0; i < _numSections; i++)
         {
-            Level.Caves[i].Triggers = new TriggerHandler.TriggerType[TriggerCounts[i]];
+            Level.Caves[i].Triggers = new TriggerHandler.TriggerType[triggerCounts[i]];
         }
 
-        int[] TriggerNum = new int[NumSections];
-        foreach (Transform Trigger in TriggerParent)
+        int[] triggerNum = new int[_numSections];
+        foreach (Transform trigger in triggerParent)
         {
-            int index = Mathf.RoundToInt(Trigger.position.x / TileSizeX);
+            int index = Mathf.RoundToInt(trigger.position.x / _tileSizeX);
 
-            TriggerHandler.TriggerType NewTrigger = Level.Caves[index].Triggers[TriggerNum[index]];
-            NewTrigger.Pos = new Vector2(Trigger.position.x - TileSizeX * index, Trigger.position.y);
-            NewTrigger.Scale = Trigger.localScale;
-            NewTrigger.Rotation = Trigger.localRotation;
-            NewTrigger.EventID = Trigger.GetComponent<TriggerClass>().EventID;
-            NewTrigger.EventType = Trigger.GetComponent<TriggerClass>().EventType;
-            Level.Caves[index].Triggers[TriggerNum[index]] = NewTrigger;
-            TriggerNum[index]++;
+            TriggerHandler.TriggerType newTrigger = Level.Caves[index].Triggers[triggerNum[index]];
+            newTrigger.Pos = new Vector2(trigger.position.x - _tileSizeX * index, trigger.position.y);
+            newTrigger.Scale = trigger.localScale;
+            newTrigger.Rotation = trigger.localRotation;
+            newTrigger.EventID = trigger.GetComponent<TriggerClass>().EventID;
+            newTrigger.EventType = trigger.GetComponent<TriggerClass>().EventType;
+            Level.Caves[index].Triggers[triggerNum[index]] = newTrigger;
+            triggerNum[index]++;
         }
     }
 
     private void StoreClumsy()
     {
-        Transform Clumsy = GameObject.Find("Clumsy").GetComponent<Transform>();
-        LevelContainer.ClumsyType NewClumsy = Level.Clumsy;
-        NewClumsy.Pos = Clumsy.position;
-        NewClumsy.Rotation = Clumsy.localRotation;
-        NewClumsy.Scale = Clumsy.localScale;
-        Level.Clumsy = NewClumsy;
+        Transform clumsy = GameObject.Find("Clumsy").GetComponent<Transform>();
+        LevelContainer.ClumsyType newClumsy = Level.Clumsy;
+        newClumsy.Pos = clumsy.position;
+        newClumsy.Rotation = clumsy.localRotation;
+        newClumsy.Scale = clumsy.localScale;
+        Level.Clumsy = newClumsy;
     }
 
     public void LoadBtn()
     {
         if (LevelNum == 0) { return; }
-        TextAsset LevelTxt = (TextAsset)Resources.Load("LevelXML/Level" + LevelNum);
-        Level = LevelContainer.LoadFromText(LevelTxt.text);
+        TextAsset levelTxt = (TextAsset)Resources.Load("LevelXML/Level" + LevelNum);
+        Level = LevelContainer.LoadFromText(levelTxt.text);
         ClearLevelObjects();
         SetLevelObjects();
-        LoadedLevelNum = LevelNum;
+        _loadedLevelNum = LevelNum;
     }
 
     private void ClearLevelObjects()
@@ -500,163 +488,166 @@ public class LevelEditorActions : MonoBehaviour
         Destroy(GameObject.Find("Triggers"));
         Destroy(GameObject.Find("Clumsy"));
 
-        foreach(Transform Cave in CaveParent)
+        foreach(Transform cave in _caveParent)
         {
-            Destroy(Cave.gameObject);
+            Destroy(cave.gameObject);
         }
     }
 
     private void SetLevelObjects()
     {
-        if (LevelObj == null) {
+        if (_levelObj == null) {
             Debug.Log("Lost level");
-            LevelObj = new GameObject("Level");
+            _levelObj = new GameObject("Level");
         }
-        GameObject Stals = new GameObject("Stalactites");
-        GameObject Shrooms = new GameObject("Mushrooms");
-        GameObject Moths = new GameObject("Moths");
-        GameObject Spiders = new GameObject("Spiders");
-        GameObject Webs = new GameObject("Webs");
-        GameObject Triggers = new GameObject("Triggers");
-        GameObject Caves = CaveParent.gameObject;
-        MothParent = Moths.transform;
-        StalParent = Stals.transform;
+        GameObject stals = new GameObject("Stalactites");
+        GameObject shrooms = new GameObject("Mushrooms");
+        GameObject moths = new GameObject("Moths");
+        GameObject spiders = new GameObject("Spiders");
+        GameObject webs = new GameObject("Webs");
+        GameObject triggers = new GameObject("Triggers");
+        GameObject caves = _caveParent.gameObject;
+        _mothParent = moths.transform;
+        _stalParent = stals.transform;
 
-        Stals.transform.SetParent(LevelObj.transform);
-        Shrooms.transform.SetParent(LevelObj.transform);
-        Moths.transform.SetParent(LevelObj.transform);
-        Spiders.transform.SetParent(LevelObj.transform);
-        Webs.transform.SetParent(LevelObj.transform);
-        Triggers.transform.SetParent(LevelObj.transform);
+        stals.transform.SetParent(_levelObj.transform);
+        shrooms.transform.SetParent(_levelObj.transform);
+        moths.transform.SetParent(_levelObj.transform);
+        spiders.transform.SetParent(_levelObj.transform);
+        webs.transform.SetParent(_levelObj.transform);
+        triggers.transform.SetParent(_levelObj.transform);
 
-        GameObject Clumsy = (GameObject)Instantiate(Resources.Load("ClumsyLevelEditor"), LevelObj.transform);
-        Clumsy.name = "Clumsy";
-        Clumsy.transform.position = new Vector3(Level.Clumsy.Pos.x, Level.Clumsy.Pos.y, ClumsyZ);
-        Clumsy.transform.localRotation = Level.Clumsy.Rotation;
-        Clumsy.transform.localScale = Level.Clumsy.Scale;
+        //GameObject Clumsy = (GameObject)Instantiate(Resources.Load("ClumsyLevelEditor"), _levelObj.transform);
+        //Clumsy.name = "Clumsy";
+        //Clumsy.transform.position = new Vector3(Level.Clumsy.Pos.x, Level.Clumsy.Pos.y, _clumsyZ);
+        //Clumsy.transform.localRotation = Level.Clumsy.Rotation;
+        //Clumsy.transform.localScale = Level.Clumsy.Scale;
 
         for (int i = 0; i < Level.Caves.Length; i++)
         {
-            LevelContainer.CaveType Cave = Level.Caves[i];
-            GameObject CaveBottom = null; ;
-            GameObject CaveTop = null;
-            if (Cave.TopIndex == 1000)
+            LevelContainer.CaveType cave = Level.Caves[i];
+            GameObject caveTop;
+            if (cave.TopIndex == 1000)
             {
-                CaveTop = (GameObject)Instantiate(Resources.Load("Caves/CaveEntrance"), Caves.transform);
-                CaveTop.name = "CaveEntrance";
+                caveTop = (GameObject)Instantiate(Resources.Load("Caves/CaveEntrance"), caves.transform);
+                caveTop.name = "CaveEntrance";
             }
-            else if (Cave.TopIndex == 1001)
+            else if (cave.TopIndex == 1001)
             {
-                CaveTop = (GameObject)Instantiate(Resources.Load("Caves/CaveExit"), Caves.transform);
-                CaveTop.name = "CaveExit";
+                caveTop = (GameObject)Instantiate(Resources.Load("Caves/CaveExit"), caves.transform);
+                caveTop.name = "CaveExit";
             }
             else
             {
-                string CaveBottomName = "CaveBottom" + (Cave.bBottomSecretPath ? "Exit" : "") + (Cave.BottomIndex + 1).ToString();
-                string CaveTopName = "CaveTop" + (Cave.bTopSecretPath ? "Exit" : "") + (Cave.TopIndex + 1).ToString();
-                CaveBottom = (GameObject)Instantiate(Resources.Load("Caves/" + CaveBottomName), Caves.transform);
-                CaveTop = (GameObject)Instantiate(Resources.Load("Caves/" + CaveTopName), Caves.transform);
-                CaveBottom.name = CaveBottomName;
-                CaveTop.name = CaveTopName;
-                CaveBottom.transform.position = new Vector3(TileSizeX * i, 0f, CaveZ);
+                string caveBottomName = "CaveBottom" + (cave.bBottomSecretPath ? "Exit" : "") + (cave.BottomIndex + 1).ToString();
+                string caveTopName = "CaveTop" + (cave.bTopSecretPath ? "Exit" : "") + (cave.TopIndex + 1).ToString();
+                var caveBottom = (GameObject)Instantiate(Resources.Load("Caves/" + caveBottomName), caves.transform);
+                caveTop = (GameObject)Instantiate(Resources.Load("Caves/" + caveTopName), caves.transform);
+                caveBottom.name = caveBottomName;
+                caveTop.name = caveTopName;
+                caveBottom.transform.position = new Vector3(_tileSizeX * i, 0f, _caveZ);
             }
-            CaveTop.transform.position = new Vector3(TileSizeX * i, 0f, CaveZ);
+            caveTop.transform.position = new Vector3(_tileSizeX * i, 0f, _caveZ);
 
-            SetStalactites(Stals, Cave.Stals, i);
-            SetMushrooms(Shrooms, Cave.Shrooms, i);
-            SetMoths(Moths, Cave.Moths, i);
-            SetSpiders(Spiders, Cave.Spiders, i);
-            SetWebs(Webs, Cave.Webs, i);
-            SetTriggers(Triggers, Cave.Triggers, i);
+            SetStalactites(stals, cave.Stals, i);
+            SetMushrooms(shrooms, cave.Shrooms, i);
+            SetMoths(moths, cave.Moths, i);
+            SetSpiders(spiders, cave.Spiders, i);
+            SetWebs(webs, cave.Webs, i);
+            SetTriggers(triggers, cave.Triggers, i);
         }
     }
 
-    private void SetStalactites(GameObject Stals, StalPool.StalType[] StalList, int PosIndex)
+    private void SetStalactites(GameObject stals, StalPool.StalType[] stalList, int posIndex)
     {
-        if (StalList == null) { return; }
-        foreach (StalPool.StalType Stal in StalList)
+        if (stalList == null) { return; }
+        foreach (StalPool.StalType stal in stalList)
         {
-            GameObject NewStal = (GameObject)Instantiate(Resources.Load("Obstacles/EditorStalactite"), Stals.transform);
-            NewStal.name = "Stalactite";
-            Transform StalObj = null;
-            Transform StalTrigger = null;
-            Stalactite StalScript = NewStal.GetComponent<Stalactite>();
+            GameObject newStal = (GameObject)Instantiate(Resources.Load("Obstacles/EditorStalactite"), stals.transform);
+            newStal.name = "Stalactite";
+            Transform stalObj = null;
+            Transform stalTrigger = null;
+            Stalactite stalScript = newStal.GetComponent<Stalactite>();
 
-            foreach (Transform StalChild in NewStal.transform)
+            foreach (Transform stalChild in newStal.transform)
             {
-                if (StalChild.name == "StalObject") { StalObj = StalChild; }
-                else if (StalChild.name == "StalTrigger") { StalTrigger = StalChild; }
+                if (stalChild.name == "StalObject") { stalObj = stalChild; }
+                else if (stalChild.name == "StalTrigger") { stalTrigger = stalChild; }
             }
 
-            NewStal.transform.position = new Vector3(Stal.Pos.x + PosIndex * TileSizeX, Stal.Pos.y, StalZ);
-            StalObj.localScale = Stal.Scale;
-            StalObj.localRotation = Stal.Rotation;
-            StalScript.Flipped = Stal.Flipped;
-            StalScript.UnstableStalactite = Stal.DropEnabled;
-            StalTrigger.position = new Vector2(Stal.TriggerPos.x + PosIndex * TileSizeX, Stal.TriggerPos.y);
+            newStal.transform.position = new Vector3(stal.Pos.x + posIndex * _tileSizeX, stal.Pos.y, _stalZ);
+            if (stalObj != null)
+            {
+                stalObj.localScale = stal.Scale;
+                stalObj.localRotation = stal.Rotation;
+            }
+            stalScript.Flipped = stal.Flipped;
+            stalScript.UnstableStalactite = stal.DropEnabled;
+            if (stalTrigger != null)
+                stalTrigger.position = new Vector2(stal.TriggerPos.x + posIndex * _tileSizeX, stal.TriggerPos.y);
         }
     }
 
-    private void SetMushrooms(GameObject Shrooms, ShroomPool.ShroomType[] ShroomList, int PosIndex)
+    private void SetMushrooms(GameObject shrooms, ShroomPool.ShroomType[] shroomList, int posIndex)
     {
-        foreach (ShroomPool.ShroomType Shroom in ShroomList)
+        foreach (ShroomPool.ShroomType shroom in shroomList)
         {
-            GameObject NewShroom = (GameObject)Instantiate(Resources.Load("Obstacles/Mushroom"), Shrooms.transform);
-            NewShroom.transform.position = new Vector3(Shroom.Pos.x + PosIndex * TileSizeX, Shroom.Pos.y, ShroomZ);
-            NewShroom.transform.localScale = Shroom.Scale;
-            NewShroom.transform.localRotation = Shroom.Rotation;
+            GameObject newShroom = (GameObject)Instantiate(Resources.Load("Obstacles/Mushroom"), shrooms.transform);
+            newShroom.transform.position = new Vector3(shroom.Pos.x + posIndex * _tileSizeX, shroom.Pos.y, _shroomZ);
+            newShroom.transform.localScale = shroom.Scale;
+            newShroom.transform.localRotation = shroom.Rotation;
         }
     }
 
-    private void SetMoths(GameObject Moths, MothPool.MothType[] MothList, int PosIndex)
+    private void SetMoths(GameObject moths, MothPool.MothType[] mothList, int posIndex)
     {
-        foreach (MothPool.MothType Moth in MothList)
+        foreach (MothPool.MothType moth in mothList)
         {
-            GameObject NewMoth = (GameObject)Instantiate(Resources.Load("Collectibles/Moth"), Moths.transform);
-            NewMoth.transform.position = new Vector3(Moth.Pos.x + PosIndex * TileSizeX, Moth.Pos.y, MothZ);
-            NewMoth.transform.localScale = Moth.Scale;
-            NewMoth.transform.localRotation = Moth.Rotation;
-            NewMoth.GetComponent<Moth>().Colour = Moth.Colour;
+            GameObject newMoth = (GameObject)Instantiate(Resources.Load("Collectibles/Moth"), moths.transform);
+            newMoth.transform.position = new Vector3(moth.Pos.x + posIndex * _tileSizeX, moth.Pos.y, _mothZ);
+            newMoth.transform.localScale = moth.Scale;
+            newMoth.transform.localRotation = moth.Rotation;
+            newMoth.GetComponent<Moth>().Colour = moth.Colour;
         }
     }
 
-    private void SetSpiders(GameObject Spiders, SpiderPool.SpiderType[] SpiderList, int PosIndex)
+    private void SetSpiders(GameObject spiders, SpiderPool.SpiderType[] spiderList, int posIndex)
     {
-        if (SpiderList == null) { return; }
-        foreach (SpiderPool.SpiderType Spider in SpiderList)
+        if (spiderList == null) { return; }
+        foreach (SpiderPool.SpiderType spider in spiderList)
         {
-            GameObject NewSpider = (GameObject)Instantiate(Resources.Load("Obstacles/Spider"), Spiders.transform);
-            NewSpider.transform.position = new Vector3(Spider.Pos.x + PosIndex * TileSizeX, Spider.Pos.y, SpiderZ);
-            NewSpider.transform.localScale = Spider.Scale;
-            NewSpider.transform.localRotation = Spider.Rotation;
-            NewSpider.GetComponent<SpiderClass>().SwingingSpider = Spider.bSwinging;
+            GameObject newSpider = (GameObject)Instantiate(Resources.Load("Obstacles/Spider"), spiders.transform);
+            newSpider.transform.position = new Vector3(spider.Pos.x + posIndex * _tileSizeX, spider.Pos.y, _spiderZ);
+            newSpider.transform.localScale = spider.Scale;
+            newSpider.transform.localRotation = spider.Rotation;
+            newSpider.GetComponent<SpiderClass>().SwingingSpider = spider.bSwinging;
         }
     }
 
-    private void SetWebs(GameObject Webs, WebPool.WebType[] WebList, int PosIndex)
+    private void SetWebs(GameObject webs, WebPool.WebType[] webList, int posIndex)
     {
-        if (WebList == null) { return; }
-        foreach (WebPool.WebType Web in WebList)
+        if (webList == null) { return; }
+        foreach (WebPool.WebType web in webList)
         {
-            GameObject NewWeb = (GameObject)Instantiate(Resources.Load("Obstacles/Web"), Webs.transform);
-            NewWeb.transform.position = new Vector3(Web.Pos.x + PosIndex * TileSizeX, Web.Pos.y, WebZ);
-            NewWeb.transform.localScale = Web.Scale;
-            NewWeb.transform.localRotation = Web.Rotation;
-            NewWeb.GetComponent<WebClass>().SpecialWeb = Web.bSpecialWeb;
+            GameObject newWeb = (GameObject)Instantiate(Resources.Load("Obstacles/Web"), webs.transform);
+            newWeb.transform.position = new Vector3(web.Pos.x + posIndex * _tileSizeX, web.Pos.y, _webZ);
+            newWeb.transform.localScale = web.Scale;
+            newWeb.transform.localRotation = web.Rotation;
+            newWeb.GetComponent<WebClass>().SpecialWeb = web.bSpecialWeb;
         }
     }
 
-    private void SetTriggers(GameObject Triggers, TriggerHandler.TriggerType[] TriggerList, int PosIndex)
+    private void SetTriggers(GameObject triggers, TriggerHandler.TriggerType[] triggerList, int posIndex)
     {
-        if (TriggerList == null) { return; }
-        foreach (TriggerHandler.TriggerType Trigger in TriggerList)
+        if (triggerList == null) { return; }
+        foreach (TriggerHandler.TriggerType trigger in triggerList)
         {
-            GameObject NewTrigger = (GameObject)Instantiate(Resources.Load("Interactables/Trigger"), Triggers.transform);
-            NewTrigger.transform.position = new Vector3(Trigger.Pos.x + PosIndex * TileSizeX, Trigger.Pos.y, TriggerZ);
-            NewTrigger.transform.localScale = Trigger.Scale;
-            NewTrigger.transform.localRotation = Trigger.Rotation;
-            NewTrigger.GetComponent<TriggerClass>().EventID = Trigger.EventID;
-            NewTrigger.GetComponent<TriggerClass>().EventType = Trigger.EventType;
+            GameObject newTrigger = (GameObject)Instantiate(Resources.Load("Interactables/Trigger"), triggers.transform);
+            newTrigger.transform.position = new Vector3(trigger.Pos.x + posIndex * _tileSizeX, trigger.Pos.y, _triggerZ);
+            newTrigger.transform.localScale = trigger.Scale;
+            newTrigger.transform.localRotation = trigger.Rotation;
+            newTrigger.GetComponent<TriggerClass>().EventID = trigger.EventID;
+            newTrigger.GetComponent<TriggerClass>().EventType = trigger.EventType;
         }
     }
 }

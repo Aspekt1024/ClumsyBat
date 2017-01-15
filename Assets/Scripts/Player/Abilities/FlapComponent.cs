@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Player : MonoBehaviour {
+public class FlapComponent : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
 	
 	}
 	

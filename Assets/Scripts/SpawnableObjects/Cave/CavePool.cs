@@ -3,29 +3,26 @@ using System.Collections.Generic;
 
 public class CavePool : MonoBehaviour {
 
+    private const int NumPiecesOnScreen = 3;
+
     private const int NumCaves = 2;
     public const int NumTopCaveTypes = 5;
     public const int NumBottomCaveTypes = 5;
     public const int NumTopCaveExits = 1;
     public const int NumBottomCaveExits = 1;
 
-    private int CaveIndexTopFirst;
-    private int CaveIndexTopSecond;
-    private int CaveIndexBottomFirst;
-    private int CaveIndexBottomSecond;
+    private int CaveIndexTopLeft;
+    private int CaveIndexTopMid;
+    private int CaveIndexTopRight;
+    private int CaveIndexBottomLeft;
+    private int CaveIndexBottomMid;
+    private int CaveIndexBottomRight;
 
     private float CaveZPos;
     private Vector2 CaveVelocity = new Vector2(0f, 0f);
 
-    
-    private enum CaveStates
-    {
-        Start,
-        Middle,
-        End,
-        Final
-    }
-    private CaveStates CaveState;
+    private LevelObjectHandler ObjectHandler;
+    private CaveHandler CaveHandler;
 
     private struct CaveType
     {
@@ -44,27 +41,26 @@ public class CavePool : MonoBehaviour {
     {
         CaveZPos = Toolbox.Instance.ZLayers["Cave"];
         CaveParent = GameObject.Find("Caves").GetComponent<Transform>();
+        ObjectHandler = FindObjectOfType<LevelObjectHandler>();
+        CaveHandler = FindObjectOfType<CaveHandler>();
         SetupCaveEnds();
         SetupCavePool();
 	}
 
     void Update()
     {
-        if (CaveState == CaveStates.End)
+        if (CaveHandler.State == CaveHandler.CaveStates.End && CaveExit.CaveBody.position.x <= 0f)
         {
-            if (CaveExit.CaveBody.position.x <= 0)
-            {
-                CaveState = CaveStates.Final;
-                CaveExit.CaveBody.position = Vector2.zero;
-                CaveExit.CaveBody.velocity = Vector2.zero;
-            }
+            CaveHandler.State = CaveHandler.CaveStates.Final;
+            CaveExit.CaveBody.position = Vector2.zero;
+            CaveExit.CaveBody.velocity = Vector2.zero;
         }
     }
 
     public bool AtCaveEnd()
     {
         bool AtEnd = false;
-        if (CaveState == CaveStates.Final)
+        if (CaveHandler.State == CaveHandler.CaveStates.Final)
         {
             AtEnd = true;
         }
@@ -74,13 +70,13 @@ public class CavePool : MonoBehaviour {
     public float GetPositionX()
     {
         float PosX;
-        if (CaveState == CaveStates.End || CaveState == CaveStates.Final)
+        if (CaveHandler.State == CaveHandler.CaveStates.End || CaveHandler.State == CaveHandler.CaveStates.Final)
         {
             PosX = CaveExit.CaveBody.position.x;
         }
         else
         {
-            PosX = TopPool[CaveIndexTopSecond].CaveBody.position.x;
+            PosX = TopPool[CaveIndexTopRight].CaveBody.position.x;
         }
         return PosX;
     }
@@ -131,39 +127,42 @@ public class CavePool : MonoBehaviour {
         NewCave.CaveBody = Cave.GetComponent<Rigidbody2D>();
         return NewCave;
     }
-
+    
     public void SetNextCavePiece(int NextTopType, int NextBottomType, bool bTopSecret, bool bBottomSecret)
     {
-        if (NextTopType == -1 || NextTopType == 1001)
+        if (NextTopType == -1 || NextTopType == 1001)   // TODO magic number. Bad.
         {
-            CaveState = CaveStates.End;
+            CaveHandler.State = CaveHandler.CaveStates.End;
             PlaceCaveExit();
             return;
         }
 
         int NextTopIndex = NumCaves * (NextTopType + (bTopSecret ? NumTopCaveTypes : 0));
         int NextBottomIndex = NumCaves * (NextBottomType + (bBottomSecret ? NumBottomCaveTypes : 0));
-        if (NextTopIndex == CaveIndexTopSecond) { NextTopIndex++; }
-        if (NextBottomIndex == CaveIndexBottomSecond) { NextBottomIndex++; }
+        if (NextTopIndex == CaveIndexTopRight) { NextTopIndex++; }
+        if (NextBottomIndex == CaveIndexBottomRight) { NextBottomIndex++; }
 
         DeactivateFirstPieces();
 
-        CaveIndexTopFirst = CaveIndexTopSecond;
-        CaveIndexBottomFirst = CaveIndexBottomSecond;
-        CaveIndexTopSecond = NextTopIndex;
-        CaveIndexBottomSecond = NextBottomIndex;
+        // (*) << [Left] << [Mid] << [Right] << (Next)
+        CaveIndexTopLeft = CaveIndexTopMid;
+        CaveIndexBottomLeft = CaveIndexBottomMid;
+        CaveIndexTopMid = CaveIndexTopRight;
+        CaveIndexBottomMid = CaveIndexTopRight;
+        CaveIndexTopRight = NextTopIndex;
+        CaveIndexBottomRight = NextBottomIndex;
 
-        ActivateCavePiece(CaveIndexTopSecond, bTop: true);
-        ActivateCavePiece(CaveIndexBottomSecond, bTop: false);
+        ActivateCavePiece(CaveIndexTopRight, bTop: true);
+        ActivateCavePiece(CaveIndexBottomRight, bTop: false);
     }
 
     private void DeactivateFirstPieces()
     {
-        if (CaveState == CaveStates.Start)
+        if (CaveHandler.State == CaveHandler.CaveStates.Start)
         {
-            CaveState = CaveStates.Middle;
+            CaveHandler.State = CaveHandler.CaveStates.Middle;
         }
-        else if (CaveState == CaveStates.Middle)
+        else if (CaveHandler.State == CaveHandler.CaveStates.Middle)
         {
             if (CaveEntrance.bIsActive)
             {
@@ -173,16 +172,16 @@ public class CavePool : MonoBehaviour {
             }
             else
             {
-                DeactivateCavePiece(CaveIndexTopFirst, bTop: true);
-                DeactivateCavePiece(CaveIndexBottomFirst, bTop: false);
+                DeactivateCavePiece(CaveIndexTopLeft, bTop: true);
+                DeactivateCavePiece(CaveIndexBottomLeft, bTop: false);
             }
         }
     }
 
     private void ActivateCavePiece(int PieceIndex, bool bTop)
     {
-        float TopCavePieceX = TopPool[CaveIndexTopFirst].CaveBody.position.x;
-        float BottomCavePieceX = BottomPool[CaveIndexBottomFirst].CaveBody.position.x;
+        float TopCavePieceX = TopPool[CaveIndexTopMid].CaveBody.position.x;
+        float BottomCavePieceX = BottomPool[CaveIndexBottomMid].CaveBody.position.x;
         if (CaveEntrance.bIsActive)
         {
             TopCavePieceX = CaveEntrance.CaveBody.position.x;
@@ -191,16 +190,16 @@ public class CavePool : MonoBehaviour {
         float CavePieceY = 0f;
         float CavePieceZ = CaveZPos;
 
-        CaveType NextTopCave = TopPool[CaveIndexTopSecond];
-        CaveType NextBottomCave = BottomPool[CaveIndexBottomSecond];
+        CaveType NextTopCave = TopPool[CaveIndexTopRight];
+        CaveType NextBottomCave = BottomPool[CaveIndexBottomRight];
         NextTopCave.bIsActive = true;
         NextTopCave.CaveBody.position = new Vector3(Toolbox.TileSizeX + TopCavePieceX, CavePieceY, CavePieceZ);
         NextTopCave.CaveBody.velocity = CaveVelocity;
         NextBottomCave.bIsActive = true;
         NextBottomCave.CaveBody.position = new Vector3(Toolbox.TileSizeX + BottomCavePieceX, CavePieceY, CavePieceZ);
         NextBottomCave.CaveBody.velocity = CaveVelocity;
-        TopPool[CaveIndexTopSecond] = NextTopCave;
-        BottomPool[CaveIndexBottomSecond] = NextBottomCave;
+        TopPool[CaveIndexTopRight] = NextTopCave;
+        BottomPool[CaveIndexBottomRight] = NextBottomCave;
     }
 
     private void DeactivateCavePiece(int PieceIndex, bool bTop)
@@ -224,7 +223,7 @@ public class CavePool : MonoBehaviour {
     
     public void SetVelocity(float Speed)
     {
-        if (CaveState != CaveStates.Final)
+        if (CaveHandler.State != CaveHandler.CaveStates.Final)
         {
             CaveVelocity = new Vector2(-Speed, 0);
             SetActiveCaveVelocity();
@@ -255,7 +254,7 @@ public class CavePool : MonoBehaviour {
 
     public void PlaceCaveExit()
     {
-        float Xoffset = BottomPool[CaveIndexBottomSecond].CaveBody.position.x;
+        float Xoffset = BottomPool[CaveIndexBottomRight].CaveBody.position.x;
         CaveExit.bIsActive = true;
         CaveExit.CaveBody.position = new Vector3(Xoffset + Toolbox.TileSizeX, 0f, 0f);
         CaveExit.CaveBody.velocity = CaveVelocity;
