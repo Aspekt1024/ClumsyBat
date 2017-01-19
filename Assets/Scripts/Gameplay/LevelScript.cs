@@ -6,7 +6,7 @@ public class LevelScript : MonoBehaviour {
     
     public ParralaxBG Background;
     public GameMenuOverlay GameMenu;
-    public GameUI GameHUD;
+    public GameUI GameHud;
     public StatsHandler Stats;
 
     private GameObject _levelScripts;
@@ -26,7 +26,7 @@ public class LevelScript : MonoBehaviour {
         _levelScripts = new GameObject("Level Scripts");
         Stats = _levelScripts.AddComponent<StatsHandler>();
         _audioControl = _levelScripts.AddComponent<AudioSource>();
-        GameHUD = GameObject.Find("UI_Overlay").GetComponent<GameUI>();
+        GameHud = GameObject.Find("UI_Overlay").GetComponent<GameUI>();
     }
 
     private void Start ()
@@ -68,7 +68,7 @@ public class LevelScript : MonoBehaviour {
             Toolbox.Instance.Level = DefaultLevel;
             level = DefaultLevel;
         }
-        GameHUD.SetLevelText(level);
+        GameHud.SetLevelText(level);
         Toolbox.Instance.ShowLevelTooltips = (!Stats.LevelData.IsCompleted(level));
         _levelObjects.SetMode(bIsEndless: level == -1);
     }
@@ -101,7 +101,7 @@ public class LevelScript : MonoBehaviour {
     public void StartGame()
     {
         _bGameStarted = true;
-        GameHUD.StartGame();
+        GameHud.StartGame();
         UpdateGameSpeed(1);
         _levelObjects.SetPaused(false);
         _levelObjects.SetVelocity(LevelScrollSpeed);
@@ -114,7 +114,7 @@ public class LevelScript : MonoBehaviour {
         _prevGameSpeed = _gameSpeed;
         UpdateGameSpeed(0);
         _levelObjects.SetPaused(true);
-        GameHUD.GamePaused(true);
+        GameHud.GamePaused(true);
 
         if (showMenu)
         {
@@ -129,14 +129,14 @@ public class LevelScript : MonoBehaviour {
         _bGamePaused = false;
         UpdateGameSpeed(_prevGameSpeed);
         _levelObjects.SetPaused(false);
-        GameHUD.GamePaused(false);
+        GameHud.GamePaused(false);
     }
 
     public void ShowGameoverMenu()
     {
         Stats.SaveStats();
         GameMenu.GameOver();
-        GameHUD.GameOver();
+        GameHud.GameOver();
     }
 
     public void AddDistance(double timeTravelled, float playerSpeed)
@@ -153,11 +153,11 @@ public class LevelScript : MonoBehaviour {
 
     public void LevelWon()
     {
-        GameHUD.LevelWon();
+        GameHud.LevelWon();
         GameMenu.WinGame();
         Stats.LevelWon(Toolbox.Instance.Level);
         Stats.SaveStats();
-        GameObject.Find("Clumsy").GetComponent<PlayerController>().PauseGame(ShowMenu: false);
+        GameObject.Find("Clumsy").GetComponent<PlayerController>().PauseGame(showMenu: false);
 
         // TODO add sound to sound controller script
         var victoryClip = (AudioClip) Resources.Load("Audio/LevelComplete");

@@ -11,6 +11,7 @@ public class Shield : MonoBehaviour {
     private Lantern _lantern;
     private Rigidbody2D _playerBody;
     private Animator _playerAnim;
+    private GameHandler _gameHandler;
     //private StatsHandler Stats;
 
     private enum ShieldStates
@@ -71,7 +72,7 @@ public class Shield : MonoBehaviour {
                     {
                         _playerBody.position -= new Vector2(displacementX, 0f);
                     }
-                    _thePlayer.Level.UpdateGameSpeed(displacementX * 1.6f);
+                    _gameHandler.UpdateGameSpeed(displacementX * 1.6f);
                 }
                 knockbackTimer += Time.deltaTime;
             }
@@ -94,11 +95,11 @@ public class Shield : MonoBehaviour {
             {
                 moveForwardTimer += Time.deltaTime;
                 _playerBody.position = new Vector2(playerStartX - (playerStartX - playerEndX) * (moveForwardTimer / moveForwardDuration), _playerBody.position.y);
-                _thePlayer.Level.UpdateGameSpeed(gameSpeedStart - (gameSpeedStart - gameSpeedEnd) * (moveForwardTimer / moveForwardDuration));
+                _gameHandler.UpdateGameSpeed(gameSpeedStart - (gameSpeedStart - gameSpeedEnd) * (moveForwardTimer / moveForwardDuration));
             }
             yield return null;
         }
-        _thePlayer.Level.UpdateGameSpeed(1f);
+        _gameHandler.UpdateGameSpeed(1f);
     }
 
     public void Setup(StatsHandler statsRef, Player playerRef, Lantern lanternRef)
@@ -111,6 +112,7 @@ public class Shield : MonoBehaviour {
         _lantern = lanternRef;
         _playerBody = _thePlayer.GetComponent<Rigidbody2D>();
         _playerAnim = _thePlayer.GetComponent<Animator>();
+        _gameHandler = _thePlayer.GetGameHandler();
 
     }
 

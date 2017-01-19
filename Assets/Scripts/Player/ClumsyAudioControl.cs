@@ -31,7 +31,7 @@ public class ClumsyAudioControl : MonoBehaviour {
     {
         AddToAudioDict(PlayerSounds.Flap, "ClumsyFlap", 1f);
         AddToAudioDict(PlayerSounds.Flap2, "Flap", 0.3f);   // Not used but kept for reference and playtesting
-        AddToAudioDict(PlayerSounds.Collision, "ClumsyCollision", 1f);
+        AddToAudioDict(PlayerSounds.Collision, "RockCollision", 1f);
     }
 
     private void AddToAudioDict(PlayerSounds soundName, string fileName, float volume)

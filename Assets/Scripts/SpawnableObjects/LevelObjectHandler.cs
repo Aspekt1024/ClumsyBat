@@ -35,7 +35,7 @@ public class LevelObjectHandler : MonoBehaviour {
         LoadLevel();
         Debug.Log("Level " + Toolbox.Instance.Level + " loaded.");
         SetupObjectPools();
-        FindObjectOfType<PlayerController>().LevelStart();
+        FindObjectOfType<PlayerController>().StartGame();
     }
 
     public bool AtCaveEnd()
