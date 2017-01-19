@@ -19,7 +19,7 @@ public class TriggerHandler {
         public Vector2 Scale;
         public Quaternion Rotation;
         public EventType EventType;
-        public TooltipHandler.DialogueID EventID;
+        public TooltipHandler.DialogueId EventID;
     }
 
     public enum EventType
@@ -78,7 +78,7 @@ public class TriggerHandler {
         }
     }
 
-    public void ActivateDialogue(TooltipHandler.DialogueID EventID)
+    public void ActivateDialogue(TooltipHandler.DialogueId EventID)
     {
         TooltipControl.ShowDialogue(EventID);
     }

@@ -89,10 +89,17 @@ public class Player : MonoBehaviour {
         {
             _clearance.transform.position = transform.position;
 
-            if (transform.position.x < ClumsyX && !_shield.IsInUse())
+            if (!_shield.IsInUse())
             {
-                _gameHandler.UpdateGameSpeed(0);
-                transform.position += Vector3.right * 0.03f;
+                if (transform.position.x < ClumsyX)
+                {
+                    _gameHandler.UpdateGameSpeed(0);
+                    transform.position += Vector3.right * 0.03f; // TODO maybe add velocity rather than change displacement
+                }
+                else if (!_bPaused)
+                {
+                    _gameHandler.UpdateGameSpeed(1f);
+                }
             }
 
             if (_bCaveEndReached)
@@ -168,19 +175,17 @@ public class Player : MonoBehaviour {
         _bCaveEndReached = true;
     }
 
-    public void ActivateRush()
-    {
-        _rush.Activate();
-    }
+    public void ActivateRush() { _rush.Activate(); }
+    public void DeactivateRush() { _rush.Deactivate(); }
+    public void ActivateHypersonic() { _hypersonic.ActivateHypersonic(); }
+    public void AddShieldCharge() { _shield.AddCharge(); }
 
-    public void ActivateHypersonic()
+    public bool ActivateShield()
     {
-        _hypersonic.ActivateHypersonic();
-    }
-
-    public void AddShieldCharge()
-    {
-        _shield.AddCharge();
+        if (!_shield.IsAvailable()) return false;
+        if (_shield.IsInUse()) return true;
+        _shield.ConsumeCharge();
+        return true;
     }
 
     public void ActivateJump()
@@ -225,35 +230,14 @@ public class Player : MonoBehaviour {
         }
     }
     
+    // TODO manage collision events through the GameHandler
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (_state != PlayerState.Normal) { return; }
-        _rush.Deactivate();
-        
-        if (other.collider.name == "StalObject") { other.collider.GetComponentInParent<Stalactite>().Crack(); }
-
-        if (_shield.IsAvailable())
-        {
-            if (_shield.IsInUse()) return;
-            _shield.ConsumeCharge();
-            _audioControl.PlaySound(PlayerSounds.Collision);
-        }
-        else
-        {
-            if (other.collider.name == "StalObject")
-            {
-                Stats.ToothDeaths++;
-            }
-            else
-            {
-                Stats.RockDeaths++; // TODO check for other objects
-            }
-            _audioControl.PlaySound(PlayerSounds.Collision);
-            Die();
-        }
+        _gameHandler.Collision(other);
     }
 
-    void Die()
+    public void Die()
     {
         //OnDeath(EventArgs.Empty);   // Event!
         DisablePlayerController();
@@ -337,7 +321,9 @@ public class Player : MonoBehaviour {
         }
     }
 
+
     public void StartFog() { Fog.StartOfLevel(); }
+    public void PlaySound(PlayerSounds soundId) { _audioControl.PlaySound(soundId); }
     private void DisablePlayerController() { FindObjectOfType<PlayerController>().PauseInput(true); }
     public float GetHomePositionX() { return ClumsyX; }
     public float GetPlayerSpeed() { return _playerSpeed; }

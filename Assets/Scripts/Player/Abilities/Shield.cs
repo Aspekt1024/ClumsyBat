@@ -8,7 +8,6 @@ public class Shield : MonoBehaviour {
     private bool _bPaused;
 
     private Player _thePlayer;
-    private Lantern _lantern;
     private Rigidbody2D _playerBody;
     private Animator _playerAnim;
     private GameHandler _gameHandler;
@@ -105,11 +104,10 @@ public class Shield : MonoBehaviour {
     public void Setup(StatsHandler statsRef, Player playerRef, Lantern lanternRef)
     {
         //Stats = StatsRef;
-        //ShieldStats = Stats.AbilityData.GetShieldStats();
+        //ShieldStats = Stats.AbilityData.GetShieldStats(); // TODO Save Shield Stats
         //SetAbilityAttributes();
 
         _thePlayer = playerRef;
-        _lantern = lanternRef;
         _playerBody = _thePlayer.GetComponent<Rigidbody2D>();
         _playerAnim = _thePlayer.GetComponent<Animator>();
         _gameHandler = _thePlayer.GetGameHandler();

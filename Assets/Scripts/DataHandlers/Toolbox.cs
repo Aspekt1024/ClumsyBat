@@ -18,7 +18,7 @@ public class Toolbox : Singleton<Toolbox>
     public bool TooltipCompletionPersist = false;
     public bool ShowLevelTooltips = true;
 
-    public bool[] TooltipCompletion = new bool[Enum.GetNames(typeof(TooltipHandler.DialogueID)).Length];
+    public bool[] TooltipCompletion = new bool[Enum.GetNames(typeof(TooltipHandler.DialogueId)).Length];
     public Dictionary<string, float> ZLayers = new Dictionary<string, float>();
     public Dictionary<int, string> LevelNames = new Dictionary<int, string>();
 
@@ -88,17 +88,17 @@ public class Toolbox : Singleton<Toolbox>
 
     // The below functions relate to session level tooltips
     // Tooltips are shown the first time a level is started, but not on restarting the level
-    public bool TooltipCompleted(TooltipHandler.DialogueID TooltipID)
+    public bool TooltipCompleted(TooltipHandler.DialogueId TooltipID)
     {
         return TooltipCompletion[(int)TooltipID];
     }
-    public void SetTooltipComplete(TooltipHandler.DialogueID TooltipID)
+    public void SetTooltipComplete(TooltipHandler.DialogueId TooltipID)
     {
         TooltipCompletion[(int)TooltipID] = true;
     }
     public void ResetTooltips()
     {
-        TooltipCompletion = new bool[Enum.GetNames(typeof(TooltipHandler.DialogueID)).Length];
+        TooltipCompletion = new bool[Enum.GetNames(typeof(TooltipHandler.DialogueId)).Length];
     }
 }
 

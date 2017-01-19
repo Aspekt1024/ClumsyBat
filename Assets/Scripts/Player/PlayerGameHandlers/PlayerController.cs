@@ -132,6 +132,7 @@ public class PlayerController : MonoBehaviour
 
     public void TooltipResume()
     {
+        _gameHandler.ResumeGame(immediate:true);
         ResumeGameplay();
         ThePlayer.JumpIfClear();
     }

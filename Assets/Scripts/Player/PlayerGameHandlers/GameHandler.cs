@@ -24,7 +24,7 @@ public abstract class GameHandler : MonoBehaviour {
 
     public abstract void StartGame();
     public abstract void PauseGame(bool showMenu);
-    public abstract void ResumeGame();
+    public abstract void ResumeGame(bool immediate = false);
 
     public abstract void UpdateGameSpeed(float speed);
     public abstract void LevelComplete();
@@ -32,5 +32,6 @@ public abstract class GameHandler : MonoBehaviour {
     public virtual void Death() { }
     public virtual void GameOver() { }
     public virtual void TriggerEntered(Collider2D other) { }
+    public virtual void Collision(Collision2D other) { }
 
 }

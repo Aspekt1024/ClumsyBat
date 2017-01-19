@@ -4,142 +4,149 @@ using System.Collections;
 
 public class TooltipController : MonoBehaviour {
 
-    private CanvasGroup TooltipCanvas = null;
-    private RectTransform TooltipPanel = null;
-    private Text ToolTipText = null;
-    private RectTransform ToolTipTextRT = null;
-    private Animator TooltipAnimator = null;
-    private RectTransform Nomee = null;
-    private Image NomeeImage = null;
+    private CanvasGroup _tooltipCanvas;
+    private RectTransform _tooltipPanel;
+    private Text _toolTipText;
+    private RectTransform _toolTipTextRt;
+    private Animator _tooltipAnimator;
+    private RectTransform _nomee;
+    private Image _nomeeImage;
 
-    private Text ResumeNextText = null;
-    private Image ResumeNextImage = null;
-    private Image ResumePlayImage = null;
-    private RectTransform ResumeNextRT = null;
-    private RectTransform ResumePlayRT = null;
+    private Text _resumeNextText;
+    private Image _resumeNextImage;
+    private Image _resumePlayImage;
+    private RectTransform _resumeNextRt;
+    private RectTransform _resumePlayRt;
 
-    void Awake()
+    private float _originalTooltipScale;
+    private float _originalNomeeScale;
+    private float _originalTooltipTextScale;
+
+    private void Awake()
     {
         GetTooltipComponents();
         gameObject.GetComponent<Canvas>().worldCamera = FindObjectOfType<Camera>();
         ShowTooltipCanvas(false);
+        _originalTooltipScale = _tooltipPanel.localScale.x;
+        _originalTooltipTextScale = _toolTipTextRt.localScale.x;
+        _originalNomeeScale = _nomee.localScale.x;
     }
 
-    public void SetText(string ToolText)
+    public void SetText(string toolText)
     {
-        ToolTipText.text = ToolText;
+        _toolTipText.text = toolText;
     }
     
     public IEnumerator OpenTooltip()
     {
         ShowTooltipCanvas(true);
-        ToolTipText.enabled = false;
-        NomeeImage.enabled = false;
-        ResumeNextText.enabled = false;
-        ResumeNextImage.enabled = false;
-        ResumePlayImage.enabled = false;
-        TooltipAnimator.Play("TooltipScrollClosed", 0, 0f);
+        _toolTipText.enabled = false;
+        _nomeeImage.enabled = false;
+        _resumeNextText.enabled = false;
+        _resumeNextImage.enabled = false;
+        _resumePlayImage.enabled = false;
+        _tooltipAnimator.Play("TooltipScrollClosed", 0, 0f);
         
-        yield return StartCoroutine("PopOutObject", TooltipPanel);
+        yield return StartCoroutine("PopOutObject", _tooltipPanel);
         
-        TooltipAnimator.Play("TooltipScrollOpen", 0, 0f);
-        float AnimTimer = 0f;
-        const float AnimDuration = 0.3f;
+        _tooltipAnimator.Play("TooltipScrollOpen", 0, 0f);
+        float animTimer = 0f;
+        const float animDuration = 0.3f;
 
-        while (AnimTimer < AnimDuration)
+        while (animTimer < animDuration)
         {
-            AnimTimer += Time.deltaTime;
+            animTimer += Time.deltaTime;
             yield return null;
         }
-        NomeeImage.enabled = true;
-        StartCoroutine("PopOutObject", Nomee);
+        _nomeeImage.enabled = true;
+        StartCoroutine("PopOutObject", _nomee);
     }
 
-    public IEnumerator PopOutObject(RectTransform RT)
+    public IEnumerator PopOutObject(RectTransform rt)
     {
-        Vector2 OriginalScale = RT.localScale;
+        Vector2 originalScale = rt.localScale;
 
-        float AnimTimer = 0f;
-        float StartScale = 0f;
-        float EndScale = 1.1f;
-        float AnimDuration = 0.1f;
-        while (AnimTimer < AnimDuration)
+        float animTimer = 0f;
+        float startScale = 0f;
+        float endScale = 1.1f;
+        float animDuration = 0.1f;
+        while (animTimer < animDuration)
         {
-            AnimTimer += Time.deltaTime;
-            RT.localScale = OriginalScale * (StartScale - (StartScale - EndScale) * (AnimTimer / AnimDuration));
+            animTimer += Time.deltaTime;
+            rt.localScale = originalScale * (startScale - (startScale - endScale) * (animTimer / animDuration));
             yield return null;
         }
 
-        StartScale = 1.1f;
-        EndScale = 1f;
-        AnimTimer = 0f;
-        AnimDuration = 0.05f;
-        while(AnimTimer < AnimDuration)
+        startScale = 1.1f;
+        endScale = 1f;
+        animTimer = 0f;
+        animDuration = 0.05f;
+        while(animTimer < animDuration)
         {
-            AnimTimer += Time.deltaTime;
-            RT.localScale = OriginalScale * (StartScale - (StartScale - EndScale) * (AnimTimer / AnimDuration));
+            animTimer += Time.deltaTime;
+            rt.localScale = originalScale * (startScale - (startScale - endScale) * (animTimer / animDuration));
             yield return null;
         }
-        RT.localScale = OriginalScale;
+        rt.localScale = originalScale;
     }
 
-    public IEnumerator PopInObject(RectTransform RT)
+    public IEnumerator PopInObject(RectTransform rt)
     {
-        Vector2 OriginalScale = RT.localScale;
+        Vector2 originalScale = rt.localScale;
 
-        float AnimTimer = 0f;
-        float StartScale = 1f;
-        float EndScale = 1.1f;
-        float AnimDuration = 0.05f;
-        while (AnimTimer < AnimDuration)
+        float animTimer = 0f;
+        float startScale = 1f;
+        float endScale = 1.1f;
+        float animDuration = 0.05f;
+        while (animTimer < animDuration)
         {
-            AnimTimer += Time.deltaTime;
-            RT.localScale = OriginalScale * (StartScale - (StartScale - EndScale) * (AnimTimer / AnimDuration));
+            animTimer += Time.deltaTime;
+            rt.localScale = originalScale * (startScale - (startScale - endScale) * (animTimer / animDuration));
             yield return null;
         }
 
-        StartScale = 1.1f;
-        EndScale = 0f;
-        AnimTimer = 0f;
-        AnimDuration = 0.1f;
-        while (AnimTimer < AnimDuration)
+        startScale = 1.1f;
+        endScale = 0f;
+        animTimer = 0f;
+        animDuration = 0.1f;
+        while (animTimer < animDuration)
         {
-            AnimTimer += Time.deltaTime;
-            RT.localScale = OriginalScale * (StartScale - (StartScale - EndScale) * (AnimTimer / AnimDuration));
+            animTimer += Time.deltaTime;
+            rt.localScale = originalScale * (startScale - (startScale - endScale) * (animTimer / animDuration));
             yield return null;
         }
-        RT.localScale = OriginalScale;
+        rt.localScale = originalScale;
     }
 
-    public IEnumerator ShowText(bool Show)
+    public IEnumerator ShowText(bool show)
     {
-        ResumeNextText.enabled = false;
-        ResumeNextImage.enabled = false;
-        ResumePlayImage.enabled = false;
-        if (Show)
+        _resumeNextText.enabled = false;
+        _resumeNextImage.enabled = false;
+        _resumePlayImage.enabled = false;
+        if (show)
         {
-            ToolTipText.enabled = true;
-            yield return StartCoroutine("PopOutObject", ToolTipTextRT);
+            _toolTipText.enabled = true;
+            yield return StartCoroutine("PopOutObject", _toolTipTextRt);
         }
         else
         {
-            yield return StartCoroutine("PopInObject", ToolTipTextRT);
-            ToolTipText.enabled = false;
+            yield return StartCoroutine("PopInObject", _toolTipTextRt);
+            _toolTipText.enabled = false;
         }
     }
     
-    private IEnumerator CloseTooltip()
+    public IEnumerator CloseTooltip()
     {
-        ResumeNextText.enabled = false;
-        ResumeNextImage.enabled = false;
-        ResumePlayImage.enabled = false;
-        StartCoroutine("PopInObject", ToolTipTextRT);
-        yield return StartCoroutine("PopInObject", Nomee);
+        _resumeNextText.enabled = false;
+        _resumeNextImage.enabled = false;
+        _resumePlayImage.enabled = false;
+        StartCoroutine("PopInObject", _toolTipTextRt);
+        yield return StartCoroutine("PopInObject", _nomee);
 
-        ToolTipText.enabled = false;
-        NomeeImage.enabled = false;
+        _toolTipText.enabled = false;
+        _nomeeImage.enabled = false;
 
-        TooltipAnimator.Play("TooltipScrollClose");
+        _tooltipAnimator.Play("TooltipScrollClose");
 
         float AnimTimer = 0f;
         const float AnimDuration = 0.2f;
@@ -149,32 +156,42 @@ public class TooltipController : MonoBehaviour {
             yield return null;
         }
 
-        yield return StartCoroutine("PopInObject", TooltipPanel);
+        yield return StartCoroutine("PopInObject", _tooltipPanel);
         ShowTooltipCanvas(false);
+    }
+
+    public void RestoreOriginalScale()
+    {
+        StopCoroutine("CloseTooltip");
+        ShowTooltipCanvas(false);
+
+        _tooltipPanel.localScale = Vector2.one * _originalTooltipScale;
+        _toolTipTextRt.localScale = Vector2.one * _originalTooltipTextScale;
+        _nomee.localScale = new Vector2(_originalNomeeScale, -_originalNomeeScale);
     }
 
     public void ShowTapToResume()
     {
-        ResumeNextText.enabled = true;
-        ResumeNextImage.enabled = true;
-        StartCoroutine("PopOutObject", ResumeNextRT);
+        _resumeNextText.enabled = true;
+        _resumeNextImage.enabled = true;
+        StartCoroutine("PopOutObject", _resumeNextRt);
     }
 
     public void ShowTapToPlay()
     {
-        ResumePlayImage.enabled = true;
-        StartCoroutine("PopOutObject", ResumePlayRT);
+        _resumePlayImage.enabled = true;
+        StartCoroutine("PopOutObject", _resumePlayRt);
     }
 
     public void HideResumeImages()
     {
-        if (ResumeNextImage.enabled)
+        if (_resumeNextImage.enabled)
         {
-            StartCoroutine("PopInObject", ResumeNextRT);
+            StartCoroutine("PopInObject", _resumeNextRt);
         }
-        else if (ResumePlayImage.enabled)
+        else if (_resumePlayImage.enabled)
         {
-            StartCoroutine("PopInObject", ResumePlayRT);
+            StartCoroutine("PopInObject", _resumePlayRt);
         }
     }
 
@@ -185,27 +202,27 @@ public class TooltipController : MonoBehaviour {
             switch (RT.name)
             {
                 case "ToolTipPanel":
-                    TooltipPanel = RT;
-                    TooltipCanvas = RT.GetComponent<CanvasGroup>();
-                    TooltipAnimator = RT.GetComponent<Animator>();
+                    _tooltipPanel = RT;
+                    _tooltipCanvas = RT.GetComponent<CanvasGroup>();
+                    _tooltipAnimator = RT.GetComponent<Animator>();
                     break;
             }
         }
 
-        foreach (RectTransform RT in TooltipPanel)
+        foreach (RectTransform RT in _tooltipPanel)
         {
             switch (RT.name)
             {
                 case "ToolTipTextBox":
-                    ToolTipTextRT = RT;
-                    ToolTipText = RT.GetComponent<Text>();
+                    _toolTipTextRt = RT;
+                    _toolTipText = RT.GetComponent<Text>();
                     break;
                 case "ResumeNextImage":
                     GetResumeNextComponents(RT);
                     break;
                 case "ResumePlayImage":
-                    ResumePlayRT = RT;
-                    ResumePlayImage = RT.GetComponent<Image>();
+                    _resumePlayRt = RT;
+                    _resumePlayImage = RT.GetComponent<Image>();
                     break;
                 case "NomeeWindow":
                     GetNomee(RT);
@@ -220,29 +237,29 @@ public class TooltipController : MonoBehaviour {
         {
             if (RT.name == "Nomee")
             {
-                Nomee = RT;
-                NomeeImage = RT.GetComponent<Image>();
+                _nomee = RT;
+                _nomeeImage = RT.GetComponent<Image>();
             }
         }
     }
 
     private void GetResumeNextComponents(RectTransform ResumeRT)
     {
-        ResumeNextRT = ResumeRT;
-        ResumeNextImage = ResumeNextRT.GetComponent<Image>();
-        foreach (RectTransform RT in ResumeNextRT)
+        _resumeNextRt = ResumeRT;
+        _resumeNextImage = _resumeNextRt.GetComponent<Image>();
+        foreach (RectTransform RT in _resumeNextRt)
         {
             if (RT.name == "ResumeNextText")
             {
-                ResumeNextText = RT.GetComponent<Text>();
+                _resumeNextText = RT.GetComponent<Text>();
             }
         }
     }
     
     public void ShowTooltipCanvas(bool Show)
     {
-        TooltipCanvas.interactable = Show;
-        TooltipCanvas.blocksRaycasts = Show;
-        TooltipCanvas.alpha = (Show ? 1f : 0f);
+        _tooltipCanvas.interactable = Show;
+        _tooltipCanvas.blocksRaycasts = Show;
+        _tooltipCanvas.alpha = (Show ? 1f : 0f);
     }
 }

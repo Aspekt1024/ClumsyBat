@@ -4,7 +4,6 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Collections;
 using System.Collections.Generic;
-using ToolID = TooltipHandler.TooltipID;
 
 public class StoryEventControl : MonoBehaviour {
 
@@ -14,7 +13,7 @@ public class StoryEventControl : MonoBehaviour {
         FirstGoldMoth
     }
     public bool[] StoryData = new bool[Enum.GetNames(typeof(StoryEvents)).Length];
-    public Dictionary<StoryEvents, ToolID[]> TooltipSet = new Dictionary<StoryEvents, ToolID[]>();
+    public Dictionary<StoryEvents, TooltipHandler.TooltipId[]> TooltipSet = new Dictionary<StoryEvents, TooltipHandler.TooltipId[]>();
 
     TooltipHandler TooltipControl = null;
     PlayerController PlayerControl = null;
@@ -104,8 +103,8 @@ public class StoryEventControl : MonoBehaviour {
     
     private void SetupTooltipDict()
     {
-        TooltipSet.Add(StoryEvents.FirstGoldMoth, new ToolID[] { ToolID.FirstGoldMoth1, ToolID.FirstGoldMoth2 });
-        TooltipSet.Add(StoryEvents.FirstDeath, new ToolID[] { ToolID.FirstDeath });
+        TooltipSet.Add(StoryEvents.FirstGoldMoth, new TooltipHandler.TooltipId[] { TooltipHandler.TooltipId.FirstGoldMoth1, TooltipHandler.TooltipId.FirstGoldMoth2 });
+        TooltipSet.Add(StoryEvents.FirstDeath, new TooltipHandler.TooltipId[] { TooltipHandler.TooltipId.FirstDeath });
         //TooltipSet.Add(StoryEvents, new ToolID[] { ToolID });
     }
 }

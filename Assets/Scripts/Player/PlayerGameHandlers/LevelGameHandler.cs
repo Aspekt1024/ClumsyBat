@@ -82,7 +82,7 @@ public class LevelGameHandler : GameHandler
     public bool VeryFirstStartupSequenceRequired()
     {
         if (Toolbox.Instance.Level == 1
-            && !Toolbox.Instance.TooltipCompleted(TooltipHandler.DialogueID.FirstJump)
+            && !Toolbox.Instance.TooltipCompleted(TooltipHandler.DialogueId.FirstJump)
             && Toolbox.Instance.ShowLevelTooltips)
         {
             return true;
@@ -104,10 +104,17 @@ public class LevelGameHandler : GameHandler
         Level.Stats.SaveStats();
     }
 
-    public sealed override void ResumeGame()
+    public sealed override void ResumeGame(bool immediate = false)
     {
-        Level.Stats.SaveStats();
-        StartCoroutine("UpdateResumeTimer");
+        if (immediate)
+        {
+            ResumeGameplay();
+        }
+        else
+        {
+            Level.Stats.SaveStats();
+            StartCoroutine("UpdateResumeTimer");
+        }
     }
 
     IEnumerator UpdateResumeTimer()
@@ -141,6 +148,31 @@ public class LevelGameHandler : GameHandler
     public override void Death()
     {
         Level.HorribleDeath();
+    }
+
+    public override void Collision(Collision2D other)
+    {
+        ThePlayer.DeactivateRush();
+
+        if (other.collider.name == "StalObject") { other.collider.GetComponentInParent<Stalactite>().Crack(); }
+
+        if (ThePlayer.ActivateShield())
+        { 
+            ThePlayer.PlaySound(ClumsyAudioControl.PlayerSounds.Collision); // TODO sounds
+        }
+        else
+        {
+            if (other.collider.name == "StalObject")
+            {
+                Level.Stats.ToothDeaths++;
+            }
+            else
+            {
+                Level.Stats.RockDeaths++; // TODO check for other objects
+            }
+            ThePlayer.PlaySound(ClumsyAudioControl.PlayerSounds.Collision);
+            ThePlayer.Die();
+        }
     }
 
     public override void TriggerEntered(Collider2D other)

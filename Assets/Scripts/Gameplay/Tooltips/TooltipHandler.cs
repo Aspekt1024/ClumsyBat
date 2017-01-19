@@ -128,6 +128,7 @@ public class TooltipHandler : MonoBehaviour {
             }
             if (_bFirstDialogue)
             {
+                _tooltipControl.RestoreOriginalScale();
                 yield return _tooltipControl.StartCoroutine("OpenTooltip");
             }
             yield return StartCoroutine("ShowTooltip", speech);
