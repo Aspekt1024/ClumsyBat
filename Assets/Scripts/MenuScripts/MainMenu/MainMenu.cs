@@ -136,6 +136,12 @@ public class MainMenu : MonoBehaviour {
         Scroller.StatsScreen();
     }
 
+    public void TrainingButtonClicked()
+    {
+        Stats.SaveStats();
+        SceneManager.LoadScene("Boss");
+    }
+
     public void ClearDataButtonClicked()
     {
         // TODO setup menu to ask "Are you sure?"

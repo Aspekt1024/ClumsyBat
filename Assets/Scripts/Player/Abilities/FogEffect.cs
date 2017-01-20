@@ -6,220 +6,236 @@ using System.Collections;
 /// </summary>
 public class FogEffect : MonoBehaviour {
 
-    public Material material;
-    private Transform Lantern;
-    private PlayerController PlayerControl;
+    public Material Material;
+    private Transform _lantern;
+    private PlayerController _playerControl;
 
     private const float FullSizeDuration = 7f;      // How long the light source stays at max after activation
     private const float EcholocateScale = 10f;      // How large the echo vision can get
     private const float VisionSetupTime = .7f;      // How long it takes the vision to increase to full size
-    private float ShrinkDuration = 4f;              // How long the echo vision takes to fade
-    private float MinFogScale = -0.4f;
+    private float _shrinkDuration = 4f;              // How long the echo vision takes to fade
+    private float _minFogScale = -0.4f;
 
-    private float InitialScale;
-    private float EchoScale;
-    private float EcholocateActivatedTime;          // Time the echo locate ability was activated
+    private float _initialScale;
+    private float _echoScale;
+    private float _echolocateActivatedTime;          // Time the echo locate ability was activated
 
-    private bool bAbilityPaused = true;             // Handles whether the ability degenerates
-    private bool bAbilityActivating = false;        // Quick animation to increase field of view
-    private bool bAbilityAnimating = false;         // Startup Animation flag
+    private bool _bAbilityPaused = true;             // Handles whether the ability degenerates
+    private bool _bAbilityActivating;        // Quick animation to increase field of view
+    private bool _bAbilityAnimating;         // Startup Animation flag
 
-    private bool bIsMinimised = false;
-    private float MinimiseStartTime = 0f;
-    private float ScaleModifier = 1f;
+    private bool _bIsMinimised;
+    private float _minimiseStartTime;
+    private float _scaleModifier = 1f;
     private const float MinimisedDuration = 5f;
 
     private const float PulseRadius = 0.4f;
     private const float PulseDuration = 0.6f;
-    private float PulseTimer;
-    private bool bPulseIncreasing = true;
+    private float _pulseTimer;
+    private bool _bPulseIncreasing = true;
 
-    private StatsHandler Stats = null;
+    private StatsHandler _stats;
 
-    void Start()
+    private enum FogStates
     {
-        Stats = FindObjectOfType<StatsHandler>();
-        Lantern = GameObject.Find("Lantern").GetComponent<Transform>();
-        PlayerControl = FindObjectOfType<PlayerController>();
-        
-        EcholocateActivatedTime = Time.time;
-        material.SetVector("_PlayerPos", Lantern.position);
-        material.SetFloat("_LightDist", EchoScale);
-        material.SetFloat("_DarknessAlpha", 0.85f);
+        Normal,
+        Minimised,
+        Disabled
+    }
+    private FogStates _state;
 
-        bIsMinimised = false;
-        EchoScale = -3f;
+    private void Start()
+    {
+        _stats = FindObjectOfType<StatsHandler>();
+        _lantern = GameObject.Find("Lantern").GetComponent<Transform>();
+        _playerControl = FindObjectOfType<PlayerController>();
+        
+        _echolocateActivatedTime = Time.time;
+        Material.SetVector("_PlayerPos", _lantern.position);
+        Material.SetFloat("_LightDist", _echoScale);
+        Material.SetFloat("_DarknessAlpha", 0.85f);
+
+        _state = FogStates.Normal;
+        _bIsMinimised = false;
+        _echoScale = -3f;
     }
 
     void Update()
     {
-        if (bAbilityPaused || bAbilityAnimating)
+        if (_state == FogStates.Disabled) { return; }
+        if (_bAbilityPaused || _bAbilityAnimating)
         {
-            EcholocateActivatedTime += Time.deltaTime;
+            _echolocateActivatedTime += Time.deltaTime;
         }
         else
         {
-            EchoScale = GetEchoScale();
-            if (EchoScale <= MinFogScale)
+            _echoScale = GetEchoScale();
+            if (_echoScale <= _minFogScale)
             {
-                EchoScale = MinFogScale;
-                Stats.DarknessTime += Time.deltaTime;
+                _echoScale = _minFogScale;
+                _stats.DarknessTime += Time.deltaTime;
             }
             
-            PulseTimer += Time.deltaTime;
-            EchoScale += GetLightPulse();
-            material.SetFloat("_LightDist", EchoScale);
+            _pulseTimer += Time.deltaTime;
+            _echoScale += GetLightPulse();
+            Material.SetFloat("_LightDist", _echoScale);
         }
-        Vector4 pos = Lantern.position;
-        material.SetVector("_PlayerPos", pos);
+        Vector4 pos = _lantern.position;
+        Material.SetVector("_PlayerPos", pos);
     }
 
     private float GetLightPulse()
     {
         // Makes the light source breathe
-        if (PulseTimer >= PulseDuration)
+        if (_pulseTimer >= PulseDuration)
         {
-            PulseTimer -= PulseDuration;
-            bPulseIncreasing = !bPulseIncreasing;
+            _pulseTimer -= PulseDuration;
+            _bPulseIncreasing = !_bPulseIncreasing;
         }
-        float Pulse = PulseRadius * (PulseTimer / PulseDuration);
-        return (bPulseIncreasing ? Pulse : (PulseRadius - Pulse));
+        float pulse = PulseRadius * (_pulseTimer / PulseDuration);
+        return (_bPulseIncreasing ? pulse : (PulseRadius - pulse));
     }
 
     private float GetEchoScale()
     {
-        float EchoTimer;
-        float EchoScale;
+        float echoTimer;
+        float echoScale;
 
-        if (bAbilityActivating)
+        if (_bAbilityActivating)
         {
             // Startup animation - increase the vision
-            EchoTimer = EcholocateActivatedTime + VisionSetupTime - Time.time;
-            EchoScale = InitialScale + (EcholocateScale - InitialScale) * (1f - EchoTimer / VisionSetupTime);
+            echoTimer = _echolocateActivatedTime + VisionSetupTime - Time.time;
+            echoScale = _initialScale + (EcholocateScale - _initialScale) * (1f - echoTimer / VisionSetupTime);
 
             // If startup animation is complete, start diminishing the vision
-            if (EchoTimer <= 0)
+            if (echoTimer <= 0)
             {
-                bAbilityActivating = false;
-                EcholocateActivatedTime = Time.time;
+                _bAbilityActivating = false;
+                _echolocateActivatedTime = Time.time;
             }
         }
-        else if (EcholocateActivatedTime + FullSizeDuration < Time.time)
+        else if (_echolocateActivatedTime + FullSizeDuration < Time.time)
         {
             // Echolocate diminishing - decrease the vision
-            EchoTimer = EcholocateActivatedTime + FullSizeDuration + ShrinkDuration - Time.time;
-            EchoScale = EcholocateScale * EchoTimer / ShrinkDuration;
+            echoTimer = _echolocateActivatedTime + FullSizeDuration + _shrinkDuration - Time.time;
+            echoScale = EcholocateScale * echoTimer / _shrinkDuration;
         }
         else
         {
-            EchoScale = EcholocateScale;
+            echoScale = EcholocateScale;
         }
 
-        EchoScale *= ScaleModifier;
+        echoScale *= _scaleModifier;
             
-        if (bIsMinimised && Time.time > MinimiseStartTime + MinimisedDuration)
+        if (_bIsMinimised && Time.time > _minimiseStartTime + MinimisedDuration)
         {
             StartCoroutine("ChangeScale", 1f);
-            bIsMinimised = false;
+            _bIsMinimised = false;
         }
 
-        return EchoScale;
+        return echoScale;
     }
 
     public void Echolocate()
     {
         // Increase size from current scale to max scale
-        InitialScale = EchoScale / ScaleModifier;
-        bAbilityActivating = true;
-        EcholocateActivatedTime = Time.time;
+        _initialScale = _echoScale / _scaleModifier;
+        _bAbilityActivating = true;
+        _echolocateActivatedTime = Time.time;
     }
 
     public void EndOfLevel()
     {
-        bAbilityPaused = false;
-        if (EcholocateActivatedTime + FullSizeDuration >= Time.time)
+        _bAbilityPaused = false;
+        if (_echolocateActivatedTime + FullSizeDuration >= Time.time)
         {
-            EcholocateActivatedTime = Time.time - FullSizeDuration;
+            _echolocateActivatedTime = Time.time - FullSizeDuration;
         }
-        MinFogScale = -3f;
-        ShrinkDuration = 1.5f;
+        _minFogScale = -3f;
+        _shrinkDuration = 1.5f;
         StartCoroutine("FogFader");
     }
 
     public void StartOfLevel()
     {
-        EchoScale = -3f;
-        float AnimDuration = 2.2f;
+        _echoScale = -3f;
+        float animDuration = 2.2f;
         // First level is a tutorial level, so we're changing the animation for this only
-        if (PlayerControl.VeryFirstStartupSequenceRequired())
+        if (_playerControl.VeryFirstStartupSequenceRequired())
         {
-            AnimDuration = 0.7f;
+            animDuration = 0.7f;
         }
-        StartCoroutine("LevelStartAnim", AnimDuration);
+        StartCoroutine("LevelStartAnim", animDuration);
     }
 
-    private IEnumerator LevelStartAnim(float AnimDuration)
+    private IEnumerator LevelStartAnim(float animDuration)
     {
-        bAbilityPaused = false;
-        bAbilityAnimating = true;
+        _bAbilityPaused = false;
+        _bAbilityAnimating = true;
 
-        float AnimTime = 0f;
-        while (AnimTime < AnimDuration)
+        float animTime = 0f;
+        while (animTime < animDuration)
         {
-            AnimTime += Time.deltaTime;
+            animTime += Time.deltaTime;
 
-            EchoScale = (EcholocateScale - 3 * (1 - AnimTime / AnimDuration)) * (AnimTime / AnimDuration);
+            _echoScale = (EcholocateScale - 3 * (1 - animTime / animDuration)) * (animTime / animDuration);
 
-            PulseTimer += Time.deltaTime;
-            EchoScale += GetLightPulse();
-            material.SetFloat("_LightDist", EchoScale);
+            _pulseTimer += Time.deltaTime;
+            _echoScale += GetLightPulse();
+            Material.SetFloat("_LightDist", _echoScale);
 
             yield return null;
         }
-        bAbilityAnimating = false;
+        _bAbilityAnimating = false;
     }
 
     private IEnumerator FogFader()
     {
-        const float StartAlpha = 0.85f;
-        const float EndAlpha = 0f;
-        const float AnimDuration = 3f;
-        float AnimTimer = 0f;
+        const float startAlpha = 0.85f;
+        const float endAlpha = 0f;
+        const float animDuration = 3f;
+        float animTimer = 0f;
 
-        while (AnimTimer < AnimDuration)
+        while (animTimer < animDuration)
         {
-            AnimTimer += Time.deltaTime;
-            float Alpha = StartAlpha - (StartAlpha - EndAlpha) * (AnimTimer / AnimDuration);
-            material.SetFloat("_DarknessAlpha", Alpha);
+            animTimer += Time.deltaTime;
+            float alpha = startAlpha - (startAlpha - endAlpha) * (animTimer / animDuration);
+            Material.SetFloat("_DarknessAlpha", alpha);
             yield return null;
         }
     }
 
     public void Minimise()
     {
-        if (!bIsMinimised)
+        if (!_bIsMinimised)
         {
             StartCoroutine("ChangeScale", 0.2f);
         }
-        MinimiseStartTime = Time.time;
-        bIsMinimised = true;
+        _minimiseStartTime = Time.time;
+        _bIsMinimised = true;
     }
 
-    private IEnumerator ChangeScale(float Scale)
+    private IEnumerator ChangeScale(float scale)
     {
-        float StartModifier = ScaleModifier;
-        float AnimTimer = 0f;
-        const float AnimDuration = 0.5f;
+        float startModifier = _scaleModifier;
+        float animTimer = 0f;
+        const float animDuration = 0.5f;
 
-        while (AnimTimer < AnimDuration)
+        while (animTimer < animDuration)
         {
-            AnimTimer += Time.deltaTime;
-            ScaleModifier = StartModifier - (StartModifier - Scale) * (AnimTimer / AnimDuration);
+            animTimer += Time.deltaTime;
+            _scaleModifier = startModifier - (startModifier - scale) * (animTimer / animDuration);
             yield return null;
         }
-        ScaleModifier = Scale;
+        _scaleModifier = scale;
     }
 
-    public void Pause() { bAbilityPaused = true; }
-    public void Resume() { bAbilityPaused = false; }
+    public void Disable()
+    {
+        _state = FogStates.Disabled;
+        GetComponent<SpriteRenderer>().enabled = false;
+    }
+
+    public void Pause() { _bAbilityPaused = true; }
+    public void Resume() { _bAbilityPaused = false; }
 }

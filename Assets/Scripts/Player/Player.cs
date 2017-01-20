@@ -11,9 +11,8 @@ public class Player : MonoBehaviour {
     [HideInInspector]
     public StatsHandler Stats;  // TODO refer to DataHandler once created
     [HideInInspector]
-    public FogEffect Fog;
-    [HideInInspector]
     public Lantern Lantern;
+    public FogEffect Fog;
     #endregion
 
     #region Abilities
@@ -55,8 +54,8 @@ public class Player : MonoBehaviour {
     #endregion
     
     private GameHandler _gameHandler;
-    
-    private void Start ()
+
+    private void Awake()
     {
         _playerSpeed = 1f;
         _playerRigidBody = GetComponent<Rigidbody2D>();
@@ -64,22 +63,20 @@ public class Player : MonoBehaviour {
         _playerRigidBody.gravityScale = GravityScale;
         _audioControl = gameObject.AddComponent<ClumsyAudioControl>();
         _gameHandler = FindObjectOfType<GameHandler>();
+        _anim = GetComponent<Animator>();
+        _lanternBody = GameObject.Find("Lantern").GetComponent<Rigidbody2D>();
+        Lantern = _lanternBody.GetComponent<Lantern>();
         GameObject clearanceGameObj = GameObject.Find("JumpClearance");
         if (clearanceGameObj)
         {
             _clearance = clearanceGameObj.GetComponent<JumpClearance>();
         }
+    }
+
+    private void Start ()
+    {
         CheckIfOffscreen();
-
-        _anim = GetComponent<Animator>();
-
-        _lanternBody = GameObject.Find("Lantern").GetComponent<Rigidbody2D>();
-        Lantern = _lanternBody.GetComponent<Lantern>();
-
-        transform.position = new Vector3(-Toolbox.TileSizeX / 2f, 0f, transform.position.z);
-        
         Stats = FindObjectOfType<StatsHandler>();
-
         SetupAbilities();
     }
 
@@ -87,7 +84,7 @@ public class Player : MonoBehaviour {
     {
         if (_state == PlayerState.Normal)
         {
-            _clearance.transform.position = transform.position;
+            if (_clearance) { _clearance.transform.position = transform.position; }
 
             if (!_shield.IsInUse())
             {

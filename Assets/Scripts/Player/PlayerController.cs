@@ -34,9 +34,9 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         State = GameState.Starting;
-        var inputObject = GameObject.Find("Scripts");
-        _inputManager = inputObject.AddComponent<SwipeManager>();
-        _gameHandler = inputObject.GetComponent<GameHandler>();
+        var scriptsObject = GameObject.Find("Scripts");
+        _inputManager = scriptsObject.AddComponent<SwipeManager>();
+        _gameHandler = scriptsObject.GetComponent<GameHandler>();
         ThePlayer = FindObjectOfType<Player>();
     }
 
@@ -47,23 +47,17 @@ public class PlayerController : MonoBehaviour
     
     private void Update()
     {
-        if (State == GameState.Paused || State == GameState.Resuming || !ThePlayer.IsAlive()) { return; }
-        
+        if (State != GameState.Normal || !ThePlayer.IsAlive()) { return; }
+
         ProcessInput();
     }
 
     private void ProcessInput()
     {
-        if (State == GameState.PausedForTooltip || State == GameState.Starting || !_bTouchInputEnabled) { return; }
+        if (!_bTouchInputEnabled) { return; }
 
-        if (_inputManager.SwipeRegistered())
-        {
-            ProcessSwipe();
-        }
-        if (_inputManager.TapRegistered())
-        {
-            ProcessTap();
-        }
+        if (_inputManager.SwipeRegistered()) { ProcessSwipe(); }
+        if (_inputManager.TapRegistered()) { ProcessTap(); }
         
         if (Input.GetKeyUp("w"))
         {
@@ -77,7 +71,7 @@ public class PlayerController : MonoBehaviour
 
     private void ProcessTap()
     {
-        if (State == GameState.Paused) { ResumeGame(); }
+        if (State == GameState.Paused) { return; }
         ThePlayer.ActivateJump();
     }
 

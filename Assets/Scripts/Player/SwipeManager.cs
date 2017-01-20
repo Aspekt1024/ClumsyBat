@@ -20,7 +20,7 @@ public class SwipeManager : MonoBehaviour
     private float SwipeResistanceX = 70f;
     private float TouchStartPos;
     private float TouchStartTime;
-    private const float StationaryTime = 0.07f;
+    private const float StationaryTime = 0.06f;
     private const float SwipeTime = 0.4f;
 
     private bool GestureSet = false;

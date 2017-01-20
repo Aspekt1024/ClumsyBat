@@ -14,6 +14,7 @@ public class LevelGameHandler : GameHandler
     private void Start ()
     {
         Level = FindObjectOfType<LevelScript>();
+        ThePlayer.transform.position = new Vector3(-Toolbox.TileSizeX / 2f, 0f, ThePlayer.transform.position.z);
     }
 	
 	private void Update ()
@@ -94,7 +95,6 @@ public class LevelGameHandler : GameHandler
     {
         PlayerController.EnterGamePlay();
         Level.StartGame();
-        
     }
 
     public sealed override void PauseGame(bool showMenu)
