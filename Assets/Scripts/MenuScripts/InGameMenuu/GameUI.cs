@@ -1,36 +1,37 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
 public class GameUI : MonoBehaviour {
     
-    private Image PauseImage;
-    private Button PauseButton;
-    private Text ScoreText;
-    private Text CurrencyText;
-    private Text CollectedCurrencyText;
-    private Text LevelText;
-    private Text ResumeTimerText;
-    private RectTransform CooldownBar;
-    private Image CooldownImage;
+    private Image _pauseImage;
+    private Button _pauseButton;
+    private Text _scoreText;
+    private Text _currencyText;
+    private Text _collectedCurrencyText;
+    private Text _levelText;
+    private Text _resumeTimerText;
+    private RectTransform _cooldownBar;
+    private Image _cooldownImage;
 
     // We're keeping these to isolate the values from the stats when we do the level won currency collect animation
-    private int Currency = 0;
-    private int CollectedCurrency = 0;
+    private int _currency;
+    private int _collectedCurrency;
 
-    private bool bPulseAnimating = false;
-    private Vector3 CurrencyScale;
-    private Vector3 CollectedCurrencyScale;
-    private RectTransform CurrencyRT;
-    private RectTransform CollectedCurrencyRT;
+    private bool _bPulseAnimating;
+    private Vector3 _currencyScale;
+    private Vector3 _collectedCurrencyScale;
+    private RectTransform _currencyRt;
+    private RectTransform _collectedCurrencyRt;
 
-    private RectTransform ResumeTimerRT;
-    private int ResumeTime;
-    private bool bCooldownReady = false;
+    private RectTransform _resumeTimerRt;
+    private int _resumeTime;
+    private bool _bCooldownReady;
 
-    private StatsHandler Stats = null;
+    private StatsHandler _stats;
 
-    private bool bGamePaused = false;
+    private bool _bGamePaused;
     
     void Awake()
     {
@@ -39,82 +40,82 @@ public class GameUI : MonoBehaviour {
 
 	void Start ()
     {
-        Stats = FindObjectOfType<StatsHandler>();
-        SetupUI();
+        _stats = FindObjectOfType<StatsHandler>();
+        SetupUi();
 	}
 	
 	void Update ()
     {
-        if (bGamePaused) { return; }
-        ScoreText.text = ((int)Stats.Distance).ToString() + "m";
+        if (_bGamePaused) { return; }
+        _scoreText.text = ((int)_stats.Distance) + "m";
     }
 
-    private void SetupUI()
+    private void SetupUi()
     {
-        CurrencyText.text = Stats.Currency.ToString();
+        _currencyText.text = _stats.Currency.ToString();
         EnablePauseButton(false);
-        UpdateCurrency(Pulse: false);
+        UpdateCurrency(pulse: false);
     }
 
-    public void UpdateCurrency(bool Pulse)
+    public void UpdateCurrency(bool pulse)
     {
-        Currency = Stats.Currency;
-        CollectedCurrency = Stats.CollectedCurrency;
-        if (Pulse)
+        _currency = _stats.Currency;
+        _collectedCurrency = _stats.CollectedCurrency;
+        if (pulse)
         {
-            StartCoroutine("PulseObject", CollectedCurrencyRT);
+            StartCoroutine("PulseObject", _collectedCurrencyRt);
         }
         SetCurrencyText();
     }
 
     private void SetCurrencyText()
     {
-        if (CollectedCurrency > 0)
+        if (_collectedCurrency > 0)
         {
-            CollectedCurrencyText.text = "+ " + CollectedCurrency.ToString();
+            _collectedCurrencyText.text = "+ " + _collectedCurrency;
         }
         else
         {
-            CollectedCurrencyText.text = string.Empty;
+            _collectedCurrencyText.text = string.Empty;
         }
-        CurrencyText.text = Currency.ToString();
+        _currencyText.text = _currency.ToString();
     }
 
     private void GetTextObjects()
     {
-        foreach (RectTransform RT in GetComponent<RectTransform>())
+        foreach (RectTransform rt in GetComponent<RectTransform>())
         {
-            switch (RT.name)
+            switch (rt.name)
             {
                 case "ResumeTimerText":
-                    ResumeTimerText = RT.GetComponent<Text>();
-                    ResumeTimerRT = RT;
+                    _resumeTimerText = rt.GetComponent<Text>();
+                    _resumeTimerRt = rt;
                     break;
                 case "PauseButton":
-                    PauseButton = RT.GetComponent<Button>();
-                    PauseImage = RT.GetComponent<Image>();
+                    _pauseButton = rt.GetComponent<Button>();
+                    _pauseImage = rt.GetComponent<Image>();
                     break;
                 case "LevelText":
-                    LevelText = RT.GetComponent<Text>();
+                    _levelText = rt.GetComponent<Text>();
                     break;
                 case "ScoreText":
-                    ScoreText = RT.GetComponent<Text>();
+                    _scoreText = rt.GetComponent<Text>();
                     break;
                 case "CurrencyText":
-                    CurrencyText = RT.GetComponent<Text>();
-                    CurrencyRT = RT;
+                    _currencyText = rt.GetComponent<Text>();
+                    _currencyRt = rt;
                     break;
                 case "CollectedCurrencyText":
-                    CollectedCurrencyText = RT.GetComponent<Text>();
-                    CollectedCurrencyRT = RT;
+                    _collectedCurrencyText = rt.GetComponent<Text>();
+                    _collectedCurrencyRt = rt;
                     break;
                 case "CooldownPanel":
-                    foreach (RectTransform childRT in RT)
+                    foreach (RectTransform childRt in rt)
                     {
-                        if (childRT.name == "CooldownBar")
+                        if (childRt.name == "CooldownBar")
                         {
-                            CooldownBar = childRT;
-                            CooldownImage = childRT.GetComponent<Image>();
+                            _cooldownBar = childRt;
+                            _cooldownImage = childRt.GetComponent<Image>();
                         }
                     }
                     break;
@@ -122,52 +123,52 @@ public class GameUI : MonoBehaviour {
         }
     }
 
-    public void SetResumeTimer(float TimeRemaining)
+    public void SetResumeTimer(float timeRemaining)
     {
-        if (ResumeTimerText.enabled == false)
+        if (_resumeTimerText.enabled == false)
         {
-            ResumeTimerText.enabled = true;
+            _resumeTimerText.enabled = true;
         }
-        if (ResumeTime != Mathf.CeilToInt(TimeRemaining))
+        if (_resumeTime != Mathf.CeilToInt(timeRemaining))
         {
-            ResumeTime = Mathf.CeilToInt(TimeRemaining);
-            if (ResumeTime == 0)
+            _resumeTime = Mathf.CeilToInt(timeRemaining);
+            if (_resumeTime == 0)
             {
                 return;
             }
-            StartCoroutine("PulseObject", ResumeTimerRT);
-            ResumeTimerText.text = ResumeTime.ToString();
+            StartCoroutine("PulseObject", _resumeTimerRt);
+            _resumeTimerText.text = _resumeTime.ToString();
         }
     }
 
     public void HideResumeTimer()
     {
-        ResumeTimerText.enabled = false;
+        _resumeTimerText.enabled = false;
     }
 
-    public void SetStartText(string StartText)
+    public void SetStartText(string startText)
     {
-        StartCoroutine("PulseObject", ResumeTimerRT);
-        ResumeTimerText.text = StartText;
+        StartCoroutine("PulseObject", _resumeTimerRt);
+        _resumeTimerText.text = startText;
     }
 
-    public void SetLevelText(int Level)
+    public void SetLevelText(int level)
     {
         // Note: this must be called by the LevelScript once the level has been set in the Toolbox
-        if (Level == -1)
+        if (level == -1)
         {
-            LevelText.text = "Level: Endless";
+            _levelText.text = "Level: Endless";
         }
         else
         {
-            LevelText.text = "Level: " + Toolbox.Instance.LevelNames[Level];
+            _levelText.text = "Level: " + Toolbox.Instance.LevelNames[level];
         }
     }
 
-    public void GamePaused(bool Paused)
+    public void GamePaused(bool paused)
     {
-        bGamePaused = Paused;
-        EnablePauseButton(!Paused);
+        _bGamePaused = paused;
+        EnablePauseButton(!paused);
     }
 
     public void StartGame()
@@ -183,8 +184,8 @@ public class GameUI : MonoBehaviour {
 
     private void EnablePauseButton(bool bEnabled)
     {
-        PauseButton.interactable = bEnabled;
-        PauseImage.enabled = bEnabled;
+        _pauseButton.interactable = bEnabled;
+        _pauseImage.enabled = bEnabled;
     }
 
     public void LevelWon()
@@ -193,66 +194,66 @@ public class GameUI : MonoBehaviour {
         StartCoroutine("ProcessCurrency", true);
     }
 
-    public void SetCooldown(float Ratio)
+    public void SetCooldown(float ratio)
     {
-        CooldownBar.localScale = new Vector2(Ratio, CooldownBar.localScale.y);
-        if (Ratio == 1f && !bCooldownReady)
+        _cooldownBar.localScale = new Vector2(ratio, _cooldownBar.localScale.y);
+        if (Math.Abs(ratio - 1f) < 0.01f && !_bCooldownReady)
         {
-            StartCoroutine("PulseObject", CooldownBar);
-            bCooldownReady = true;
-            CooldownImage.color = new Color(212 / 255f, 195 / 255f, 126 / 255f);
+            StartCoroutine("PulseObject", _cooldownBar);
+            _bCooldownReady = true;
+            _cooldownImage.color = new Color(212 / 255f, 195 / 255f, 126 / 255f);
         }
-        else if (Ratio < 1 && bCooldownReady)
+        else if (ratio < 1 && _bCooldownReady)
         {
-            bCooldownReady = false;
-            CooldownImage.color = new Color(110 / 255f, 229 / 255f, 119 / 255f);
+            _bCooldownReady = false;
+            _cooldownImage.color = new Color(110 / 255f, 229 / 255f, 119 / 255f);
         }
     }
 
     public void ShowCooldown(bool bShow)
     {
-        CooldownImage.enabled = bShow;
+        _cooldownImage.enabled = bShow;
     }
 
     private IEnumerator ProcessCurrency(bool bCollect)
     {
         // Note: Currency has already been processed elsewhere
         // This is just an animation
-        float AnimTimer = 0f;
-        const float AnimDuration = 1f;
-        float FromCurrency = CollectedCurrency;
-        float ToCurrency = Currency + CollectedCurrency;
+        float animTimer = 0f;
+        const float animDuration = 1f;
+        float fromCurrency = _collectedCurrency;
+        float toCurrency = _currency + _collectedCurrency;
         
-        CurrencyScale = CurrencyRT.localScale;
-        CollectedCurrencyScale = CollectedCurrencyRT.localScale;
+        _currencyScale = _currencyRt.localScale;
+        _collectedCurrencyScale = _collectedCurrencyRt.localScale;
         
-        while (AnimTimer < AnimDuration)
+        while (animTimer < animDuration)
         {
-            AnimTimer += Time.deltaTime;
-            float Delta = AnimTimer / AnimDuration;
+            animTimer += Time.deltaTime;
+            float delta = animTimer / animDuration;
             
             if (bCollect)
             {
-                int OldCurrency = Currency;
-                Currency = (int)(ToCurrency - (int)((1 - Delta) * FromCurrency));
-                if (OldCurrency != Currency)
+                int oldCurrency = _currency;
+                _currency = (int)(toCurrency - (int)((1 - delta) * fromCurrency));
+                if (oldCurrency != _currency)
                 {
-                    CurrencyRT.localScale = CurrencyScale;
-                    StartCoroutine("PulseObject", CurrencyRT);
+                    _currencyRt.localScale = _currencyScale;
+                    StartCoroutine("PulseObject", _currencyRt);
                 }
             }
 
-            int OldCollectedCurrency = CollectedCurrency;
-            CollectedCurrency = (int)((1 - Delta) * FromCurrency);
-            if (CollectedCurrency != OldCollectedCurrency)
+            int oldCollectedCurrency = _collectedCurrency;
+            _collectedCurrency = (int)((1 - delta) * fromCurrency);
+            if (_collectedCurrency != oldCollectedCurrency)
             {
-                CollectedCurrencyRT.localScale = CollectedCurrencyScale;
-                StartCoroutine("PulseObject", CollectedCurrencyRT);
+                _collectedCurrencyRt.localScale = _collectedCurrencyScale;
+                StartCoroutine("PulseObject", _collectedCurrencyRt);
             }
             
-            while (bPulseAnimating && CollectedCurrency == 0)
+            while (_bPulseAnimating && _collectedCurrency == 0)
             {
-                AnimTimer += Time.deltaTime;
+                animTimer += Time.deltaTime;
                 yield return null;
             }
 
@@ -261,30 +262,30 @@ public class GameUI : MonoBehaviour {
         }
     }
 
-    private IEnumerator PulseObject(RectTransform TextObject)
+    private IEnumerator PulseObject(RectTransform textObject)
     {
-        float AnimTimer = 0f;
-        const float AnimDuration = 0.2f;
-        const float ScaleMax = 0.25f;
+        float animTimer = 0f;
+        const float animDuration = 0.2f;
+        const float scaleMax = 0.25f;
 
-        Vector3 StartScale = TextObject.localScale;
+        Vector3 startScale = textObject.localScale;
 
-        bPulseAnimating = true;
-        while (AnimTimer < AnimDuration)
+        _bPulseAnimating = true;
+        while (animTimer < animDuration)
         {
-            float Scale = 1f;
-            if (AnimTimer > AnimDuration / 2)
+            float scale;
+            if (animTimer > animDuration / 2)
             {
-                Scale = (1f + ScaleMax) - (ScaleMax * (AnimTimer - AnimDuration / 2) / (AnimDuration / 2));
+                scale = (1f + scaleMax) - (scaleMax * (animTimer - animDuration / 2) / (animDuration / 2));
             }
             else
             {
-                Scale = 1f + (ScaleMax * AnimTimer / (AnimDuration / 2));
+                scale = 1f + (scaleMax * animTimer / (animDuration / 2));
             }
-            TextObject.localScale = StartScale * Scale;
-            AnimTimer += Time.deltaTime;
+            textObject.localScale = startScale * scale;
+            animTimer += Time.deltaTime;
             yield return null;
         }
-        bPulseAnimating = false;
+        _bPulseAnimating = false;
     }
 }

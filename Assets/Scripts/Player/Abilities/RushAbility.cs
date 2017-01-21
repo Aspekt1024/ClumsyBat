@@ -106,7 +106,7 @@ public class RushAbility : MonoBehaviour {
             _numCharges = Mathf.Clamp(_numCharges++, 0, _maxCharges);
             _numMoths = (_numCharges == _maxCharges ? 1 : 0);
         }
-        _gameHud.SetCooldown(_numMoths / _numMothsToRecharge);
+        _gameHud.SetCooldown((float)_numMoths / _numMothsToRecharge);
     }
 
     private void SetupHudBar()

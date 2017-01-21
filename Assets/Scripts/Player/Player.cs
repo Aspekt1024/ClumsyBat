@@ -123,7 +123,7 @@ public class Player : MonoBehaviour {
 
     public bool IsAlive()
     {
-        return _state != PlayerState.Dead;
+        return _state != PlayerState.Dead && _state != PlayerState.Dying;
     }
 
     public void ExitAutoFlightReached()

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System;
-using System.Collections;
 
 using GameState = GameHandler.GameStates;
 
@@ -59,14 +58,8 @@ public class PlayerController : MonoBehaviour
         if (_inputManager.SwipeRegistered()) { ProcessSwipe(); }
         if (_inputManager.TapRegistered()) { ProcessTap(); }
         
-        if (Input.GetKeyUp("w"))
-        {
-            ProcessTap();
-        }
-        else if (Input.GetKeyUp("a"))
-        {
-            ProcessSwipe();
-        }
+        if (Input.GetKeyUp("w")) { ProcessTap(); }
+        else if (Input.GetKeyUp("a")) { ProcessSwipe(); }
     }
 
     private void ProcessTap()

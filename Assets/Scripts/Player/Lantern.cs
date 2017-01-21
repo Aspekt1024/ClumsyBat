@@ -6,11 +6,11 @@ using System.Collections;
 /// </summary>
 public class Lantern : MonoBehaviour {
 
-    private HingeJoint2D LanternHinge = null;
-    private Rigidbody2D LanternBody = null;
-    private PolygonCollider2D LanternCollider = null;
-    private SpriteRenderer Globe = null;
-    private SpriteRenderer Light = null;
+    private HingeJoint2D _lanternHinge;
+    private Rigidbody2D _lanternBody;
+    private PolygonCollider2D _lanternCollider;
+    private SpriteRenderer _globe;
+    private SpriteRenderer _light;
     
     public enum LanternColour
     {
@@ -19,22 +19,22 @@ public class Lantern : MonoBehaviour {
         Gold,
         Blue
     }
-    private LanternColour Colour = LanternColour.Green;
-    private bool Paused;
-    private bool bDropped = false;
-    private bool bColourChanging = false;
-    private Vector2 StoredVelocity;
-    private Vector2 LightScale;     // Flicker and change colour will be centered around the initial scale
+    private LanternColour _colour = LanternColour.Green;
+    private bool _paused;
+    private bool _bDropped;
+    private bool _bColourChanging;
+    private Vector2 _storedVelocity;
+    private Vector2 _lightScale;     // Flicker and change colour will be centered around the initial scale
 
     void Start ()
     {
-        LanternHinge = GetComponent<HingeJoint2D>();
-        LanternBody = GetComponent<Rigidbody2D>();
-        LanternCollider = GetComponent<PolygonCollider2D>();
+        _lanternHinge = GetComponent<HingeJoint2D>();
+        _lanternBody = GetComponent<Rigidbody2D>();
+        _lanternCollider = GetComponent<PolygonCollider2D>();
         GetChildComponents();
 
-        LanternCollider.enabled = false;
-        LightScale = Light.transform.localScale;
+        _lanternCollider.enabled = false;
+        _lightScale = _light.transform.localScale;
         SetColour();
 
         StartCoroutine("Flicker");
@@ -42,28 +42,28 @@ public class Lantern : MonoBehaviour {
 
     private IEnumerator Flicker()
     {
-        const float Period = 0.2f;
-        float Timer = 0f;
+        const float period = 0.2f;
+        float timer = 0f;
         bool bGrowing = true;
-        const float Size = 0.1f;
-
+        const float size = 0.1f;
+        
         while (true)
         {
-            if (!Paused && !bColourChanging)
+            if (!_paused && !_bColourChanging)
             {
-                Timer += Time.deltaTime;
-                if (Timer >= Period)
+                timer += Time.deltaTime;
+                if (timer >= period)
                 {
-                    Timer -= Period;
+                    timer -= period;
                     bGrowing = !bGrowing;
                 }
                 if (bGrowing)
                 {
-                    Light.transform.localScale = LightScale * (1f + Size * Timer / Period);
+                    _light.transform.localScale = _lightScale * (1f + size * timer / period);
                 }
                 else
                 {
-                    Light.transform.localScale = LightScale * (1f + Size - Size * Timer / Period);
+                    _light.transform.localScale = _lightScale * (1f + size - size * timer / period);
                 }
             }
             yield return null;
@@ -72,15 +72,15 @@ public class Lantern : MonoBehaviour {
 
     private void GetChildComponents()
     {
-        foreach (Transform ChildObj in transform)
+        foreach (Transform childObj in transform)
         {
-            switch (ChildObj.name)
+            switch (childObj.name)
             {
                 case "LanternGlobe":
-                    Globe = ChildObj.GetComponent<SpriteRenderer>();
+                    _globe = childObj.GetComponent<SpriteRenderer>();
                     break;
                 case "LanternLight":
-                    Light = ChildObj.GetComponent<SpriteRenderer>();
+                    _light = childObj.GetComponent<SpriteRenderer>();
                     break;
             }
         }
@@ -88,105 +88,106 @@ public class Lantern : MonoBehaviour {
 
     public void Drop()
     {
-        bDropped = true;
+        _bDropped = true;
         gameObject.GetComponent<PolygonCollider2D>().enabled = true;
-        LanternHinge.enabled = false;
-        LanternBody.velocity = new Vector2(Random.Range(1f, 5f), 1f);
-        LanternBody.AddTorque(Random.Range(100f, 600f));
+        _lanternHinge.enabled = false;
+        _lanternBody.velocity = new Vector2(Random.Range(1f, 5f), 1f);
+        _lanternBody.AddTorque(Random.Range(100f, 600f));
     }
 
     public void AddRushForce()
     {
-        JointMotor2D LanternMotor = LanternHinge.motor;
-        LanternMotor.motorSpeed = 1000;
-        LanternHinge.motor = LanternMotor;
+        JointMotor2D lanternMotor = _lanternHinge.motor;
+        lanternMotor.motorSpeed = 1000;
+        _lanternHinge.motor = lanternMotor;
         StartCoroutine("EngageMotor");
     }
 
     private IEnumerator EngageMotor()
     {
-        LanternHinge.useMotor = true;
+        _lanternHinge.useMotor = true;
         yield return new WaitForSeconds(0.2f);
-        LanternHinge.useMotor = false;
+        _lanternHinge.useMotor = false;
     }
 
     public void GamePaused(bool bPaused)
     {
-        Paused = bPaused;
-        if (Paused)
+        _paused = bPaused;
+        if (_paused)
         {
-            StoredVelocity = LanternBody.velocity;
-            LanternBody.isKinematic = true;
+            _storedVelocity = _lanternBody.velocity;
+            _lanternBody.velocity = Vector2.zero;
+            _lanternBody.isKinematic = true;
         }
         else
         {
-            LanternBody.isKinematic = false;
-            LanternBody.velocity = StoredVelocity;
+            _lanternBody.isKinematic = false;
+            _lanternBody.velocity = _storedVelocity;
         }
-        LanternHinge.enabled = (bDropped ? false : !bPaused);
+        _lanternHinge.enabled = (!_bDropped && !bPaused);
     }
 
-    public void ChangeColour(LanternColour LColour)
+    public void ChangeColour(LanternColour lColour)
     {
-        if (Colour == LColour)
+        if (_colour == lColour)
         {
             return;
         }
-        Colour = LColour;
+        _colour = lColour;
         StartCoroutine("ColourChange");
     }
 
     private IEnumerator ColourChange()
     {
-        bColourChanging = true;
+        _bColourChanging = true;
 
-        float AnimTimer = 0f;
-        const float ShrinkDuration = 0.1f;
-        const float PulseDuration = 0.1f;
-        const float SettleDuration = 0.2f;
+        float animTimer = 0f;
+        const float shrinkDuration = 0.1f;
+        const float pulseDuration = 0.1f;
+        const float settleDuration = 0.2f;
 
-        while (AnimTimer < ShrinkDuration)
+        while (animTimer < shrinkDuration)
         {
-            AnimTimer += Time.deltaTime;
-            Light.transform.localScale = LightScale * (1f - 0.8f * AnimTimer / ShrinkDuration);
+            animTimer += Time.deltaTime;
+            _light.transform.localScale = _lightScale * (1f - 0.8f * animTimer / shrinkDuration);
             yield return null;
         }
         SetColour();
 
-        AnimTimer = 0f;
-        while (AnimTimer < PulseDuration)
+        animTimer = 0f;
+        while (animTimer < pulseDuration)
         {
-            AnimTimer += Time.deltaTime;
-            Light.transform.localScale = LightScale * (0.2f + 1.3f * AnimTimer / ShrinkDuration);
+            animTimer += Time.deltaTime;
+            _light.transform.localScale = _lightScale * (0.2f + 1.3f * animTimer / shrinkDuration);
             yield return null;
         }
 
-        AnimTimer = 0f;
-        while (AnimTimer < SettleDuration)
+        animTimer = 0f;
+        while (animTimer < settleDuration)
         {
-            AnimTimer += Time.deltaTime;
-            Light.transform.localScale = LightScale * (1.5f - (0.5f * AnimTimer / SettleDuration));
+            animTimer += Time.deltaTime;
+            _light.transform.localScale = _lightScale * (1.5f - (0.5f * animTimer / settleDuration));
             yield return null;
         }
-        Light.transform.localScale = LightScale;
-        bColourChanging = false;
+        _light.transform.localScale = _lightScale;
+        _bColourChanging = false;
     }
 
     private void SetColour()
     {
-        switch (Colour)
+        switch (_colour)
         {
             case LanternColour.Green:
-                Globe.color = new Color(110 / 255f, 229 / 255f, 119 / 255f);
-                Light.color = new Color(110 / 255f, 229 / 255f, 119 / 255f);
+                _globe.color = new Color(110 / 255f, 229 / 255f, 119 / 255f);
+                _light.color = new Color(110 / 255f, 229 / 255f, 119 / 255f);
                 break;
             case LanternColour.Gold:
-                Globe.color = new Color(212 / 255f, 195 / 255f, 126 / 255f);
-                Light.color = new Color(212 / 255f, 195 / 255f, 126 / 255f);
+                _globe.color = new Color(212 / 255f, 195 / 255f, 126 / 255f);
+                _light.color = new Color(212 / 255f, 195 / 255f, 126 / 255f);
                 break;
             case LanternColour.Blue:
-                Globe.color = new Color(151 / 255f, 147 / 255f, 231 / 255f);
-                Light.color = new Color(151 / 255f, 147 / 255f, 231 / 255f);
+                _globe.color = new Color(151 / 255f, 147 / 255f, 231 / 255f);
+                _light.color = new Color(151 / 255f, 147 / 255f, 231 / 255f);
                 break;
         }
     }

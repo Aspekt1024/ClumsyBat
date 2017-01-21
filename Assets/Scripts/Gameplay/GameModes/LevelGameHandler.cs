@@ -236,7 +236,7 @@ public class LevelGameHandler : GameHandler
         ThePlayer.AddShieldCharge();
         Level.Stats.MothsEaten++;
         Level.Stats.CollectedCurrency += currencyValue;
-        Level.GameHud.UpdateCurrency(Pulse: true); // TODO move
+        Level.GameHud.UpdateCurrency(pulse: true); // TODO move
     }
 
 

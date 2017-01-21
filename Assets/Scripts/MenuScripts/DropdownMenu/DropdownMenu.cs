@@ -4,11 +4,11 @@ using System.Collections;
 
 public class DropdownMenu : MonoBehaviour {
     
-    private RectTransform MenuPanel = null;
-    private CanvasGroup MainPanel = null;
-    private CanvasGroup StatsPanel = null;
-    private CanvasGroup OptionsPanel = null;
-    private Image MenuBackPanel = null;
+    private RectTransform _menuPanel;
+    private CanvasGroup _mainPanel;
+    private CanvasGroup _statsPanel;
+    private CanvasGroup _optionsPanel;
+    private Image _menuBackPanel;
 
     public DropdownInGameMenu InGameMenu;
     public DropdownOptionsMenu OptionsMenu;
@@ -16,7 +16,7 @@ public class DropdownMenu : MonoBehaviour {
 
     private const float BounceDuration = 0.18f;
     private const float PanelDropAnimDuration = 0.30f;
-    private bool bKeepMenuAlpha = false;
+    private bool _bKeepMenuAlpha;
 
     private const float MenuTopPos = 11f;
     private const float MenuBottomPos = 0f;
@@ -24,44 +24,44 @@ public class DropdownMenu : MonoBehaviour {
     void Awake ()
     {
         GetMenuObjects();
-        if (MainPanel) { SetCanvasActive(MainPanel, true); }
-        if (OptionsPanel) { SetCanvasActive(OptionsPanel, false); }
-        if (StatsPanel) { SetCanvasActive(StatsPanel, false); }
+        if (_mainPanel) { SetCanvasActive(_mainPanel, true); }
+        if (_optionsPanel) { SetCanvasActive(_optionsPanel, false); }
+        if (_statsPanel) { SetCanvasActive(_statsPanel, false); }
     }
     
-    private void SetCanvasActive(CanvasGroup CanvasGrp, bool Active)
+    private void SetCanvasActive(CanvasGroup canvasGrp, bool active)
     {
-        if (CanvasGrp)
+        if (canvasGrp)
         {
-            CanvasGrp.alpha = (Active ? 1f : 0f);
-            CanvasGrp.interactable = Active;
-            CanvasGrp.blocksRaycasts = Active;
+            canvasGrp.alpha = (active ? 1f : 0f);
+            canvasGrp.interactable = active;
+            canvasGrp.blocksRaycasts = active;
         }
     }
 
     public void ShowOptions()
     {
         OptionsMenu.InitialiseOptionsView();
-        SetCanvasActive(MainPanel, false);
-        SetCanvasActive(OptionsPanel, true);
-        SetCanvasActive(StatsPanel, false);
+        SetCanvasActive(_mainPanel, false);
+        SetCanvasActive(_optionsPanel, true);
+        SetCanvasActive(_statsPanel, false);
         OptionsMenu.SetToggleStates();
         StartCoroutine("PanelDropAnim", true);
     }
 
     public void ShowStats()
     {
-        SetCanvasActive(MainPanel, false);
-        SetCanvasActive(OptionsPanel, false);
-        SetCanvasActive(StatsPanel, true);
+        SetCanvasActive(_mainPanel, false);
+        SetCanvasActive(_optionsPanel, false);
+        SetCanvasActive(_statsPanel, true);
         StatsMenu.Show();
         StartCoroutine("PanelDropAnim", true);
     }
 
     public void Hide()
     {
-        MenuPanel.position = new Vector3(MenuPanel.position.x, MenuTopPos, MenuPanel.position.z);
-        MenuBackPanel.color = Color.clear;
+        _menuPanel.position = new Vector3(_menuPanel.position.x, MenuTopPos, _menuPanel.position.z);
+        _menuBackPanel.color = Color.clear;
     }
 
     public float RaiseMenu()
@@ -72,15 +72,15 @@ public class DropdownMenu : MonoBehaviour {
 
     private IEnumerator MenuSwitchAnim(bool bOptionsMenu)
     {
-        bKeepMenuAlpha = true;
+        _bKeepMenuAlpha = true;
         StartCoroutine("PanelDropAnim", false);
         yield return new WaitForSeconds(PanelDropAnimDuration + 0.4f);
-        SetCanvasActive(MainPanel, !bOptionsMenu);
-        SetCanvasActive(OptionsPanel, bOptionsMenu);
+        SetCanvasActive(_mainPanel, !bOptionsMenu);
+        SetCanvasActive(_optionsPanel, bOptionsMenu);
         OptionsMenu.SetToggleStates();
         StartCoroutine("PanelDropAnim", true);
         yield return new WaitForSeconds(PanelDropAnimDuration + 2 * BounceDuration);
-        bKeepMenuAlpha = false;
+        _bKeepMenuAlpha = false;
     }
     
     private void GetMenuObjects()
@@ -88,27 +88,27 @@ public class DropdownMenu : MonoBehaviour {
         if (!gameObject.activeSelf) { gameObject.SetActive(true); }
         SetCanvasActive(gameObject.GetComponent<CanvasGroup>(), true);
 
-        MenuPanel = GameObject.Find("GameMenuPanel").GetComponent<RectTransform>();
-        MenuBackPanel = GameObject.Find("BackPanel").GetComponent<Image>();
-        RectTransform ContentPanel = GameObject.Find("ContentPanel").GetComponent<RectTransform>();
-        foreach (RectTransform RT in ContentPanel)
+        _menuPanel = GameObject.Find("GameMenuPanel").GetComponent<RectTransform>();
+        _menuBackPanel = GameObject.Find("BackPanel").GetComponent<Image>();
+        RectTransform contentPanel = GameObject.Find("ContentPanel").GetComponent<RectTransform>();
+        foreach (RectTransform rt in contentPanel)
         {
-            switch (RT.name)
+            switch (rt.name)
             {
                 case "MainPanel":
-                    MainPanel = RT.GetComponent<CanvasGroup>();
+                    _mainPanel = rt.GetComponent<CanvasGroup>();
                     break;
                 case "OptionsPanel":
-                    OptionsPanel = RT.GetComponent<CanvasGroup>();
+                    _optionsPanel = rt.GetComponent<CanvasGroup>();
                     break;
                 case "StatsPanel":
-                    StatsPanel = RT.GetComponent<CanvasGroup>();
+                    _statsPanel = rt.GetComponent<CanvasGroup>();
                     break;
             }
         }
-        if (MainPanel) { InGameMenu = MainPanel.GetComponent<DropdownInGameMenu>(); }
-        if (OptionsPanel) { OptionsMenu = OptionsPanel.GetComponent<DropdownOptionsMenu>(); }
-        if (StatsPanel) { StatsMenu = StatsPanel.GetComponent<DropdownStatsMenu>(); }
+        if (_mainPanel) { InGameMenu = _mainPanel.GetComponent<DropdownInGameMenu>(); }
+        if (_optionsPanel) { OptionsMenu = _optionsPanel.GetComponent<DropdownOptionsMenu>(); }
+        if (_statsPanel) { StatsMenu = _statsPanel.GetComponent<DropdownStatsMenu>(); }
     }
 
     private IEnumerator PanelDropAnim(bool bEnteringScreen)
@@ -119,21 +119,21 @@ public class DropdownMenu : MonoBehaviour {
             yield return new WaitForSeconds(BounceDuration);
         }
 
-        const float AnimDuration = PanelDropAnimDuration;
-        float AnimTimer = 0f;
-        float StartPos = (bEnteringScreen ? MenuTopPos : MenuBottomPos);
-        float EndPos = (bEnteringScreen ? MenuBottomPos : MenuTopPos);
-        float StartAlpha = (bEnteringScreen ? 0f : 0.65f);
-        float EndAlpha = (bEnteringScreen ? 0.65f : 0f);
-        MenuPanel.position = new Vector3(MenuPanel.position.x, StartPos, MenuPanel.position.z);
+        const float animDuration = PanelDropAnimDuration;
+        float animTimer = 0f;
+        float startPos = (bEnteringScreen ? MenuTopPos : MenuBottomPos);
+        float endPos = (bEnteringScreen ? MenuBottomPos : MenuTopPos);
+        float startAlpha = (bEnteringScreen ? 0f : 0.65f);
+        float endAlpha = (bEnteringScreen ? 0.65f : 0f);
+        _menuPanel.position = new Vector3(_menuPanel.position.x, startPos, _menuPanel.position.z);
 
-        while (AnimTimer < AnimDuration)
+        while (animTimer < animDuration)
         {
-            AnimTimer += Time.deltaTime;
-            MenuPanel.position = new Vector3(MenuPanel.position.x, (StartPos - (AnimTimer / AnimDuration) * (StartPos - EndPos)), MenuPanel.position.z);
-            if (!bKeepMenuAlpha)
+            animTimer += Time.deltaTime;
+            _menuPanel.position = new Vector3(_menuPanel.position.x, (startPos - (animTimer / animDuration) * (startPos - endPos)), _menuPanel.position.z);
+            if (!_bKeepMenuAlpha)
             {
-                MenuBackPanel.color = new Color(0f, 0f, 0f, StartAlpha - (StartAlpha - EndAlpha) * (AnimTimer / AnimDuration));
+                _menuBackPanel.color = new Color(0f, 0f, 0f, startAlpha - (startAlpha - endAlpha) * (animTimer / animDuration));
             }
             yield return null;
         }
@@ -142,26 +142,27 @@ public class DropdownMenu : MonoBehaviour {
         {
             StartCoroutine("Bounce", -1);
             yield return new WaitForSeconds(BounceDuration);
-            StartCoroutine("Bounce", 0.4);
+            StartCoroutine("Bounce", 0.3);
             yield return new WaitForSeconds(BounceDuration);
         }
-        MenuPanel.position = new Vector3(MenuPanel.position.x, EndPos, MenuPanel.position.z);
+        Debug.Log(endPos);
+        _menuPanel.position = new Vector3(_menuPanel.position.x, endPos, _menuPanel.position.z);
     }
 
-    private IEnumerator Bounce(float YDist)
+    private IEnumerator Bounce(float yDist)
     {
-        float AnimTimer = 0;
-        const float AnimDuration = BounceDuration;
+        float animTimer = 0;
+        const float animDuration = BounceDuration;
 
-        float StartY = MenuPanel.position.y;
-        float MidY = MenuPanel.position.y - YDist;
+        float startY = _menuPanel.position.y;
+        float midY = _menuPanel.position.y - yDist;
 
-        while (AnimTimer < AnimDuration)
+        while (animTimer < animDuration)
         {
-            AnimTimer += Time.deltaTime;
-            float AnimRatio = -Mathf.Sin(Mathf.PI * AnimTimer / AnimDuration);
-            float YPos = StartY - (AnimRatio) * (StartY - MidY);
-            MenuPanel.position = new Vector3(MenuPanel.position.x, YPos, MenuPanel.position.z);
+            animTimer += Time.deltaTime;
+            float animRatio = -Mathf.Sin(Mathf.PI * animTimer / animDuration);
+            float yPos = startY - (animRatio) * (startY - midY);
+            _menuPanel.position = new Vector3(_menuPanel.position.x, yPos, _menuPanel.position.z);
             yield return null;
         }
     }

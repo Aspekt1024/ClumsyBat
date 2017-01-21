@@ -1,47 +1,42 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 public class DropdownInGameMenu : MonoBehaviour {
 
-    private DropdownMenu Menu;
+    private DropdownMenu _menu;
 
-    public GameObject NextBtn = null;
-    public GameObject ShareBtn = null;
-    public GameObject OptionsBtn = null;
-    public GameObject MainMenuBtn = null;
-    public GameObject RestartBtn = null;
-    public GameObject ResumeBtn = null;
-    public GameObject LevelSelectBtn = null;
+    public GameObject NextBtn;
+    public GameObject ShareBtn;
+    public GameObject OptionsBtn;
+    public GameObject MainMenuBtn;
+    public GameObject RestartBtn;
+    public GameObject ResumeBtn;
+    public GameObject LevelSelectBtn;
 
     private struct TextType
     {
         public RectTransform RectTransform;
         public Text Text;
     }
-    private TextType MenuHeader;
-    private TextType SubText;
-
-    void Awake()
-    {
-    }
+    private TextType _menuHeader;
+    private TextType _subText;
     
-    void Start ()
+    private void Start ()
     {
-        Menu = FindObjectOfType<DropdownMenu>();
+        _menu = FindObjectOfType<DropdownMenu>();
         GetMenuObjects();
     }
 
     private void GetMenuObjects()
     {
-        MenuHeader.RectTransform = GameObject.Find("MenuHeader").GetComponent<RectTransform>();
-        MenuHeader.Text = MenuHeader.RectTransform.GetComponent<Text>();
+        _menuHeader.RectTransform = GameObject.Find("MenuHeader").GetComponent<RectTransform>();
+        _menuHeader.Text = _menuHeader.RectTransform.GetComponent<Text>();
 
-        SubText.RectTransform = GameObject.Find("SubText").GetComponent<RectTransform>();
-        SubText.Text = SubText.RectTransform.GetComponent<Text>();
+        _subText.RectTransform = GameObject.Find("SubText").GetComponent<RectTransform>();
+        _subText.Text = _subText.RectTransform.GetComponent<Text>();
     }
 
-    public void LevelComplete(string LevelText)
+    public void LevelComplete(string levelText)
     {
         NextBtn.SetActive(true);
         ShareBtn.SetActive(true);
@@ -56,9 +51,9 @@ public class DropdownInGameMenu : MonoBehaviour {
         PositionMenuBtn(ShareBtn, GetButtonPosX(3, 4));
         PositionMenuBtn(NextBtn, GetButtonPosX(4, 4));
 
-        MenuHeader.Text.text = "LEVEL COMPLETE!";
-        SubText.Text.text = LevelText;
-        Menu.StartCoroutine("PanelDropAnim", true);
+        _menuHeader.Text.text = "LEVEL COMPLETE!";
+        _subText.Text.text = levelText;
+        _menu.StartCoroutine("PanelDropAnim", true);
     }
 
     public void PauseMenu()
@@ -76,9 +71,9 @@ public class DropdownInGameMenu : MonoBehaviour {
         PositionMenuBtn(OptionsBtn, GetButtonPosX(3, 4));
         PositionMenuBtn(ResumeBtn, GetButtonPosX(4, 4));
 
-        MenuHeader.Text.text = "GAME PAUSED";
-        SubText.Text.text = "Clumsy will wait for you...";
-        Menu.StartCoroutine("PanelDropAnim", true);
+        _menuHeader.Text.text = "GAME PAUSED";
+        _subText.Text.text = "Clumsy will wait for you...";
+        _menu.StartCoroutine("PanelDropAnim", true);
     }
 
     public void GameOver()
@@ -95,53 +90,53 @@ public class DropdownInGameMenu : MonoBehaviour {
         PositionMenuBtn(MainMenuBtn, GetButtonPosX(2, 3));
         PositionMenuBtn(LevelSelectBtn, GetButtonPosX(3, 3));
         
-        MenuHeader.Text.text = "GAME OVER";
-        SubText.Text.text = "Clumsy didn't make it...";
-        Menu.StartCoroutine("PanelDropAnim", true);
+        _menuHeader.Text.text = "GAME OVER";
+        _subText.Text.text = "Clumsy didn't make it...";
+        _menu.StartCoroutine("PanelDropAnim", true);
     }
 
-    private void PositionMenuBtn(GameObject Btn, float ButtonXPos)
+    private void PositionMenuBtn(GameObject btn, float buttonXPos)
     {
-        RectTransform BtnRT = Btn.GetComponent<RectTransform>();
-        BtnRT.position = new Vector3(ButtonXPos, BtnRT.position.y, BtnRT.position.z);
+        RectTransform btnRt = btn.GetComponent<RectTransform>();
+        btnRt.position = new Vector3(buttonXPos, btnRt.position.y, btnRt.position.z);
     }
 
-    private float GetButtonPosX(int BtnNum, int NumButtons)
+    private float GetButtonPosX(int btnNum, int numButtons)
     {
-        float ButtonPosX = 0;
-        if (NumButtons == 3)
+        float buttonPosX = 0;
+        if (numButtons == 3)
         {
-            switch (BtnNum)
+            switch (btnNum)
             {
                 case 1:
-                    ButtonPosX = -2;
+                    buttonPosX = -2;
                     break;
                 case 2:
-                    ButtonPosX = 0;
+                    buttonPosX = 0;
                     break;
                 case 3:
-                    ButtonPosX = 2;
+                    buttonPosX = 2;
                     break;
             }
         }
-        else if (NumButtons == 4)
+        else if (numButtons == 4)
         {
-            switch (BtnNum)
+            switch (btnNum)
             {
                 case 1:
-                    ButtonPosX = -3f;
+                    buttonPosX = -3f;
                     break;
                 case 2:
-                    ButtonPosX = -1f;
+                    buttonPosX = -1f;
                     break;
                 case 3:
-                    ButtonPosX = 1f;
+                    buttonPosX = 1f;
                     break;
                 case 4:
-                    ButtonPosX = 3f;
+                    buttonPosX = 3f;
                     break;
             }
         }
-        return ButtonPosX;
+        return buttonPosX;
     }
 }
