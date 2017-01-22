@@ -247,7 +247,9 @@ public class Player : MonoBehaviour {
         Lantern.Drop();
         _gameHandler.Death();
 
-        _anim.Play("Die", 0, 0.25f); // TODO update this animation
+        transform.localScale *= 4;
+        transform.localRotation = Quaternion.identity;
+        _anim.Play("Die", 0, 0.25f);
     }
 
     private IEnumerator GameOverSequence()
@@ -318,6 +320,11 @@ public class Player : MonoBehaviour {
         }
     }
 
+    public void FireballDeath()
+    {
+        _state = PlayerState.Dying;
+
+    }
 
     public void StartFog() { Fog.StartOfLevel(); }
     public void PlaySound(PlayerSounds soundId) { _audioControl.PlaySound(soundId); }

@@ -33,8 +33,8 @@ public class BossGameHandler : GameHandler {
     {
         if (_bPaused || !ThePlayer.IsAlive()) { return; }
 
-        const float minY = -2f;
-        const float maxY = 4f;
+        const float minY = -3f;
+        const float maxY = 3f;
         if (ThePlayer.transform.position.y < minY)
         {
             ThePlayer.transform.position -= new Vector3(0f, ThePlayer.transform.position.y - minY, 0f);
@@ -119,7 +119,7 @@ public class BossGameHandler : GameHandler {
         switch (other.name)
         {
             case "Projectile":
-                ThePlayer.Die();
+                ThePlayer.FireballDeath();
                 break;
             case "MothTrigger":
                 Debug.Log("moth :)");
