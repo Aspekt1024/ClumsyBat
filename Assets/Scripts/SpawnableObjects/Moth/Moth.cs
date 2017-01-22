@@ -6,7 +6,7 @@ public class Moth : MonoBehaviour {
 
     #region Level Editor Inspector fields
     public MothColour Colour;
-    public MothPathTypes PathType;
+    public MothPathHandler.MothPathTypes PathType;
     #endregion
 
     [HideInInspector]
@@ -15,12 +15,9 @@ public class Moth : MonoBehaviour {
     private Collider2D _mothCollider;
     private AudioSource _mothAudio;
     private MothStates _mothState = MothStates.Normal;
-    private bool _bConsumption;
     private Transform _lantern;
     private MothInteractivity _mothInteractor;
     private MothPathHandler _pathHandler;
-
-    private bool _bReverseAngle;
 
     private enum MothAudioNames
     {
@@ -37,16 +34,11 @@ public class Moth : MonoBehaviour {
     {
         Green, Gold, Blue
     }
-    public enum MothPathTypes
-    {
-        Infinity, Clover, Figure8, Spiral, Sine
-    }
 
     private float _mothZLayer;
-    private bool _paused;
+    private bool _bConsumption;
+    private bool _bPaused;
     private float _speed;
-    private float _phase;
-    private const float Pi = Mathf.PI;
     
     private void Awake ()
     {
@@ -79,8 +71,8 @@ public class Moth : MonoBehaviour {
 	
 	private void FixedUpdate ()
     {
-        if (!IsActive || _paused) { return; }
-        MoveMothAlongPath(Time.deltaTime);
+        if (!IsActive || _bPaused) { return; }
+        _pathHandler.MoveAlongPath(Time.deltaTime);
         if (_mothState == MothStates.ConsumeFollow) { return; }
         transform.position -= Vector3.left * Time.deltaTime * _speed;
     }
@@ -90,47 +82,6 @@ public class Moth : MonoBehaviour {
         _mothAudioDict.Add(MothAudioNames.Consume, Resources.Load<AudioClip>("Audio/LanternConsumeMoth"));
     }
 
-    private void MoveMothAlongPath(float time)
-    {
-        if (PathType == MothPathTypes.Sine)
-            MoveAlongSine(time);
-        else
-            _pathHandler.MoveAlongClover(time);
-    }
-
-    // TODO move to path handler
-    private void MoveAlongSine(float time)
-    {
-        float dist = 4f * time;
-        const float oscillationSpeed = 0.65f;
-        const float maxRotation = 90;
-
-        _phase += time;
-        if (_phase > oscillationSpeed)
-        {
-            _phase = 0;
-            _bReverseAngle = !_bReverseAngle;
-        }
-
-        float rotationOffset;
-        if (_bReverseAngle) { rotationOffset = maxRotation * (1 - _phase / oscillationSpeed); }
-        else { rotationOffset = maxRotation * (_phase / oscillationSpeed); }
-        float zRotation = -135 + rotationOffset;
-        MothSprite.transform.localRotation = Quaternion.AngleAxis(zRotation, Vector3.back);
-        
-        Vector3 mothAxis;
-        float mothAngle;
-        MothSprite.transform.localRotation.ToAngleAxis(out mothAngle, out mothAxis);
-        float xOffset = dist * Mathf.Sin(Pi / 180 * mothAngle * -mothAxis.z);
-        float yOffset = dist * Mathf.Cos(Pi / 180 * mothAngle * -mothAxis.z);
-        if (float.IsNaN(xOffset)) { xOffset = 0; }
-        if (float.IsNaN(yOffset)) { yOffset = 0; }
-        if (_mothState == MothStates.Normal)
-        {
-            transform.position += new Vector3(xOffset, yOffset, 0f);
-        }
-    }
-
     public void SetSpeed(float speed)
     {
         _speed = -speed;
@@ -138,7 +89,7 @@ public class Moth : MonoBehaviour {
 
     public void SetPaused(bool gamePaused)
     {
-        _paused = gamePaused;
+        _bPaused = gamePaused;
         if (IsActive)
         {
             _mothAnimator.enabled = !gamePaused;
@@ -169,7 +120,7 @@ public class Moth : MonoBehaviour {
 
         while (animTimer < animDuration)
         {
-            if (!_paused)
+            if (!_bPaused)
             {
                 animTimer += Time.deltaTime;
                 if (animTimer > animDuration - lantenFollowTime)
@@ -220,7 +171,7 @@ public class Moth : MonoBehaviour {
 
     public bool IsActive { get; set; }
 
-    public void ActivateMoth(MothColour colour, MothPathTypes pathType = MothPathTypes.Spiral)
+    public void ActivateMoth(MothColour colour, MothPathHandler.MothPathTypes pathType = MothPathHandler.MothPathTypes.Spiral)
     {
         // TODO determine where in the vertical space the moth can spawn (endless mode only)
         //const float Range = 2f;
@@ -229,11 +180,9 @@ public class Moth : MonoBehaviour {
         _mothState = MothStates.Normal;
         _mothAnimator.enabled = true;
         _mothCollider.enabled = true;
-        _phase = 0f;
         transform.position = new Vector3(transform.position.x, transform.position.y, _mothZLayer); // TODO remove this once we have everything nicely bundled in the 'Level' Gameobject
         MothSprite.transform.position = transform.position;
         IsActive = true;
-        PathType = pathType;    // TODO move to path handler
         _pathHandler.SetPathType(pathType);
         Colour = colour;
         switch (colour)

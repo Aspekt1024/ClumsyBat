@@ -175,6 +175,7 @@ public class Player : MonoBehaviour {
     public void ActivateRush() { _rush.Activate(); }
     public void DeactivateRush() { _rush.Deactivate(); }
     public void ActivateHypersonic() { _hypersonic.ActivateHypersonic(); }
+    public void ForceHypersonic() { _hypersonic.ForceHypersonic(); }
     public void AddShieldCharge() { _shield.AddCharge(); }
 
     public bool ActivateShield()
@@ -267,6 +268,11 @@ public class Player : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D other)
     {
         _gameHandler.TriggerEntered(other);
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        _gameHandler.TriggerExited(other);
     }
 
     public void StartGame()

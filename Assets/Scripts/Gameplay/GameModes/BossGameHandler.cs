@@ -9,16 +9,14 @@ public class BossGameHandler : GameHandler {
 
     private EvilClumsy _theBoss;
     private BossMoths _mothControl;
-
-    private const int BossLevelPrefix = 1000;
+    
     public int BossLevelNum = 1;
-    private bool _bPaused;
     private const float ResumeTimerDuration = 3f;
     private float _resumeTimerStart;
 
     private void Start()
     {
-        Toolbox.Instance.Level = BossLevelPrefix + BossLevelNum;
+        Toolbox.Instance.Level = (int)Toolbox.LevelPrefix.BossPrefix + BossLevelNum;
         _loadScreen = FindObjectOfType<LoadScreen>();
         _gameHud = FindObjectOfType<GameUI>();
         _gameMenu = FindObjectOfType<GameMenuOverlay>();
@@ -48,7 +46,6 @@ public class BossGameHandler : GameHandler {
 
     public override void PauseGame(bool showMenu)
     {
-        _bPaused = true;
         ThePlayer.PauseGame(true);
         _theBoss.PauseGame(true);
         _gameHud.GamePaused(true);
@@ -87,7 +84,6 @@ public class BossGameHandler : GameHandler {
 
     private void ResumeGameplay()
     {
-        _bPaused = false;
         ThePlayer.PauseGame(false);
         _theBoss.PauseGame(false);
         _gameHud.HideResumeTimer();
@@ -124,6 +120,7 @@ public class BossGameHandler : GameHandler {
             case "MothTrigger":
                 Moth moth = other.GetComponentInParent<Moth>();
                 moth.ConsumeMoth();
+                ThePlayer.ForceHypersonic();    // TODO clear this.
                 break;
         }
     }

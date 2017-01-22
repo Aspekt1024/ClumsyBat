@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 using System.IO;
-using System.Xml;
 using System.Xml.Serialization;
 
 [XmlRoot("LevelCollection")]
@@ -54,7 +52,7 @@ public class LevelContainer {
     public static LevelContainer LoadFromText(string text)
     {
         XmlSerializer serializer = new XmlSerializer(typeof(LevelContainer));
-        LevelContainer LC = serializer.Deserialize(new StringReader(text)) as LevelContainer;
-        return LC;
+        LevelContainer lc = serializer.Deserialize(new StringReader(text)) as LevelContainer;
+        return lc;
     }
 }

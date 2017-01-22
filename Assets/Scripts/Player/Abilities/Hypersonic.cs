@@ -53,10 +53,15 @@ public class Hypersonic : MonoBehaviour {
 
     public void ActivateHypersonic()
     {
-        if (_hyperStats.AbilityAvailable || true) // TODO remove this true here...
+        if (_hyperStats.AbilityAvailable)
         {
             StartCoroutine("HypersonicAbilityGo");
         }
+    }
+
+    public void ForceHypersonic()
+    {
+        StartCoroutine("HypersonicAbilityGo");
     }
 
     public void GamePaused(bool paused)

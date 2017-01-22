@@ -101,6 +101,7 @@
             </eulerAngles>
           </Rotation>
           <Colour>Green</Colour>
+          <PathType>Infinity</PathType>
         </MothType>
       </Moths>
       <Spiders />
@@ -160,6 +161,7 @@
             </eulerAngles>
           </Rotation>
           <Colour>Green</Colour>
+          <PathType>Clover</PathType>
         </MothType>
       </Moths>
       <Spiders />
@@ -179,8 +181,8 @@
     <Rotation>
       <x>0</x>
       <y>0</y>
-      <z>-0.248385772</z>
-      <w>0.968661249</w>
+      <z>0.248385757</z>
+      <w>-0.9686612</w>
       <eulerAngles>
         <x>0</x>
         <y>0</y>

@@ -18,6 +18,7 @@ public class MothPool
         public Vector2 Scale;
         public Quaternion Rotation;
         public Moth.MothColour Colour;
+        public MothPathHandler.MothPathTypes PathType;
     }
 
     private Moth[] _moths;
@@ -41,7 +42,7 @@ public class MothPool
         Moth[] mothList = new Moth[NumMothsInPool];
         for (int i = 0; i < NumMothsInPool; i++)
         {
-            GameObject mothObj = (GameObject)MonoBehaviour.Instantiate(Resources.Load(MothResourcePath), _mothParentObject);
+            GameObject mothObj = (GameObject)Object.Instantiate(Resources.Load(MothResourcePath), _mothParentObject);
             Moth moth = mothObj.GetComponent<Moth>();
             mothObj.name = "Moth" + i;
             mothObj.transform.position = Toolbox.Instance.HoldingArea;
@@ -60,7 +61,7 @@ public class MothPool
             newMoth.transform.position = new Vector3(moth.Pos.x + xOffset, moth.Pos.y, MothZLayer);
             newMoth.transform.localScale = moth.Scale;
             newMoth.transform.localRotation = moth.Rotation;
-            newMoth.ActivateMoth(moth.Colour);
+            newMoth.ActivateMoth(moth.Colour, moth.PathType);
         }
     }
 
@@ -85,6 +86,6 @@ public class MothPool
         Moth newMoth = GetMothFromPool();
         float mothPosY = Random.Range(minY, maxY);
         newMoth.transform.position = new Vector3(10f, mothPosY, MothZLayer);
-        newMoth.ActivateMoth(colour, Moth.MothPathTypes.Sine);
+        newMoth.ActivateMoth(colour, MothPathHandler.MothPathTypes.Sine);
     }
 }

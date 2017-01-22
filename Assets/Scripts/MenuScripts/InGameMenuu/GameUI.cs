@@ -165,6 +165,11 @@ public class GameUI : MonoBehaviour {
         }
     }
 
+    public void SetCustomText(string text)
+    {
+        _currencyText.text = text;
+    }
+
     public void GamePaused(bool paused)
     {
         _bGamePaused = paused;

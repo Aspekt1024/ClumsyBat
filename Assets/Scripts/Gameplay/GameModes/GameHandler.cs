@@ -32,6 +32,7 @@ public abstract class GameHandler : MonoBehaviour {
     public virtual void Death() { }
     public virtual void GameOver() { }
     public virtual void TriggerEntered(Collider2D other) { }
+    public virtual void TriggerExited(Collider2D other) { }
     public virtual void Collision(Collision2D other) { }
 
     public GameStates GetGameState()

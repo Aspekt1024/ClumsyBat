@@ -4,13 +4,13 @@ using System.Collections.Generic;
 public class ClumsyAudioControl : MonoBehaviour {
 
     private AudioSource _playerAudio1;
-    private AudioSource _playerAudio2;  // Kept for reference and playtesting
+    //private AudioSource _playerAudio2;  // Kept for reference and playtesting
     private readonly Dictionary<PlayerSounds, SampleType> _playerAudioDict = new Dictionary<PlayerSounds, SampleType>();
 
     private struct SampleType
     {
-        public float volume;
-        public AudioClip audioClip;
+        public float Volume;
+        public AudioClip AudioClip;
     }
 
     public enum PlayerSounds
@@ -23,7 +23,7 @@ public class ClumsyAudioControl : MonoBehaviour {
     void Start ()
     {
         _playerAudio1 = gameObject.AddComponent<AudioSource>();
-        _playerAudio2 = gameObject.AddComponent<AudioSource>();
+        //_playerAudio2 = gameObject.AddComponent<AudioSource>();
         SetupAudioDict();
     }
 
@@ -38,15 +38,15 @@ public class ClumsyAudioControl : MonoBehaviour {
     {
         var newSample = new SampleType
         {
-            volume = volume,
-            audioClip = Resources.Load<AudioClip>("Audio/" + fileName)
+            Volume = volume,
+            AudioClip = Resources.Load<AudioClip>("Audio/" + fileName)
         };
         _playerAudioDict.Add(soundName, newSample);
     }
     
     public void PlaySound(PlayerSounds soundName)
     {
-        _playerAudio1.volume = _playerAudioDict[soundName].volume;
-        _playerAudio1.PlayOneShot(_playerAudioDict[soundName].audioClip);
+        _playerAudio1.volume = _playerAudioDict[soundName].Volume;
+        _playerAudio1.PlayOneShot(_playerAudioDict[soundName].AudioClip);
     }
 }

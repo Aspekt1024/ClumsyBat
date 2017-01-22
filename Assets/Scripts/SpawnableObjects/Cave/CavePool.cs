@@ -21,7 +21,7 @@ public class CavePool : MonoBehaviour {
     private float CaveZPos;
     private Vector2 CaveVelocity = new Vector2(0f, 0f);
 
-    private LevelObjectHandler ObjectHandler;
+    //private LevelObjectHandler ObjectHandler;
     private CaveHandler CaveHandler;
 
     private struct CaveType
@@ -41,7 +41,7 @@ public class CavePool : MonoBehaviour {
     {
         CaveZPos = Toolbox.Instance.ZLayers["Cave"];
         CaveParent = GameObject.Find("Caves").GetComponent<Transform>();
-        ObjectHandler = FindObjectOfType<LevelObjectHandler>();
+        //ObjectHandler = FindObjectOfType<LevelObjectHandler>();
         CaveHandler = FindObjectOfType<CaveHandler>();
         SetupCaveEnds();
         SetupCavePool();

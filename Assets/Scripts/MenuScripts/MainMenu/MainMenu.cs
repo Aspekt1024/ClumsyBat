@@ -139,7 +139,7 @@ public class MainMenu : MonoBehaviour {
     public void TrainingButtonClicked()
     {
         Stats.SaveStats();
-        SceneManager.LoadScene("Boss");
+        SceneManager.LoadScene("Training");
     }
 
     public void ClearDataButtonClicked()
@@ -187,7 +187,8 @@ public void LvEndlessButtonClicked() { LevelClick(-1); }
     public void Lv1BtnClick() { LevelClick(1); }
     public void Lv2BtnClick() { LevelClick(2); }
     public void Lv3BtnClick() { LevelClick(3); }
-    public void Lv4BtnClick() { LevelClick(4); }
+    public void Lv4BtnClick() { SceneManager.LoadScene("Boss"); }
+    //public void Lv4BtnClick() { LevelClick(4); }
     public void Lv5BtnClick() { LevelClick(5); }
     public void Lv6BtnClick() { LevelClick(6); }
     public void Lv7BtnClick() { LevelClick(7); }

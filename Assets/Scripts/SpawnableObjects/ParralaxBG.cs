@@ -1,96 +1,93 @@
 ﻿using UnityEngine;
 
-enum DepthIndex
-{
-    Front,
-    Mid,
-    Rear
-}
-
 public class ParralaxBG : MonoBehaviour {
 
-    private float ScrollSpeed = 0;
-    public float ZLayer;
-    public float tileSizeX = 19.2f;
-    public const float FrontBGSpeed = 0.3f;
-    public const float MidBGSpeed = 0.1f;
-    public const float RearBGSpeed = 0.00f;
-
-    private struct BGImgType
+    private enum DepthIndex
     {
-        public SpriteRenderer rendr;
-        public DepthIndex depth;
-        public int index;
+        Front, Mid, Rear
+    }
+
+    private float _scrollSpeed;
+    public float ZLayer;
+    public float TileSizeX = 19.2f;
+    public const float FrontBgSpeed = 0.3f;
+    public const float MidBgSpeed = 0.1f;
+    public const float RearBgSpeed = 0.00f;
+
+    private struct BgImgType
+    {
+        public SpriteRenderer Rendr;
+        public DepthIndex Depth;
     }
 
     private const int NumFrontTextures = 3;
     private const int NumMidTextures = 1;
     private const int NumRearTextures = 1;
 
-    private BGImgType[] BGImage = new BGImgType[6];
-    private Sprite[] FrontSprites = new Sprite[NumFrontTextures];
-    private Sprite[] MidSprites = new Sprite[NumMidTextures];
-    private Sprite[] RearSprites = new Sprite[NumRearTextures];
+    private readonly BgImgType[] _bgImage = new BgImgType[6];
+    private readonly Sprite[] _frontSprites = new Sprite[NumFrontTextures];
+    private readonly Sprite[] _midSprites = new Sprite[NumMidTextures];
+    private readonly Sprite[] _rearSprites = new Sprite[NumRearTextures];
 
-    private Rigidbody2D[] FrontBGPieces = new Rigidbody2D[2];
-    private Rigidbody2D[] MidBGPieces = new Rigidbody2D[2];
-    private Rigidbody2D[] RearBGPieces = new Rigidbody2D[2];
+    private readonly Rigidbody2D[] _frontBgPieces = new Rigidbody2D[2];
+    private readonly Rigidbody2D[] _midBgPieces = new Rigidbody2D[2];
+    private readonly Rigidbody2D[] _rearBgPieces = new Rigidbody2D[2];
 
-    void Awake ()
+    private void Awake ()
     {
         ZLayer = Toolbox.Instance.ZLayers["Background"];
     }
 
-    void Start()
+    private void Start()
     {
         transform.position = new Vector3(0, 0, ZLayer);
-        GetBGPieces();
-        GetBGSprites();
+        GetBgPieces();
+        GetBgSprites();
         LoadStartingSprites();
     }
 
-    void Update()
+    private void Update()
     {
-        UpdateBGPos(FrontBGPieces, FrontBGSpeed*Time.deltaTime);
-        UpdateBGPos(MidBGPieces, MidBGSpeed*Time.deltaTime);
-        UpdateBGPos(RearBGPieces, RearBGSpeed*Time.deltaTime);
+        UpdateBgPos(_frontBgPieces, FrontBgSpeed*Time.deltaTime);
+        UpdateBgPos(_midBgPieces, MidBgSpeed*Time.deltaTime);
+        UpdateBgPos(_rearBgPieces, RearBgSpeed*Time.deltaTime);
     }
 
-    private void UpdateBGPos(Rigidbody2D[] BGList, float BGShift)
+    private void UpdateBgPos(Rigidbody2D[] bgList, float bgShift)
     {
-        foreach (Rigidbody2D BG in BGList)
+        foreach (Rigidbody2D bg in bgList)
         {
-            float NewXPos = BG.transform.position.x - ScrollSpeed * BGShift;
-            if (NewXPos <= -tileSizeX)
+            float newXPos = bg.transform.position.x - _scrollSpeed * bgShift;
+            if (newXPos <= -TileSizeX)
             {
-                BG.transform.position = new Vector3(NewXPos + 2 * tileSizeX, 0, BG.transform.position.z);
-                SelectNewTexture(BG);
+                bg.transform.position = new Vector3(newXPos + 2 * TileSizeX, 0, bg.transform.position.z);
+                SelectNewTexture(bg);
             }
             else
             {
-                BG.transform.position = new Vector3(NewXPos, 0, BG.transform.position.z);
+                bg.transform.position = new Vector3(newXPos, 0, bg.transform.position.z);
             }
         }
     }
 
-    void SelectNewTexture(Rigidbody2D BG)
+    void SelectNewTexture(Rigidbody2D bg)
     {
-        foreach (BGImgType BGImg in BGImage)
+        foreach (BgImgType bgImg in _bgImage)
         {
-            if (BGImg.rendr.name == BG.name)
+            if (bgImg.Rendr.name == bg.name)
             {
-                switch (BGImg.depth)
+                switch (bgImg.Depth)
                 {
                     case DepthIndex.Front:
-                        BGImg.rendr.sprite = FrontSprites[Random.Range(0, NumFrontTextures)];
+                        bgImg.Rendr.sprite = _frontSprites[Random.Range(0, NumFrontTextures)];
                         break;
 
                     case DepthIndex.Mid:
-                        BGImg.rendr.sprite = MidSprites[Random.Range(0, NumMidTextures)];
+                        bgImg.Rendr.sprite = _midSprites[Random.Range(0, NumMidTextures)];
                         break;
 
                     case DepthIndex.Rear:
-                        BGImg.rendr.sprite = RearSprites[Random.Range(0, NumRearTextures)];
+                        bgImg.Rendr.sprite = _rearSprites[Random.Range(0, NumRearTextures)];
                         break;
                 }
             }
@@ -99,73 +96,74 @@ public class ParralaxBG : MonoBehaviour {
 
     void LoadStartingSprites()
     {
-        BGImage[0].rendr.sprite = FrontSprites[Random.Range(0, NumFrontTextures)];
-        BGImage[1].rendr.sprite = FrontSprites[Random.Range(0, NumFrontTextures)];
-        BGImage[2].rendr.sprite = MidSprites[Random.Range(0, NumMidTextures)];
-        BGImage[3].rendr.sprite = MidSprites[Random.Range(0, NumMidTextures)];
-        BGImage[4].rendr.sprite = RearSprites[Random.Range(0, NumRearTextures)];
-        BGImage[5].rendr.sprite = RearSprites[Random.Range(0, NumRearTextures)];
+        _bgImage[0].Rendr.sprite = _frontSprites[Random.Range(0, NumFrontTextures)];
+        _bgImage[1].Rendr.sprite = _frontSprites[Random.Range(0, NumFrontTextures)];
+        _bgImage[2].Rendr.sprite = _midSprites[Random.Range(0, NumMidTextures)];
+        _bgImage[3].Rendr.sprite = _midSprites[Random.Range(0, NumMidTextures)];
+        _bgImage[4].Rendr.sprite = _rearSprites[Random.Range(0, NumRearTextures)];
+        _bgImage[5].Rendr.sprite = _rearSprites[Random.Range(0, NumRearTextures)];
     }
 
-    public void SetVelocity(float Speed)
+    public void SetVelocity(float speed)
     {
-        ScrollSpeed = Speed;
+        _scrollSpeed = speed;
     }
 
-    private void GetBGSprites()
+    private void GetBgSprites()
     {
-        LoadSprites("Front", FrontSprites, NumFrontTextures);
-        LoadSprites("Mid", MidSprites, NumMidTextures);
-        LoadSprites("Rear", RearSprites, NumRearTextures);
+        LoadSprites("Front", _frontSprites, NumFrontTextures);
+        LoadSprites("Mid", _midSprites, NumMidTextures);
+        LoadSprites("Rear", _rearSprites, NumRearTextures);
     }
 
-    private void LoadSprites(string BGDepth, Sprite[] BGSprites, int NumSprites)
+    private void LoadSprites(string bgDepth, Sprite[] bgSprites, int numSprites)
     {
-        for (int index = 0; index < NumSprites; index++)
+        for (int index = 0; index < numSprites; index++)
         {
-            string SpritePath = "Backgrounds\\" + BGDepth + "BG_" + (index + 1).ToString();
-            BGSprites[index] = (Sprite)Resources.Load(SpritePath, typeof(Sprite));
+            string spritePath = "Backgrounds\\" + bgDepth + "BG_" + (index + 1).ToString();
+            bgSprites[index] = (Sprite)Resources.Load(spritePath, typeof(Sprite));
         }
     }
     
-    private void GetBGPieces()
+    private void GetBgPieces()
     {
-        int FrontIndex = 0;
-        int MidIndex = 0;
-        int RearIndex = 0;
-        foreach (Transform BGPiece in transform)
+        int frontIndex = 0;
+        int midIndex = 0;
+        int rearIndex = 0;
+        foreach (Transform bgPiece in transform)
         {
-            switch (BGPiece.name.Substring(0, 1))
+            switch (bgPiece.name.Substring(0, 1))
             {
                 case "F":
-                    BGImage[FrontIndex] = SetBGImg(BGPiece.GetComponent<SpriteRenderer>(), DepthIndex.Front);
-                    FrontBGPieces[FrontIndex] = BGPiece.GetComponent<Rigidbody2D>();
-                    FrontBGPieces[FrontIndex].transform.position = new Vector3(tileSizeX * FrontIndex, 0, transform.position.z + 0);
-                    FrontIndex++;
+                    _bgImage[frontIndex] = SetBGImg(bgPiece.GetComponent<SpriteRenderer>(), DepthIndex.Front);
+                    _frontBgPieces[frontIndex] = bgPiece.GetComponent<Rigidbody2D>();
+                    _frontBgPieces[frontIndex].transform.position = new Vector3(TileSizeX * frontIndex, 0, transform.position.z + 0);
+                    frontIndex++;
                     break;
                 case "M":
-                    BGImage[MidIndex + 2] = SetBGImg(BGPiece.GetComponent<SpriteRenderer>(), DepthIndex.Mid);
-                    MidBGPieces[MidIndex] = BGPiece.GetComponent<Rigidbody2D>();
-                    MidBGPieces[MidIndex].transform.position = new Vector3(tileSizeX * MidIndex, 0, transform.position.z + 1);
-                    MidIndex++;
+                    _bgImage[midIndex + 2] = SetBGImg(bgPiece.GetComponent<SpriteRenderer>(), DepthIndex.Mid);
+                    _midBgPieces[midIndex] = bgPiece.GetComponent<Rigidbody2D>();
+                    _midBgPieces[midIndex].transform.position = new Vector3(TileSizeX * midIndex, 0, transform.position.z + 1);
+                    midIndex++;
                     break;
                 case "R":
-                    BGImage[RearIndex + 4] = SetBGImg(BGPiece.GetComponent<SpriteRenderer>(), DepthIndex.Rear);
-                    RearBGPieces[RearIndex] = BGPiece.GetComponent<Rigidbody2D>();
-                    RearBGPieces[RearIndex].transform.position = new Vector3(tileSizeX * RearIndex, 0, transform.position.z + 2);
-                    RearIndex++;
+                    _bgImage[rearIndex + 4] = SetBGImg(bgPiece.GetComponent<SpriteRenderer>(), DepthIndex.Rear);
+                    _rearBgPieces[rearIndex] = bgPiece.GetComponent<Rigidbody2D>();
+                    _rearBgPieces[rearIndex].transform.position = new Vector3(TileSizeX * rearIndex, 0, transform.position.z + 2);
+                    rearIndex++;
                     break;
             }
         }
     }
     
-    private BGImgType SetBGImg(SpriteRenderer SRenderer, DepthIndex depth)
+    private BgImgType SetBGImg(SpriteRenderer sRenderer, DepthIndex depth)
     {
-        BGImgType BGImg = new BGImgType();
-        BGImg.rendr = SRenderer;
-        BGImg.depth = depth;
-        BGImg.index = 0;
-        return BGImg;
+        BgImgType bgImg = new BgImgType
+        {
+            Rendr = sRenderer,
+            Depth = depth
+        };
+        return bgImg;
     }
 
 }

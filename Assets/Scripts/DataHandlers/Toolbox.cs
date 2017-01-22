@@ -29,6 +29,13 @@ public class Toolbox : Singleton<Toolbox>
     }
     public MenuSelector MenuScreen { get; set; }
 
+    public enum LevelPrefix
+    {
+        LevelPrefix = 0,
+        BossPrefix = 1000,
+        TrainingPrefix = 2000
+    }
+
     void Awake()
     {
         HoldingArea = new Vector2(100, 0);
@@ -85,7 +92,9 @@ public class Toolbox : Singleton<Toolbox>
         LevelNames.Add(14, "Spaceship");
         LevelNames.Add(15, "Hit");
 
-        LevelNames.Add(1001, "Evil Clumsy");
+        LevelNames.Add((int)LevelPrefix.BossPrefix + 1, "Evil Clumsy");
+
+        LevelNames.Add((int)LevelPrefix.TrainingPrefix + 1, "Rocky");
     }
 
     // The below functions relate to session level tooltips

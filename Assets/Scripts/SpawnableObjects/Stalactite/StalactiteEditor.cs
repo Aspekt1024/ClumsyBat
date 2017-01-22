@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class StalactiteEditor {
 
     private Transform StalParent = null;
-    private float TriggerZ;
+    //private float TriggerZ;
 
     Transform Stal = null;
     Stalactite StalScript = null;
@@ -83,6 +83,6 @@ public class StalactiteEditor {
 
     public void SetZLayers(float TriggerZLayer)
     {
-        TriggerZ = TriggerZLayer;
+        //TriggerZ = TriggerZLayer;
     }
 }

@@ -1,8 +1,12 @@
-﻿using System;
-using UnityEngine;
-using Random = UnityEngine.Random;
+﻿using UnityEngine;
 
 public class MothPathHandler {
+
+    public enum MothPathTypes
+    {
+        Clover, Infinity, Figure8, Spiral, Sine
+    }
+    private MothPathTypes _pathType;
 
     private enum PathStates
     {
@@ -11,12 +15,10 @@ public class MothPathHandler {
     private PathStates _state;
     private bool _bLeft;
 
-    private Moth.MothPathTypes _pathType;
     private readonly Moth _hostMoth;
-
-    private const float SectionDuration = 1.1f;
+    private const float SectionDuration = 0.89f;
     private float _pathTimer;
-
+    private bool _bReverseAngle;
     private const float Pi = Mathf.PI;
 
     // Due to the unevenness of the curve, we can remove the extra displacement by calculating it
@@ -30,7 +32,47 @@ public class MothPathHandler {
         _hostMoth = host;
     }
 
-    public void MoveAlongClover(float time)
+    public void MoveAlongPath(float time)
+    {
+        if (_pathType == MothPathTypes.Sine)
+            MoveAlongSine(time);
+        else
+            MoveAlongClover(time);
+    }
+
+    #region Stationary Level Paths
+    private void MoveAlongSine(float time)
+    {
+        float dist = 4f * time;
+        const float oscillationSpeed = 0.65f;
+        const float maxRotation = 90;
+
+        _pathTimer += time;
+        if (_pathTimer > oscillationSpeed)
+        {
+            _pathTimer = 0;
+            _bReverseAngle = !_bReverseAngle;
+        }
+
+        float rotationOffset;
+        if (_bReverseAngle) { rotationOffset = maxRotation * (1 - _pathTimer / oscillationSpeed); }
+        else { rotationOffset = maxRotation * (_pathTimer / oscillationSpeed); }
+        float zRotation = -135 + rotationOffset;
+        _hostMoth.MothSprite.transform.localRotation = Quaternion.AngleAxis(zRotation, Vector3.back);
+
+        Vector3 mothAxis;
+        float mothAngle;
+        _hostMoth.MothSprite.transform.localRotation.ToAngleAxis(out mothAngle, out mothAxis);
+        float xOffset = dist * Mathf.Sin(Pi / 180 * mothAngle * -mothAxis.z);
+        float yOffset = dist * Mathf.Cos(Pi / 180 * mothAngle * -mothAxis.z);
+        if (float.IsNaN(xOffset)) { xOffset = 0; }
+        if (float.IsNaN(yOffset)) { yOffset = 0; }
+        _hostMoth.MothSprite.position += new Vector3(xOffset, yOffset, 0f);
+    }
+    #endregion
+
+    #region Standard level paths
+    private void MoveAlongClover(float time)
     {
         _pathTimer += time;
         if (_pathTimer >= SectionDuration)
@@ -110,16 +152,16 @@ public class MothPathHandler {
         // Pick the next direction for the moth to travel
         switch (_pathType)
         {
-            case Moth.MothPathTypes.Infinity:
+            case MothPathTypes.Infinity:
                 _bLeft = !_bLeft;
                 break;
-            case Moth.MothPathTypes.Clover:
+            case MothPathTypes.Clover:
                 _bLeft = Random.Range(0f, 1f) > 0.5f;
                 break;
-            case Moth.MothPathTypes.Figure8:
+            case MothPathTypes.Figure8:
                 _bLeft = !_bLeft;
                 break;
-            case Moth.MothPathTypes.Spiral:
+            case MothPathTypes.Spiral:
                 _bLeft = true;
                 break;
             default:
@@ -127,17 +169,17 @@ public class MothPathHandler {
                 break;
         }
     }
+    #endregion
 
     /// <summary>
-    /// Set the path type for a newly activated moth
-    /// Note: this initialises the moth path
+    /// Set the path type for a newly activated moth.
+    /// This initialises the moth path.
     /// </summary>
-    /// <param name="pathType"></param>
-    public void SetPathType(Moth.MothPathTypes pathType)
+    public void SetPathType(MothPathTypes pathType)
     {
         _pathType = pathType;
         _state = PathStates.NorthWest;
         _pathTimer = 0f;
-        _bLeft = pathType != Moth.MothPathTypes.Figure8;
+        _bLeft = pathType != MothPathTypes.Figure8;
     }
 }

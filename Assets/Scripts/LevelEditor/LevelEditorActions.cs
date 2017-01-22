@@ -183,7 +183,6 @@ public class LevelEditorActions : MonoBehaviour
         StoreStalactites();
         StoreMushrooms();
         StoreMoths();
-        StoreClumsy();
         StoreSpiders();
         StoreWebs();
         StoreTriggers();
@@ -380,6 +379,7 @@ public class LevelEditorActions : MonoBehaviour
             newMoth.Scale = moth.localScale;
             newMoth.Rotation = moth.localRotation;
             newMoth.Colour = moth.GetComponent<Moth>().Colour;
+            newMoth.PathType = moth.GetComponent<Moth>().PathType;
             Level.Caves[index].Moths[mothNum[index]] = newMoth;
             mothNum[index]++;
         }
@@ -456,16 +456,6 @@ public class LevelEditorActions : MonoBehaviour
             Level.Caves[index].Triggers[triggerNum[index]] = newTrigger;
             triggerNum[index]++;
         }
-    }
-
-    private void StoreClumsy()
-    {
-        Transform clumsy = GameObject.Find("Clumsy").GetComponent<Transform>();
-        LevelContainer.ClumsyType newClumsy = Level.Clumsy;
-        newClumsy.Pos = clumsy.position;
-        newClumsy.Rotation = clumsy.localRotation;
-        newClumsy.Scale = clumsy.localScale;
-        Level.Clumsy = newClumsy;
     }
 
     public void LoadBtn()
@@ -608,6 +598,7 @@ public class LevelEditorActions : MonoBehaviour
             newMoth.transform.localScale = moth.Scale;
             newMoth.transform.localRotation = moth.Rotation;
             newMoth.GetComponent<Moth>().Colour = moth.Colour;
+            newMoth.GetComponent<Moth>().PathType = moth.PathType;
         }
     }
 
