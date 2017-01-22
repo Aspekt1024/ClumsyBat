@@ -4,15 +4,15 @@ using System.Collections;
 using GameStates = GameHandler.GameStates;
 using StoryEventID = StoryEventControl.StoryEvents;
 
-public class MothInteractivity
+public class MothInteractivity : MonoBehaviour
 {
-    private readonly GameHandler _gameHandler;
-    private readonly Player _thePlayer;
+    private GameHandler _gameHandler;
+    private Player _thePlayer;
 
-    public MothInteractivity()
+    private void Awake()
     {
-        _gameHandler = Object.FindObjectOfType<GameHandler>();
-        _thePlayer = Object.FindObjectOfType<Player>();
+        _gameHandler = FindObjectOfType<GameHandler>();
+        _thePlayer = FindObjectOfType<Player>();
     }
     
     public IEnumerator ConsumeMoth(float animationWaitTime)

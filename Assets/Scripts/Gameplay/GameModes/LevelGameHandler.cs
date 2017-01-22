@@ -180,7 +180,7 @@ public class LevelGameHandler : GameHandler
         switch (other.name)
         {
             case "MothTrigger":
-                other.GetComponent<Moth>().ConsumeMoth();
+                other.GetComponentInParent<Moth>().ConsumeMoth();
                 break;
             case "ExitTrigger":
                 ThePlayer.ExitAutoFlightReached();

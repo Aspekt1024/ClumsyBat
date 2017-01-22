@@ -9,42 +9,37 @@ public class Moth : MonoBehaviour {
     public MothPathTypes PathType;
     #endregion
 
-    private Transform _mothSprite;
+    [HideInInspector]
+    public Transform MothSprite;
     private Animator _mothAnimator;
     private Collider2D _mothCollider;
     private AudioSource _mothAudio;
-    private bool _bIsActive;
     private MothStates _mothState = MothStates.Normal;
     private bool _bConsumption;
     private Transform _lantern;
     private MothInteractivity _mothInteractor;
+    private MothPathHandler _pathHandler;
 
     private bool _bReverseAngle;
 
     private enum MothAudioNames
     {
-        Flutter,
-        Morph,
-        Consume
+        Flutter, Morph, Consume
     }
     private readonly Dictionary<MothAudioNames, AudioClip> _mothAudioDict = new Dictionary<MothAudioNames, AudioClip>();
 
     private enum MothStates
     {
-        Normal,
-        ConsumeFollow
+        Normal, ConsumeFollow
     }
 
     public enum MothColour
     {
-        Green,
-        Gold,
-        Blue
+        Green, Gold, Blue
     }
     public enum MothPathTypes
     {
-        Figure8,
-        Sine
+        Infinity, Clover, Figure8, Spiral, Sine
     }
 
     private float _mothZLayer;
@@ -57,12 +52,13 @@ public class Moth : MonoBehaviour {
     {
         _mothZLayer = Toolbox.Instance.ZLayers["Moth"];
         _mothAudio = GetComponent<AudioSource>();
-        _mothInteractor = new MothInteractivity();
+        _mothInteractor = gameObject.AddComponent<MothInteractivity>();
+        _pathHandler = new MothPathHandler(this);
         foreach (Transform gameObj in transform)
         {
             if (gameObj.name == "MothTrigger")
             {
-                _mothSprite = gameObj;
+                MothSprite = gameObj;
                 _mothAnimator = gameObj.GetComponent<Animator>();
                 _mothAnimator.enabled = true;
                 _mothCollider = gameObj.GetComponent<Collider2D>();
@@ -83,8 +79,10 @@ public class Moth : MonoBehaviour {
 	
 	private void FixedUpdate ()
     {
-        if (!_bIsActive || _paused) { return; }
+        if (!IsActive || _paused) { return; }
         MoveMothAlongPath(Time.deltaTime);
+        if (_mothState == MothStates.ConsumeFollow) { return; }
+        transform.position -= Vector3.left * Time.deltaTime * _speed;
     }
 
     private void LoadSoundClips()
@@ -94,17 +92,13 @@ public class Moth : MonoBehaviour {
 
     private void MoveMothAlongPath(float time)
     {
-        switch (PathType)
-        {
-            case MothPathTypes.Figure8:
-                MothAlongFigure8(time);
-                break;
-            case MothPathTypes.Sine:
-                MoveAlongSine(time);
-                break;
-        }
+        if (PathType == MothPathTypes.Sine)
+            MoveAlongSine(time);
+        else
+            _pathHandler.MoveAlongClover(time);
     }
 
+    // TODO move to path handler
     private void MoveAlongSine(float time)
     {
         float dist = 4f * time;
@@ -122,11 +116,11 @@ public class Moth : MonoBehaviour {
         if (_bReverseAngle) { rotationOffset = maxRotation * (1 - _phase / oscillationSpeed); }
         else { rotationOffset = maxRotation * (_phase / oscillationSpeed); }
         float zRotation = -135 + rotationOffset;
-        _mothSprite.transform.localRotation = Quaternion.AngleAxis(zRotation, Vector3.back);
+        MothSprite.transform.localRotation = Quaternion.AngleAxis(zRotation, Vector3.back);
         
         Vector3 mothAxis;
         float mothAngle;
-        _mothSprite.transform.localRotation.ToAngleAxis(out mothAngle, out mothAxis);
+        MothSprite.transform.localRotation.ToAngleAxis(out mothAngle, out mothAxis);
         float xOffset = dist * Mathf.Sin(Pi / 180 * mothAngle * -mothAxis.z);
         float yOffset = dist * Mathf.Cos(Pi / 180 * mothAngle * -mothAxis.z);
         if (float.IsNaN(xOffset)) { xOffset = 0; }
@@ -134,33 +128,6 @@ public class Moth : MonoBehaviour {
         if (_mothState == MothStates.Normal)
         {
             transform.position += new Vector3(xOffset, yOffset, 0f);
-        }
-    }
-
-    private void MothAlongFigure8(float time)
-    {
-
-        const float pathSpeed = 0.7f;
-        _phase += Toolbox.Instance.LevelSpeed * time * pathSpeed;
-        if (_phase > 2 * Pi)
-        {
-            _phase -= 2 * Pi;
-        }
-
-        float zRotation = (_phase > Pi ? -1 : 1) * _phase * 360 / Pi;
-        _mothSprite.transform.localRotation = Quaternion.AngleAxis(zRotation, Vector3.back);
-        
-        Vector3 mothAxis;
-        float mothAngle;
-        _mothSprite.transform.localRotation.ToAngleAxis(out mothAngle, out mothAxis);
-        float xOffset = 0.065f * pathSpeed * Mathf.Sin(Pi / 180 * mothAngle * -mothAxis.z);
-        float yOffset = 0.06f * pathSpeed * Mathf.Cos(Pi / 180 * mothAngle * -mothAxis.z);
-        if (float.IsNaN(xOffset)) { xOffset = 0; }
-        if (float.IsNaN(yOffset)) { yOffset = 0; }
-        if (_mothState == MothStates.Normal)
-        {
-            transform.position += new Vector3(_speed * Time.deltaTime, 0f, 0f);
-            _mothSprite.transform.position += new Vector3(xOffset, yOffset, 0f);
         }
     }
 
@@ -172,7 +139,7 @@ public class Moth : MonoBehaviour {
     public void SetPaused(bool gamePaused)
     {
         _paused = gamePaused;
-        if (_bIsActive)
+        if (IsActive)
         {
             _mothAnimator.enabled = !gamePaused;
         }
@@ -181,7 +148,7 @@ public class Moth : MonoBehaviour {
     public void ConsumeMoth()
     {
         const float animDuration = 1f;
-        _mothInteractor.ConsumeMoth(animDuration);
+        _mothInteractor.StartCoroutine("ConsumeMoth", animDuration);
 
         if (!_bConsumption)
         {
@@ -210,13 +177,13 @@ public class Moth : MonoBehaviour {
                     if (!bStartPosSet)
                     {
                         _mothState = MothStates.ConsumeFollow;
-                        startPos = _mothSprite.transform.position;
+                        startPos = MothSprite.position;
                         bStartPosSet = true;
                     }
                     float timeRatio = (animTimer - (animDuration - lantenFollowTime)) / lantenFollowTime;
                     float xOffset = startPos.x - (startPos.x - _lantern.position.x) * timeRatio;
                     float yOffset = startPos.y - (startPos.y - _lantern.position.y) * timeRatio;
-                    transform.position = new Vector3(xOffset, yOffset, startPos.z);
+                    MothSprite.position = new Vector3(xOffset, yOffset, startPos.z);
                 }
             }
             yield return null;
@@ -247,17 +214,13 @@ public class Moth : MonoBehaviour {
     {
         _mothAudio.PlayOneShot(_mothAudioDict[MothAudioNames.Consume]);
         transform.position = Toolbox.Instance.HoldingArea;
-        _mothSprite.transform.position = transform.position;
+        MothSprite.transform.position = transform.position;
         IsActive = false;
     }
 
-    public bool IsActive
-    {
-        get { return _bIsActive; }
-        set { _bIsActive = value; }
-    }
+    public bool IsActive { get; set; }
 
-    public void ActivateMoth(MothColour colour, MothPathTypes pathType = MothPathTypes.Figure8)
+    public void ActivateMoth(MothColour colour, MothPathTypes pathType = MothPathTypes.Spiral)
     {
         // TODO determine where in the vertical space the moth can spawn (endless mode only)
         //const float Range = 2f;
@@ -268,9 +231,10 @@ public class Moth : MonoBehaviour {
         _mothCollider.enabled = true;
         _phase = 0f;
         transform.position = new Vector3(transform.position.x, transform.position.y, _mothZLayer); // TODO remove this once we have everything nicely bundled in the 'Level' Gameobject
-        _mothSprite.transform.position = transform.position;
-        _bIsActive = true;
-        PathType = pathType;
+        MothSprite.transform.position = transform.position;
+        IsActive = true;
+        PathType = pathType;    // TODO move to path handler
+        _pathHandler.SetPathType(pathType);
         Colour = colour;
         switch (colour)
         {

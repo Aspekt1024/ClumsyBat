@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Projectile
 {
-    private Transform _owner;
+    private readonly Transform _owner;
     private const float DefaultProjectileSpeed = 7f;
     private const int NumProjectiles = 7;
     private readonly List<ProjectileType> _projectiles = new List<ProjectileType>();
 
     private int _projectileIndex;
 
-    private bool _bPaused;
+    //private bool _bPaused;
 
     public struct ProjectileType
     {
@@ -67,7 +67,7 @@ public class Projectile
 
     public void PauseGame(bool paused)
     {
-        _bPaused = paused;
+        //_bPaused = paused;
         foreach (var projectile in _projectiles)
         {
             projectile.Body.velocity = Vector2.left * (paused ? 0f : projectile.Speed);

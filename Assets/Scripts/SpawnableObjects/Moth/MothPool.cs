@@ -9,7 +9,7 @@ public class MothPool
         SetupMothPool();
     }
 
-    private const int NumMothsInPool = 2;
+    private const int NumMothsInPool = 8;
     private const string MothResourcePath = "Collectibles/Moth";
 
     public struct MothType
