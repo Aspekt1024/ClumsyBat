@@ -6,7 +6,7 @@ public class Toolbox : Singleton<Toolbox>
 {
     protected Toolbox() { } // guarantee this will be always a singleton only - can't use the constructor!
 
-    public Language language = new Language();
+    public Language Language = new Language();
 
     public Vector3 HoldingArea { get; set; }
     public float LevelSpeed { get; set; }
@@ -14,8 +14,8 @@ public class Toolbox : Singleton<Toolbox>
     public int Level { get; set; }
     public const float TileSizeX = 19.2f;
     public const float PlayerStartX = -5.5f;
-    public bool Debug = false;
-    public bool TooltipCompletionPersist = false;
+    public bool Debug;
+    public bool TooltipCompletionPersist;
     public bool ShowLevelTooltips = true;
 
     public bool[] TooltipCompletion = new bool[Enum.GetNames(typeof(TooltipHandler.DialogueId)).Length];
@@ -84,17 +84,19 @@ public class Toolbox : Singleton<Toolbox>
         LevelNames.Add(13, "Luck");
         LevelNames.Add(14, "Spaceship");
         LevelNames.Add(15, "Hit");
+
+        LevelNames.Add(1001, "Evil Clumsy");
     }
 
     // The below functions relate to session level tooltips
     // Tooltips are shown the first time a level is started, but not on restarting the level
-    public bool TooltipCompleted(TooltipHandler.DialogueId TooltipID)
+    public bool TooltipCompleted(TooltipHandler.DialogueId tooltipId)
     {
-        return TooltipCompletion[(int)TooltipID];
+        return TooltipCompletion[(int)tooltipId];
     }
-    public void SetTooltipComplete(TooltipHandler.DialogueId TooltipID)
+    public void SetTooltipComplete(TooltipHandler.DialogueId tooltipId)
     {
-        TooltipCompletion[(int)TooltipID] = true;
+        TooltipCompletion[(int)tooltipId] = true;
     }
     public void ResetTooltips()
     {
@@ -102,9 +104,9 @@ public class Toolbox : Singleton<Toolbox>
     }
 }
 
-[System.Serializable]
+[Serializable]
 public class Language
 {
-    public string current;
-    public string lastLang;
+    public string Current;
+    public string LastLang;
 }

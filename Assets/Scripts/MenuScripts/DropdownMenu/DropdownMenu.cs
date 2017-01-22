@@ -145,7 +145,6 @@ public class DropdownMenu : MonoBehaviour {
             StartCoroutine("Bounce", 0.3);
             yield return new WaitForSeconds(BounceDuration);
         }
-        Debug.Log(endPos);
         _menuPanel.position = new Vector3(_menuPanel.position.x, endPos, _menuPanel.position.z);
     }
 

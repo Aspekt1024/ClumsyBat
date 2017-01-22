@@ -8,17 +8,22 @@ public class BossGameHandler : GameHandler {
     private GameUI _gameHud;
 
     private EvilClumsy _theBoss;
+    private BossMoths _mothControl;
 
+    private const int BossLevelPrefix = 1000;
+    public int BossLevelNum = 1;
     private bool _bPaused;
     private const float ResumeTimerDuration = 3f;
     private float _resumeTimerStart;
 
     private void Start()
     {
+        Toolbox.Instance.Level = BossLevelPrefix + BossLevelNum;
         _loadScreen = FindObjectOfType<LoadScreen>();
         _gameHud = FindObjectOfType<GameUI>();
         _gameMenu = FindObjectOfType<GameMenuOverlay>();
         _theBoss = FindObjectOfType<EvilClumsy>();
+        _mothControl = new GameObject("SceneSpawnables").AddComponent<BossMoths>();
         _gameMenu.Hide();
         ThePlayer.Fog.Disable();
         StartCoroutine("LoadSequence");
@@ -26,24 +31,7 @@ public class BossGameHandler : GameHandler {
 	
 	private void Update ()
 	{
-	    KeepClumsyOnScreen();
 	}
-
-    private void KeepClumsyOnScreen()
-    {
-        if (_bPaused || !ThePlayer.IsAlive()) { return; }
-
-        const float minY = -3f;
-        const float maxY = 3f;
-        if (ThePlayer.transform.position.y < minY)
-        {
-            ThePlayer.transform.position -= new Vector3(0f, ThePlayer.transform.position.y - minY, 0f);
-        }
-        if (ThePlayer.transform.position.y > maxY)
-        {
-            ThePlayer.transform.position -= new Vector3(0f, ThePlayer.transform.position.y - maxY);
-        }
-    }
     
     private IEnumerator LoadSequence()
     {
@@ -64,6 +52,7 @@ public class BossGameHandler : GameHandler {
         ThePlayer.PauseGame(true);
         _theBoss.PauseGame(true);
         _gameHud.GamePaused(true);
+        _mothControl.PauseGame(true);
         if (showMenu) { _gameMenu.PauseGame(); }
     }
 
@@ -103,6 +92,7 @@ public class BossGameHandler : GameHandler {
         _theBoss.PauseGame(false);
         _gameHud.HideResumeTimer();
         _gameHud.GamePaused(false);
+        _mothControl.PauseGame(false);
         PlayerController.ResumeGameplay();
     }
 
@@ -112,6 +102,14 @@ public class BossGameHandler : GameHandler {
 
     public override void LevelComplete()
     {
+        _gameHud.LevelWon();
+        StartCoroutine("BossFightWon");
+    }
+
+    private IEnumerator BossFightWon()
+    {
+        yield return new WaitForSeconds(2f);
+        _gameMenu.WinGame();
     }
 
     public override void TriggerEntered(Collider2D other)
@@ -119,10 +117,13 @@ public class BossGameHandler : GameHandler {
         switch (other.name)
         {
             case "Projectile":
-                ThePlayer.FireballDeath();
+                ThePlayer.Die();
+                ThePlayer.GetComponent<Rigidbody2D>().constraints -= RigidbodyConstraints2D.FreezePositionX;
+                ThePlayer.GetComponent<Rigidbody2D>().velocity = new Vector2(-3f, 4f);
                 break;
             case "MothTrigger":
-                Debug.Log("moth :)");
+                Moth moth = other.GetComponentInParent<Moth>();
+                moth.ConsumeMoth();
                 break;
         }
     }

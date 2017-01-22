@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 
-public class MothPool {
+public class MothPool
+{
+    private Transform _mothParentObject;
 
     public MothPool()
     {
         SetupMothPool();
     }
 
-    private const int NumMothsInPool = 15;
+    private const int NumMothsInPool = 2;
     private const string MothResourcePath = "Collectibles/Moth";
 
     public struct MothType
@@ -18,61 +20,71 @@ public class MothPool {
         public Moth.MothColour Colour;
     }
 
-    Moth[] Moths = null;
-    int Index = 0;
+    private Moth[] _moths;
+    private int _index;
     private const float MothZLayer = 1f;
 
     private Moth GetMothFromPool()
     {
-        Moth Moth = Moths[Index];
-        Index++;
-        if (Index == Moths.Length)
+        Moth moth = _moths[_index];
+        _index++;
+        if (_index == _moths.Length)
         {
-            Index = 0;
+            _index = 0;
         }
-        return Moth;
+        return moth;
     }
 
     public void SetupMothPool()
     {
-        Moth[] MothList = new Moth[NumMothsInPool];
+        _mothParentObject = new GameObject("Moths").transform;
+        Moth[] mothList = new Moth[NumMothsInPool];
         for (int i = 0; i < NumMothsInPool; i++)
         {
-            GameObject MothObj = (GameObject)MonoBehaviour.Instantiate(Resources.Load(MothResourcePath));
-            Moth Moth = MothObj.GetComponent<Moth>();
-            MothObj.transform.position = Toolbox.Instance.HoldingArea;
-            Moth.PauseAnimation();
-            MothList[i] = Moth;
+            GameObject mothObj = (GameObject)MonoBehaviour.Instantiate(Resources.Load(MothResourcePath), _mothParentObject);
+            Moth moth = mothObj.GetComponent<Moth>();
+            mothObj.name = "Moth" + i;
+            mothObj.transform.position = Toolbox.Instance.HoldingArea;
+            moth.PauseAnimation();
+            mothList[i] = moth;
         }
-        Moths = MothList;
-        Index = 0;
+        _moths = mothList;
+        _index = 0;
     }
 
-    public void SetupMothsInList(MothType[] MothList, float XOffset)
+    public void SetupMothsInList(MothType[] mothList, float xOffset)
     {
-        foreach (MothType Moth in MothList)
+        foreach (MothType moth in mothList)
         {
-            Moth NewMoth = GetMothFromPool();
-            NewMoth.transform.position = new Vector3(Moth.Pos.x + XOffset, Moth.Pos.y, MothZLayer);
-            NewMoth.transform.localScale = Moth.Scale;
-            NewMoth.transform.localRotation = Moth.Rotation;
-            NewMoth.ActivateMoth(Moth.Colour);
-        }
-    }
-
-    public void SetVelocity(float Speed)
-    {
-        foreach (Moth Moth in Moths)
-        {
-            Moth.SetSpeed(Speed);
+            Moth newMoth = GetMothFromPool();
+            newMoth.transform.position = new Vector3(moth.Pos.x + xOffset, moth.Pos.y, MothZLayer);
+            newMoth.transform.localScale = moth.Scale;
+            newMoth.transform.localRotation = moth.Rotation;
+            newMoth.ActivateMoth(moth.Colour);
         }
     }
 
-    public void SetPaused(bool PauseGame)
+    public void SetVelocity(float speed)
     {
-        foreach (Moth Moth in Moths)
+        foreach (Moth moth in _moths)
         {
-            Moth.SetPaused(PauseGame);
+            moth.SetSpeed(speed);
         }
+    }
+
+    public void SetPaused(bool pauseGame)
+    {
+        foreach (Moth moth in _moths)
+        {
+            moth.SetPaused(pauseGame);
+        }
+    }
+
+    public void ActivateMothInRange(float minY, float maxY, Moth.MothColour colour)
+    {
+        Moth newMoth = GetMothFromPool();
+        float mothPosY = Random.Range(minY, maxY);
+        newMoth.transform.position = new Vector3(10f, mothPosY, MothZLayer);
+        newMoth.ActivateMoth(colour, Moth.MothPathTypes.Sine);
     }
 }

@@ -34,4 +34,9 @@ public abstract class GameHandler : MonoBehaviour {
     public virtual void TriggerEntered(Collider2D other) { }
     public virtual void Collision(Collision2D other) { }
 
+    public GameStates GetGameState()
+    {
+        return GameState;
+    }
+
 }

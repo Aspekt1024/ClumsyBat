@@ -180,7 +180,7 @@ public class LevelGameHandler : GameHandler
         switch (other.name)
         {
             case "MothTrigger":
-                StartCoroutine("ConsumeMoth", other);
+                other.GetComponent<Moth>().ConsumeMoth();
                 break;
             case "ExitTrigger":
                 ThePlayer.ExitAutoFlightReached();
@@ -190,55 +190,6 @@ public class LevelGameHandler : GameHandler
                 break;
         }
     }
-
-    // TODO move to consume moth handler or something
-    private IEnumerator ConsumeMoth(Collider2D mothCollider)
-    {
-        if (Level.Stats.MothsEaten > Level.Stats.MostMoths)
-        {
-            Level.Stats.MostMoths++;
-        }
-        Level.Stats.TotalMoths++;
-        Moth mothScript = mothCollider.GetComponentInParent<Moth>();
-        float animationWaitTime = mothScript.ConsumeMoth();
-        float animTimer = 0f;
-        while (animTimer < animationWaitTime)
-        {
-            if (GameState != GameStates.Paused)
-            {
-                animTimer += Time.deltaTime;
-            }
-            yield return null;
-        }
-
-        // TODO redo this. maybe another script file...
-        int currencyValue = 0;
-        switch (mothScript.Colour)
-        {
-            case Moth.MothColour.Green:
-                currencyValue = 1;
-                ThePlayer.Lantern.ChangeColour(Lantern.LanternColour.Green);
-                ThePlayer.Fog.Echolocate();
-                break;
-            case Moth.MothColour.Gold:
-                currencyValue = 2;
-                ThePlayer.Lantern.ChangeColour(Lantern.LanternColour.Gold);
-                Level.Stats.StoryData.TriggerEvent(StoryEventID.FirstGoldMoth);
-                ThePlayer.ActivateHypersonic();
-                ThePlayer.Fog.Echolocate();
-                break;
-            case Moth.MothColour.Blue:
-                currencyValue = 3;
-                ThePlayer.Lantern.ChangeColour(Lantern.LanternColour.Blue);
-                ThePlayer.Fog.Echolocate();
-                break;
-        }
-        ThePlayer.AddShieldCharge();
-        Level.Stats.MothsEaten++;
-        Level.Stats.CollectedCurrency += currencyValue;
-        Level.GameHud.UpdateCurrency(pulse: true); // TODO move
-    }
-
 
     public override void LevelComplete()
     {

@@ -3,117 +3,121 @@ using System.Collections;
 
 public class Hypersonic : MonoBehaviour {
 
-    private AbilityContainer.AbilityType HyperStats;
+    private AbilityContainer.AbilityType _hyperStats;
 
-    private int NumPulses;
-    private bool bCanDestroyStals;
-    private bool bCanDestroyShrooms;
-    private bool bCanDestroySpiders;
+    private int _numPulses;
+    private bool _bCanDestroyStals;
+    private bool _bCanDestroyShrooms;
+    private bool _bCanDestroySpiders;
 
-    private Transform HypersonicBody;
-    private SpriteRenderer HypersonicSprite;
-    private Animator HypersonicAnimator;
-    private CircleCollider2D HypersonicCollider;
+    private Transform _hypersonicBody;
+    private SpriteRenderer _hypersonicSprite;
+    private Animator _hypersonicAnimator;
+    private CircleCollider2D _hypersonicCollider;
 
-    private bool bPaused = false;
+    private bool _bPaused;
 
-    StatsHandler Stats = null;
-    private Lantern Lantern;
+    StatsHandler _stats;
+    private Lantern _lantern;
     
-    void Start ()
+    private void Start ()
     {
-        HypersonicBody = GetComponent<Transform>();
-        HypersonicAnimator = GetComponentInChildren<Animator>();
-        HypersonicSprite = GetComponentInChildren<SpriteRenderer>();
-        HypersonicSprite.enabled = false;
-        HypersonicCollider = GetComponent<CircleCollider2D>();
-        HypersonicCollider.radius = 0.01f;
-        HypersonicCollider.enabled = false;
+        _hypersonicBody = GetComponent<Transform>();
+        _hypersonicAnimator = GetComponentInChildren<Animator>();
+        _hypersonicSprite = GetComponentInChildren<SpriteRenderer>();
+        _hypersonicSprite.enabled = false;
+        _hypersonicCollider = GetComponent<CircleCollider2D>();
+        _hypersonicCollider.radius = 0.01f;
+        _hypersonicCollider.enabled = false;
     }
 
-    public void Setup(StatsHandler StatsRef, Player PlayerRef, Lantern LanternRef)
+    public void Setup(StatsHandler statsRef, Player playerRef, Lantern lanternRef)
     {
-        Stats = StatsRef;
-        HyperStats = Stats.AbilityData.GetHypersonicStats();
+        _stats = statsRef;
+        _hyperStats = _stats.AbilityData.GetHypersonicStats();
         
-        Lantern = LanternRef;
+        _lantern = lanternRef;
 
         SetAbilityAttributes();
     }
 
     private void SetAbilityAttributes()
     {
-        NumPulses = 1;
-        bCanDestroyStals = true;
-        if (HyperStats.AbilityLevel >= 2) { NumPulses = 2; }
-        if (HyperStats.AbilityLevel >= 3) { bCanDestroyShrooms = true; } else { bCanDestroyShrooms = false; }
-        if (HyperStats.AbilityLevel >= 4) { NumPulses = 3; }
-        if (HyperStats.AbilityLevel >= 5) { bCanDestroySpiders = true; } else { bCanDestroySpiders = false; }
+        _numPulses = 1;
+        _bCanDestroyStals = true;
+        if (_hyperStats.AbilityLevel >= 2) { _numPulses = 2; }
+        if (_hyperStats.AbilityLevel >= 4) { _numPulses = 3; }
+        _bCanDestroyShrooms = _hyperStats.AbilityLevel >= 3;
+        _bCanDestroySpiders = _hyperStats.AbilityLevel >= 5;
     }
 
     public void ActivateHypersonic()
     {
-        if (HyperStats.AbilityAvailable)
+        if (_hyperStats.AbilityAvailable || true) // TODO remove this true here...
         {
-            StartCoroutine("HypersonicAbilityGO");
+            StartCoroutine("HypersonicAbilityGo");
         }
     }
 
-    public void GamePaused(bool Paused)
+    public void GamePaused(bool paused)
     {
-        bPaused = Paused;
-        HypersonicAnimator.enabled = !Paused;
+        _bPaused = paused;
+        _hypersonicAnimator.enabled = !paused;
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.name == "StalObject" && bCanDestroyStals)
+        if (other.name == "StalObject" && _bCanDestroyStals)
         {
             other.GetComponentInParent<Stalactite>().DestroyStalactite();
         }
-        if (other.name == "SpiderObject" && bCanDestroySpiders)
+        if (other.name == "SpiderObject" && _bCanDestroySpiders)
         {
             other.GetComponent<SpiderClass>().DestroySpider();
         }
-        if (other.name == "ShroomObject" && bCanDestroyShrooms)
+        if (other.name == "ShroomObject" && _bCanDestroyShrooms)
         {
             other.GetComponent<Mushroom>().DestroyMushroom();
         }
+        if (other.name == "EvilClumsy")
+        {
+            other.GetComponent<EvilClumsy>().TakeDamage();
+        }
     }
 
-    private IEnumerator HypersonicAbilityGO()
+    private IEnumerator HypersonicAbilityGo()
     {
-        HypersonicCollider.enabled = true;
-        HypersonicSprite.enabled = true;
+        _hypersonicCollider.enabled = true;
+        _hypersonicSprite.enabled = true;
 
         float HypersonicIntervalTime = 0.7f;
-        for (int i = 0; i < NumPulses; i++)
+        for (int i = 0; i < _numPulses; i++)
         {
             yield return StartCoroutine("HypersonicAnimation");
             yield return new WaitForSeconds(HypersonicIntervalTime);
         }
 
-        HypersonicSprite.enabled = false;
-        HypersonicCollider.enabled = false;
+        _hypersonicSprite.enabled = false;
+        _hypersonicCollider.enabled = false;
     }
 
     private IEnumerator HypersonicAnimation()
     {
-        HypersonicAnimator.Play("HyperGold", 0, 0f);
+        _hypersonicAnimator.Play("HyperGold", 0, 0f);
 
-        const float ColliderMinScale = 0.01f;
-        const float ColliderMaxScale = 1.4f;
+        const float colliderMinScale = 0.01f;
+        const float colliderMaxScale = 1.4f;
 
-        const float AnimationDuration = 0.5f;
-        float AnimTimer = 0f;
+        const float animationDuration = 0.5f;
+        float animTimer = 0f;
 
-        while (AnimTimer < AnimationDuration)
+        while (animTimer < animationDuration)
         {
-            if (!bPaused)
+            if (!_bPaused)
             {
-                AnimTimer += Time.deltaTime;
-                HypersonicBody.position = new Vector3(Lantern.transform.position.x, Lantern.transform.position.y, Toolbox.Instance.ZLayers["Hypersonic"]);
-                HypersonicCollider.radius = ColliderMinScale - (ColliderMinScale - ColliderMaxScale) * (AnimTimer / AnimationDuration);
+                animTimer += Time.deltaTime;
+                _hypersonicBody.position = new Vector3(_lantern.transform.position.x, _lantern.transform.position.y, Toolbox.Instance.ZLayers["Hypersonic"]);
+                _hypersonicCollider.radius = colliderMinScale - (colliderMinScale - colliderMaxScale) * (animTimer / animationDuration);
             }
             yield return null;
         }

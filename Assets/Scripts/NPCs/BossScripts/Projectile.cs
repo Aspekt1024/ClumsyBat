@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Projectile
 {
-    private readonly Transform _parent;
-    private const float DefaultProjectileSpeed = 4f;
-    private const int NumProjectiles = 3;
+    private Transform _owner;
+    private const float DefaultProjectileSpeed = 7f;
+    private const int NumProjectiles = 7;
     private readonly List<ProjectileType> _projectiles = new List<ProjectileType>();
 
     private int _projectileIndex;
@@ -22,15 +22,15 @@ public class Projectile
 
     public Projectile(Transform owner)
     {
-        _parent = owner;
+        _owner = owner;
         CreateProjectilePool();
     }
 
     private void CreateProjectilePool()
     {
+        var projectileParent = new GameObject("Projectiles").transform;
         for (int i = 0; i < NumProjectiles; i++)
         {
-            var parent = new GameObject("Projectiles");
             var newProjectileObj = Object.Instantiate(Resources.Load<GameObject>("Projectile"));
             var newProjectile = new ProjectileType
             {
@@ -39,7 +39,7 @@ public class Projectile
             };
 
             newProjectile.Tf.name = "Projectile";
-            newProjectile.Tf.SetParent(parent.transform);
+            newProjectile.Tf.SetParent(projectileParent);
             newProjectile.Tf.position = Toolbox.Instance.HoldingArea;
             newProjectile.Body.isKinematic = true;
 
@@ -53,7 +53,7 @@ public class Projectile
         if (_projectileIndex == NumProjectiles) { _projectileIndex = 0; }
 
         var projectile = _projectiles[_projectileIndex];
-        projectile.Tf.position = _parent.position;
+        projectile.Tf.position = _owner.position;
         projectile.Speed = speed;
         projectile.Body.velocity = Vector2.left * projectile.Speed;
         _projectiles[_projectileIndex] = projectile;

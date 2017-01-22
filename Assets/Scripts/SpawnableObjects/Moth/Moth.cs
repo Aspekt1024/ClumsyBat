@@ -4,15 +4,22 @@ using System.Collections.Generic;
 
 public class Moth : MonoBehaviour {
 
+    #region Level Editor Inspector fields
+    public MothColour Colour;
+    public MothPathTypes PathType;
+    #endregion
+
     private Transform _mothSprite;
     private Animator _mothAnimator;
     private Collider2D _mothCollider;
     private AudioSource _mothAudio;
     private bool _bIsActive;
-    public MothColour Colour;
     private MothStates _mothState = MothStates.Normal;
     private bool _bConsumption;
     private Transform _lantern;
+    private MothInteractivity _mothInteractor;
+
+    private bool _bReverseAngle;
 
     private enum MothAudioNames
     {
@@ -20,7 +27,6 @@ public class Moth : MonoBehaviour {
         Morph,
         Consume
     }
-
     private readonly Dictionary<MothAudioNames, AudioClip> _mothAudioDict = new Dictionary<MothAudioNames, AudioClip>();
 
     private enum MothStates
@@ -35,6 +41,11 @@ public class Moth : MonoBehaviour {
         Gold,
         Blue
     }
+    public enum MothPathTypes
+    {
+        Figure8,
+        Sine
+    }
 
     private float _mothZLayer;
     private bool _paused;
@@ -46,6 +57,7 @@ public class Moth : MonoBehaviour {
     {
         _mothZLayer = Toolbox.Instance.ZLayers["Moth"];
         _mothAudio = GetComponent<AudioSource>();
+        _mothInteractor = new MothInteractivity();
         foreach (Transform gameObj in transform)
         {
             if (gameObj.name == "MothTrigger")
@@ -82,6 +94,52 @@ public class Moth : MonoBehaviour {
 
     private void MoveMothAlongPath(float time)
     {
+        switch (PathType)
+        {
+            case MothPathTypes.Figure8:
+                MothAlongFigure8(time);
+                break;
+            case MothPathTypes.Sine:
+                MoveAlongSine(time);
+                break;
+        }
+    }
+
+    private void MoveAlongSine(float time)
+    {
+        float dist = 4f * time;
+        const float oscillationSpeed = 0.65f;
+        const float maxRotation = 90;
+
+        _phase += time;
+        if (_phase > oscillationSpeed)
+        {
+            _phase = 0;
+            _bReverseAngle = !_bReverseAngle;
+        }
+
+        float rotationOffset;
+        if (_bReverseAngle) { rotationOffset = maxRotation * (1 - _phase / oscillationSpeed); }
+        else { rotationOffset = maxRotation * (_phase / oscillationSpeed); }
+        float zRotation = -135 + rotationOffset;
+        _mothSprite.transform.localRotation = Quaternion.AngleAxis(zRotation, Vector3.back);
+        
+        Vector3 mothAxis;
+        float mothAngle;
+        _mothSprite.transform.localRotation.ToAngleAxis(out mothAngle, out mothAxis);
+        float xOffset = dist * Mathf.Sin(Pi / 180 * mothAngle * -mothAxis.z);
+        float yOffset = dist * Mathf.Cos(Pi / 180 * mothAngle * -mothAxis.z);
+        if (float.IsNaN(xOffset)) { xOffset = 0; }
+        if (float.IsNaN(yOffset)) { yOffset = 0; }
+        if (_mothState == MothStates.Normal)
+        {
+            transform.position += new Vector3(xOffset, yOffset, 0f);
+        }
+    }
+
+    private void MothAlongFigure8(float time)
+    {
+
         const float pathSpeed = 0.7f;
         _phase += Toolbox.Instance.LevelSpeed * time * pathSpeed;
         if (_phase > 2 * Pi)
@@ -91,7 +149,7 @@ public class Moth : MonoBehaviour {
 
         float zRotation = (_phase > Pi ? -1 : 1) * _phase * 360 / Pi;
         _mothSprite.transform.localRotation = Quaternion.AngleAxis(zRotation, Vector3.back);
-
+        
         Vector3 mothAxis;
         float mothAngle;
         _mothSprite.transform.localRotation.ToAngleAxis(out mothAngle, out mothAxis);
@@ -120,16 +178,17 @@ public class Moth : MonoBehaviour {
         }
     }
 
-    public float ConsumeMoth()
+    public void ConsumeMoth()
     {
         const float animDuration = 1f;
+        _mothInteractor.ConsumeMoth(animDuration);
+
         if (!_bConsumption)
         {
             _bConsumption = true;
             _mothCollider.enabled = false;
             StartCoroutine("ConsumeAnim", animDuration);
         }
-        return animDuration;
     }
 
     private IEnumerator ConsumeAnim(float animDuration)
@@ -157,11 +216,12 @@ public class Moth : MonoBehaviour {
                     float timeRatio = (animTimer - (animDuration - lantenFollowTime)) / lantenFollowTime;
                     float xOffset = startPos.x - (startPos.x - _lantern.position.x) * timeRatio;
                     float yOffset = startPos.y - (startPos.y - _lantern.position.y) * timeRatio;
-                    _mothSprite.transform.position = new Vector3(xOffset, yOffset, startPos.z);
+                    transform.position = new Vector3(xOffset, yOffset, startPos.z);
                 }
             }
             yield return null;
         }
+        _mothInteractor.ActivateAbility(Colour);
         ReturnToInactivePool();
         _bConsumption = false;
     }
@@ -197,18 +257,20 @@ public class Moth : MonoBehaviour {
         set { _bIsActive = value; }
     }
 
-    public void ActivateMoth(MothColour colour)
+    public void ActivateMoth(MothColour colour, MothPathTypes pathType = MothPathTypes.Figure8)
     {
         // TODO determine where in the vertical space the moth can spawn (endless mode only)
         //const float Range = 2f;
         //float MothYPos = Range * Random.value - Range / 2;
 
+        _mothState = MothStates.Normal;
         _mothAnimator.enabled = true;
         _mothCollider.enabled = true;
         _phase = 0f;
         transform.position = new Vector3(transform.position.x, transform.position.y, _mothZLayer); // TODO remove this once we have everything nicely bundled in the 'Level' Gameobject
         _mothSprite.transform.position = transform.position;
         _bIsActive = true;
+        PathType = pathType;
         Colour = colour;
         switch (colour)
         {

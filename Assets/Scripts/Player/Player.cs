@@ -320,12 +320,6 @@ public class Player : MonoBehaviour {
         }
     }
 
-    public void FireballDeath()
-    {
-        _state = PlayerState.Dying;
-
-    }
-
     public void StartFog() { Fog.StartOfLevel(); }
     public void PlaySound(PlayerSounds soundId) { _audioControl.PlaySound(soundId); }
     private void DisablePlayerController() { FindObjectOfType<PlayerController>().PauseInput(true); }
