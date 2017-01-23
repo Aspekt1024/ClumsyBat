@@ -168,7 +168,7 @@ public class LevelGameHandler : GameHandler
             }
             else
             {
-                Level.Stats.RockDeaths++; // TODO check for other objects
+                //Level.Stats.RockDeaths++; // TODO check for other objects
             }
             ThePlayer.PlaySound(ClumsyAudioControl.PlayerSounds.Collision);
             ThePlayer.Die();

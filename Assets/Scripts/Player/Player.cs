@@ -20,6 +20,7 @@ public class Player : MonoBehaviour {
     private RushAbility _rush;
     //private FlapComponent _flap;
     private Shield _shield;
+    private PerchComponent _perch;
     #endregion
 
     #region Clumsy Components
@@ -46,6 +47,7 @@ public class Player : MonoBehaviour {
     {
         Startup,
         Normal,
+        Perched,
         Dying,
         Dead,
         EndOfLevel
@@ -114,6 +116,7 @@ public class Player : MonoBehaviour {
         _rush = abilityScripts.AddComponent<RushAbility>();
         _shield = abilityScripts.AddComponent<Shield>();
         _hypersonic = FindObjectOfType<Hypersonic>();
+        _perch = abilityScripts.AddComponent<PerchComponent>();
         Fog = FindObjectOfType<FogEffect>();
         
         _rush.Setup(Stats, this, Lantern);
@@ -189,8 +192,15 @@ public class Player : MonoBehaviour {
     public void ActivateJump()
     {
         Stats.TotalJumps++;
-        _playerRigidBody.velocity = Vector2.zero;
-        _playerRigidBody.AddForce(_flapForce);
+        if (_state == PlayerState.Perched)
+        {
+            _perch.Unperch();
+        }
+        else
+        {
+            _playerRigidBody.velocity = Vector2.zero;
+            _playerRigidBody.AddForce(_flapForce);
+        }
         _audioControl.PlaySound(PlayerSounds.Flap);
         _anim.Play("Flap", 0, 0.5f);
     }
@@ -228,11 +238,17 @@ public class Player : MonoBehaviour {
         }
     }
     
-    // TODO manage collision events through the GameHandler
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (_state != PlayerState.Normal) { return; }
-        _gameHandler.Collision(other);
+        if (other.gameObject.name.Contains("Cave") || other.gameObject.name.Contains("Entrance") || other.gameObject.name.Contains("Exit"))
+        {
+            _perch.Perch(other.gameObject.name);
+        }
+        else
+        {
+            _gameHandler.Collision(other);
+        }
     }
 
     public void Die()
@@ -333,4 +349,5 @@ public class Player : MonoBehaviour {
     public float GetPlayerSpeed() { return _playerSpeed; }
     public bool AtCaveEnd() { return _bCaveEndReached; }
     public GameHandler GetGameHandler() { return _gameHandler; }
+    public void SwitchPerchState() { _state = _state == PlayerState.Perched ? PlayerState.Normal : PlayerState.Perched; }
 }
