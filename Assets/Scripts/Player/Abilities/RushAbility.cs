@@ -43,7 +43,7 @@ public class RushAbility : MonoBehaviour {
         SetupHudBar();
     }
 
-    void Update ()
+    private void Update ()
     {
         if (_bPaused) { return; }
 
@@ -173,13 +173,7 @@ public class RushAbility : MonoBehaviour {
         }
     }
 
-    public void CaveEndReached()
-    {
-        _bAtCaveEnd = true;
-    }
-
-    public bool IsActive()
-    {
-        return !_bDisabled;
-    }
+    public void CaveEndReached() { _bAtCaveEnd = true; }
+    public bool IsActive() { return !_bDisabled; }
+    public bool AbilityAvailable() { return _rushStats.AbilityAvailable && _numCharges > 0; }
 }

@@ -191,7 +191,6 @@ public class Player : MonoBehaviour {
 
     public void ActivateJump()
     {
-        Stats.TotalJumps++;
         if (_state == PlayerState.Perched)
         {
             _perch.Unperch();
@@ -201,6 +200,8 @@ public class Player : MonoBehaviour {
             _playerRigidBody.velocity = Vector2.zero;
             _playerRigidBody.AddForce(_flapForce);
         }
+        if (_state == PlayerState.Perched) return;
+        Stats.TotalJumps++;
         _audioControl.PlaySound(PlayerSounds.Flap);
         _anim.Play("Flap", 0, 0.5f);
     }
@@ -350,4 +351,5 @@ public class Player : MonoBehaviour {
     public bool AtCaveEnd() { return _bCaveEndReached; }
     public GameHandler GetGameHandler() { return _gameHandler; }
     public void SwitchPerchState() { _state = _state == PlayerState.Perched ? PlayerState.Normal : PlayerState.Perched; }
+    public bool CanRush() { return _rush.AbilityAvailable(); }
 }

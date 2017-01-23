@@ -71,7 +71,10 @@ public class PlayerController : MonoBehaviour
     private void ProcessSwipe()
     {
         if (State == GameState.Paused) { return; }
-        ThePlayer.ActivateRush();
+        if (ThePlayer.CanRush())
+            ThePlayer.ActivateRush();
+        else
+            ThePlayer.ActivateJump();
     }
 
     public void EnterGamePlay()

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PerchComponent : MonoBehaviour
 {
@@ -9,7 +7,7 @@ public class PerchComponent : MonoBehaviour
     private GameHandler _gameHandler;
     private Animator _anim;
 
-    private const float PerchSwitchTime = 0.5f;
+    private const float PerchSwitchTime = 0.15f;    // This is to avoid double taps and double collisions
     private float _timeSincePerchSwitch;
 
     private enum PerchState
@@ -29,7 +27,6 @@ public class PerchComponent : MonoBehaviour
 	    _anim = _player.GetComponent<Animator>();
 	}
 	
-	// Update is called once per frame
 	private void Update ()
 	{
 	    _timeSincePerchSwitch += Time.deltaTime;
@@ -61,7 +58,7 @@ public class PerchComponent : MonoBehaviour
     {
         if (_state == PerchState.PerchedTop)
         {
-            _player.transform.localScale = new Vector3(_player.transform.localScale.x, -_player.transform.localScale.y, 1f);
+            FlipPlayer();
         }
         _anim.Play("Perch", 0, 0f);
     }
@@ -73,10 +70,11 @@ public class PerchComponent : MonoBehaviour
 
         if (_state == PerchState.PerchedTop)
         {
-            _player.transform.localScale = new Vector3(_player.transform.localScale.x, -_player.transform.localScale.y, 1f);
+            FlipPlayer();
         }
         else
         {
+            _player.transform.position += Vector3.up * 0.2f;
             _player.ActivateJump();
         }
 
@@ -90,5 +88,23 @@ public class PerchComponent : MonoBehaviour
         _timeSincePerchSwitch = 0f;
         _player.SwitchPerchState();
         return true;
+    }
+
+    private void FlipPlayer()
+    {
+        _player.transform.localScale = new Vector3(_player.transform.localScale.x, -_player.transform.localScale.y, 1f);
+        Transform lantern = _player.Lantern.transform;
+        Rigidbody2D lanternBody = lantern.GetComponent<Rigidbody2D>();
+        lanternBody.isKinematic = !lanternBody.isKinematic;
+        if (!lanternBody.isKinematic) return;
+
+        lanternBody.velocity = Vector2.zero;
+        lanternBody.angularVelocity = 0f;
+        lantern.rotation = Quaternion.identity;
+
+        lantern.position = _player.transform.position + Vector3.left * 0.5f;
+        RaycastHit2D hit = Physics2D.Raycast(lantern.position, Vector3.up, 2f, ~(1 << LayerMask.NameToLayer("Clumsy")));
+        if (hit.collider != null)
+            lantern.position += Vector3.up * (hit.distance - 0.2f); // 0.2f is a magic number i trial-and-errored
     }
 }
