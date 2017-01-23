@@ -120,7 +120,6 @@ public class BossGameHandler : GameHandler {
             case "MothTrigger":
                 Moth moth = other.GetComponentInParent<Moth>();
                 moth.ConsumeMoth();
-                ThePlayer.ForceHypersonic();    // TODO clear this.
                 break;
         }
     }
