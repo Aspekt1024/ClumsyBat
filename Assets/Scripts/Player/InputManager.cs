@@ -1,0 +1,159 @@
+﻿using UnityEngine;
+using UnityEngine.EventSystems;
+
+public class InputManager : MonoBehaviour
+{
+    private enum SwipeDirection
+    {
+        None = 0,
+        Left = 1,
+        Right = 2,
+        Up = 4,
+        Down = 8,
+        Tap = 16
+    }
+
+    private SwipeDirection _direction = SwipeDirection.None;
+
+    private const float SwipeResistanceX = 70f;
+    private const float SwipeResistanceY = 90f;
+    private float _touchStartPos;
+    private float _touchStartTime;
+    private const float StationaryTime = 0.05f; // Time before a tap is registered
+    private const float SwipeTime = 0.4f;       // Player must swipe within this time
+
+    private bool _bGestureSet;
+    private bool _bSwipeSet;
+    private bool _bIsTouching;
+
+    private void Update()
+    {
+        foreach (Touch touch in Input.touches)
+        {
+            if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
+            {
+                break;
+            }
+            
+            switch (touch.phase)
+            {
+                case TouchPhase.Began:
+                    _touchStartPos = touch.position.x;
+                    _touchStartTime = Time.time;
+                    _direction = SwipeDirection.None;
+                    _bGestureSet = false;
+                    _bSwipeSet = false;
+                    break;
+
+                case TouchPhase.Stationary:
+                    _bIsTouching = true;
+                    if (!_bGestureSet)
+                    {
+                        if (Time.time > _touchStartTime + StationaryTime)
+                        {
+                            _bGestureSet = true;
+                            _direction = SwipeDirection.Tap;
+                            _bIsTouching = true;
+                        }
+                    }
+                    break;
+
+                case TouchPhase.Moved:
+                    if (!_bSwipeSet && Time.time < _touchStartTime + SwipeTime && touch.position.x - _touchStartPos > SwipeResistanceX)
+                    {
+                        _bGestureSet = true;
+                        _bSwipeSet = true;
+                        _direction = SwipeDirection.Right;
+                    }
+                    else if (!_bGestureSet && Time.time > _touchStartTime + StationaryTime)
+                    {
+                        _bGestureSet = true;
+                        _direction = SwipeDirection.Tap;
+                    }
+                    break;
+
+                case TouchPhase.Ended:
+                    _bIsTouching = false;
+                    if (_touchStartTime + SwipeTime < Time.time && touch.position.x - _touchStartPos > SwipeResistanceX)
+                    {
+                        _bGestureSet = true;
+                        _bSwipeSet = true;
+                        _direction = SwipeDirection.Right;
+                    }
+                    else if (!_bGestureSet)
+                    {
+                        _bGestureSet = true;
+                        _direction = SwipeDirection.Tap;
+                    }
+                    break;
+            }
+        }
+
+        #region Keyboard emulation
+        if (Input.GetKeyDown("w"))
+        {
+            _touchStartTime = Time.time;
+            _direction = SwipeDirection.None;
+            _bGestureSet = false;
+            _bSwipeSet = false;
+        }
+        else if (Input.GetKeyUp("d"))
+        {
+            _bGestureSet = true;
+            _bSwipeSet = true;
+            _direction = SwipeDirection.Right;
+        }
+        else if (Input.GetKey("w"))
+        {
+            if (Time.time > _touchStartTime + StationaryTime)
+            {
+                _bIsTouching = true;
+                if (!_bGestureSet)
+                {
+                    _bGestureSet = true;
+                    _direction = SwipeDirection.Tap;
+                }
+            }
+        }
+        else if (Input.GetKeyUp("w"))
+        {
+            _bIsTouching = false;
+            if (!_bGestureSet)
+            {
+                _bGestureSet = true;
+                _direction = SwipeDirection.Tap;
+            }
+        }
+        #endregion
+    }
+
+    public bool SwipeRightRegistered()
+    {
+        if (_direction == SwipeDirection.Right)
+        {
+            _direction = SwipeDirection.None;
+            return true;
+        }
+        return false;
+    }
+
+    public bool TapRegistered()
+    {
+        if (_direction == SwipeDirection.Tap)
+        {
+            _direction = SwipeDirection.None;
+            return true;
+        }
+        return false;
+    }
+
+    public bool TouchHeld()
+    {
+        return _bIsTouching;
+    }
+
+    public void ClearInput()
+    {
+        _direction = SwipeDirection.None;
+    }
+}

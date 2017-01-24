@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class TooltipHandler : MonoBehaviour {
 
     private PlayerController _playerControl;
-    private SwipeManager _inputManager;
+    private InputManager _inputManager;
     private TooltipController _tooltipControl;
     
     private readonly Dictionary<DialogueId, TooltipId[]> _dialogueSet = new Dictionary<DialogueId, TooltipId[]>();

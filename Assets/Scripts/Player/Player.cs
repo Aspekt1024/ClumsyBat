@@ -29,6 +29,7 @@ public class Player : MonoBehaviour {
     private Animator _anim;
     private JumpClearance _clearance;
     private ClumsyAudioControl _audioControl;
+    private PlayerController _playerController;
     #endregion
 
     #region Clumsy Properties
@@ -67,6 +68,7 @@ public class Player : MonoBehaviour {
         _gameHandler = FindObjectOfType<GameHandler>();
         _anim = GetComponent<Animator>();
         _lanternBody = GameObject.Find("Lantern").GetComponent<Rigidbody2D>();
+        _playerController = GetComponent<PlayerController>();
         Lantern = _lanternBody.GetComponent<Lantern>();
         GameObject clearanceGameObj = GameObject.Find("JumpClearance");
         if (clearanceGameObj)
@@ -244,7 +246,10 @@ public class Player : MonoBehaviour {
         if (_state != PlayerState.Normal) { return; }
         if (other.gameObject.name.Contains("Cave") || other.gameObject.name.Contains("Entrance") || other.gameObject.name.Contains("Exit"))
         {
-            _perch.Perch(other.gameObject.name);
+            if (_playerController.TouchHeld())
+                _perch.Perch(other.gameObject.name);
+            else
+                BounceIfBottomCave(other.gameObject.name);
         }
         else
         {
@@ -328,7 +333,12 @@ public class Player : MonoBehaviour {
         _hypersonic.GamePaused(bPauseAbility);
         _shield.GamePaused(bPauseAbility);
     }
-    
+
+    private void BounceIfBottomCave(string objName)
+    {
+        if (objName.Contains("Bottom") || (!objName.Contains("Top") && transform.position.y < 0f))
+            ActivateJump();
+    }
 
     public void JumpIfClear()
     {
@@ -349,7 +359,9 @@ public class Player : MonoBehaviour {
     public float GetHomePositionX() { return ClumsyX; }
     public float GetPlayerSpeed() { return _playerSpeed; }
     public bool AtCaveEnd() { return _bCaveEndReached; }
+    public bool IsPerched() { return _state == PlayerState.Perched; }
+    public bool CanRush() { return _rush.AbilityAvailable(); }
     public GameHandler GetGameHandler() { return _gameHandler; }
     public void SwitchPerchState() { _state = _state == PlayerState.Perched ? PlayerState.Normal : PlayerState.Perched; }
-    public bool CanRush() { return _rush.AbilityAvailable(); }
+
 }

@@ -14,11 +14,12 @@ public class PlayerController : MonoBehaviour
     public Player ThePlayer;
     
     private GameHandler _gameHandler;
-    private SwipeManager _inputManager;
+    private InputManager _inputManager;
     
     public GameState State { get; set; }
 
     private bool _bTouchInputEnabled = true;
+    private bool _bTouchHeld;
 
     public event PlayerDeathHandler PlayerDeath; // not currently used. Kept for reference (events!)
     
@@ -34,7 +35,7 @@ public class PlayerController : MonoBehaviour
     {
         State = GameState.Starting;
         var scriptsObject = GameObject.Find("Scripts");
-        _inputManager = scriptsObject.AddComponent<SwipeManager>();
+        _inputManager = scriptsObject.AddComponent<InputManager>();
         _gameHandler = scriptsObject.GetComponent<GameHandler>();
         ThePlayer = FindObjectOfType<Player>();
     }
@@ -46,20 +47,28 @@ public class PlayerController : MonoBehaviour
     
     private void Update()
     {
+        if (_bTouchHeld != _inputManager.TouchHeld())
+        {
+            _bTouchHeld = _inputManager.TouchHeld();
+            if (!_bTouchHeld && ThePlayer.IsPerched())
+            {
+                ThePlayer.ActivateJump();
+                return;
+            }
+        }
+
         if (State != GameState.Normal || !ThePlayer.IsAlive()) { return; }
 
+        if (ThePlayer.IsPerched() && _bTouchHeld) { return; }
         ProcessInput();
     }
 
     private void ProcessInput()
     {
         if (!_bTouchInputEnabled) { return; }
-
-        if (_inputManager.SwipeRegistered()) { ProcessSwipe(); }
-        if (_inputManager.TapRegistered()) { ProcessTap(); }
         
-        if (Input.GetKeyUp("w")) { ProcessTap(); }
-        else if (Input.GetKeyUp("a")) { ProcessSwipe(); }
+        if (_inputManager.SwipeRightRegistered()) { ProcessSwipe(); }
+        if (_inputManager.TapRegistered()) { ProcessTap(); }
     }
 
     private void ProcessTap()
@@ -126,17 +135,7 @@ public class PlayerController : MonoBehaviour
         ResumeGameplay();
         ThePlayer.JumpIfClear();
     }
-
-    public SwipeManager GetInputManager()
-    {
-        return _inputManager;
-    }
-
-    public bool GameStarted()
-    {
-        return State != GameState.Starting;
-    }
-
+    
     public void PauseInput(bool bPaused)
     {
         // This is currently only used by the Gameover sequence and is reset upon loading the scene
@@ -149,5 +148,9 @@ public class PlayerController : MonoBehaviour
         if (!gameHandler) { return false; }
         return gameHandler.VeryFirstStartupSequenceRequired();
     }
+
+    public bool GameStarted() { return State != GameState.Starting; }
+    public bool TouchHeld() { return _inputManager.TouchHeld(); }
+    public InputManager GetInputManager() { return _inputManager; }
 }
 

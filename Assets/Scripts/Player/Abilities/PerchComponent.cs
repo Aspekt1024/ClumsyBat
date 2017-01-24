@@ -70,16 +70,17 @@ public class PerchComponent : MonoBehaviour
 
         if (_state == PerchState.PerchedTop)
         {
+            _state = PerchState.Unperched;
             FlipPlayer();
         }
         else
         {
+            _state = PerchState.Unperched;
             _player.transform.position += Vector3.up * 0.2f;
             _player.ActivateJump();
         }
 
         _gameHandler.UpdateGameSpeed(1);
-        _state = PerchState.Unperched;
     }
 
     private bool PerchSwitchPossible()
