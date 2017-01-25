@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class PerchComponent : MonoBehaviour
 {
@@ -6,6 +7,8 @@ public class PerchComponent : MonoBehaviour
     private Rigidbody2D _body;
     private GameHandler _gameHandler;
     private Animator _anim;
+    private Transform _lantern;
+    private Rigidbody2D _lanternBody;
 
     private const float PerchSwitchTime = 0.15f;    // This is to avoid double taps and double collisions
     private float _timeSincePerchSwitch;
@@ -25,7 +28,9 @@ public class PerchComponent : MonoBehaviour
 	    _body = _player.GetComponent<Rigidbody2D>();
 	    _gameHandler = FindObjectOfType<GameHandler>();
 	    _anim = _player.GetComponent<Animator>();
-	}
+        _lantern = _player.Lantern.transform;
+        _lanternBody = _lantern.GetComponent<Rigidbody2D>();
+    }
 	
 	private void Update ()
 	{
@@ -93,19 +98,45 @@ public class PerchComponent : MonoBehaviour
 
     private void FlipPlayer()
     {
+        if (_state == PerchState.Unperched)
+        {
+            StartCoroutine("MoveLantern", true);
+        }
+        else
+        {
+            StartCoroutine("MoveLantern", false);
+        }
         _player.transform.localScale = new Vector3(_player.transform.localScale.x, -_player.transform.localScale.y, 1f);
-        Transform lantern = _player.Lantern.transform;
-        Rigidbody2D lanternBody = lantern.GetComponent<Rigidbody2D>();
-        lanternBody.isKinematic = !lanternBody.isKinematic;
-        if (!lanternBody.isKinematic) return;
 
-        lanternBody.velocity = Vector2.zero;
-        lanternBody.angularVelocity = 0f;
-        lantern.rotation = Quaternion.identity;
+    }
 
-        lantern.position = _player.transform.position + Vector3.left * 0.5f;
-        RaycastHit2D hit = Physics2D.Raycast(lantern.position, Vector3.up, 2f, ~(1 << LayerMask.NameToLayer("Clumsy")));
+    private IEnumerator MoveLantern(bool bToPlayer)
+    {
+        _lanternBody.isKinematic = !bToPlayer;
+        _lanternBody.velocity = Vector2.zero;
+        _lanternBody.angularVelocity = 0f;
+
+        float startAngle = _lantern.localRotation.z;
+        Vector3 startPosition = _lantern.position;
+        Vector3 endPosition = bToPlayer ? _player.transform.position : _player.transform.position + Vector3.left * 0.5f;
+        RaycastHit2D hit = Physics2D.Raycast(endPosition, Vector3.up, 2f, ~(1 << LayerMask.NameToLayer("Clumsy")));
         if (hit.collider != null)
-            lantern.position += Vector3.up * (hit.distance - 0.2f); // 0.2f is a magic number i trial-and-errored
+            // 0.2f is a magic number i trial-and-errored to offset from the lanter's center
+            endPosition += Vector3.up * (hit.distance - 0.2f);
+
+        const float animDuration = 0.26f;
+        float animTimer = 0f;
+        while (animTimer < animDuration)
+        {
+            if (bToPlayer) { endPosition = _player.transform.position - new Vector3(0.3f, 0.5f, 0f); }
+            animTimer += Time.deltaTime;
+            float ratio = animTimer / animDuration;
+            float posX = startPosition.x - (startPosition.x - endPosition.x) * ratio;
+            float posY = startPosition.y - (startPosition.y - endPosition.y) * ratio;
+            float angle = startAngle - (startAngle + 359.9f) * ratio;
+            _lantern.eulerAngles = new Vector3(0f, 0f, angle);
+            _lantern.position = new Vector3(posX, posY, _lantern.position.z);
+            yield return null;
+        }
     }
 }
