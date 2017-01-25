@@ -51,9 +51,9 @@ public class Shield : MonoBehaviour {
     private IEnumerator Knockback()
     {
         float knockbackTimer = 0f;
-        const float knockbackDuration = 0.4f;
+        const float knockbackDuration = 0.3f;
 
-        if (!_thePlayer.AtCaveEnd()) { _playerBody.velocity = new Vector2(-8f, _playerBody.velocity.y); }
+        if (!_thePlayer.AtCaveEnd()) { _playerBody.velocity = new Vector2(-7f, _playerBody.velocity.y); }
         
         while (knockbackTimer < knockbackDuration)
         {

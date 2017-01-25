@@ -34,8 +34,8 @@ public class Player : MonoBehaviour {
 
     #region Clumsy Properties
     private readonly Vector3 _playerHoldingArea = new Vector3(-100f, 0f, 0f);        // Where Clumsy goes to die
-    private readonly Vector2 _flapForce = new Vector2(0f, 480f);
-    private readonly Vector2 _nudgeForce = new Vector2(0f, 400f);
+    private readonly Vector2 _flapVelocity = new Vector2(0f, 9f);
+    private readonly Vector2 _nudgeVelocity = new Vector2(0f, 5f);
     private const float ClumsyX = -5f;
     private const float GravityScale = 3f;
     private Vector2 _savedVelocity = Vector2.zero;
@@ -79,7 +79,6 @@ public class Player : MonoBehaviour {
 
     private void Start ()
     {
-        CheckIfOffscreen();
         Stats = FindObjectOfType<StatsHandler>();
         SetupAbilities();
     }
@@ -199,13 +198,17 @@ public class Player : MonoBehaviour {
         }
         else
         {
-            _playerRigidBody.velocity = Vector2.zero;
-            _playerRigidBody.AddForce(_flapForce);
+            _playerRigidBody.velocity = _flapVelocity;
         }
         if (_state == PlayerState.Perched) return;
         Stats.TotalJumps++;
         _audioControl.PlaySound(PlayerSounds.Flap);
         _anim.Play("Flap", 0, 0.5f);
+    }
+
+    public void UnperchBottom()
+    {
+        _playerRigidBody.velocity = _flapVelocity;
     }
 
     public void SetGravity(float gravity)
@@ -246,6 +249,7 @@ public class Player : MonoBehaviour {
         if (_state != PlayerState.Normal) { return; }
         if (other.gameObject.name.Contains("Cave") || other.gameObject.name.Contains("Entrance") || other.gameObject.name.Contains("Exit"))
         {
+            if(_shield.IsInUse()) { return; }
             if (_playerController.TouchHeld())
                 _perch.Perch(other.gameObject.name);
             else
@@ -304,7 +308,7 @@ public class Player : MonoBehaviour {
         _playerRigidBody.isKinematic = false;
         Fog.Resume();
         _anim.enabled = true;
-        _playerRigidBody.AddForce(_nudgeForce);
+        _playerRigidBody.velocity = _nudgeVelocity;
     }
 
     public void PauseGame(bool gamePaused)
@@ -337,7 +341,7 @@ public class Player : MonoBehaviour {
     private void BounceIfBottomCave(string objName)
     {
         if (objName.Contains("Bottom") || (!objName.Contains("Top") && transform.position.y < 0f))
-            ActivateJump();
+            _playerRigidBody.velocity = _nudgeVelocity;
     }
 
     public void JumpIfClear()
@@ -348,8 +352,7 @@ public class Player : MonoBehaviour {
         }
         else
         {
-            _playerRigidBody.velocity = Vector2.zero;
-            _playerRigidBody.AddForce(_nudgeForce);
+            _playerRigidBody.velocity = _nudgeVelocity;
         }
     }
 

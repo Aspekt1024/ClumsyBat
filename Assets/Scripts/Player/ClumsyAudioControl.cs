@@ -20,7 +20,7 @@ public class ClumsyAudioControl : MonoBehaviour {
         Collision 
     }
     
-    void Start ()
+    private void Start ()
     {
         _playerAudio1 = gameObject.AddComponent<AudioSource>();
         //_playerAudio2 = gameObject.AddComponent<AudioSource>();
@@ -30,7 +30,7 @@ public class ClumsyAudioControl : MonoBehaviour {
     private void SetupAudioDict()
     {
         AddToAudioDict(PlayerSounds.Flap, "ClumsyFlap", 1f);
-        AddToAudioDict(PlayerSounds.Flap2, "Flap", 0.3f);   // Not used but kept for reference and playtesting
+        //AddToAudioDict(PlayerSounds.Flap2, "Flap", 0.3f);   // Not used but kept for reference and playtesting
         AddToAudioDict(PlayerSounds.Collision, "RockCollision", 1f);
     }
 
@@ -46,6 +46,8 @@ public class ClumsyAudioControl : MonoBehaviour {
     
     public void PlaySound(PlayerSounds soundName)
     {
+        _playerAudio1.volume = 0;
+        _playerAudio1.Stop();   // TODO remove the popping sound.
         _playerAudio1.volume = _playerAudioDict[soundName].Volume;
         _playerAudio1.PlayOneShot(_playerAudioDict[soundName].AudioClip);
     }

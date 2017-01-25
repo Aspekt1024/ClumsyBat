@@ -77,7 +77,7 @@ public class PerchComponent : MonoBehaviour
         {
             _state = PerchState.Unperched;
             _player.transform.position += Vector3.up * 0.2f;
-            _player.ActivateJump();
+            _player.UnperchBottom();
         }
 
         _gameHandler.UpdateGameSpeed(1);

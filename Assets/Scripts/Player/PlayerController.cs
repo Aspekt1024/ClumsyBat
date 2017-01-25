@@ -47,17 +47,15 @@ public class PlayerController : MonoBehaviour
     
     private void Update()
     {
-        if (_bTouchHeld != _inputManager.TouchHeld())
-        {
-            _bTouchHeld = _inputManager.TouchHeld();
-            if (!_bTouchHeld && ThePlayer.IsPerched())
-            {
-                ThePlayer.ActivateJump();
-                return;
-            }
-        }
-
         if (State != GameState.Normal || !ThePlayer.IsAlive()) { return; }
+
+        if (!_bTouchHeld && ThePlayer.IsPerched())
+        {
+            ThePlayer.ActivateJump();
+            _inputManager.ClearInput();
+            return;
+        }
+        _bTouchHeld = _inputManager.TouchHeld();
 
         if (ThePlayer.IsPerched() && _bTouchHeld) { return; }
         ProcessInput();
@@ -97,7 +95,7 @@ public class PlayerController : MonoBehaviour
         PauseGame(showMenu: true);
     }
 
-    public void PauseGame(bool showMenu = true)
+    public void PauseGame(bool showMenu)
     {
         State = GameState.Paused;
         ThePlayer.PauseGame(true);
@@ -131,7 +129,7 @@ public class PlayerController : MonoBehaviour
 
     public void TooltipResume()
     {
-        _gameHandler.ResumeGame(immediate:true);
+        _gameHandler.ResumeGame(immediate: true);
         ResumeGameplay();
         ThePlayer.JumpIfClear();
     }

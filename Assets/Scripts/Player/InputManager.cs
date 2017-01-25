@@ -38,6 +38,7 @@ public class InputManager : MonoBehaviour
             switch (touch.phase)
             {
                 case TouchPhase.Began:
+                    _bIsTouching = true;
                     _touchStartPos = touch.position.x;
                     _touchStartTime = Time.time;
                     _direction = SwipeDirection.None;
@@ -46,14 +47,12 @@ public class InputManager : MonoBehaviour
                     break;
 
                 case TouchPhase.Stationary:
-                    _bIsTouching = true;
                     if (!_bGestureSet)
                     {
                         if (Time.time > _touchStartTime + StationaryTime)
                         {
                             _bGestureSet = true;
                             _direction = SwipeDirection.Tap;
-                            _bIsTouching = true;
                         }
                     }
                     break;
@@ -92,6 +91,7 @@ public class InputManager : MonoBehaviour
         #region Keyboard emulation
         if (Input.GetKeyDown("w"))
         {
+            _bIsTouching = true;
             _touchStartTime = Time.time;
             _direction = SwipeDirection.None;
             _bGestureSet = false;
@@ -107,7 +107,6 @@ public class InputManager : MonoBehaviour
         {
             if (Time.time > _touchStartTime + StationaryTime)
             {
-                _bIsTouching = true;
                 if (!_bGestureSet)
                 {
                     _bGestureSet = true;
