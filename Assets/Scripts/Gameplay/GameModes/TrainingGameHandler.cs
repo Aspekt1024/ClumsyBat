@@ -10,16 +10,7 @@ public class TrainingGameHandler : GameHandler
     public int TrainingLevelNum = 1;
     private const float ResumeTimerDuration = 3f;
     private float _resumeTimerStart;
-    private bool _bInBeam;
     private bool _bPaused;
-    private float _chargePercent;
-    private const float ChargeSpeed = 10f;  // Percent per second
-
-    private enum TrainingGameState
-    {
-        Normal, DestroyedEverything
-    }
-    private TrainingGameState _state;
 
     private void Start()
     {
@@ -35,15 +26,6 @@ public class TrainingGameHandler : GameHandler
     private void Update()
     {
         if (_bPaused) return;
-        if (_bInBeam)
-        {
-            _chargePercent += Time.deltaTime * ChargeSpeed;
-            if (_chargePercent > 100) { _chargePercent = 100f; }
-            _gameHud.SetCustomText(Mathf.FloorToInt(_chargePercent) + "%");
-        }
-
-        if (!(_chargePercent >= 99.99f) || _state == TrainingGameState.DestroyedEverything) return;
-        StartCoroutine("DestroyScene");
     }
 
     private IEnumerator LoadSequence()
@@ -99,17 +81,6 @@ public class TrainingGameHandler : GameHandler
         ResumeGameplay();
     }
 
-    private IEnumerator DestroyScene()
-    {
-        _state = TrainingGameState.DestroyedEverything;
-        ThePlayer.ForceHypersonic();
-        Destroy(GameObject.Find("WeirdBeamThing"));// TODO don't do this.
-        yield return new WaitForSeconds(0.5f);
-        Destroy(GameObject.Find("WeirdOrbThing"));// TODO don't do this.
-        yield return new WaitForSeconds(1.2f);
-        LevelComplete();
-    }
-
     private void ResumeGameplay()
     {
         _bPaused = false;
@@ -139,9 +110,6 @@ public class TrainingGameHandler : GameHandler
     {
         switch (other.name)
         {
-            case "WeirdBeamThing":
-                _bInBeam = true;
-                break;
         }
     }
 
@@ -149,9 +117,6 @@ public class TrainingGameHandler : GameHandler
     {
         switch (other.name)
         {
-            case "WeirdBeamThing":
-                _bInBeam = false;
-                break;
         }
     }
 }

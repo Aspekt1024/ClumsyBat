@@ -13,6 +13,7 @@ public class TooltipHandler : MonoBehaviour {
 
     private bool _bFirstDialogue;
     private bool _bLastDialogue;
+    private bool _bTooltipPauses;
 
     // DialogueID is used for the DialogueSet Dictionary
     // Referenced in the editor
@@ -66,6 +67,7 @@ public class TooltipHandler : MonoBehaviour {
 
     private void SetDialogueIDs()
     {
+        _dialogueSet.Add(DialogueId.FirstDeath, new [] { TooltipId.FirstDeath });
         _dialogueSet.Add(DialogueId.FirstJump, new[] { TooltipId.FirstJump });
         _dialogueSet.Add(DialogueId.SecondJump, new[] { TooltipId.SecondJump });
         _dialogueSet.Add(DialogueId.FirstMoth, new[] { TooltipId.FirstMoth } );
@@ -98,24 +100,24 @@ public class TooltipHandler : MonoBehaviour {
         //DialogueDict.Add(TooltipID, "");
     }
 
-    void Start ()
+    public void Start ()
     {
-        // TODO set this up better...
         _playerControl = FindObjectOfType<PlayerController>();
         _inputManager = _playerControl.GetInputManager();
 	}
     
-    public void ShowDialogue(DialogueId eventId)
+    public void ShowDialogue(DialogueId eventId, bool bPauseGame)
     {
         if (!_playerControl.ThePlayer.IsAlive() || Toolbox.Instance.TooltipCompleted(eventId)) { return; }
+        _bTooltipPauses = bPauseGame;
         Toolbox.Instance.SetTooltipComplete(eventId);
         TooltipId[] dialogue = _dialogueSet[eventId];
         StartCoroutine("SetupDialogue", dialogue);
     }
 
-    public IEnumerator SetupDialogue(DialogueId[] dialogue)
+    public IEnumerator SetupDialogue(TooltipId[] dialogue)
     {
-        _playerControl.WaitForTooltip(true);
+        if (_bTooltipPauses) { _playerControl.WaitForTooltip(true); }
         _bFirstDialogue = true;
         _bLastDialogue = false;
         int numItems = dialogue.Length;
@@ -134,8 +136,11 @@ public class TooltipHandler : MonoBehaviour {
             yield return StartCoroutine("ShowTooltip", speech);
             _bFirstDialogue = false;
         }
-        _playerControl.WaitForTooltip(false);
-        _playerControl.TooltipResume();
+        if (_bTooltipPauses)
+        {
+            _playerControl.WaitForTooltip(false);
+            _playerControl.TooltipResume();
+        }
         _tooltipControl.StartCoroutine("CloseTooltip");
     }
 
@@ -152,8 +157,16 @@ public class TooltipHandler : MonoBehaviour {
             _tooltipControl.SetText(_dialogueDict[speech]);
             _tooltipControl.StartCoroutine("ShowText", true);
         }
-        
-        const float tooltipPauseDuration = 0.7f;
+
+        if (_bTooltipPauses)
+            yield return StartCoroutine("WaitForTooltip");
+        else
+            yield return StartCoroutine("KeepTooltipOnScreen");
+    }
+
+    private IEnumerator WaitForTooltip()
+    {
+        const float tooltipPauseDuration = 0.3f;
         yield return new WaitForSeconds(tooltipPauseDuration);
 
         if (_bLastDialogue)
@@ -166,10 +179,21 @@ public class TooltipHandler : MonoBehaviour {
         }
 
         _inputManager.ClearInput();
-        while (!_inputManager.TapRegistered() && !Input.GetKeyUp("w"))
+        while (!_inputManager.TapRegistered())
         {
             yield return null;
         }
         _tooltipControl.HideResumeImages();
+    }
+
+    private IEnumerator KeepTooltipOnScreen()
+    {
+        const float durationOnScreen = 3f;
+        float timeOnScreen = 0f;
+        while (timeOnScreen < durationOnScreen)
+        {
+            timeOnScreen += Time.deltaTime;
+            yield return null;
+        }
     }
 }

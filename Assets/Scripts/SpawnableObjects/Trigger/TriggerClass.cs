@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class TriggerClass : MonoBehaviour {
     
@@ -9,42 +8,38 @@ public class TriggerClass : MonoBehaviour {
         public BoxCollider2D Collider;
     }
     
-    private float Speed;
+    private float _speed;
     
     public TriggerProps Trigger;
-    private TriggerHandler THandler;
+    private TriggerHandler _tHandler;
 
     public TriggerHandler.EventType EventType;
-    public TooltipHandler.DialogueId EventID;
+    public TooltipHandler.DialogueId EventId;
+    public bool PausesGame;
 
-    private float TriggerZLayer;
+    private float _triggerZLayer;
 
-    void Awake()
+    private void Awake()
     {
         Trigger.bIsActive = false;
         Trigger.Collider = GetComponent<BoxCollider2D>();
-        TriggerZLayer = Toolbox.Instance.ZLayers["Trigger"];
+        _triggerZLayer = Toolbox.Instance.ZLayers["Trigger"];
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         if (!Trigger.bIsActive) { return; }
-        transform.position += new Vector3(-Speed * Time.deltaTime, 0f, 0f);
+        transform.position += new Vector3(-_speed * Time.deltaTime, 0f, 0f);
     }
 
-    void Update()
-    {
-
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         switch (EventType)
         {
             case (TriggerHandler.EventType.Dialogue):
                 if (Toolbox.Instance.ShowLevelTooltips)
                 {
-                    THandler.ActivateDialogue(EventID);
+                    _tHandler.ActivateDialogue(EventId, PausesGame);
                 }
                 break;
         }
@@ -52,19 +47,20 @@ public class TriggerClass : MonoBehaviour {
         DeactivateTrigger();
     }
 
-    public void SetTHandler(TriggerHandler Handler)
+    public void SetTHandler(TriggerHandler handler)
     {
-        THandler = Handler;
+        _tHandler = handler;
     }
 
-    public void ActivateTrigger(TriggerHandler.EventType eType, TooltipHandler.DialogueId eID)
+    public void ActivateTrigger(TriggerHandler.EventType eType, TooltipHandler.DialogueId eId, bool pausesGame)
     {
         Trigger.bIsActive = true;
         EventType = eType;
-        EventID = eID;
+        EventId = eId;
+        PausesGame = pausesGame;
         Trigger.Collider.enabled = true;
         gameObject.GetComponent<SpriteRenderer>().enabled = Toolbox.Instance.Debug;
-        transform.position = new Vector3(transform.position.x, transform.position.y, TriggerZLayer);
+        transform.position = new Vector3(transform.position.x, transform.position.y, _triggerZLayer);
     }
 
     public void DeactivateTrigger()
@@ -80,8 +76,8 @@ public class TriggerClass : MonoBehaviour {
         return Trigger.bIsActive;
     }
 
-    public void SetSpeed(float _speed)
+    public void SetSpeed(float speed)
     {
-        Speed = _speed;
+        _speed = speed;
     }
 }

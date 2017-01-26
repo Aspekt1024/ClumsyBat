@@ -1,17 +1,16 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class TriggerHandler {
 
     public TriggerHandler()
     {
         SetupTriggerPool();
-        TooltipControl = GameObject.Find("Scripts").GetComponent<TooltipHandler>();
+        _tooltipControl = GameObject.Find("Scripts").GetComponent<TooltipHandler>();
     }
     
     private const int NumTriggersInPool = 4;
     private const string TriggerResourcePath = "Interactables/Trigger";
-    private TooltipHandler TooltipControl;
+    private readonly TooltipHandler _tooltipControl;
 
     public struct TriggerType
     {
@@ -19,7 +18,8 @@ public class TriggerHandler {
         public Vector2 Scale;
         public Quaternion Rotation;
         public EventType EventType;
-        public TooltipHandler.DialogueId EventID;
+        public TooltipHandler.DialogueId EventId;
+        public bool PausesGame;
     }
 
     public enum EventType
@@ -28,58 +28,58 @@ public class TriggerHandler {
         StoryEvent
     }
     
-    TriggerClass[] Triggers = null;
-    int Index = 0;
+    TriggerClass[] _triggers;
+    int _index;
 
     private TriggerClass GetTriggerFromPool()
     {
-        TriggerClass Trigger = Triggers[Index];
-        Index++;
-        if (Index == Triggers.Length)
+        TriggerClass trigger = _triggers[_index];
+        _index++;
+        if (_index == _triggers.Length)
         {
-            Index = 0;
+            _index = 0;
         }
-        return Trigger;
+        return trigger;
     }
 
     public void SetupTriggerPool()
     {
-        TriggerClass[] TriggerList = new TriggerClass[NumTriggersInPool];
+        TriggerClass[] triggerList = new TriggerClass[NumTriggersInPool];
         for (int i = 0; i < NumTriggersInPool; i++)
         {
-            GameObject TriggerObj = (GameObject)MonoBehaviour.Instantiate(Resources.Load(TriggerResourcePath));
-            TriggerClass Trigger = TriggerObj.GetComponent<TriggerClass>();
-            TriggerObj.transform.position = Toolbox.Instance.HoldingArea;
-            Trigger.SetTHandler(this);
-            TriggerList[i] = Trigger;
+            GameObject triggerObj = (GameObject)Object.Instantiate(Resources.Load(TriggerResourcePath));
+            TriggerClass trigger = triggerObj.GetComponent<TriggerClass>();
+            triggerObj.transform.position = Toolbox.Instance.HoldingArea;
+            trigger.SetTHandler(this);
+            triggerList[i] = trigger;
         }
-        Triggers = TriggerList;
-        Index = 0;
+        _triggers = triggerList;
+        _index = 0;
     }
 
-    public void SetupTriggersInList(TriggerType[] TriggerList, float XOffset)
+    public void SetupTriggersInList(TriggerType[] triggerList, float xOffset)
     {
-        foreach (TriggerType Trigger in TriggerList)
+        foreach (TriggerType trigger in triggerList)
         {
-            float TriggerZLayer = Toolbox.Instance.ZLayers["Trigger"];
-            TriggerClass NewTrigger = GetTriggerFromPool();
-            NewTrigger.transform.position = new Vector3(Trigger.Pos.x + XOffset, Trigger.Pos.y, TriggerZLayer);
-            NewTrigger.transform.localScale = Trigger.Scale;
-            NewTrigger.transform.localRotation = Trigger.Rotation;
-            NewTrigger.ActivateTrigger(Trigger.EventType, Trigger.EventID);
+            float triggerZLayer = Toolbox.Instance.ZLayers["Trigger"];
+            TriggerClass newTrigger = GetTriggerFromPool();
+            newTrigger.transform.position = new Vector3(trigger.Pos.x + xOffset, trigger.Pos.y, triggerZLayer);
+            newTrigger.transform.localScale = trigger.Scale;
+            newTrigger.transform.localRotation = trigger.Rotation;
+            newTrigger.ActivateTrigger(trigger.EventType, trigger.EventId, trigger.PausesGame);
         }
     }
 
-    public void SetVelocity(float Speed)
+    public void SetVelocity(float speed)
     {
-        foreach (TriggerClass Trigger in Triggers)
+        foreach (TriggerClass trigger in _triggers)
         {
-            Trigger.SetSpeed(Speed);
+            trigger.SetSpeed(speed);
         }
     }
 
-    public void ActivateDialogue(TooltipHandler.DialogueId EventID)
+    public void ActivateDialogue(TooltipHandler.DialogueId eventId, bool pauseGame)
     {
-        TooltipControl.ShowDialogue(EventID);
+        _tooltipControl.ShowDialogue(eventId, pauseGame);
     }
 }

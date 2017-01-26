@@ -451,8 +451,9 @@ public class LevelEditorActions : MonoBehaviour
             newTrigger.Pos = new Vector2(trigger.position.x - _tileSizeX * index, trigger.position.y);
             newTrigger.Scale = trigger.localScale;
             newTrigger.Rotation = trigger.localRotation;
-            newTrigger.EventID = trigger.GetComponent<TriggerClass>().EventID;
+            newTrigger.EventId = trigger.GetComponent<TriggerClass>().EventId;
             newTrigger.EventType = trigger.GetComponent<TriggerClass>().EventType;
+            newTrigger.PausesGame = trigger.GetComponent<TriggerClass>().PausesGame;
             Level.Caves[index].Triggers[triggerNum[index]] = newTrigger;
             triggerNum[index]++;
         }
@@ -637,8 +638,9 @@ public class LevelEditorActions : MonoBehaviour
             newTrigger.transform.position = new Vector3(trigger.Pos.x + posIndex * _tileSizeX, trigger.Pos.y, _triggerZ);
             newTrigger.transform.localScale = trigger.Scale;
             newTrigger.transform.localRotation = trigger.Rotation;
-            newTrigger.GetComponent<TriggerClass>().EventID = trigger.EventID;
+            newTrigger.GetComponent<TriggerClass>().EventId = trigger.EventId;
             newTrigger.GetComponent<TriggerClass>().EventType = trigger.EventType;
+            newTrigger.GetComponent<TriggerClass>().PausesGame = trigger.PausesGame;
         }
     }
 }

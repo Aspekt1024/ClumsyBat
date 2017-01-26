@@ -14,12 +14,12 @@
       <Triggers>
         <TriggerType>
           <Pos>
-            <x>-2.96999979</x>
-            <y>-0.539999962</y>
+            <x>-2.32</x>
+            <y>1.42</y>
           </Pos>
           <Scale>
             <x>2.45812559</x>
-            <y>2.4462502</y>
+            <y>5.10654831</y>
           </Scale>
           <Rotation>
             <x>0</x>
@@ -33,30 +33,8 @@
             </eulerAngles>
           </Rotation>
           <EventType>Dialogue</EventType>
-          <EventID>FirstJump</EventID>
-        </TriggerType>
-        <TriggerType>
-          <Pos>
-            <x>0.24</x>
-            <y>-0.539999962</y>
-          </Pos>
-          <Scale>
-            <x>2.45812559</x>
-            <y>2.4462502</y>
-          </Scale>
-          <Rotation>
-            <x>0</x>
-            <y>0</y>
-            <z>0</z>
-            <w>1</w>
-            <eulerAngles>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
-            </eulerAngles>
-          </Rotation>
-          <EventType>Dialogue</EventType>
-          <EventID>SecondJump</EventID>
+          <EventId>FirstJump</EventId>
+          <PausesGame>true</PausesGame>
         </TriggerType>
       </Triggers>
     </Cave>
@@ -128,7 +106,8 @@
             </eulerAngles>
           </Rotation>
           <EventType>Dialogue</EventType>
-          <EventID>FirstMoth</EventID>
+          <EventId>FirstDeath</EventId>
+          <PausesGame>false</PausesGame>
         </TriggerType>
       </Triggers>
     </Cave>
