@@ -1,5 +1,4 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
 public sealed class MothPool : SpawnPool<Moth>
 {
@@ -19,32 +18,25 @@ public sealed class MothPool : SpawnPool<Moth>
         public Moth.MothColour Colour;
         public MothPathHandler.MothPathTypes PathType;
     }
-
-    // TODO move some of this to the base
+    
     protected override void SetupPool()
     {
-        ParentObject = new GameObject(ParentName).transform;
-        ParentObject.position = new Vector3(0f, 0f, ParentZ);
+        base.SetupPool();
         for (int i = 0; i < NumObjectsInPool; i++)
         {
-            GameObject mothObj = (GameObject)Object.Instantiate(Resources.Load(ResourcePath), ParentObject);
-            Moth moth = mothObj.GetComponent<Moth>();
-            mothObj.name = ObjTag + i;
-            mothObj.transform.position = Toolbox.Instance.HoldingArea;
+            Moth moth = CreateObject(i);
             moth.PauseAnimation();
-            ObjPool.Add(moth);
         }
     }
-
-    // TODO move some of this to the base
+    
     public void SetupMothsInList(MothType[] mothList, float xOffset)
     {
         foreach (MothType moth in mothList)
         {
             Moth newMoth = GetNextObject();
-            Spawnable.SpawnType spawnTF = moth.SpawnTransform;
-            spawnTF.Pos += new Vector2(xOffset, 0f);
-            newMoth.Activate(spawnTF, moth.Colour, moth.PathType);
+            Spawnable.SpawnType spawnTf = moth.SpawnTransform;
+            spawnTf.Pos += new Vector2(xOffset, 0f);
+            newMoth.Activate(spawnTf, moth.Colour, moth.PathType);
         }
     }
 

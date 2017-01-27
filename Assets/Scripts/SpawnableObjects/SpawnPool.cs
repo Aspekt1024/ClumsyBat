@@ -22,9 +22,22 @@ public abstract class SpawnPool<T> where T : Spawnable
         }
         return ObjPool[_index];
     }
+    
+    protected virtual void SetupPool()
+    {
+        ParentObject = new GameObject(ParentName).transform;
+        ParentObject.position = new Vector3(0f, 0f, ParentZ);
+    }
 
-    // TODO put base functions in here if possible
-    protected abstract void SetupPool();
+    protected T CreateObject(int objNum)
+    {
+        var newObj = (GameObject)Object.Instantiate(Resources.Load(ResourcePath), ParentObject);
+        newObj.name = ObjTag + objNum;
+        newObj.transform.position = Toolbox.Instance.HoldingArea;
+        var objScript = newObj.GetComponent<T>();
+        ObjPool.Add(objScript);
+        return objScript;
+    }
 
     public virtual void PauseGame(bool paused)
     {

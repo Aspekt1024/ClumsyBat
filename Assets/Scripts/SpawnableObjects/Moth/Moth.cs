@@ -140,12 +140,11 @@ public class Moth : Spawnable {
         // TODO determine where in the vertical space the moth can spawn ie Raycast (endless mode only)
         //const float Range = 2f;
         //float MothYPos = Range * Random.value - Range / 2;
-        base.Activate(transform, spawnTf, 0f);
+        base.Activate(transform, spawnTf);
         _mothState = MothStates.Normal;
         _mothAnimator.enabled = true;
         _mothCollider.enabled = true;
         MothSprite.transform.position = transform.position;
-        IsActive = true;
         _pathHandler.SetPathType(pathType);
         Colour = colour;
         switch (colour)
@@ -167,20 +166,20 @@ public class Moth : Spawnable {
         _mothAudio = GetComponent<AudioSource>();
         _mothInteractor = gameObject.AddComponent<MothInteractivity>();
         _pathHandler = new MothPathHandler(this);
-        foreach (Transform gameObj in transform)
+        foreach (Transform tf in transform)
         {
-            if (gameObj.name == "MothTrigger")
+            if (tf.name == "MothTrigger")
             {
-                MothSprite = gameObj;
-                _mothAnimator = gameObj.GetComponent<Animator>();
+                MothSprite = tf;
+                _mothAnimator = tf.GetComponent<Animator>();
                 _mothAnimator.enabled = true;
-                _mothCollider = gameObj.GetComponent<Collider2D>();
+                _mothCollider = tf.GetComponent<Collider2D>();
             }
-            else if (gameObj.name == "PathBox")
+            else if (tf.name == "PathBox")
             {
                 if (!Toolbox.Instance.Debug)
                 {
-                    Destroy(gameObj.gameObject);
+                    Destroy(tf.gameObject);
                 }
             }
         }

@@ -21,15 +21,15 @@ public abstract class Spawnable : MonoBehaviour {
         IsActive = false;
     }
 
-    // TODO activate
-    public virtual void Activate(Transform tf, SpawnType spawnTf, float zLayer)
+    public virtual void Activate(Transform tf, SpawnType spawnTf)
     {
-        SetTransform(tf, spawnTf, zLayer);
+        SetTransform(tf, spawnTf);
+        IsActive = true;
     }
     
-    public void SetTransform(Transform objTf, SpawnType spawnTf, float zLayer)
+    public void SetTransform(Transform objTf, SpawnType spawnTf)
     {
-        objTf.localPosition = new Vector3(spawnTf.Pos.x, spawnTf.Pos.y, zLayer);
+        objTf.localPosition = new Vector3(spawnTf.Pos.x, spawnTf.Pos.y, 0f);
         objTf.localScale = spawnTf.Scale;
         objTf.rotation = spawnTf.Rotation;
     }
