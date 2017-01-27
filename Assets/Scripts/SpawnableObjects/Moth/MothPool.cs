@@ -1,91 +1,65 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
 
-public class MothPool
+public sealed class MothPool : SpawnPool<Moth>
 {
-    private Transform _mothParentObject;
-
     public MothPool()
     {
-        SetupMothPool();
+        ParentName = "Moths";
+        ParentZ = Toolbox.Instance.ZLayers["Moth"];
+        NumObjectsInPool = 8;
+        ResourcePath = "Collectibles/Moth";
+        ObjTag = "Moth";
+        SetupPool();
     }
-
-    private const int NumMothsInPool = 8;
-    private const string MothResourcePath = "Collectibles/Moth";
 
     public struct MothType
     {
-        public Vector2 Pos;
-        public Vector2 Scale;
-        public Quaternion Rotation;
+        public Spawnable.SpawnType SpawnTransform;
         public Moth.MothColour Colour;
         public MothPathHandler.MothPathTypes PathType;
     }
 
-    private Moth[] _moths;
-    private int _index;
-    private const float MothZLayer = 1f;
-
-    private Moth GetMothFromPool()
+    // TODO move some of this to the base
+    protected override void SetupPool()
     {
-        Moth moth = _moths[_index];
-        _index++;
-        if (_index == _moths.Length)
+        ParentObject = new GameObject(ParentName).transform;
+        ParentObject.position = new Vector3(0f, 0f, ParentZ);
+        for (int i = 0; i < NumObjectsInPool; i++)
         {
-            _index = 0;
-        }
-        return moth;
-    }
-
-    public void SetupMothPool()
-    {
-        _mothParentObject = new GameObject("Moths").transform;
-        Moth[] mothList = new Moth[NumMothsInPool];
-        for (int i = 0; i < NumMothsInPool; i++)
-        {
-            GameObject mothObj = (GameObject)Object.Instantiate(Resources.Load(MothResourcePath), _mothParentObject);
+            GameObject mothObj = (GameObject)Object.Instantiate(Resources.Load(ResourcePath), ParentObject);
             Moth moth = mothObj.GetComponent<Moth>();
-            mothObj.name = "Moth" + i;
+            mothObj.name = ObjTag + i;
             mothObj.transform.position = Toolbox.Instance.HoldingArea;
             moth.PauseAnimation();
-            mothList[i] = moth;
+            ObjPool.Add(moth);
         }
-        _moths = mothList;
-        _index = 0;
     }
 
+    // TODO move some of this to the base
     public void SetupMothsInList(MothType[] mothList, float xOffset)
     {
         foreach (MothType moth in mothList)
         {
-            Moth newMoth = GetMothFromPool();
-            newMoth.transform.position = new Vector3(moth.Pos.x + xOffset, moth.Pos.y, MothZLayer);
-            newMoth.transform.localScale = moth.Scale;
-            newMoth.transform.localRotation = moth.Rotation;
-            newMoth.ActivateMoth(moth.Colour, moth.PathType);
+            Moth newMoth = GetNextObject();
+            Spawnable.SpawnType spawnTF = moth.SpawnTransform;
+            spawnTF.Pos += new Vector2(xOffset, 0f);
+            newMoth.Activate(spawnTF, moth.Colour, moth.PathType);
         }
     }
 
-    public void SetVelocity(float speed)
-    {
-        foreach (Moth moth in _moths)
-        {
-            moth.SetSpeed(speed);
-        }
-    }
-
-    public void SetPaused(bool pauseGame)
-    {
-        foreach (Moth moth in _moths)
-        {
-            moth.SetPaused(pauseGame);
-        }
-    }
-
+    /// <summary>
+    /// Moth activation used in stationary levels e.g. Boss fights
+    /// </summary>
     public void ActivateMothInRange(float minY, float maxY, Moth.MothColour colour)
     {
-        Moth newMoth = GetMothFromPool();
-        float mothPosY = Random.Range(minY, maxY);
-        newMoth.transform.position = new Vector3(10f, mothPosY, MothZLayer);
-        newMoth.ActivateMoth(colour, MothPathHandler.MothPathTypes.Sine);
+        Moth newMoth = GetNextObject();
+        var spawnTf = new Spawnable.SpawnType
+        {
+            Pos = new Vector2(10f, Random.Range(minY, maxY)),
+            Rotation = new Quaternion(),
+            Scale = Vector2.one
+        };
+        newMoth.Activate(spawnTf, colour, MothPathHandler.MothPathTypes.Sine);
     }
 }

@@ -1,67 +1,39 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 
-public class Spawnable : MonoBehaviour {
-
-    public string Path;
-    public int NumObjects;
-    public int Index;
-
-    public List<Rigidbody2D> ObjectPool = new List<Rigidbody2D>();
-
-    public Spawnable()
+public abstract class Spawnable : MonoBehaviour {
+    protected bool bPaused;
+    protected bool IsActive;
+    protected float Speed;
+    
+    public struct SpawnType
     {
-        Path = string.Empty;
-        NumObjects = 0;
-        Index = 0;
+        public Vector2 Pos;
+        public Vector2 Scale;
+        public Quaternion Rotation;
     }
 
-    void Awake()
+    public void SetSpeed(float speed){ Speed = speed; }
+    public virtual void PauseGame(bool paused) { bPaused = paused; }
+    
+    public virtual void SendToInactivePool()
     {
+        transform.position = Toolbox.Instance.HoldingArea;
+        IsActive = false;
     }
 
-    public void SetObjectName(string name)
+    // TODO activate
+    public virtual void Activate(Transform tf, SpawnType spawnTf, float zLayer)
     {
-        Path = name;
+        SetTransform(tf, spawnTf, zLayer);
+    }
+    
+    public void SetTransform(Transform objTf, SpawnType spawnTf, float zLayer)
+    {
+        objTf.localPosition = new Vector3(spawnTf.Pos.x, spawnTf.Pos.y, zLayer);
+        objTf.localScale = spawnTf.Scale;
+        objTf.rotation = spawnTf.Rotation;
     }
 
-    public void IncrementIndex()
-    {
-        Index++;
-        if (Index == NumObjects)
-        {
-            Index = 0;
-        }
-    }
-
-    public void CreateObjectPool()
-    {
-        if (Path == string.Empty)
-        {
-            Debug.LogError("Object type not set!");
-            return;
-        }
-
-        for (int i = 0; i < NumObjects; i++)
-        {
-            GameObject NewObject = (GameObject) Instantiate(Resources.Load(Path));
-            NewObject.name = Path + "_" + i;
-            ObjectPool.Add(NewObject.GetComponent<Rigidbody2D>());
-            SendToInactivePool(i);
-        }
-    }
-
-    public virtual void SetVelocity(float Speed)
-    {
-        foreach (Rigidbody2D ObjectBody in ObjectPool)
-        {
-            ObjectBody.velocity = new Vector2(-Speed, 0);
-        }
-    }
-
-    public void SendToInactivePool(int Index)
-    {
-        ObjectPool[Index].velocity = Vector2.zero;
-        ObjectPool[Index].transform.position = Toolbox.Instance.HoldingArea;
-    }
+    protected void MoveLeft(float time) { transform.position += Vector3.left * time * Speed; }
+    protected void ActivateSpawnable(Vector3 position) { transform.localPosition = position; }
 }

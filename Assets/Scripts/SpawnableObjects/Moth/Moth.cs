@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Moth : MonoBehaviour {
+public class Moth : Spawnable {
 
     #region Level Editor Inspector fields
     public MothColour Colour;
@@ -34,47 +34,22 @@ public class Moth : MonoBehaviour {
     {
         Green, Gold, Blue
     }
-
-    private float _mothZLayer;
+    
     private bool _bConsumption;
-    private bool _bPaused;
-    private float _speed;
     
     private void Awake ()
     {
-        _mothZLayer = Toolbox.Instance.ZLayers["Moth"];
-        _mothAudio = GetComponent<AudioSource>();
-        _mothInteractor = gameObject.AddComponent<MothInteractivity>();
-        _pathHandler = new MothPathHandler(this);
-        foreach (Transform gameObj in transform)
-        {
-            if (gameObj.name == "MothTrigger")
-            {
-                MothSprite = gameObj;
-                _mothAnimator = gameObj.GetComponent<Animator>();
-                _mothAnimator.enabled = true;
-                _mothCollider = gameObj.GetComponent<Collider2D>();
-            }
-            else if (gameObj.name == "PathBox")
-            {
-                if (!Toolbox.Instance.Debug)
-                {
-                    Destroy(gameObj.gameObject);
-                }
-            }
-        }
-        GameObject lanternObj = GameObject.Find("Lantern");
-        if (lanternObj) { _lantern = lanternObj.GetComponent<Transform>(); }
-
+        GetMothComponents();
         LoadSoundClips();
     }
 	
 	private void FixedUpdate ()
     {
-        if (!IsActive || _bPaused) { return; }
+        if (!IsActive || bPaused) { return; }
         _pathHandler.MoveAlongPath(Time.deltaTime);
+
         if (_mothState == MothStates.ConsumeFollow) { return; }
-        transform.position -= Vector3.left * Time.deltaTime * _speed;
+        MoveLeft(Time.deltaTime);
     }
 
     private void LoadSoundClips()
@@ -82,18 +57,10 @@ public class Moth : MonoBehaviour {
         _mothAudioDict.Add(MothAudioNames.Consume, Resources.Load<AudioClip>("Audio/LanternConsumeMoth"));
     }
 
-    public void SetSpeed(float speed)
+    public override void PauseGame(bool gamePaused)
     {
-        _speed = -speed;
-    }
-
-    public void SetPaused(bool gamePaused)
-    {
-        _bPaused = gamePaused;
-        if (IsActive)
-        {
-            _mothAnimator.enabled = !gamePaused;
-        }
+        base.PauseGame(gamePaused);
+        if (IsActive) { _mothAnimator.enabled = !gamePaused; }
     }
 
     public void ConsumeMoth()
@@ -120,7 +87,7 @@ public class Moth : MonoBehaviour {
 
         while (animTimer < animDuration)
         {
-            if (!_bPaused)
+            if (!bPaused)
             {
                 animTimer += Time.deltaTime;
                 if (animTimer > animDuration - lantenFollowTime)
@@ -140,7 +107,7 @@ public class Moth : MonoBehaviour {
             yield return null;
         }
         _mothInteractor.ActivateAbility(Colour);
-        ReturnToInactivePool();
+        SendToInactivePool();
         _bConsumption = false;
     }
 
@@ -161,26 +128,22 @@ public class Moth : MonoBehaviour {
         }
     }
 
-    public void ReturnToInactivePool()
+    public override void SendToInactivePool()
     {
-        _mothAudio.PlayOneShot(_mothAudioDict[MothAudioNames.Consume]);
-        transform.position = Toolbox.Instance.HoldingArea;
+        base.SendToInactivePool();
         MothSprite.transform.position = transform.position;
-        IsActive = false;
+        _mothAudio.PlayOneShot(_mothAudioDict[MothAudioNames.Consume]);
     }
 
-    public bool IsActive { get; set; }
-
-    public void ActivateMoth(MothColour colour, MothPathHandler.MothPathTypes pathType = MothPathHandler.MothPathTypes.Spiral)
+    public void Activate(SpawnType spawnTf, MothColour colour, MothPathHandler.MothPathTypes pathType = MothPathHandler.MothPathTypes.Spiral)
     {
-        // TODO determine where in the vertical space the moth can spawn (endless mode only)
+        // TODO determine where in the vertical space the moth can spawn ie Raycast (endless mode only)
         //const float Range = 2f;
         //float MothYPos = Range * Random.value - Range / 2;
-
+        base.Activate(transform, spawnTf, 0f);
         _mothState = MothStates.Normal;
         _mothAnimator.enabled = true;
         _mothCollider.enabled = true;
-        transform.position = new Vector3(transform.position.x, transform.position.y, _mothZLayer); // TODO remove this once we have everything nicely bundled in the 'Level' Gameobject
         MothSprite.transform.position = transform.position;
         IsActive = true;
         _pathHandler.SetPathType(pathType);
@@ -197,6 +160,32 @@ public class Moth : MonoBehaviour {
                 _mothAnimator.Play("MothGoldAnimation", 0, 0f);
                 break;
         }
+    }
+
+    private void GetMothComponents()
+    {
+        _mothAudio = GetComponent<AudioSource>();
+        _mothInteractor = gameObject.AddComponent<MothInteractivity>();
+        _pathHandler = new MothPathHandler(this);
+        foreach (Transform gameObj in transform)
+        {
+            if (gameObj.name == "MothTrigger")
+            {
+                MothSprite = gameObj;
+                _mothAnimator = gameObj.GetComponent<Animator>();
+                _mothAnimator.enabled = true;
+                _mothCollider = gameObj.GetComponent<Collider2D>();
+            }
+            else if (gameObj.name == "PathBox")
+            {
+                if (!Toolbox.Instance.Debug)
+                {
+                    Destroy(gameObj.gameObject);
+                }
+            }
+        }
+        GameObject lanternObj = GameObject.Find("Lantern");
+        if (lanternObj) { _lantern = lanternObj.GetComponent<Transform>(); }
     }
 
     public void PauseAnimation()

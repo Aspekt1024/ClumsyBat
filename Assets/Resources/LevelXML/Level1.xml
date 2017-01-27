@@ -59,25 +59,27 @@
       <Stals />
       <Moths>
         <MothType>
-          <Pos>
-            <x>-4.78000259</x>
-            <y>0.27</y>
-          </Pos>
-          <Scale>
-            <x>1</x>
-            <y>1</y>
-          </Scale>
-          <Rotation>
-            <x>0</x>
-            <y>0</y>
-            <z>0</z>
-            <w>1</w>
-            <eulerAngles>
+          <SpawnTransform>
+            <Pos>
+              <x>-4.60000229</x>
+              <y>0.587</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
               <x>0</x>
               <y>0</y>
               <z>0</z>
-            </eulerAngles>
-          </Rotation>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
           <Colour>Green</Colour>
           <PathType>Infinity</PathType>
         </MothType>
@@ -120,25 +122,27 @@
       <Stals />
       <Moths>
         <MothType>
-          <Pos>
-            <x>-1.47000122</x>
-            <y>1.34</y>
-          </Pos>
-          <Scale>
-            <x>1</x>
-            <y>1</y>
-          </Scale>
-          <Rotation>
-            <x>0</x>
-            <y>0</y>
-            <z>0</z>
-            <w>1</w>
-            <eulerAngles>
+          <SpawnTransform>
+            <Pos>
+              <x>-2.40000153</x>
+              <y>1.1</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
               <x>0</x>
               <y>0</y>
               <z>0</z>
-            </eulerAngles>
-          </Rotation>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
           <Colour>Green</Colour>
           <PathType>Clover</PathType>
         </MothType>

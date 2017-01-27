@@ -170,6 +170,8 @@ public class LevelEditorActions : MonoBehaviour
         _triggerZ = Toolbox.Instance.ZLayers["Trigger"];
 
         _stalEditControl.SetZLayers(_triggerZ);
+
+        _mothParent.position = new Vector3(0, 0, _mothZ);
     }
 
     public void SaveBtn()
@@ -375,9 +377,12 @@ public class LevelEditorActions : MonoBehaviour
             int index = Mathf.RoundToInt(moth.position.x / _tileSizeX);
 
             MothPool.MothType newMoth = Level.Caves[index].Moths[mothNum[index]];
-            newMoth.Pos = new Vector2(moth.position.x - _tileSizeX * index, moth.position.y);
-            newMoth.Scale = moth.localScale;
-            newMoth.Rotation = moth.localRotation;
+            newMoth.SpawnTransform = new Spawnable.SpawnType
+            {
+                Pos = new Vector2(moth.position.x - _tileSizeX * index, moth.position.y),
+                Scale = moth.localScale,
+                Rotation = moth.localRotation
+            };
             newMoth.Colour = moth.GetComponent<Moth>().Colour;
             newMoth.PathType = moth.GetComponent<Moth>().PathType;
             Level.Caves[index].Moths[mothNum[index]] = newMoth;
@@ -595,9 +600,9 @@ public class LevelEditorActions : MonoBehaviour
         foreach (MothPool.MothType moth in mothList)
         {
             GameObject newMoth = (GameObject)Instantiate(Resources.Load("Collectibles/Moth"), moths.transform);
-            newMoth.transform.position = new Vector3(moth.Pos.x + posIndex * _tileSizeX, moth.Pos.y, _mothZ);
-            newMoth.transform.localScale = moth.Scale;
-            newMoth.transform.localRotation = moth.Rotation;
+            Spawnable.SpawnType spawnTf = moth.SpawnTransform;
+            spawnTf.Pos += new Vector2(posIndex * _tileSizeX, 0f);
+            newMoth.GetComponent<Moth>().SetTransform(transform, spawnTf, 0f);
             newMoth.GetComponent<Moth>().Colour = moth.Colour;
             newMoth.GetComponent<Moth>().PathType = moth.PathType;
         }
