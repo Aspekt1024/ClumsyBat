@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 public class CaveHandler : MonoBehaviour {
     
     private LevelContainer.CaveType[] _levelCaveList;
@@ -85,15 +86,21 @@ public class CaveHandler : MonoBehaviour {
         {
             LevelContainer.CaveType cave = _levelCaveList[i];
             GameObject caveTop;
-            if (cave.TopIndex == 1000)
+            // TODO should probably build a factory for this
+            if (cave.TopIndex == Toolbox.CaveStartIndex)
             {
                 caveTop = (GameObject)Instantiate(Resources.Load("Caves/CaveEntrance"), caveParent.transform);
                 caveTop.name = "CaveEntrance";
             }
-            else if (cave.TopIndex == 1001)
+            else if (cave.TopIndex == Toolbox.CaveEndIndex)
             {
                 caveTop = (GameObject)Instantiate(Resources.Load("Caves/CaveExit"), caveParent.transform);
                 caveTop.name = "CaveExit";
+            }
+            else if (cave.TopIndex == Toolbox.CaveGnomeEndIndex)
+            {
+                caveTop = (GameObject) Instantiate(Resources.Load("Caves/CaveGnomeEnd"), caveParent.transform);
+                caveTop.name = "CaveGnomeEnd";
             }
             else
             {

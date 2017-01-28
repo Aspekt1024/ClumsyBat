@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 /// <summary>
 /// Handles the generation, positioning and movement of all cave pieces
@@ -30,12 +31,17 @@ public class LevelObjectHandler : MonoBehaviour {
     private WebPool _webs;
     private TriggerHandler _triggers;
     
-    void Start ()
+    private void Start ()
     {
         LoadLevel();
         Debug.Log("Level " + Toolbox.Instance.Level + " loaded.");
         SetupObjectPools();
         FindObjectOfType<PlayerController>().StartGame();
+    }
+
+    private void Update()
+    {
+        if (AtCaveEnd()) { SetVelocity(0); }
     }
 
     public bool AtCaveEnd()
@@ -45,7 +51,7 @@ public class LevelObjectHandler : MonoBehaviour {
 
     private void SetupObjectPools()
     {
-        GameObject caveObject = new GameObject("Caves");
+        var caveObject = new GameObject("Caves");
         _cave = caveObject.AddComponent<CaveHandler>();
 
         _shrooms = new ShroomPool();
@@ -58,24 +64,10 @@ public class LevelObjectHandler : MonoBehaviour {
         _cave.Setup(_level.Caves, _bEndlessMode, this);
     }
 
-    void Update()
-    {
-        if (AtCaveEnd()) { SetVelocity(0); }
-    }
-
     public void SetCaveObstacles(int index)
     {
-        float xOffset = (index == 0 ? 0f : Toolbox.TileSizeX);
-
-        CaveListType objectList;
-        if (_bEndlessMode)
-        {
-            objectList = _cave.GetRandomisedObstacleList();
-        }
-        else
-        {
-            objectList = GetCaveObjectList(index);
-        }
+        var xOffset = (index == 0 ? 0f : Toolbox.TileSizeX);
+        var objectList = _bEndlessMode ? _cave.GetRandomisedObstacleList() : GetCaveObjectList(index);
         
         if (objectList.MushroomList != null) { _shrooms.SetupMushroomsInList(objectList.MushroomList, xOffset); }
         if (objectList.StalList != null) { _stals.SetupStalactitesInList(objectList.StalList, xOffset); }
@@ -119,6 +111,7 @@ public class LevelObjectHandler : MonoBehaviour {
         _moths.PauseGame(pauseGame);
         _spiders.PauseGame(pauseGame);
         _webs.PauseGame(pauseGame);
+        _triggers.PauseGame(pauseGame);
     }
 
     private void UpdateObjectSpeed(float speed)

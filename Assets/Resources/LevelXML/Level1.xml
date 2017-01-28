@@ -13,25 +13,27 @@
       <Webs />
       <Triggers>
         <TriggerType>
-          <Pos>
-            <x>-2.32</x>
-            <y>1.42</y>
-          </Pos>
-          <Scale>
-            <x>2.45812559</x>
-            <y>5.10654831</y>
-          </Scale>
-          <Rotation>
-            <x>0</x>
-            <y>0</y>
-            <z>0</z>
-            <w>1</w>
-            <eulerAngles>
+          <SpawnTransform>
+            <Pos>
+              <x>-0.74</x>
+              <y>1.36</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>7.30000067</y>
+            </Scale>
+            <Rotation>
               <x>0</x>
               <y>0</y>
               <z>0</z>
-            </eulerAngles>
-          </Rotation>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
           <EventType>Dialogue</EventType>
           <EventId>FirstJump</EventId>
           <PausesGame>true</PausesGame>
@@ -61,8 +63,8 @@
         <MothType>
           <SpawnTransform>
             <Pos>
-              <x>-4.60000229</x>
-              <y>0.587</y>
+              <x>8.239998</x>
+              <y>1.5</y>
             </Pos>
             <Scale>
               <x>1</x>
@@ -83,49 +85,11 @@
           <Colour>Green</Colour>
           <PathType>Infinity</PathType>
         </MothType>
-      </Moths>
-      <Spiders />
-      <Webs />
-      <Triggers>
-        <TriggerType>
-          <Pos>
-            <x>-6.840002</x>
-            <y>0.05</y>
-          </Pos>
-          <Scale>
-            <x>1</x>
-            <y>9.3874855</y>
-          </Scale>
-          <Rotation>
-            <x>0</x>
-            <y>0</y>
-            <z>0</z>
-            <w>1</w>
-            <eulerAngles>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
-            </eulerAngles>
-          </Rotation>
-          <EventType>Dialogue</EventType>
-          <EventId>FirstDeath</EventId>
-          <PausesGame>false</PausesGame>
-        </TriggerType>
-      </Triggers>
-    </Cave>
-    <Cave>
-      <TopIndex>1001</TopIndex>
-      <BottomIndex>1001</BottomIndex>
-      <bTopSecretPath>false</bTopSecretPath>
-      <bBottomSecretPath>false</bBottomSecretPath>
-      <Shrooms />
-      <Stals />
-      <Moths>
         <MothType>
           <SpawnTransform>
             <Pos>
-              <x>-2.40000153</x>
-              <y>1.1</y>
+              <x>8.140999</x>
+              <y>0.587</y>
             </Pos>
             <Scale>
               <x>1</x>
@@ -147,6 +111,45 @@
           <PathType>Clover</PathType>
         </MothType>
       </Moths>
+      <Spiders />
+      <Webs />
+      <Triggers>
+        <TriggerType>
+          <SpawnTransform>
+            <Pos>
+              <x>-0.0400009155</x>
+              <y>1.07</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>8.050016</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <EventType>Dialogue</EventType>
+          <EventId>FirstDeath</EventId>
+          <PausesGame>false</PausesGame>
+        </TriggerType>
+      </Triggers>
+    </Cave>
+    <Cave>
+      <TopIndex>1002</TopIndex>
+      <BottomIndex>1002</BottomIndex>
+      <bTopSecretPath>false</bTopSecretPath>
+      <bBottomSecretPath>false</bBottomSecretPath>
+      <Shrooms />
+      <Stals />
+      <Moths />
       <Spiders />
       <Webs />
       <Triggers />

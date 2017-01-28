@@ -36,7 +36,11 @@ public class Toolbox : Singleton<Toolbox>
         TrainingPrefix = 2000
     }
 
-    void Awake()
+    public const int CaveStartIndex = 1000;
+    public const int CaveEndIndex = 1001;
+    public const int CaveGnomeEndIndex = 1002;
+    
+    private void Awake()
     {
         HoldingArea = new Vector2(100, 0);
         LevelSpeed = 4f;
