@@ -63,7 +63,7 @@
               <z>0</z>
             </eulerAngles>
           </Rotation>
-          <bSwinging>false</bSwinging>
+          <SpiderSwings>false</SpiderSwings>
         </SpiderType>
       </Spiders>
     </Cave>

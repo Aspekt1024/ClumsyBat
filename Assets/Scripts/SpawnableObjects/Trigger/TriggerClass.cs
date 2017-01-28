@@ -1,35 +1,30 @@
 ﻿using UnityEngine;
 
-public class TriggerClass : MonoBehaviour {
+public class TriggerClass : Spawnable {
     
     public struct TriggerProps
     {
-        public bool bIsActive;
         public BoxCollider2D Collider;
     }
     
-    private float _speed;
-    
+    [HideInInspector]
     public TriggerProps Trigger;
     private TriggerHandler _tHandler;
 
+    // Editor properties
     public TriggerHandler.EventType EventType;
     public TooltipHandler.DialogueId EventId;
     public bool PausesGame;
 
-    private float _triggerZLayer;
-
     private void Awake()
     {
-        Trigger.bIsActive = false;
         Trigger.Collider = GetComponent<BoxCollider2D>();
-        _triggerZLayer = Toolbox.Instance.ZLayers["Trigger"];
     }
 
     private void FixedUpdate()
     {
-        if (!Trigger.bIsActive) { return; }
-        transform.position += new Vector3(-_speed * Time.deltaTime, 0f, 0f);
+        if (!IsActive) { return; }
+        MoveLeft(Time.deltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -46,38 +41,18 @@ public class TriggerClass : MonoBehaviour {
         
         DeactivateTrigger();
     }
-
-    public void SetTHandler(TriggerHandler handler)
+    
+    public void Activate(TriggerHandler.TriggerType triggerProps, SpawnType spawnTf)
     {
-        _tHandler = handler;
-    }
-
-    public void ActivateTrigger(TriggerHandler.EventType eType, TooltipHandler.DialogueId eId, bool pausesGame)
-    {
-        Trigger.bIsActive = true;
-        EventType = eType;
-        EventId = eId;
-        PausesGame = pausesGame;
+        base.Activate(transform, spawnTf);
+        EventType = triggerProps.EventType;
+        EventId = triggerProps.EventId;
+        PausesGame = triggerProps.PausesGame;
         Trigger.Collider.enabled = true;
         gameObject.GetComponent<SpriteRenderer>().enabled = Toolbox.Instance.Debug;
-        transform.position = new Vector3(transform.position.x, transform.position.y, _triggerZLayer);
     }
 
-    public void DeactivateTrigger()
-    {
-        Trigger.bIsActive = false;
-        Trigger.Collider.enabled = false;
-        transform.position = Toolbox.Instance.HoldingArea;
-        
-    }
-
-    public bool IsActive()
-    {
-        return Trigger.bIsActive;
-    }
-
-    public void SetSpeed(float speed)
-    {
-        _speed = speed;
-    }
+    public void DeactivateTrigger() { SendToInactivePool(); }
+    public bool Active() { return IsActive; }
+    public void SetTHandler(TriggerHandler handler) { _tHandler = handler; }
 }

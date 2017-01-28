@@ -108,14 +108,14 @@ public class TrainingGameHandler : GameHandler
 
     public override void TriggerEntered(Collider2D other)
     {
-        switch (other.name)
+        //switch (other.name)
         {
         }
     }
 
     public override void TriggerExited(Collider2D other)
     {
-        switch (other.name)
+        //switch (other.name)
         {
         }
     }

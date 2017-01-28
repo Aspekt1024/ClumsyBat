@@ -3,26 +3,23 @@ using System.Collections.Generic;
 
 public class CavePool : MonoBehaviour {
 
-    private const int NumPiecesOnScreen = 3;
-
     private const int NumCaves = 2;
     public const int NumTopCaveTypes = 5;
     public const int NumBottomCaveTypes = 5;
     public const int NumTopCaveExits = 1;
     public const int NumBottomCaveExits = 1;
 
-    private int CaveIndexTopLeft;
-    private int CaveIndexTopMid;
-    private int CaveIndexTopRight;
-    private int CaveIndexBottomLeft;
-    private int CaveIndexBottomMid;
-    private int CaveIndexBottomRight;
+    private int _caveIndexTopLeft;
+    private int _caveIndexTopMid;
+    private int _caveIndexTopRight;
+    private int _caveIndexBottomLeft;
+    private int _caveIndexBottomMid;
+    private int _caveIndexBottomRight;
 
-    private float CaveZPos;
-    private Vector2 CaveVelocity = new Vector2(0f, 0f);
-
-    //private LevelObjectHandler ObjectHandler;
-    private CaveHandler CaveHandler;
+    private float _caveZPos;
+    private Vector2 _caveVelocity = new Vector2(0f, 0f);
+    
+    private CaveHandler _caveHandler;
 
     private struct CaveType
     {
@@ -30,233 +27,216 @@ public class CavePool : MonoBehaviour {
         public bool bHasSecretPath;
         public Rigidbody2D CaveBody;
     }
-    private CaveType CaveEntrance;
-    private CaveType CaveExit;
-    private List<CaveType> TopPool = new List<CaveType>();
-    private List<CaveType> BottomPool = new List<CaveType>();
+    private CaveType _caveEntrance;
+    private CaveType _caveExit;
+    private readonly List<CaveType> _topPool = new List<CaveType>();
+    private readonly List<CaveType> _bottomPool = new List<CaveType>();
 
-    private Transform CaveParent = null;
+    private Transform _caveParent;
 
-    void Awake()
+    private void Awake()
     {
-        CaveZPos = Toolbox.Instance.ZLayers["Cave"];
-        CaveParent = GameObject.Find("Caves").GetComponent<Transform>();
-        //ObjectHandler = FindObjectOfType<LevelObjectHandler>();
-        CaveHandler = FindObjectOfType<CaveHandler>();
+        _caveZPos = Toolbox.Instance.ZLayers["Cave"];
+        _caveParent = GameObject.Find("Caves").GetComponent<Transform>();
+        _caveHandler = FindObjectOfType<CaveHandler>();
         SetupCaveEnds();
         SetupCavePool();
 	}
 
-    void Update()
+    private void Update()
     {
-        if (CaveHandler.State == CaveHandler.CaveStates.End && CaveExit.CaveBody.position.x <= 0f)
-        {
-            CaveHandler.State = CaveHandler.CaveStates.Final;
-            CaveExit.CaveBody.position = Vector2.zero;
-            CaveExit.CaveBody.velocity = Vector2.zero;
-        }
+        if (_caveHandler.State != CaveHandler.CaveStates.End || !(_caveExit.CaveBody.position.x <= 0f)) return;
+        _caveHandler.State = CaveHandler.CaveStates.Final;
+        _caveExit.CaveBody.position = Vector2.zero;
+        _caveExit.CaveBody.velocity = Vector2.zero;
     }
 
-    public bool AtCaveEnd()
-    {
-        bool AtEnd = false;
-        if (CaveHandler.State == CaveHandler.CaveStates.Final)
-        {
-            AtEnd = true;
-        }
-        return AtEnd;
-    }
+    public bool AtCaveEnd() { return _caveHandler.State == CaveHandler.CaveStates.Final; }
 
     public float GetPositionX()
     {
-        float PosX;
-        if (CaveHandler.State == CaveHandler.CaveStates.End || CaveHandler.State == CaveHandler.CaveStates.Final)
+        float posX;
+        if (_caveHandler.State == CaveHandler.CaveStates.End || _caveHandler.State == CaveHandler.CaveStates.Final)
         {
-            PosX = CaveExit.CaveBody.position.x;
+            posX = _caveExit.CaveBody.position.x;
         }
         else
         {
-            PosX = TopPool[CaveIndexTopRight].CaveBody.position.x;
+            posX = _topPool[_caveIndexTopRight].CaveBody.position.x;
         }
-        return PosX;
+        return posX;
     }
     
     private void SetupCaveEnds()
     {
-        GameObject NewPiece = (GameObject)Instantiate(Resources.Load("Caves/CaveEntrance"), Toolbox.Instance.HoldingArea, new Quaternion(), CaveParent);
-        CaveEntrance.CaveBody = NewPiece.GetComponent<Rigidbody2D>();
-        CaveEntrance.bHasSecretPath = false;
-        CaveEntrance.bIsActive = false;
+        GameObject newPiece = (GameObject)Instantiate(Resources.Load("Caves/CaveEntrance"), Toolbox.Instance.HoldingArea, new Quaternion(), _caveParent);
+        _caveEntrance.CaveBody = newPiece.GetComponent<Rigidbody2D>();
+        _caveEntrance.bHasSecretPath = false;
+        _caveEntrance.bIsActive = false;
 
-        NewPiece = (GameObject)Instantiate(Resources.Load("Caves/CaveExit"), Toolbox.Instance.HoldingArea, new Quaternion(), CaveParent);
-        CaveExit.CaveBody = NewPiece.GetComponent<Rigidbody2D>();
-        CaveExit.bHasSecretPath = false;
-        CaveExit.bIsActive = false;
+        newPiece = (GameObject)Instantiate(Resources.Load("Caves/CaveExit"), Toolbox.Instance.HoldingArea, new Quaternion(), _caveParent);
+        _caveExit.CaveBody = newPiece.GetComponent<Rigidbody2D>();
+        _caveExit.bHasSecretPath = false;
+        _caveExit.bIsActive = false;
     }
 
     private void SetupCavePool()
     {
-        for (int CaveTypeNum = 1; CaveTypeNum <= NumTopCaveTypes + NumTopCaveExits; CaveTypeNum++)
+        for (int caveTypeNum = 1; caveTypeNum <= NumTopCaveTypes + NumTopCaveExits; caveTypeNum++)
         {
             for (int i = 0; i < NumCaves; i++)
             {
-                int CaveIndex = (CaveTypeNum > NumTopCaveTypes ? (CaveTypeNum - NumTopCaveTypes) : CaveTypeNum);
-                string CavePathStr = "Caves/CaveTop" + (CaveTypeNum > NumTopCaveTypes ? "Exit" : "") + CaveIndex.ToString();
-                GameObject Cave = (GameObject)Instantiate(Resources.Load(CavePathStr), Toolbox.Instance.HoldingArea, new Quaternion(), CaveParent);
-                Cave.name = "CaveTop" + CaveTypeNum.ToString() + "_" + i.ToString();
-                TopPool.Add(GetCaveAttributes(Cave));
+                int caveIndex = (caveTypeNum > NumTopCaveTypes ? (caveTypeNum - NumTopCaveTypes) : caveTypeNum);
+                string cavePathStr = "Caves/CaveTop" + (caveTypeNum > NumTopCaveTypes ? "Exit" : "") + caveIndex.ToString();
+                GameObject cave = (GameObject)Instantiate(Resources.Load(cavePathStr), Toolbox.Instance.HoldingArea, new Quaternion(), _caveParent);
+                cave.name = "CaveTop" + caveTypeNum + "_" + i;
+                _topPool.Add(GetCaveAttributes(cave));
             }
         }
-        for (int CaveTypeNum = 1; CaveTypeNum <= NumBottomCaveTypes + NumBottomCaveExits; CaveTypeNum++)
+        for (int caveTypeNum = 1; caveTypeNum <= NumBottomCaveTypes + NumBottomCaveExits; caveTypeNum++)
         {
             for (int i = 0; i < NumCaves; i++)
             {
-                int CaveIndex = (CaveTypeNum > NumBottomCaveTypes ? (CaveTypeNum - NumBottomCaveTypes) : CaveTypeNum);
-                string CavePathStr = "Caves/CaveBottom" + (CaveTypeNum > NumBottomCaveTypes ? "Exit" : "") + CaveIndex.ToString();
-                GameObject Cave = (GameObject)Instantiate(Resources.Load(CavePathStr), Toolbox.Instance.HoldingArea, new Quaternion(), CaveParent);
-                Cave.name = "CaveBottom" + CaveTypeNum.ToString() + "_" + i.ToString();
-                BottomPool.Add(GetCaveAttributes(Cave));
+                int caveIndex = (caveTypeNum > NumBottomCaveTypes ? (caveTypeNum - NumBottomCaveTypes) : caveTypeNum);
+                string cavePathStr = "Caves/CaveBottom" + (caveTypeNum > NumBottomCaveTypes ? "Exit" : "") + caveIndex.ToString();
+                GameObject cave = (GameObject)Instantiate(Resources.Load(cavePathStr), Toolbox.Instance.HoldingArea, new Quaternion(), _caveParent);
+                cave.name = "CaveBottom" + caveTypeNum + "_" + i;
+                _bottomPool.Add(GetCaveAttributes(cave));
             }
         }
     }
 
-    private CaveType GetCaveAttributes(GameObject Cave)
+    private CaveType GetCaveAttributes(GameObject cave)
     {
-        CaveType NewCave = new CaveType();
-        NewCave.bIsActive = false;
-        NewCave.CaveBody = Cave.GetComponent<Rigidbody2D>();
-        return NewCave;
+        CaveType newCave = new CaveType
+        {
+            bIsActive = false,
+            CaveBody = cave.GetComponent<Rigidbody2D>()
+        };
+        return newCave;
     }
     
-    public void SetNextCavePiece(int NextTopType, int NextBottomType, bool bTopSecret, bool bBottomSecret)
+    public void SetNextCavePiece(int nextTopType, int nextBottomType, bool bTopSecret, bool bBottomSecret)
     {
-        if (NextTopType == -1 || NextTopType == 1001)   // TODO magic number. Bad.
+        if (nextTopType == -1 || nextTopType == 1001)   // TODO magic number. Bad.
         {
-            CaveHandler.State = CaveHandler.CaveStates.End;
+            _caveHandler.State = CaveHandler.CaveStates.End;
             PlaceCaveExit();
             return;
         }
 
-        int NextTopIndex = NumCaves * (NextTopType + (bTopSecret ? NumTopCaveTypes : 0));
-        int NextBottomIndex = NumCaves * (NextBottomType + (bBottomSecret ? NumBottomCaveTypes : 0));
-        if (NextTopIndex == CaveIndexTopRight) { NextTopIndex++; }
-        if (NextBottomIndex == CaveIndexBottomRight) { NextBottomIndex++; }
+        int nextTopIndex = NumCaves * (nextTopType + (bTopSecret ? NumTopCaveTypes : 0));
+        int nextBottomIndex = NumCaves * (nextBottomType + (bBottomSecret ? NumBottomCaveTypes : 0));
+        if (nextTopIndex == _caveIndexTopRight) { nextTopIndex++; }
+        if (nextBottomIndex == _caveIndexBottomRight) { nextBottomIndex++; }
 
         DeactivateFirstPieces();
 
         // (*) << [Left] << [Mid] << [Right] << (Next)
-        CaveIndexTopLeft = CaveIndexTopMid;
-        CaveIndexBottomLeft = CaveIndexBottomMid;
-        CaveIndexTopMid = CaveIndexTopRight;
-        CaveIndexBottomMid = CaveIndexTopRight;
-        CaveIndexTopRight = NextTopIndex;
-        CaveIndexBottomRight = NextBottomIndex;
+        _caveIndexTopLeft = _caveIndexTopMid;
+        _caveIndexBottomLeft = _caveIndexBottomMid;
+        _caveIndexTopMid = _caveIndexTopRight;
+        _caveIndexBottomMid = _caveIndexTopRight;
+        _caveIndexTopRight = nextTopIndex;
+        _caveIndexBottomRight = nextBottomIndex;
 
-        ActivateCavePiece(CaveIndexTopRight, bTop: true);
-        ActivateCavePiece(CaveIndexBottomRight, bTop: false);
+        ActivateCavePiece();
     }
 
     private void DeactivateFirstPieces()
     {
-        if (CaveHandler.State == CaveHandler.CaveStates.Start)
+        if (_caveHandler.State == CaveHandler.CaveStates.Start)
         {
-            CaveHandler.State = CaveHandler.CaveStates.Middle;
+            _caveHandler.State = CaveHandler.CaveStates.Middle;
         }
-        else if (CaveHandler.State == CaveHandler.CaveStates.Middle)
+        else if (_caveHandler.State == CaveHandler.CaveStates.Middle)
         {
-            if (CaveEntrance.bIsActive)
+            if (_caveEntrance.bIsActive)
             {
-                CaveEntrance.bIsActive = false;
-                CaveEntrance.CaveBody.velocity = Vector2.zero;
-                CaveEntrance.CaveBody.position = Toolbox.Instance.HoldingArea;
+                _caveEntrance.bIsActive = false;
+                _caveEntrance.CaveBody.velocity = Vector2.zero;
+                _caveEntrance.CaveBody.position = Toolbox.Instance.HoldingArea;
             }
             else
             {
-                DeactivateCavePiece(CaveIndexTopLeft, bTop: true);
-                DeactivateCavePiece(CaveIndexBottomLeft, bTop: false);
+                DeactivateCavePiece(_caveIndexTopLeft, bTop: true);
+                DeactivateCavePiece(_caveIndexBottomLeft, bTop: false);
             }
         }
     }
 
-    private void ActivateCavePiece(int PieceIndex, bool bTop)
+    private void ActivateCavePiece()
     {
-        float TopCavePieceX = TopPool[CaveIndexTopMid].CaveBody.position.x;
-        float BottomCavePieceX = BottomPool[CaveIndexBottomMid].CaveBody.position.x;
-        if (CaveEntrance.bIsActive)
+        float topCavePieceX = _topPool[_caveIndexTopMid].CaveBody.position.x;
+        float bottomCavePieceX = _bottomPool[_caveIndexBottomMid].CaveBody.position.x;
+        if (_caveEntrance.bIsActive)
         {
-            TopCavePieceX = CaveEntrance.CaveBody.position.x;
-            BottomCavePieceX = TopCavePieceX;
+            topCavePieceX = _caveEntrance.CaveBody.position.x;
+            bottomCavePieceX = topCavePieceX;
         }
         float CavePieceY = 0f;
-        float CavePieceZ = CaveZPos;
+        float cavePieceZ = _caveZPos;
 
-        CaveType NextTopCave = TopPool[CaveIndexTopRight];
-        CaveType NextBottomCave = BottomPool[CaveIndexBottomRight];
-        NextTopCave.bIsActive = true;
-        NextTopCave.CaveBody.position = new Vector3(Toolbox.TileSizeX + TopCavePieceX, CavePieceY, CavePieceZ);
-        NextTopCave.CaveBody.velocity = CaveVelocity;
-        NextBottomCave.bIsActive = true;
-        NextBottomCave.CaveBody.position = new Vector3(Toolbox.TileSizeX + BottomCavePieceX, CavePieceY, CavePieceZ);
-        NextBottomCave.CaveBody.velocity = CaveVelocity;
-        TopPool[CaveIndexTopRight] = NextTopCave;
-        BottomPool[CaveIndexBottomRight] = NextBottomCave;
+        CaveType nextTopCave = _topPool[_caveIndexTopRight];
+        CaveType nextBottomCave = _bottomPool[_caveIndexBottomRight];
+        nextTopCave.bIsActive = true;
+        nextTopCave.CaveBody.position = new Vector3(Toolbox.TileSizeX + topCavePieceX, CavePieceY, cavePieceZ);
+        nextTopCave.CaveBody.velocity = _caveVelocity;
+        nextBottomCave.bIsActive = true;
+        nextBottomCave.CaveBody.position = new Vector3(Toolbox.TileSizeX + bottomCavePieceX, CavePieceY, cavePieceZ);
+        nextBottomCave.CaveBody.velocity = _caveVelocity;
+        _topPool[_caveIndexTopRight] = nextTopCave;
+        _bottomPool[_caveIndexBottomRight] = nextBottomCave;
     }
 
-    private void DeactivateCavePiece(int PieceIndex, bool bTop)
+    private void DeactivateCavePiece(int pieceIndex, bool bTop)
     {
-        CaveType Cave;
-        if (bTop) {
-            Cave = TopPool[PieceIndex];
-        } else {
-            Cave = BottomPool[PieceIndex];
-        }
-        Cave.bIsActive = false;
-        Cave.CaveBody.velocity = Vector2.zero;
-        Cave.CaveBody.position = Toolbox.Instance.HoldingArea;
+        var cave = bTop ? _topPool[pieceIndex] : _bottomPool[pieceIndex];
+        cave.bIsActive = false;
+        cave.CaveBody.velocity = Vector2.zero;
+        cave.CaveBody.position = Toolbox.Instance.HoldingArea;
 
         if (bTop) {
-            TopPool[PieceIndex] = Cave;
+            _topPool[pieceIndex] = cave;
         } else {
-            BottomPool[PieceIndex] = Cave;
+            _bottomPool[pieceIndex] = cave;
         }
     }
     
-    public void SetVelocity(float Speed)
+    public void SetVelocity(float speed)
     {
-        if (CaveHandler.State != CaveHandler.CaveStates.Final)
-        {
-            CaveVelocity = new Vector2(-Speed, 0);
-            SetActiveCaveVelocity();
-        }
+        if (_caveHandler.State == CaveHandler.CaveStates.Final) return;
+        _caveVelocity = new Vector2(-speed, 0);
+        SetActiveCaveVelocity();
     }
 
     private void SetActiveCaveVelocity()
     {
-        foreach (CaveType Cave in TopPool)
+        foreach (CaveType cave in _topPool)
         {
-            if (Cave.bIsActive) { Cave.CaveBody.velocity = CaveVelocity; }
+            if (cave.bIsActive) { cave.CaveBody.velocity = _caveVelocity; }
         }
-        foreach (CaveType Cave in BottomPool)
+        foreach (CaveType cave in _bottomPool)
         {
-            if (Cave.bIsActive) { Cave.CaveBody.velocity = CaveVelocity; }
+            if (cave.bIsActive) { cave.CaveBody.velocity = _caveVelocity; }
         }
 
-        if (CaveEntrance.bIsActive) { CaveEntrance.CaveBody.velocity = CaveVelocity; }
-        if (CaveExit.bIsActive) { CaveExit.CaveBody.velocity = CaveVelocity; }
+        if (_caveEntrance.bIsActive) { _caveEntrance.CaveBody.velocity = _caveVelocity; }
+        if (_caveExit.bIsActive) { _caveExit.CaveBody.velocity = _caveVelocity; }
     }
 
     public void PlaceCaveEntrance()
     {
-        CaveEntrance.bIsActive = true;
-        CaveEntrance.CaveBody.position = new Vector3(0f, 0f, 0f);
-        CaveEntrance.CaveBody.velocity = CaveVelocity;
+        _caveEntrance.bIsActive = true;
+        _caveEntrance.CaveBody.position = new Vector3(0f, 0f, 0f);
+        _caveEntrance.CaveBody.velocity = _caveVelocity;
     }
 
     public void PlaceCaveExit()
     {
-        float Xoffset = BottomPool[CaveIndexBottomRight].CaveBody.position.x;
-        CaveExit.bIsActive = true;
-        CaveExit.CaveBody.position = new Vector3(Xoffset + Toolbox.TileSizeX, 0f, 0f);
-        CaveExit.CaveBody.velocity = CaveVelocity;
+        float xoffset = _bottomPool[_caveIndexBottomRight].CaveBody.position.x;
+        _caveExit.bIsActive = true;
+        _caveExit.CaveBody.position = new Vector3(xoffset + Toolbox.TileSizeX, 0f, 0f);
+        _caveExit.CaveBody.velocity = _caveVelocity;
     }
 }

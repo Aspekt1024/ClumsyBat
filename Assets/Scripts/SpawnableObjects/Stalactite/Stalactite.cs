@@ -76,6 +76,8 @@ public class Stalactite : Spawnable {
         _stal.Collider.enabled = true;
         _stal.Renderer.enabled = true;
         UnstableStalactite = dropEnabled;
+
+        _stal.StalTrigger.GetComponent<SpriteRenderer>().enabled = Toolbox.Instance.Debug && UnstableStalactite;
     }
 
     public override void PauseGame(bool gamePaused)

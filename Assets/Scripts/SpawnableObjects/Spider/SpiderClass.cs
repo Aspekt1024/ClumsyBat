@@ -1,102 +1,72 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SpiderClass : MonoBehaviour {
+public class SpiderClass : Spawnable {
     
     public struct SpiderType
     {
         public Collider2D Collider;
         public Renderer Renderer;
         public Animator Anim;
-        public bool bSwingEnabled;
-        public bool bIsActive;
+        public bool SpiderSwings;
+    }
+    private SpiderType _spider;
+    public bool SwingingSpider; // For editor
+    private Player _player;
+
+    private enum SpiderStates { Swinging, Falling, Normal, PreparingDrop }
+    private SpiderStates _spiderState = SpiderStates.Normal;
+
+    private void Awake()
+    {
+        GetSpiderComponents();
+        _spider.Anim.Play("Normal", 0, 0f);
+        _spider.Anim.enabled = true;
+        IsActive = false;
     }
 
-    private bool Paused = false;
-    private float Speed;
-    private float SpiderZLayer;
-
-    private SpiderType Spider;
-    public bool SwingingSpider;
-    private Player Player;
-
-    private enum SpiderStates
+    private void FixedUpdate()
     {
-        Swinging,
-        Falling,
-        Normal,
-        PreparingDrop
-    }
-    private SpiderStates SpiderState = SpiderStates.Normal;
-
-    void Awake()
-    {
-        SpiderZLayer = Toolbox.Instance.ZLayers["Spider"];
-        Spider.Collider = GetComponent<Collider2D>();
-        Spider.Renderer = GetComponent<SpriteRenderer>();
-        Spider.Anim = GetComponent<Animator>();
-        Spider.bSwingEnabled = false;
-        Spider.bIsActive = false;
-        Player = FindObjectOfType<Player>();
-        Spider.Anim.Play("Normal", 0, 0f);
-        Spider.Anim.enabled = true;
+        if (!IsActive) { return; }
+        MoveLeft(Time.deltaTime);
     }
 
-    void FixedUpdate()
+    private void Update()
     {
-        if (!Spider.bIsActive) { return; }
-        transform.position += new Vector3(-Speed * Time.deltaTime, 0, 0);
+        if (_spider.SpiderSwings) { return; } // TODO define this
+        if (!(_player.transform.position.x + 6f > transform.position.x) || _spiderState != SpiderStates.Normal)
+            return;
+        _spiderState = SpiderStates.PreparingDrop;
+        StartCoroutine("Drop");
     }
 
-    void Update()
+    private void GetSpiderComponents()
     {
-        if (Spider.bSwingEnabled) { return; } // TODO define this
-        if ((Player.transform.position.x + 6f > transform.position.x) && SpiderState == SpiderStates.Normal)
-        {
-            SpiderState = SpiderStates.PreparingDrop;
-            StartCoroutine("Drop");
-        }
+        _spider.Collider = GetComponent<Collider2D>();
+        _spider.Renderer = GetComponent<SpriteRenderer>();
+        _spider.Anim = GetComponent<Animator>();
+        _player = FindObjectOfType<Player>();
     }
 
-    public void ActivateSpider(bool bDropEnabled)
+    public void Activate(SpawnType spawnTf, bool spiderSwings)
     {
-        Spider.bIsActive = true;
-        Spider.Collider.enabled = true;
-        Spider.Renderer.enabled = true;
-        Spider.bSwingEnabled = bDropEnabled;
-        SpiderState = SpiderStates.Normal;
+        base.Activate(transform, spawnTf);
+        _spider.SpiderSwings = spiderSwings;
+        _spiderState = SpiderStates.Normal;
     }
-    public void DeactivateSpider()
-    {
-        Spider.bIsActive = false;
-        Spider.Collider.enabled = false;
-        Spider.Renderer.enabled = false;
-    }
+    
+    public bool Active() { return IsActive; }
+    public void DestroySpider() { StartCoroutine("KillIt"); }
 
-    public bool IsActive()
+    private IEnumerator Drop()
     {
-        return Spider.bIsActive;
-    }
-
-    public void SetSpeed(float _speed)
-    {
-        Speed = _speed;
-    }
-
-    public void SetPaused(bool PauseGame)
-    {
-        Paused = PauseGame;
-    }
-
-    IEnumerator Drop()
-    {
-        float ShakeTime = 0;
-        const float ShakeDuration = 0.6f;
+        float shakeTime = 0;
+        const float shakeDuration = 0.6f;
         bool bRotateForward = true;
 
-        while (ShakeTime < ShakeDuration)
+        while (shakeTime < shakeDuration)
         {
-            if (!Paused)
+            if (!bPaused)
             {
                 if (bRotateForward)
                 {
@@ -109,34 +79,29 @@ public class SpiderClass : MonoBehaviour {
                 bRotateForward = !bRotateForward;
             }
             yield return new WaitForSeconds(0.09f);
-            ShakeTime += 0.09f;
+            shakeTime += 0.09f;
         }
         StartCoroutine("Falling");
     }
 
-    IEnumerator Falling()
+    private IEnumerator Falling()
     {
-        SpiderState = SpiderStates.Falling;
+        _spiderState = SpiderStates.Falling;
         while (transform.position.y > -20)
         {
-            if (!Paused)
+            if (!bPaused)
             {
-                transform.position = new Vector3(transform.position.x, transform.position.y - 0.05f, SpiderZLayer);
+                transform.position -= new Vector3(0f, 0.05f, 0f);
             }
             yield return null;
         }
     }
 
-    public void DestroySpider()
-    {
-        StartCoroutine("KillIt");
-    }
-
     private IEnumerator KillIt()
     {
-        Spider.Anim.enabled = true;
+        _spider.Anim.enabled = true;
         //Spider.Anim.Play("Crumble", 0, 0f);   // TODO anim
         yield return new WaitForSeconds(0.67f);
-        DeactivateSpider();
+        SendToInactivePool();
     }
 }

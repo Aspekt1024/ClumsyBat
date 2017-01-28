@@ -114,21 +114,21 @@ public class LevelObjectHandler : MonoBehaviour {
     public void SetPaused(bool pauseGame)
     {
         // Caves?
-        _shrooms.SetPaused(pauseGame);
+        _shrooms.PauseGame(pauseGame);
         _stals.PauseGame(pauseGame);
         _moths.PauseGame(pauseGame);
-        _spiders.SetPaused(pauseGame);
-        _webs.SetPaused(pauseGame);
+        _spiders.PauseGame(pauseGame);
+        _webs.PauseGame(pauseGame);
     }
 
     private void UpdateObjectSpeed(float speed)
     {
-        _shrooms.SetVelocity(speed);
+        _shrooms.SetSpeedX(speed);
         _stals.SetSpeedX(speed);
         _moths.SetSpeedX(speed);
-        _spiders.SetVelocity(speed);
-        _webs.SetVelocity(speed);
-        _triggers.SetVelocity(speed);
+        _spiders.SetSpeedX(speed);
+        _webs.SetSpeedX(speed);
+        _triggers.SetSpeedX(speed);
     }
 
     private void LoadLevel()

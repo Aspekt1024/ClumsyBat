@@ -1,148 +1,127 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Mushroom : MonoBehaviour {
+public class Mushroom : Spawnable {
+    
+    private SpriteRenderer _mushroomRenderer;
+    private Animator _mushroomAnimator;
+    private GameObject _spore;
+    private CircleCollider2D _sporeCollider;
+    private Animator _sporeAnimator;
+    private Player _player;
+    
+    private bool _bIsTriggered;
+    private float _sporeZLayer;
 
-    private bool bIsActive = false;
-    private bool bIsTriggered = false;
-    private SpriteRenderer MushroomRenderer = null;
-    private Animator MushroomAnimator = null;
-
-    private GameObject Spore;
-    private CircleCollider2D SporeCollider;
-    private Animator SporeAnimator = null;
-
-    private Player Player;
-    private float Speed;
-
-    private bool Paused;
-
-    private float ShroomZLayer;
-    private float SporeZLayer;
-
-    void Awake () {
-        ShroomZLayer = Toolbox.Instance.ZLayers["Mushroom"];
-        SporeZLayer = Toolbox.Instance.ZLayers["Spore"];
-        MushroomRenderer = GetComponent<SpriteRenderer>();
-        MushroomAnimator = GetComponent<Animator>();
-        Player = FindObjectOfType<Player>();    // TODO remove this once we use triggers (needed for tooltips)
+    private void Awake () {
+        _sporeZLayer = Toolbox.Instance.ZLayers["Spore"];
+        _mushroomRenderer = GetComponent<SpriteRenderer>();
+        _mushroomAnimator = GetComponent<Animator>();
+        _player = FindObjectOfType<Player>();    // TODO remove this once we use triggers (needed for tooltips)
 
         SetupSpore();
     }
 	
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        if (!bIsActive) { return; }
-        transform.position += new Vector3(-Speed * Time.deltaTime, 0, 0);
+        if (!IsActive) { return; }
+        MoveLeft(Time.deltaTime);
     }
 
-	void Update ()
+	private void Update ()
     {
-        if (!bIsActive) { return; }
-
-        if (!bIsTriggered && (Player.transform.position.x + 10 > transform.position.x))
-        {
-            bIsTriggered = true;
-            StartCoroutine("PrepareSpores");
-        }
-	}
+        if (!IsActive || _bIsTriggered || !(_player.transform.position.x + 10 > transform.position.x)) return;
+        _bIsTriggered = true;
+        StartCoroutine("PrepareSpores");
+    }
 
     private void SetupSpore()
     {
-        Vector3 SporePos = new Vector3(transform.position.x, transform.position.y, SporeZLayer);
-        Spore = (GameObject)Instantiate(Resources.Load("Obstacles/Spore"), SporePos, new Quaternion(), transform);
-        Spore.name = "Spore";
-        SporeAnimator = Spore.GetComponent<Animator>();
-        SporeCollider = Spore.GetComponent<CircleCollider2D>();
-        SporeCollider.offset = new Vector2(0f, 0.4f);
-        Spore.SetActive(false);
+        Vector3 sporePos = new Vector3(transform.position.x, transform.position.y, _sporeZLayer);
+        _spore = (GameObject)Instantiate(Resources.Load("Obstacles/Spore"), sporePos, new Quaternion(), transform);
+        _spore.name = "Spore";
+        _sporeAnimator = _spore.GetComponent<Animator>();
+        _sporeCollider = _spore.GetComponent<CircleCollider2D>();
+        _sporeCollider.offset = new Vector2(0f, 0.4f);
+        _spore.SetActive(false);
     }
 
     private IEnumerator PrepareSpores()
     {
-        float AnimationTimer = 0f;
-        const float AnimationDuration = 1.2f;
-        const float ReleaseSporesTime = 0.4f;
+        float animationTimer = 0f;
+        const float animationDuration = 1.2f;
+        const float releaseSporesTime = 0.4f;
         bool bReleaseSporeAnimationTriggered = false;
-        Vector3 OriginalScale = transform.localScale;
+        Vector3 originalScale = transform.localScale;
 
-        while (AnimationTimer < AnimationDuration)
+        while (animationTimer < animationDuration)
         {
-            if (!Paused)
+            if (!bPaused)
             {
-                AnimationTimer += Time.deltaTime;
-                if (AnimationTimer > AnimationDuration - ReleaseSporesTime && !bReleaseSporeAnimationTriggered)
+                animationTimer += Time.deltaTime;
+                if (animationTimer > animationDuration - releaseSporesTime && !bReleaseSporeAnimationTriggered)
                 {
-                    MushroomAnimator.Play("ReleaseSpore", 0, 0f);
+                    _mushroomAnimator.Play("ReleaseSpore", 0, 0f);
                     bReleaseSporeAnimationTriggered = true;
                 }
             }
             yield return null;
         }
 
-        transform.localScale = OriginalScale;
+        transform.localScale = originalScale;
         StartCoroutine("ReleaseSpores");
     }
 
     private IEnumerator ReleaseSpores()
     {
-        const float AnimationDuration = 1f;
-        const float SporeRiseTime = 0.29f;
-        SporeAnimator.Play("SporeAnim", 0, 0f);
-        Spore.SetActive(true);
+        const float animationDuration = 1f;
+        const float sporeRiseTime = 0.29f;
+        _sporeAnimator.Play("SporeAnim", 0, 0f);
+        _spore.SetActive(true);
 
-        float AnimationTimer = 0f;
-        while (AnimationTimer < AnimationDuration)
+        float animationTimer = 0f;
+        while (animationTimer < animationDuration)
         {
-            if (!Paused)
+            if (!bPaused)
             {
-                AnimationTimer += Time.deltaTime;
-                if (AnimationTimer <= SporeRiseTime)
+                animationTimer += Time.deltaTime;
+                if (animationTimer <= sporeRiseTime)
                 {
-                    float Distance = (1f + 2f * (AnimationTimer / SporeRiseTime));
-                    float XPos = transform.position.x + Spore.transform.up.x * Distance;
-                    float YPos = transform.position.y + Spore.transform.up.y * Distance;
-                    Spore.transform.position = new Vector3(XPos, YPos, SporeZLayer);
+                    float distance = (1f + 2f * (animationTimer / sporeRiseTime));
+                    float xPos = transform.position.x + _spore.transform.up.x * distance;
+                    float yPos = transform.position.y + _spore.transform.up.y * distance;
+                    _spore.transform.position = new Vector3(xPos, yPos, _sporeZLayer);
                 }
                 else
                 {
-                    float SporeExpandRatio = (AnimationTimer - SporeRiseTime) / (AnimationDuration - SporeRiseTime);
-                    SporeCollider.radius = 1f;  // TODO could make this expand over time using SporeExpandTime
-                    SporeCollider.offset = new Vector2(0f, 0.4f - 0.7f * SporeExpandRatio);
+                    float sporeExpandRatio = (animationTimer - sporeRiseTime) / (animationDuration - sporeRiseTime);
+                    _sporeCollider.radius = 1f;  // TODO could make this expand over time using SporeExpandTime
+                    _sporeCollider.offset = new Vector2(0f, 0.4f - 0.7f * sporeExpandRatio);
                 }
             }
             yield return null;
         }
-        Spore.SetActive(false);
+        _spore.SetActive(false);
     }
 
     public void DeactivateMushroom()
     {
-        bIsActive = false;
-        MushroomRenderer.enabled = false;
-        Spore.SetActive(false);
+        SendToInactivePool();
     }
 
-    public void ActivateMushroom()
+    public void Activate(SpawnType spawnTf)
     {
-        bIsActive = true;
-        bIsTriggered = false;
-        MushroomRenderer.enabled = true;
-        Spore.SetActive(false);
-        transform.position = new Vector3(transform.position.x, transform.position.y, ShroomZLayer);
-        Spore.transform.Rotate(Vector3.forward * 16f);  // Offsets the spore trajectory to line up with the shroom graphic
+        base.Activate(transform, spawnTf);
+        _bIsTriggered = false;
+        _mushroomRenderer.enabled = true;
+        _spore.transform.Rotate(Vector3.forward * 16f);  // Offsets the spore trajectory to line up with the shroom graphic
     }
 
-    public void SetSpeed(float _speed)
+    public override void PauseGame(bool pauseGame)
     {
-        Speed = _speed;
-    }
-
-    public void SetPaused(bool PauseGame)
-    {
-        Paused = PauseGame;
-        MushroomAnimator.enabled = !PauseGame;
-        SporeAnimator.enabled = !PauseGame;
+        base.PauseGame(pauseGame);
+        _mushroomAnimator.enabled = !pauseGame;
+        _sporeAnimator.enabled = !pauseGame;
     }
 
     public void DestroyMushroom()

@@ -17,6 +17,10 @@ public class LevelEditorActions : MonoBehaviour
     private Transform _caveParent;
     private Transform _mothParent;
     private Transform _stalParent;
+    private Transform _shroomParent;
+    private Transform _webParent;
+    private Transform _spiderParent;
+    private Transform _triggerParent;
     private int _numSections;
     private int _loadedLevelNum;
 
@@ -44,6 +48,10 @@ public class LevelEditorActions : MonoBehaviour
         _caveParent = GameObject.Find("Caves").transform;
         _mothParent = GameObject.Find("Moths").transform;
         _stalParent = GameObject.Find("Stalactites").transform;
+        _spiderParent = GameObject.Find("Spiders").transform;
+        _triggerParent = GameObject.Find("Triggers").transform;
+        _shroomParent = GameObject.Find("Mushrooms").transform;
+        _webParent = GameObject.Find("Webs").transform;
         _levelObj = GameObject.Find("Level");
         SetZLayers();
         SetLevelNum();
@@ -172,6 +180,10 @@ public class LevelEditorActions : MonoBehaviour
         _stalEditControl.SetZLayers(_triggerZ);
 
         _mothParent.position = new Vector3(0, 0, _mothZ);
+        _spiderParent.position = new Vector3(0, 0, _spiderZ);
+        _webParent.position = new Vector3(0, 0, _webZ);
+        _triggerParent.position = new Vector3(0, 0, _triggerZ);
+        _shroomParent.position = new Vector3(0, 0, _shroomZ);
     }
 
     public void SaveBtn()
@@ -353,9 +365,12 @@ public class LevelEditorActions : MonoBehaviour
             int index = Mathf.RoundToInt(shroom.position.x / _tileSizeX);
 
             ShroomPool.ShroomType newShroom = Level.Caves[index].Shrooms[shroomNum[index]];
-            newShroom.Pos = new Vector2(shroom.position.x - _tileSizeX * index, shroom.position.y);
-            newShroom.Scale = shroom.localScale;
-            newShroom.Rotation = shroom.localRotation;
+            newShroom.SpawnTransform = new Spawnable.SpawnType
+            {
+                Pos = new Vector2(shroom.position.x - _tileSizeX * index, shroom.position.y),
+                Scale = shroom.localScale,
+                Rotation = shroom.localRotation
+            };
             newShroom.SpecialEnabled = false;
             Level.Caves[index].Shrooms[shroomNum[index]] = newShroom;
             shroomNum[index]++;
@@ -405,10 +420,14 @@ public class LevelEditorActions : MonoBehaviour
             int index = Mathf.RoundToInt(spider.position.x / _tileSizeX);
 
             SpiderPool.SpiderType newSpider = Level.Caves[index].Spiders[spiderNum[index]];
-            newSpider.Pos = new Vector2(spider.position.x - _tileSizeX * index, spider.position.y);
-            newSpider.Scale = spider.localScale;
-            newSpider.Rotation = spider.localRotation;
-            newSpider.bSwinging = spider.GetComponent<SpiderClass>().SwingingSpider;
+            newSpider.SpawnTransform = new Spawnable.SpawnType
+            {
+                Pos = new Vector2(spider.position.x - _tileSizeX * index, spider.position.y),
+                Scale = spider.localScale,
+                Rotation = spider.localRotation
+            };
+
+            newSpider.SpiderSwings = spider.GetComponent<SpiderClass>().SwingingSpider;
             Level.Caves[index].Spiders[spiderNum[index]] = newSpider;
             spiderNum[index]++;
         }
@@ -429,10 +448,13 @@ public class LevelEditorActions : MonoBehaviour
             int index = Mathf.RoundToInt(web.position.x / _tileSizeX);
 
             WebPool.WebType newWeb = Level.Caves[index].Webs[webNum[index]];
-            newWeb.Pos = new Vector2(web.position.x - _tileSizeX * index, web.position.y);
-            newWeb.Scale = web.localScale;
-            newWeb.Rotation = web.localRotation;
-            newWeb.bSpecialWeb = web.GetComponent<WebClass>().SpecialWeb;
+            newWeb.SpawnTransform = new Spawnable.SpawnType
+            {
+                Pos = new Vector2(web.position.x - _tileSizeX * index, web.position.y),
+                Scale = web.localScale,
+                Rotation = web.localRotation,
+            };
+            newWeb.SpecialWeb = web.GetComponent<WebClass>().SpecialWeb;
             Level.Caves[index].Webs[webNum[index]] = newWeb;
             webNum[index]++;
         }
@@ -453,9 +475,12 @@ public class LevelEditorActions : MonoBehaviour
             int index = Mathf.RoundToInt(trigger.position.x / _tileSizeX);
 
             TriggerHandler.TriggerType newTrigger = Level.Caves[index].Triggers[triggerNum[index]];
-            newTrigger.Pos = new Vector2(trigger.position.x - _tileSizeX * index, trigger.position.y);
-            newTrigger.Scale = trigger.localScale;
-            newTrigger.Rotation = trigger.localRotation;
+            newTrigger.SpawnTransform = new Spawnable.SpawnType
+            {
+                Pos = new Vector2(trigger.position.x - _tileSizeX * index, trigger.position.y),
+                Scale = trigger.localScale,
+                Rotation = trigger.localRotation
+            };
             newTrigger.EventId = trigger.GetComponent<TriggerClass>().EventId;
             newTrigger.EventType = trigger.GetComponent<TriggerClass>().EventType;
             newTrigger.PausesGame = trigger.GetComponent<TriggerClass>().PausesGame;
@@ -589,9 +614,9 @@ public class LevelEditorActions : MonoBehaviour
         foreach (ShroomPool.ShroomType shroom in shroomList)
         {
             GameObject newShroom = (GameObject)Instantiate(Resources.Load("Obstacles/Mushroom"), shrooms.transform);
-            newShroom.transform.position = new Vector3(shroom.Pos.x + posIndex * _tileSizeX, shroom.Pos.y, _shroomZ);
-            newShroom.transform.localScale = shroom.Scale;
-            newShroom.transform.localRotation = shroom.Rotation;
+            Spawnable.SpawnType spawnTf = shroom.SpawnTransform;
+            spawnTf.Pos += new Vector2(posIndex * _tileSizeX, 0f);
+            newShroom.GetComponent<Mushroom>().SetTransform(transform, spawnTf);
         }
     }
 
@@ -614,10 +639,10 @@ public class LevelEditorActions : MonoBehaviour
         foreach (SpiderPool.SpiderType spider in spiderList)
         {
             GameObject newSpider = (GameObject)Instantiate(Resources.Load("Obstacles/Spider"), spiders.transform);
-            newSpider.transform.position = new Vector3(spider.Pos.x + posIndex * _tileSizeX, spider.Pos.y, _spiderZ);
-            newSpider.transform.localScale = spider.Scale;
-            newSpider.transform.localRotation = spider.Rotation;
-            newSpider.GetComponent<SpiderClass>().SwingingSpider = spider.bSwinging;
+            Spawnable.SpawnType spawnTf = spider.SpawnTransform;
+            spawnTf.Pos += new Vector2(posIndex * _tileSizeX, 0f);
+            newSpider.GetComponent<SpiderClass>().SetTransform(transform, spawnTf);
+            newSpider.GetComponent<SpiderClass>().SwingingSpider = spider.SpiderSwings;
         }
     }
 
@@ -627,10 +652,10 @@ public class LevelEditorActions : MonoBehaviour
         foreach (WebPool.WebType web in webList)
         {
             GameObject newWeb = (GameObject)Instantiate(Resources.Load("Obstacles/Web"), webs.transform);
-            newWeb.transform.position = new Vector3(web.Pos.x + posIndex * _tileSizeX, web.Pos.y, _webZ);
-            newWeb.transform.localScale = web.Scale;
-            newWeb.transform.localRotation = web.Rotation;
-            newWeb.GetComponent<WebClass>().SpecialWeb = web.bSpecialWeb;
+            Spawnable.SpawnType spawnTf = web.SpawnTransform;
+            spawnTf.Pos += new Vector2(posIndex * _tileSizeX, 0f);
+            newWeb.GetComponent<WebClass>().SetTransform(transform, spawnTf);
+            newWeb.GetComponent<WebClass>().SpecialWeb = web.SpecialWeb;
         }
     }
 
@@ -640,9 +665,9 @@ public class LevelEditorActions : MonoBehaviour
         foreach (TriggerHandler.TriggerType trigger in triggerList)
         {
             GameObject newTrigger = (GameObject)Instantiate(Resources.Load("Interactables/Trigger"), triggers.transform);
-            newTrigger.transform.position = new Vector3(trigger.Pos.x + posIndex * _tileSizeX, trigger.Pos.y, _triggerZ);
-            newTrigger.transform.localScale = trigger.Scale;
-            newTrigger.transform.localRotation = trigger.Rotation;
+            Spawnable.SpawnType spawnTf = trigger.SpawnTransform;
+            spawnTf.Pos += new Vector2(posIndex * _tileSizeX, 0f);
+            newTrigger.GetComponent<TriggerClass>().SetTransform(transform, spawnTf);
             newTrigger.GetComponent<TriggerClass>().EventId = trigger.EventId;
             newTrigger.GetComponent<TriggerClass>().EventType = trigger.EventType;
             newTrigger.GetComponent<TriggerClass>().PausesGame = trigger.PausesGame;

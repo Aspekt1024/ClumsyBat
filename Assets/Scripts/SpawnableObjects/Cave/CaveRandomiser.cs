@@ -43,9 +43,9 @@ public class CaveRandomiser {
         {
             if (!bTop && (i / 2 - Mathf.Floor(i / 2) < 0.4) && Random.Range(0f, 1f) <= 0.47f)
             {
-                ShroomList[0].Pos = new Vector2(0, 0);
-                ShroomList[0].Rotation = new Quaternion();
-                ShroomList[0].Scale = new Vector2(1f, 1f);
+                ShroomList[0].SpawnTransform.Pos = new Vector2(0, 0);
+                ShroomList[0].SpawnTransform.Rotation = new Quaternion();
+                ShroomList[0].SpawnTransform.Scale = new Vector2(1f, 1f);
                 ShroomList[0].SpecialEnabled = false;
             }
             else
