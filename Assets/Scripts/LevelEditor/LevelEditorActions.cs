@@ -323,12 +323,12 @@ public class LevelEditorActions : MonoBehaviour
 
             StalPool.StalType newStal = Level.Caves[index].Stals[stalNum[index]];
             Stalactite stalScript = stal.GetComponent<Stalactite>();
-            newStal.Pos = new Vector2(stal.position.x - _tileSizeX * index, stal.position.y);
-            if (stalObj != null)
+            newStal.SpawnTranform = new Spawnable.SpawnType
             {
-                newStal.Scale = stalObj.localScale;
-                newStal.Rotation = stalObj.localRotation;
-            }
+                Pos = new Vector2(stal.position.x - _tileSizeX * index, stal.position.y),
+                Scale = stalObj != null ? stalObj.localScale : Vector3.zero,
+                Rotation = stalObj != null ? stalObj.localRotation : Quaternion.identity
+            };
             newStal.DropEnabled = stalScript.UnstableStalactite;
             newStal.Flipped = stalScript.Flipped;
             if (stalTrigger != null)
@@ -571,11 +571,11 @@ public class LevelEditorActions : MonoBehaviour
                 else if (stalChild.name == "StalTrigger") { stalTrigger = stalChild; }
             }
 
-            newStal.transform.position = new Vector3(stal.Pos.x + posIndex * _tileSizeX, stal.Pos.y, _stalZ);
+            newStal.transform.position = new Vector3(stal.SpawnTranform.Pos.x + posIndex * _tileSizeX, stal.SpawnTranform.Pos.y, _stalZ);
             if (stalObj != null)
             {
-                stalObj.localScale = stal.Scale;
-                stalObj.localRotation = stal.Rotation;
+                stalObj.localScale = stal.SpawnTranform.Scale;
+                stalObj.localRotation = stal.SpawnTranform.Rotation;
             }
             stalScript.Flipped = stal.Flipped;
             stalScript.UnstableStalactite = stal.DropEnabled;
@@ -602,7 +602,7 @@ public class LevelEditorActions : MonoBehaviour
             GameObject newMoth = (GameObject)Instantiate(Resources.Load("Collectibles/Moth"), moths.transform);
             Spawnable.SpawnType spawnTf = moth.SpawnTransform;
             spawnTf.Pos += new Vector2(posIndex * _tileSizeX, 0f);
-            newMoth.GetComponent<Moth>().SetTransform(transform, spawnTf, 0f);
+            newMoth.GetComponent<Moth>().SetTransform(transform, spawnTf);
             newMoth.GetComponent<Moth>().Colour = moth.Colour;
             newMoth.GetComponent<Moth>().PathType = moth.PathType;
         }

@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class StalAnimationHandler : MonoBehaviour
 {
-    private float NormCrackTime;
+    private float _normCrackTime;
 
-    private StalBehaviour Behaviour;
-    private Animator Anim;
-    private Stalactite Stal;
+    private StalBehaviour _behaviour;
+    private Animator _anim;
+    private Stalactite _stal;
 
     public enum StalBehaviour
     {
@@ -20,42 +19,42 @@ public class StalAnimationHandler : MonoBehaviour
 
     void Awake()
     {
-        Anim = GetComponent<Animator>();
-        Stal = GetComponentInParent<Stalactite>();
+        _anim = GetComponent<Animator>();
+        _stal = GetComponentInParent<Stalactite>();
         NewStalactite();
     }
 
     void Update()
     {
-        if (!Stal.IsActive()) { return; }
-        if (Anim.GetCurrentAnimatorStateInfo(0).IsName("Crack") && Anim.enabled)
+        if (!_stal.Active()) { return; }
+        if (_anim.GetCurrentAnimatorStateInfo(0).IsName("Crack") && _anim.enabled)
         {
-            NormCrackTime = Anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
-            if (Behaviour == StalBehaviour.Impacted)
+            _normCrackTime = _anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
+            if (_behaviour == StalBehaviour.Impacted)
             {
                 // If Clumsy hit a static stalactite then exit on frame 4
-                if (NormCrackTime * 7 > 3)
+                if (_normCrackTime * 7 > 3)
                 {
-                    Anim.enabled = false;
+                    _anim.enabled = false;
                 }
             }
         }
         else
         {
-            NormCrackTime = 0f;
+            _normCrackTime = 0f;
         }
     }
 
     public void NewStalactite()
     {
-        Anim.enabled = true;
-        Anim.Play("Static", 0, 0f);
-        Behaviour = StalBehaviour.Normal;
+        _anim.enabled = true;
+        _anim.Play("Static", 0, 0f);
+        _behaviour = StalBehaviour.Normal;
     }
 
     public bool IsUncracked()
     {
-        if (Behaviour == StalBehaviour.Normal)
+        if (_behaviour == StalBehaviour.Normal)
         {
             return true;
         }
@@ -67,43 +66,43 @@ public class StalAnimationHandler : MonoBehaviour
 
     public void CrackAndFall()
     {
-        Anim.enabled = true;
-        Behaviour = StalBehaviour.Cracking;
-        Anim.Play("Crack", 0, NormCrackTime);
+        _anim.enabled = true;
+        _behaviour = StalBehaviour.Cracking;
+        _anim.Play("Crack", 0, _normCrackTime);
     }
 
     public void CrackOnImpact()
     {
-        Anim.enabled = true;
-        if (Behaviour == StalBehaviour.Normal)
+        _anim.enabled = true;
+        if (_behaviour == StalBehaviour.Normal)
         {
-            Behaviour = StalBehaviour.Impacted;
-            Anim.Play("Crack", 0, NormCrackTime);
+            _behaviour = StalBehaviour.Impacted;
+            _anim.Play("Crack", 0, _normCrackTime);
         }
     }
 
     public void Explode()
     {
-        Anim.enabled = true;
-        Behaviour = StalBehaviour.Exploding;
-        if (NormCrackTime > 0f)
+        _anim.enabled = true;
+        _behaviour = StalBehaviour.Exploding;
+        if (_normCrackTime > 0f)
         {
-            int CrackFrameNum = Mathf.FloorToInt(7 * NormCrackTime);
-            if (CrackFrameNum < 6)
+            int crackFrameNum = Mathf.FloorToInt(7 * _normCrackTime);
+            if (crackFrameNum < 6)
             {
-                float NormCrumbleTime = 3 / 16; // Start from frame 3 of 16
-                Anim.Play("Crumble", 0, NormCrumbleTime);
+                const float normCrumbleTime = 3f / 16; // Start from frame 4 of 16
+                _anim.Play("Crumble", 0, normCrumbleTime);
             }
         }
         else
         {
-            Anim.Play("Crumble", 0, 0f);
+            _anim.Play("Crumble", 0, 0f);
         }
     }
 
     public bool ReadyToFall()
     {
-        if (NormCrackTime * 7 >= 6)
+        if (_normCrackTime * 7 >= 6)
         {
             return true;
         }
@@ -113,9 +112,9 @@ public class StalAnimationHandler : MonoBehaviour
         }
     }
 
-    public void PauseAnimation(bool Paused)
+    public void PauseAnimation(bool paused)
     {
-        Anim.speed = (Paused ? 0f : 1f);
+        _anim.speed = (paused ? 0f : 1f);
     }
 }
 

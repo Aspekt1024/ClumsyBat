@@ -34,7 +34,7 @@ public class StalDropComponent : MonoBehaviour {
 
     private void Update()
     {
-        if (!_stal.IsActive() || !_stal.UnstableStalactite) { return; }
+        if (!_stal.Active() || !_stal.UnstableStalactite) { return; }
 
         if ((_playerBody.position.x + 8f > transform.position.x) && _state == DropStates.None && _playerControl.ThePlayer.IsAlive())
         {
@@ -49,7 +49,7 @@ public class StalDropComponent : MonoBehaviour {
         }
     }
 
-    void OnTriggerEnter2D()
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (_stal.UnstableStalactite) { Drop(); }
     }

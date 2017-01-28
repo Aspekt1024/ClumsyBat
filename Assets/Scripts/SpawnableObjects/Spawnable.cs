@@ -13,7 +13,7 @@ public abstract class Spawnable : MonoBehaviour {
     }
 
     public void SetSpeed(float speed){ Speed = speed; }
-    public virtual void PauseGame(bool paused) { bPaused = paused; }
+    public virtual void PauseGame(bool gamePaused) { bPaused = gamePaused; }
     
     public virtual void SendToInactivePool()
     {

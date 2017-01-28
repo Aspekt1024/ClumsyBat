@@ -1,90 +1,33 @@
 ﻿using UnityEngine;
 
-public class StalPool {
+public sealed class StalPool : SpawnPool<Stalactite> {
 
     public StalPool()
     {
-        SetupStalactitePool();
-        StalZLayer = Toolbox.Instance.ZLayers["Stalactite"];
+        ParentName = "Stalactites";
+        ParentZ = Toolbox.Instance.ZLayers["Stalactite"];
+        NumObjectsInPool = 25;
+        ResourcePath = "Obstacles/Stalactite";
+        ObjTag = "Stalactite";
+        SetupPool();
     }
-
-    private const int NumStalsInPool = 25;
-    private const string StalResourcePath = "Obstacles/Stalactite";
 
     public struct StalType
     {
-        public Vector2 Pos;
-        public Vector2 Scale;
-        public Quaternion Rotation;
+        public Spawnable.SpawnType SpawnTranform;
         public Vector2 TriggerPos;
         public bool DropEnabled;
         public bool Flipped;
     }
 
-    Stalactite[] Stals = null;
-    int Index = 0;
-    private float StalZLayer;
-
-    private Stalactite GetStalactiteFromPool()
+    public void SetupStalactitesInList(StalType[] stalList, float xOffset)
     {
-        Stalactite Stal = Stals[Index];
-        Index++;
-        if (Index == Stals.Length)
+        foreach (StalType stal in stalList)
         {
-            Index = 0;
-        }
-        return Stal;
-    }
-
-    public void SetupStalactitePool()
-    {
-        Stalactite[] StalList = new Stalactite[NumStalsInPool];
-        for (int i = 0; i < NumStalsInPool; i++)
-        {
-            GameObject StalObj = (GameObject)MonoBehaviour.Instantiate(Resources.Load(StalResourcePath));
-            Stalactite Stalactite = StalObj.GetComponent<Stalactite>();
-            StalObj.transform.position = Toolbox.Instance.HoldingArea;
-            StalList[i] = Stalactite;
-        }
-        Stals = StalList;
-        Index = 0;
-    }
-
-    public void SetupStalactitesInList(StalType[] StalList, float XOffset)
-    {
-        foreach (StalType Stal in StalList)
-        {
-            Stalactite NewStal = GetStalactiteFromPool();
-            Transform StalObj = null;
-            Transform StalTrigger = null;
-
-            foreach (Transform StalChild in NewStal.transform)
-            {
-                if (StalChild.name == "StalObject") { StalObj = StalChild; }
-                else if (StalChild.name == "StalTrigger") { StalTrigger = StalChild; }
-            }
-
-            NewStal.transform.position = new Vector3(Stal.Pos.x + XOffset, Stal.Pos.y, StalZLayer);
-            StalObj.localScale = Stal.Scale;
-            StalObj.localRotation = Stal.Rotation;
-            NewStal.ActivateStal(Stal.DropEnabled, Stal.TriggerPos);
-            StalTrigger.position = new Vector3(Stal.TriggerPos.x + XOffset, Stal.TriggerPos.y, StalZLayer);
-        }
-    }
-
-    public void SetVelocity(float Speed)
-    {
-        foreach (Stalactite Stal in Stals)
-        {
-            Stal.SetSpeed(Speed);
-        }
-    }
-
-    public void SetPaused(bool PauseGame)
-    {
-        foreach (Stalactite Stal in Stals)
-        {
-            Stal.SetPaused(PauseGame);
+            Stalactite newStal = GetNextObject();
+            Spawnable.SpawnType spawnTf = stal.SpawnTranform;
+            spawnTf.Pos += new Vector2(xOffset, 0f);
+            newStal.Activate(spawnTf, stal.DropEnabled, stal.TriggerPos, xOffset);
         }
     }
 }

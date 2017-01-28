@@ -25,6 +25,15 @@ public abstract class SpawnPool<T> where T : Spawnable
     
     protected virtual void SetupPool()
     {
+        CreateParent();
+        for (int i = 0; i < NumObjectsInPool; i++)
+        {
+            CreateObject(i);
+        }
+    }
+
+    protected void CreateParent()
+    {
         ParentObject = new GameObject(ParentName).transform;
         ParentObject.position = new Vector3(0f, 0f, ParentZ);
     }

@@ -18,27 +18,16 @@ public class Moth : Spawnable {
     private Transform _lantern;
     private MothInteractivity _mothInteractor;
     private MothPathHandler _pathHandler;
-
-    private enum MothAudioNames
-    {
-        Flutter, Morph, Consume
-    }
+    private bool _bConsumption;
     private readonly Dictionary<MothAudioNames, AudioClip> _mothAudioDict = new Dictionary<MothAudioNames, AudioClip>();
 
-    private enum MothStates
-    {
-        Normal, ConsumeFollow
-    }
-
-    public enum MothColour
-    {
-        Green, Gold, Blue
-    }
-    
-    private bool _bConsumption;
+    private enum MothAudioNames { Flutter, Morph, Consume }
+    private enum MothStates { Normal, ConsumeFollow }
+    public enum MothColour { Green, Gold, Blue }
     
     private void Awake ()
     {
+        IsActive = false;
         GetMothComponents();
         LoadSoundClips();
     }

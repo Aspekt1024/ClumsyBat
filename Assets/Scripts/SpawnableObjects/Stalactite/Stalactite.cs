@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Stalactite : MonoBehaviour {
+public class Stalactite : Spawnable {
     
     public struct StalacType
     {
@@ -9,104 +9,97 @@ public class Stalactite : MonoBehaviour {
         public SpriteRenderer Renderer;
         public Rigidbody2D Body;
         public StalAnimationHandler Anim;
+        public Transform StalTrigger;
         public StalDropComponent DropControl;
-        public bool bIsActive;
         public bool bExploding;
     }
-
-    private bool Paused = false;
-    private float Speed;
     
-    private StalacType Stal;
+    private StalacType _stal;
     
     // These variables are set in the level editor
     public bool UnstableStalactite;
-    public bool Flipped;
+    public bool Flipped; // TODO remove once we update the stalactite editor rotation thing
 
-    void Awake ()
+    private void Awake ()
     {
         GetStalComponents();
-        Stal.bIsActive = false;
-        Stal.Anim.enabled = true;
-        Stal.Body.gravityScale = 0f;
+        IsActive = false;
+        _stal.Anim.enabled = true;
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        if (!Stal.bIsActive) { return; }
-        transform.position += new Vector3(-Speed * Time.deltaTime, 0, 0);
+        if (!IsActive || bPaused) { return; }
+        MoveLeft(Time.deltaTime);
     }
 
     private void GetStalComponents()
     {
-        const string StalObject = "StalObject";
-        const string TriggerObject = "StalTrigger";
-        foreach (Transform StalChild in transform)
+        const string stalObject = "StalObject";
+        const string triggerObject = "StalTrigger";
+        foreach (Transform stalChild in transform)
         {
-            if (StalChild.name == StalObject)
+            if (stalChild.name == stalObject)
             {
-                Stal.Body = StalChild.GetComponent<Rigidbody2D>();
-                Stal.Anim = StalChild.GetComponent<StalAnimationHandler>();
-                Stal.Collider = StalChild.GetComponent<PolygonCollider2D>();
-                Stal.Renderer = StalChild.GetComponent<SpriteRenderer>();
+                _stal.Body = stalChild.GetComponent<Rigidbody2D>();
+                _stal.Anim = stalChild.GetComponent<StalAnimationHandler>();
+                _stal.Collider = stalChild.GetComponent<PolygonCollider2D>();
+                _stal.Renderer = stalChild.GetComponent<SpriteRenderer>();
             }
-            if (StalChild.name == TriggerObject)
+            if (stalChild.name == triggerObject)
             {
-                Stal.DropControl = StalChild.GetComponent<StalDropComponent>();
+                _stal.StalTrigger = stalChild.transform;
+                _stal.DropControl = stalChild.GetComponent<StalDropComponent>();
             }
         }
     }
 
-    public void ActivateStal(bool bDropEnabled, Vector2 TriggerPos)
+    public void ActivateStal(bool bDropEnabled, Vector2 triggerPos)
     {
-        Stal.bIsActive = true;
-        Stal.bExploding = false;
-        Stal.Collider.enabled = true;
-        Stal.Renderer.enabled = true;
+        IsActive = true;
         UnstableStalactite = bDropEnabled;
 
-        Stal.Anim.NewStalactite();
-        Stal.DropControl.NewStalactite();
-}
-    public void DeactivateStal()
-    {
-        Stal.bIsActive = false;
-        Stal.Collider.enabled = false;
-        Stal.Renderer.enabled = false;
+        _stal.Anim.NewStalactite();
+        _stal.DropControl.NewStalactite();
     }
 
-    public bool IsActive()
+    public void Activate(SpawnType spawnTf, bool dropEnabled, Vector2 triggerPos, float xOffset)
     {
-        return Stal.bIsActive;
+        transform.localPosition = spawnTf.Pos;
+        _stal.Body.transform.localPosition = Vector3.zero;
+        _stal.Body.transform.localScale = spawnTf.Scale;
+        _stal.Body.transform.rotation = spawnTf.Rotation;
+        _stal.StalTrigger.position = triggerPos + new Vector2(xOffset, 0f);
+
+        IsActive = true;
+        _stal.bExploding = false;
+        _stal.Collider.enabled = true;
+        _stal.Renderer.enabled = true;
+        UnstableStalactite = dropEnabled;
     }
 
-    public void SetSpeed(float _speed)
+    public override void PauseGame(bool gamePaused)
     {
-        Speed = _speed;
-    }
-
-    public void SetPaused(bool PauseGame)
-    {
-        Paused = PauseGame;
-        Stal.Anim.PauseAnimation(PauseGame);
-        Stal.DropControl.SetPaused(PauseGame);
+        base.PauseGame(gamePaused);
+        _stal.Anim.PauseAnimation(gamePaused);
+        _stal.DropControl.SetPaused(gamePaused);
     }
 
     public void DestroyStalactite()
     {
-        if (!Stal.bExploding)
+        if (!_stal.bExploding)
         {
-            Stal.bExploding = true;
-            Stal.Collider.enabled = false;
+            _stal.bExploding = true;
+            _stal.Collider.enabled = false;
             StartCoroutine("CrumbleAnim");
         }
     }
 
     private IEnumerator CrumbleAnim()
     {
-        Stal.Anim.Explode();
+        _stal.Anim.Explode();
         yield return new WaitForSeconds(0.67f);
-        DeactivateStal();
+        SendToInactivePool();
     }
 
     public void Crack()
@@ -116,28 +109,26 @@ public class Stalactite : MonoBehaviour {
 
     private IEnumerator Impact()
     {
-        float ImpactTime = 0;
-        const float ImpactDuration = 0.25f;
-        const float ImpactIntensity = 0.07f;
-        const float Period = 0.04f;
+        float impactTime = 0;
+        const float impactDuration = 0.25f;
+        const float impactIntensity = 0.07f;
+        const float period = 0.04f;
         bool bForward = true;
         
-        Stal.Anim.CrackOnImpact();
-        while (ImpactTime < ImpactDuration)
+        _stal.Anim.CrackOnImpact();
+        while (impactTime < impactDuration)
         {
-            if (!Paused)
+            if (!bPaused)
             {
-                Stal.Body.transform.position += new Vector3(bForward ? ImpactIntensity : -ImpactIntensity, 0f, 0f);
+                _stal.Body.transform.position += new Vector3(bForward ? impactIntensity : -impactIntensity, 0f, 0f);
                 bForward = !bForward;
-                ImpactTime += Period;
+                impactTime += period;
             }
-            yield return new WaitForSeconds(Period);
+            yield return new WaitForSeconds(period);
         }
-        if (UnstableStalactite) { Stal.DropControl.Drop(); }
+        if (UnstableStalactite) { _stal.DropControl.Drop(); }
     }
 
-    public bool IsPaused()
-    {
-        return Paused;
-    }
+    public bool IsPaused() { return bPaused; }
+    public bool Active() { return IsActive; }
 }

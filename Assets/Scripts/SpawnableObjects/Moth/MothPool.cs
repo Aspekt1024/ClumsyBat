@@ -21,7 +21,7 @@ public sealed class MothPool : SpawnPool<Moth>
     
     protected override void SetupPool()
     {
-        base.SetupPool();
+        CreateParent();
         for (int i = 0; i < NumObjectsInPool; i++)
         {
             Moth moth = CreateObject(i);

@@ -40,6 +40,7 @@ public class StalTriggerPlacement : MonoBehaviour {
         float Dist = (AnimationTime + TimeToReachDest) * ClumsySpeed;
 
         float XPos = Body.position.x - Body.localScale.x * 1/3f - Dist + Trigger.localScale.x / 2f;
+        if (float.IsNaN(XPos)) { XPos = 0f; }
         Trigger.position = new Vector3(XPos, Trigger.position.y, Trigger.position.z);
     }
 
