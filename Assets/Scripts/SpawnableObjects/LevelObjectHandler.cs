@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 
 /// <summary>
 /// Handles the generation, positioning and movement of all cave pieces
@@ -30,7 +29,20 @@ public class LevelObjectHandler : MonoBehaviour {
     private SpiderPool _spiders;
     private WebPool _webs;
     private TriggerHandler _triggers;
-    
+
+    private void Awake()
+    {
+        var caveObject = new GameObject("Caves");
+        _cave = caveObject.AddComponent<CaveHandler>();
+
+        _shrooms = new ShroomPool();
+        _stals = new StalPool();
+        _moths = new MothPool();
+        _spiders = new SpiderPool();
+        _webs = new WebPool();
+        _triggers = new TriggerHandler();
+    }
+
     private void Start ()
     {
         LoadLevel();
@@ -51,16 +63,6 @@ public class LevelObjectHandler : MonoBehaviour {
 
     private void SetupObjectPools()
     {
-        var caveObject = new GameObject("Caves");
-        _cave = caveObject.AddComponent<CaveHandler>();
-
-        _shrooms = new ShroomPool();
-        _stals = new StalPool();
-        _moths = new MothPool();
-        _spiders = new SpiderPool();
-        _webs = new WebPool();
-        _triggers = new TriggerHandler();
-
         _cave.Setup(_level.Caves, _bEndlessMode, this);
     }
 

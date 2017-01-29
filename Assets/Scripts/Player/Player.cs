@@ -105,7 +105,7 @@ public class Player : MonoBehaviour {
             if (_bCaveEndReached)
             {
                 float distance = Time.deltaTime * _playerSpeed * Toolbox.Instance.LevelSpeed;
-                transform.position += new Vector3(distance, 0f, 0f);
+                _gameHandler.MovePlayerAtCaveEnd(distance);
             }
         }
         CheckIfOffscreen();
@@ -210,7 +210,6 @@ public class Player : MonoBehaviour {
     {
         _playerRigidBody.velocity = _flapVelocity;
     }
-
     public void SetGravity(float gravity)
     {
         _playerRigidBody.gravityScale = Math.Abs(gravity - (-1f)) < 0.001f ? GravityScale : gravity;
@@ -226,7 +225,6 @@ public class Player : MonoBehaviour {
     public void SetPlayerSpeed(float speed)
     {
         _playerSpeed = speed;
-        _gameHandler.UpdateGameSpeed(speed); // TODO Whatever sets this should actually be talking to the game handler
     }
 
     private void CheckIfOffscreen()
@@ -249,7 +247,7 @@ public class Player : MonoBehaviour {
         if (_state != PlayerState.Normal) { return; }
         if (other.gameObject.name.Contains("Cave") || other.gameObject.name.Contains("Entrance") || other.gameObject.name.Contains("Exit"))
         {
-            if(_shield.IsInUse()) { return; }
+            if(_shield.IsInUse() || _playerController.InputPaused()) { return; }
             if (_playerController.TouchHeld())
                 _perch.Perch(other.gameObject.name);
             else
@@ -366,5 +364,5 @@ public class Player : MonoBehaviour {
     public bool CanRush() { return _rush.AbilityAvailable(); }
     public GameHandler GetGameHandler() { return _gameHandler; }
     public void SwitchPerchState() { _state = _state == PlayerState.Perched ? PlayerState.Normal : PlayerState.Perched; }
-
+    public bool GameHasStarted() { return _state != PlayerState.Startup; }
 }

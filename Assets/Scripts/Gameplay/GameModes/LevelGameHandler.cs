@@ -1,8 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-
-using StoryEventID = StoryEventControl.StoryEvents;
-
 public class LevelGameHandler : GameHandler
 {
     public LevelScript Level;
@@ -10,23 +7,54 @@ public class LevelGameHandler : GameHandler
     private float _resumeTimerStart;
     private const float ResumeTimer = 3f;
     private const float LevelStartupTime = 1f;
+    private CaveHandler _caveHandler;
+    private bool _caveGnomeEndSequenceStarted;
+    private VillageSequencer _villageSequencer;
 
     private void Start ()
     {
         Level = FindObjectOfType<LevelScript>();
         ThePlayer.transform.position = new Vector3(-Toolbox.TileSizeX / 2f, 0f, ThePlayer.transform.position.z);
+        _caveHandler = FindObjectOfType<CaveHandler>();
+        _villageSequencer = GameObject.FindGameObjectWithTag("Scripts").AddComponent<VillageSequencer>();
     }
 	
 	private void Update ()
     {
-        if (ThePlayer.IsAlive())
+        if (ThePlayer.IsAlive() && !Level.AtCaveEnd())
         {
-            Level.AddDistance(Time.deltaTime, ThePlayer.GetPlayerSpeed());
+            AddDistanceFromTime(Time.deltaTime);
         }
         if (PlayerController.State == GameStates.Normal && Level.AtCaveEnd())
         {
             ThePlayer.CaveEndReached();
         }
+    }
+
+    public override void MovePlayerAtCaveEnd(float dist)
+    {
+        if (_caveGnomeEndSequenceStarted) return;
+        if (_caveHandler.IsGnomeEnding())
+        {
+            _caveGnomeEndSequenceStarted = true;
+            _villageSequencer.StartCoroutine("StartSequence");
+        }
+        else
+        {
+            base.MovePlayerAtCaveEnd(dist);
+        }
+    }
+
+    private void AddDistanceFromTime(double time)
+    {
+        float addDist = (float)time * Level.GetGameSpeed() * Toolbox.Instance.LevelSpeed;
+        AddDistance(addDist);
+    }
+
+    protected override void AddDistance(float dist)
+    {
+        if (_caveHandler.IsGnomeEnding() && Level.AtCaveEnd() || !ThePlayer.GameHasStarted()) return;
+        base.AddDistance(dist);
     }
 
     public sealed override void StartGame()

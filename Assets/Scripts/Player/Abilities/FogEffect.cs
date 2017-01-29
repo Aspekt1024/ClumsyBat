@@ -40,6 +40,7 @@ public class FogEffect : MonoBehaviour {
     {
         Normal,
         Minimised,
+        ExpandingToRemove,
         Disabled
     }
     private FogStates _state;
@@ -60,9 +61,9 @@ public class FogEffect : MonoBehaviour {
         _echoScale = -3f;
     }
 
-    void Update()
+    private void Update()
     {
-        if (_state == FogStates.Disabled) { return; }
+        if (_state == FogStates.Disabled || _state == FogStates.ExpandingToRemove) { return; }
         if (_bAbilityPaused || _bAbilityAnimating)
         {
             _echolocateActivatedTime += Time.deltaTime;
@@ -228,6 +229,28 @@ public class FogEffect : MonoBehaviour {
             yield return null;
         }
         _scaleModifier = scale;
+    }
+
+    public void ExpandToRemove()
+    {
+        _state = FogStates.ExpandingToRemove;
+        StartCoroutine("ExpandFogCompletely");
+    }
+
+    private IEnumerator ExpandFogCompletely()
+    {
+        float animTimer = 0f;
+        const float animDuration = 1.5f;
+        float echoStartScale = _echoScale;
+        float echoEndScale = EcholocateScale * 2f;
+        while (animTimer < animDuration)
+        {
+            animTimer += Time.deltaTime;
+            float scale = echoStartScale - (echoStartScale - echoEndScale) * (animTimer / animDuration);
+            Material.SetFloat("_LightDist", scale);
+            yield return null;
+        }
+        Disable();
     }
 
     public void Disable()

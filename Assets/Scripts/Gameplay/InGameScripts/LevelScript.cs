@@ -23,14 +23,14 @@ public class LevelScript : MonoBehaviour {
 
     private void Awake()
     {
-        _levelScripts = new GameObject("Level Scripts");
-        Stats = _levelScripts.AddComponent<StatsHandler>();
+        _levelScripts = GameObject.Find("Scripts");
         _audioControl = _levelScripts.AddComponent<AudioSource>();
         GameHud = GameObject.Find("UI_Overlay").GetComponent<GameUI>();
     }
 
     private void Start ()
     {
+        Stats = FindObjectOfType<StatsHandler>();
         CreateGameObjects();
         GameMenu.Hide();
         Toolbox.Instance.LevelSpeed = LevelScrollSpeed;
@@ -87,6 +87,8 @@ public class LevelScript : MonoBehaviour {
         _levelObjects.SetVelocity(speed);
     }
 
+    public float GetGameSpeed() { return _gameSpeed; }
+
     public void HorribleDeath()
     {
         _gameSpeed = 0f;
@@ -139,25 +141,13 @@ public class LevelScript : MonoBehaviour {
         GameHud.GameOver();
     }
 
-    public void AddDistance(double timeTravelled, float playerSpeed)
-    {
-        float addDist = (float)timeTravelled * playerSpeed * Toolbox.Instance.LevelSpeed;
-        Stats.Distance += addDist;
-        Stats.TotalDistance += addDist;
-
-        if (Stats.Distance > Stats.BestDistance)
-        {
-            Stats.BestDistance = Stats.Distance;
-        }
-    }
-
     public void LevelWon()
     {
         GameHud.LevelWon();
         GameMenu.WinGame();
         Stats.LevelWon(Toolbox.Instance.Level);
         Stats.SaveStats();
-        GameObject.Find("Clumsy").GetComponent<PlayerController>().PauseGame(showMenu: false);
+        GameObject.Find("Clumsy").GetComponent<PlayerController>().PauseGame(showMenu: false); // TODO refer clumsy in awake
 
         // TODO add sound to sound controller script
         var victoryClip = (AudioClip) Resources.Load("Audio/LevelComplete");

@@ -9,6 +9,7 @@ public class RushAbility : MonoBehaviour {
     private Rigidbody2D _playerBody;
     private Lantern _lantern;
     private GameUI _gameHud;
+    private GameHandler _gameHandler;
 
     private int _numMothsToRecharge;
     private bool _epicDashEnabled;
@@ -38,6 +39,7 @@ public class RushAbility : MonoBehaviour {
         _lantern = lanternRef;
         _playerBody = _thePlayer.GetComponent<Rigidbody2D>();
         _gameHud = FindObjectOfType<GameUI>();
+        _gameHandler = FindObjectOfType<GameHandler>();
 
         SetAbilityAttributes();
         SetupHudBar();
@@ -149,11 +151,13 @@ public class RushAbility : MonoBehaviour {
         if (_bPaused) yield break;
         _thePlayer.SetPlayerSpeed(RushSpeed);
         _thePlayer.SetVelocity(Vector2.zero);
+        _gameHandler.UpdateGameSpeed(RushSpeed);
     }
 
     private IEnumerator RushEndAnimation()
     {
         _thePlayer.SetPlayerSpeed(NormalSpeed);
+        _gameHandler.UpdateGameSpeed(NormalSpeed);
         _bIsRushing = false;
         _thePlayer.SetGravity(-1f);  // -1 resets to default gravity defined by PlayerController
 

@@ -11,6 +11,7 @@ public class CaveHandler : MonoBehaviour {
     private int _cavePieceCounter;
     
     private bool _bEndlessMode;
+    private bool _bGnomeEnd;
 
     public enum CaveStates
     {
@@ -66,7 +67,7 @@ public class CaveHandler : MonoBehaviour {
     }
 
     public bool AtCaveEnd() { return State == CaveStates.Final; }
-
+    public bool IsGnomeEnding() { return _bGnomeEnd; }
 
     public void SetVelocity(float speed)
     {
@@ -99,6 +100,7 @@ public class CaveHandler : MonoBehaviour {
             }
             else if (cave.TopIndex == Toolbox.CaveGnomeEndIndex)
             {
+                _bGnomeEnd = true;
                 caveTop = (GameObject) Instantiate(Resources.Load("Caves/CaveGnomeEnd"), caveParent.transform);
                 caveTop.name = "CaveGnomeEnd";
             }

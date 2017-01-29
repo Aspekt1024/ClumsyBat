@@ -150,5 +150,6 @@ public class PlayerController : MonoBehaviour
     public bool GameStarted() { return State != GameState.Starting; }
     public bool TouchHeld() { return _inputManager.TouchHeld(); }
     public InputManager GetInputManager() { return _inputManager; }
+    public bool InputPaused() { return !_bTouchInputEnabled; }
 }
 

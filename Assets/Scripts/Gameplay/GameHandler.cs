@@ -5,6 +5,7 @@ public abstract class GameHandler : MonoBehaviour {
 
     protected PlayerController PlayerController;
     protected Player ThePlayer;
+    protected StatsHandler Stats;
 
     public enum GameStates
     {
@@ -20,6 +21,7 @@ public abstract class GameHandler : MonoBehaviour {
     {
         PlayerController = FindObjectOfType<PlayerController>();
         ThePlayer = FindObjectOfType<Player>();
+        Stats = GameObject.Find("Scripts").AddComponent<StatsHandler>();
     }
 
     public abstract void StartGame();
@@ -34,6 +36,26 @@ public abstract class GameHandler : MonoBehaviour {
     public virtual void TriggerEntered(Collider2D other) { }
     public virtual void TriggerExited(Collider2D other) { }
     public virtual void Collision(Collision2D other) { }
+
+    /// <summary>
+    /// Handles the player movement throughout the scene, based
+    /// on the distance given by the Player class
+    /// </summary>
+    public virtual void MovePlayerAtCaveEnd(float dist)
+    {
+        ThePlayer.transform.position += new Vector3(dist, 0f, 0f);
+        AddDistance(dist);
+    }
+    
+    protected virtual void AddDistance(float dist)
+    {
+        Stats.Distance += dist;
+        Stats.TotalDistance += dist;
+        if (Stats.Distance > Stats.BestDistance)
+        {
+            Stats.BestDistance = Stats.Distance;
+        }
+    }
 
     public GameStates GetGameState()
     {
