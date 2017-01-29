@@ -63,6 +63,7 @@ public class Toolbox : Singleton<Toolbox>
         ZLayers.Add("Lantern", -1.1f);
         ZLayers.Add("Player", -1f);
         ZLayers.Add("LanternLight", -0.8f);
+        ZLayers.Add("NPC", -0.7f);
         ZLayers.Add("Trigger", -0.5f);
         // TODO WebFront 0.1f?
         ZLayers.Add("Cave", 0f);

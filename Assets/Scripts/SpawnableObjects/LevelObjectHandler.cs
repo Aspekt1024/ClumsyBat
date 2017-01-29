@@ -16,6 +16,7 @@ public class LevelObjectHandler : MonoBehaviour {
         public SpiderPool.SpiderType[] SpiderList;
         public WebPool.WebType[] WebList;
         public TriggerHandler.TriggerType[] TriggerList;
+        public NPCPool.NpcType[] NpcList;
     }
     
     private LevelContainer _level;
@@ -29,6 +30,7 @@ public class LevelObjectHandler : MonoBehaviour {
     private SpiderPool _spiders;
     private WebPool _webs;
     private TriggerHandler _triggers;
+    private NPCPool _npcs;
 
     private void Awake()
     {
@@ -41,6 +43,7 @@ public class LevelObjectHandler : MonoBehaviour {
         _spiders = new SpiderPool();
         _webs = new WebPool();
         _triggers = new TriggerHandler();
+        _npcs = new NPCPool();
     }
 
     private void Start ()
@@ -77,6 +80,7 @@ public class LevelObjectHandler : MonoBehaviour {
         if (objectList.SpiderList != null) { _spiders.SetupSpidersInList(objectList.SpiderList, xOffset); }
         if (objectList.WebList != null) { _webs.SetupWebsInList(objectList.WebList, xOffset); }
         if (objectList.TriggerList != null) { _triggers.SetupTriggersInList(objectList.TriggerList, xOffset); }
+        if (objectList.NpcList != null) { _npcs.SetupObjectsInList(objectList.NpcList, xOffset); }
     }
 
     private CaveListType GetCaveObjectList(int index)
@@ -88,6 +92,7 @@ public class LevelObjectHandler : MonoBehaviour {
         objectList.SpiderList = _level.Caves[index].Spiders;
         objectList.WebList = _level.Caves[index].Webs;
         objectList.TriggerList = _level.Caves[index].Triggers;
+        objectList.NpcList = _level.Caves[index].Npcs;
         return objectList;
     }
 
@@ -114,6 +119,7 @@ public class LevelObjectHandler : MonoBehaviour {
         _spiders.PauseGame(pauseGame);
         _webs.PauseGame(pauseGame);
         _triggers.PauseGame(pauseGame);
+        _npcs.PauseGame(pauseGame);
     }
 
     private void UpdateObjectSpeed(float speed)
@@ -124,6 +130,7 @@ public class LevelObjectHandler : MonoBehaviour {
         _spiders.SetSpeedX(speed);
         _webs.SetSpeedX(speed);
         _triggers.SetSpeedX(speed);
+        _npcs.SetSpeedX(speed);
     }
 
     private void LoadLevel()

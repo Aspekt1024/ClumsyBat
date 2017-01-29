@@ -33,9 +33,4 @@ public sealed class TriggerHandler : SpawnPool<TriggerClass> {
             newTrigger.Activate(trigger, spawnTf);
         }
     }
-
-    public void ActivateDialogue(TooltipHandler.DialogueId eventId, bool pauseGame)
-    {
-        _tooltipControl.ShowDialogue(eventId, pauseGame);
-    }
 }

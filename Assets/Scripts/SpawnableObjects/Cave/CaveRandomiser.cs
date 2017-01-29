@@ -89,6 +89,7 @@ public class CaveRandomiser {
         ObjectList.SpiderList = SpiderList;
         ObjectList.WebList = WebList;
         ObjectList.TriggerList = null;
+        ObjectList.NpcList = null;
 
         return ObjectList;
     }

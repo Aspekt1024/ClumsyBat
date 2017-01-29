@@ -58,7 +58,7 @@ public abstract class SpawnPool<T> where T : Spawnable
 
     public virtual void SetSpeedX(float speedX)
     {
-        foreach (var obj in ObjPool)
+        foreach (T obj in ObjPool)
         {
             obj.SetSpeed(speedX);
         }

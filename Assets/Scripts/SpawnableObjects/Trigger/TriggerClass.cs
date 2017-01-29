@@ -9,7 +9,7 @@ public class TriggerClass : Spawnable {
     
     [HideInInspector]
     public TriggerProps Trigger;
-    private TriggerHandler _tHandler;
+    private TooltipHandler _tHandler;
 
     // Editor properties
     public TriggerHandler.EventType EventType;
@@ -19,6 +19,7 @@ public class TriggerClass : Spawnable {
     private void Awake()
     {
         Trigger.Collider = GetComponent<BoxCollider2D>();
+        _tHandler = FindObjectOfType<TooltipHandler>();
     }
 
     private void FixedUpdate()
@@ -34,7 +35,7 @@ public class TriggerClass : Spawnable {
             case (TriggerHandler.EventType.Dialogue):
                 if (Toolbox.Instance.ShowLevelTooltips)
                 {
-                    _tHandler.ActivateDialogue(EventId, PausesGame);
+                    _tHandler.ShowDialogue(EventId, PausesGame);
                 }
                 break;
         }
@@ -54,5 +55,4 @@ public class TriggerClass : Spawnable {
 
     public void DeactivateTrigger() { SendToInactivePool(); }
     public bool Active() { return IsActive; }
-    public void SetTHandler(TriggerHandler handler) { _tHandler = handler; }
 }

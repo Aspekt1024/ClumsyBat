@@ -3,9 +3,13 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.IO;
 
+/// <summary>
+/// Disclaimer: this was an early script which was intended to hold some simple information
+/// Then, while still in the early days, I expanded the functionality and kept it all in one
+/// bulky class. Have fun!
+/// </summary>
 public class LevelEditorActions : MonoBehaviour
 {
-
     public LevelContainer Level;
 
     private GameObject _levelObj;
@@ -21,6 +25,7 @@ public class LevelEditorActions : MonoBehaviour
     private Transform _webParent;
     private Transform _spiderParent;
     private Transform _triggerParent;
+    private Transform _npcParent;
     private int _numSections;
     private int _loadedLevelNum;
 
@@ -32,6 +37,7 @@ public class LevelEditorActions : MonoBehaviour
     private float _spiderZ;
     private float _webZ;
     private float _triggerZ;
+    private float _npcZ;
 
     private void Awake()
     {
@@ -51,6 +57,7 @@ public class LevelEditorActions : MonoBehaviour
         _spiderParent = GameObject.Find("Spiders").transform;
         _triggerParent = GameObject.Find("Triggers").transform;
         _shroomParent = GameObject.Find("Mushrooms").transform;
+        _npcParent = GameObject.Find("Npcs").transform;
         _webParent = GameObject.Find("Webs").transform;
         _levelObj = GameObject.Find("Level");
         SetZLayers();
@@ -176,6 +183,7 @@ public class LevelEditorActions : MonoBehaviour
         _spiderZ = Toolbox.Instance.ZLayers["Spider"];
         _webZ = Toolbox.Instance.ZLayers["Web"];
         _triggerZ = Toolbox.Instance.ZLayers["Trigger"];
+        _npcZ = Toolbox.Instance.ZLayers["NPC"];
 
         _stalEditControl.SetZLayers(_triggerZ);
 
@@ -184,6 +192,7 @@ public class LevelEditorActions : MonoBehaviour
         _webParent.position = new Vector3(0, 0, _webZ);
         _triggerParent.position = new Vector3(0, 0, _triggerZ);
         _shroomParent.position = new Vector3(0, 0, _shroomZ);
+        _npcParent.position = new Vector3(0, 0, _npcZ);
     }
 
     public void SaveBtn()
@@ -200,6 +209,7 @@ public class LevelEditorActions : MonoBehaviour
         StoreSpiders();
         StoreWebs();
         StoreTriggers();
+        StoreNpcs();
 
         string levelName = "Level" + LevelNum + ".xml";
         const string pathName = "Assets/Resources/LevelXML";
@@ -245,6 +255,7 @@ public class LevelEditorActions : MonoBehaviour
             Level.Caves[i].Spiders = new SpiderPool.SpiderType[0];
             Level.Caves[i].Webs = new WebPool.WebType[0];
             Level.Caves[i].Triggers = new TriggerHandler.TriggerType[0];
+            Level.Caves[i].Npcs = new NPCPool.NpcType[0];
         }
     }
 
@@ -462,6 +473,25 @@ public class LevelEditorActions : MonoBehaviour
         }
     }
 
+    private void StoreNpcs()
+    {
+        var npcCounts = GetObjCounts(_npcParent);
+        for (int i = 0; i < _numSections; i++)
+        {
+            Level.Caves[i].Npcs = new NPCPool.NpcType[npcCounts[i]];
+        }
+        int[] npcNum = new int[_numSections];
+        foreach (Transform npc in _npcParent)
+        {
+            int index = Mathf.RoundToInt(npc.position.x / _tileSizeX);
+            NPCPool.NpcType newNPC = Level.Caves[index].Npcs[npcNum[index]];
+            newNPC.SpawnTransform = ProduceSpawnTf(npc, index);
+            newNPC.Type = npc.GetComponent<NPC>().Type;
+            Level.Caves[index].Npcs[npcNum[index]] = newNPC;
+            npcNum[index]++;
+        }
+    }
+
     private Spawnable.SpawnType ProduceSpawnTf(Transform objTf, int index)
     {
         var spawnTf = new Spawnable.SpawnType
@@ -491,6 +521,7 @@ public class LevelEditorActions : MonoBehaviour
         Destroy(GameObject.Find("Spiders"));
         Destroy(GameObject.Find("Webs"));
         Destroy(GameObject.Find("Triggers"));
+        Destroy(GameObject.Find("Npcs"));
         Destroy(GameObject.Find("Clumsy"));
 
         foreach(Transform cave in _caveParent)
@@ -518,13 +549,15 @@ public class LevelEditorActions : MonoBehaviour
         _webParent = webs.transform;
         _spiderParent = spiders.transform;
         _triggerParent = triggers.transform;
+        _npcParent = new GameObject("Npcs").transform;
 
-        stals.transform.SetParent(_levelObj.transform);
-        shrooms.transform.SetParent(_levelObj.transform);
-        moths.transform.SetParent(_levelObj.transform);
-        spiders.transform.SetParent(_levelObj.transform);
-        webs.transform.SetParent(_levelObj.transform);
-        triggers.transform.SetParent(_levelObj.transform);
+        _stalParent.SetParent(_levelObj.transform);
+        _shroomParent.SetParent(_levelObj.transform);
+        _mothParent.SetParent(_levelObj.transform);
+        _spiderParent.SetParent(_levelObj.transform);
+        _webParent.SetParent(_levelObj.transform);
+        _triggerParent.SetParent(_levelObj.transform);
+        _npcParent.SetParent(_levelObj.transform);
 
         //GameObject Clumsy = (GameObject)Instantiate(Resources.Load("ClumsyLevelEditor"), _levelObj.transform);
         //Clumsy.name = "Clumsy";
@@ -569,6 +602,7 @@ public class LevelEditorActions : MonoBehaviour
             SetSpiders(spiders, cave.Spiders, i);
             SetWebs(webs, cave.Webs, i);
             SetTriggers(triggers, cave.Triggers, i);
+            SetNpcs(cave.Npcs, i);
         }
     }
 
@@ -609,7 +643,7 @@ public class LevelEditorActions : MonoBehaviour
             GameObject newShroom = (GameObject)Instantiate(Resources.Load("Obstacles/Mushroom"), shrooms.transform);
             Spawnable.SpawnType spawnTf = shroom.SpawnTransform;
             spawnTf.Pos += new Vector2(posIndex * _tileSizeX, 0f);
-            newShroom.GetComponent<Mushroom>().SetTransform(transform, spawnTf);
+            newShroom.GetComponent<Mushroom>().SetTransform(newShroom.transform, spawnTf);
         }
     }
 
@@ -620,7 +654,7 @@ public class LevelEditorActions : MonoBehaviour
             GameObject newMoth = (GameObject)Instantiate(Resources.Load("Collectibles/Moth"), moths.transform);
             Spawnable.SpawnType spawnTf = moth.SpawnTransform;
             spawnTf.Pos += new Vector2(posIndex * _tileSizeX, 0f);
-            newMoth.GetComponent<Moth>().SetTransform(transform, spawnTf);
+            newMoth.GetComponent<Moth>().SetTransform(newMoth.transform, spawnTf);
             newMoth.GetComponent<Moth>().Colour = moth.Colour;
             newMoth.GetComponent<Moth>().PathType = moth.PathType;
         }
@@ -634,7 +668,7 @@ public class LevelEditorActions : MonoBehaviour
             GameObject newSpider = (GameObject)Instantiate(Resources.Load("Obstacles/Spider"), spiders.transform);
             Spawnable.SpawnType spawnTf = spider.SpawnTransform;
             spawnTf.Pos += new Vector2(posIndex * _tileSizeX, 0f);
-            newSpider.GetComponent<SpiderClass>().SetTransform(transform, spawnTf);
+            newSpider.GetComponent<SpiderClass>().SetTransform(newSpider.transform, spawnTf);
             newSpider.GetComponent<SpiderClass>().SwingingSpider = spider.SpiderSwings;
         }
     }
@@ -647,7 +681,7 @@ public class LevelEditorActions : MonoBehaviour
             GameObject newWeb = (GameObject)Instantiate(Resources.Load("Obstacles/Web"), webs.transform);
             Spawnable.SpawnType spawnTf = web.SpawnTransform;
             spawnTf.Pos += new Vector2(posIndex * _tileSizeX, 0f);
-            newWeb.GetComponent<WebClass>().SetTransform(transform, spawnTf);
+            newWeb.GetComponent<WebClass>().SetTransform(newWeb.transform, spawnTf);
             newWeb.GetComponent<WebClass>().SpecialWeb = web.SpecialWeb;
         }
     }
@@ -660,10 +694,22 @@ public class LevelEditorActions : MonoBehaviour
             GameObject newTrigger = (GameObject)Instantiate(Resources.Load("Interactables/Trigger"), triggers.transform);
             Spawnable.SpawnType spawnTf = trigger.SpawnTransform;
             spawnTf.Pos += new Vector2(posIndex * _tileSizeX, 0f);
-            newTrigger.GetComponent<TriggerClass>().SetTransform(transform, spawnTf);
+            newTrigger.GetComponent<TriggerClass>().SetTransform(newTrigger.transform, spawnTf);
             newTrigger.GetComponent<TriggerClass>().EventId = trigger.EventId;
             newTrigger.GetComponent<TriggerClass>().EventType = trigger.EventType;
             newTrigger.GetComponent<TriggerClass>().PausesGame = trigger.PausesGame;
+        }
+    }
+
+    private void SetNpcs(NPCPool.NpcType[] npcList, int posIndex)
+    {
+        if (npcList == null) return;
+        foreach (NPCPool.NpcType npc in npcList)
+        {
+            GameObject newNpc = (GameObject) Instantiate(Resources.Load("NPCs/Nomee"), _npcParent);
+            Spawnable.SpawnType spawnTf = npc.SpawnTransform;
+            spawnTf.Pos += new Vector2(posIndex * _tileSizeX, 0f);
+            newNpc.GetComponent<NPC>().SetTransform(newNpc.transform, spawnTf);
         }
     }
 }

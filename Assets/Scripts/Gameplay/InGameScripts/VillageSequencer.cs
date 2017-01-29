@@ -46,6 +46,5 @@ public class VillageSequencer : MonoBehaviour
             _player.Body.position = startPos - (startPos - endPos) * (animTimer / animDuration);
             yield return null;
         }
-
     }
 }

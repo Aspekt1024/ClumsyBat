@@ -15,12 +15,12 @@
         <TriggerType>
           <SpawnTransform>
             <Pos>
-              <x>-0.74</x>
-              <y>1.36</y>
+              <x>-0.31</x>
+              <y>1.63</y>
             </Pos>
             <Scale>
               <x>1</x>
-              <y>7.30000067</y>
+              <y>7.012504</y>
             </Scale>
             <Rotation>
               <x>0</x>
@@ -39,6 +39,7 @@
           <PausesGame>true</PausesGame>
         </TriggerType>
       </Triggers>
+      <Npcs />
     </Cave>
     <Cave>
       <TopIndex>2</TopIndex>
@@ -51,6 +52,7 @@
       <Spiders />
       <Webs />
       <Triggers />
+      <Npcs />
     </Cave>
     <Cave>
       <TopIndex>0</TopIndex>
@@ -63,8 +65,8 @@
         <MothType>
           <SpawnTransform>
             <Pos>
-              <x>8.239998</x>
-              <y>1.5</y>
+              <x>-0.550003052</x>
+              <y>1.07</y>
             </Pos>
             <Scale>
               <x>1</x>
@@ -88,8 +90,8 @@
         <MothType>
           <SpawnTransform>
             <Pos>
-              <x>8.140999</x>
-              <y>0.587</y>
+              <x>9.149998</x>
+              <y>1.44</y>
             </Pos>
             <Scale>
               <x>1</x>
@@ -117,12 +119,12 @@
         <TriggerType>
           <SpawnTransform>
             <Pos>
-              <x>-0.0400009155</x>
-              <y>1.07</y>
+              <x>-4.550003</x>
+              <y>0.659869552</y>
             </Pos>
             <Scale>
               <x>1</x>
-              <y>8.050016</y>
+              <y>11.1625166</y>
             </Scale>
             <Rotation>
               <x>0</x>
@@ -141,6 +143,7 @@
           <PausesGame>false</PausesGame>
         </TriggerType>
       </Triggers>
+      <Npcs />
     </Cave>
     <Cave>
       <TopIndex>1002</TopIndex>
@@ -153,6 +156,32 @@
       <Spiders />
       <Webs />
       <Triggers />
+      <Npcs>
+        <NpcType>
+          <SpawnTransform>
+            <Pos>
+              <x>3.92999649</x>
+              <y>-3.96</y>
+            </Pos>
+            <Scale>
+              <x>-1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <Type>Nomee</Type>
+        </NpcType>
+      </Npcs>
     </Cave>
   </CaveList>
   <Clumsy>
