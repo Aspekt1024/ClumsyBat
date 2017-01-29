@@ -37,6 +37,7 @@ public class LevelGameHandler : GameHandler
         if (_caveHandler.IsGnomeEnding())
         {
             _caveGnomeEndSequenceStarted = true;
+            _gameMusic.PlaySound(GameMusicControl.GameTrack.Village);
             _villageSequencer.StartCoroutine("StartSequence");
         }
         else
@@ -60,6 +61,7 @@ public class LevelGameHandler : GameHandler
     public sealed override void StartGame()
     {
         StartCoroutine("LevelStartCountdown");
+        _gameMusic.PlaySound(GameMusicControl.GameTrack.Cave);
     }
 
     private IEnumerator LevelStartCountdown()
@@ -67,8 +69,7 @@ public class LevelGameHandler : GameHandler
         const float timeToReachDest = 0.6f;
         const float countdownDuration = 3f - timeToReachDest;
         float countdownTimer = 0f;
-
-
+        
         yield return new WaitForSeconds(LevelStartupTime);
         Level.GameMenu.RemoveLoadingOverlay();
         yield return null;

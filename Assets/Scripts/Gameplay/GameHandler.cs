@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public abstract class GameHandler : MonoBehaviour {
 
     protected PlayerController PlayerController;
     protected Player ThePlayer;
     protected StatsHandler Stats;
+    protected GameMusicControl _gameMusic;
 
     public enum GameStates
     {
@@ -21,7 +21,9 @@ public abstract class GameHandler : MonoBehaviour {
     {
         PlayerController = FindObjectOfType<PlayerController>();
         ThePlayer = FindObjectOfType<Player>();
-        Stats = GameObject.Find("Scripts").AddComponent<StatsHandler>();
+        GameObject scriptsObj = GameObject.Find("Scripts");
+        Stats = scriptsObj.AddComponent<StatsHandler>();
+        _gameMusic = scriptsObj.AddComponent<GameMusicControl>();
     }
 
     public abstract void StartGame();
