@@ -10,11 +10,9 @@ public sealed class TriggerHandler : SpawnPool<TriggerClass> {
         ResourcePath = "Interactables/Trigger";
         ObjTag = "Trigger";
         SetupPool();
-        _tooltipControl = GameObject.Find("Scripts").GetComponent<TooltipHandler>();
     }
 
     public enum EventType { Dialogue, StoryEvent }
-    private readonly TooltipHandler _tooltipControl;
     public struct TriggerType
     {
         public Spawnable.SpawnType SpawnTransform;
