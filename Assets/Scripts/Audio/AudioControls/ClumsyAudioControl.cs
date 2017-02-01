@@ -1,4 +1,6 @@
-﻿public class ClumsyAudioControl : AudioController
+﻿using System;
+
+public class ClumsyAudioControl : AudioController
 {
     public enum PlayerSounds
     {
@@ -9,8 +11,13 @@
 
     protected override void SetupAudioDict()
     {
-        PathFromAudioFolder = string.Empty;
         AddToAudioDict(PlayerSounds.Flap, "ClumsyFlap", 1f);
         AddToAudioDict(PlayerSounds.Collision, "RockCollision", 1f);
+    }
+
+    protected override void SetupAudioProperties()
+    {
+        PathFromAudioFolder = string.Empty;
+        IsOnRepeat = false;
     }
 }

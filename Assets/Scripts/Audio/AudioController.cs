@@ -1,11 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class AudioController : MonoBehaviour
 {
+    protected bool IsOnRepeat;
     private string _pathFromAudioFolder;
-    private AudioSource _audio;
+    private AudioSource _primaryAudio;
+    private AudioSource _secondaryAudio;
     private readonly Dictionary<int, SampleType> _audioDict = new Dictionary<int, SampleType>();
+
+    private const int InvalidSound = -1;
 
     protected string PathFromAudioFolder
     {
@@ -25,10 +30,13 @@ public abstract class AudioController : MonoBehaviour
 
     private void Awake()
     {
-        _audio = gameObject.AddComponent<AudioSource>();
+        _primaryAudio = gameObject.AddComponent<AudioSource>();
+        _secondaryAudio = gameObject.AddComponent<AudioSource>();
+        SetupAudioProperties();
         SetupAudioDict();
     }
-    
+
+    protected abstract void SetupAudioProperties();
     protected abstract void SetupAudioDict();
     
     protected void AddToAudioDict(object soundName, string fileName, float volume)
@@ -45,16 +53,65 @@ public abstract class AudioController : MonoBehaviour
     public void PlaySound(object soundName)
     {
         int soundIndex = ConvertEnumToInt(soundName);
-        _audio.volume = 0;
-        _audio.Stop();   // TODO remove the popping sound.
-        _audio.volume = _audioDict[soundIndex].Volume;
-        _audio.PlayOneShot(_audioDict[soundIndex].AudioClip);
+        if (soundIndex == InvalidSound) return;
+        AudioSource aSource = SelectAudioSource();
+        FadeOutOtherSourceIfPlaying(aSource);
+        SetToPlay(aSource, _audioDict[soundIndex]);
+    }
+
+    private void SetToPlay(AudioSource aSource, SampleType sample)
+    {
+        aSource.volume = sample.Volume;
+        aSource.clip = sample.AudioClip;
+        aSource.loop = IsOnRepeat;
+        aSource.Play();
+    }
+
+    private AudioSource SelectAudioSource()
+    {
+        if (!_primaryAudio.isPlaying) return _primaryAudio;
+        if (!_secondaryAudio.isPlaying) return _secondaryAudio;
+        return _primaryAudio;
+    }
+
+    private void FadeOutOtherSourceIfPlaying(AudioSource aSource)
+    {
+        if (aSource == _primaryAudio)
+        {
+            if (!_secondaryAudio.isPlaying) return;
+            StartCoroutine("FadeOutSound", _secondaryAudio);
+        }
+        else
+        {
+            if (!_primaryAudio.isPlaying) return;
+            StartCoroutine("FadeOutSound", _primaryAudio);
+        }
+    }
+
+    private IEnumerator FadeOutSound(AudioSource aSource)
+    {
+        // This is to remove the popping sound when a sound is stopped
+        const float fadeDuration = 0.04f;
+        float fadeTimer = 0f;
+        float startVolume = aSource.volume;
+        while (fadeTimer < fadeDuration)
+        {
+            fadeTimer += Time.deltaTime;
+            aSource.volume = startVolume * (1 - fadeTimer / fadeDuration);
+            yield return null;
+        }
+        aSource.Stop();
     }
 
     private static int ConvertEnumToInt(object soundName)
     {
         if (soundName.GetType().IsEnum) return (int)soundName;
-        return 0;
+        ReportInvalidSound(soundName.ToString());
+        return -1;
+    }
+    private static void ReportInvalidSound(string soundName)
+    {
+        Debug.Log("Unable to play sound: " + soundName);
     }
 
     #region Path Parameter Forward Slash Formatting Methods
