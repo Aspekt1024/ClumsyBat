@@ -5,7 +5,7 @@ public abstract class GameHandler : MonoBehaviour {
     protected PlayerController PlayerController;
     protected Player ThePlayer;
     protected StatsHandler Stats;
-    protected GameMusicControl _gameMusic;
+    protected GameMusicControl GameMusic;
 
     public enum GameStates
     {
@@ -23,7 +23,7 @@ public abstract class GameHandler : MonoBehaviour {
         ThePlayer = FindObjectOfType<Player>();
         GameObject scriptsObj = GameObject.Find("Scripts");
         Stats = scriptsObj.AddComponent<StatsHandler>();
-        _gameMusic = scriptsObj.AddComponent<GameMusicControl>();
+        GameMusic = scriptsObj.AddComponent<GameMusicControl>();
     }
 
     public abstract void StartGame();

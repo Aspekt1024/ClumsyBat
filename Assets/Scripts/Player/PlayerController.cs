@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
-using System;
 
 using GameState = GameHandler.GameStates;
-
-public delegate void PlayerDeathHandler(object sender, EventArgs e);
 
 /// <summary>
 /// Handles the player input (touch screen)
@@ -20,16 +17,6 @@ public class PlayerController : MonoBehaviour
 
     private bool _bTouchInputEnabled = true;
     private bool _bTouchHeld;
-
-    public event PlayerDeathHandler PlayerDeath; // not currently used. Kept for reference (events!)
-    
-    protected virtual void OnDeath(EventArgs e)
-    {
-        if (PlayerDeath != null)
-        {
-            PlayerDeath(this, e);
-        }
-    }
     
     private void Awake()
     {

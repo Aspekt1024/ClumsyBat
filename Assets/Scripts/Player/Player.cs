@@ -150,7 +150,7 @@ public class Player : MonoBehaviour {
             yield return null;
         }
         transform.position = _playerHoldingArea;
-        _lanternBody.transform.position = new Vector3(_lanternBody.transform.position.x + .3f, _lanternBody.transform.position.y, _lanternBody.transform.position.z);
+        _lanternBody.transform.position += new Vector3(.3f, 0f, 0f);
         _gameHandler.LevelComplete();
         Fog.EndOfLevel();
     }
@@ -261,7 +261,7 @@ public class Player : MonoBehaviour {
 
     public void Die()
     {
-        //OnDeath(EventArgs.Empty);   // Event!
+        EventListener.Death();
         DisablePlayerController();
         _state = PlayerState.Dying;
         Stats.Deaths += 1;
@@ -309,6 +309,7 @@ public class Player : MonoBehaviour {
         _playerRigidBody.velocity = _nudgeVelocity;
     }
 
+    // TODO clean code practices suggests PauseGame() and ResumeGame() are separate functions.
     public void PauseGame(bool gamePaused)
     {
         _bPaused = gamePaused;

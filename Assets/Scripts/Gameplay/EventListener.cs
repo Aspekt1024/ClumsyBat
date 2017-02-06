@@ -1,24 +1,25 @@
-﻿using UnityEngine;
-using System;
-
-class EventListener
+﻿public class EventListener
 {
-    private PlayerController Player;
-    public EventListener(PlayerController PlayerClass)
+    public delegate void EventHandler();
+    public static EventHandler OnDeath;
+    public static EventHandler OnMusicToggle;
+    public static EventHandler OnSfxToggle;
+
+    public static void Death()
     {
-        Player = PlayerClass;
-        Player.PlayerDeath += new PlayerDeathHandler(PlayerDied);
+        if (OnDeath != null)
+            OnDeath();
     }
 
-    private void PlayerDied(object sender, EventArgs e)
+    public static void MusicToggle()
     {
-        Debug.Log("Player has died...");
-        
+        if (OnMusicToggle != null)
+            OnMusicToggle();
     }
 
-    public void Detach()
+    public static void SfxToggle()
     {
-        Player.PlayerDeath -= new PlayerDeathHandler(PlayerDied);
-        Player = null;
+        if (OnSfxToggle != null)
+            OnSfxToggle();
     }
 }

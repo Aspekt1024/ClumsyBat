@@ -4,7 +4,8 @@ using UnityEngine;
 
 public abstract class AudioController : MonoBehaviour
 {
-    protected bool IsOnRepeat;
+    private bool _enabled;
+    private SampleType _musicSample;
     private string _pathFromAudioFolder;
     private AudioSource _primaryAudio;
     private AudioSource _secondaryAudio;
@@ -12,6 +13,8 @@ public abstract class AudioController : MonoBehaviour
 
     private const int InvalidSound = -1;
 
+    protected bool IsOnRepeat;
+    protected AudioTypes AudioType;
     protected string PathFromAudioFolder
     {
         get { return _pathFromAudioFolder; }
@@ -22,20 +25,76 @@ public abstract class AudioController : MonoBehaviour
         }
     }
 
+    private StatsHandler _dataHandler;
+
+    protected enum AudioTypes
+    {
+        Music,
+        SoundFx
+    }
+
     protected struct SampleType
     {
         public float Volume;
         public AudioClip AudioClip;
     }
 
+    private void OnEnable()
+    {
+        EventListener.OnMusicToggle += ToggleMusic;
+        EventListener.OnSfxToggle += ToggleSfx;
+    }
+    private void OnDisable()
+    {
+        EventListener.OnMusicToggle -= ToggleMusic;
+        EventListener.OnSfxToggle -= ToggleSfx;
+    }
+    
+    private void ToggleMusic()
+    {
+        if (AudioType != AudioTypes.Music) return;  // TODO setup eventHandler better
+        _enabled = _dataHandler.Settings.Music;
+        if (!_enabled)
+            StopAllSounds();
+        else
+            ResumeMusic();
+    }
+
+    private void ToggleSfx()
+    {
+        if (AudioType != AudioTypes.SoundFx) return;  // TODO setup eventHandler better
+        _enabled = _dataHandler.Settings.Sfx;
+        if (!_enabled)
+            StopAllSounds();
+    }
+
     private void Awake()
     {
+        _enabled = true;
         _primaryAudio = gameObject.AddComponent<AudioSource>();
         _secondaryAudio = gameObject.AddComponent<AudioSource>();
         SetupAudioProperties();
         SetupAudioDict();
     }
 
+    private void Start()
+    {
+        _dataHandler = FindObjectOfType<StatsHandler>();
+        switch (AudioType)
+        {
+            case AudioTypes.Music:
+                _enabled = _dataHandler.Settings.Music;
+                break;
+            case AudioTypes.SoundFx:
+                _enabled = _dataHandler.Settings.Sfx;
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Set IsOnRepeat and PathFromAudioFolder. By default, the audio does not repeat,
+    /// and the path is the root of /Audio
+    /// </summary>
     protected abstract void SetupAudioProperties();
     protected abstract void SetupAudioDict();
     
@@ -53,7 +112,9 @@ public abstract class AudioController : MonoBehaviour
     public void PlaySound(object soundName)
     {
         int soundIndex = ConvertEnumToInt(soundName);
-        if (soundIndex == InvalidSound) return;
+        if (AudioType == AudioTypes.Music) _musicSample = _audioDict[soundIndex];
+        if (!_enabled || soundIndex == InvalidSound) return;
+
         AudioSource aSource = SelectAudioSource();
         FadeOutOtherSourceIfPlaying(aSource);
         SetToPlay(aSource, _audioDict[soundIndex]);
@@ -65,6 +126,20 @@ public abstract class AudioController : MonoBehaviour
         aSource.clip = sample.AudioClip;
         aSource.loop = IsOnRepeat;
         aSource.Play();
+    }
+
+    private void StopAllSounds()
+    {
+        if (_secondaryAudio.isPlaying)
+            StartCoroutine("FadeOutSound", _secondaryAudio);
+        if (_primaryAudio.isPlaying)
+            StartCoroutine("FadeOutSound", _primaryAudio);
+    }
+
+    private void ResumeMusic()
+    {
+        SetToPlay(_primaryAudio, _musicSample);
+        _primaryAudio.Play();
     }
 
     private AudioSource SelectAudioSource()

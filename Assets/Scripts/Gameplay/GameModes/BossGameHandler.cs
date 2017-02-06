@@ -42,7 +42,7 @@ public class BossGameHandler : GameHandler {
         _gameHud.StartGame();
         _loadScreen.HideLoadScreen();
         PlayerController.EnterGamePlay();
-        _gameMusic.PlaySound(GameMusicControl.GameTrack.Boss);
+        GameMusic.PlaySound(GameMusicControl.GameTrack.Boss);
     }
 
     public override void PauseGame(bool showMenu)

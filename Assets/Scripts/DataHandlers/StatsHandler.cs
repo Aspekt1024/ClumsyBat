@@ -7,27 +7,27 @@ public class StatsHandler : MonoBehaviour {
     public int Score;
     public int MothsEaten;
     public int CollectedCurrency;
-    public float Distance = 0;
+    public float Distance;
 
     // Stat data (persistent)
-    public float TotalDistance = 0;
-    public float BestDistance = 0;
-    public float DashDistance = 0;
-    public float DarknessTime = 0;
-    public float PlayTime = 0;
-    public float IdleTime = 0;
-    public float TotalTime = 0;
-    public int TotalJumps = 0;
-    public int TimesDashed = 0;
-    public int ToothDeaths = 0;
-    public int RockDeaths = 0;
-    public int Deaths = 0;
-    public int MostMoths = 0;
-    public int TotalMoths = 0;
-    public int Highscore = 0;       // Not currently in use
-    public int LevelsCompleted = 0;
-    public int Currency = 0;
-    public int TotalCurrency = 0;
+    public float TotalDistance;
+    public float BestDistance;
+    public float DashDistance;
+    public float DarknessTime;
+    public float PlayTime;
+    public float IdleTime;
+    public float TotalTime;
+    public int TotalJumps;
+    public int TimesDashed;
+    public int ToothDeaths;
+    public int RockDeaths;
+    public int Deaths;
+    public int MostMoths;
+    public int TotalMoths;
+    public int Highscore; // Not currently in use
+    public int LevelsCompleted;
+    public int Currency;
+    public int TotalCurrency;
     
     public LevelDataControl LevelData;
     public AbilityControl AbilityData;
@@ -36,12 +36,12 @@ public class StatsHandler : MonoBehaviour {
     public struct UserSettings
     {
         public bool Music;
-        public bool SFX;
+        public bool Sfx;
         public bool Tooltips;
     }
     public UserSettings Settings;
     
-    private List<Pref> PrefList = new List<Pref>();
+    private readonly List<Pref> _prefList = new List<Pref>();
 
     private struct Pref
     {
@@ -49,7 +49,7 @@ public class StatsHandler : MonoBehaviour {
         public string varType;
     }
 
-    void Awake()
+    private void Awake()
     {
         SetupPrefList();
         SetupPlayerPrefs();
@@ -58,7 +58,7 @@ public class StatsHandler : MonoBehaviour {
         LoadUserSettings();
     }
 
-    void Update ()
+    private void Update ()
     {
         // TODO achievements
 
@@ -83,10 +83,10 @@ public class StatsHandler : MonoBehaviour {
 
     private void CreateDataObjects()
     {
-        GameObject DataObject = new GameObject("DataObjects");
-        LevelData = DataObject.AddComponent<LevelDataControl>();
-        AbilityData = DataObject.AddComponent<AbilityControl>();
-        StoryData = DataObject.AddComponent<StoryEventControl>();
+        GameObject dataObject = new GameObject("DataObjects");
+        LevelData = dataObject.AddComponent<LevelDataControl>();
+        AbilityData = dataObject.AddComponent<AbilityControl>();
+        StoryData = dataObject.AddComponent<StoryEventControl>();
         LevelData.Load();
         AbilityData.Load();
         StoryData.Load();
@@ -101,15 +101,15 @@ public class StatsHandler : MonoBehaviour {
 
     private void LoadUserSettings()
     {
-        Settings.Music = PlayerPrefs.GetInt("MusicON") == 1 ? true : false;
-        Settings.SFX = PlayerPrefs.GetInt("SFXON") == 1 ? true : false;
-        Settings.Tooltips = PlayerPrefs.GetInt("TooltipsON") == 1 ? true : false;
+        Settings.Music = PlayerPrefs.GetInt("MusicON") == 1;
+        Settings.Sfx = PlayerPrefs.GetInt("SFXON") == 1;
+        Settings.Tooltips = PlayerPrefs.GetInt("TooltipsON") == 1;
     }
 
     private void SaveUserSettings()
     {
         PlayerPrefs.SetInt("MusicON", Settings.Music ? 1 : 0);
-        PlayerPrefs.SetInt("SFXON", Settings.SFX ? 1 : 0);
+        PlayerPrefs.SetInt("SFXON", Settings.Sfx ? 1 : 0);
         PlayerPrefs.SetInt("TooltipsON", Settings.Tooltips ? 1 : 0);
     }
 
@@ -123,25 +123,27 @@ public class StatsHandler : MonoBehaviour {
         SaveStats();
     }
 
-    public void LevelWon(int Level)
+    public void LevelWon(int level)
     {
         // TODO move this to the LevelCompletionControl Class
         Currency += CollectedCurrency;
         TotalCurrency += CollectedCurrency;
         CollectedCurrency = 0;
 
-        LevelDataContainer.LevelType LevelCompletion = new LevelDataContainer.LevelType();
-        LevelCompletion.LevelCompleted = true;
-        LevelCompletion.LevelUnlocked = true;
-        LevelCompletion.SecretPath1 = false;
-        LevelCompletion.SecretPath2 = false;
-        LevelCompletion.Achievement1 = false;
-        LevelCompletion.Achievement2 = false;
-        LevelCompletion.Achievement3 = false;
+        LevelDataContainer.LevelType levelCompletion = new LevelDataContainer.LevelType
+        {
+            LevelCompleted = true,
+            LevelUnlocked = true,
+            SecretPath1 = false,
+            SecretPath2 = false,
+            Achievement1 = false,
+            Achievement2 = false,
+            Achievement3 = false
+        };
 
         LevelsCompleted++;
-        LevelData.SetCompleted(Level, LevelCompletion);
-        LevelData.UnlockLevels(Level, LevelCompletion);
+        LevelData.SetCompleted(level, levelCompletion);
+        LevelData.UnlockLevels(level, levelCompletion);
         SaveStats();
     }
 
@@ -198,7 +200,7 @@ public class StatsHandler : MonoBehaviour {
 
     private void SetupPrefList()
     {
-        PrefList.Clear();
+        _prefList.Clear();
         AddPref("Highscore", "Int");
         AddPref("BestDistance", "Float");
         AddPref("TotalDistance", "Float");
@@ -221,7 +223,7 @@ public class StatsHandler : MonoBehaviour {
 
     private void SetupPlayerPrefs()
     {
-        foreach (Pref pref in PrefList)
+        foreach (Pref pref in _prefList)
         {
             if (!PlayerPrefs.HasKey(pref.pref))
             {
@@ -237,12 +239,14 @@ public class StatsHandler : MonoBehaviour {
         GetPersistentStats();
     }
 
-    private void AddPref(string Pref, string PrefType)
+    private void AddPref(string pref, string prefType)
     {
-        Pref NewPref = new Pref();
-        NewPref.pref = Pref;
-        NewPref.varType = PrefType;
-        PrefList.Add(NewPref);
+        Pref newPref = new Pref
+        {
+            pref = pref,
+            varType = prefType
+        };
+        _prefList.Add(newPref);
     }
 
     private void SetupPref(Pref pref)

@@ -5,7 +5,15 @@
         Boss,
         Cave,
         Village,
-        Mysterious
+        Mysterious,
+        Twinkly
+    }
+
+    protected override void SetupAudioProperties()
+    {
+        PathFromAudioFolder = "Test";
+        AudioType = AudioTypes.Music;
+        IsOnRepeat = true;
     }
 
     protected override void SetupAudioDict()
@@ -14,11 +22,7 @@
         AddToAudioDict(GameTrack.Cave, "fields", 0.3f);
         AddToAudioDict(GameTrack.Mysterious, "mysterious scene", 0.5f);
         AddToAudioDict(GameTrack.Village, "village theme", 0.5f);
+        AddToAudioDict(GameTrack.Twinkly, "twinkly", 0.5f);
     }
 
-    protected override void SetupAudioProperties()
-    {
-        PathFromAudioFolder = "Test";
-        IsOnRepeat = true;
-    }
 }

@@ -1,143 +1,140 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System.Collections;
 
 public class DropdownOptionsMenu : MonoBehaviour {
 
-    private StatsHandler Stats = null;
+    private StatsHandler _stats;
 
-    private Animator ToggleMusic = null;
-    private Animator ToggleSFX = null;
-    private Animator ToggleTooltips = null;
+    private Animator _toggleMusic;
+    private Animator _toggleSfx;
+    private Animator _toggleTooltips;
 
-    private CanvasGroup OptionsMainPanel;
-    private CanvasGroup OptionsYesNoPanel;
-    private CanvasGroup OptionsOKPanel;
+    private CanvasGroup _optionsMainPanel;
+    private CanvasGroup _optionsYesNoPanel;
+    private CanvasGroup _optionsOkPanel;
 
-    private Text OptionText;
-    private Text OptionConfirmText;
+    private Text _optionText;
+    private Text _optionConfirmText;
 
     private enum YesNo
     {
         ResetAllData,
         ResetTooltips,
-        ResetStats,
-        ResetLevelProgress
     }
-    private YesNo ConfirmOption;
+    private YesNo _confirmOption;
     
-    void Start ()
+    private void Start ()
     {
-        Stats = FindObjectOfType<StatsHandler>();
+        _stats = FindObjectOfType<StatsHandler>();
         GetMenuObjects();
         InitialiseOptionsView();
     }
 
     public void InitialiseOptionsView()
     {
-        SetPanelVisible(OptionsMainPanel, true);
-        SetPanelVisible(OptionsYesNoPanel, false);
-        SetPanelVisible(OptionsOKPanel, false);
+        SetPanelVisible(_optionsMainPanel, true);
+        SetPanelVisible(_optionsYesNoPanel, false);
+        SetPanelVisible(_optionsOkPanel, false);
     }
 
     private void GetMenuObjects()
     {
-        ToggleMusic = GameObject.Find("ToggleMusic").GetComponent<Animator>();
-        ToggleSFX = GameObject.Find("ToggleSFX").GetComponent<Animator>();
-        ToggleTooltips = GameObject.Find("ToggleTooltips").GetComponent<Animator>();
+        _toggleMusic = GameObject.Find("ToggleMusic").GetComponent<Animator>();
+        _toggleSfx = GameObject.Find("ToggleSFX").GetComponent<Animator>();
+        _toggleTooltips = GameObject.Find("ToggleTooltips").GetComponent<Animator>();
 
-        OptionsMainPanel = GameObject.Find("OptionsMainPanel").GetComponent<CanvasGroup>();
-        OptionsYesNoPanel = GameObject.Find("OptionsYesNoPanel").GetComponent<CanvasGroup>();
-        OptionsOKPanel = GameObject.Find("OptionsOKPanel").GetComponent<CanvasGroup>();
+        _optionsMainPanel = GameObject.Find("OptionsMainPanel").GetComponent<CanvasGroup>();
+        _optionsYesNoPanel = GameObject.Find("OptionsYesNoPanel").GetComponent<CanvasGroup>();
+        _optionsOkPanel = GameObject.Find("OptionsOKPanel").GetComponent<CanvasGroup>();
 
-        OptionText = GameObject.Find("OptionText").GetComponent<Text>();
-        OptionConfirmText = GameObject.Find("OptionConfirmText").GetComponent<Text>();
+        _optionText = GameObject.Find("OptionText").GetComponent<Text>();
+        _optionConfirmText = GameObject.Find("OptionConfirmText").GetComponent<Text>();
     }
 
     public void ResetTooltipsPressed()
     {
-        ConfirmOption = YesNo.ResetTooltips;
-        OptionText.text = "Are you sure you want to reset tooltips?";
-        SetPanelVisible(OptionsMainPanel, false);
-        SetPanelVisible(OptionsYesNoPanel, true);
+        _confirmOption = YesNo.ResetTooltips;
+        _optionText.text = "Are you sure you want to reset tooltips?";
+        SetPanelVisible(_optionsMainPanel, false);
+        SetPanelVisible(_optionsYesNoPanel, true);
     }
 
     public void ResetDataPressed()
     {
-        ConfirmOption = YesNo.ResetAllData;
-        OptionText.text = "Are you sure you want to erase your story progress? This is not reversible!";
-        SetPanelVisible(OptionsMainPanel, false);
-        SetPanelVisible(OptionsYesNoPanel, true);
+        _confirmOption = YesNo.ResetAllData;
+        _optionText.text = "Are you sure you want to erase your story progress? This is not reversible!";
+        SetPanelVisible(_optionsMainPanel, false);
+        SetPanelVisible(_optionsYesNoPanel, true);
     }
 
     public void ClearConfirmPressed()
     {
-        switch(ConfirmOption)
+        switch(_confirmOption)
         {
             case YesNo.ResetAllData:
-                OptionConfirmText.text = "Story has been reset!";
-                Stats.ResetStoryData();
+                _optionConfirmText.text = "Story has been reset!";
+                _stats.ResetStoryData();
                 break;
             case YesNo.ResetTooltips:
-                OptionConfirmText.text = "Tooltips have been reset!";
-                //Stats.CompletionData.ResetTooltips();     // TODO redo the options
+                _optionConfirmText.text = "Tooltips have been reset!";
+                //Stats.CompletionData.ResetTooltips();     // TODO redo these options
                 break;
         }
-        SetPanelVisible(OptionsYesNoPanel, false);
-        SetPanelVisible(OptionsOKPanel, true);
+        SetPanelVisible(_optionsYesNoPanel, false);
+        SetPanelVisible(_optionsOkPanel, true);
     }
 
     public void UnconfirmPressed()
     {
-        SetPanelVisible(OptionsYesNoPanel, false);
-        SetPanelVisible(OptionsMainPanel, true);
+        SetPanelVisible(_optionsYesNoPanel, false);
+        SetPanelVisible(_optionsMainPanel, true);
     }
 
-    public void OKPressed()
+    public void OkPressed()
     {
-        switch(ConfirmOption)
+        switch(_confirmOption)
         {
             case YesNo.ResetAllData:
                 FindObjectOfType<LoadScreen>().ShowLoadScreen();
                 SceneManager.LoadScene("Play");
                 break;
             case YesNo.ResetTooltips:
-                SetPanelVisible(OptionsOKPanel, false);
-                SetPanelVisible(OptionsMainPanel, true);
+                SetPanelVisible(_optionsOkPanel, false);
+                SetPanelVisible(_optionsMainPanel, true);
                 break;
         }
     }
 
     public void ToggleMusicPressed()
     {
-        Stats.Settings.Music = !Stats.Settings.Music;
-        ToggleMusic.Play(Stats.Settings.Music ? "MusicON" : "MusicOFF");
-        // TODO turn music ON/OFF
+        _stats.Settings.Music = !_stats.Settings.Music;
+        _toggleMusic.Play(_stats.Settings.Music ? "MusicON" : "MusicOFF");
+        EventListener.MusicToggle();
     }
 
-    public void ToggleSFXPressed()
+    public void ToggleSfxPressed()
     {
-        Stats.Settings.SFX = !Stats.Settings.SFX;
-        ToggleSFX.Play(Stats.Settings.SFX ? "SFXON" : "SFXOFF");
-        // TODO turn SFX ON/OFF
+        _stats.Settings.Sfx = !_stats.Settings.Sfx;
+        _toggleSfx.Play(_stats.Settings.Sfx ? "SFXON" : "SFXOFF");
+        EventListener.SfxToggle();
     }
 
     public void ToggleTooltipsPressed()
     {
-        Stats.Settings.Tooltips = !Stats.Settings.Tooltips;
-        ToggleTooltips.Play(Stats.Settings.Tooltips ? "TooltipsON" : "TooltipsOFF");
+        _stats.Settings.Tooltips = !_stats.Settings.Tooltips;
+        _toggleTooltips.Play(_stats.Settings.Tooltips ? "TooltipsON" : "TooltipsOFF");
     }
     
     public void SetToggleStates()
     {
-        string MusicState = (Stats.Settings.Music ? "MusicON" : "MusicOFF");
-        string SFXState = (Stats.Settings.SFX ? "SFXON" : "SFXOFF");
-        string TooltipsState = (Stats.Settings.Tooltips ? "TooltipsON" : "TooltipsOFF");
+        string MusicState = (_stats.Settings.Music ? "MusicON" : "MusicOFF");
+        string SFXState = (_stats.Settings.Sfx ? "SFXON" : "SFXOFF");
+        string TooltipsState = (_stats.Settings.Tooltips ? "TooltipsON" : "TooltipsOFF");
 
-        ToggleMusic.Play(MusicState);
-        ToggleSFX.Play(SFXState);
-        ToggleTooltips.Play(TooltipsState);
+        _toggleMusic.Play(MusicState);
+        _toggleSfx.Play(SFXState);
+        _toggleTooltips.Play(TooltipsState);
     }
 
     private void SetPanelVisible(CanvasGroup Panel, bool Visible)
