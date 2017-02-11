@@ -49,7 +49,7 @@ public class LevelObjectHandler : MonoBehaviour {
     private void Start ()
     {
         LoadLevel();
-        Debug.Log("Level " + Toolbox.Instance.Level + " loaded.");
+        Debug.Log("Level " + GameData.Instance.Level + " loaded.");
         SetupObjectPools();
         FindObjectOfType<PlayerController>().StartGame();
     }
@@ -136,7 +136,7 @@ public class LevelObjectHandler : MonoBehaviour {
     private void LoadLevel()
     {
         if (_bEndlessMode) { return; }
-        TextAsset levelTxt = (TextAsset)Resources.Load("LevelXML/Level" + Toolbox.Instance.Level);
+        TextAsset levelTxt = (TextAsset)Resources.Load("LevelXML/" + GameData.Instance.Level);
         _level = LevelContainer.LoadFromText(levelTxt.text);
     }
     

@@ -1,65 +1,58 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public class MainMenu : MonoBehaviour {
     
     public GameObject MenuButtons;
-    private GameObject RuntimeScripts;
     public StatsHandler Stats;
     public GameObject LoadingOverlay;
 
-    private MenuScroller Scroller;
+    private GameObject _runtimeScripts;
+    private MenuScroller _scroller;
+    
+    private LevelButton[] BtnScripts = new LevelButton[GameData.NumLevels + 1];
 
-    private struct LvButton
+    private void Awake()
     {
-        public LevelButton Script;
-        public bool bClicked;
-    }
-    private const int NumLevels = 9;    // TODO move to level handler
-    private LvButton[] Buttons = new LvButton[NumLevels + 1];
-
-    void Awake()
-    {
-        RuntimeScripts = new GameObject("Runtime Scripts");
-        Stats = RuntimeScripts.AddComponent<StatsHandler>();
-        Scroller = RuntimeScripts.AddComponent<MenuScroller>();
+        _runtimeScripts = new GameObject("Runtime Scripts");
+        Stats = _runtimeScripts.AddComponent<StatsHandler>();
+        _scroller = _runtimeScripts.AddComponent<MenuScroller>();
         LoadingOverlay = GameObject.Find("LoadScreen");
     }
 
-    void Start()
+    private void Start()
     {
         //GetComponent<AudioSource>().Play();
         GetLevelButtons();
         SetupLevelSelect();
     }
+    
+    private void Update()
+    {
+        Stats.IdleTime += Time.deltaTime;
+    }
 
     private void GetLevelButtons()
     {
-        RectTransform LvlButtons = GameObject.Find("LevelButtons").GetComponent<RectTransform>();
-        foreach (RectTransform LvlButton in LvlButtons)
+        RectTransform lvlButtons = GameObject.Find("LevelButtons").GetComponent<RectTransform>();
+        foreach (RectTransform lvlButton in lvlButtons)
         {
-            int Level = int.Parse(LvlButton.name.Substring(2, LvlButton.name.Length - 2));
-            if (Level >= 1 && Level <= NumLevels)   // TODO confirm what to do with index 0
+            int level = int.Parse(lvlButton.name.Substring(2, lvlButton.name.Length - 2));
+            if (level >= 1 && level <= GameData.NumLevels)
             {
-                Buttons[Level].Script = LvlButton.GetComponent<LevelButton>();
-                Buttons[Level].bClicked = false;
+                BtnScripts[level] = lvlButton.GetComponent<LevelButton>();
                 
-                if (Stats.LevelData.IsUnlocked(Level) || Level == 1)
+                if (Stats.LevelData.IsUnlocked(level) || level == 1)
                 {
-                    if (Stats.LevelData.IsCompleted(Level))
-                    {
-                        Buttons[Level].Script.SetLevelState(LevelButton.LevelStates.Completed);
-                    }
-                    else
-                    {
-                        Buttons[Level].Script.SetLevelState(LevelButton.LevelStates.Enabled);
-                    }
+                    BtnScripts[level].SetLevelState(Stats.LevelData.IsCompleted(level)
+                        ? LevelButton.LevelStates.Completed
+                        : LevelButton.LevelStates.Enabled);
                 }
                 else
                 {
-                    Buttons[Level].Script.SetLevelState(LevelButton.LevelStates.Disabled);
+                    BtnScripts[level].SetLevelState(LevelButton.LevelStates.Disabled);
                 }
             }
         }
@@ -67,61 +60,48 @@ public class MainMenu : MonoBehaviour {
 
     private void SetupLevelSelect()
     {
-        int Level = 1;
-
+        int level;
         if (Toolbox.Instance.MenuScreen == Toolbox.MenuSelector.LevelSelect)
         {
-            Level = Toolbox.Instance.Level;
+            level = (int)GameData.Instance.Level;
         }
         else
         {
-            Level = GetHighestLevel();
+            level = GetHighestLevel();
         }
-        Scroller.SetCurrentLevel(Level);
+        _scroller.SetCurrentLevel(level);
     }
 
     private int GetHighestLevel()
     {
-        int HighestLevel = 1;
-
-        for (int index = 1; index <= NumLevels; index++)
+        int highestLevel = 1;
+        for (int index = 1; index <= GameData.NumLevels; index++)
         {
-            if (Buttons[index].Script)
-            {
-                if (Buttons[index].Script.LevelAvailable())
-                {
-                    if (index > HighestLevel)
-                    {
-                        HighestLevel = index;
-                    }
-                }
-            }
+            if (!BtnScripts[index]) continue;
+            if (!BtnScripts[index].LevelAvailable()) continue;
+            if (index > highestLevel)
+                highestLevel = index;
         }
 
         // TODO force this to only be on the main path once we've decided how many levels will exist on it
         // TODO confirm this after we decide how many levels there will be
-        if (HighestLevel > NumLevels)
+        if (highestLevel > GameData.NumLevels)
         {
-            HighestLevel = 1;
+            highestLevel = 1;
         }
 
-        return HighestLevel;
-    }
-
-    void Update()
-    {
-        Stats.IdleTime += Time.deltaTime;
+        return highestLevel;
     }
 
     public void PlayButtonClicked()
     {
         Stats.SaveStats();
-        Scroller.LevelSelect();
+        _scroller.LevelSelect();
     }
 
     public void ReturnToMainScreen()
     {
-        Scroller.MainMenu();
+        _scroller.MainMenu();
     }
 
     public void QuitButtonClicked()
@@ -133,7 +113,7 @@ public class MainMenu : MonoBehaviour {
     public void StatsButtonClicked()
     {
         Stats.SaveStats();
-        Scroller.StatsScreen();
+        _scroller.StatsScreen();
     }
 
     public void TrainingButtonClicked()
@@ -141,57 +121,43 @@ public class MainMenu : MonoBehaviour {
         Stats.SaveStats();
         SceneManager.LoadScene("Training");
     }
-
-    public void ClearDataButtonClicked()
+    
+    public void LevelClick()
     {
-        // TODO setup menu to ask "Are you sure?"
-        Stats.ClearPlayerPrefs();
-    }
-
-    // Level Selects
-    private void LevelClick(int LevelNum)
-    {
+        var levelId = EventSystem.current.currentSelectedGameObject.GetComponent<LevelButton>().Level;
         Stats.SaveStats();
-        bool bLoadLevel = Buttons[LevelNum].Script.Clicked();
-        if (bLoadLevel)
+
+        for (int index = 1; index < GameData.NumLevels; index++)
         {
-            Toolbox.Instance.Level = LevelNum;
-            StartCoroutine("LoadLevel", LevelNum);
-        }
-        else
-        {
-            for (int index = 1; index <= NumLevels; index++)
-            {
-                if (index != LevelNum && Buttons[index].Script != null)
-                {
-                    Buttons[index].Script.Unclick();
-                }
-            }
+            if (BtnScripts[index] == null) continue;
+
+            BtnScripts[index].Click(levelId);
+            if (!BtnScripts[index].IsDoubleClicked(levelId)) continue;
+
+            GameData.Instance.Level = levelId;
+            StartCoroutine("LoadLevel", levelId);
         }
     }
 
-    private IEnumerator LoadLevel(int LevelNum)
+    private IEnumerator LoadLevel(LevelProgressionHandler.Levels levelId)
     {
-        Toolbox.Instance.Level = LevelNum;
+        GameData.Instance.Level = levelId;
         Toolbox.Instance.Debug = false;
-        AsyncOperation LevelLoader = SceneManager.LoadSceneAsync("Levels");
+        AsyncOperation levelLoader;
+
+        if (levelId.ToString().Contains("Boss"))
+            levelLoader = SceneManager.LoadSceneAsync("Boss");
+        else
+            levelLoader = SceneManager.LoadSceneAsync("Levels");
+        // TODO training
+
         LoadingOverlay.GetComponent<LoadScreen>().ShowLoadScreen();
 
-        while (!LevelLoader.isDone)
+        while (!levelLoader.isDone)
         {
             yield return null;
         }
     }
 
-public void LvEndlessButtonClicked() { LevelClick(-1); }
-    public void Lv1BtnClick() { LevelClick(1); }
-    public void Lv2BtnClick() { LevelClick(2); }
-    public void Lv3BtnClick() { LevelClick(3); }
-    public void Lv4BtnClick() { SceneManager.LoadScene("Boss"); }
-    //public void Lv4BtnClick() { LevelClick(4); }
-    public void Lv5BtnClick() { LevelClick(5); }
-    public void Lv6BtnClick() { LevelClick(6); }
-    public void Lv7BtnClick() { LevelClick(7); }
-    public void Lv8BtnClick() { LevelClick(8); }
-    public void Lv9BtnClick() { LevelClick(9); }
+    public void LvEndlessButtonClicked() { StartCoroutine("LoadLevel", LevelProgressionHandler.Levels.Endless); }
 }

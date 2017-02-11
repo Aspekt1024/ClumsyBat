@@ -128,19 +128,19 @@ public class DropdownOptionsMenu : MonoBehaviour {
     
     public void SetToggleStates()
     {
-        string MusicState = (_stats.Settings.Music ? "MusicON" : "MusicOFF");
-        string SFXState = (_stats.Settings.Sfx ? "SFXON" : "SFXOFF");
-        string TooltipsState = (_stats.Settings.Tooltips ? "TooltipsON" : "TooltipsOFF");
+        string musicState = (_stats.Settings.Music ? "MusicON" : "MusicOFF");
+        string sfxState = (_stats.Settings.Sfx ? "SFXON" : "SFXOFF");
+        string tooltipsState = (_stats.Settings.Tooltips ? "TooltipsON" : "TooltipsOFF");
 
-        _toggleMusic.Play(MusicState);
-        _toggleSfx.Play(SFXState);
-        _toggleTooltips.Play(TooltipsState);
+        _toggleMusic.Play(musicState);
+        _toggleSfx.Play(sfxState);
+        _toggleTooltips.Play(tooltipsState);
     }
 
-    private void SetPanelVisible(CanvasGroup Panel, bool Visible)
+    private void SetPanelVisible(CanvasGroup panel, bool visible)
     {
-        Panel.alpha = (Visible ? 1f : 0f);
-        Panel.blocksRaycasts = Visible;
-        Panel.interactable = Visible;
+        panel.alpha = (visible ? 1f : 0f);
+        panel.blocksRaycasts = visible;
+        panel.interactable = visible;
     }
 }

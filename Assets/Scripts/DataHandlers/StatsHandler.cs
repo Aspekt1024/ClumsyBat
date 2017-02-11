@@ -61,6 +61,7 @@ public class StatsHandler : MonoBehaviour {
     private void Update ()
     {
         // TODO achievements
+        // TODO Things i've learned - use events, not update to check if we've reached an achievement.
 
         // 500 Miles
         // Blind as a bat
@@ -78,7 +79,6 @@ public class StatsHandler : MonoBehaviour {
         //Batzilla : clumsy used hypersonic 50 times
         //Seeing - eye - bat : clumsy used echo location 100 times
         //Bat in Black: clumsy completed a level without consuming a single moth
-
     }
 
     private void CreateDataObjects()
@@ -120,30 +120,6 @@ public class StatsHandler : MonoBehaviour {
         AbilityData.ClearAbilityData();
         CollectedCurrency = 0;
         Currency = 0;
-        SaveStats();
-    }
-
-    public void LevelWon(int level)
-    {
-        // TODO move this to the LevelCompletionControl Class
-        Currency += CollectedCurrency;
-        TotalCurrency += CollectedCurrency;
-        CollectedCurrency = 0;
-
-        LevelDataContainer.LevelType levelCompletion = new LevelDataContainer.LevelType
-        {
-            LevelCompleted = true,
-            LevelUnlocked = true,
-            SecretPath1 = false,
-            SecretPath2 = false,
-            Achievement1 = false,
-            Achievement2 = false,
-            Achievement3 = false
-        };
-
-        LevelsCompleted++;
-        LevelData.SetCompleted(level, levelCompletion);
-        LevelData.UnlockLevels(level, levelCompletion);
         SaveStats();
     }
 

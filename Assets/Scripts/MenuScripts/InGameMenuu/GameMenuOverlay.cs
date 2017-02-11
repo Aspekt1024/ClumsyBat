@@ -80,7 +80,7 @@ public class GameMenuOverlay : MonoBehaviour {
 
     public void WinGame()
     {
-        string levelName = Toolbox.Instance.LevelNames[Toolbox.Instance.Level];
+        string levelName = Toolbox.Instance.LevelNames[GameData.Instance.Level];
         _menu.InGameMenu.LevelComplete(levelName);
     }
 

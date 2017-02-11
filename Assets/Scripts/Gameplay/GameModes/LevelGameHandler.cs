@@ -111,7 +111,7 @@ public class LevelGameHandler : GameHandler
 
     public bool VeryFirstStartupSequenceRequired()
     {
-        if (Toolbox.Instance.Level == 1
+        if (GameData.Instance.Level == LevelProgressionHandler.Levels.Main1
             && !Toolbox.Instance.TooltipCompleted(TooltipHandler.DialogueId.FirstJump)
             && Toolbox.Instance.ShowLevelTooltips)
         {

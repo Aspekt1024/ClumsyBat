@@ -94,7 +94,7 @@ public class Player : MonoBehaviour {
                 if (transform.position.x < ClumsyX)
                 {
                     _gameHandler.UpdateGameSpeed(0);
-                    transform.position += Vector3.right * 0.03f; // TODO maybe add velocity rather than change displacement
+                    transform.position += Vector3.right * 0.03f;
                 }
                 else if (!_bPaused)
                 {

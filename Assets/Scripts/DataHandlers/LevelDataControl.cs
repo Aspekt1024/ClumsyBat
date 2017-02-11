@@ -5,19 +5,23 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public class LevelDataControl : MonoBehaviour {
 
-    public const int NumLevels = 14;
+    private LevelDataContainer.LevelType[] _levelCompletion = new LevelDataContainer.LevelType[GameData.NumLevels];
+    private LevelProgressionHandler _levelProgresssionHandler;
 
-    private LevelDataContainer.LevelType[] LevelCompletion = new LevelDataContainer.LevelType[NumLevels];
-
+    private void Awake()
+    {
+        _levelProgresssionHandler = new LevelProgressionHandler(this);
+    }
+    
     public void Save()
     {
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Open(Application.persistentDataPath + "/CompletionData.dat", FileMode.OpenOrCreate);
 
-        LevelDataContainer GameData = new LevelDataContainer();
-        GameData.Data.LevelData = LevelCompletion;
+        LevelDataContainer gameData = new LevelDataContainer();
+        gameData.Data.LevelData = _levelCompletion;
 
-        bf.Serialize(file, GameData);
+        bf.Serialize(file, gameData);
         file.Close();
     }
     
@@ -26,10 +30,10 @@ public class LevelDataControl : MonoBehaviour {
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Open(Application.persistentDataPath + "/CompletionData.dat", FileMode.Create);
 
-        LevelDataContainer BlankGameData = new LevelDataContainer();
-        BlankGameData.Data.LevelData = new LevelDataContainer.LevelType[NumLevels];
+        LevelDataContainer blankGameData = new LevelDataContainer();
+        blankGameData.Data.LevelData = new LevelDataContainer.LevelType[GameData.NumLevels];
 
-        bf.Serialize(file, BlankGameData);
+        bf.Serialize(file, blankGameData);
         file.Close();
         Load();
         Debug.Log("Level Data Cleared");
@@ -37,7 +41,7 @@ public class LevelDataControl : MonoBehaviour {
 
     public void ClearLevelProgress()
     {
-        LevelCompletion = new LevelDataContainer.LevelType[NumLevels];
+        _levelCompletion = new LevelDataContainer.LevelType[GameData.NumLevels];
         Save();
     }
 
@@ -45,51 +49,42 @@ public class LevelDataControl : MonoBehaviour {
     {
         if (File.Exists(Application.persistentDataPath + "/CompletionData.dat"))
         {
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(Application.persistentDataPath + "/CompletionData.dat", FileMode.Open);
-            LevelDataContainer GameData = (LevelDataContainer)bf.Deserialize(file);
+            var bf = new BinaryFormatter();
+            var file = File.Open(Application.persistentDataPath + "/CompletionData.dat", FileMode.Open);
+            var gameData = (LevelDataContainer)bf.Deserialize(file);
             file.Close();
 
-            LevelCompletion = GameData.Data.LevelData;
+            _levelCompletion = gameData.Data.LevelData;
         }
     }
 
-    public void SetCompleted(int Level, LevelDataContainer.LevelType LevelData)
+    public void SetCompleted(LevelProgressionHandler.Levels levelId)
     {
-        LevelCompletion[Level-1].LevelCompleted |= LevelData.LevelCompleted;
-        LevelCompletion[Level-1].SecretPath1 |= LevelData.SecretPath1;
-        LevelCompletion[Level-1].SecretPath2 |= LevelData.SecretPath2;
-        LevelCompletion[Level-1].Achievement1 |= LevelData.Achievement1;
-        LevelCompletion[Level-1].Achievement2 |= LevelData.Achievement2;
-        LevelCompletion[Level-1].Achievement3 |= LevelData.Achievement3;
+        var level = (int)levelId;
+        var lvlCompletion = GameData.Instance.GetLevelCompletion();
+        _levelCompletion[level].LevelCompleted |= lvlCompletion.LevelCompleted;
+        _levelCompletion[level].SecretPath1 |= lvlCompletion.SecretPath1;
+        _levelCompletion[level].SecretPath2 |= lvlCompletion.SecretPath2;
+        _levelCompletion[level].Achievement1 |= lvlCompletion.Achievement1;
+        _levelCompletion[level].Achievement2 |= lvlCompletion.Achievement2;
+        _levelCompletion[level].Achievement3 |= lvlCompletion.Achievement3;
 
     }
 
-    public void UnlockLevels(int Level, LevelDataContainer.LevelType LevelData)
+    public void UnlockLevel(LevelProgressionHandler.Levels levelId)
     {
-        switch (Level)
+        var level = (int)levelId;
+        if (level < GameData.NumLevels)
         {
-            // TODO define which secret paths point where
-            case 3:
-                if (LevelData.SecretPath1)
-                {
-                    LevelCompletion[10-1].LevelUnlocked = true; 
-                }
-                break;
-        }
-
-        if (LevelData.LevelCompleted && Level < NumLevels)
-        {
-            LevelCompletion[Level].LevelUnlocked = true;
+            _levelCompletion[level].LevelUnlocked = true;
         }
     }
 
-    public bool IsUnlocked(int Level) { return LevelCompletion[Level-1].LevelUnlocked; }
-    public bool IsCompleted(int Level) { return LevelCompletion[Level-1].LevelCompleted; }
-    public bool SecretPath1Completed(int Level) { return LevelCompletion[Level-1].SecretPath1; }
-    public bool SecretPath2Completed(int Level) { return LevelCompletion[Level-1].SecretPath2; }
-    public bool AllMothsGathered(int Level) { return LevelCompletion[Level - 1].Achievement1; }
-    public int GetNumLevels() { return NumLevels; }
+    public bool IsUnlocked(int level) { return _levelCompletion[level].LevelUnlocked; }
+    public bool IsCompleted(int level) { return _levelCompletion[level].LevelCompleted; }
+    public bool SecretPath1Completed(int level) { return _levelCompletion[level].SecretPath1; }
+    public bool SecretPath2Completed(int level) { return _levelCompletion[level].SecretPath2; }
+    public bool AllMothsGathered(int level) { return _levelCompletion[level].Achievement1; }
 }
 
 [Serializable]

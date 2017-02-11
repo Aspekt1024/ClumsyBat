@@ -1,21 +1,28 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
-public class LevelButton : MonoBehaviour {
+public class LevelButton : MonoBehaviour
+{
+    public LevelProgressionHandler.Levels Level;
 
-    private Sprite AvailableImage;
-    private Sprite CompletedImage;
-    private Sprite AvailableClickedImage;
-    private Sprite CompletedClickedImage;
-    private Sprite UnavailableImage;
+    private Sprite _availableImage;
+    private Sprite _completedImage;
+    private Sprite _availableClickedImage;
+    private Sprite _completedClickedImage;
+    private Sprite _unavailableImage;
 
-    private Image LevelImage = null;
-    private RectTransform NamePanel = null;
-    private Text LevelName = null;
+    private Image _levelImage;
+    private RectTransform _namePanel;
+    private Text _levelName;
 
-    bool bAnimationReverse;
-    float ButtonAnimationTimer;
+    private bool _bAnimationReverse;
+    private float _buttonAnimationTimer;
+
+    private enum BtnState
+    {
+        Unclicked, Clicked, LoadLevel
+    }
+    private BtnState _state;
 
     public enum LevelStates
     {
@@ -24,111 +31,107 @@ public class LevelButton : MonoBehaviour {
         Enabled,
         Completed
     }
-    private LevelStates LevelState = LevelStates.Disabled;
+    private LevelStates _levelState = LevelStates.Disabled;
 
-    private int LevelNum;
-    private bool bClicked = false;
-
-    void Awake ()
+    private void Awake ()
     {
-        foreach (RectTransform RT in GetComponent<RectTransform>())
+        foreach (RectTransform rt in GetComponent<RectTransform>())
         {
-            if (RT.name == "NamePanel")
-            {
-                NamePanel = RT.GetComponent<RectTransform>();
-            }
+            if (rt.name == "NamePanel")
+                _namePanel = rt.GetComponent<RectTransform>();
         }
-        LevelName = NamePanel.GetComponentInChildren<Text>();
-        LevelImage = GetComponent<Image>();
-        LevelNum = int.Parse(name.Substring(2, name.Length - 2));
+        _levelName = _namePanel.GetComponentInChildren<Text>();
+        _levelImage = GetComponent<Image>();
         GetLevelImages();
     }
 
-	void Start ()
+	private void Start ()
     {
-        LevelName.text = Toolbox.Instance.LevelNames[LevelNum];
-        LevelName.enabled = false;
-        NamePanel.GetComponent<Image>().enabled = false;
+        _levelName.text = Toolbox.Instance.LevelNames[Level];
+        _levelName.enabled = false;
+        _namePanel.GetComponent<Image>().enabled = false;
+        _state = BtnState.Unclicked;
     }
 
-    void Update()
+    private void Update()
     {
-        if (!bClicked || (LevelState != LevelStates.Enabled && LevelState != LevelStates.Completed)) { return; }
-        ButtonAnimationTimer += Time.deltaTime;
+        // TODO decide if we want any animation for the buttons... else remove this function
+        if (_state != BtnState.Clicked || (_levelState != LevelStates.Enabled && _levelState != LevelStates.Completed)) { return; }
+        _buttonAnimationTimer += Time.deltaTime;
     }
 
     private void GetLevelImages()
     {
-        AvailableImage = Resources.Load<Sprite>("LevelButtons/Level" + LevelNum + "Available");
-        AvailableClickedImage = Resources.Load<Sprite>("LevelButtons/Level" + LevelNum + "AvailableClicked");
-        CompletedImage = Resources.Load<Sprite>("LevelButtons/Level" + LevelNum + "Completed");
-        CompletedClickedImage = Resources.Load<Sprite>("LevelButtons/Level" + LevelNum + "CompletedClicked");
-        UnavailableImage = Resources.Load<Sprite>("LevelButtons/LevelUnavailable");
+        _availableImage = Resources.Load<Sprite>("LevelButtons/" + Level + "Available");
+        _availableClickedImage = Resources.Load<Sprite>("LevelButtons/" + Level + "AvailableClicked");
+        _completedImage = Resources.Load<Sprite>("LevelButtons/" + Level + "Completed");
+        _completedClickedImage = Resources.Load<Sprite>("LevelButtons/" + Level + "CompletedClicked");
+        _unavailableImage = Resources.Load<Sprite>("LevelButtons/LevelUnavailable");
 
-        if (AvailableImage == null) { AvailableImage = Resources.Load<Sprite>("LevelButtons/LevelAvailableNotFound"); }
-        if (AvailableClickedImage == null) { AvailableClickedImage = AvailableImage; }
-        if (CompletedImage == null) { CompletedImage = Resources.Load<Sprite>("LevelButtons/LevelCompleteNotFound"); }
-        if (CompletedClickedImage == null) { CompletedClickedImage = CompletedImage; }
+        if (_availableImage == null) { _availableImage = Resources.Load<Sprite>("LevelButtons/LevelAvailableNotFound"); }
+        if (_availableClickedImage == null) { _availableClickedImage = _availableImage; }
+        if (_completedImage == null) { _completedImage = Resources.Load<Sprite>("LevelButtons/LevelCompleteNotFound"); }
+        if (_completedClickedImage == null) { _completedClickedImage = _completedImage; }
     }
 
-    public bool Clicked()
+    public void Click(LevelProgressionHandler.Levels levelId)
     {
-        if (LevelState == LevelStates.Disabled) { return false; }
-
-        bool bLoadLevel = false;
-        if (bClicked)
+        if (levelId == Level)
         {
-            bLoadLevel = true;
+            if (_state == BtnState.Unclicked)
+            {
+                _namePanel.GetComponent<Image>().enabled = true;
+                _levelName.enabled = true;
+                SetLevelImage();
+                _state = BtnState.Clicked;
+            }
+            else if (_state == BtnState.Clicked)
+            {
+                _state = BtnState.LoadLevel;
+            }
         }
         else
         {
-            NamePanel.GetComponent<Image>().enabled = true;
-            LevelName.enabled = true;
-            bClicked = true;
+            _levelName.enabled = false;
+            _namePanel.GetComponent<Image>().enabled = false;
             SetLevelImage();
+            _state = BtnState.Unclicked;
         }
-        return bLoadLevel;
     }
 
-    public void Unclick()
+    public bool IsDoubleClicked(LevelProgressionHandler.Levels levelId)
     {
-        bClicked = false;
-        LevelName.enabled = false;
-        NamePanel.GetComponent<Image>().enabled = false;
-        SetLevelImage();
+        if (levelId != Level) return false;
+        return _state == BtnState.LoadLevel;
     }
+    
 
     public bool LevelAvailable()
     {
-        bool Available = false;
-        if (LevelState == LevelStates.Completed || LevelState == LevelStates.Enabled)
-        {
-            Available = true;
-        }
-        return Available;
+        return _levelState == LevelStates.Completed || _levelState == LevelStates.Enabled;
     }
 
-    public void SetLevelState(LevelStates State)
+    public void SetLevelState(LevelStates state)
     {
-        LevelState = State;
+        _levelState = state;
         SetLevelImage();
     }
 
     private void SetLevelImage()
     {
-        switch (LevelState)
+        switch (_levelState)
         {
             case LevelStates.Hidden:
                 gameObject.SetActive(false);
                 break;
             case LevelStates.Disabled:
-                LevelImage.sprite = UnavailableImage;
+                _levelImage.sprite = _unavailableImage;
                 break;
             case LevelStates.Enabled:
-                LevelImage.sprite = bClicked ? AvailableClickedImage : AvailableImage;
+                _levelImage.sprite = _state == BtnState.Clicked ? _availableClickedImage : _availableImage;
                 break;
             case LevelStates.Completed:
-                LevelImage.sprite = bClicked ? CompletedClickedImage : CompletedImage;
+                _levelImage.sprite = _state == BtnState.Clicked ? _completedClickedImage : _completedImage;
                 break;
         }
     }
@@ -137,31 +140,31 @@ public class LevelButton : MonoBehaviour {
     {
         // No longer in use but kept for reference.
         // If this is still out of use in Feb 2016, delete it.
-        const float IntensityDepth = 0.9f;
-        const float ButtonAnimationDuration = 1f;
-        if (ButtonAnimationTimer > ButtonAnimationDuration)
+        const float intensityDepth = 0.9f;
+        const float buttonAnimationDuration = 1f;
+        if (_buttonAnimationTimer > buttonAnimationDuration)
         {
-            ButtonAnimationTimer -= ButtonAnimationDuration;
-            bAnimationReverse = !bAnimationReverse;
+            _buttonAnimationTimer -= buttonAnimationDuration;
+            _bAnimationReverse = !_bAnimationReverse;
         }
 
-        float Intensity = IntensityDepth * (ButtonAnimationTimer / ButtonAnimationDuration);
-        if (bAnimationReverse)
+        float intensity = intensityDepth * (_buttonAnimationTimer / buttonAnimationDuration);
+        if (_bAnimationReverse)
         {
-            Intensity += (1 - IntensityDepth) + Intensity;
+            intensity += (1 - intensityDepth) + intensity;
         }
         else
         {
-            Intensity = 1 - Intensity;
+            intensity = 1 - intensity;
         }
 
-        switch (LevelState)
+        switch (_levelState)
         {
             case LevelStates.Completed:
-                LevelImage.color = new Color(1f, 1f, Intensity);
+                _levelImage.color = new Color(1f, 1f, intensity);
                 break;
             case LevelStates.Enabled:
-                LevelImage.color = new Color(1f, 1f, Intensity);
+                _levelImage.color = new Color(1f, 1f, intensity);
                 break;
         }
     }

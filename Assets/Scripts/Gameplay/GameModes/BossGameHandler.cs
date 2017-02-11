@@ -16,7 +16,7 @@ public class BossGameHandler : GameHandler {
 
     private void Start()
     {
-        Toolbox.Instance.Level = (int)Toolbox.LevelPrefix.BossPrefix + BossLevelNum;
+        GameData.Instance.Level = LevelProgressionHandler.Levels.Boss1;
         _loadScreen = FindObjectOfType<LoadScreen>();
         _gameHud = FindObjectOfType<GameUI>();
         _gameMenu = FindObjectOfType<GameMenuOverlay>();

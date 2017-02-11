@@ -1,38 +1,37 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class LoadScreen : MonoBehaviour {
 
-    private Animator MothAnimator = null;
-    CanvasGroup LoadingCanvas = null;
+    private Animator _mothAnimator;
+    CanvasGroup _loadingCanvas;
 
     public bool LoadOnStartup;
 
-    void Awake()
+    private void Awake()
     {
-        MothAnimator = GameObject.Find("LoadingMoth").GetComponent<Animator>();
-        MothAnimator.Play("MothFlapAnim", 0, 0f);
-        LoadingCanvas = GetComponent<CanvasGroup>();
+        _mothAnimator = GameObject.Find("LoadingMoth").GetComponent<Animator>();
+        _mothAnimator.Play("MothFlapAnim", 0, 0f);
+        _loadingCanvas = GetComponent<CanvasGroup>();
 
         if (LoadOnStartup)
         {
-            LoadingCanvas.alpha = 1f;
-            LoadingCanvas.blocksRaycasts = true;
-            LoadingCanvas.interactable = true;
+            _loadingCanvas.alpha = 1f;
+            _loadingCanvas.blocksRaycasts = true;
+            _loadingCanvas.interactable = true;
         }
     }
 
     public void ShowLoadScreen()
     {
-        LoadingCanvas.alpha = 1f;
-        LoadingCanvas.blocksRaycasts = true;
-        LoadingCanvas.interactable = true;
+        _loadingCanvas.alpha = 1f;
+        _loadingCanvas.blocksRaycasts = true;
+        _loadingCanvas.interactable = true;
     }
 
     public void HideLoadScreen()
     {
-        LoadingCanvas.alpha = 0f;
-        LoadingCanvas.blocksRaycasts = false;
-        LoadingCanvas.interactable = false;
+        _loadingCanvas.alpha = 0f;
+        _loadingCanvas.blocksRaycasts = false;
+        _loadingCanvas.interactable = false;
     }
 }

@@ -13,7 +13,7 @@ public class LevelEditorActions : MonoBehaviour
     public LevelContainer Level;
 
     private GameObject _levelObj;
-    public int LevelNum;
+    public LevelProgressionHandler.Levels LevelId;
     public bool DebugMode;
 
     private readonly StalactiteEditor _stalEditControl = new StalactiteEditor();
@@ -27,7 +27,7 @@ public class LevelEditorActions : MonoBehaviour
     private Transform _triggerParent;
     private Transform _npcParent;
     private int _numSections;
-    private int _loadedLevelNum;
+    private LevelProgressionHandler.Levels _loadedLevelNum;
 
     private float _tileSizeX;
     private float _caveZ;
@@ -42,7 +42,7 @@ public class LevelEditorActions : MonoBehaviour
     private void Awake()
     {
         Toolbox.Instance.Debug = DebugMode;
-        if (LevelNum == 0)
+        if (LevelId == 0)
         {
             Debug.Log("No Level Set!!!!");
         }
@@ -211,7 +211,7 @@ public class LevelEditorActions : MonoBehaviour
         StoreTriggers();
         StoreNpcs();
 
-        string levelName = "Level" + LevelNum + ".xml";
+        string levelName = LevelId + ".xml";
         const string pathName = "Assets/Resources/LevelXML";
         Level.Save(Path.Combine(pathName, levelName));
         Debug.Log("Level data saved to " + pathName + "/" + levelName);
@@ -219,26 +219,26 @@ public class LevelEditorActions : MonoBehaviour
 
     public void TestButton()
     {
-        Toolbox.Instance.Level = LevelNum;
+        GameData.Instance.Level = LevelId;
         Toolbox.Instance.Debug = DebugMode;
         SceneManager.LoadScene("Levels");
     }
 
     public void LevelUp()
     {
-        LevelNum++;
+        LevelId++;
         SetLevelNum();
     }
 
     public void LevelDown()
     {
-        LevelNum--;
+        LevelId--;
         SetLevelNum();
     }
 
     private void SetLevelNum()
     {
-        GameObject.Find("LevelNumText").GetComponent<Text>().text = "Level: " + LevelNum.ToString();
+        GameObject.Find("LevelNumText").GetComponent<Text>().text = "Level: " + LevelId.ToString();
     }
 
     private void InitialiseCaveList()
@@ -484,10 +484,10 @@ public class LevelEditorActions : MonoBehaviour
         foreach (Transform npc in _npcParent)
         {
             int index = Mathf.RoundToInt(npc.position.x / _tileSizeX);
-            NPCPool.NpcType newNPC = Level.Caves[index].Npcs[npcNum[index]];
-            newNPC.SpawnTransform = ProduceSpawnTf(npc, index);
-            newNPC.Type = npc.GetComponent<NPC>().Type;
-            Level.Caves[index].Npcs[npcNum[index]] = newNPC;
+            NPCPool.NpcType newNpc = Level.Caves[index].Npcs[npcNum[index]];
+            newNpc.SpawnTransform = ProduceSpawnTf(npc, index);
+            newNpc.Type = npc.GetComponent<NPC>().Type;
+            Level.Caves[index].Npcs[npcNum[index]] = newNpc;
             npcNum[index]++;
         }
     }
@@ -505,12 +505,12 @@ public class LevelEditorActions : MonoBehaviour
 
     public void LoadBtn()
     {
-        if (LevelNum == 0) { return; }
-        TextAsset levelTxt = (TextAsset)Resources.Load("LevelXML/Level" + LevelNum);
+        if (LevelId == 0) { return; }
+        TextAsset levelTxt = (TextAsset)Resources.Load("LevelXML/" + LevelId);
         Level = LevelContainer.LoadFromText(levelTxt.text);
         ClearLevelObjects();
         SetLevelObjects();
-        _loadedLevelNum = LevelNum;
+        _loadedLevelNum = LevelId;
     }
 
     private void ClearLevelObjects()

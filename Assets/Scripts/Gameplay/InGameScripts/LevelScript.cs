@@ -2,7 +2,7 @@
 
 public class LevelScript : MonoBehaviour {
 
-    public int DefaultLevel = 1;
+    public LevelProgressionHandler.Levels DefaultLevel = LevelProgressionHandler.Levels.Main1;
     
     public ParralaxBG Background;
     public GameMenuOverlay GameMenu;
@@ -62,15 +62,15 @@ public class LevelScript : MonoBehaviour {
 
     private void SetLevel()
     {
-        int level = Toolbox.Instance.Level;
-        if (level == 0)
+        var level = GameData.Instance.Level;
+        if (level == LevelProgressionHandler.Levels.Unassigned)
         {
-            Toolbox.Instance.Level = DefaultLevel;
+            GameData.Instance.Level = DefaultLevel;
             level = DefaultLevel;
         }
         GameHud.SetLevelText(level);
-        Toolbox.Instance.ShowLevelTooltips = (!Stats.LevelData.IsCompleted(level));
-        _levelObjects.SetMode(bIsEndless: level == -1);
+        Toolbox.Instance.ShowLevelTooltips = (!Stats.LevelData.IsCompleted((int)level));
+        _levelObjects.SetMode(bIsEndless: level == LevelProgressionHandler.Levels.Endless);
     }
 
     private void CreateGameObjects()
@@ -145,8 +145,7 @@ public class LevelScript : MonoBehaviour {
     {
         GameHud.LevelWon();
         GameMenu.WinGame();
-        Stats.LevelWon(Toolbox.Instance.Level);
-        Stats.SaveStats();
+        EventListener.LevelWon();
         GameObject.Find("Clumsy").GetComponent<PlayerController>().PauseGame(showMenu: false); // TODO refer clumsy in awake
 
         // TODO add sound to sound controller script

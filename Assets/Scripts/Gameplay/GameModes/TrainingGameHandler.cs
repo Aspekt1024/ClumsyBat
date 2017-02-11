@@ -14,7 +14,7 @@ public class TrainingGameHandler : GameHandler
 
     private void Start()
     {
-        Toolbox.Instance.Level = (int) Toolbox.LevelPrefix.TrainingPrefix + TrainingLevelNum;
+        GameData.Instance.Level = LevelProgressionHandler.Levels.Training1;
         _loadScreen = FindObjectOfType<LoadScreen>();
         _gameHud = FindObjectOfType<GameUI>();
         _gameMenu = FindObjectOfType<GameMenuOverlay>();

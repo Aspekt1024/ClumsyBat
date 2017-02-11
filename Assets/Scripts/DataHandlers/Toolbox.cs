@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 
+using Levels = LevelProgressionHandler.Levels;
+
 public class Toolbox : Singleton<Toolbox>
 {
     protected Toolbox() { } // guarantee this will be always a singleton only - can't use the constructor!
@@ -11,7 +13,6 @@ public class Toolbox : Singleton<Toolbox>
     public Vector3 HoldingArea { get; set; }
     public float LevelSpeed { get; set; }
     public float GravityScale { get; set; }
-    public int Level { get; set; }
     public const float TileSizeX = 19.2f;
     public const float PlayerStartX = -5.5f;
     public bool Debug;
@@ -20,7 +21,7 @@ public class Toolbox : Singleton<Toolbox>
 
     public bool[] TooltipCompletion = new bool[Enum.GetNames(typeof(TooltipHandler.DialogueId)).Length];
     public Dictionary<string, float> ZLayers = new Dictionary<string, float>();
-    public Dictionary<int, string> LevelNames = new Dictionary<int, string>();
+    public Dictionary<Levels, string> LevelNames = new Dictionary<Levels, string>();
 
     public enum MenuSelector
     {
@@ -28,13 +29,6 @@ public class Toolbox : Singleton<Toolbox>
         MainMenu
     }
     public MenuSelector MenuScreen { get; set; }
-
-    public enum LevelPrefix
-    {
-        LevelPrefix = 0,
-        BossPrefix = 1000,
-        TrainingPrefix = 2000
-    }
 
     public const int CaveStartIndex = 1000;
     public const int CaveEndIndex = 1001;
@@ -74,32 +68,28 @@ public class Toolbox : Singleton<Toolbox>
         ZLayers.Add("Spider", 6f);
         ZLayers.Add("Web", 7f);
         ZLayers.Add("Background", 20f);
-        ZLayers.Add("NearBackground", 0f);      // Child of Background (20)
-        ZLayers.Add("MidBackground", 1f);       // Child of Background (20)
-        ZLayers.Add("FarBackground", 2f);       // Child of Background (20)
     }
 
     private void SetupLevelNames()
     {
-        LevelNames.Add(1, "Darkness");
-        LevelNames.Add(2, "Impasse");
-        LevelNames.Add(3, "Blind Hope");
-        LevelNames.Add(4, "Shayla");
-        LevelNames.Add(5, "Promise");
-        LevelNames.Add(6, "Courage");
-        LevelNames.Add(7, "Echo");
-        LevelNames.Add(8, "Location");
-        LevelNames.Add(9, "9ine");
-        LevelNames.Add(10, "Tenpin");
-        LevelNames.Add(11, "Elfen");
-        LevelNames.Add(12, "Oceans");
-        LevelNames.Add(13, "Luck");
-        LevelNames.Add(14, "Spaceship");
-        LevelNames.Add(15, "Hit");
+        LevelNames.Add(Levels.Main1, "Darkness");
+        LevelNames.Add(Levels.Main2, "Impasse");
+        LevelNames.Add(Levels.Main3, "Blind Hope");
+        LevelNames.Add(Levels.Main4, "Shayla");
+        LevelNames.Add(Levels.Main5, "Promise");
+        LevelNames.Add(Levels.Main6, "Courage");
+        LevelNames.Add(Levels.Main7, "Echo");
+        LevelNames.Add(Levels.Main8, "Location");
+        LevelNames.Add(Levels.Main9, "9ine");
+        LevelNames.Add(Levels.Main10, "Tenpin");
+        LevelNames.Add(Levels.Main11, "Elfen");
+        LevelNames.Add(Levels.Main12, "Oceans");
+        LevelNames.Add(Levels.Main13, "Luck");
+        LevelNames.Add(Levels.Main14, "Spaceship");
+        LevelNames.Add(Levels.Main15, "Hit");
 
-        LevelNames.Add((int)LevelPrefix.BossPrefix + 1, "Evil Clumsy");
-
-        LevelNames.Add((int)LevelPrefix.TrainingPrefix + 1, "Rocky");
+        LevelNames.Add(Levels.Boss1, "Evil Clumsy");
+        LevelNames.Add(Levels.Training1, "Rocky");
     }
 
     // The below functions relate to session level tooltips

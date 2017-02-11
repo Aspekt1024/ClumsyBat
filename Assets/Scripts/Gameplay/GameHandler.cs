@@ -63,5 +63,4 @@ public abstract class GameHandler : MonoBehaviour {
     {
         return GameState;
     }
-
 }

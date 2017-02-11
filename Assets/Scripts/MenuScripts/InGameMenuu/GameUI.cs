@@ -152,16 +152,17 @@ public class GameUI : MonoBehaviour {
         _resumeTimerText.text = startText;
     }
 
-    public void SetLevelText(int level)
+    public void SetLevelText(LevelProgressionHandler.Levels levelId)
     {
-        // Note: this must be called by the LevelScript once the level has been set in the Toolbox
+        // Note: this must be called by the LevelScript once the level has been set in GameData
+        var level = (int) levelId;
         if (level == -1)
         {
             _levelText.text = "Level: Endless";
         }
         else
         {
-            _levelText.text = "Level: " + Toolbox.Instance.LevelNames[level];
+            _levelText.text = "Level: " + Toolbox.Instance.LevelNames[levelId];
         }
     }
 
