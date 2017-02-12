@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
     {
         if (State != GameState.Normal || !ThePlayer.IsAlive()) { return; }
 
-        if (!_bTouchHeld && ThePlayer.IsPerched())
+        if (!_bTouchHeld && (ThePlayer.IsPerchedOnTop() || ThePlayer.TouchReleasedOnBottom()))
         {
             ThePlayer.ActivateJump();
             _inputManager.ClearInput();

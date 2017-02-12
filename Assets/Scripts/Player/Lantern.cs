@@ -26,7 +26,7 @@ public class Lantern : MonoBehaviour {
     private Vector2 _storedVelocity;
     private Vector2 _lightScale;     // Flicker and change colour will be centered around the initial scale
 
-    void Start ()
+    private void Start ()
     {
         _lanternHinge = GetComponent<HingeJoint2D>();
         _lanternBody = GetComponent<Rigidbody2D>();
@@ -116,6 +116,7 @@ public class Lantern : MonoBehaviour {
         if (_paused)
         {
             _storedVelocity = _lanternBody.velocity;
+            _lanternBody.angularVelocity = 0f;
             _lanternBody.velocity = Vector2.zero;
             _lanternBody.isKinematic = true;
         }

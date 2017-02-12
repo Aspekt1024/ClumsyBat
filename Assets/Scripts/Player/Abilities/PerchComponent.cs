@@ -10,8 +10,10 @@ public class PerchComponent : MonoBehaviour
     private Transform _lantern;
     private Rigidbody2D _lanternBody;
 
-    private const float PerchSwitchTime = 0.15f;    // This is to avoid double taps and double collisions
-    private float _timeSincePerchSwitch;
+    public bool bJumpOnTouchRelease;
+
+    private const float PerchSwitchTime = 0.15f;    // Once unperched, can't perch immediately
+    private float _timeSinceUnperch;
 
     private enum PerchState
     {
@@ -31,28 +33,39 @@ public class PerchComponent : MonoBehaviour
         _lantern = _player.Lantern.transform;
         _lanternBody = _lantern.GetComponent<Rigidbody2D>();
     }
-	
-	private void Update ()
-	{
-	    _timeSincePerchSwitch += Time.deltaTime;
-	}
 
-    public void Perch(string objName)
+    private void Update()
     {
-        if (!PerchSwitchPossible()) return;
-        _body.velocity = Vector2.zero;
-        if (objName.Contains("Top"))
+        _timeSinceUnperch += Time.deltaTime;
+    }
+
+    public void Perch(string objName, bool touchHeld)
+    {
+        if (!PerchPossible()) return;
+        
+        if (objName.Contains("Top") && touchHeld)
         {
             _state = PerchState.PerchedTop;
         }
         else if (objName.Contains("Bottom") || _player.transform.position.y < 0f)
         {
+            if (touchHeld)
+            {
+                bJumpOnTouchRelease = true;
+            }
             _state = PerchState.PerchedBottom;
         }
-        else
+        else if (touchHeld)
         {
             _state = PerchState.PerchedTop;
         }
+        else
+        {
+            return;
+        }
+
+        _player.SwitchPerchState();
+        _body.velocity = Vector2.zero;
         _body.isKinematic = true;
         _gameHandler.UpdateGameSpeed(0f);
 
@@ -70,44 +83,37 @@ public class PerchComponent : MonoBehaviour
 
     public void Unperch()
     {
-        if (!PerchSwitchPossible()) return;
+        if (_state == PerchState.Unperched) return;
+        _timeSinceUnperch = 0f;
+        bJumpOnTouchRelease = false;
         _player.GetComponent<Rigidbody2D>().isKinematic = false;
 
         if (_state == PerchState.PerchedTop)
         {
             _state = PerchState.Unperched;
             FlipPlayer();
+            _player.SwitchPerchState();
         }
         else
         {
             _state = PerchState.Unperched;
             _player.transform.position += Vector3.up * 0.2f;
+            _player.SwitchPerchState();
             _player.UnperchBottom();
         }
 
         _gameHandler.UpdateGameSpeed(1);
     }
 
-    private bool PerchSwitchPossible()
+    private bool PerchPossible()
     {
-        if (_timeSincePerchSwitch < PerchSwitchTime) return false;
-        _timeSincePerchSwitch = 0f;
-        _player.SwitchPerchState();
-        return true;
+        return !(_timeSinceUnperch < PerchSwitchTime);
     }
 
     private void FlipPlayer()
     {
-        if (_state == PerchState.Unperched)
-        {
-            StartCoroutine("MoveLantern", true);
-        }
-        else
-        {
-            StartCoroutine("MoveLantern", false);
-        }
+        StartCoroutine("MoveLantern", _state == PerchState.Unperched);
         _player.transform.localScale = new Vector3(_player.transform.localScale.x, -_player.transform.localScale.y, 1f);
-
     }
 
     private IEnumerator MoveLantern(bool bToPlayer)
@@ -139,4 +145,7 @@ public class PerchComponent : MonoBehaviour
             yield return null;
         }
     }
+
+    public bool IsPerchedOnTop() { return _state == PerchState.PerchedTop; }
+    public bool IsPerchedOnBottom() { return _state == PerchState.PerchedBottom; }
 }

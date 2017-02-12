@@ -134,18 +134,24 @@ public class Player : MonoBehaviour {
         CircleCollider2D clumsyCollider = GetComponent<CircleCollider2D>();
         clumsyCollider.enabled = false;
         _playerRigidBody.isKinematic = true;
+        _state = PlayerState.EndOfLevel;
         StartCoroutine("CaveExitAnimation");
     }
 
     private IEnumerator CaveExitAnimation()
     {
-        _state = PlayerState.EndOfLevel;
+        float animTimer = 0f;
+        const float animDuration = 0.9f;
         Vector2 targetExitPoint = new Vector2(Toolbox.TileSizeX / 2f, 0f);
-        while (transform.position.x < targetExitPoint.x)
+        Vector2 originalPos = transform.position;
+
+        while (animTimer < animDuration)
         {
-            float xShift = Time.deltaTime * _playerSpeed * Toolbox.Instance.LevelSpeed * 2f; // TODO the *2f was added because I couldn't figure out why Clumsy's speed was ~halved in this animation
-            float yShift = (targetExitPoint.y - transform.position.y) / (4 * Toolbox.Instance.LevelSpeed);
-            transform.position += new Vector3(xShift, yShift, 0f);
+            animTimer += Time.deltaTime;
+            float animRatio = animTimer / animDuration;
+            float xPos = originalPos.x - (originalPos.x - targetExitPoint.x) * animRatio;
+            float yPos = originalPos.y - (originalPos.y - targetExitPoint.y) * Mathf.Sqrt(animRatio);
+            transform.position = new Vector3(xPos, yPos, transform.position.z);
             yield return null;
         }
         transform.position = _playerHoldingArea;
@@ -247,10 +253,7 @@ public class Player : MonoBehaviour {
         if (other.gameObject.name.Contains("Cave") || other.gameObject.name.Contains("Entrance") || other.gameObject.name.Contains("Exit"))
         {
             if(_shield.IsInUse() || _playerController.InputPaused()) { return; }
-            if (_playerController.TouchHeld())
-                _perch.Perch(other.gameObject.name);
-            else
-                BounceIfBottomCave(other.gameObject.name);
+            _perch.Perch(other.gameObject.name, _playerController.TouchHeld());
         }
         else
         {
@@ -360,6 +363,8 @@ public class Player : MonoBehaviour {
     public float GetPlayerSpeed() { return _playerSpeed; }
     public bool AtCaveEnd() { return _bCaveEndReached; }
     public bool IsPerched() { return _state == PlayerState.Perched; }
+    public bool IsPerchedOnTop() { return _perch.IsPerchedOnTop(); }
+    public bool TouchReleasedOnBottom() { return _perch.bJumpOnTouchRelease && _perch.IsPerchedOnBottom(); }
     public bool CanRush() { return _rush.AbilityAvailable(); }
     public GameHandler GetGameHandler() { return _gameHandler; }
     public void SwitchPerchState() { _state = _state == PlayerState.Perched ? PlayerState.Normal : PlayerState.Perched; }

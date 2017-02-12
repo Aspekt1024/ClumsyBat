@@ -15,7 +15,7 @@
         <TriggerType>
           <SpawnTransform>
             <Pos>
-              <x>-0.31</x>
+              <x>-2.09</x>
               <y>1.63</y>
             </Pos>
             <Scale>
@@ -42,19 +42,6 @@
       <Npcs />
     </Cave>
     <Cave>
-      <TopIndex>2</TopIndex>
-      <BottomIndex>1</BottomIndex>
-      <bTopSecretPath>false</bTopSecretPath>
-      <bBottomSecretPath>false</bBottomSecretPath>
-      <Shrooms />
-      <Stals />
-      <Moths />
-      <Spiders />
-      <Webs />
-      <Triggers />
-      <Npcs />
-    </Cave>
-    <Cave>
       <TopIndex>0</TopIndex>
       <BottomIndex>0</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
@@ -65,7 +52,7 @@
         <MothType>
           <SpawnTransform>
             <Pos>
-              <x>-0.550003052</x>
+              <x>1.23999977</x>
               <y>1.07</y>
             </Pos>
             <Scale>
@@ -87,10 +74,51 @@
           <Colour>Green</Colour>
           <PathType>Infinity</PathType>
         </MothType>
+      </Moths>
+      <Spiders />
+      <Webs />
+      <Triggers>
+        <TriggerType>
+          <SpawnTransform>
+            <Pos>
+              <x>-5.02000046</x>
+              <y>0.659869552</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>11.1625166</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <EventType>Dialogue</EventType>
+          <EventId>FirstMoth</EventId>
+          <PausesGame>false</PausesGame>
+        </TriggerType>
+      </Triggers>
+      <Npcs />
+    </Cave>
+    <Cave>
+      <TopIndex>1001</TopIndex>
+      <BottomIndex>1001</BottomIndex>
+      <bTopSecretPath>false</bTopSecretPath>
+      <bBottomSecretPath>false</bBottomSecretPath>
+      <Shrooms />
+      <Stals />
+      <Moths>
         <MothType>
           <SpawnTransform>
             <Pos>
-              <x>9.149998</x>
+              <x>-8.260002</x>
               <y>1.44</y>
             </Pos>
             <Scale>
@@ -115,73 +143,8 @@
       </Moths>
       <Spiders />
       <Webs />
-      <Triggers>
-        <TriggerType>
-          <SpawnTransform>
-            <Pos>
-              <x>-4.550003</x>
-              <y>0.659869552</y>
-            </Pos>
-            <Scale>
-              <x>1</x>
-              <y>11.1625166</y>
-            </Scale>
-            <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
-              <w>1</w>
-              <eulerAngles>
-                <x>0</x>
-                <y>0</y>
-                <z>0</z>
-              </eulerAngles>
-            </Rotation>
-          </SpawnTransform>
-          <EventType>Dialogue</EventType>
-          <EventId>FirstDeath</EventId>
-          <PausesGame>false</PausesGame>
-        </TriggerType>
-      </Triggers>
-      <Npcs />
-    </Cave>
-    <Cave>
-      <TopIndex>1002</TopIndex>
-      <BottomIndex>1002</BottomIndex>
-      <bTopSecretPath>false</bTopSecretPath>
-      <bBottomSecretPath>false</bBottomSecretPath>
-      <Shrooms />
-      <Stals />
-      <Moths />
-      <Spiders />
-      <Webs />
       <Triggers />
-      <Npcs>
-        <NpcType>
-          <SpawnTransform>
-            <Pos>
-              <x>3.92999649</x>
-              <y>-3.96</y>
-            </Pos>
-            <Scale>
-              <x>-1</x>
-              <y>1</y>
-            </Scale>
-            <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
-              <w>1</w>
-              <eulerAngles>
-                <x>0</x>
-                <y>0</y>
-                <z>0</z>
-              </eulerAngles>
-            </Rotation>
-          </SpawnTransform>
-          <Type>Nomee</Type>
-        </NpcType>
-      </Npcs>
+      <Npcs />
     </Cave>
   </CaveList>
   <Clumsy>
