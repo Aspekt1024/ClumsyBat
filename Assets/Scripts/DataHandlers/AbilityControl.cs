@@ -5,43 +5,31 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public class AbilityControl : MonoBehaviour {
 
-    private AbilityContainer.AbilityDataType Abilities = new AbilityContainer.AbilityDataType();
-
-    void Start ()
-    {
-	
-	}
-	
-
-	void Update ()
-    {
-	
-	}
+    private AbilityContainer.AbilityDataType _abilities;
 
     public void Load()
     {
         if (File.Exists(Application.persistentDataPath + "/AbilityData.dat"))
         {
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream file;
-            file = File.Open(Application.persistentDataPath + "/AbilityData.dat", FileMode.Open);
+            var bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "/AbilityData.dat", FileMode.Open);
 
-            AbilityContainer AbilityData;
+            AbilityContainer abilityData;
             try
             {
-                AbilityData = (AbilityContainer)bf.Deserialize(file);
+                abilityData = (AbilityContainer)bf.Deserialize(file);
             }
             catch
             {
-                AbilityData = new AbilityContainer();
+                abilityData = new AbilityContainer();
                 Debug.Log("Unable to load existing ability data set");
             }
             file.Close();
 
-            Abilities = AbilityData.Data;
+            _abilities = abilityData.Data;
         }
 
-        if (!Abilities.AbilitiesCreated)
+        if (!_abilities.AbilitiesCreated)
         {
             InitialiseAbilities();
         }
@@ -49,61 +37,60 @@ public class AbilityControl : MonoBehaviour {
 
     private void InitialiseAbilities()
     {
-        Abilities.Rush = NewAbility();
-        Abilities.Hypersonic = NewAbility();
-        Abilities.LanternDurationLevel = NewAbility();
-        Abilities.AbilitiesCreated = true;
+        _abilities.Rush = NewAbility();
+        _abilities.Hypersonic = NewAbility();
+        _abilities.LanternDurationLevel = NewAbility();
+        _abilities.AbilitiesCreated = true;
         Save();
         Debug.Log("New abilitity data set saved");
     }
 
-    private AbilityContainer.AbilityType NewAbility()
+    private static AbilityContainer.AbilityType NewAbility()
     {
-        AbilityContainer.AbilityType Ability = new AbilityContainer.AbilityType();
-        Ability.AbilityLevel = 1;
-        Ability.AbilityEvolution = 1;
-        Ability.AbilityAvailable = false;
-        Ability.AbilityUnlocked = false;
-        Ability.UpgradeAvailable = false;
-        return Ability;
+        var ability = new AbilityContainer.AbilityType
+        {
+            AbilityLevel = 1,
+            AbilityEvolution = 1,
+            AbilityAvailable = false,
+            AbilityUnlocked = false,
+            UpgradeAvailable = false
+        };
+        return ability;
     }
 
     public void Save()
     {
-        BinaryFormatter bf = new BinaryFormatter();
-        FileStream file;
+        var bf = new BinaryFormatter();
 
-        file = File.Open(Application.persistentDataPath + "/AbilityData.dat", FileMode.OpenOrCreate);
+        FileStream file = File.Open(Application.persistentDataPath + "/AbilityData.dat", FileMode.OpenOrCreate);
 
-        AbilityContainer AbilityData = new AbilityContainer();
-        AbilityData.Data = Abilities;
+        AbilityContainer abilityData = new AbilityContainer { Data = _abilities };
 
-        bf.Serialize(file, AbilityData);
+        bf.Serialize(file, abilityData);
         file.Close();
     }
 
     public void ClearAbilityData()
     {
-        BinaryFormatter bf = new BinaryFormatter();
+        var bf = new BinaryFormatter();
         FileStream file = File.Open(Application.persistentDataPath + "/AbilityData.dat", FileMode.Create);
 
-        AbilityContainer BlankAbilityData = new AbilityContainer();
-        BlankAbilityData.Data = new AbilityContainer.AbilityDataType();
+        var blankAbilityData = new AbilityContainer { Data = new AbilityContainer.AbilityDataType() };
 
-        bf.Serialize(file, BlankAbilityData);
+        bf.Serialize(file, blankAbilityData);
         file.Close();
         Load();
         Debug.Log("Ability Data Cleared");
     }
 
-    public AbilityContainer.AbilityType GetRushStats() { return Abilities.Rush; }
-    public void SaveRushStats(AbilityContainer.AbilityType Rush) { Abilities.Rush = Rush; }
+    public AbilityContainer.AbilityType GetRushStats() { return _abilities.Rush; }
+    public void SaveRushStats(AbilityContainer.AbilityType rush) { _abilities.Rush = rush; }
 
-    public AbilityContainer.AbilityType GetHypersonicStats() { return Abilities.Hypersonic; }
-    public void SaveHypersonicStats(AbilityContainer.AbilityType HyperSonic) { Abilities.Hypersonic = HyperSonic; }
+    public AbilityContainer.AbilityType GetHypersonicStats() { return _abilities.Hypersonic; }
+    public void SaveHypersonicStats(AbilityContainer.AbilityType hyperSonic) { _abilities.Hypersonic = hyperSonic; }
 
-    public AbilityContainer.AbilityType GetLanternDurationStats() { return Abilities.LanternDurationLevel; }
-    public void SaveLanternDurationStats(AbilityContainer.AbilityType LanternDurationLevel) { Abilities.LanternDurationLevel = LanternDurationLevel; }
+    public AbilityContainer.AbilityType GetLanternDurationStats() { return _abilities.LanternDurationLevel; }
+    public void SaveLanternDurationStats(AbilityContainer.AbilityType lanternDurationLevel) { _abilities.LanternDurationLevel = lanternDurationLevel; }
 }
 
 [Serializable]

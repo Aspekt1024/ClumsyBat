@@ -42,7 +42,7 @@ public static class LevelProgressionHandler
                 secretLevel = Levels.AltA1;
                 break;
             default:
-                Debug.Log("Warning: Secret path not set for level " + level);
+                Debug.Log("Warning: Secret path 1 not set for level " + level);
                 secretLevel = level;
                 break;
         }
@@ -58,7 +58,7 @@ public static class LevelProgressionHandler
                 secretLevel = Levels.AltB1;
                 break;
             default:
-                Debug.Log("Warning: Secret path not set for level " + level);
+                Debug.Log("Warning: Secret path 2 not set for level " + level);
                 secretLevel = level;
                 break;
         }
