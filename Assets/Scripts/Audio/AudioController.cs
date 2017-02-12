@@ -79,7 +79,7 @@ public abstract class AudioController : MonoBehaviour
 
     private void Start()
     {
-        _dataHandler = FindObjectOfType<StatsHandler>();
+        _dataHandler = GameData.Instance.Data.Stats;
         switch (AudioType)
         {
             case AudioTypes.Music:

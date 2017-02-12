@@ -19,11 +19,20 @@ public abstract class GameHandler : MonoBehaviour {
 
     private void Awake()
     {
+        GameData.Instance.Data.LoadDataObjects();
         PlayerController = FindObjectOfType<PlayerController>();
         ThePlayer = FindObjectOfType<Player>();
+
         GameObject scriptsObj = GameObject.Find("Scripts");
-        Stats = scriptsObj.AddComponent<StatsHandler>();
         GameMusic = scriptsObj.AddComponent<GameMusicControl>();
+
+        Stats = GameData.Instance.Data.Stats;
+        EventListener.OnDeath += OnDeath;
+    }
+
+    private void OnDisable()
+    {
+        EventListener.OnDeath -= OnDeath;
     }
 
     public abstract void StartGame();
@@ -33,11 +42,12 @@ public abstract class GameHandler : MonoBehaviour {
     public abstract void UpdateGameSpeed(float speed);
     public abstract void LevelComplete();
     
-    public virtual void Death() { }
     public virtual void GameOver() { }
     public virtual void TriggerEntered(Collider2D other) { }
     public virtual void TriggerExited(Collider2D other) { }
     public virtual void Collision(Collision2D other) { }
+    
+    protected virtual void OnDeath() { }
 
     /// <summary>
     /// Handles the player movement throughout the scene, based

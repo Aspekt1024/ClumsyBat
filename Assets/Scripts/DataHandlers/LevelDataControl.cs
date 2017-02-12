@@ -5,12 +5,16 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public class LevelDataControl : MonoBehaviour {
 
-    private LevelDataContainer.LevelType[] _levelCompletion = new LevelDataContainer.LevelType[GameData.NumLevels];
-    private LevelProgressionHandler _levelProgresssionHandler;
+    private readonly LevelProgressionHandler _levelProgresssionHandler;
+    private LevelDataContainer.LevelType[] _levelCompletion;
 
-    private void Awake()
+    public int NumLevels { get; private set; }
+
+    public LevelDataControl()
     {
         _levelProgresssionHandler = new LevelProgressionHandler(this);
+        NumLevels = Enum.GetNames(typeof(LevelProgressionHandler.Levels)).Length;
+        _levelCompletion = new LevelDataContainer.LevelType[NumLevels];
     }
     
     public void Save()
@@ -31,7 +35,7 @@ public class LevelDataControl : MonoBehaviour {
         FileStream file = File.Open(Application.persistentDataPath + "/CompletionData.dat", FileMode.Create);
 
         LevelDataContainer blankGameData = new LevelDataContainer();
-        blankGameData.Data.LevelData = new LevelDataContainer.LevelType[GameData.NumLevels];
+        blankGameData.Data.LevelData = new LevelDataContainer.LevelType[NumLevels];
 
         bf.Serialize(file, blankGameData);
         file.Close();
@@ -41,7 +45,7 @@ public class LevelDataControl : MonoBehaviour {
 
     public void ClearLevelProgress()
     {
-        _levelCompletion = new LevelDataContainer.LevelType[GameData.NumLevels];
+        _levelCompletion = new LevelDataContainer.LevelType[NumLevels];
         Save();
     }
 
@@ -74,7 +78,7 @@ public class LevelDataControl : MonoBehaviour {
     public void UnlockLevel(LevelProgressionHandler.Levels levelId)
     {
         var level = (int)levelId;
-        if (level < GameData.NumLevels)
+        if (level < NumLevels)
         {
             _levelCompletion[level].LevelUnlocked = true;
         }

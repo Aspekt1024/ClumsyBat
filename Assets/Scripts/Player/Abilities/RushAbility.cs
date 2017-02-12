@@ -4,7 +4,6 @@ using System.Collections;
 public class RushAbility : MonoBehaviour {
 
     private AbilityContainer.AbilityType _rushStats;
-    private StatsHandler _stats;
     private Player _thePlayer;
     private Rigidbody2D _playerBody;
     private Lantern _lantern;
@@ -30,10 +29,9 @@ public class RushAbility : MonoBehaviour {
     private bool _bPaused;
     private bool _bAtCaveEnd;
     
-    public void Setup(StatsHandler statsRef, Player playerRef, Lantern lanternRef)
+    public void Setup(Player playerRef, Lantern lanternRef)
     {
-        _stats = statsRef;
-        _rushStats = _stats.AbilityData.GetRushStats();
+        _rushStats = GameData.Instance.Data.AbilityData.GetRushStats();
 
         _thePlayer = playerRef;
         _lantern = lanternRef;
@@ -61,7 +59,7 @@ public class RushAbility : MonoBehaviour {
 
         if (_bIsRushing)
         {
-            _stats.DashDistance += Time.deltaTime * RushSpeed * Toolbox.Instance.LevelSpeed;
+            GameData.Instance.Data.Stats.DashDistance += Time.deltaTime * RushSpeed * Toolbox.Instance.LevelSpeed;
             if (_rushTimeRemaining <= 0f)
             {
                 StartCoroutine("RushEndAnimation");
@@ -76,7 +74,7 @@ public class RushAbility : MonoBehaviour {
         // TODO charges
 
         _bDisabled = false;
-        _stats.TimesDashed++;
+        GameData.Instance.Data.Stats.TimesDashed++;
         _cooldownRemaining = CooldownDuration;
         StartCoroutine("RushStartAnimation");
     }

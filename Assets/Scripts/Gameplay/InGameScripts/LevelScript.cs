@@ -7,7 +7,6 @@ public class LevelScript : MonoBehaviour {
     public ParralaxBG Background;
     public GameMenuOverlay GameMenu;
     public GameUI GameHud;
-    public StatsHandler Stats;
 
     private GameObject _levelScripts;
     private LevelObjectHandler _levelObjects;
@@ -30,7 +29,6 @@ public class LevelScript : MonoBehaviour {
 
     private void Start ()
     {
-        Stats = FindObjectOfType<StatsHandler>();
         CreateGameObjects();
         GameMenu.Hide();
         Toolbox.Instance.LevelSpeed = LevelScrollSpeed;
@@ -39,9 +37,9 @@ public class LevelScript : MonoBehaviour {
 
     private void Update ()
     {
-        Stats.TotalTime += Time.deltaTime;
-        if (!_bGameStarted || _bGamePaused) { Stats.IdleTime += Time.deltaTime; return; }
-        Stats.PlayTime += Time.deltaTime;
+        GameData.Instance.Data.Stats.TotalTime += Time.deltaTime;
+        if (!_bGameStarted || _bGamePaused) { GameData.Instance.Data.Stats.IdleTime += Time.deltaTime; return; }
+        GameData.Instance.Data.Stats.PlayTime += Time.deltaTime;
 
         if (_levelObjects.AtCaveEnd())
         {
@@ -69,7 +67,7 @@ public class LevelScript : MonoBehaviour {
             level = DefaultLevel;
         }
         GameHud.SetLevelText(level);
-        Toolbox.Instance.ShowLevelTooltips = (!Stats.LevelData.IsCompleted((int)level));
+        Toolbox.Instance.ShowLevelTooltips = (!GameData.Instance.Data.LevelData.IsCompleted((int)level));
         _levelObjects.SetMode(bIsEndless: level == LevelProgressionHandler.Levels.Endless);
     }
 
@@ -122,7 +120,7 @@ public class LevelScript : MonoBehaviour {
         {
             GameMenu.PauseGame();
         }
-        Stats.SaveStats();
+        GameData.Instance.Data.SaveData();
     }
 
     public void ResumeGame()
@@ -136,7 +134,7 @@ public class LevelScript : MonoBehaviour {
 
     public void ShowGameoverMenu()
     {
-        Stats.SaveStats();
+        GameData.Instance.Data.SaveData();
         GameMenu.GameOver();
         GameHud.GameOver();
     }
@@ -147,7 +145,7 @@ public class LevelScript : MonoBehaviour {
         GameMenu.WinGame();
         GameData.Instance.SetLevelCompletion(GameData.LevelCompletePaths.MainPath);
         EventListener.LevelWon();
-        GameObject.Find("Clumsy").GetComponent<PlayerController>().PauseGame(showMenu: false); // TODO refer clumsy in awake
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().PauseGame(showMenu: false);
 
         // TODO add sound to sound controller script
         var victoryClip = (AudioClip) Resources.Load("Audio/LevelComplete");

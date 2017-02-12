@@ -16,8 +16,7 @@ public class Hypersonic : MonoBehaviour {
     private CircleCollider2D _hypersonicCollider;
 
     private bool _bPaused;
-
-    StatsHandler _stats;
+    
     private Lantern _lantern;
     
     private void Start ()
@@ -31,10 +30,9 @@ public class Hypersonic : MonoBehaviour {
         _hypersonicCollider.enabled = false;
     }
 
-    public void Setup(StatsHandler statsRef, Player playerRef, Lantern lanternRef)
+    public void Setup(Player playerRef, Lantern lanternRef)
     {
-        _stats = statsRef;
-        _hyperStats = _stats.AbilityData.GetHypersonicStats();
+        _hyperStats = GameData.Instance.Data.AbilityData.GetHypersonicStats();
         
         _lantern = lanternRef;
 

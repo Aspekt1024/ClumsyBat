@@ -101,10 +101,9 @@ public class Shield : MonoBehaviour {
         _gameHandler.UpdateGameSpeed(1f);
     }
 
-    public void Setup(StatsHandler statsRef, Player playerRef, Lantern lanternRef)
+    public void Setup(Player playerRef, Lantern lanternRef)
     {
-        //Stats = StatsRef;
-        //ShieldStats = Stats.AbilityData.GetShieldStats(); // TODO Save Shield Stats
+        //ShieldStats = GameData.Instance.Data.AbilityData.GetShieldStats(); // TODO Save Shield Stats
         //SetAbilityAttributes();
 
         _thePlayer = playerRef;

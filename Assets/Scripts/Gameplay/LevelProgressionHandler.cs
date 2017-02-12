@@ -4,6 +4,8 @@ public class LevelProgressionHandler
 {
     private readonly LevelDataControl _levelDataParent;
 
+    // NB: Level progression will follow this order
+    //     When placing levels on the level select, they must follow this pattern!
     public enum Levels
     {
         Unassigned,
@@ -18,7 +20,6 @@ public class LevelProgressionHandler
         Training1, Training2,
         Endless
     }
-
 
 	public LevelProgressionHandler(LevelDataControl parent)
 	{

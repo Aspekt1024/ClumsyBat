@@ -4,42 +4,42 @@ using System.Collections.Generic;
 
 // TODO display time in hh:mm:ss
 
-public class StatsUI : MonoBehaviour {
-
-    private List<Stat> Stats = new List<Stat>();
+public class StatsUI : MonoBehaviour
+{
+    private StatsHandler _statsData;
+    private readonly List<Stat> _stats = new List<Stat>();
 
     private const float TxtHeight = 30f;
     private const float DescTxtWidth = 300f;
     private const float ValTxtWidth = 100f;
     private const float TxtPad = 15f;
 
-    private float XScale;
-    private float YScale;
-    private float YTop;
-    private float XLeft;
+    private float _xScale;
+    private float _yScale;
+    private float _yTop;
+    private float _xLeft;
     
-    private MainMenu MS = null;
-    private RectTransform IdleTimeTxt = null;
-    private RectTransform ScrollView = null;
-    private RectTransform ScrollViewContent = null;
+    private RectTransform _idleTimeTxt;
+    private RectTransform _scrollView;
+    private RectTransform _scrollViewContent;
 
-    struct Stat
+    private struct Stat
     {
-        public string desc;
-        public int val;
-        public string unit;
+        public string Desc;
+        public int Val;
+        public string Unit;
     }
 
-	void Awake ()
+	private void Awake ()
     {
-        MS = GameObject.Find("Scripts").GetComponent<MainMenu>();
+        _statsData = GameData.Instance.Data.Stats;
     }
 
-    void Update()
+    private void Update()
     {
-        if (IdleTimeTxt)
+        if (_idleTimeTxt)
         {
-            IdleTimeTxt.GetComponent<Text>().text = GetValStr((int)MS.Stats.IdleTime, "s");
+            _idleTimeTxt.GetComponent<Text>().text = GetValStr((int)_statsData.IdleTime, "s");
         }
     }
 
@@ -47,205 +47,206 @@ public class StatsUI : MonoBehaviour {
     {
         InitialiseStatsList();
 
-        ScrollView = GetScrollView();
-        ScrollViewContent = GetScrollViewContent();
+        _scrollView = GetScrollView();
+        _scrollViewContent = GetScrollViewContent();
 
-        YScale = GameObject.Find("GameMenuOverlay").GetComponent<RectTransform>().localScale.y;
-        XScale = GameObject.Find("GameMenuOverlay").GetComponent<RectTransform>().localScale.x;
+        _yScale = GameObject.Find("GameMenuOverlay").GetComponent<RectTransform>().localScale.y;
+        _xScale = GameObject.Find("GameMenuOverlay").GetComponent<RectTransform>().localScale.x;
         
         SetContentSize();
 
-        YTop = ScrollViewContent.position.y - 2*TxtHeight*YScale;
-        XLeft = ScrollViewContent.position.x - ((ScrollView.rect.width - DescTxtWidth) / 2 - TxtPad) * XScale;
+        _yTop = _scrollViewContent.position.y - 2*TxtHeight*_yScale;
+        _xLeft = _scrollViewContent.position.x - ((_scrollView.rect.width - DescTxtWidth) / 2 - TxtPad) * _xScale;
 
-        for (int i = 0; i < Stats.Count; i++)
+        for (int i = 0; i < _stats.Count; i++)
         {
-            AddTextToCanvas(Stats[i], i);
+            AddTextToCanvas(_stats[i], i);
         }
     }
 
-    void InitialiseStatsList()
+    private void InitialiseStatsList()
     {
         //NewStat("Best Distance", ((int)MS.Stats.BestDistance), "m");
-        NewStat("Total Distance", ((int)MS.Stats.TotalDistance), "m");
-        NewStat("Currency", MS.Stats.Currency, "");
-        NewStat("TotalCurrency", MS.Stats.TotalCurrency, "");
-        NewStat("Levels Completed", (MS.Stats.LevelsCompleted), "");
-        NewStat("Most Moths Eaten", MS.Stats.MostMoths, "");
-        NewStat("Total Moths Eaten", MS.Stats.TotalMoths, "");
-        NewStat("Total Deaths", MS.Stats.Deaths, "");
-        NewStat("Deaths to Rocks", MS.Stats.RockDeaths, "");
-        NewStat("Death to Stalactites", MS.Stats.ToothDeaths, "");
-        NewStat("Total times Jumped", MS.Stats.TotalJumps, "");
-        NewStat("Times Dash Used", MS.Stats.TimesDashed, "");
-        NewStat("Distance Dashed", (int)MS.Stats.DashDistance, "m");
-        NewStat("Time in total darkness", (int)MS.Stats.DarknessTime, "s");
-        NewStat("Play Time", (int)MS.Stats.PlayTime, "s");
-        NewStat("Idle Time", (int)MS.Stats.IdleTime, "s");
+        NewStat("Total Distance", (int)_statsData.TotalDistance, "m");
+        NewStat("Currency", _statsData.Currency, "");
+        NewStat("TotalCurrency", _statsData.TotalCurrency, "");
+        NewStat("Levels Completed", _statsData.LevelsCompleted, "");
+        NewStat("Most Moths Eaten", _statsData.MostMoths, "");
+        NewStat("Total Moths Eaten", _statsData.TotalMoths, "");
+        NewStat("Total Deaths", _statsData.Deaths, "");
+        NewStat("Deaths to Rocks", _statsData.RockDeaths, "");
+        NewStat("Death to Stalactites", _statsData.ToothDeaths, "");
+        NewStat("Total times Jumped", _statsData.TotalJumps, "");
+        NewStat("Times Dash Used", _statsData.TimesDashed, "");
+        NewStat("Distance Dashed", (int)_statsData.DashDistance, "m");
+        NewStat("Time in total darkness", (int)_statsData.DarknessTime, "s");
+        NewStat("Play Time", (int)_statsData.PlayTime, "s");
+        NewStat("Idle Time", (int)_statsData.IdleTime, "s");
     }
 
-    RectTransform CreateTxtObj(string name, string text, float txtWidth)
+    private RectTransform CreateTxtObj(string objName, string text, float txtWidth)
     {
-        GameObject Txt = (GameObject)Instantiate(Resources.Load("TxtPrefab"), ScrollViewContent);
-        Txt.name = name;
-        Txt.GetComponent<Text>().text = text;
+        GameObject txt = (GameObject)Instantiate(Resources.Load("TxtPrefab"), _scrollViewContent);
+        txt.name = objName;
+        txt.GetComponent<Text>().text = text;
 
-        RectTransform TxtRT = Txt.GetComponent<RectTransform>();
+        RectTransform txtRt = txt.GetComponent<RectTransform>();
 
-        TxtRT.localScale = Vector3.one;
-        TxtRT.sizeDelta = new Vector2(txtWidth, TxtHeight);
+        txtRt.localScale = Vector3.one;
+        txtRt.sizeDelta = new Vector2(txtWidth, TxtHeight);
 
-        return TxtRT;
+        return txtRt;
     }
 
-    void AddTextToCanvas(Stat Stat, int itemNum)
+    private void AddTextToCanvas(Stat stat, int itemNum)
     {
-        RectTransform DescTxt = CreateTxtObj(Stat.desc + " Desc", Stat.desc + ": ", DescTxtWidth);
-        RectTransform ValTxt = CreateTxtObj(Stat.desc + " Val", GetValStr(Stat.val, Stat.unit), ValTxtWidth);
+        RectTransform descTxt = CreateTxtObj(stat.Desc + " Desc", stat.Desc + ": ", DescTxtWidth);
+        RectTransform valTxt = CreateTxtObj(stat.Desc + " Val", GetValStr(stat.Val, stat.Unit), ValTxtWidth);
         
-        if (ValTxt.name == "Idle Time Val")
+        if (valTxt.name == "Idle Time Val")
         {
-            IdleTimeTxt = ValTxt;
+            _idleTimeTxt = valTxt;
         }
 
-        float YPos = YTop - itemNum * TxtHeight * YScale;
-        float XPosDesc = XLeft;
-        float XPosVal = XPosDesc + ((DescTxtWidth + ValTxtWidth)/2 + TxtPad) * XScale;
+        float yPos = _yTop - itemNum * TxtHeight * _yScale;
+        float xPosDesc = _xLeft;
+        float xPosVal = xPosDesc + ((DescTxtWidth + ValTxtWidth)/2 + TxtPad) * _xScale;
 
-        DescTxt.position = new Vector3(XPosDesc, YPos, 0);
-        ValTxt.position = new Vector3(XPosVal, YPos, 0);
+        descTxt.position = new Vector3(xPosDesc, yPos, 0);
+        valTxt.position = new Vector3(xPosVal, yPos, 0);
     }
 
-    private string GetValStr(float Val, string Unit)
+    private string GetValStr(float val, string unit)
     {
-        string ValStr;
-        switch (Unit)
+        string valStr;
+        switch (unit)
         {
             case "m":
-                while (Val / 1000 >= 1)
+                while (val / 1000 >= 1)
                 {
-                    Val /= 1000;
-                    Unit = NextUnitMeters(Unit);
-                    if (Unit == "Mm") { break; }
+                    val /= 1000;
+                    unit = NextUnitMeters(unit);
+                    if (unit == "Mm") { break; }
                 }
-                if (Unit == "m")
+                if (unit == "m")
                 {
-                    ValStr = Val + Unit;
+                    valStr = val + unit;
                 }
                 else
                 {
-                    ValStr = Val.ToString("0.00") + Unit;
+                    valStr = val.ToString("0.00") + unit;
                 }
                 break;
             case "s":
-                while (Val / 60 > 1)
+                while (val / 60 > 1)
                 {
-                    Val /= 60;
-                    Unit = NextUnitTime(Unit);
-                    if (Unit == "d") {
-                        Val *= 60 / 24;
+                    val /= 60;
+                    unit = NextUnitTime(unit);
+                    if (unit == "d") {
+                        val *= 60f / 24;
                         break;
                     }
                 }
-                switch (Unit)
+                switch (unit)
                 {
                     case "s":
-                        ValStr = Val.ToString() + Unit;
+                        valStr = val + unit;
                         break;
                     case "m":
-                        ValStr = Val.ToString("0") + ":" + ((Val - Mathf.Floor(Val))*60).ToString("00") + " min";
+                        valStr = val.ToString("0") + ":" + ((val - Mathf.Floor(val))*60).ToString("00") + " min";
                         break;
                     case "h":
-                        ValStr = Val.ToString("0") + ":" + ((Val - Mathf.Floor(Val)) * 60).ToString("00") + " hrs";
+                        valStr = val.ToString("0") + ":" + ((val - Mathf.Floor(val)) * 60).ToString("00") + " hrs";
                         break;
                     case "d":
-                        ValStr = Val.ToString("0.00") + " days";
+                        valStr = val.ToString("0.00") + " days";
                         break;
                     default:
-                        ValStr = Val.ToString() + Unit;
+                        valStr = val + unit;
                         break;
                 }
                 break;
             default:
-                ValStr = Val.ToString() + Unit;
+                valStr = val + unit;
                 break;
         }
-        return ValStr;
+        return valStr;
     }
 
-    string NextUnitTime(string Unit)
+    private string NextUnitTime(string unit)
     {
-        string NewUnit = Unit;
-        switch (Unit)
+        string newUnit = unit;
+        switch (unit)
         {
             case "s":
-                NewUnit = "m";
+                newUnit = "m";
                 break;
             case "m":
-                NewUnit = "h";
+                newUnit = "h";
                 break;
             case "h":
-                NewUnit = "d";
+                newUnit = "d";
                 break;
         }
-        return NewUnit;
+        return newUnit;
     }
 
-    string NextUnitMeters(string Unit)
+    private string NextUnitMeters(string unit)
     {
-        string NewUnit = Unit;
-        switch (Unit)
+        string newUnit = unit;
+        switch (unit)
         {
             case "m":
-                NewUnit = "km";
+                newUnit = "km";
                 break;
             case "km":
-                NewUnit = "Mm";
+                newUnit = "Mm";
                 break;
         }
-        return NewUnit;
+        return newUnit;
     }
 
-    void NewStat(string desc, int value, string unit)
+    private void NewStat(string desc, int value, string unit)
     {
-        Stat StatItem;
-        StatItem.desc = desc;
-        StatItem.val = value;
-        StatItem.unit = unit;
-        Stats.Add(StatItem);
+        Stat statItem;
+        statItem.Desc = desc;
+        statItem.Val = value;
+        statItem.Unit = unit;
+        _stats.Add(statItem);
     }
 
-    RectTransform GetScrollViewContent()
+    private RectTransform GetScrollViewContent()
     {
-        foreach (RectTransform RT in ScrollView)
+        foreach (RectTransform rt in _scrollView)
         {
-            if (RT.name == "StatViewport")
+            if (rt.name == "StatViewport")
             {
-                foreach (RectTransform RT2 in RT.GetComponent<RectTransform>())
+                foreach (RectTransform rt2 in rt.GetComponent<RectTransform>())
                 {
-                    if (RT2.name == "StatContent")
+                    if (rt2.name == "StatContent")
                     {
-                        return RT2;
+                        return rt2;
                     }
                 }
             }
         }
         return null;
     }
-    RectTransform GetScrollView()
+
+    private RectTransform GetScrollView()
     {
-        foreach (RectTransform RT in GetComponent<RectTransform>())
+        foreach (RectTransform rt in GetComponent<RectTransform>())
         {
-            if (RT.name == "StatScrollView")
+            if (rt.name == "StatScrollView")
             {
-                return RT;
+                return rt;
             }
         }
         return null;
     }
 
-    void SetContentSize()
+    private void SetContentSize()
     {
-        ScrollViewContent.sizeDelta = new Vector2(0f, (Stats.Count + 3) * TxtHeight);
+        _scrollViewContent.sizeDelta = new Vector2(0f, (_stats.Count + 3) * TxtHeight);
     }
 }

@@ -9,8 +9,6 @@ public class Player : MonoBehaviour {
 
     #region Public GameObjects
     [HideInInspector]
-    public StatsHandler Stats;  // TODO refer to DataHandler once created
-    [HideInInspector]
     public Lantern Lantern;
     public FogEffect Fog;
     #endregion
@@ -57,9 +55,11 @@ public class Player : MonoBehaviour {
     #endregion
     
     private GameHandler _gameHandler;
+    private DataHandler _data;
 
     private void Awake()
     {
+        _data = GameData.Instance.Data;
         _playerSpeed = 1f;
         _playerRigidBody = GetComponent<Rigidbody2D>();
         _playerRigidBody.isKinematic = true;
@@ -79,7 +79,6 @@ public class Player : MonoBehaviour {
 
     private void Start ()
     {
-        Stats = FindObjectOfType<StatsHandler>();
         SetupAbilities();
     }
 
@@ -120,9 +119,9 @@ public class Player : MonoBehaviour {
         _perch = abilityScripts.AddComponent<PerchComponent>();
         Fog = FindObjectOfType<FogEffect>();
         
-        _rush.Setup(Stats, this, Lantern);
-        _hypersonic.Setup(Stats, this, Lantern);
-        _shield.Setup(Stats, this, Lantern);
+        _rush.Setup(this, Lantern);
+        _hypersonic.Setup(this, Lantern);
+        _shield.Setup(this, Lantern);
     }
 
     public bool IsAlive()
@@ -201,7 +200,7 @@ public class Player : MonoBehaviour {
             _playerRigidBody.velocity = _flapVelocity;
         }
         if (_state == PlayerState.Perched) return;
-        Stats.TotalJumps++;
+        _data.Stats.TotalJumps++;
         _audioControl.PlaySound(PlayerSounds.Flap);
         _anim.Play("Flap", 0, 0.5f);
     }
@@ -264,13 +263,12 @@ public class Player : MonoBehaviour {
         EventListener.Death();
         DisablePlayerController();
         _state = PlayerState.Dying;
-        Stats.Deaths += 1;
+        _data.Stats.Deaths += 1;
         GetComponent<CircleCollider2D>().enabled = false;
         _playerRigidBody.gravityScale = GravityScale;
         _playerRigidBody.velocity = new Vector2(1, 0);
         _rush.GamePaused(true);
         Lantern.Drop();
-        _gameHandler.Death();
 
         transform.localScale *= 4;
         transform.localRotation = Quaternion.identity;
@@ -281,9 +279,9 @@ public class Player : MonoBehaviour {
     {
         transform.position = _playerHoldingArea;
         _gameHandler.UpdateGameSpeed(0);
-        if (!Stats.StoryData.EventCompleted(StoryEventID.FirstDeath))
+        if (!_data.StoryData.EventCompleted(StoryEventID.FirstDeath))
         {
-            yield return StartCoroutine(Stats.StoryData.TriggerEventCoroutine(StoryEventID.FirstDeath));
+            yield return _data.StoryData.StartCoroutine("TriggerEventCoroutine", StoryEventID.FirstDeath);
         }
         yield return new WaitForSeconds(1f);
         _gameHandler.GameOver();

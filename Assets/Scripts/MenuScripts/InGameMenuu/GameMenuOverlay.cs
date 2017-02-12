@@ -2,8 +2,7 @@
 using UnityEngine.SceneManagement;
 
 public class GameMenuOverlay : MonoBehaviour {
-
-    private StatsHandler _stats;
+    
     private LoadScreen _loadingOverlay;
     private DropdownMenu _menu;
     
@@ -11,11 +10,6 @@ public class GameMenuOverlay : MonoBehaviour {
     {
         _loadingOverlay = GameObject.Find("LoadScreen").GetComponent<LoadScreen>();
         _menu = FindObjectOfType<DropdownMenu>();
-    }
-    
-    private void Start ()
-    {
-        _stats = FindObjectOfType<StatsHandler>();
     }
 
     /// <summary>
@@ -27,7 +21,7 @@ public class GameMenuOverlay : MonoBehaviour {
         Toolbox.Instance.TooltipCompletionPersist = false;
         Toolbox.Instance.MenuScreen = Toolbox.MenuSelector.MainMenu;
         _loadingOverlay.ShowLoadScreen();
-        _stats.SaveStats();
+        SaveData();
         SceneManager.LoadScene("Play");
     }
 
@@ -35,7 +29,7 @@ public class GameMenuOverlay : MonoBehaviour {
     {
         Toolbox.Instance.TooltipCompletionPersist = true;
         _loadingOverlay.ShowLoadScreen();
-        _stats.SaveStats();
+        SaveData();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -46,7 +40,7 @@ public class GameMenuOverlay : MonoBehaviour {
 
     public void BackToMainPressed()
     {
-        _stats.SaveStats(); // Just because
+        SaveData(); // Just because
         _menu.StartCoroutine("MenuSwitchAnim", false);
     }
 
@@ -98,5 +92,10 @@ public class GameMenuOverlay : MonoBehaviour {
     public void RemoveLoadingOverlay()
     {
         _loadingOverlay.HideLoadScreen();
+    }
+
+    private void SaveData()
+    {
+        GameData.Instance.Data.SaveData();
     }
 }

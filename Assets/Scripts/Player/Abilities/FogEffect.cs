@@ -33,8 +33,7 @@ public class FogEffect : MonoBehaviour {
     private const float PulseDuration = 0.6f;
     private float _pulseTimer;
     private bool _bPulseIncreasing = true;
-
-    private StatsHandler _stats;
+    
 
     private enum FogStates
     {
@@ -47,7 +46,6 @@ public class FogEffect : MonoBehaviour {
 
     private void Start()
     {
-        _stats = FindObjectOfType<StatsHandler>();
         _lantern = GameObject.Find("Lantern").GetComponent<Transform>();
         _playerControl = FindObjectOfType<PlayerController>();
         
@@ -74,7 +72,7 @@ public class FogEffect : MonoBehaviour {
             if (_echoScale <= _minFogScale)
             {
                 _echoScale = _minFogScale;
-                _stats.DarknessTime += Time.deltaTime;
+                GameData.Instance.Data.Stats.DarknessTime += Time.deltaTime;
             }
             
             _pulseTimer += Time.deltaTime;

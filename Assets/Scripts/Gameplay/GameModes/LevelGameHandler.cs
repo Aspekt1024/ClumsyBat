@@ -130,7 +130,7 @@ public class LevelGameHandler : GameHandler
     {
         GameState = GameStates.Paused;
         Level.PauseGame(showMenu);
-        Level.Stats.SaveStats();
+        GameData.Instance.Data.SaveData();
     }
 
     public sealed override void ResumeGame(bool immediate = false)
@@ -141,7 +141,7 @@ public class LevelGameHandler : GameHandler
         }
         else
         {
-            Level.Stats.SaveStats();
+            GameData.Instance.Data.SaveData();
             StartCoroutine("UpdateResumeTimer");
         }
     }
@@ -174,7 +174,7 @@ public class LevelGameHandler : GameHandler
         Level.UpdateGameSpeed(speed);
     }
 
-    public override void Death()
+    protected override void OnDeath()
     {
         Level.HorribleDeath();
     }
@@ -193,7 +193,7 @@ public class LevelGameHandler : GameHandler
         {
             if (other.collider.name == "StalObject")
             {
-                Level.Stats.ToothDeaths++;
+                GameData.Instance.Data.Stats.ToothDeaths++;
             }
             else
             {

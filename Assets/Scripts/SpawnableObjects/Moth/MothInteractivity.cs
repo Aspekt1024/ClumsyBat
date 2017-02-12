@@ -8,20 +8,22 @@ public class MothInteractivity : MonoBehaviour
 {
     private GameHandler _gameHandler;
     private Player _thePlayer;
+    private DataHandler _data;
 
     private void Awake()
     {
+        _data = GameData.Instance.Data;
         _gameHandler = FindObjectOfType<GameHandler>();
         _thePlayer = FindObjectOfType<Player>();
     }
     
     public IEnumerator ConsumeMoth(float animationWaitTime)
     {
-        if (_thePlayer.Stats.MothsEaten > _thePlayer.Stats.MostMoths)
+        if (_data.Stats.MothsEaten > _data.Stats.MostMoths)
         {
-            _thePlayer.Stats.MostMoths++;
+            _data.Stats.MostMoths++;
         }
-        _thePlayer.Stats.TotalMoths++;
+        _data.Stats.TotalMoths++;
         float animTimer = 0f;
         while (animTimer < animationWaitTime)
         {
@@ -31,7 +33,7 @@ public class MothInteractivity : MonoBehaviour
             }
             yield return null;
         }
-        _thePlayer.Stats.MothsEaten++;
+        _data.Stats.MothsEaten++;
     }
 
     public void ActivateAbility(Moth.MothColour colour)
@@ -44,7 +46,7 @@ public class MothInteractivity : MonoBehaviour
                 break;
             case Moth.MothColour.Gold:
                 _thePlayer.Lantern.ChangeColour(Lantern.LanternColour.Gold);
-                _thePlayer.Stats.StoryData.TriggerEvent(StoryEventID.FirstGoldMoth);
+                _data.StoryData.TriggerEvent(StoryEventID.FirstGoldMoth);
                 _thePlayer.ActivateHypersonic();
                 _thePlayer.Fog.Echolocate();
                 break;

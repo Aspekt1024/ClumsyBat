@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class StatsHandler : MonoBehaviour {
+public class StatsHandler {
 
     // Stat keeping (active in-game only)
     public int Score;
@@ -29,9 +29,6 @@ public class StatsHandler : MonoBehaviour {
     public int Currency;
     public int TotalCurrency;
     
-    public LevelDataControl LevelData;
-    public AbilityControl AbilityData;
-    public StoryEventControl StoryData;
 
     public struct UserSettings
     {
@@ -49,56 +46,36 @@ public class StatsHandler : MonoBehaviour {
         public string varType;
     }
 
-    private void Awake()
+    public StatsHandler()
     {
-        Debug.Log("Hi I'm SH");
         SetupPrefList();
+    }
+
+    public void LoadStats()
+    {
         SetupPlayerPrefs();
         GetPersistentStats();
-        CreateDataObjects();
         LoadUserSettings();
     }
-
-    private void Update ()
-    {
-        // TODO achievements
-        // TODO Things i've learned - use events, not update to check if we've reached an achievement.
-
-        // 500 Miles
-        // Blind as a bat
-        // Blind as a bat 2
-        // First death
-        // 1000 jumps
-        // 10000 jumps (etc)
-        // Play time!!
-        // "Somebody's a bunny"
-        // Dash 
-        // Exterminator (destroy objects)
-        // bash through objects
-        // I love lamp
-        //Bat - astrophe! : clumsy fell 1000 times
-        //Batzilla : clumsy used hypersonic 50 times
-        //Seeing - eye - bat : clumsy used echo location 100 times
-        //Bat in Black: clumsy completed a level without consuming a single moth
-    }
-
-    private void CreateDataObjects()
-    {
-        GameObject dataObject = new GameObject("DataObjects");
-        LevelData = dataObject.AddComponent<LevelDataControl>();
-        AbilityData = dataObject.AddComponent<AbilityControl>();
-        StoryData = dataObject.AddComponent<StoryEventControl>();
-        LevelData.Load();
-        AbilityData.Load();
-        StoryData.Load();
-    }
-
-    private void SaveDataObjects()
-    {
-        LevelData.Save();
-        AbilityData.Save();
-        StoryData.Save();
-    }
+    
+    // TODO achievements
+    // TODO Things i've learned - use events, not update to check if we've reached an achievement.
+    // 500 Miles
+    // Blind as a bat
+    // Blind as a bat 2
+    // First death
+    // 1000 jumps
+    // 10000 jumps (etc)
+    // Play time!!
+    // "Somebody's a bunny"
+    // Dash 
+    // Exterminator (destroy objects)
+    // bash through objects
+    // I love lamp
+    //Bat - astrophe! : clumsy fell 1000 times
+    //Batzilla : clumsy used hypersonic 50 times
+    //Seeing - eye - bat : clumsy used echo location 100 times
+    //Bat in Black: clumsy completed a level without consuming a single moth
 
     private void LoadUserSettings()
     {
@@ -113,12 +90,9 @@ public class StatsHandler : MonoBehaviour {
         PlayerPrefs.SetInt("SFXON", Settings.Sfx ? 1 : 0);
         PlayerPrefs.SetInt("TooltipsON", Settings.Tooltips ? 1 : 0);
     }
-
-    public void ResetStoryData()
+    
+    public void ResetCurrency()
     {
-        LevelData.ClearCompletionData();
-        StoryData.ClearStoryEventData();
-        AbilityData.ClearAbilityData();
         CollectedCurrency = 0;
         Currency = 0;
         SaveStats();
@@ -147,8 +121,7 @@ public class StatsHandler : MonoBehaviour {
         PlayerPrefs.SetInt("LevelsCompleted", LevelsCompleted);
         PlayerPrefs.SetInt("Currency", Currency);
         PlayerPrefs.SetInt("TotalCurrency", TotalCurrency);
-
-        SaveDataObjects();
+        
         SaveUserSettings();
         PlayerPrefs.Save();
     }

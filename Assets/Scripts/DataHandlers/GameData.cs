@@ -1,8 +1,9 @@
-﻿using System;
-
+﻿
 public class GameData : Singleton<GameData>
 {
     protected GameData() { }
+
+    public DataHandler Data = new DataHandler();
 
     public enum LevelCompletePaths
     {
@@ -10,7 +11,6 @@ public class GameData : Singleton<GameData>
         Secret1,
         Secret2
     }
-    public const int NumLevels = 25;
 
     private LevelDataContainer.LevelType _levelCompletion;
     public LevelProgressionHandler.Levels Level;

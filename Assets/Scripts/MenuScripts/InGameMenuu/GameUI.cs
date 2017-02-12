@@ -33,14 +33,14 @@ public class GameUI : MonoBehaviour {
 
     private bool _bGamePaused;
     
-    void Awake()
+    private void Awake()
     {
         GetTextObjects();
     }
 
-	void Start ()
-    {
-        _stats = FindObjectOfType<StatsHandler>();
+	private void Start ()
+	{
+	    _stats = GameData.Instance.Data.Stats;
         SetupUi();
 	}
 	

@@ -26,7 +26,7 @@ public class DropdownOptionsMenu : MonoBehaviour {
     
     private void Start ()
     {
-        _stats = FindObjectOfType<StatsHandler>();
+        _stats = GameData.Instance.Data.Stats;
         GetMenuObjects();
         InitialiseOptionsView();
     }
@@ -74,7 +74,7 @@ public class DropdownOptionsMenu : MonoBehaviour {
         {
             case YesNo.ResetAllData:
                 _optionConfirmText.text = "Story has been reset!";
-                _stats.ResetStoryData();
+                GameData.Instance.Data.ResetStoryData();
                 break;
             case YesNo.ResetTooltips:
                 _optionConfirmText.text = "Tooltips have been reset!";

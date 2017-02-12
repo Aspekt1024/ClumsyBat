@@ -15,38 +15,38 @@ public class StoryEventControl : MonoBehaviour {
     public bool[] StoryData = new bool[Enum.GetNames(typeof(StoryEvents)).Length];
     public Dictionary<StoryEvents, TooltipHandler.TooltipId[]> TooltipSet = new Dictionary<StoryEvents, TooltipHandler.TooltipId[]>();
 
-    TooltipHandler TooltipControl = null;
-    PlayerController PlayerControl = null;
+    private TooltipHandler _tooltipControl;
+    private PlayerController _playerControl;
     
-    void Start()
+    private void Start()
     {
-        TooltipControl = GameObject.Find("Scripts").GetComponent<TooltipHandler>();
-        PlayerControl = FindObjectOfType<PlayerController>();
+        _tooltipControl = GameObject.Find("Scripts").GetComponent<TooltipHandler>();
+        _playerControl = FindObjectOfType<PlayerController>();
         SetupTooltipDict();
     }
 
 
-    public void TriggerEvent(StoryEvents EventID)
+    public void TriggerEvent(StoryEvents eventId)
     {
-        if (!EventCompleted(EventID) && PlayerControl.ThePlayer.IsAlive())
+        if (!EventCompleted(eventId) && _playerControl.ThePlayer.IsAlive())
         {
-            StartCoroutine("TriggerEventCoroutine", EventID);
+            StartCoroutine("TriggerEventCoroutine", eventId);
         }
     }
-    public IEnumerator TriggerEventCoroutine(StoryEvents EventID)
+    public IEnumerator TriggerEventCoroutine(StoryEvents eventId)
     {
-        yield return StartCoroutine("ShowStoryDialogue", EventID);
+        yield return StartCoroutine("ShowStoryDialogue", eventId);
     }
 
-    public bool EventCompleted(StoryEvents EventID)
+    public bool EventCompleted(StoryEvents eventId)
     {
-        return StoryData[(int)EventID];
+        return StoryData[(int)eventId];
     }
     
-    private IEnumerator ShowStoryDialogue(StoryEvents EventID)
+    private IEnumerator ShowStoryDialogue(StoryEvents eventId)
     {
-        yield return TooltipControl.StartCoroutine("SetupDialogue", TooltipSet[EventID]);
-        StoryData[(int)EventID] = true;
+        yield return _tooltipControl.StartCoroutine("SetupDialogue", TooltipSet[eventId]);
+        StoryData[(int)eventId] = true;
     }
 
     public void Load()
@@ -54,48 +54,44 @@ public class StoryEventControl : MonoBehaviour {
         if (File.Exists(Application.persistentDataPath + "/StoryEventData.dat"))
         {
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream file;
-            file = File.Open(Application.persistentDataPath + "/StoryEventData.dat", FileMode.Open);
+            FileStream file = File.Open(Application.persistentDataPath + "/StoryEventData.dat", FileMode.Open);
 
-            StoryEventContainer Data;
+            StoryEventContainer data;
             try
             {
-                Data = (StoryEventContainer)bf.Deserialize(file);
+                data = (StoryEventContainer)bf.Deserialize(file);
             }
             catch
             {
-                Data = new StoryEventContainer();
+                data = new StoryEventContainer();
                 Debug.Log("Unable to load existing Story data set");
             }
             file.Close();
 
-            StoryData = Data.StoryEventData;
+            StoryData = data.StoryEventData;
         }
     }
 
     public void Save()
     {
-        BinaryFormatter bf = new BinaryFormatter();
-        FileStream file;
+        var bf = new BinaryFormatter();
+        var file = File.Open(Application.persistentDataPath + "/StoryEventData.dat", FileMode.OpenOrCreate);
 
-        file = File.Open(Application.persistentDataPath + "/StoryEventData.dat", FileMode.OpenOrCreate);
+        var data = new StoryEventContainer { StoryEventData = StoryData };
 
-        StoryEventContainer Data = new StoryEventContainer();
-        Data.StoryEventData = StoryData;
-
-        bf.Serialize(file, Data);
+        bf.Serialize(file, data);
         file.Close();
     }
 
     public void ClearStoryEventData()
     {
-        BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Open(Application.persistentDataPath + "/StoryEventData.dat", FileMode.Create);
+        var bf = new BinaryFormatter();
+        var file = File.Open(Application.persistentDataPath + "/StoryEventData.dat", FileMode.Create);
 
-        StoryEventContainer BlankStoryData = new StoryEventContainer();
-        BlankStoryData.StoryEventData = new bool[Enum.GetNames(typeof(StoryEvents)).Length];
+        var blankStoryData = new StoryEventContainer();
+        blankStoryData.StoryEventData = new bool[Enum.GetNames(typeof(StoryEvents)).Length];
 
-        bf.Serialize(file, BlankStoryData);
+        bf.Serialize(file, blankStoryData);
         file.Close();
         Load();
         Debug.Log("Story Event Data Cleared");
@@ -103,8 +99,8 @@ public class StoryEventControl : MonoBehaviour {
     
     private void SetupTooltipDict()
     {
-        TooltipSet.Add(StoryEvents.FirstGoldMoth, new TooltipHandler.TooltipId[] { TooltipHandler.TooltipId.FirstGoldMoth1, TooltipHandler.TooltipId.FirstGoldMoth2 });
-        TooltipSet.Add(StoryEvents.FirstDeath, new TooltipHandler.TooltipId[] { TooltipHandler.TooltipId.FirstDeath });
+        TooltipSet.Add(StoryEvents.FirstGoldMoth, new[] { TooltipHandler.TooltipId.FirstGoldMoth1, TooltipHandler.TooltipId.FirstGoldMoth2 });
+        TooltipSet.Add(StoryEvents.FirstDeath, new[] { TooltipHandler.TooltipId.FirstDeath });
         //TooltipSet.Add(StoryEvents, new ToolID[] { ToolID });
     }
 }
