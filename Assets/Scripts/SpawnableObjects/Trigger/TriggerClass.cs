@@ -16,10 +16,13 @@ public class TriggerClass : Spawnable {
     public TooltipHandler.DialogueId EventId;
     public bool PausesGame;
 
+    private TooltipHandler.WaitType _waitType;
+
     private void Awake()
     {
         Trigger.Collider = GetComponent<BoxCollider2D>();
         _tHandler = FindObjectOfType<TooltipHandler>();
+        _waitType = TooltipHandler.WaitType.InGameNoPause;
     }
 
     private void FixedUpdate()
@@ -35,7 +38,7 @@ public class TriggerClass : Spawnable {
             case (TriggerHandler.EventType.Dialogue):
                 if (Toolbox.Instance.ShowLevelTooltips)
                 {
-                    _tHandler.ShowDialogue(EventId, PausesGame);
+                    _tHandler.ShowDialogue(EventId, _waitType);
                 }
                 break;
         }
@@ -51,6 +54,7 @@ public class TriggerClass : Spawnable {
         PausesGame = triggerProps.PausesGame;
         Trigger.Collider.enabled = true;
         gameObject.GetComponent<SpriteRenderer>().enabled = Toolbox.Instance.Debug;
+        _waitType = PausesGame ? TooltipHandler.WaitType.InGamePause : TooltipHandler.WaitType.InGameNoPause;
     }
 
     public void DeactivateTrigger() { SendToInactivePool(); }

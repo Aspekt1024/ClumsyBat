@@ -10,6 +10,8 @@
     public static EventHandler OnSfxToggle;
     public static EventHandler OnTooltipToggle;
 
+    public static EventHandler OnTooltipActioned;
+
     public static void Death()
     {
         if (OnDeath != null)
@@ -50,5 +52,11 @@
     {
         if (OnTooltipToggle != null)
             OnTooltipToggle();
+    }
+
+    public static void TooltipActioned()
+    {
+        if (OnTooltipActioned != null)
+            OnTooltipActioned();
     }
 }

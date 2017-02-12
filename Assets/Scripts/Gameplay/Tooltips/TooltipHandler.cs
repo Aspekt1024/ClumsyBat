@@ -13,7 +13,7 @@ public class TooltipHandler : MonoBehaviour {
 
     private bool _bFirstDialogue;
     private bool _bLastDialogue;
-    private bool _bTooltipPauses;
+    private WaitType _waitType;
 
     // DialogueID is used for the DialogueSet Dictionary
     // Referenced in the editor
@@ -29,6 +29,8 @@ public class TooltipHandler : MonoBehaviour {
         ActuallyMoreStals,
         FirstStalDrop,
         ThatGotReal,
+        HypersonicVillagePt1,
+        HypersonicVillagePt2,
     }
 
     // TooltipID references the individual pieces of dialogue defined in the DialogueSet
@@ -49,9 +51,19 @@ public class TooltipHandler : MonoBehaviour {
         ThatGotReal,
         FirstGoldMoth1,
         FirstGoldMoth2,
+        HypersonicVillagePt1,
+        HypersonicVillagePt2T1,
+        HypersonicVillagePt2T2,
     }
 
-    void Awake()
+    public enum WaitType
+    {
+        InGamePause,
+        InGameNoPause,
+        VillageSpeech
+    }
+
+    private void Awake()
     {
         GameObject toolTipOverlay = (GameObject)Instantiate(Resources.Load("ToolTipOverlay"));
         _tooltipControl = toolTipOverlay.GetComponent<TooltipController>();
@@ -77,7 +89,9 @@ public class TooltipHandler : MonoBehaviour {
         _dialogueSet.Add(DialogueId.NoMoreStals, new[] { TooltipId.NoMoreStals });
         _dialogueSet.Add(DialogueId.ActuallyMoreStals, new[] { TooltipId.ActuallyMoreStals });
         _dialogueSet.Add(DialogueId.ThatGotReal, new[] { TooltipId.ThatGotReal });
-        //DialogueSet.Add(DialogueID, new TooltipID[] {  });
+        _dialogueSet.Add(DialogueId.HypersonicVillagePt1, new[] { TooltipId.HypersonicVillagePt1 });
+        _dialogueSet.Add(DialogueId.HypersonicVillagePt2, new[] { TooltipId.HypersonicVillagePt2T1, TooltipId.HypersonicVillagePt2T2,  });
+        //_dialogueSet.Add(DialogueId , new[] { TooltipId });
     }
 
     private void SetDialogueText()
@@ -97,19 +111,22 @@ public class TooltipHandler : MonoBehaviour {
         _dialogueDict.Add(TooltipId.ThatGotReal, "Well that got real! Keep going, we're not far away.");
         _dialogueDict.Add(TooltipId.FirstGoldMoth1, "Oh wow! A gold moth!");
         _dialogueDict.Add(TooltipId.FirstGoldMoth2, "Rumor has it that these possess incredible power");
-        //DialogueDict.Add(TooltipID, "");
+        _dialogueDict.Add(TooltipId.HypersonicVillagePt1 , "You made it! Here's a thing.");
+        _dialogueDict.Add(TooltipId.HypersonicVillagePt2T1, "Gold moths will now activate hypersonic");
+        _dialogueDict.Add(TooltipId.HypersonicVillagePt2T2, "By the way, we're being attacked by an evil bat. Make him go away.");
+        //_dialogueDict.Add(TooltipId, "");
     }
 
-    public void Start ()
+    private void Start()
     {
         _playerControl = FindObjectOfType<PlayerController>();
         _inputManager = _playerControl.GetInputManager();
-	}
+    }
     
-    public void ShowDialogue(DialogueId eventId, bool bPauseGame)
+    public void ShowDialogue(DialogueId eventId, WaitType waitType)
     {
         if (!_playerControl.ThePlayer.IsAlive() || Toolbox.Instance.TooltipCompleted(eventId)) { return; }
-        _bTooltipPauses = bPauseGame;
+        _waitType = waitType;
         Toolbox.Instance.SetTooltipComplete(eventId);
         TooltipId[] dialogue = _dialogueSet[eventId];
         StartCoroutine("SetupDialogue", dialogue);
@@ -117,7 +134,8 @@ public class TooltipHandler : MonoBehaviour {
 
     public IEnumerator SetupDialogue(TooltipId[] dialogue)
     {
-        if (_bTooltipPauses) { _playerControl.WaitForTooltip(true); }
+        if (_waitType == WaitType.InGamePause) { _playerControl.WaitForTooltip(true); }
+        if (_waitType == WaitType.VillageSpeech) { _playerControl.WaitForVillageSpeech(); }
         _bFirstDialogue = true;
         _bLastDialogue = false;
         int numItems = dialogue.Length;
@@ -136,12 +154,17 @@ public class TooltipHandler : MonoBehaviour {
             yield return StartCoroutine("ShowTooltip", speech);
             _bFirstDialogue = false;
         }
-        if (_bTooltipPauses)
+        if (_waitType == WaitType.InGamePause)
         {
             _playerControl.WaitForTooltip(false);
             _playerControl.TooltipResume();
         }
+        else if (_waitType == WaitType.VillageSpeech)
+        {
+            _playerControl.WaitForVillageSpeech();  // TODO only need to clear the input
+        }
         _tooltipControl.StartCoroutine("CloseTooltip");
+        EventListener.TooltipActioned();
     }
 
     private IEnumerator ShowTooltip(TooltipId speech)
@@ -158,7 +181,7 @@ public class TooltipHandler : MonoBehaviour {
             _tooltipControl.StartCoroutine("ShowText", true);
         }
 
-        if (_bTooltipPauses)
+        if (_waitType == WaitType.InGamePause || _waitType == WaitType.VillageSpeech)
             yield return StartCoroutine("WaitForTooltip");
         else
             yield return StartCoroutine("KeepTooltipOnScreen");

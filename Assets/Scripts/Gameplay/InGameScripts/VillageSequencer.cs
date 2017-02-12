@@ -12,6 +12,11 @@ public class VillageSequencer : MonoBehaviour
     private PlayerProps _player;
     private GameHandler _gameHandler;
 
+    private bool _bPausedForSpeech;
+
+    private void OnEnable() { EventListener.OnTooltipActioned += OnTooltipActioned; }
+    private void OnDisable() { EventListener.OnTooltipActioned -= OnTooltipActioned; }
+
     private void Start()
     {
         _player.Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
@@ -28,8 +33,50 @@ public class VillageSequencer : MonoBehaviour
         _player.Player.Fog.ExpandToRemove();
         
         yield return StartCoroutine("MoveToPedestal");
+        yield return StartCoroutine("VillageSpeech");
         yield return new WaitForSeconds(1.5f);
         _gameHandler.LevelComplete();
+    }
+
+    private IEnumerator VillageSpeech()
+    {
+        TooltipHandler tth = FindObjectOfType<TooltipHandler>();
+        if (GameData.Instance.Level == LevelProgressionHandler.Levels.Main2)
+        {
+            TooltipHandler.DialogueId eventId = TooltipHandler.DialogueId.HypersonicVillagePt1;
+            _bPausedForSpeech = true;
+            tth.ShowDialogue(eventId, TooltipHandler.WaitType.VillageSpeech);
+            while (_bPausedForSpeech)
+            {
+                yield return null;
+            }
+
+            // TODO here's hypersonic sequence
+            // TODO move this to the hypersonic ability class?
+            var hypersonic = GameData.Instance.Data.AbilityData.GetHypersonicStats();
+            hypersonic.AbilityUnlocked = true;
+            hypersonic.AbilityAvailable = true;
+            hypersonic.AbilityLevel = 1;
+            hypersonic.AbilityEvolution = 1;
+            GameData.Instance.Data.AbilityData.SaveHypersonicStats(hypersonic);
+
+            yield return new WaitForSeconds(0.5f);
+            _player.Player.ForceHypersonic();
+            yield return new WaitForSeconds(1f);
+            
+            eventId = TooltipHandler.DialogueId.HypersonicVillagePt2;
+            _bPausedForSpeech = true;
+            tth.ShowDialogue(eventId, TooltipHandler.WaitType.VillageSpeech);
+            while (_bPausedForSpeech)
+            {
+                yield return null;
+            }
+        }
+    }
+
+    private void OnTooltipActioned()
+    {
+        _bPausedForSpeech = false;
     }
 
     private IEnumerator MoveToPedestal()
@@ -46,5 +93,6 @@ public class VillageSequencer : MonoBehaviour
             _player.Body.position = startPos - (startPos - endPos) * (animTimer / animDuration);
             yield return null;
         }
+        // TODO perch (after clumsy has an animator controller
     }
 }

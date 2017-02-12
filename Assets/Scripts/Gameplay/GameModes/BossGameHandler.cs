@@ -107,6 +107,10 @@ public class BossGameHandler : GameHandler {
     {
         yield return new WaitForSeconds(2f);
         _gameMenu.WinGame();
+        GameData.Instance.SetLevelCompletion(GameData.LevelCompletePaths.MainPath);
+        EventListener.LevelWon();
+
+        // TODO add sound to sound controller script
     }
 
     public override void TriggerEntered(Collider2D other)

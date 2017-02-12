@@ -114,6 +114,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void WaitForVillageSpeech()
+    {
+        State = GameState.PausedForTooltip;
+        _inputManager.ClearInput();
+    }
+
     public void TooltipResume()
     {
         _gameHandler.ResumeGame(immediate: true);

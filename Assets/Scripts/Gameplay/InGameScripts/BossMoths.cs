@@ -5,7 +5,7 @@ public class BossMoths : MonoBehaviour
     private MothPool _moths;
 
     private bool _bPaused;
-    private const float ProbabilityGold = 0.3f;
+    private const float ProbabilityGold = 0.35f;
     private const float MothInterval = 10f;
     private const float MothVariance = 3f;
     private float _timeSinceLastMoth = 2f;
