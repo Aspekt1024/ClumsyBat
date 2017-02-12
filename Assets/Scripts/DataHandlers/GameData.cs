@@ -19,8 +19,7 @@ public class GameData : Singleton<GameData>
     {
         return _levelCompletion;
     }
-
-
+    
     public void SetLevelCompletion(LevelCompletePaths path)
     {
         switch (path)

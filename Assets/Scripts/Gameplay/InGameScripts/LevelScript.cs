@@ -145,6 +145,7 @@ public class LevelScript : MonoBehaviour {
     {
         GameHud.LevelWon();
         GameMenu.WinGame();
+        GameData.Instance.SetLevelCompletion(GameData.LevelCompletePaths.MainPath);
         EventListener.LevelWon();
         GameObject.Find("Clumsy").GetComponent<PlayerController>().PauseGame(showMenu: false); // TODO refer clumsy in awake
 

@@ -51,6 +51,7 @@ public class StatsHandler : MonoBehaviour {
 
     private void Awake()
     {
+        Debug.Log("Hi I'm SH");
         SetupPrefList();
         SetupPlayerPrefs();
         GetPersistentStats();

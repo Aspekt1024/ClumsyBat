@@ -227,12 +227,16 @@ public class LevelEditorActions : MonoBehaviour
     public void LevelUp()
     {
         LevelId++;
+        while (LevelId.ToString().Contains("Boss"))
+            LevelId++;
         SetLevelNum();
     }
 
     public void LevelDown()
     {
         LevelId--;
+        while (LevelId.ToString().Contains("Boss"))
+            LevelId--;
         SetLevelNum();
     }
 

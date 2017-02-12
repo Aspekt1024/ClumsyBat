@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<LevelCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <CaveList>
+    <Cave>
+      <TopIndex>1000</TopIndex>
+      <BottomIndex>1000</BottomIndex>
+      <bTopSecretPath>false</bTopSecretPath>
+      <bBottomSecretPath>false</bBottomSecretPath>
+      <Shrooms />
+      <Stals />
+      <Moths />
+      <Spiders />
+      <Webs />
+      <Triggers />
+      <Npcs />
+    </Cave>
+    <Cave>
+      <TopIndex>1</TopIndex>
+      <BottomIndex>1</BottomIndex>
+      <bTopSecretPath>false</bTopSecretPath>
+      <bBottomSecretPath>false</bBottomSecretPath>
+      <Shrooms />
+      <Stals>
+        <StalType>
+          <SpawnTranform>
+            <Pos>
+              <x>1.19999886</x>
+              <y>4.36</y>
+            </Pos>
+            <Scale>
+              <x>1.09828424</x>
+              <y>1.09828448</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0.0309746433</z>
+              <w>0.9995202</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>3.55000043</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTranform>
+          <TriggerPos>
+            <x>-2.532629</x>
+            <y>0.420000076</y>
+          </TriggerPos>
+          <DropEnabled>false</DropEnabled>
+          <Flipped>false</Flipped>
+        </StalType>
+        <StalType>
+          <SpawnTranform>
+            <Pos>
+              <x>-4.300001</x>
+              <y>4.8</y>
+            </Pos>
+            <Scale>
+              <x>1.09828424</x>
+              <y>1.09828448</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0.0309746433</z>
+              <w>0.9995202</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>3.55000043</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTranform>
+          <TriggerPos>
+            <x>-8.032629</x>
+            <y>0.860000134</y>
+          </TriggerPos>
+          <DropEnabled>false</DropEnabled>
+          <Flipped>false</Flipped>
+        </StalType>
+      </Stals>
+      <Moths />
+      <Spiders />
+      <Webs />
+      <Triggers />
+      <Npcs />
+    </Cave>
+    <Cave>
+      <TopIndex>2</TopIndex>
+      <BottomIndex>3</BottomIndex>
+      <bTopSecretPath>false</bTopSecretPath>
+      <bBottomSecretPath>false</bBottomSecretPath>
+      <Shrooms />
+      <Stals />
+      <Moths>
+        <MothType>
+          <SpawnTransform>
+            <Pos>
+              <x>8.140999</x>
+              <y>0.587</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <Colour>Green</Colour>
+          <PathType>Clover</PathType>
+        </MothType>
+      </Moths>
+      <Spiders />
+      <Webs />
+      <Triggers>
+        <TriggerType>
+          <SpawnTransform>
+            <Pos>
+              <x>0</x>
+              <y>0</y>
+            </Pos>
+            <Scale>
+              <x>0</x>
+              <y>0</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <EventType>Dialogue</EventType>
+          <EventId>AllOnYourOwn</EventId>
+          <PausesGame>false</PausesGame>
+        </TriggerType>
+      </Triggers>
+      <Npcs />
+    </Cave>
+    <Cave>
+      <TopIndex>0</TopIndex>
+      <BottomIndex>2</BottomIndex>
+      <bTopSecretPath>false</bTopSecretPath>
+      <bBottomSecretPath>false</bBottomSecretPath>
+      <Shrooms />
+      <Stals />
+      <Moths />
+      <Spiders />
+      <Webs />
+      <Triggers />
+      <Npcs />
+    </Cave>
+    <Cave>
+      <TopIndex>4</TopIndex>
+      <BottomIndex>1</BottomIndex>
+      <bTopSecretPath>false</bTopSecretPath>
+      <bBottomSecretPath>false</bBottomSecretPath>
+      <Shrooms />
+      <Stals />
+      <Moths />
+      <Spiders />
+      <Webs />
+      <Triggers>
+        <TriggerType>
+          <SpawnTransform>
+            <Pos>
+              <x>0</x>
+              <y>0</y>
+            </Pos>
+            <Scale>
+              <x>0</x>
+              <y>0</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <EventType>Dialogue</EventType>
+          <EventId>FirstDeath</EventId>
+          <PausesGame>false</PausesGame>
+        </TriggerType>
+        <TriggerType>
+          <SpawnTransform>
+            <Pos>
+              <x>0</x>
+              <y>0</y>
+            </Pos>
+            <Scale>
+              <x>0</x>
+              <y>0</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <EventType>Dialogue</EventType>
+          <EventId>FirstDeath</EventId>
+          <PausesGame>false</PausesGame>
+        </TriggerType>
+      </Triggers>
+      <Npcs />
+    </Cave>
+    <Cave>
+      <TopIndex>1</TopIndex>
+      <BottomIndex>4</BottomIndex>
+      <bTopSecretPath>false</bTopSecretPath>
+      <bBottomSecretPath>false</bBottomSecretPath>
+      <Shrooms />
+      <Stals />
+      <Moths />
+      <Spiders />
+      <Webs />
+      <Triggers />
+      <Npcs />
+    </Cave>
+    <Cave>
+      <TopIndex>0</TopIndex>
+      <BottomIndex>0</BottomIndex>
+      <bTopSecretPath>false</bTopSecretPath>
+      <bBottomSecretPath>false</bBottomSecretPath>
+      <Shrooms />
+      <Stals />
+      <Moths />
+      <Spiders />
+      <Webs />
+      <Triggers />
+      <Npcs />
+    </Cave>
+    <Cave>
+      <TopIndex>1001</TopIndex>
+      <BottomIndex>1001</BottomIndex>
+      <bTopSecretPath>false</bTopSecretPath>
+      <bBottomSecretPath>false</bBottomSecretPath>
+      <Shrooms />
+      <Stals />
+      <Moths />
+      <Spiders />
+      <Webs />
+      <Triggers />
+      <Npcs />
+    </Cave>
+  </CaveList>
+  <Clumsy>
+    <Pos>
+      <x>-4.83</x>
+      <y>1</y>
+    </Pos>
+    <Scale>
+      <x>0.177492425</x>
+      <y>0.194299191</y>
+    </Scale>
+    <Rotation>
+      <x>0</x>
+      <y>0</y>
+      <z>0.248385757</z>
+      <w>-0.9686612</w>
+      <eulerAngles>
+        <x>0</x>
+        <y>0</y>
+        <z>331.236</z>
+      </eulerAngles>
+    </Rotation>
+  </Clumsy>
+</LevelCollection>
