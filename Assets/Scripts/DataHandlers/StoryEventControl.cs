@@ -25,7 +25,6 @@ public class StoryEventControl : MonoBehaviour {
         SetupTooltipDict();
     }
 
-
     public void TriggerEvent(StoryEvents eventId)
     {
         if (!EventCompleted(eventId) && _playerControl.ThePlayer.IsAlive())

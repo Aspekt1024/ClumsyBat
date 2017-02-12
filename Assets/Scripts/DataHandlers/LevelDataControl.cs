@@ -4,19 +4,52 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
 public class LevelDataControl : MonoBehaviour {
-
-    private readonly LevelProgressionHandler _levelProgresssionHandler;
+    
     private LevelDataContainer.LevelType[] _levelCompletion;
 
     public int NumLevels { get; private set; }
 
     public LevelDataControl()
     {
-        _levelProgresssionHandler = new LevelProgressionHandler(this);
         NumLevels = Enum.GetNames(typeof(LevelProgressionHandler.Levels)).Length;
         _levelCompletion = new LevelDataContainer.LevelType[NumLevels];
     }
-    
+
+    private void OnEnable()
+    {
+        EventListener.OnLevelWon += OnLevelWon;
+    }
+    private void OnDisable()
+    {
+        EventListener.OnLevelWon -= OnLevelWon;
+    }
+
+    private void OnLevelWon()
+    {
+        var levelCompletion = GameData.Instance.GetLevelCompletion();
+        var level = GameData.Instance.Level;
+
+        SetCompleted(level);
+        if (levelCompletion.SecretPath1)
+        {
+            level = LevelProgressionHandler.GetSecretLevel1(level);
+            UnlockLevel(level);
+        }
+        else if (levelCompletion.SecretPath2)
+        {
+            level = LevelProgressionHandler.GetSecretLevel2(level);
+            UnlockLevel(level);
+        }
+        else if (levelCompletion.LevelCompleted)
+        {
+            level = LevelProgressionHandler.GetNextLevel(level);
+            UnlockLevel(level);
+        }
+
+        GameData.Instance.Data.Stats.LevelsCompleted++;
+        GameData.Instance.Data.SaveData();
+    }
+
     public void Save()
     {
         BinaryFormatter bf = new BinaryFormatter();
