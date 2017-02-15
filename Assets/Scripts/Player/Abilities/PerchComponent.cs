@@ -12,7 +12,7 @@ public class PerchComponent : MonoBehaviour
 
     public bool bJumpOnTouchRelease;
 
-    private const float PerchSwitchTime = 0.15f;    // Once unperched, can't perch immediately
+    private const float PerchSwitchTime = 0.38f;    // Once unperched from bottom, can't re-perch immediately
     private float _timeSinceUnperch;
 
     private enum PerchState
@@ -41,14 +41,13 @@ public class PerchComponent : MonoBehaviour
 
     public void Perch(string objName, bool touchHeld)
     {
-        if (!PerchPossible()) return;
-        
         if (objName.Contains("Top") && touchHeld)
         {
             _state = PerchState.PerchedTop;
         }
         else if (objName.Contains("Bottom") || _player.transform.position.y < 0f)
         {
+            if (!PerchPossible()) return;
             if (touchHeld)
             {
                 bJumpOnTouchRelease = true;

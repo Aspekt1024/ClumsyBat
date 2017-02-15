@@ -132,13 +132,6 @@ public class PlayerController : MonoBehaviour
         // This is currently only used by the Gameover sequence and is reset upon loading the scene
         _bTouchInputEnabled = !bPaused;
     }
-    
-    public bool VeryFirstStartupSequenceRequired()
-    {
-        var gameHandler = _gameHandler.GetComponent<LevelGameHandler>();
-        if (!gameHandler) { return false; }
-        return gameHandler.VeryFirstStartupSequenceRequired();
-    }
 
     public bool GameStarted() { return State != GameState.Starting; }
     public bool TouchHeld() { return _inputManager.TouchHeld(); }

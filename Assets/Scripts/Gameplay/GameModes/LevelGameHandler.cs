@@ -60,64 +60,23 @@ public class LevelGameHandler : GameHandler
 
     public sealed override void StartGame()
     {
-        StartCoroutine("LevelStartCountdown");
+        StartCoroutine("LevelStartAnimation");
         GameMusic.PlaySound(GameMusicControl.GameTrack.Twinkly);
     }
 
-    private IEnumerator LevelStartCountdown()
+    private IEnumerator LevelStartAnimation()
     {
-        const float timeToReachDest = 0.6f;
-        const float countdownDuration = 3f - timeToReachDest;
-        float countdownTimer = 0f;
-        
         yield return new WaitForSeconds(LevelStartupTime);
         Level.GameMenu.RemoveLoadingOverlay();
         yield return null;
 
         ThePlayer.StartFog();
+        ThePlayer.StartCoroutine("CaveEntranceAnimation");
 
-        bool bEntranceAnimStarted = false;
-        while (countdownTimer < countdownDuration + timeToReachDest)
-        {
-            countdownTimer += Time.deltaTime;
-
-            // First level is special (tutorial) so we're going to change the animation for this one only
-            if (!VeryFirstStartupSequenceRequired())
-            {
-                Level.GameHud.SetResumeTimer(countdownDuration - countdownTimer + timeToReachDest);
-            }
-            else if (!bEntranceAnimStarted)
-            {
-                countdownTimer = countdownDuration;
-            }
-
-            if (countdownTimer >= countdownDuration && !bEntranceAnimStarted)
-            {
-                bEntranceAnimStarted = true;
-                ThePlayer.StartCoroutine("CaveEntranceAnimation");
-            }
-            yield return null;
-        }
+        const float timeToReachDest = 0.6f;
+        yield return new WaitForSeconds(timeToReachDest);
 
         LevelStart();
-        if (!VeryFirstStartupSequenceRequired())
-        {
-            Level.GameHud.SetStartText("GO!");
-            yield return new WaitForSeconds(0.6f);
-        }
-
-        Level.GameHud.HideResumeTimer();
-    }
-
-    public bool VeryFirstStartupSequenceRequired()
-    {
-        if (GameData.Instance.Level == LevelProgressionHandler.Levels.Main1
-            && !Toolbox.Instance.TooltipCompleted(TooltipHandler.DialogueId.FirstJump)
-            && Toolbox.Instance.ShowLevelTooltips)
-        {
-            return true;
-        }
-        return false;
     }
 
     private void LevelStart()
@@ -146,7 +105,7 @@ public class LevelGameHandler : GameHandler
         }
     }
 
-    IEnumerator UpdateResumeTimer()
+    private IEnumerator UpdateResumeTimer()
     {
         float waitTime = Level.GameMenu.RaiseMenu();
         yield return new WaitForSeconds(waitTime);
