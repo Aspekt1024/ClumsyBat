@@ -7,26 +7,35 @@ public class BossGameHandler : GameHandler {
     private GameMenuOverlay _gameMenu;
     private GameUI _gameHud;
 
-    private EvilClumsy _theBoss;
+    private BossHandler _theBoss;
     private BossMoths _mothControl;
     
-    public int BossLevelNum = 1;
+    public LevelProgressionHandler.Levels Level = LevelProgressionHandler.Levels.Boss1;
     private const float ResumeTimerDuration = 3f;
     private float _resumeTimerStart;
 
     private void Start()
     {
-        GameData.Instance.Level = LevelProgressionHandler.Levels.Boss1;
+        if (GameData.Instance.Level == LevelProgressionHandler.Levels.Unassigned)
+        {
+            GameData.Instance.Level = Level;
+        }
         _loadScreen = FindObjectOfType<LoadScreen>();
         _gameHud = FindObjectOfType<GameUI>();
         _gameMenu = FindObjectOfType<GameMenuOverlay>();
-        _theBoss = FindObjectOfType<EvilClumsy>();
+        LoadBoss();
         _mothControl = new GameObject("SceneSpawnables").AddComponent<BossMoths>();
         _gameMenu.Hide();
         ThePlayer.Fog.Disable();
         StartCoroutine("LoadSequence");
     }
 	
+    private void LoadBoss()
+    {
+        _theBoss = new GameObject("BossNPC").AddComponent<BossHandler>();
+        _theBoss.SpawnLevelBoss(Level);
+    }
+
 	private void Update ()
 	{
 	}
@@ -48,7 +57,6 @@ public class BossGameHandler : GameHandler {
     public override void PauseGame(bool showMenu)
     {
         ThePlayer.PauseGame(true);
-        _theBoss.PauseGame(true);
         _gameHud.GamePaused(true);
         _mothControl.PauseGame(true);
         if (showMenu) { _gameMenu.PauseGame(); }
@@ -86,7 +94,6 @@ public class BossGameHandler : GameHandler {
     private void ResumeGameplay()
     {
         ThePlayer.PauseGame(false);
-        _theBoss.PauseGame(false);
         _gameHud.HideResumeTimer();
         _gameHud.GamePaused(false);
         _mothControl.PauseGame(false);

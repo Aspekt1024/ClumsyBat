@@ -89,6 +89,7 @@ public class Toolbox : Singleton<Toolbox>
         LevelNames.Add(Levels.Main15, "Hit");
 
         LevelNames.Add(Levels.Boss1, "Evil Clumsy");
+        LevelNames.Add(Levels.Boss2, "King Rockbreath");
         LevelNames.Add(Levels.Training1, "Rocky");
     }
 

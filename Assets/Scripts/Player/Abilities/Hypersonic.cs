@@ -82,9 +82,9 @@ public class Hypersonic : MonoBehaviour {
         {
             other.GetComponent<Mushroom>().DestroyMushroom();
         }
-        if (other.name == "EvilClumsy")
+        if (other.GetComponent<Boss>() != null)
         {
-            other.GetComponent<EvilClumsy>().TakeDamage();
+            other.GetComponent<Boss>().TakeDamage();
         }
     }
 
