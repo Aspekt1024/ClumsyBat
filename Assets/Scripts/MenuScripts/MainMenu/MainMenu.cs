@@ -130,8 +130,8 @@ public class MainMenu : MonoBehaviour {
 
         for (int index = 1; index < GameData.Instance.Data.LevelData.NumLevels; index++)
         {
-            if (_btnScripts[index] == null) continue;
-
+            if (_btnScripts[index] == null || !_btnScripts[index].LevelAvailable()) continue;
+            
             _btnScripts[index].Click(levelId);
             if (!_btnScripts[index].IsDoubleClicked(levelId)) continue;
 

@@ -14,8 +14,7 @@ public class LevelButton : MonoBehaviour
     private Image _levelImage;
     private RectTransform _namePanel;
     private Text _levelName;
-
-    private bool _bAnimationReverse;
+    
     private float _buttonAnimationTimer;
 
     private enum BtnState
@@ -132,39 +131,6 @@ public class LevelButton : MonoBehaviour
                 break;
             case LevelStates.Completed:
                 _levelImage.sprite = _state == BtnState.Clicked ? _completedClickedImage : _completedImage;
-                break;
-        }
-    }
-
-    private void UpdateClickedColour()
-    {
-        // No longer in use but kept for reference.
-        // If this is still out of use in Feb 2016, delete it.
-        const float intensityDepth = 0.9f;
-        const float buttonAnimationDuration = 1f;
-        if (_buttonAnimationTimer > buttonAnimationDuration)
-        {
-            _buttonAnimationTimer -= buttonAnimationDuration;
-            _bAnimationReverse = !_bAnimationReverse;
-        }
-
-        float intensity = intensityDepth * (_buttonAnimationTimer / buttonAnimationDuration);
-        if (_bAnimationReverse)
-        {
-            intensity += (1 - intensityDepth) + intensity;
-        }
-        else
-        {
-            intensity = 1 - intensity;
-        }
-
-        switch (_levelState)
-        {
-            case LevelStates.Completed:
-                _levelImage.color = new Color(1f, 1f, intensity);
-                break;
-            case LevelStates.Enabled:
-                _levelImage.color = new Color(1f, 1f, intensity);
                 break;
         }
     }
