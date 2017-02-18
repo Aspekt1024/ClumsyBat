@@ -4,7 +4,7 @@ using UnityEngine;
 public class ParabolicProjectile {
 
     private readonly Transform _owner;
-    private const float DefaultProjectileSpeed = 12.5f;
+    private const float DefaultProjectileSpeed = 12.5f; // Todo could add variance / some randomness to this speed.
     private const int NumProjectiles = 4;
     private readonly List<ProjectileType> _projectiles = new List<ProjectileType>();
 
@@ -60,29 +60,40 @@ public class ParabolicProjectile {
         var projectile = _projectiles[_projectileIndex];
         projectile.Tf.position = startPos;
         projectile.Body.velocity = velocity;
-        projectile.Body.AddTorque(200f);
+        projectile.Body.AddTorque(200f);    // TODO could randomise this torque
         _projectiles[_projectileIndex] = projectile;
         return true;
     }
 
     private Vector2 CalculateThrowingVelocity(Vector3 startPos, Vector3 playerPos, float speed)
     {
-        float gravity = -Physics2D.gravity.y;
-        float horizontalDist = startPos.x - playerPos.x;
-        float verticalDist = playerPos.y - startPos.y;
 
-        // Source: https://en.wikipedia.org/wiki/Trajectory_of_a_projectile#Angle_required_to_hit_coordinate_.28x.2Cy.29
-        float angle = Mathf.Atan((speed * speed - Mathf.Sqrt(Mathf.Pow(speed, 4) - gravity * (gravity * horizontalDist * horizontalDist + 2 * verticalDist * speed * speed))) / (gravity * horizontalDist));
-        if (float.IsNaN(angle))
+        float angle = CalculateThrowingAngle(startPos, playerPos, speed);
+        if (Mathf.Abs(angle) < 0.001f)
         {
             return Vector2.zero;
         }
 
         float horizontalSpeed = Mathf.Cos(angle);
         float verticalSpeed = Mathf.Sin(angle);
-        Vector2 velocity = new Vector2(-Mathf.Cos(angle), Mathf.Sin(angle)) * speed;
+        Vector2 velocity = new Vector2(-horizontalSpeed, verticalSpeed) * speed;
 
         return velocity;
+    }
+
+    private float CalculateThrowingAngle(Vector3 startPos, Vector3 playerPos, float s)
+    {
+        float g = -Physics2D.gravity.y;
+        float x = startPos.x - playerPos.x;
+        float y = playerPos.y - startPos.y;
+
+        // Source: https://en.wikipedia.org/wiki/Trajectory_of_a_projectile#Angle_required_to_hit_coordinate_.28x.2Cy.29
+        float angle = Mathf.Atan((s * s - Mathf.Sqrt(Mathf.Pow(s, 4) - g * (g * x * x + 2 * y * s * s))) / (g * x));
+        if (float.IsNaN(angle))
+        {
+            angle = 0;
+        }
+        return angle;
     }
 
     public void DeactivateProjectile(Rigidbody2D projectileBody)

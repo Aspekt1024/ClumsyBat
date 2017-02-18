@@ -9,15 +9,21 @@ public class BossHandler : MonoBehaviour {
 
     public void SpawnLevelBoss(LevelProgressionHandler.Levels level)
     {
+        string bossName = string.Empty;
         switch (level)
         {
             case LevelProgressionHandler.Levels.Boss1:
-                //_boss = gameObject.AddComponent<EvilClumsy>();
+                bossName = "EvilClumsy";
                 break;
             case LevelProgressionHandler.Levels.Boss2:
-                _boss = Instantiate(Resources.Load<KingRockbreath>("NPCs/Bosses/KingRockbreath"), gameObject.transform);
-                _boss.transform.position = _bossStartPos;
+                bossName = "KingRockbreath";
                 break;
+            default:
+                Debug.Log("Unable to load boss for level " + level.ToString());
+                return;
         }
+
+        _boss = Instantiate(Resources.Load<EvilClumsy>("NPCs/Bosses/" + bossName), gameObject.transform);
+        _boss.transform.position = _bossStartPos;
     }
 }

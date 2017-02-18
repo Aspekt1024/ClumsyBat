@@ -9,15 +9,14 @@ using GameState = GameHandler.GameStates;
 public class PlayerController : MonoBehaviour
 {
     public Player ThePlayer;
-    
+    public GameState State { get; set; }
+
     private GameHandler _gameHandler;
     private InputManager _inputManager;
-    
-    public GameState State { get; set; }
 
     private bool _bTouchInputEnabled = true;
     private bool _bTouchHeld;
-    
+
     private void Awake()
     {
         State = GameState.Starting;
@@ -50,21 +49,27 @@ public class PlayerController : MonoBehaviour
 
     private void ProcessInput()
     {
-        if (!_bTouchInputEnabled) { return; }
+        if (!_bTouchInputEnabled || State == GameState.Paused) { return; }
         
-        if (_inputManager.SwipeRightRegistered()) { ProcessSwipe(); }
-        if (_inputManager.TapRegistered()) { ProcessTap(); }
+        if (_inputManager.SwipeRightRegistered())
+        {
+            ProcessSwipe();
+        }
+        if (_inputManager.TapRegistered())
+        {
+
+            ProcessTap();
+        }
     }
 
     private void ProcessTap()
     {
-        if (State == GameState.Paused) { return; }
-        ThePlayer.ActivateJump();
+        InputManager.TapDirection tapDir = _inputManager.GetTapDir();
+        ThePlayer.ActivateJump(tapDir);
     }
 
     private void ProcessSwipe()
     {
-        if (State == GameState.Paused) { return; }
         if (ThePlayer.CanRush())
             ThePlayer.ActivateRush();
         else

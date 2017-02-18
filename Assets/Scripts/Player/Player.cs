@@ -16,7 +16,7 @@ public class Player : MonoBehaviour {
     #region Abilities
     private Hypersonic _hypersonic;
     private RushAbility _rush;
-    //private FlapComponent _flap;
+    private FlapComponent _flap;
     private Shield _shield;
     private PerchComponent _perch;
     #endregion
@@ -32,7 +32,6 @@ public class Player : MonoBehaviour {
 
     #region Clumsy Properties
     private readonly Vector3 _playerHoldingArea = new Vector3(-100f, 0f, 0f);        // Where Clumsy goes to die
-    private readonly Vector2 _flapVelocity = new Vector2(0f, 9f);
     private readonly Vector2 _nudgeVelocity = new Vector2(0f, 5f);
     private const float ClumsyX = -5f;
     private const float GravityScale = 3f;
@@ -117,6 +116,7 @@ public class Player : MonoBehaviour {
         _shield = abilityScripts.AddComponent<Shield>();
         _hypersonic = FindObjectOfType<Hypersonic>();
         _perch = abilityScripts.AddComponent<PerchComponent>();
+        _flap = new FlapComponent(this);
         Fog = FindObjectOfType<FogEffect>();
         
         _rush.Setup(this, Lantern);
@@ -187,6 +187,7 @@ public class Player : MonoBehaviour {
     public void ForceHypersonic() { _hypersonic.ForceHypersonic(); }
     public void AddShieldCharge() { _shield.AddCharge(); }
 
+    // TODO why is this here and not in shield? Rename if we're doing something else here.
     public bool ActivateShield()
     {
         if (!_shield.IsAvailable()) return false;
@@ -195,7 +196,7 @@ public class Player : MonoBehaviour {
         return true;
     }
 
-    public void ActivateJump()
+    public void ActivateJump(InputManager.TapDirection tapDir = InputManager.TapDirection.Center)
     {
         if (_state == PlayerState.Perched)
         {
@@ -203,17 +204,13 @@ public class Player : MonoBehaviour {
         }
         else
         {
-            _playerRigidBody.velocity = _flapVelocity;
+            _flap.Flap(tapDir);
         }
-        if (_state == PlayerState.Perched) return;
-        _data.Stats.TotalJumps++;
-        _audioControl.PlaySound(PlayerSounds.Flap);
-        _anim.Play("Flap", 0, 0.5f);
     }
 
     public void UnperchBottom()
     {
-        _playerRigidBody.velocity = _flapVelocity;
+        _flap.Flap();
     }
     public void SetGravity(float gravity)
     {
@@ -370,4 +367,5 @@ public class Player : MonoBehaviour {
     public GameHandler GetGameHandler() { return _gameHandler; }
     public void SwitchPerchState() { _state = _state == PlayerState.Perched ? PlayerState.Normal : PlayerState.Perched; }
     public bool GameHasStarted() { return _state != PlayerState.Startup; }
+    public void SetMovementMode(FlapComponent.MovementMode moveMode) { _flap.Mode = moveMode; }
 }

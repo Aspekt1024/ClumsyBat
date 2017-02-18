@@ -15,7 +15,7 @@ public class KingRockbreath : Boss
 
     private void Update()
     {
-        if (_state == BossStates.Dead || _bPaused) { return; }
+        if (_state == BossStates.Dead || _bPaused || !_player.IsAlive()) { return; }
         _projectileTimer -= Time.deltaTime;
         FireIfReady();
     }

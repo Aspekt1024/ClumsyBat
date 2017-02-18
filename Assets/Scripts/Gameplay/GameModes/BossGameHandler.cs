@@ -23,8 +23,10 @@ public class BossGameHandler : GameHandler {
         _loadScreen = FindObjectOfType<LoadScreen>();
         _gameHud = FindObjectOfType<GameUI>();
         _gameMenu = FindObjectOfType<GameMenuOverlay>();
-        LoadBoss();
         _mothControl = new GameObject("SceneSpawnables").AddComponent<BossMoths>();
+
+        LoadBoss();
+
         _gameMenu.Hide();
         ThePlayer.Fog.Disable();
         StartCoroutine("LoadSequence");
@@ -52,6 +54,7 @@ public class BossGameHandler : GameHandler {
         _loadScreen.HideLoadScreen();
         PlayerController.EnterGamePlay();
         GameMusic.PlaySound(GameMusicControl.GameTrack.Boss);
+        ThePlayer.SetMovementMode(FlapComponent.MovementMode.HorizontalEnabled);
     }
 
     public override void PauseGame(bool showMenu)
@@ -122,6 +125,7 @@ public class BossGameHandler : GameHandler {
 
     public override void TriggerEntered(Collider2D other)
     {
+        // TODO remove searching by name. Use tag.
         switch (other.name)
         {
             case "MothTrigger":
@@ -129,11 +133,10 @@ public class BossGameHandler : GameHandler {
                 moth.ConsumeMoth();
                 break;
         }
-        switch (other.tag.ToString())
+        switch (other.tag)
         {
             case "Projectile":
                 ThePlayer.Die();
-                ThePlayer.GetComponent<Rigidbody2D>().constraints -= RigidbodyConstraints2D.FreezePositionX;
                 ThePlayer.GetComponent<Rigidbody2D>().velocity = new Vector2(-3f, 4f);
                 break;
             case "Moth":

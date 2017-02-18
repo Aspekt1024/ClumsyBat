@@ -13,6 +13,11 @@ public class InputManager : MonoBehaviour
         Tap = 16
     }
 
+    public enum TapDirection
+    {
+        Left, Right, Center
+    }
+
     private SwipeDirection _direction = SwipeDirection.None;
 
     private const float SwipeResistanceX = 70f;
@@ -25,6 +30,8 @@ public class InputManager : MonoBehaviour
     private bool _bGestureSet;
     private bool _bSwipeSet;
     private bool _bIsTouching;
+
+    private TapDirection _tapDir;
 
     private void Update()
     {
@@ -51,8 +58,7 @@ public class InputManager : MonoBehaviour
                     {
                         if (Time.time > _touchStartTime + StationaryTime)
                         {
-                            _bGestureSet = true;
-                            _direction = SwipeDirection.Tap;
+                            RegisterTap(touch.position.x);
                         }
                     }
                     break;
@@ -66,8 +72,7 @@ public class InputManager : MonoBehaviour
                     }
                     else if (!_bGestureSet && Time.time > _touchStartTime + StationaryTime)
                     {
-                        _bGestureSet = true;
-                        _direction = SwipeDirection.Tap;
+                        RegisterTap(touch.position.x);
                     }
                     break;
 
@@ -81,15 +86,14 @@ public class InputManager : MonoBehaviour
                     }
                     else if (!_bGestureSet)
                     {
-                        _bGestureSet = true;
-                        _direction = SwipeDirection.Tap;
+                        RegisterTap(touch.position.x);
                     }
                     break;
             }
         }
 
         #region Keyboard emulation
-        if (Input.GetKeyDown("w"))
+        if (Input.GetKeyDown("w") || Input.GetKeyDown("q") || Input.GetKeyDown("e"))
         {
             _bIsTouching = true;
             _touchStartTime = Time.time;
@@ -105,25 +109,57 @@ public class InputManager : MonoBehaviour
         }
         else if (Input.GetKey("w"))
         {
-            if (Time.time > _touchStartTime + StationaryTime)
-            {
-                if (!_bGestureSet)
-                {
-                    _bGestureSet = true;
-                    _direction = SwipeDirection.Tap;
-                }
-            }
+            if (Time.time > _touchStartTime + StationaryTime && !_bGestureSet)
+                RegisterTap(Screen.width / 2);
+        }
+        else if (Input.GetKey("q"))
+        {
+            if (Time.time > _touchStartTime + StationaryTime && !_bGestureSet)
+                RegisterTap(0);
+        }
+        else if (Input.GetKey("e"))
+        {
+            if (Time.time > _touchStartTime + StationaryTime && !_bGestureSet)
+                RegisterTap(Screen.width);
         }
         else if (Input.GetKeyUp("w"))
         {
             _bIsTouching = false;
             if (!_bGestureSet)
-            {
-                _bGestureSet = true;
-                _direction = SwipeDirection.Tap;
-            }
+                RegisterTap(Screen.width / 2);
+        }
+        else if (Input.GetKeyUp("q"))
+        {
+            _bIsTouching = false;
+            if (!_bGestureSet)
+                RegisterTap(0);
+        }
+        else if (Input.GetKeyUp("e"))
+        {
+            _bIsTouching = false;
+            if (!_bGestureSet)
+                RegisterTap(Screen.width);
         }
         #endregion
+    }
+
+    private void RegisterTap(float touchPosX)
+    {
+        _bGestureSet = true;
+        _direction = SwipeDirection.Tap;
+        
+        if (touchPosX < 0.4 * Screen.width)
+        {
+            _tapDir = TapDirection.Left;
+        }
+        else if (touchPosX > 0.6 * Screen.width)
+        {
+            _tapDir = TapDirection.Right;
+        }
+        else
+        {
+            _tapDir = TapDirection.Center;
+        }
     }
 
     public bool SwipeRightRegistered()
@@ -154,5 +190,10 @@ public class InputManager : MonoBehaviour
     public void ClearInput()
     {
         _direction = SwipeDirection.None;
+    }
+
+    public TapDirection GetTapDir()
+    {
+        return _tapDir;
     }
 }

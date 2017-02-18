@@ -4,10 +4,10 @@ using UnityEngine;
 public class Boss : MonoBehaviour {
 
     protected Player _player;
-    private Rigidbody2D _body;
-    private Animator _anim;
-    private SpriteRenderer _renderer;
-    private CircleCollider2D _collider;
+    protected Rigidbody2D _body;
+    protected Animator _anim;
+    protected SpriteRenderer _renderer;
+    protected CircleCollider2D _collider;
 
     protected bool _bPaused;
     private Vector2 _storedVelocity;
