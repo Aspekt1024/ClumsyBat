@@ -6,6 +6,7 @@ public class BossGameHandler : GameHandler {
     private LoadScreen _loadScreen;
     private GameMenuOverlay _gameMenu;
     private GameUI _gameHud;
+    private Camera _playerCam;
 
     private BossHandler _theBoss;
     private BossMoths _mothControl;
@@ -13,6 +14,16 @@ public class BossGameHandler : GameHandler {
     public LevelProgressionHandler.Levels Level = LevelProgressionHandler.Levels.Boss1;
     private const float ResumeTimerDuration = 3f;
     private float _resumeTimerStart;
+
+    private float _distTravelled;
+
+    private enum BossGameState
+    {
+        Startup,
+        MovingTowardsBoss,
+        InBossRoom
+    }
+    private BossGameState _state;
 
     private void Start()
     {
@@ -24,8 +35,8 @@ public class BossGameHandler : GameHandler {
         _gameHud = FindObjectOfType<GameUI>();
         _gameMenu = FindObjectOfType<GameMenuOverlay>();
         _mothControl = new GameObject("SceneSpawnables").AddComponent<BossMoths>();
-
-        LoadBoss();
+        _theBoss = new GameObject("BossNPC").AddComponent<BossHandler>();
+        _playerCam = FindObjectOfType<Camera>();
 
         _gameMenu.Hide();
         ThePlayer.Fog.Disable();
@@ -34,31 +45,57 @@ public class BossGameHandler : GameHandler {
 	
     private void LoadBoss()
     {
-        _theBoss = new GameObject("BossNPC").AddComponent<BossHandler>();
         _theBoss.SpawnLevelBoss(Level);
     }
 
 	private void Update ()
 	{
+        if (GameState != GameStates.Normal) return;
+        if (_state == BossGameState.MovingTowardsBoss)
+        {
+            MoveClumsy(Time.deltaTime);
+        }
 	}
+
+    private void MoveClumsy(float time)
+    {
+        if (ThePlayer.IsPerched()) return;
+        float dist = time * ThePlayer.GetPlayerSpeed();
+        if (_distTravelled + dist > Toolbox.TileSizeX)
+        {
+            dist = Toolbox.TileSizeX - _distTravelled;
+            ThePlayer.SetMovementMode(FlapComponent.MovementMode.HorizontalEnabled);
+            StartCoroutine("BossEntrance");
+        }
+        _distTravelled += dist;
+        ThePlayer.transform.position += Vector3.right * dist;
+        _playerCam.transform.position += Vector3.right * dist;
+        ThePlayer.Lantern.transform.position += Vector3.right * dist;
+        
+    }
     
     private IEnumerator LoadSequence()
     {
         yield return new WaitForSeconds(1f);
         StartGame();
+        yield return ThePlayer.StartCoroutine("CaveEntranceAnimation");
+        GameState = GameStates.Normal;
+        _state = BossGameState.MovingTowardsBoss;
+        ThePlayer.SetPlayerSpeed(Toolbox.Instance.LevelSpeed);
+        PlayerController.EnterGamePlay();
     }
 
-    public override void StartGame()    // TODO this doesnt need to be implemented.
+    private void StartGame()
     {
         _gameHud.StartGame();
         _loadScreen.HideLoadScreen();
-        PlayerController.EnterGamePlay();
-        GameMusic.PlaySound(GameMusicControl.GameTrack.Boss);
-        ThePlayer.SetMovementMode(FlapComponent.MovementMode.HorizontalEnabled);
+        GameMusic.PlaySound(GameMusicControl.GameTrack.Twinkly);
+        ThePlayer.SetMovementMode(FlapComponent.MovementMode.VerticalOnly);
     }
 
     public override void PauseGame(bool showMenu)
     {
+        GameState = GameStates.Paused;
         ThePlayer.PauseGame(true);
         _gameHud.GamePaused(true);
         _mothControl.PauseGame(true);
@@ -78,9 +115,21 @@ public class BossGameHandler : GameHandler {
             ResumeGameplay();
         }
     }
+
+    private IEnumerator BossEntrance()
+    {
+        _state = BossGameState.InBossRoom;
+        ThePlayer.EnableHover();
+        yield return new WaitForSeconds(1f);
+        LoadBoss();
+        yield return new WaitForSeconds(2f);
+        ThePlayer.DisableHover();
+
+    }
     
     private IEnumerator UpdateResumeTimer()
     {
+        GameState = GameStates.Resuming;
         float waitTime = _gameMenu.RaiseMenu();
         yield return new WaitForSeconds(waitTime);
         _resumeTimerStart = Time.time;
@@ -96,6 +145,7 @@ public class BossGameHandler : GameHandler {
 
     private void ResumeGameplay()
     {
+        GameState = GameStates.Normal;
         ThePlayer.PauseGame(false);
         _gameHud.HideResumeTimer();
         _gameHud.GamePaused(false);

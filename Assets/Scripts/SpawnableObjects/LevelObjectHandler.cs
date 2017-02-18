@@ -51,7 +51,6 @@ public class LevelObjectHandler : MonoBehaviour {
         LoadLevel();
         Debug.Log("Level " + GameData.Instance.Level + " loaded.");
         SetupObjectPools();
-        FindObjectOfType<PlayerController>().StartGame();
     }
 
     private void Update()

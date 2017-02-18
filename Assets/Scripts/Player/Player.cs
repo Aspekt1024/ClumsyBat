@@ -46,6 +46,7 @@ public class Player : MonoBehaviour {
         Startup,
         Normal,
         Perched,
+        Hovering,
         Dying,
         Dead,
         EndOfLevel
@@ -162,17 +163,24 @@ public class Player : MonoBehaviour {
 
     public IEnumerator CaveEntranceAnimation()
     {
-        Vector3 startPoint = transform.position;
-        Vector2 targetPoint = new Vector2(ClumsyX, 1.3f);
+        _state = PlayerState.Startup;
+        float animTimer = 0f;
+        const float animDuration = 0.63f;
+        Vector2 startPos = new Vector2(-Toolbox.TileSizeX / 2, -0.7f);
+        Vector2 targetPos = new Vector2(ClumsyX, 1.3f);
 
-        while (transform.position.x < targetPoint.x)
+        while (animTimer < animDuration)
         {
-            float xPos = transform.position.x + Time.deltaTime * Toolbox.Instance.LevelSpeed * 1.7f;
-            float xPercent = 1 - (targetPoint.x - transform.position.x) / (targetPoint.x - startPoint.x);
-            float yPos = startPoint.y + (targetPoint.y - startPoint.y) * xPercent * xPercent * xPercent;
+            animTimer += Time.deltaTime;
+            float animRatio = animTimer / animDuration;
+            float xPos = startPos.x - (startPos.x - targetPos.x) * animRatio;
+            float yPos = startPos.y - (startPos.y - targetPos.y) * Mathf.Pow(animRatio, 2);
             transform.position = new Vector3(xPos, yPos, transform.position.z);
             yield return null;
         }
+
+        _playerRigidBody.velocity = new Vector2(0, 3f);
+        _state = PlayerState.Normal;
     }
 
     public void CaveEndReached()
@@ -351,6 +359,44 @@ public class Player : MonoBehaviour {
         else
         {
             _playerRigidBody.velocity = _nudgeVelocity;
+        }
+    }
+
+
+    public void EnableHover()
+    {
+        _state = PlayerState.Hovering;
+        _playerRigidBody.velocity = Vector2.zero;
+        _playerRigidBody.isKinematic = true;
+        _playerController.PauseInput(true);
+        StartCoroutine("Hover", transform.position.y);
+    }
+
+    public void DisableHover()
+    {
+        _state = PlayerState.Normal;
+        _playerRigidBody.isKinematic = false;
+        _playerController.PauseInput(false);
+        StopCoroutine("Hover");
+    }
+
+    private IEnumerator Hover(float startY)
+    {
+        const float dist = 0.3f;
+        const float interval = 0.4f;
+        float timer = 0f;
+        bool rising = true;
+        
+        while (true)
+        {
+            timer += Time.deltaTime;
+            if (timer > interval)
+            {
+                timer -= interval;
+                rising = !rising;
+            }
+            transform.position += new Vector3(0f, (rising ? dist : -dist) * Time.deltaTime, 0f);
+            yield return null;
         }
     }
 

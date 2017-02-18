@@ -34,8 +34,7 @@ public abstract class GameHandler : MonoBehaviour {
     {
         EventListener.OnDeath -= OnDeath;
     }
-
-    public abstract void StartGame();
+    
     public abstract void PauseGame(bool showMenu);
     public abstract void ResumeGame(bool immediate = false);
 

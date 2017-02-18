@@ -25,11 +25,6 @@ public class PlayerController : MonoBehaviour
         _gameHandler = scriptsObject.GetComponent<GameHandler>();
         ThePlayer = FindObjectOfType<Player>();
     }
-
-    public void StartGame()
-    {
-        _gameHandler.StartGame();
-    }
     
     private void Update()
     {

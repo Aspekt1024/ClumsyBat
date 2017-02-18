@@ -137,6 +137,7 @@ public class DropdownInGameMenu : MonoBehaviour {
                     break;
             }
         }
-        return buttonPosX;
+        
+        return buttonPosX + _menuHeader.RectTransform.position.x;
     }
 }

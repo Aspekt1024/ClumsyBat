@@ -34,7 +34,7 @@ public class TrainingGameHandler : GameHandler
         StartGame();
     }
 
-    public override void StartGame() // TODO this doesnt need to be implemented. nothing external calls it.
+    private void StartGame()
     {
         _gameHud.StartGame();
         _loadScreen.HideLoadScreen();

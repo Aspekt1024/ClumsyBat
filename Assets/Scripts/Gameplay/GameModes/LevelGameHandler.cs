@@ -17,6 +17,7 @@ public class LevelGameHandler : GameHandler
         ThePlayer.transform.position = new Vector3(-Toolbox.TileSizeX / 2f, 0f, ThePlayer.transform.position.z);
         _caveHandler = FindObjectOfType<CaveHandler>();
         _villageSequencer = GameObject.FindGameObjectWithTag("Scripts").AddComponent<VillageSequencer>();
+        StartCoroutine("LoadSequence");
     }
 	
 	private void Update ()
@@ -29,6 +30,13 @@ public class LevelGameHandler : GameHandler
         {
             ThePlayer.CaveEndReached();
         }
+    }
+
+    private IEnumerator LoadSequence()
+    {
+        yield return new WaitForSeconds(1f);
+        StartCoroutine("LevelStartAnimation");
+        GameMusic.PlaySound(GameMusicControl.GameTrack.Twinkly);
     }
 
     public override void MovePlayerAtCaveEnd(float dist)
@@ -56,12 +64,6 @@ public class LevelGameHandler : GameHandler
     {
         if (_caveHandler.IsGnomeEnding() && Level.AtCaveEnd() || !ThePlayer.GameHasStarted()) return;
         base.AddDistance(dist);
-    }
-
-    public sealed override void StartGame()
-    {
-        StartCoroutine("LevelStartAnimation");
-        GameMusic.PlaySound(GameMusicControl.GameTrack.Twinkly);
     }
 
     private IEnumerator LevelStartAnimation()
