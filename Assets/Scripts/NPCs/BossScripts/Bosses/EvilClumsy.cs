@@ -8,7 +8,7 @@ public class EvilClumsy : MonoBehaviour
     private Animator _anim;
     private SpriteRenderer _renderer;
     private CircleCollider2D _collider;
-    private Projectile _projectile;
+    private StraightProjectile _projectile;
 
     private bool _bPaused;
     private Vector2 _storedVelocity;
@@ -34,7 +34,7 @@ public class EvilClumsy : MonoBehaviour
 	    _renderer = GetComponent<SpriteRenderer>();
         _collider = GetComponent<CircleCollider2D>();
         _player = FindObjectOfType<Player>();
-        _projectile = new Projectile(transform);
+        _projectile = new StraightProjectile(transform);
         _health = 3;
     }
 	

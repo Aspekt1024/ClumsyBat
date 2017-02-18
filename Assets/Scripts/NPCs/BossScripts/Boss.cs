@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Boss : MonoBehaviour {
 
-    private Player _player;
+    protected Player _player;
     private Rigidbody2D _body;
     private Animator _anim;
     private SpriteRenderer _renderer;

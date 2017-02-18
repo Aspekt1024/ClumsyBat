@@ -263,6 +263,7 @@ public class Player : MonoBehaviour {
 
     public void Die()
     {
+        _perch.Unperch();
         EventListener.Death();
         DisablePlayerController();
         _state = PlayerState.Dying;

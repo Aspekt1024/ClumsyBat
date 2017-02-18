@@ -124,14 +124,24 @@ public class BossGameHandler : GameHandler {
     {
         switch (other.name)
         {
+            case "MothTrigger":
+                Moth moth = other.GetComponentInParent<Moth>();
+                moth.ConsumeMoth();
+                break;
+        }
+        switch (other.tag.ToString())
+        {
             case "Projectile":
                 ThePlayer.Die();
                 ThePlayer.GetComponent<Rigidbody2D>().constraints -= RigidbodyConstraints2D.FreezePositionX;
                 ThePlayer.GetComponent<Rigidbody2D>().velocity = new Vector2(-3f, 4f);
                 break;
-            case "MothTrigger":
+            case "Moth":
                 Moth moth = other.GetComponentInParent<Moth>();
                 moth.ConsumeMoth();
+                break;
+            default:
+                Debug.Log(other.tag);
                 break;
         }
     }

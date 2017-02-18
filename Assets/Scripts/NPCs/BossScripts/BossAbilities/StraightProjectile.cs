@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Collections;
 using UnityEngine;
 
-public class Projectile
+public class StraightProjectile
 {
     private readonly Transform _owner;
     private const float DefaultProjectileSpeed = 7f;
@@ -11,16 +10,14 @@ public class Projectile
 
     private int _projectileIndex;
 
-    //private bool _bPaused;
-
     public struct ProjectileType
     {
         public Transform Tf;
         public Rigidbody2D Body;
         public float Speed;
-    }
+    } 
 
-    public Projectile(Transform owner)
+    public StraightProjectile(Transform owner)
     {
         _owner = owner;
         CreateProjectilePool();
@@ -51,11 +48,11 @@ public class Projectile
     {
         _projectileIndex++;
         if (_projectileIndex == NumProjectiles) { _projectileIndex = 0; }
-
+    
         var projectile = _projectiles[_projectileIndex];
         projectile.Tf.position = _owner.position;
         projectile.Speed = speed;
-        projectile.Body.velocity = Vector2.left * projectile.Speed;
+        projectile.Body.velocity = Vector2.left * speed;
         _projectiles[_projectileIndex] = projectile;
     }
 
@@ -67,7 +64,6 @@ public class Projectile
 
     public void PauseGame(bool paused)
     {
-        //_bPaused = paused;
         foreach (var projectile in _projectiles)
         {
             projectile.Body.velocity = Vector2.left * (paused ? 0f : projectile.Speed);
