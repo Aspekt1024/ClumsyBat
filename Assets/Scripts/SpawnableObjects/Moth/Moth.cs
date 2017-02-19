@@ -100,6 +100,22 @@ public class Moth : Spawnable {
         _bConsumption = false;
     }
 
+    private void PlayNormalAnimation()
+    {
+        switch (Colour)
+        {
+            case MothColour.Green:
+                _mothAnimator.Play("MothGreenAnimation", 0, 0f);
+                break;
+            case MothColour.Blue:
+                _mothAnimator.Play("MothBlueAnimation", 0, 0f);
+                break;
+            case MothColour.Gold:
+                _mothAnimator.Play("MothGoldAnimation", 0, 0f);
+                break;
+        }
+    }
+
     private void PlayExplosionAnim()
     {
         //_mothAudio.PlayOneShot(Resources.Load<AudioClip>("LanternConsumeMoth"));  // TODO moth morph sound
@@ -136,17 +152,41 @@ public class Moth : Spawnable {
         MothSprite.transform.position = transform.position;
         _pathHandler.SetPathType(pathType);
         Colour = colour;
-        switch (colour)
+        PlayNormalAnimation();
+    }
+
+    public IEnumerator SpawnFromEssence(float despawnTimer)
+    {
+        _mothCollider.enabled = false;
+        PlayExplosionAnim();
+        yield return StartCoroutine("WaitSeconds", 0.9f);
+        PlayNormalAnimation();
+        yield return StartCoroutine("WaitSeconds", 0.2f);
+        _mothCollider.enabled = true;
+
+        if (Mathf.Abs(despawnTimer) > 0.001)
         {
-            case MothColour.Green:
-                _mothAnimator.Play("MothGreenAnimation", 0, 0f);
-                break;
-            case MothColour.Blue:
-                _mothAnimator.Play("MothBlueAnimation", 0, 0f);
-                break;
-            case MothColour.Gold:
-                _mothAnimator.Play("MothGoldAnimation", 0, 0f);
-                break;
+            yield return StartCoroutine("WaitSeconds", despawnTimer);
+
+            if (IsActive)
+            {
+                _mothCollider.enabled = false;
+                PlayExplosionAnim();
+                yield return StartCoroutine("WaitSeconds", 0.9f);
+                base.SendToInactivePool();
+                MothSprite.transform.position = transform.position;
+            }
+        }
+    }
+
+    private IEnumerator WaitSeconds(float secs)
+    {
+        float timer = 0f;
+        while (timer < secs)
+        {
+            if (!bPaused)
+                timer += Time.deltaTime;
+            yield return null;
         }
     }
 

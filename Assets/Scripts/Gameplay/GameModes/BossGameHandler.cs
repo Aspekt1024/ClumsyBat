@@ -9,7 +9,6 @@ public class BossGameHandler : GameHandler {
     private Camera _playerCam;
 
     private BossHandler _theBoss;
-    private BossMoths _mothControl;
     
     public LevelProgressionHandler.Levels Level = LevelProgressionHandler.Levels.Boss1;
     private const float ResumeTimerDuration = 3f;
@@ -34,7 +33,6 @@ public class BossGameHandler : GameHandler {
         _loadScreen = FindObjectOfType<LoadScreen>();
         _gameHud = FindObjectOfType<GameUI>();
         _gameMenu = FindObjectOfType<GameMenuOverlay>();
-        _mothControl = new GameObject("SceneSpawnables").AddComponent<BossMoths>();
         _theBoss = new GameObject("BossNPC").AddComponent<BossHandler>();
         _playerCam = FindObjectOfType<Camera>();
 
@@ -98,10 +96,10 @@ public class BossGameHandler : GameHandler {
 
     public override void PauseGame(bool showMenu)
     {
+        EventListener.PauseGame();
         GameState = GameStates.Paused;
         ThePlayer.PauseGame(true);
         _gameHud.GamePaused(true);
-        _mothControl.PauseGame(true);
         if (showMenu) { _gameMenu.PauseGame(); }
     }
 
@@ -151,11 +149,11 @@ public class BossGameHandler : GameHandler {
 
     private void ResumeGameplay()
     {
+        EventListener.ResumeGame();
         GameState = GameStates.Normal;
         ThePlayer.PauseGame(false);
         _gameHud.HideResumeTimer();
         _gameHud.GamePaused(false);
-        _mothControl.PauseGame(false);
         PlayerController.ResumeGameplay();
     }
 

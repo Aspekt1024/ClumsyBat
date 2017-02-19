@@ -46,7 +46,7 @@ public sealed class MothPool : SpawnPool<Moth>
     public void ActivateMothInRange(float minY, float maxY, Moth.MothColour colour)
     {
         Moth newMoth = GetNextObject();
-        float xPos = 10f + Object.FindObjectOfType<Camera>().transform.position.x;
+        float xPos = 10f + GameObject.FindGameObjectWithTag("MainCamera").transform.position.x;
         var spawnTf = new Spawnable.SpawnType
         {
             Pos = new Vector2(xPos, Random.Range(minY, maxY)),
@@ -54,5 +54,19 @@ public sealed class MothPool : SpawnPool<Moth>
             Scale = Vector2.one
         };
         newMoth.Activate(spawnTf, colour, MothPathHandler.MothPathTypes.Sine);
+    }
+
+    public void ActivateMothFromEssence(Vector2 spawnLoc, Moth.MothColour colour, float despawnTimer)
+    {
+        Moth newMoth = GetNextObject();
+        spawnLoc += new Vector2(GameObject.FindGameObjectWithTag("MainCamera").transform.position.x, 0f);
+        var spawnTf = new Spawnable.SpawnType
+        {
+            Pos = spawnLoc,
+            Rotation = new Quaternion(),
+            Scale = Vector2.one
+        };
+        newMoth.Activate(spawnTf, colour, MothPathHandler.MothPathTypes.Clover);
+        newMoth.StartCoroutine("SpawnFromEssence", despawnTimer);
     }
 }

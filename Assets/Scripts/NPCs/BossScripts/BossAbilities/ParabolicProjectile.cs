@@ -15,6 +15,7 @@ public class ParabolicProjectile {
         public Transform Tf;
         public Rigidbody2D Body;
         public Vector2 PausedVelocity;
+        public float PausedAngularVelocity;
     }
 
     public ParabolicProjectile(Transform owner)
@@ -102,36 +103,28 @@ public class ParabolicProjectile {
         projectileBody.position = Toolbox.Instance.HoldingArea;
     }
 
-    // TODO split this into Pause/resume functions
-    public void PauseGame(bool paused)
-    {
-        if (paused)
-        {
-            Pause();
-        }
-        else
-        {
-            Resume();
-        }
-    }
-
-    private void Pause()
+    public void Pause()
     {
         for (int i = 0; i < _projectiles.Count; i++)
         {
             var projectile = _projectiles[i];
             projectile.PausedVelocity = projectile.Body.velocity;
+            projectile.PausedAngularVelocity = projectile.Body.angularVelocity;
             projectile.Body.velocity = Vector2.zero;
+            projectile.Body.angularVelocity = 0f;
+            projectile.Body.isKinematic = true;
             _projectiles[i] = projectile;
         }
     }
 
-    private void Resume()
+    public void Resume()
     {
         for (int i = 0; i < _projectiles.Count; i++)
         {
             var projectile = _projectiles[i];
+            projectile.Body.isKinematic = false;
             projectile.Body.velocity = projectile.PausedVelocity;
+            projectile.Body.angularVelocity = projectile.PausedAngularVelocity;
             _projectiles[i] = projectile;
         }
     }

@@ -23,6 +23,17 @@ public class Boss : MonoBehaviour {
 
     protected BossStates _state;
 
+    private void OnEnable()
+    {
+        EventListener.OnPauseGame += PauseGame;
+        EventListener.OnResumeGame += ResumeGame;
+    }
+    private void OnDisable()
+    {
+        EventListener.OnPauseGame -= PauseGame;
+        EventListener.OnResumeGame -= ResumeGame;
+    }
+
     private void Awake()
     {
         _state = BossStates.Idle;
@@ -33,20 +44,21 @@ public class Boss : MonoBehaviour {
         _player = FindObjectOfType<Player>();
     }
 
-    public virtual void PauseGame(bool paused)
+    protected virtual void PauseGame()
     {
-        _bPaused = paused;
-        if (paused)
-        {
-            _storedVelocity = _body.velocity;
-            _body.velocity = Vector2.zero;
-        }
-        else
-        {
-            _body.velocity = _storedVelocity;
-        }
-        _body.isKinematic = paused;
-        _anim.enabled = !paused;
+        _bPaused = true;
+        _storedVelocity = _body.velocity;
+        _body.velocity = Vector2.zero;
+        _body.isKinematic = true;
+        _anim.enabled = false;
+    }
+
+    protected virtual void ResumeGame()
+    {
+        _bPaused = false;
+        _body.velocity = _storedVelocity;
+        _body.isKinematic = false;
+        _anim.enabled = true;
     }
 
     public void TakeDamage(int damage = 1)
@@ -96,5 +108,10 @@ public class Boss : MonoBehaviour {
             }
         }
         _renderer.color = originalColor;
+    }
+
+    public bool IsPaused()
+    {
+        return _bPaused;
     }
 }

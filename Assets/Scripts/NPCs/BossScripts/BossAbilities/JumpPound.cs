@@ -18,7 +18,7 @@ public class JumpPound : MonoBehaviour
         
         yield return new WaitForSeconds(0.5f);
 
-        while (GetComponent<Rigidbody2D>().velocity.y > 0)
+        while (GetComponent<Rigidbody2D>().velocity.y >= 0)  // TODO if the player pauses during jump, velocity will be 0 so this could bug out.
         {
             yield return null;
         }
@@ -39,6 +39,17 @@ public class JumpPound : MonoBehaviour
         CameraEventListener.CameraShake();
         yield return new WaitForSeconds(time);
         CameraEventListener.StopCameraShake();
+    }
+    
+    private IEnumerator WaitSeconds(float secs)
+    {
+        float timer = 0f;
+        while (timer < secs)
+        {
+            if (!GetComponent<Boss>().IsPaused())
+                timer += Time.deltaTime;
+            yield return null;
+        }
     }
 
 }

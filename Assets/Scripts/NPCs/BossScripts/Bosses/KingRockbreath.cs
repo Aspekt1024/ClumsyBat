@@ -4,6 +4,7 @@ public class KingRockbreath : Boss
 {
     private ParabolicProjectile _projectile;
     private JumpPound _jumpPound;
+    private BossMoths _mothControl;
 
     private const float ProjectileCooldown = 2f;
     private float _projectileTimer = 3f;
@@ -48,6 +49,7 @@ public class KingRockbreath : Boss
     {
         _projectile = new ParabolicProjectile(transform);
         _jumpPound = gameObject.AddComponent<JumpPound>();
+        _mothControl = new GameObject("SceneSpawnables").AddComponent<BossMoths>();
     }
 
     private void SubtractCooldownTime(float time)
@@ -65,5 +67,17 @@ public class KingRockbreath : Boss
             else if (_projectileTimer <= 0)
                 ThrowProjectile();
         }
+    }
+
+    protected override void PauseGame()
+    {
+        base.PauseGame();
+        _projectile.Pause();
+    }
+
+    protected override void ResumeGame()
+    {
+        base.ResumeGame();
+        _projectile.Resume();
     }
 }
