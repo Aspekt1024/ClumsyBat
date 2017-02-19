@@ -42,12 +42,37 @@ public abstract class GameHandler : MonoBehaviour {
     public abstract void LevelComplete();
     
     public virtual void GameOver() { }
-    public virtual void TriggerEntered(Collider2D other) { }
     public virtual void TriggerExited(Collider2D other) { }
-    public virtual void Collision(Collision2D other) { }
-    
     protected virtual void OnDeath() { }
 
+    public virtual void TriggerEntered(Collider2D other)
+    {
+        switch (other.tag)
+        {
+            case "Projectile":
+                ThePlayer.Die();
+                ThePlayer.GetComponent<Rigidbody2D>().velocity = new Vector2(-3f, 4f);
+                break;
+            case "Moth":
+                Moth moth = other.GetComponentInParent<Moth>();
+                moth.ConsumeMoth();
+                break;
+            default:
+                Debug.Log(other.name + " has unknown trigger tag: " + other.tag);
+                break;
+        }
+    }
+
+    public virtual void Collision(Collision2D other)
+    {
+        switch (other.collider.tag)
+        {
+            case "Boss":
+                Debug.Log("om nom nom");
+                break;
+        }
+    }
+    
     /// <summary>
     /// Handles the player movement throughout the scene, based
     /// on the distance given by the Player class

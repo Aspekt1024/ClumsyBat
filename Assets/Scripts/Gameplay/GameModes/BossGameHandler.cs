@@ -59,11 +59,13 @@ public class BossGameHandler : GameHandler {
 
     private void MoveClumsy(float time)
     {
+        const float manualCaveScale = 0.8558578f;
+        float distToTravel = Toolbox.TileSizeX * manualCaveScale + 1f;
         if (ThePlayer.IsPerched()) return;
         float dist = time * ThePlayer.GetPlayerSpeed();
-        if (_distTravelled + dist > Toolbox.TileSizeX)
+        if (_distTravelled + dist > distToTravel)
         {
-            dist = Toolbox.TileSizeX - _distTravelled;
+            dist = distToTravel - _distTravelled;
             ThePlayer.SetMovementMode(FlapComponent.MovementMode.HorizontalEnabled);
             StartCoroutine("BossEntrance");
         }
@@ -120,6 +122,9 @@ public class BossGameHandler : GameHandler {
     {
         _state = BossGameState.InBossRoom;
         ThePlayer.EnableHover();
+
+        FindObjectOfType<SlidingDoors>().Close();
+
         yield return new WaitForSeconds(1f);
         LoadBoss();
         yield return new WaitForSeconds(2f);
@@ -171,32 +176,6 @@ public class BossGameHandler : GameHandler {
         EventListener.LevelWon();
 
         // TODO add sound to sound controller script
-    }
-
-    public override void TriggerEntered(Collider2D other)
-    {
-        // TODO remove searching by name. Use tag.
-        switch (other.name)
-        {
-            case "MothTrigger":
-                Moth moth = other.GetComponentInParent<Moth>();
-                moth.ConsumeMoth();
-                break;
-        }
-        switch (other.tag)
-        {
-            case "Projectile":
-                ThePlayer.Die();
-                ThePlayer.GetComponent<Rigidbody2D>().velocity = new Vector2(-3f, 4f);
-                break;
-            case "Moth":
-                Moth moth = other.GetComponentInParent<Moth>();
-                moth.ConsumeMoth();
-                break;
-            default:
-                Debug.Log(other.tag);
-                break;
-        }
     }
 
     public override void GameOver()
