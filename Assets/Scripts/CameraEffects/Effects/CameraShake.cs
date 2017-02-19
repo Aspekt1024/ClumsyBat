@@ -28,9 +28,9 @@ public class CameraShake : MonoBehaviour {
 
     public void Shake()
     {
-        _startPos = _camera.position;
+        _startPos = new Vector3(_camera.position.x - _xDeviation, _camera.position.y, _camera.position.z);
         _xDeviation = 0f;
-        StartCoroutine("ShakeCam");
+        CancelInvoke();
         InvokeRepeating("ShakeCam", 0f, ShakeRate);
     }
 
@@ -45,5 +45,6 @@ public class CameraShake : MonoBehaviour {
     {
         _camera.position = new Vector3(_camera.position.x - _xDeviation, 0f, _startPos.z);
         CancelInvoke();
+        _xDeviation = 0f;
     }
 }

@@ -7,7 +7,7 @@ public class Boss : MonoBehaviour {
     protected Rigidbody2D _body;
     protected Animator _anim;
     protected SpriteRenderer _renderer;
-    protected CircleCollider2D _collider;
+    protected Collider2D _collider;
 
     protected bool _bPaused;
     private Vector2 _storedVelocity;
@@ -29,7 +29,7 @@ public class Boss : MonoBehaviour {
         _body = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
         _renderer = GetComponent<SpriteRenderer>();
-        _collider = GetComponent<CircleCollider2D>();
+        _collider = GetComponent<Collider2D>();
         _player = FindObjectOfType<Player>();
     }
 
@@ -54,13 +54,7 @@ public class Boss : MonoBehaviour {
         _health -= damage;
         if (_health <= 0)
         {
-            _state = BossStates.Dead;
-            _collider.enabled = false;
-            transform.localScale *= 4;
-            transform.rotation = Quaternion.identity;
-            _anim.Play("Die");
-            _body.velocity = new Vector2(3f, 5f);
-            FindObjectOfType<BossGameHandler>().LevelComplete();
+            Die();
         }
         else
         {
@@ -68,10 +62,21 @@ public class Boss : MonoBehaviour {
         }
     }
 
+    protected virtual void Die()
+    {
+        _state = BossStates.Dead;
+        _collider.enabled = false;
+        //_anim.Play("Die");
+        _body.velocity = new Vector2(3f, 5f);
+        FindObjectOfType<BossGameHandler>().LevelComplete();    // TODO set as event
+    }
+
     private IEnumerator Damaged()
     {
         const int numFlashes = 8;
         const float flashDuration = 0.05f;
+
+        Color originalColor = _renderer.color;
 
         bool flashOn = true;
 
@@ -90,6 +95,6 @@ public class Boss : MonoBehaviour {
                 yield return null;
             }
         }
-        _renderer.color = new Color(1f, 0f, 0f);
+        _renderer.color = originalColor;
     }
 }
