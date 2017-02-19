@@ -68,7 +68,7 @@ public abstract class GameHandler : MonoBehaviour {
         switch (other.collider.tag)
         {
             case "Boss":
-                Debug.Log("om nom nom");
+                ThePlayer.Die();
                 break;
         }
     }

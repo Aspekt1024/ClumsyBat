@@ -73,7 +73,6 @@ public class BossGameHandler : GameHandler {
         ThePlayer.transform.position += Vector3.right * dist;
         _playerCam.transform.position += Vector3.right * dist;
         ThePlayer.Lantern.transform.position += Vector3.right * dist;
-        
     }
     
     private IEnumerator LoadSequence()
@@ -81,6 +80,8 @@ public class BossGameHandler : GameHandler {
         yield return new WaitForSeconds(1f);
         StartGame();
         yield return ThePlayer.StartCoroutine("CaveEntranceAnimation");
+
+        // TODO put this into a function that says "boss level begin" or something
         GameState = GameStates.Normal;
         _state = BossGameState.MovingTowardsBoss;
         ThePlayer.SetPlayerSpeed(Toolbox.Instance.LevelSpeed);

@@ -44,6 +44,7 @@ public class SlidingDoors : MonoBehaviour {
         float topStartY = _topDoor.position.y;
         float bottomStartY = _bottomDoor.position.y;
 
+
         // TODO add pause
         while (slideTimer < slideDuration)
         {
@@ -55,6 +56,10 @@ public class SlidingDoors : MonoBehaviour {
             _bottomDoor.position = new Vector2(_bottomDoor.position.x, bottomPosY);
             yield return null;
         }
+
+        CameraEventListener.CameraShake();
+        yield return new WaitForSeconds(1f);
+        CameraEventListener.StopCameraShake();
     }
 
     private IEnumerator SlideUp()

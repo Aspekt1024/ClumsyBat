@@ -46,9 +46,10 @@ public sealed class MothPool : SpawnPool<Moth>
     public void ActivateMothInRange(float minY, float maxY, Moth.MothColour colour)
     {
         Moth newMoth = GetNextObject();
+        float xPos = 10f + Object.FindObjectOfType<Camera>().transform.position.x;
         var spawnTf = new Spawnable.SpawnType
         {
-            Pos = new Vector2(10f, Random.Range(minY, maxY)),
+            Pos = new Vector2(xPos, Random.Range(minY, maxY)),
             Rotation = new Quaternion(),
             Scale = Vector2.one
         };
