@@ -58,7 +58,7 @@ public class SlidingDoors : MonoBehaviour {
         }
 
         CameraEventListener.CameraShake();
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         CameraEventListener.StopCameraShake();
     }
 

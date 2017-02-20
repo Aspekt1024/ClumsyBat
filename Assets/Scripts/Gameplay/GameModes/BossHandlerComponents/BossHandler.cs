@@ -5,7 +5,7 @@ public class BossHandler : MonoBehaviour {
     // This is a factory class?
 
     private Boss _boss;
-    private readonly Vector3 _bossStartPos = new Vector3(Toolbox.TileSizeX + 5f,0,0);
+    private const float bossSpawnX = 4.5f;
 
     public void SpawnLevelBoss(LevelProgressionHandler.Levels level)
     {
@@ -25,6 +25,13 @@ public class BossHandler : MonoBehaviour {
                 return;
         }
 
+        SetBossPosition();
+    }
+
+    private void SetBossPosition()
+    {
+        float camPos = GameObject.FindGameObjectWithTag("MainCamera").transform.position.x;
+        Vector3 _bossStartPos = new Vector3(camPos + bossSpawnX, 0, 0);
         _boss.transform.position = _bossStartPos;
     }
 }

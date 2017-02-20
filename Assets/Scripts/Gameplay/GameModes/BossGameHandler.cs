@@ -16,6 +16,15 @@ public class BossGameHandler : GameHandler {
 
     private float _distTravelled;
 
+    private void OnEnable()
+    {
+        EventListener.OnLevelWon += LevelComplete;
+    }
+    private void OnDisable()
+    {
+        EventListener.OnLevelWon -= LevelComplete;
+    }
+
     private enum BossGameState
     {
         Startup,
@@ -39,11 +48,6 @@ public class BossGameHandler : GameHandler {
         _gameMenu.Hide();
         ThePlayer.Fog.Disable();
         StartCoroutine("LoadSequence");
-    }
-	
-    private void LoadBoss()
-    {
-        _theBoss.SpawnLevelBoss(Level);
     }
 
 	private void Update ()
@@ -86,6 +90,19 @@ public class BossGameHandler : GameHandler {
         PlayerController.EnterGamePlay();
     }
 
+    private IEnumerator BossEntrance()
+    {
+        _state = BossGameState.InBossRoom;
+        ThePlayer.EnableHover();
+
+        FindObjectOfType<SlidingDoors>().Close();
+
+        yield return new WaitForSeconds(1f);
+        _theBoss.SpawnLevelBoss(Level);
+        yield return new WaitForSeconds(2f);
+        ThePlayer.DisableHover();
+    }
+
     private void StartGame()
     {
         _gameHud.StartGame();
@@ -97,6 +114,7 @@ public class BossGameHandler : GameHandler {
     public override void PauseGame(bool showMenu)
     {
         EventListener.PauseGame();
+        Toolbox.Instance.GamePaused = true;
         GameState = GameStates.Paused;
         ThePlayer.PauseGame(true);
         _gameHud.GamePaused(true);
@@ -115,20 +133,6 @@ public class BossGameHandler : GameHandler {
             _gameMenu.Hide();
             ResumeGameplay();
         }
-    }
-
-    private IEnumerator BossEntrance()
-    {
-        _state = BossGameState.InBossRoom;
-        ThePlayer.EnableHover();
-
-        FindObjectOfType<SlidingDoors>().Close();
-
-        yield return new WaitForSeconds(1f);
-        LoadBoss();
-        yield return new WaitForSeconds(2f);
-        ThePlayer.DisableHover();
-
     }
     
     private IEnumerator UpdateResumeTimer()
@@ -150,6 +154,7 @@ public class BossGameHandler : GameHandler {
     private void ResumeGameplay()
     {
         EventListener.ResumeGame();
+        Toolbox.Instance.GamePaused = false;
         GameState = GameStates.Normal;
         ThePlayer.PauseGame(false);
         _gameHud.HideResumeTimer();

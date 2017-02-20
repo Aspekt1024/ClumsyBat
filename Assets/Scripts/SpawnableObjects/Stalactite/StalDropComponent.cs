@@ -56,6 +56,8 @@ public class StalDropComponent : MonoBehaviour {
 
     public void NewStalactite()
     {
+        _state = DropStates.None;
+        StopAllCoroutines();
         TriggerSprite.enabled = Toolbox.Instance.Debug && _stal.UnstableStalactite;
     }
     

@@ -25,6 +25,7 @@ public class Stalactite : Spawnable {
         GetStalComponents();
         IsActive = false;
         _stal.Anim.enabled = true;
+        _stal.StalTrigger.GetComponent<SpriteRenderer>().enabled = false;
     }
 
     private void FixedUpdate()
@@ -54,22 +55,16 @@ public class Stalactite : Spawnable {
         }
     }
 
-    public void ActivateStal(bool bDropEnabled, Vector2 triggerPos)
-    {
-        IsActive = true;
-        UnstableStalactite = bDropEnabled;
-
-        _stal.Anim.NewStalactite();
-        _stal.DropControl.NewStalactite();
-    }
-
-    public void Activate(SpawnType spawnTf, bool dropEnabled, Vector2 triggerPos, float xOffset)
+    public void Activate(SpawnType spawnTf, bool dropEnabled, Vector2 triggerPos, float xOffset = 0)
     {
         transform.localPosition = spawnTf.Pos;
         _stal.Body.transform.localPosition = Vector3.zero;
         _stal.Body.transform.localScale = spawnTf.Scale;
         _stal.Body.transform.rotation = spawnTf.Rotation;
         _stal.StalTrigger.position = triggerPos + new Vector2(xOffset, 0f);
+
+        _stal.Anim.NewStalactite();
+        _stal.DropControl.NewStalactite();
 
         IsActive = true;
         _stal.bExploding = false;
@@ -129,6 +124,11 @@ public class Stalactite : Spawnable {
             yield return new WaitForSeconds(period);
         }
         if (UnstableStalactite) { _stal.DropControl.Drop(); }
+    }
+
+    public void Drop()
+    {
+        _stal.DropControl.Drop();
     }
 
     public bool IsPaused() { return bPaused; }

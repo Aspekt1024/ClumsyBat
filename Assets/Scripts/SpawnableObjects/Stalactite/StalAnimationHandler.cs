@@ -102,14 +102,7 @@ public class StalAnimationHandler : MonoBehaviour
 
     public bool ReadyToFall()
     {
-        if (_normCrackTime * 7 >= 6)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return _normCrackTime * 7 >= 6;
     }
 
     public void PauseAnimation(bool paused)

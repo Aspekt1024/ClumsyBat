@@ -15,6 +15,7 @@ public class Toolbox : Singleton<Toolbox>
     public float GravityScale { get; set; }
     public const float TileSizeX = 19.2f;
     public const float PlayerStartX = -5.5f;
+    public bool GamePaused;
     public bool Debug;
     public bool TooltipCompletionPersist;
     public bool ShowLevelTooltips = true;

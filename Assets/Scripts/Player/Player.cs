@@ -400,6 +400,16 @@ public class Player : MonoBehaviour {
         }
     }
 
+    public void FaceOtherDirection()
+    {
+        Vector3 currentPos = transform.position;
+        Vector3 lanternPos = _lanternBody.position;
+        transform.parent.localScale = new Vector3(-transform.parent.localScale.x, transform.parent.localScale.y, transform.parent.localScale.z);
+        transform.position = currentPos;
+        _lanternBody.position = lanternPos;
+        // TODO lantern hinge constraints
+    }
+
     public void StartFog() { Fog.StartOfLevel(); }
     public void PlaySound(PlayerSounds soundId) { _audioControl.PlaySound(soundId); }
     private void DisablePlayerController() { FindObjectOfType<PlayerController>().PauseInput(true); }

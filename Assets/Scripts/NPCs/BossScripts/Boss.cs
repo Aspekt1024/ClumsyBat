@@ -25,13 +25,11 @@ public class Boss : MonoBehaviour {
 
     private void OnEnable()
     {
-        EventListener.OnPauseGame += PauseGame;
-        EventListener.OnResumeGame += ResumeGame;
+        SetEvents();
     }
     private void OnDisable()
     {
-        EventListener.OnPauseGame -= PauseGame;
-        EventListener.OnResumeGame -= ResumeGame;
+        RemoveEvents();
     }
 
     private void Awake()
@@ -61,7 +59,9 @@ public class Boss : MonoBehaviour {
         _anim.enabled = true;
     }
 
-    public void TakeDamage(int damage = 1)
+    public virtual void HitByHypersonic() { }
+
+    protected void TakeDamage(int damage = 1)
     {
         _health -= damage;
         if (_health <= 0)
@@ -80,7 +80,9 @@ public class Boss : MonoBehaviour {
         _collider.enabled = false;
         //_anim.Play("Die");
         _body.velocity = new Vector2(3f, 5f);
-        FindObjectOfType<BossGameHandler>().LevelComplete();    // TODO set as event
+
+        if (!_player.IsAlive()) return;
+        EventListener.LevelWon();
     }
 
     private IEnumerator Damaged()
@@ -113,5 +115,17 @@ public class Boss : MonoBehaviour {
     public bool IsPaused()
     {
         return _bPaused;
+    }
+
+    protected virtual void SetEvents()
+    {
+        EventListener.OnPauseGame += PauseGame;
+        EventListener.OnResumeGame += ResumeGame;
+    }
+
+    protected virtual void RemoveEvents()
+    {
+        EventListener.OnPauseGame -= PauseGame;
+        EventListener.OnResumeGame -= ResumeGame;
     }
 }

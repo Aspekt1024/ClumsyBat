@@ -1,14 +1,18 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class JumpPound : MonoBehaviour
 {
-    private Vector3 _startPos;
+    private enum JumpState
+    {
+        Idle,
+        Jumping
+    }
+    private JumpState _state;
     
     public void Activate()
     {
-        _startPos = transform.position;
+        _state = JumpState.Jumping;
         StartCoroutine("JumpAndPound");
     }
 
@@ -18,7 +22,7 @@ public class JumpPound : MonoBehaviour
         
         yield return new WaitForSeconds(0.5f);
 
-        while (GetComponent<Rigidbody2D>().velocity.y >= 0)  // TODO if the player pauses during jump, velocity will be 0 so this could bug out.
+        while (GetComponent<Rigidbody2D>().velocity.y >= 0)
         {
             yield return null;
         }
@@ -28,16 +32,20 @@ public class JumpPound : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+        if (_state != JumpState.Jumping) return;
         if (other.collider.tag == "BossFloor")
         {
             StartCoroutine("ShakeScreen", 0.5f);
+            _state = JumpState.Idle;
+            BossEvents.JumpLanded();
         }
     }
 
     private IEnumerator ShakeScreen(float time)
     {
+        GetComponent<Rigidbody2D>().velocity = Vector2.up * 0.5f;    // Prevents the boss from falling through the floor
         CameraEventListener.CameraShake();
-        yield return new WaitForSeconds(time);
+        yield return StartCoroutine("WaitSeconds", time);
         CameraEventListener.StopCameraShake();
     }
     

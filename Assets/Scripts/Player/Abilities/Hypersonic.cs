@@ -84,7 +84,7 @@ public class Hypersonic : MonoBehaviour {
         }
         if (other.GetComponent<Boss>() != null)
         {
-            other.GetComponent<Boss>().TakeDamage();
+            other.GetComponent<Boss>().HitByHypersonic();
         }
     }
 
@@ -93,11 +93,11 @@ public class Hypersonic : MonoBehaviour {
         _hypersonicCollider.enabled = true;
         _hypersonicSprite.enabled = true;
 
-        float HypersonicIntervalTime = 0.7f;
+        float hypersonicIntervalTime = 0.7f;
         for (int i = 0; i < _numPulses; i++)
         {
             yield return StartCoroutine("HypersonicAnimation");
-            yield return new WaitForSeconds(HypersonicIntervalTime);
+            yield return new WaitForSeconds(hypersonicIntervalTime);
         }
 
         _hypersonicSprite.enabled = false;

@@ -70,6 +70,10 @@ public abstract class GameHandler : MonoBehaviour {
             case "Boss":
                 ThePlayer.Die();
                 break;
+            case "Stalactite":
+                ThePlayer.Die();
+                other.collider.GetComponentInParent<Stalactite>().Crack();
+                break;
         }
     }
     

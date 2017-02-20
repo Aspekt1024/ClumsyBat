@@ -88,13 +88,13 @@ public class ParabolicProjectile {
         float x = startPos.x - playerPos.x;
         float y = playerPos.y - startPos.y;
 
+        bool backwards = x < 0;
+        if (backwards) x = -x;
+
         // Source: https://en.wikipedia.org/wiki/Trajectory_of_a_projectile#Angle_required_to_hit_coordinate_.28x.2Cy.29
         float angle = Mathf.Atan((s * s - Mathf.Sqrt(Mathf.Pow(s, 4) - g * (g * x * x + 2 * y * s * s))) / (g * x));
-        if (float.IsNaN(angle))
-        {
-            angle = 0;
-        }
-        return angle;
+        if (float.IsNaN(angle)) angle = 0;
+        return backwards ? Mathf.PI - angle : angle;
     }
 
     public void DeactivateProjectile(Rigidbody2D projectileBody)
