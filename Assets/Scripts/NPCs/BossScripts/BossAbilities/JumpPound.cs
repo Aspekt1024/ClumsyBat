@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class JumpPound : MonoBehaviour
+public class JumpPound : BossAbility
 {
     private enum JumpState
     {

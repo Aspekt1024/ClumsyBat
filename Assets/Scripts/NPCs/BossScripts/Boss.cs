@@ -2,7 +2,7 @@
 using UnityEngine;
 
 public class Boss : MonoBehaviour {
-
+    
     protected Player _player;
     protected Rigidbody2D _body;
     protected Animator _anim;

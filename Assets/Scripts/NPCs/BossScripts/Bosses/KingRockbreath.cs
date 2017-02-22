@@ -19,6 +19,7 @@ public class KingRockbreath : Boss
 
     private void Update()
     {
+        if (_player == null) return;
         if (!_player.IsAlive() || _state == BossStates.Dead)
         {
             StopCoroutine("BossActionSequencer");
