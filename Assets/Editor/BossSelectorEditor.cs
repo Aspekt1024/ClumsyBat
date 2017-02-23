@@ -12,28 +12,40 @@ public class BossSelectorEditor : Editor {
     {
         bossProps = (BossCreator)target;
 
-        bossProps.BossName = EditorGUILayout.TextField("Boss Name", bossProps.BossName);
+        DisplayBossName();
         EditorGUILayout.Space();
         DisplayBossObjectDropdown();
         EditorGUILayout.Space();
         DisplayAbilitySet();
     }
 
+    private void DisplayBossName()
+    {
+        if (bossProps.BossName == null || bossProps.BossName == string.Empty)
+            bossProps.BossName = EditorHelpers.AddSpacesToName(bossProps.name);
+
+        bossProps.BossName = EditorGUILayout.TextField("Boss Name", bossProps.BossName);
+    }
+
     private void DisplayBossObjectDropdown()
     {
-        var bosses = EditorHelpers.GetScriptAssetsOfType<Boss>();
-        var bossInspectorIndex = EditorHelpers.GetIndexFromObject(bosses, bossProps.BossObject);
+        var bosses = Resources.LoadAll<GameObject>("NPCs/Bosses");
+
+        if (bossProps.BossPrefab == null)
+            bossProps.BossPrefab = bosses[0];
+
+        var bossInspectorIndex = EditorHelpers.GetIndexFromObject(bosses, bossProps.BossPrefab);
         var bossArray = EditorHelpers.ObjectArrayToStringArray(bosses);
 
-        int bossIndex = EditorGUILayout.Popup("Boss Script", bossInspectorIndex, bossArray);
-        bossProps.BossObject = bosses[bossIndex];
+        int bossIndex = EditorGUILayout.Popup("Boss Prefab", bossInspectorIndex, bossArray);
+        bossProps.BossPrefab = bosses[bossIndex];
     }
 
     private void DisplayAbilitySet()
     {
         var abilities = EditorHelpers.GetScriptAssetsOfType<BossAbility>();
 
-        if (bossProps.AbilitySet.Length == 0)
+        if (bossProps.AbilitySet == null || bossProps.AbilitySet.Length == 0)
         {
             bossProps.AbilitySet = new MonoScript[1];
             bossProps.AbilitySet[0] = abilities[0];

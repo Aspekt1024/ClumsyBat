@@ -96,11 +96,11 @@ public class BossGameHandler : GameHandler {
         ThePlayer.EnableHover();
 
         FindObjectOfType<SlidingDoors>().Close();
-
-        yield return new WaitForSeconds(1f);
-        _theBoss.SpawnLevelBoss(Level);
+        
+        // TODO boss entrance sequence
         yield return new WaitForSeconds(2f);
         ThePlayer.DisableHover();
+        BossEvents.BossFightStart();
     }
 
     private void StartGame()

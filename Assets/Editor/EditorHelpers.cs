@@ -1,4 +1,4 @@
-﻿
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -23,7 +23,7 @@ public static class EditorHelpers {
         return result.ToArray();
     }
 
-    public static string[] ObjectArrayToStringArray(Object[] objArray)
+    public static string[] ObjectArrayToStringArray(UnityEngine.Object[] objArray)
     {
         string[] stringArray = new string[objArray.Length];
         for (int i = 0; i < objArray.Length; i++)
@@ -33,7 +33,7 @@ public static class EditorHelpers {
         return stringArray;
     }
 
-    public static int GetIndexFromObject(Object[] objArray, Object obj)
+    public static int GetIndexFromObject(UnityEngine.Object[] objArray, UnityEngine.Object obj)
     {
         for (int i = 0; i < objArray.Length; i++)
         {
@@ -41,5 +41,17 @@ public static class EditorHelpers {
                 return i;
         }
         return -1;
+    }
+
+    public static string AddSpacesToName(string nameNoSpaces)
+    {
+        string name = string.Empty;
+        foreach (char c in nameNoSpaces.ToCharArray())
+        {
+            if (char.IsUpper(c) && name != string.Empty)
+                name += " ";
+            name += c;
+        }
+        return name;
     }
 }

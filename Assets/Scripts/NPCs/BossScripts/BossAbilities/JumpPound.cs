@@ -10,7 +10,7 @@ public class JumpPound : BossAbility
     }
     private JumpState _state;
     
-    public void Activate()
+    public override void Activate()
     {
         _state = JumpState.Jumping;
         StartCoroutine("JumpAndPound");
@@ -54,7 +54,7 @@ public class JumpPound : BossAbility
         float timer = 0f;
         while (timer < secs)
         {
-            if (!GetComponent<Boss>().IsPaused())
+            if (!Toolbox.Instance.GamePaused)
                 timer += Time.deltaTime;
             yield return null;
         }

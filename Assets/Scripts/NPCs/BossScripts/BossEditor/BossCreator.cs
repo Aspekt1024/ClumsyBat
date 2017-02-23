@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "BossData", menuName = "Custom/New Boss", order = 1)]
+[CreateAssetMenu(fileName = "BossData", menuName = "Custom/Boss", order = 1)]
 public class BossCreator : ScriptableObject
 {
     public string BossName;
-    public UnityEditor.MonoScript BossObject;
+    public GameObject BossPrefab;
     public UnityEditor.MonoScript[] AbilitySet;
 }

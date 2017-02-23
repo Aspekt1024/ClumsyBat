@@ -8,7 +8,6 @@ public class BossProperties : MonoBehaviour {
     
     private void Awake()
     {
-        Boss theBoss = Instantiate(Resources.Load<Boss>("NPCs/Bosses/" + BossProps.BossObject.name));
     }
 
     private void Update()

@@ -16,6 +16,7 @@ public class Boss : MonoBehaviour {
 
     protected enum BossStates
     {
+        Disabled,
         Idle,
         Jumping,
         Dead
