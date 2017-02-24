@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System;
 
-public class OutputNode : BaseNode {
+public class OutputNode : BaseNodeOld {
 
     private string result = "";
 
@@ -52,7 +52,7 @@ public class OutputNode : BaseNode {
         }
     }
 
-    public override void NodeDeleted(BaseNode node)
+    public override void NodeDeleted(BaseNodeOld node)
     {
         if (node.Equals(inputNode))
         {

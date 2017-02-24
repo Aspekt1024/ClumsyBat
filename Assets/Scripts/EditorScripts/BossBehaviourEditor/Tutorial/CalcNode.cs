@@ -3,33 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class ComparisonNode : BaseInputNode {
-
-    public enum ComparisonType
-    {
-        Greater, Less, Equal
-    }
-    private ComparisonType comparisonType;
+public class CalcNode : BaseInputNode {
 
     private BaseInputNode input1;
     private Rect input1Rect;
+
     private BaseInputNode input2;
     private Rect input2Rect;
 
-    private string compareText = "";
+    public CalculationType calculationType;
 
-    public ComparisonNode()
+    public enum CalculationType
     {
-        windowTitle = "Comparison Node";
+        Addition, Subtraction, Multiplication, Division
+    }
+
+    public CalcNode()
+    {
+        windowTitle = "Calculation Node";
         hasInputs = true;
     }
 
     public override void DrawWindow()
     {
-        base.DrawWindow();
+        base.DrawCurves();
 
         Event e = Event.current;
-        comparisonType = (ComparisonType)EditorGUILayout.EnumPopup("Comparison Type", comparisonType);
+        calculationType = (CalculationType)EditorGUILayout.EnumPopup("Calculation Type", calculationType);
 
         string input1Title = "None";
         string input2Title = "None";
@@ -48,7 +48,7 @@ public class ComparisonNode : BaseInputNode {
             input2Rect = GUILayoutUtility.GetLastRect();
         }
     }
-    
+
     public override void SetInput(BaseInputNode input, Vector2 clickPos)
     {
         clickPos.x -= windowRect.x;
@@ -58,6 +58,28 @@ public class ComparisonNode : BaseInputNode {
             input1 = input;
         else if (input2Rect.Contains(clickPos))
             input2 = input;
+    }
+
+    public override void DrawCurves()
+    {
+        if (input1)
+        {
+            Rect rect = windowRect;
+            rect.x += input1Rect.x;
+            rect.y += input1Rect.y + input1Rect.height / 2;
+            rect.width = 1;
+            rect.height = 1;
+            NodeEditor.DrawNodeCurve(input1.windowRect, rect);
+        }
+        else if (input2)
+        {
+            Rect rect = windowRect;
+            rect.x += input2Rect.x;
+            rect.y += input2Rect.y + input2Rect.height / 2;
+            rect.width = 1;
+            rect.height = 1;
+            NodeEditor.DrawNodeCurve(input1.windowRect, rect);
+        }
     }
 
     public override string GetResult()
@@ -78,19 +100,19 @@ public class ComparisonNode : BaseInputNode {
 
         string result = "false";
 
-        switch(comparisonType)
+        switch(calculationType)
         {
-            case ComparisonType.Equal:
-                if (input1Value == input2Value)
-                    result = "true";
+            case CalculationType.Addition:
+                result = (input1Value + input2Value).ToString();
                 break;
-            case ComparisonType.Greater:
-                if (input1Value > input2Value)
-                    result = "true";
+            case CalculationType.Division:
+                result = (input1Value / input2Value).ToString();
                 break;
-            case ComparisonType.Less:
-                if (input1Value < input2Value)
-                    result = "true";
+            case CalculationType.Multiplication:
+                result = (input1Value * input2Value).ToString();
+                break;
+            case CalculationType.Subtraction:
+                result = (input1Value - input2Value).ToString();
                 break;
         }
         return result;
@@ -117,33 +139,11 @@ public class ComparisonNode : BaseInputNode {
         return retVal;
     }
 
-    public override void NodeDeleted(BaseNode node)
+    public override void NodeDeleted (BaseNodeOld node)
     {
         if (node.Equals(input1))
             input1 = null;
         if (node.Equals(input2))
             input2 = null;
-    }
-
-    public override void DrawCurves()
-    {
-        if (input1)
-        {
-            Rect rect = windowRect;
-            rect.x += input1Rect.x;
-            rect.y += input1Rect.y + input1Rect.height / 2;
-            rect.width = 1;
-            rect.height = 1;
-            NodeEditor.DrawNodeCurve(input1.windowRect, rect);
-        }
-        else if (input2)
-        {
-            Rect rect = windowRect;
-            rect.x += input2Rect.x;
-            rect.y += input2Rect.y + input2Rect.height / 2;
-            rect.width = 1;
-            rect.height = 1;
-            NodeEditor.DrawNodeCurve(input1.windowRect, rect);
-        }
     }
 }

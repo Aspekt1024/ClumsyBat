@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System;
 
-public class BaseInputNode : BaseNode {
+public class BaseInputNode : BaseNodeOld {
 
 	public virtual string GetResult()
     {

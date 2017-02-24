@@ -1,26 +1,23 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEditor;
-using System.Collections;
 
-public abstract class BaseNode : ScriptableObject {
+public class BaseNode : ScriptableObject {
 
-    public Rect windowRect;
-    public bool hasInputs = false;
-    public string windowTitle = string.Empty;
+    public Rect WindowRect;
+    public string WindowTitle = "Untitled";
+
+    protected float width = 200;
+    protected float height = 100;
 
     public virtual void DrawWindow()
     {
-        windowTitle = EditorGUILayout.TextField("Title", windowTitle);
+        WindowTitle = EditorGUILayout.TextField("Title", WindowTitle);
     }
-
-    public abstract void DrawCurves();
-
-    public virtual void SetInput(BaseInputNode input, Vector2 clickPos) { }
-
-    public virtual void NodeDeleted(BaseNode node) { }
-
-    public virtual BaseInputNode ClickedOnInput(Vector2 pos)
+    
+    public virtual void SetWindowRect(Vector2 mousePos)
     {
-        return null;
+        WindowRect = new Rect(mousePos.x, mousePos.y, width, height);
     }
 }

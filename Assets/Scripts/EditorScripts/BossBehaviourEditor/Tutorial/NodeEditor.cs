@@ -6,9 +6,9 @@ using System;
 
 public class NodeEditor : EditorWindow {
 
-    private List<BaseNode> windows = new List<BaseNode>();
+    private List<BaseNodeOld> windows = new List<BaseNodeOld>();
     private Vector2 mousePos;
-    private BaseNode selectedNode;
+    private BaseNodeOld selectedNode;
     private bool makeTransitionMode;
 
     [MenuItem("Window/Node Editor")]
@@ -127,7 +127,7 @@ public class NodeEditor : EditorWindow {
             Repaint();
         }
 
-        foreach (BaseNode n in windows)
+        foreach (BaseNodeOld n in windows)
         {
             n.DrawCurves();
         }
@@ -136,24 +136,111 @@ public class NodeEditor : EditorWindow {
 
         for (int i = 0; i < windows.Count; i++)
         {
-            windows[i].windowRect = GUI.Window(i, windows[i].windowRect, DrawNodeCurve, windows[i].windowTitle);
+            windows[i].windowRect = GUI.Window(i, windows[i].windowRect, DrawNodeWindow, windows[i].windowTitle);
         }
 
         EndWindows();
     }
 
-    private void DrawNodeCurve(int id)
+    void DrawNodeWindow(int id)
     {
-        throw new NotImplementedException();
+        windows[id].DrawWindow();
+        GUI.DragWindow();
     }
 
     void ContextCallback(object obj)
     {
+        string clb = obj.ToString();
+        if (clb.Equals("inputNode"))
+        {
+            InputNode inputNode = new InputNode() {
+                windowRect = new Rect(mousePos.x, mousePos.y, 200, 150)
+            };
+            windows.Add(inputNode);
+        }
+        else if (clb.Equals("outputNode"))
+        {
+            OutputNode outputNode = new OutputNode() {
+                windowRect = new Rect(mousePos.x, mousePos.y, 200, 100)
+            };
+            windows.Add(outputNode);
+        }
+        else if (clb.Equals("calcNode"))
+        {
+            CalcNode calcNode = new CalcNode() {
+                windowRect = new Rect(mousePos.x, mousePos.y, 200, 100)
+            };
+            windows.Add(calcNode);
+        }
+        else if (clb.Equals("compNode"))
+        {
+            ComparisonNode compNode = new ComparisonNode() {
+                windowRect = new Rect(mousePos.x, mousePos.y, 200, 100)
+            };
+            windows.Add(compNode);
+        }
+        else if (clb.Equals("makeTransition"))
+        {
+            bool clickedOnWindow = false;
+            int selectIndex = -1;
 
+            for (int i = 0; i < windows.Count; i++)
+            {
+                if (windows[i].windowRect.Contains(mousePos))
+                {
+                    selectIndex = i;
+                    clickedOnWindow = true;
+                    break;
+                }
+            }
+
+            if (clickedOnWindow)
+            {
+                selectedNode = windows[selectIndex];
+                makeTransitionMode = true;
+            }
+        }
+        else if(clb.Equals("deleteNode"))
+        {
+
+            bool clickedOnWindow = false;
+            int selectIndex = -1;
+
+            for (int i = 0; i < windows.Count; i++)
+            {
+                if (windows[i].windowRect.Contains(mousePos))
+                {
+                    selectIndex = i;
+                    clickedOnWindow = true;
+                    break;
+                }
+            }
+
+            if (clickedOnWindow)
+            {
+                BaseNodeOld selNode = windows[selectIndex];
+                windows.RemoveAt(selectIndex);
+
+                foreach(BaseNodeOld n in windows)
+                {
+                    n.NodeDeleted(selNode);
+                }
+            }
+        }
     }
 
     public static void DrawNodeCurve(Rect start, Rect end)
     {
+        Vector3 startPos = new Vector3(start.x + start.width / 2, start.y + start.height / 2, 0f);
+        Vector3 endPos = new Vector3(end.x + end.width / 2, end.y + end.height / 2, 0f);
+        Vector3 startTan = startPos + Vector3.right * 50;
+        Vector3 endTan = endPos + Vector3.left * 50;
+        Color shadowCol = new Color(0, 0, 0, 0.06f);
 
+        for (int i = 0; i < 3; i++)
+        {
+            Handles.DrawBezier(startPos, endPos, startTan, endTan, shadowCol, null, (i + 1) * 5);
+        }
+        Handles.DrawBezier(startPos, endPos, startTan, endTan, Color.black, null, 1);
     }
 }
