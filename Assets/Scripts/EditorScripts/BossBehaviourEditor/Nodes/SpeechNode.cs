@@ -5,6 +5,12 @@ using UnityEditor;
 
 public class SpeechNode : BaseNode {
     
+    private void OnEnable()
+    {
+        AddInput();
+        AddOutput();
+    }
+
     public override void SetWindowRect(Vector2 mousePos)
     {
         width = 200;
@@ -12,5 +18,11 @@ public class SpeechNode : BaseNode {
         WindowTitle = "Speech";
 
         base.SetWindowRect(mousePos);
+    }
+
+    public override void DrawWindow()
+    {
+        WindowTitle = EditorGUILayout.TextField("Title", WindowTitle);
+        DrawOutput();
     }
 }
