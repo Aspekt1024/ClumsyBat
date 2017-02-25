@@ -11,10 +11,9 @@ public class BossEditor : EditorWindow {
     private Texture2D _bg;
 
     private BossEditorMouseInput _mouseInput;
-
-
+    private BossNodeFactory _nodeFactory;
+    
     private Vector2 _mousePos;
-
 
     [MenuItem("Window/Boss Editor")]
     private static void ShowEditor()
@@ -24,25 +23,24 @@ public class BossEditor : EditorWindow {
 
     private void OnEnable()
     {
+        _mouseInput = new BossEditorMouseInput(this);
+        _nodeFactory = new BossNodeFactory(this);
+
         _bg = new Texture2D(1, 1, TextureFormat.RGBA32, false);
         _bg.SetPixel(0, 0, new Color(0.1f, 0.1f, 0.2f));
         _bg.Apply();
-
-        _mouseInput = new BossEditorMouseInput(this);
     }
 
     private void OnGUI()
     {
         Event e = Event.current;
         _mousePos = e.mousePosition;
-
         _mouseInput.ProcessMouseEvents(e);
 
         if (_bg != null)
             GUI.DrawTexture(new Rect(0, 0, maxSize.x, maxSize.y), _bg, ScaleMode.StretchToFill);
 
         DrawNodeCurves();
-
         DrawNodeWindows();
     }
 
@@ -69,9 +67,7 @@ public class BossEditor : EditorWindow {
             GUI.DragWindow();
         }
     }
-
-
-
+    
     private void DrawNodeWindows()
     {
         BeginWindows();
@@ -115,6 +111,7 @@ public class BossEditor : EditorWindow {
 
     public void AddNode(BaseNode newNode)
     {
+        newNode.SetWindowRect(_mousePos);
         _nodes.Add(newNode);
     }
 

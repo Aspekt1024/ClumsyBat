@@ -131,7 +131,7 @@ public class BossEditorMouseInput {
     {
         if (obj.GetType().Equals(typeof(NodeTypes)))
         {
-            CreateNode((NodeTypes)obj);
+            BossEditorEvents.CreateNode((NodeTypes)obj);
         }
         else if (obj.GetType().Equals(typeof(NodeMenuSelections)))
         {
@@ -139,36 +139,7 @@ public class BossEditorMouseInput {
         }
 
     }
-
-
-    private void CreateNode(NodeTypes node)
-    {
-        BaseNode newNode = null;
-        switch (node)
-        {
-            case NodeTypes.Start:
-                //inputNode = CreateInstance<StartNode>(); // TODO this
-                break;
-            case NodeTypes.End:
-                //inputNode = CreateInstance<EndNode>(); // TODO this
-                break;
-            case NodeTypes.SaySomething:
-                newNode = ScriptableObject.CreateInstance<SpeechNode>();
-                break;
-            case NodeTypes.Jump:
-                newNode = ScriptableObject.CreateInstance<BaseNode>();
-                break;
-            case NodeTypes.Die:
-                newNode = ScriptableObject.CreateInstance<BaseNode>();
-                break;
-        }
-        if (newNode != null)
-        {
-            newNode.SetWindowRect(_mousePos);
-            _editor.AddNode(newNode);
-        }
-    }
-
+    
     private void ActionNodeMenuSelection(NodeMenuSelections selection)
     {
         switch (selection)
