@@ -25,10 +25,10 @@ public class BossNodeFactory {
         switch (nodeType)
         {
             case NodeTypes.Start:
-                //inputNode = CreateInstance<StartNode>(); // TODO this
+                newNode = ScriptableObject.CreateInstance<StartNode>();
                 break;
             case NodeTypes.End:
-                //inputNode = CreateInstance<EndNode>(); // TODO this
+                newNode = ScriptableObject.CreateInstance<EndNode>();
                 break;
             case NodeTypes.SaySomething:
                 newNode = ScriptableObject.CreateInstance<SpeechNode>();

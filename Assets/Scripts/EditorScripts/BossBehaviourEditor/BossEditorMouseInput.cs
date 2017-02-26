@@ -137,7 +137,6 @@ public class BossEditorMouseInput {
         {
             ActionNodeMenuSelection((NodeMenuSelections)obj);
         }
-
     }
     
     private void ActionNodeMenuSelection(NodeMenuSelections selection)

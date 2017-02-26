@@ -17,6 +17,8 @@ public class BossSelectorEditor : Editor {
         DisplayBossObjectDropdown();
         EditorGUILayout.Space();
         DisplayAbilitySet();
+
+        EditorUtility.SetDirty(target);
     }
 
     private void DisplayBossName()

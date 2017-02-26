@@ -14,34 +14,52 @@ public class BossEditor : EditorWindow {
     private BossNodeFactory _nodeFactory;
     
     private Vector2 _mousePos;
+    public BossBehaviourTree BossBehaviourObject;
+
+    private System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
 
     [MenuItem("Window/Boss Editor")]
     private static void ShowEditor()
     {
         BossEditor editor = GetWindow<BossEditor>();
+        editor.stopwatch.Start();
     }
 
-    private void OnEnable()
+    private void Update()
     {
-        _mouseInput = new BossEditorMouseInput(this);
-        _nodeFactory = new BossNodeFactory(this);
-
-        _bg = new Texture2D(1, 1, TextureFormat.RGBA32, false);
-        _bg.SetPixel(0, 0, new Color(0.1f, 0.1f, 0.2f));
-        _bg.Apply();
+        long dTime = stopwatch.ElapsedMilliseconds;
+        float deltaTime = dTime / 1000f;
+        
+        foreach (BaseNode node in _nodes)
+        {
+            if (node != null)
+            {
+                node.Tick(deltaTime);
+            }
+        }
     }
 
     private void OnGUI()
     {
+        if (_mouseInput == null) _mouseInput = new BossEditorMouseInput(this);
+        if (_nodeFactory == null) _nodeFactory = new BossNodeFactory(this);
+
         Event e = Event.current;
         _mousePos = e.mousePosition;
         _mouseInput.ProcessMouseEvents(e);
 
-        if (_bg != null)
-            GUI.DrawTexture(new Rect(0, 0, maxSize.x, maxSize.y), _bg, ScaleMode.StretchToFill);
-
+        if (_bg == null)
+        {
+            _bg = new Texture2D(1, 1, TextureFormat.RGBA32, false);
+            _bg.SetPixel(0, 0, new Color(0.1f, 0.1f, 0.2f));
+            _bg.Apply();
+        }
+        GUI.DrawTexture(new Rect(0, 0, maxSize.x, maxSize.y), _bg, ScaleMode.StretchToFill);
+        
         DrawNodeCurves();
         DrawNodeWindows();
+
+        Debug.Log(BossBehaviourObject.name + " has opened the editor");
     }
 
     public BaseNode GetSelectedNode()
