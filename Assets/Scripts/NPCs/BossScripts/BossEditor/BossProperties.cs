@@ -5,7 +5,6 @@ using UnityEngine;
 public class BossProperties : MonoBehaviour {
 
     public BossCreator BossProps;
-    public BossBehaviourTree BehaviourTree;
     
     private void Awake()
     {

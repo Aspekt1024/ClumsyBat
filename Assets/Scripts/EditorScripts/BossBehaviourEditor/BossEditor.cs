@@ -14,9 +14,10 @@ public class BossEditor : EditorWindow {
     private BossNodeFactory _nodeFactory;
     
     private Vector2 _mousePos;
-    public BossBehaviourTree BossBehaviourObject;
+    public BossCreator BossCreatorObject;
 
     private System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
+    private bool _bStartup = true;
 
     [MenuItem("Window/Boss Editor")]
     private static void ShowEditor()
@@ -55,11 +56,21 @@ public class BossEditor : EditorWindow {
             _bg.Apply();
         }
         GUI.DrawTexture(new Rect(0, 0, maxSize.x, maxSize.y), _bg, ScaleMode.StretchToFill);
-        
+
+        // TODO get load working once we can save correctly
+        if (_bStartup && BossCreatorObject != null)
+        {
+            //_nodes = BossCreatorObject.Nodes;
+        }
+        _bStartup = false;
+
+        if (e.type == EventType.Layout && BossCreatorObject != null && !_mouseInput.MouseDownHeld)
+        {
+            BossCreatorObject.Save(_nodes);
+        }
+
         DrawNodeCurves();
         DrawNodeWindows();
-
-        Debug.Log(BossBehaviourObject.name + " has opened the editor");
     }
 
     public BaseNode GetSelectedNode()
@@ -75,6 +86,11 @@ public class BossEditor : EditorWindow {
             }
         }
         return index >= 0 ? _nodes[index] : null;
+    }
+
+    public void SetSelectedNode(BaseNode node)
+    {
+        _currentNode = node;
     }
 
     private void DrawNodeWindow(int id)
@@ -105,7 +121,7 @@ public class BossEditor : EditorWindow {
             DrawCurve(outputRect, mouseRect);
             Repaint();
         }
-
+        
         foreach (var node in _nodes)
         {
             node.DrawCurves();
@@ -136,5 +152,11 @@ public class BossEditor : EditorWindow {
     public void RemoveNode(BaseNode node)
     {
         _nodes.Remove(node);
+    }
+
+    public void LoadBoss()
+    {
+        //if (BossCreatorObject.Nodes != null)
+        //    _nodes = BossCreatorObject.Nodes;
     }
 }

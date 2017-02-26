@@ -7,8 +7,6 @@ public class BossGameHandler : GameHandler {
     private GameMenuOverlay _gameMenu;
     private GameUI _gameHud;
     private Camera _playerCam;
-
-    private BossHandler _theBoss;
     
     public LevelProgressionHandler.Levels Level = LevelProgressionHandler.Levels.Boss1;
     private const float ResumeTimerDuration = 3f;
@@ -42,7 +40,6 @@ public class BossGameHandler : GameHandler {
         _loadScreen = FindObjectOfType<LoadScreen>();
         _gameHud = FindObjectOfType<GameUI>();
         _gameMenu = FindObjectOfType<GameMenuOverlay>();
-        _theBoss = new GameObject("BossNPC").AddComponent<BossHandler>();
         _playerCam = FindObjectOfType<Camera>();
 
         _gameMenu.Hide();

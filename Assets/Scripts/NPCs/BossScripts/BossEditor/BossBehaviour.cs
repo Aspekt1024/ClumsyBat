@@ -9,6 +9,7 @@ public class BossBehaviour : MonoBehaviour {
     private int _health;
     private readonly List<BossAbility> _abilities = new List<BossAbility>();
 
+    // TODO set this dynamically
     private enum BossStates
     {
         Disabled,
@@ -36,7 +37,7 @@ public class BossBehaviour : MonoBehaviour {
 	}
 	
 	private void Update () {
-        //if (_state == BossStates.Disabled) return;
+        //if (_state == BossStates.Disabled) return;    // TODO re-enable once we're done testing
         
         foreach(var ability in _abilities)
         {

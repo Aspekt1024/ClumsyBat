@@ -26,10 +26,13 @@ public class BossEditorMouseInput {
         DeleteNode
     }
 
+    public bool MouseDownHeld;
+
     private BossEditor _editor;
 
-    private BaseNode _selectedNode;
-    private BaseNode _releasedNode;
+    private BaseNode _mouseDownNode;
+    private int _outputIndex;
+    private BaseNode _mouseUpNode;
 
     private Vector2 _mousePos;
     
@@ -59,7 +62,8 @@ public class BossEditorMouseInput {
     
     private bool ActionMouseDown(int button)
     {
-        _selectedNode = _editor.GetSelectedNode();
+        MouseDownHeld = true;
+        _mouseDownNode = _editor.GetSelectedNode();
         bool clickActioned = false;
         switch (button)
         {
@@ -79,7 +83,8 @@ public class BossEditorMouseInput {
 
     private void ActionMouseUp(int button)
     {
-        _releasedNode = _editor.GetSelectedNode();
+        MouseDownHeld = false;
+        _mouseUpNode = _editor.GetSelectedNode();
         switch (button)
         {
             case (int)MouseButtons.LeftClick:
@@ -96,16 +101,36 @@ public class BossEditorMouseInput {
 
     private bool ActionLeftMouseDown()
     {
-        if (_selectedNode == null) return false;
-        if (_selectedNode.OutputClicked(_mousePos)) {
+        if (_mouseDownNode == null) return false;
+        
+        _outputIndex = _mouseDownNode.OutputClicked(_mousePos);
+        int inputIndex = _mouseDownNode.InputClicked(_mousePos);
+        if (_outputIndex >= 0)
+        {
             _editor.ConnectionMode = true;
         }
-        return false;
+        else if (inputIndex >= 0)
+        {
+            if (_mouseDownNode.InputIsConnected(inputIndex))
+            {
+                var output = _mouseDownNode.GetConnectedInterfaceFromInput(inputIndex);
+                _mouseDownNode.DisconnectInput(inputIndex);
+
+                _mouseDownNode = output.connectedNode;
+                _outputIndex = output.connectedIndex;
+                _mouseDownNode.DisconnectOutput(_outputIndex);
+
+                _editor.SetSelectedNode(output.connectedNode);
+                _editor.ConnectionMode = true;
+            }
+        }
+
+        return false; // TODO remove this? tells the controller whether to Use() this event.
     }
 
     private void ActionRightMouseDown()
     {
-        if (_selectedNode == null)
+        if (_mouseDownNode == null)
         {
             BossEditorContextMenus.ShowMenu(ContextCallback);
         }
@@ -117,11 +142,15 @@ public class BossEditorMouseInput {
 
     private void ActionLeftMouseUp()
     {
-        if (_releasedNode != null)
+        if (_mouseUpNode != null)
         {
-            if (_editor.ConnectionMode && _releasedNode.ReleasedOnInput(_mousePos))
+            int inputIndex = _mouseUpNode.GetReleasedNode(_mousePos);
+            if (_editor.ConnectionMode && inputIndex >= 0)
             {
-                _releasedNode.SetInput(_selectedNode);
+                BaseNode.InterfaceType output = new BaseNode.InterfaceType();
+                output.connectedNode = _mouseDownNode;
+                output.connectedIndex = _outputIndex;
+                _mouseUpNode.SetInput(inputIndex, output);
             }
         }
         _editor.ConnectionMode = false;
@@ -147,7 +176,7 @@ public class BossEditorMouseInput {
                 // as it says
                 break;
             case NodeMenuSelections.DeleteNode:
-                _editor.RemoveNode(_selectedNode);
+                _editor.RemoveNode(_mouseDownNode);
                 break;
         }
     }
