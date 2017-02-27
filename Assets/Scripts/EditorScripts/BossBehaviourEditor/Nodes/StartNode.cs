@@ -5,20 +5,19 @@ using UnityEditor;
 using System;
 
 public class StartNode : BaseNode {
-
-    private void OnEnable()
+    
+    public override void SetupNode()
     {
-        base.InitialiseLists();
         AddOutput();
     }
 
-    public override void SetWindowRect(Vector2 mousePos)
+    public override void SetWindowRect(Vector2 position)
     {
         width = 100;
         height = 80;
         WindowTitle = "Start";
 
-        base.SetWindowRect(mousePos);
+        base.SetWindowRect(position);
     }
 
     public override void DrawWindow()

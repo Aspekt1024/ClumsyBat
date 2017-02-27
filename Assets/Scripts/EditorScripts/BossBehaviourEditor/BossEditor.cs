@@ -4,34 +4,79 @@ using System.Collections.Generic;
 
 public class BossEditor : EditorWindow {
 
+    public List<BaseNode> Nodes;
+    public BossCreator BossCreatorObject;
     public bool ConnectionMode;
 
-    private List<BaseNode> _nodes = new List<BaseNode>();
     private BaseNode _currentNode;
     private Texture2D _bg;
-
     private BossEditorMouseInput _mouseInput;
     private BossNodeFactory _nodeFactory;
-    
     private Vector2 _mousePos;
-    public BossCreator BossCreatorObject;
 
     private System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
-    private bool _bStartup = true;
-
+    
     [MenuItem("Window/Boss Editor")]
     private static void ShowEditor()
     {
         BossEditor editor = GetWindow<BossEditor>();
+        editor.BossCreatorObject = null;
         editor.stopwatch.Start();
+    }
+
+    private void OnEnable()
+    {
+        if (_mouseInput == null) _mouseInput = new BossEditorMouseInput(this);
+        if (_nodeFactory == null) _nodeFactory = new BossNodeFactory(this);
+
+        if (BossCreatorObject != null)
+        {
+            LoadBoss(BossCreatorObject);
+
+            Debug.Log("load: Boss has " + BossCreatorObject.Nodes.Count + " nodes:");
+            foreach (var node in BossCreatorObject.Nodes)
+            {
+                Debug.Log("load: " + node.WindowTitle + " : " + node.outputs.Count + " outputs, " + node.inputs.Count + " inputs.");
+                foreach(var input in node.inputs)
+                {
+                    Debug.Log("load: interface index " + input.interfaceIndex);
+                }
+            }
+        }
+    }
+
+    private void OnLostFocus()
+    {
+        if (BossCreatorObject != null)
+        {
+            for (int i = 0; i < Nodes.Count; i++)
+            {
+                BaseNode node = Nodes[i];
+                if (!AssetDatabase.Contains(node))
+                {
+                    AssetDatabase.AddObjectToAsset(node, BossCreatorObject);
+                }
+            }
+            BossCreatorObject.Nodes = Nodes;
+            EditorUtility.SetDirty(BossCreatorObject);
+
+            Debug.Log("save: Boss has " + BossCreatorObject.Nodes.Count + " nodes:");
+            foreach (var node in BossCreatorObject.Nodes)
+            {
+                Debug.Log("save: " + node.WindowTitle + " : " + node.outputs.Count + " outputs, " + node.inputs.Count + " inputs. w:" + node.WindowRect.width + " h:" + node.WindowRect.height);
+            }
+        }
     }
 
     private void Update()
     {
+        // TODO remove this? just here in case we need a stopwatch. we currently don't so this does nothing.
+        // Remove this if it's still here in april. 28.2.17
+        if (BossCreatorObject == null) return;
         long dTime = stopwatch.ElapsedMilliseconds;
         float deltaTime = dTime / 1000f;
         
-        foreach (BaseNode node in _nodes)
+        foreach (BaseNode node in Nodes)
         {
             if (node != null)
             {
@@ -42,13 +87,13 @@ public class BossEditor : EditorWindow {
 
     private void OnGUI()
     {
-        if (_mouseInput == null) _mouseInput = new BossEditorMouseInput(this);
-        if (_nodeFactory == null) _nodeFactory = new BossNodeFactory(this);
+        // TODO if no object, show text to display one, else show title in editor of what the boss is
+        if (BossCreatorObject == null) return;
 
         Event e = Event.current;
         _mousePos = e.mousePosition;
         _mouseInput.ProcessMouseEvents(e);
-
+        
         if (_bg == null)
         {
             _bg = new Texture2D(1, 1, TextureFormat.RGBA32, false);
@@ -56,19 +101,7 @@ public class BossEditor : EditorWindow {
             _bg.Apply();
         }
         GUI.DrawTexture(new Rect(0, 0, maxSize.x, maxSize.y), _bg, ScaleMode.StretchToFill);
-
-        // TODO get load working once we can save correctly
-        if (_bStartup && BossCreatorObject != null)
-        {
-            //_nodes = BossCreatorObject.Nodes;
-        }
-        _bStartup = false;
-
-        if (e.type == EventType.Layout && BossCreatorObject != null && !_mouseInput.MouseDownHeld)
-        {
-            BossCreatorObject.Save(_nodes);
-        }
-
+        
         DrawNodeCurves();
         DrawNodeWindows();
     }
@@ -76,16 +109,16 @@ public class BossEditor : EditorWindow {
     public BaseNode GetSelectedNode()
     {
         int index = -1;
-        for (int i = 0; i < _nodes.Count; i++)
+        for (int i = 0; i < Nodes.Count; i++)
         {
-            if (_nodes[i].WindowRect.Contains(_mousePos))
+            if (Nodes[i].WindowRect.Contains(_mousePos))
             {
                 index = i;
-                _currentNode = _nodes[i];
+                _currentNode = Nodes[i];
                 break;
             }
         }
-        return index >= 0 ? _nodes[index] : null;
+        return index >= 0 ? Nodes[index] : null;
     }
 
     public void SetSelectedNode(BaseNode node)
@@ -95,7 +128,7 @@ public class BossEditor : EditorWindow {
 
     private void DrawNodeWindow(int id)
     {
-        _nodes[id].DrawWindow();
+        Nodes[id].DrawWindow();
         if (!ConnectionMode)
         {
             GUI.DragWindow();
@@ -105,9 +138,9 @@ public class BossEditor : EditorWindow {
     private void DrawNodeWindows()
     {
         BeginWindows();
-        for (int i = 0; i < _nodes.Count; i++)
+        for (int i = 0; i < Nodes.Count; i++)
         {
-            _nodes[i].WindowRect = GUI.Window(i, _nodes[i].WindowRect, DrawNodeWindow, _nodes[i].WindowTitle);
+            Nodes[i].WindowRect = GUI.Window(i, Nodes[i].WindowRect, DrawNodeWindow, Nodes[i].WindowTitle);
         }
         EndWindows();
     }
@@ -122,7 +155,7 @@ public class BossEditor : EditorWindow {
             Repaint();
         }
         
-        foreach (var node in _nodes)
+        foreach (var node in Nodes)
         {
             node.DrawCurves();
         }
@@ -146,17 +179,22 @@ public class BossEditor : EditorWindow {
     public void AddNode(BaseNode newNode)
     {
         newNode.SetWindowRect(_mousePos);
-        _nodes.Add(newNode);
+        newNode.SetupNode();
+        Nodes.Add(newNode);
     }
 
     public void RemoveNode(BaseNode node)
     {
-        _nodes.Remove(node);
+        Nodes.Remove(node);
     }
 
-    public void LoadBoss()
+    public void LoadBoss(BossCreator bossObj)
     {
-        //if (BossCreatorObject.Nodes != null)
-        //    _nodes = BossCreatorObject.Nodes;
+        BossCreatorObject = bossObj;
+
+        if (BossCreatorObject.Nodes == null || BossCreatorObject.Nodes.Count == 0)
+            Nodes = new List<BaseNode>();
+        else
+            Nodes = BossCreatorObject.Nodes;
     }
 }

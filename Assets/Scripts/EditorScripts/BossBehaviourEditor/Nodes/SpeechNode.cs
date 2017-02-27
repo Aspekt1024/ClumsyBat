@@ -10,10 +10,9 @@ public class SpeechNode : BaseNode {
     private float elapsedTime;
     private const float timeToAnnounce = 5f;
     private bool _bAnnounced;
-
-    private void OnEnable()
+    
+    public override void SetupNode()
     {
-        InitialiseLists();
         AddInput();
         AddOutput();
     }
@@ -23,8 +22,7 @@ public class SpeechNode : BaseNode {
         width = 200;
         height = 150;
         WindowTitle = "Speech";
-
-
+        
         base.SetWindowRect(mousePos);
     }
 

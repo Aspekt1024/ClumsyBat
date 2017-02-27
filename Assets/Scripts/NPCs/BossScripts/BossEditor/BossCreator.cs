@@ -26,22 +26,8 @@ public class BossCreator : ScriptableObject
         if (EditorUtility.InstanceIDToObject(instanceID).GetType() == typeof(BossCreator))
         {
             BossEditor editor = EditorWindow.GetWindow<BossEditor>(desiredDockNextTo: typeof(SceneView));
-            editor.BossCreatorObject = (BossCreator)obj;
-            editor.LoadBoss();
+            editor.LoadBoss((BossCreator)obj);
         }
         return false;
-    }
-
-    public void Save(List<BaseNode> nodes)
-    {
-        Nodes = nodes;
-        foreach(var node in Nodes)
-        {
-            if (!AssetDatabase.Contains(node))
-            {
-                AssetDatabase.AddObjectToAsset(node, this);
-            }
-        }
-        EditorUtility.SetDirty(this);
     }
 }

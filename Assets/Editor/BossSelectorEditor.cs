@@ -25,7 +25,7 @@ public class BossSelectorEditor : Editor {
     {
         if (bossProps.BossName == null || bossProps.BossName == string.Empty)
             bossProps.BossName = EditorHelpers.AddSpacesToName(bossProps.name);
-
+        
         bossProps.BossName = EditorGUILayout.TextField("Boss Name", bossProps.BossName);
     }
 

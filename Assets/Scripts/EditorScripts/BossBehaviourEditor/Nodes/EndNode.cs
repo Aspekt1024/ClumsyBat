@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEditor;
 
 public class EndNode : BaseNode {
+    
 
-    private void OnEnable()
+    public override void SetupNode()
     {
-        InitialiseLists();
         AddInput();
     }
 

@@ -8,30 +8,23 @@ public abstract class BaseNode : ScriptableObject {
     public Rect WindowRect;
     public string WindowTitle = "Untitled";
 
-    protected float width = 200;
-    protected float height = 100;
-
-    public List<InterfaceType> inputs;
-    public List<InterfaceType> outputs;
-
+    public List<InterfaceType> inputs = new List<InterfaceType>();
+    public List<InterfaceType> outputs = new List<InterfaceType>();
+    
     public struct InterfaceType
     {
         public float yPos;
         public BaseNode connectedNode;
-        public int connectedIndex;
+        public int interfaceIndex;
     }
+
+    protected float width = 200;
+    protected float height = 100;
 
     private Vector2 selectedOutputPos;
-    private BaseNode connectedNode;
+    private BossEditor _editor;
 
-    protected void InitialiseLists()
-    {
-        if (outputs == null || outputs.Count == 0)
-            outputs = new List<InterfaceType>();
-
-        if (inputs == null || inputs.Count == 0)
-            inputs = new List<InterfaceType>();
-    }
+    public abstract void SetupNode();
 
     public virtual void DrawWindow()
     {
@@ -49,7 +42,7 @@ public abstract class BaseNode : ScriptableObject {
         {
             yPos = 0.5f,
             connectedNode = null,
-            connectedIndex = 0
+            interfaceIndex = 0
         };
         outputs.Add(outputPos);
     }
@@ -60,7 +53,7 @@ public abstract class BaseNode : ScriptableObject {
         {
             yPos = 0.5f,
             connectedNode = null,
-            connectedIndex = 0
+            interfaceIndex = 0
         };
         inputs.Add(inputPos);
     }
@@ -69,6 +62,7 @@ public abstract class BaseNode : ScriptableObject {
     {
         foreach (InterfaceType output in outputs)
         {
+            // TODO draw interfaceat(vector2, connected)
             Handles.color = new Color(0, 0, 1);
             Handles.DrawSolidDisc(new Vector3(width - 7, height * output.yPos, 0), Vector3.back, 6f);
             Handles.color = new Color(1, 1, 1);
@@ -147,12 +141,11 @@ public abstract class BaseNode : ScriptableObject {
     
     public void DrawCurves()
     {
-        if (inputs == null) return;
         foreach (InterfaceType input in inputs)
         {
-            if (input.connectedNode)
+            if (input.connectedNode != null)
             {
-                Vector2 outPos = input.connectedNode.GetOutputPos(input.connectedIndex);
+                Vector2 outPos = input.connectedNode.GetOutputPos(input.interfaceIndex);
                 Rect start = new Rect()
                 {
                     x = outPos.x,
@@ -189,20 +182,20 @@ public abstract class BaseNode : ScriptableObject {
         
         var input = inputs[inputIndex];
         if (input.connectedNode != null)
-            input.connectedNode.DisconnectOutput(input.connectedIndex);
+            input.connectedNode.DisconnectOutput(input.interfaceIndex);
 
         input.connectedNode = otherNode.connectedNode;
-        input.connectedIndex = otherNode.connectedIndex;
+        input.interfaceIndex = otherNode.interfaceIndex;
         inputs[inputIndex] = input;
         
-        otherNode.connectedNode.SetOutput(otherNode.connectedIndex, input);
+        otherNode.connectedNode.SetOutput(otherNode.interfaceIndex, input);
     }
 
     public void SetOutput(int outputIndex, InterfaceType otherNode)
     {
         var output = outputs[outputIndex];
         output.connectedNode = otherNode.connectedNode;
-        output.connectedIndex = otherNode.connectedIndex;
+        output.interfaceIndex = otherNode.interfaceIndex;
         outputs[outputIndex] = output;
     }
 
@@ -229,7 +222,7 @@ public abstract class BaseNode : ScriptableObject {
     {
         InterfaceType output = new InterfaceType();
         output.connectedNode = inputs[inputIndex].connectedNode;
-        output.connectedIndex = inputs[inputIndex].connectedIndex;
+        output.interfaceIndex = inputs[inputIndex].interfaceIndex;
         return output;
     }
 

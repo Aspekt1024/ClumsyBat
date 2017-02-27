@@ -21,6 +21,8 @@ public class BossNodeFactory {
     
     private void CreateNode(NodeTypes nodeType)
     {
+        if (_editor == null) return;    // occurs when this object hasn't been destroyed when the editor hits OnDisable()
+
         BaseNode newNode = null;
         switch (nodeType)
         {
