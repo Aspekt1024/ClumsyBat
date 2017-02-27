@@ -24,6 +24,15 @@ public abstract class BaseNode : ScriptableObject {
     private Vector2 selectedOutputPos;
     private BaseNode connectedNode;
 
+    protected void InitialiseLists()
+    {
+        if (outputs == null || outputs.Count == 0)
+            outputs = new List<InterfaceType>();
+
+        if (inputs == null || inputs.Count == 0)
+            inputs = new List<InterfaceType>();
+    }
+
     public virtual void DrawWindow()
     {
         WindowTitle = EditorGUILayout.TextField("Title", WindowTitle);
@@ -71,7 +80,7 @@ public abstract class BaseNode : ScriptableObject {
                 Handles.DrawSolidDisc(new Vector3(width - 7, height * output.yPos, 0), Vector3.back, 3f);
             }
         }
-
+        
         foreach (InterfaceType input in inputs)
         {
             Handles.color = new Color(0, 0, 1);
@@ -138,6 +147,7 @@ public abstract class BaseNode : ScriptableObject {
     
     public void DrawCurves()
     {
+        if (inputs == null) return;
         foreach (InterfaceType input in inputs)
         {
             if (input.connectedNode)

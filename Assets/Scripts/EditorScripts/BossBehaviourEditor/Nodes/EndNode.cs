@@ -7,6 +7,7 @@ public class EndNode : BaseNode {
 
     private void OnEnable()
     {
+        InitialiseLists();
         AddInput();
     }
 

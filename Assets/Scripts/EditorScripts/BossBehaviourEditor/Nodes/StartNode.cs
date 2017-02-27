@@ -8,6 +8,7 @@ public class StartNode : BaseNode {
 
     private void OnEnable()
     {
+        base.InitialiseLists();
         AddOutput();
     }
 

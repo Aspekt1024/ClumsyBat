@@ -13,6 +13,7 @@ public class SpeechNode : BaseNode {
 
     private void OnEnable()
     {
+        InitialiseLists();
         AddInput();
         AddOutput();
     }
