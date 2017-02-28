@@ -68,7 +68,7 @@ public class BossEditorMouseInput {
         switch (button)
         {
             case (int)MouseButtons.LeftClick:
-                clickActioned = ActionLeftMouseDown();
+                ActionLeftMouseDown();
                 break;
             case (int)MouseButtons.RightClick:
                 ActionRightMouseDown();
@@ -99,9 +99,9 @@ public class BossEditorMouseInput {
         }
     }
 
-    private bool ActionLeftMouseDown()
+    private void ActionLeftMouseDown()
     {
-        if (_mouseDownNode == null) return false;
+        if (_mouseDownNode == null) return;
         
         _outputIndex = _mouseDownNode.OutputClicked(_mousePos);
         int inputIndex = _mouseDownNode.InputClicked(_mousePos);
@@ -121,11 +121,9 @@ public class BossEditorMouseInput {
                 _mouseDownNode.DisconnectOutput(_outputIndex);
 
                 _editor.SetSelectedNode(output.connectedNode);
-                _editor.ConnectionMode = true;
+                _editor.ConnectionMode = true; 
             }
         }
-
-        return false; // TODO remove this? tells the controller whether to Use() this event.
     }
 
     private void ActionRightMouseDown()
@@ -147,10 +145,7 @@ public class BossEditorMouseInput {
             int inputIndex = _mouseUpNode.GetReleasedNode(_mousePos);
             if (_editor.ConnectionMode && inputIndex >= 0)
             {
-                BaseNode.InterfaceType output = new BaseNode.InterfaceType();
-                output.connectedNode = _mouseDownNode;
-                output.interfaceIndex = _outputIndex;
-                _mouseUpNode.SetInput(inputIndex, output);
+                _mouseUpNode.SetInput(inputIndex, _mouseDownNode, _outputIndex);
             }
         }
         _editor.ConnectionMode = false;

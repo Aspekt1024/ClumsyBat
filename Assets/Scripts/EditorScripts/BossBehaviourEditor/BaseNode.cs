@@ -19,11 +19,7 @@ public abstract class BaseNode : ScriptableObject {
         public int interfaceIndex;
     }
 
-    protected float width = 200;
-    protected float height = 100;
-
     private Vector2 selectedOutputPos;
-    private BossEditor _editor;
 
     public abstract void SetupNode();
 
@@ -32,27 +28,27 @@ public abstract class BaseNode : ScriptableObject {
         WindowTitle = EditorGUILayout.TextField("Title", WindowTitle);
     }
     
-    public virtual void SetWindowRect(Vector2 mousePos)
+    public virtual void SetWindowRect(Vector2 position)
     {
-        WindowRect = new Rect(mousePos.x, mousePos.y, width, height);
+        WindowRect = new Rect(position.x, position.y, WindowRect.width, WindowRect.height);
     }
 
-    protected void AddOutput()
+    protected void AddOutput(float yPos)
     {
         InterfaceType outputPos = new InterfaceType()
         {
-            yPos = 0.5f,
+            yPos = yPos,
             connectedNode = null,
             interfaceIndex = 0
         };
         outputs.Add(outputPos);
     }
 
-    protected void AddInput()
+    protected void AddInput(float yPos)
     {
         InterfaceType inputPos = new InterfaceType()
         {
-            yPos = 0.5f,
+            yPos = yPos,
             connectedNode = null,
             interfaceIndex = 0
         };
@@ -63,32 +59,32 @@ public abstract class BaseNode : ScriptableObject {
     {
         foreach (InterfaceType output in outputs)
         {
-            // TODO draw interfaceat(vector2, connected)
-            Handles.color = new Color(0, 0, 1);
-            Handles.DrawSolidDisc(new Vector3(width - 7, height * output.yPos, 0), Vector3.back, 6f);
-            Handles.color = new Color(1, 1, 1);
-            Handles.DrawSolidDisc(new Vector3(width - 7, height * output.yPos, 0), Vector3.back, 4f);
-
-            if (output.connectedNode != null)
-            {
-                Handles.color = new Color(0.4f, 0.4f, 1);
-                Handles.DrawSolidDisc(new Vector3(width - 7, height * output.yPos, 0), Vector3.back, 3f);
-            }
+            Vector3 position = new Vector3(WindowRect.width - 7f, output.yPos, 0f);
+            DrawInterfaceAt(position, output.connectedNode != null);
         }
         
         foreach (InterfaceType input in inputs)
         {
-            Handles.color = new Color(0, 0, 1);
-            Handles.DrawSolidDisc(new Vector3(7f, height * input.yPos, 0), Vector3.back, 6f);
-            Handles.color = new Color(1, 1, 1);
-            Handles.DrawSolidDisc(new Vector3(7f, height * input.yPos, 0), Vector3.back, 4f);
-
-            if (input.connectedNode != null)
-            {
-                Handles.color = new Color(0.4f, 0.4f, 1);
-                Handles.DrawSolidDisc(new Vector3(7f, height * input.yPos, 0), Vector3.back, 3f);
-            }
+            Vector3 position = new Vector3(7f, input.yPos, 0f);
+            DrawInterfaceAt(position, input.connectedNode != null);
         }
+    } 
+
+    private void DrawInterfaceAt(Vector3 position, bool connected)
+    {
+        DrawCircle(position, 6f, Color.blue);
+        DrawCircle(position, 4f, Color.white);
+
+        if (connected)
+        {
+            DrawCircle(position, 3f, Color.blue);
+        }
+    }
+
+    private void DrawCircle(Vector3 position, float radius, Color color)
+    {
+        Handles.color = color;
+        Handles.DrawSolidDisc(position, Vector3.back, radius);
     }
 
     public int OutputClicked(Vector2 mousePos)
@@ -96,11 +92,11 @@ public abstract class BaseNode : ScriptableObject {
         int chosenOutput = -1;
         for (int i = 0; i < outputs.Count; i++)
         {
-            Vector2 delta = new Vector2 (WindowRect.x + width - 7f, WindowRect.y + height * outputs[i].yPos) - mousePos;
+            Vector2 delta = new Vector2 (WindowRect.x + WindowRect.width - 7f, WindowRect.y + outputs[i].yPos) - mousePos;
             float dist = Mathf.Sqrt(delta.x * delta.x + delta.y * delta.y);
             if (dist < 6)
             {
-                selectedOutputPos = new Vector2 (width - 7f, height * outputs[i].yPos);
+                selectedOutputPos = new Vector2 (WindowRect.width - 7f, outputs[i].yPos);
                 chosenOutput = i;
                 break;
             }
@@ -113,7 +109,7 @@ public abstract class BaseNode : ScriptableObject {
         int chosenInput = -1;
         for (int i = 0; i < inputs.Count; i++)
         {
-            Vector2 delta = new Vector2(WindowRect.x + 7f, WindowRect.y + height * inputs[i].yPos) - mousePos;
+            Vector2 delta = new Vector2(WindowRect.x + 7f, WindowRect.y + inputs[i].yPos) - mousePos;
             float dist = Mathf.Sqrt(delta.x * delta.x + delta.y * delta.y);
             if (dist < 6)
             {
@@ -129,7 +125,7 @@ public abstract class BaseNode : ScriptableObject {
         int chosenInput = -1;
         for (int i = 0; i < inputs.Count; i++)
         {
-            Vector2 delta = new Vector2(WindowRect.x + 7f, WindowRect.y + height * inputs[i].yPos) - mousePos;
+            Vector2 delta = new Vector2(WindowRect.x + 7f, WindowRect.y + inputs[i].yPos) - mousePos;
             float dist = Mathf.Sqrt(delta.x * delta.x + delta.y * delta.y);
             if (dist < 10)
             {
@@ -142,34 +138,38 @@ public abstract class BaseNode : ScriptableObject {
     
     public void DrawCurves()
     {
-        foreach (InterfaceType input in inputs)
+        foreach (InterfaceType output in outputs)
         {
-            if (input.connectedNode != null)
-            {
-                Vector2 outPos = input.connectedNode.GetOutputPos(input.interfaceIndex);
-                Rect start = new Rect()
-                {
-                    x = outPos.x,
-                    y = outPos.y,
-                    width = 1,
-                    height = 1
-                };
-                Rect end = new Rect()
-                {
-                    x = 7f + WindowRect.x,
-                    y = height * input.yPos + WindowRect.y,
-                    width = 1,
-                    height = 1
-                };
-                BossEditor.DrawCurve(start, end);
-            }
+            if (output.connectedNode != null)
+                DrawCurvesFromOutput(output);
         }
     }
 
-    public Vector2 GetOutputPos(int outputIndex)
+    private void DrawCurvesFromOutput(InterfaceType output)
     {
-        Vector2 outPos = new Vector2(width - 7f, height * outputs[outputIndex].yPos);
-        return outPos + new Vector2(WindowRect.x, WindowRect.y);
+        Rect start = new Rect()
+        {
+            x = WindowRect.x + WindowRect.width - 7f,
+            y = WindowRect.y + output.yPos,
+            width = 1,
+            height = 1
+        };
+        
+        Vector2 inputPos = output.connectedNode.GetInputPos(output.interfaceIndex);
+        Rect end = new Rect()
+        {
+            x = inputPos.x,
+            y = inputPos.y,
+            width = 1,
+            height = 1
+        };
+        BossEditor.DrawCurve(start, end);
+    }
+
+    private Vector2 GetInputPos(int inputIndex)
+    {
+        Vector2 inputPos = new Vector2(7f, inputs[inputIndex].yPos);
+        return inputPos + new Vector2(WindowRect.x, WindowRect.y);
     }
 
     public Vector2 GetSelectedOutputPos()
@@ -177,27 +177,47 @@ public abstract class BaseNode : ScriptableObject {
         return selectedOutputPos + new Vector2(WindowRect.x, WindowRect.y);
     }
 
-    public void SetInput(int inputIndex, InterfaceType otherNode)
+    public void SetInput(int inputIndex, BaseNode outNode, int outputIndex)
     {
-        if (otherNode.connectedNode == this) return;    // Can't connect to self
+        if (outNode == this) return;    // Can't connect to self
         
+        if (outNode.OutputIsConnected(outputIndex))
+        {
+            var originalInterface = outNode.GetConnectedInterfaceFromOutput(outputIndex);
+            originalInterface.connectedNode.DisconnectInput(originalInterface.interfaceIndex);
+        }
+
         var input = inputs[inputIndex];
         if (input.connectedNode != null)
             input.connectedNode.DisconnectOutput(input.interfaceIndex);
 
-        input.connectedNode = otherNode.connectedNode;
-        input.interfaceIndex = otherNode.interfaceIndex;
+        input.connectedNode = outNode;
+        input.interfaceIndex = outputIndex;
         inputs[inputIndex] = input;
         
-        otherNode.connectedNode.SetOutput(otherNode.interfaceIndex, input);
+        outNode.SetOutput(outputIndex, this, inputIndex);
     }
 
-    public void SetOutput(int outputIndex, InterfaceType otherNode)
+    private void SetOutput(int outputIndex, BaseNode node, int inputIndex)
     {
         var output = outputs[outputIndex];
-        output.connectedNode = otherNode.connectedNode;
-        output.interfaceIndex = otherNode.interfaceIndex;
+        output.connectedNode = node;
+        output.interfaceIndex = inputIndex;
         outputs[outputIndex] = output;
+    }
+
+    public void DeleteNode()
+    {
+        foreach (var input in inputs)
+        {
+            if (input.connectedNode != null)
+                input.connectedNode.DisconnectOutput(input.interfaceIndex);
+        }
+        foreach (var output in outputs)
+        {
+            if (output.connectedNode != null)
+                output.connectedNode.DisconnectInput(output.interfaceIndex);
+        }
     }
 
     public void DisconnectOutput(int outputIndex)
@@ -214,6 +234,11 @@ public abstract class BaseNode : ScriptableObject {
         inputs[inputIndex] = input;
     }
 
+    private bool OutputIsConnected(int outputIndex)
+    {
+        return outputs[outputIndex].connectedNode != null;
+    }
+
     public bool InputIsConnected(int inputIndex)
     {
         return inputs[inputIndex].connectedNode != null;
@@ -221,10 +246,12 @@ public abstract class BaseNode : ScriptableObject {
 
     public InterfaceType GetConnectedInterfaceFromInput(int inputIndex)
     {
-        InterfaceType output = new InterfaceType();
-        output.connectedNode = inputs[inputIndex].connectedNode;
-        output.interfaceIndex = inputs[inputIndex].interfaceIndex;
-        return output;
+        return inputs[inputIndex];
+    }
+
+    private InterfaceType GetConnectedInterfaceFromOutput(int outputIndex)
+    {
+        return outputs[outputIndex];
     }
 
     public abstract void Tick(float DeltaTime);

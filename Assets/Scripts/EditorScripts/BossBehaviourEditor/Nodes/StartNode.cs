@@ -8,18 +8,12 @@ public class StartNode : BaseNode {
     
     public override void SetupNode()
     {
-        AddOutput();
-    }
-
-    public override void SetWindowRect(Vector2 position)
-    {
-        width = 100;
-        height = 80;
+        WindowRect.width = 100;
+        WindowRect.height = 80;
         WindowTitle = "Start";
-
-        base.SetWindowRect(position);
+        AddOutput(WindowRect.height / 2);
     }
-
+    
     public override void DrawWindow()
     {
         DrawInterfaces();

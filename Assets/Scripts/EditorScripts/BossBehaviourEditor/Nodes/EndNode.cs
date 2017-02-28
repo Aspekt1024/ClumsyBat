@@ -8,16 +8,10 @@ public class EndNode : BaseNode {
 
     public override void SetupNode()
     {
-        AddInput();
-    }
-
-    public override void SetWindowRect(Vector2 mousePos)
-    {
-        width = 100;
-        height = 80;
         WindowTitle = "End";
-
-        base.SetWindowRect(mousePos);
+        WindowRect.width = 100;
+        WindowRect.height = 80;
+        AddInput(WindowRect.height / 2);
     }
 
     public override void DrawWindow()

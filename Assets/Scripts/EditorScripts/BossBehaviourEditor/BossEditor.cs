@@ -29,20 +29,8 @@ public class BossEditor : EditorWindow {
         if (_mouseInput == null) _mouseInput = new BossEditorMouseInput(this);
         if (_nodeFactory == null) _nodeFactory = new BossNodeFactory(this);
 
-        if (BossCreatorObject != null)
-        {
+        if (BossCreatorObject != null) {
             LoadBoss(BossCreatorObject);
-
-            return;
-            Debug.Log("load: Boss has " + BossCreatorObject.Nodes.Count + " nodes:");
-            foreach (var node in BossCreatorObject.Nodes)
-            {
-                Debug.Log("load: " + node.WindowTitle + " : " + node.outputs.Count + " outputs, " + node.inputs.Count + " inputs.");
-                foreach(var input in node.inputs)
-                {
-                    Debug.Log("load: interface index " + input.connectedNode);
-                }
-            }
         }
     }
 
@@ -50,24 +38,31 @@ public class BossEditor : EditorWindow {
     {
         if (BossCreatorObject != null)
         {
+            // TODO make this... nicer...
+            string assetFolder = AssetDatabase.GetAssetPath(BossCreatorObject);
+            assetFolder = assetFolder.Substring(0, assetFolder.Length - ("/" + BossCreatorObject.name + ".asset").Length);
+            string folderName = BossCreatorObject.name + "Nodes";
+            if (!AssetDatabase.IsValidFolder(assetFolder + "/" + folderName))
+                AssetDatabase.CreateFolder(assetFolder, folderName);
+            assetFolder += "/" + folderName + "/";
             for (int i = 0; i < Nodes.Count; i++)
             {
                 BaseNode node = Nodes[i];
                 if (!AssetDatabase.Contains(node))
                 {
-                    AssetDatabase.AddObjectToAsset(node, BossCreatorObject);
+                    int assetNum = 1;
+                    while (AssetDatabase.LoadAssetAtPath<BaseNode>(assetFolder + node.WindowTitle + assetNum + ".asset") != null)
+                        assetNum++;
+
+                    AssetDatabase.CreateAsset(node, assetFolder + node.WindowTitle + assetNum + ".asset");
                 }
+
+                EditorUtility.SetDirty(node); 
             }
             BossCreatorObject.Nodes = Nodes;
             EditorUtility.SetDirty(BossCreatorObject);
-
-            return;
-            Debug.Log("save: Boss has " + BossCreatorObject.Nodes.Count + " nodes:");
-            foreach (var node in BossCreatorObject.Nodes)
-            {
-                Debug.Log("save: " + node.WindowTitle + " : " + node.outputs.Count + " outputs, " + node.inputs.Count + " inputs.");
-
-            }
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
     }
 
@@ -188,7 +183,11 @@ public class BossEditor : EditorWindow {
 
     public void RemoveNode(BaseNode node)
     {
+        node.DeleteNode();
         Nodes.Remove(node);
+
+        if(AssetDatabase.Contains(node))
+            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(node));
     }
 
     public void LoadBoss(BossCreator bossObj)

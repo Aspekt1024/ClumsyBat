@@ -13,17 +13,11 @@ public class SpeechNode : BaseNode {
     
     public override void SetupNode()
     {
-        AddInput();
-        AddOutput();
-    }
-
-    public override void SetWindowRect(Vector2 mousePos)
-    {
-        width = 200;
-        height = 150;
+        WindowRect.width = 200;
+        WindowRect.height = 150;
         WindowTitle = "Speech";
-        
-        base.SetWindowRect(mousePos);
+        AddInput(WindowRect.height / 2);
+        AddOutput(WindowRect.height / 2);
     }
 
     public override void DrawWindow()
