@@ -33,13 +33,14 @@ public class BossEditor : EditorWindow {
         {
             LoadBoss(BossCreatorObject);
 
+            return;
             Debug.Log("load: Boss has " + BossCreatorObject.Nodes.Count + " nodes:");
             foreach (var node in BossCreatorObject.Nodes)
             {
                 Debug.Log("load: " + node.WindowTitle + " : " + node.outputs.Count + " outputs, " + node.inputs.Count + " inputs.");
                 foreach(var input in node.inputs)
                 {
-                    Debug.Log("load: interface index " + input.interfaceIndex);
+                    Debug.Log("load: interface index " + input.connectedNode);
                 }
             }
         }
@@ -60,10 +61,12 @@ public class BossEditor : EditorWindow {
             BossCreatorObject.Nodes = Nodes;
             EditorUtility.SetDirty(BossCreatorObject);
 
+            return;
             Debug.Log("save: Boss has " + BossCreatorObject.Nodes.Count + " nodes:");
             foreach (var node in BossCreatorObject.Nodes)
             {
-                Debug.Log("save: " + node.WindowTitle + " : " + node.outputs.Count + " outputs, " + node.inputs.Count + " inputs. w:" + node.WindowRect.width + " h:" + node.WindowRect.height);
+                Debug.Log("save: " + node.WindowTitle + " : " + node.outputs.Count + " outputs, " + node.inputs.Count + " inputs.");
+
             }
         }
     }

@@ -10,7 +10,8 @@ public abstract class BaseNode : ScriptableObject {
 
     public List<InterfaceType> inputs = new List<InterfaceType>();
     public List<InterfaceType> outputs = new List<InterfaceType>();
-    
+
+    [System.Serializable]
     public struct InterfaceType
     {
         public float yPos;
