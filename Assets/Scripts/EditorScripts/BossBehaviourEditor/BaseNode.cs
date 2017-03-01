@@ -17,6 +17,8 @@ public abstract class BaseNode : ScriptableObject {
         public float yPos;
         public BaseNode connectedNode;
         public int interfaceIndex;
+        public int identifier;
+        public string label;
     }
 
     private Vector2 selectedOutputPos;
@@ -26,6 +28,7 @@ public abstract class BaseNode : ScriptableObject {
     public virtual void DrawWindow()
     {
         WindowTitle = EditorGUILayout.TextField("Title", WindowTitle);
+        DrawInterfaces();
     }
     
     public virtual void SetWindowRect(Vector2 position)
@@ -33,24 +36,28 @@ public abstract class BaseNode : ScriptableObject {
         WindowRect = new Rect(position.x, position.y, WindowRect.width, WindowRect.height);
     }
 
-    protected void AddOutput(float yPos)
+    protected void AddOutput(int id = 0)
     {
         InterfaceType outputPos = new InterfaceType()
         {
-            yPos = yPos,
+            yPos = 0,
             connectedNode = null,
-            interfaceIndex = 0
+            interfaceIndex = 0,
+            identifier = id,
+            label = ""
         };
         outputs.Add(outputPos);
     }
 
-    protected void AddInput(float yPos)
+    protected void AddInput(int id = 0)
     {
         InterfaceType inputPos = new InterfaceType()
         {
-            yPos = yPos,
+            yPos = 0,
             connectedNode = null,
-            interfaceIndex = 0
+            interfaceIndex = 0,
+            identifier = id,
+            label = ""
         };
         inputs.Add(inputPos);
     }
@@ -61,12 +68,26 @@ public abstract class BaseNode : ScriptableObject {
         {
             Vector3 position = new Vector3(WindowRect.width - 7f, output.yPos, 0f);
             DrawInterfaceAt(position, output.connectedNode != null);
+            if (output.label != string.Empty)
+            {
+                EditorGUIUtility.labelWidth = 70f;
+                var gs = GUI.skin.GetStyle("Label");
+                gs.alignment = TextAnchor.UpperRight;
+                EditorGUI.LabelField(new Rect(new Vector2(WindowRect.width - 85f, output.yPos - 9), new Vector2(70, 18)), output.label, gs);
+            }
         }
         
         foreach (InterfaceType input in inputs)
         {
             Vector3 position = new Vector3(7f, input.yPos, 0f);
             DrawInterfaceAt(position, input.connectedNode != null);
+            if (input.label != string.Empty)
+            {
+                EditorGUIUtility.labelWidth = 70f;
+                var gs = GUI.skin.GetStyle("Label");
+                gs.alignment = TextAnchor.UpperRight;
+                EditorGUI.LabelField(new Rect(new Vector2(15f, input.yPos - 9), new Vector2(70, 18)), input.label, gs);
+            }
         }
     } 
 
@@ -254,5 +275,45 @@ public abstract class BaseNode : ScriptableObject {
         return outputs[outputIndex];
     }
 
-    public abstract void Tick(float DeltaTime);
+    protected void SetInput(float yPos, int id = 0, string label = "")
+    {
+        for (int i = 0; i < inputs.Count; i++)
+        {
+            if (inputs[i].identifier == id)
+            {
+                var input = inputs[i];
+                input.yPos = yPos;
+                input.label = label;
+                inputs[i] = input;
+                break; 
+            }
+        }
+    }
+
+    protected void SetOutput(float yPos, int id = 0, string label = "")
+    {
+        for (int i = 0; i < outputs.Count; i++)
+        {
+            if (outputs[i].identifier == id)
+            {
+                var output = outputs[i];
+                output.yPos = yPos;
+                output.label = label;
+                outputs[i] = output;
+                break;
+            }
+        }
+    }
+
+    public abstract void Activate();
+
+    public void CallNext(int id = 0)
+    {
+        foreach (var output in outputs)
+        {
+            if (output.identifier == id && output.connectedNode != null)
+                output.connectedNode.Activate();
+        }
+    }
+
 }

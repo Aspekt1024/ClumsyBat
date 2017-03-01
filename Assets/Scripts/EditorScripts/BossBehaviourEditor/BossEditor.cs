@@ -13,15 +13,12 @@ public class BossEditor : EditorWindow {
     private BossEditorMouseInput _mouseInput;
     private BossNodeFactory _nodeFactory;
     private Vector2 _mousePos;
-
-    private System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
     
     [MenuItem("Window/Boss Editor")]
     private static void ShowEditor()
     {
         BossEditor editor = GetWindow<BossEditor>();
         editor.BossCreatorObject = null;
-        editor.stopwatch.Start();
     }
 
     private void OnEnable()
@@ -63,23 +60,6 @@ public class BossEditor : EditorWindow {
             EditorUtility.SetDirty(BossCreatorObject);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
-        }
-    }
-
-    private void Update()
-    {
-        // TODO remove this? just here in case we need a stopwatch. we currently don't so this does nothing.
-        // Remove this if it's still here in april. 28.2.17
-        if (BossCreatorObject == null) return;
-        long dTime = stopwatch.ElapsedMilliseconds;
-        float deltaTime = dTime / 1000f;
-        
-        foreach (BaseNode node in Nodes)
-        {
-            if (node != null)
-            {
-                node.Tick(deltaTime);
-            }
         }
     }
 

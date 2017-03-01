@@ -50,7 +50,7 @@ public class BossSelectorEditor : Editor {
         if (bossProps.AbilitySet == null || bossProps.AbilitySet.Length == 0)
         {
             bossProps.AbilitySet = new MonoScript[1];
-            bossProps.AbilitySet[0] = abilities[0];
+            bossProps.AbilitySet[0] = abilities[0]; // TODO this needs to be a list
         }
 
         var abilityInspectorIndex = EditorHelpers.GetIndexFromObject(abilities, bossProps.AbilitySet[0]);   // TODO cycle through all

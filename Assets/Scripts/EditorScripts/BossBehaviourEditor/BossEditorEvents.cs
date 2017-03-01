@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 public class BossEditorEvents {
 
-    public delegate void BossEditorEventHandler(BossEditorMouseInput.NodeTypes nodeType);
+    public delegate void BossEditorEventHandler(BossNodeFactory.NodeTypes nodeType);
     public static BossEditorEventHandler OnCreateNode;
 
-    public static void CreateNode(BossEditorMouseInput.NodeTypes nodeType)
+
+    public static void CreateNode(BossNodeFactory.NodeTypes nodeType)
     {
         if (OnCreateNode != null)
             OnCreateNode(nodeType);

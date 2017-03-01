@@ -24,6 +24,9 @@ public class Toolbox : Singleton<Toolbox>
     public Dictionary<string, float> ZLayers = new Dictionary<string, float>();
     public Dictionary<Levels, string> LevelNames = new Dictionary<Levels, string>();
 
+    // TODO move this to another singleton?????
+    public BossBehaviour Boss;
+
     public enum MenuSelector
     {
         LevelSelect,

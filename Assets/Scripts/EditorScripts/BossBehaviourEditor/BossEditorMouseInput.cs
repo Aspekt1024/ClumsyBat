@@ -3,21 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+using NodeTypes = BossNodeFactory.NodeTypes;
+
 public class BossEditorMouseInput {
 
     private enum MouseButtons
     {
         LeftClick = 0, RightClick = 1, MiddleClick = 2
-    }
-
-    // TODO auto search nodetypes based on inheritance tree?
-    public enum NodeTypes
-    {
-        Start,
-        End,
-        SaySomething,
-        Jump,
-        Die
     }
     
     public enum NodeMenuSelections

@@ -30,4 +30,18 @@ public class BossCreator : ScriptableObject
         }
         return false;
     }
+
+    // TODO on startup, cycle through each node and add abilities to the boss
+    // Maybe also tell the node who the boss is? That way we can set references to the abilities
+    
+    public void AwakenBoss()
+    {
+        foreach(var node in Nodes)
+        {
+            if (node.WindowTitle == "Start")
+            {
+                node.Activate();
+            }
+        }
+    }
 }

@@ -2,27 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using System;
 
-public class SpeechNode : BaseNode {
-    
+public class JumpNode : BaseNode {
+
+    public bool ScreenShakeOnLand;
+
+    private enum Outputs
+    {
+        Jumped,
+        Landed
+    }
+
     public override void SetupNode()
     {
         AddInput();
-        AddOutput();
+        AddOutput((int)Outputs.Jumped);
+        AddOutput((int)Outputs.Landed);
     }
 
     private void SetInterfacePositions()
     {
         SetInput(WindowRect.height / 2);
-        SetOutput(WindowRect.height / 2);
+        SetOutput(40, (int)Outputs.Jumped, "Jumped");
+        SetOutput(60, (int)Outputs.Landed, "Landed");
     }
 
     public override void DrawWindow()
     {
-        WindowRect.width = 200;
-        WindowRect.height = 150;
-        WindowTitle = "Speech";
+        WindowTitle = "Jump";
+        WindowRect.width = 150;
+        WindowRect.height = 200;
+
+
 
         SetInterfacePositions();
         DrawInterfaces();
@@ -31,6 +42,6 @@ public class SpeechNode : BaseNode {
     public override void Activate()
     {
         FindObjectOfType<JumpPound>().Activate();
+        CallNext((int)Outputs.Jumped);
     }
-
 }

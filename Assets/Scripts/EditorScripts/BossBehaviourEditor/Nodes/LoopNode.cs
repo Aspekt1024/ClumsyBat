@@ -1,26 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
-using System;
 
-public class StartNode : BaseNode {
-    
+public class LoopNode : BaseNode {
+
     public override void SetupNode()
     {
-        AddOutput();
+        AddInput();
     }
 
     private void SetInterfacePositions()
     {
-        SetOutput(25f);
+        SetInput(25);
     }
 
     public override void DrawWindow()
     {
-        WindowRect.width = 80;
+        WindowTitle = "Loop to Start";
+        WindowRect.width = 120;
         WindowRect.height = 40;
-        WindowTitle = "Start";
 
         SetInterfacePositions();
         DrawInterfaces();
@@ -28,6 +26,13 @@ public class StartNode : BaseNode {
 
     public override void Activate()
     {
-        outputs[0].connectedNode.Activate();
+        foreach(var node in Toolbox.Instance.Boss.BossProps.Nodes)
+        {
+            if (node.WindowTitle == "Start")
+            {
+                node.Activate();
+            }
+        }
     }
+
 }

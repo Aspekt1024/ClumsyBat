@@ -3,9 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-using NodeTypes = BossEditorMouseInput.NodeTypes;
-
 public class BossNodeFactory {
+    
+    // TODO auto search nodetypes based on inheritance tree?
+    public enum NodeTypes
+    {
+        Start,
+        End,
+        SaySomething,
+        Jump,
+        Die,
+        Wait,
+        Loop
+    }
 
     private BossEditor _editor;
 
@@ -36,10 +46,16 @@ public class BossNodeFactory {
                 newNode = ScriptableObject.CreateInstance<SpeechNode>();
                 break;
             case NodeTypes.Jump:
-                newNode = ScriptableObject.CreateInstance<BaseNode>();
+                newNode = ScriptableObject.CreateInstance<JumpNode>();
                 break;
             case NodeTypes.Die:
                 newNode = ScriptableObject.CreateInstance<BaseNode>();
+                break;
+            case NodeTypes.Wait:
+                newNode = ScriptableObject.CreateInstance<WaitNode>();
+                break;
+            case NodeTypes.Loop:
+                newNode = ScriptableObject.CreateInstance<LoopNode>();
                 break;
         }
         if (newNode != null)
