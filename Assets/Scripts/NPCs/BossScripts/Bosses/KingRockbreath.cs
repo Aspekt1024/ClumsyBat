@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// DEPRECIATED
 public class KingRockbreath : Boss
 {
     private ParabolicProjectile _projectile;

@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿
 public class LoopNode : BaseNode {
 
     public override void SetupNode()
@@ -28,10 +25,8 @@ public class LoopNode : BaseNode {
     {
         foreach(var node in Toolbox.Instance.Boss.BossProps.Nodes)
         {
-            if (node.WindowTitle == "Start")
-            {
+            if (node.GetType().Equals(typeof(StartNode)))
                 node.Activate();
-            }
         }
     }
 

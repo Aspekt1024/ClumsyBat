@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
-
-public class JumpNode : BaseNode {
+﻿public class JumpNode : BaseNode {
 
     public bool ScreenShakeOnLand;
 

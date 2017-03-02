@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+// DEPRECIATED
 public class Boss : MonoBehaviour {
     
     protected Player _player;

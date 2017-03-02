@@ -18,17 +18,21 @@ public class BossEditorContextMenus{
     public void ShowMenu()
     {
         GenericMenu menu = new GenericMenu();
-        menu.AddItem(new GUIContent("Add Start Node"), false, ContextCallback, typeof(StartNode));
-        menu.AddItem(new GUIContent("Add Wait Node"), false, ContextCallback, typeof(WaitNode));
-        menu.AddItem(new GUIContent("JumpPound/Activate"), false, ContextCallback, typeof(JumpNode));
+        menu.AddSeparator("");
+        menu.AddItem(new GUIContent("JumpPound/Jump"), false, ContextCallback, typeof(JumpNode));
+        menu.AddSeparator("");
         menu.AddItem(new GUIContent("Add Death Node"), false, ContextCallback, typeof(BaseNode));
-        menu.AddItem(new GUIContent("Add Loop Node"), false, ContextCallback, typeof(BaseNode));
+        menu.AddItem(new GUIContent("Add Wait Node"), false, ContextCallback, typeof(WaitNode));
+        menu.AddSeparator("");
+        menu.AddItem(new GUIContent("Add Start Node"), false, ContextCallback, typeof(StartNode));
+        menu.AddItem(new GUIContent("Add Loop Node"), false, ContextCallback, typeof(LoopNode));
         menu.ShowAsContext();
     }
     
     public void ShowNodeMenu(BaseNode mouseDownNode)
     {
         selectedNode = mouseDownNode;
+
         GenericMenu menu = new GenericMenu();
         menu.AddItem(new GUIContent("Do Nothing"), false, ContextCallback, NodeMenuSelections.DoNothing);
         menu.AddSeparator("");
