@@ -11,7 +11,6 @@ public class BossEditor : EditorWindow {
     private BaseNode _currentNode;
     private Texture2D _bg;
     private BossEditorMouseInput _mouseInput;
-    private BossNodeFactory _nodeFactory;
     private Vector2 _mousePos;
     
     [MenuItem("Window/Boss Editor")]
@@ -24,7 +23,6 @@ public class BossEditor : EditorWindow {
     private void OnEnable()
     {
         if (_mouseInput == null) _mouseInput = new BossEditorMouseInput(this);
-        if (_nodeFactory == null) _nodeFactory = new BossNodeFactory(this);
 
         if (BossCreatorObject != null) {
             LoadBoss(BossCreatorObject);
@@ -178,5 +176,19 @@ public class BossEditor : EditorWindow {
             Nodes = new List<BaseNode>();
         else
             Nodes = BossCreatorObject.Nodes;
+    }
+
+    public bool StartExists()
+    {
+        bool startFound = false;
+        foreach (var node in Nodes)
+        {
+            if (node.GetType().Equals(typeof(StartNode)))
+            {
+                startFound = true;
+                break;
+            }
+        }
+        return startFound;
     }
 }

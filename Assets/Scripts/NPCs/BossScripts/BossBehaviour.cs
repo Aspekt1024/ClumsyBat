@@ -35,7 +35,6 @@ public class BossBehaviour : MonoBehaviour {
     {
         Toolbox.Instance.Boss = this;  // TODO move this somewhere else? this is so nodes can access it.
         _state = BossStates.Disabled;
-        BossProps = GetComponent<BossProperties>().BossProps;
         _boss = Instantiate(BossProps.BossPrefab, transform.position, new Quaternion(), transform);
         AddAbilities();
 	}

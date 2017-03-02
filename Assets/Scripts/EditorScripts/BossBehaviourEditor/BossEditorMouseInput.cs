@@ -1,9 +1,7 @@
-﻿using System.Collections;
+﻿
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-
-using NodeTypes = BossNodeFactory.NodeTypes;
 
 public class BossEditorMouseInput {
 
@@ -21,6 +19,7 @@ public class BossEditorMouseInput {
     public bool MouseDownHeld;
 
     private BossEditor _editor;
+    private BossEditorContextMenus contextMenus;
 
     private BaseNode _mouseDownNode;
     private int _outputIndex;
@@ -31,13 +30,13 @@ public class BossEditorMouseInput {
     public BossEditorMouseInput(BossEditor editor)
     {
         _editor = editor;
+        contextMenus = new BossEditorContextMenus(editor);
     }
 
 	public void ProcessMouseEvents(Event e)
     {
         _mousePos = e.mousePosition;
-
-        // TODO move this to separate class?
+        
         if (e.type == EventType.MouseDown)
         {
             if (ActionMouseDown(e.button))
@@ -63,7 +62,7 @@ public class BossEditorMouseInput {
                 ActionLeftMouseDown();
                 break;
             case (int)MouseButtons.RightClick:
-                ActionRightMouseDown();
+                // do nothing
                 clickActioned = true;
                 break;
             case (int)MouseButtons.MiddleClick:
@@ -83,7 +82,7 @@ public class BossEditorMouseInput {
                 ActionLeftMouseUp();
                 break;
             case (int)MouseButtons.RightClick:
-                // no action on mouseup rightclick
+                ActionRightMouseUp();
                 break;
             case (int)MouseButtons.MiddleClick:
                 // nothing?
@@ -118,16 +117,12 @@ public class BossEditorMouseInput {
         }
     }
 
-    private void ActionRightMouseDown()
+    private void ActionRightMouseUp()
     {
         if (_mouseDownNode == null)
-        {
-            BossEditorContextMenus.ShowMenu(ContextCallback);
-        }
+            contextMenus.ShowMenu();
         else
-        {
-            BossEditorContextMenus.ShowNodeMenu(ContextCallback);
-        }
+            contextMenus.ShowNodeMenu(_mouseDownNode);
     }
 
     private void ActionLeftMouseUp()
@@ -141,30 +136,5 @@ public class BossEditorMouseInput {
             }
         }
         _editor.ConnectionMode = false;
-    }
-    
-    public void ContextCallback(object obj)
-    {
-        if (obj.GetType().Equals(typeof(NodeTypes)))
-        {
-            BossEditorEvents.CreateNode((NodeTypes)obj);
-        }
-        else if (obj.GetType().Equals(typeof(NodeMenuSelections)))
-        {
-            ActionNodeMenuSelection((NodeMenuSelections)obj);
-        }
-    }
-    
-    private void ActionNodeMenuSelection(NodeMenuSelections selection)
-    {
-        switch (selection)
-        {
-            case NodeMenuSelections.DoNothing:
-                // as it says
-                break;
-            case NodeMenuSelections.DeleteNode:
-                _editor.RemoveNode(_mouseDownNode);
-                break;
-        }
     }
 }
