@@ -7,7 +7,6 @@ public class BossBehaviour : MonoBehaviour {
     public BossCreator BossProps;
 
     private GameObject _boss;
-    private int _health;
     private readonly List<BossAbility> _abilities = new List<BossAbility>();
 
     // TODO set this dynamically
@@ -36,7 +35,7 @@ public class BossBehaviour : MonoBehaviour {
         Toolbox.Instance.Boss = this;  // TODO move this somewhere else? this is so nodes can access it.
         _state = BossStates.Disabled;
         _boss = Instantiate(BossProps.BossPrefab, transform.position, new Quaternion(), transform);
-        AddAbilities();
+        PassBossReferenceToNodes();
 	}
 	
 	private void Update () {
@@ -50,9 +49,17 @@ public class BossBehaviour : MonoBehaviour {
         BossProps.AwakenBoss();
     }
 
+    private void PassBossReferenceToNodes()
+    {
+        foreach (var node in BossProps.Nodes)
+        {
+            node.GameSetup(this, _boss);
+        }
+    }
+
     private void AddAbilities()
     {
-        foreach (UnityEditor.MonoScript ability in BossProps.AbilitySet)
+        foreach (var ability in BossProps.AbilitySet)
         {
             _abilities.Add((BossAbility)_boss.AddComponent(ability.GetClass()));
         }
@@ -75,5 +82,22 @@ public class BossBehaviour : MonoBehaviour {
             yield return null;
         }
         ((WaitNode)caller).WaitComplete();  // TODO could be an event instead...?
+    }
+
+    public BossAbility GetAbility<T>() where T : BossAbility
+    {
+        BossAbility ability = null;
+        foreach (var a in _abilities)
+        {
+            if (a.GetType() is T)
+                ability = a;
+        }
+
+        if (!ability)
+        {
+            ability = (BossAbility)_boss.AddComponent(typeof(T));
+            _abilities.Add(ability);
+        }
+        return (T)ability;
     }
 }

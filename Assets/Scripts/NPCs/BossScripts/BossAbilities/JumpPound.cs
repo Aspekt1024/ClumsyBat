@@ -3,17 +3,39 @@ using UnityEngine;
 
 public class JumpPound : BossAbility
 {
+    public bool bShakesScreenOnLand;
+
     private enum JumpState
     {
         Idle,
+        Falling,
         Jumping
     }
     private JumpState _state;
+    private Rigidbody2D bossBody;
+    private BaseNode callerNode;
     
-    public override void Activate()
+    private void Start()
+    {
+        bossBody = GetComponent<Rigidbody2D>();
+    }
+
+    public void Jump(BaseNode caller)
     {
         _state = JumpState.Jumping;
+        callerNode = caller;
         StartCoroutine("JumpAndPound");
+    }
+
+    private void Update()
+    {
+        if (_state == JumpState.Jumping && bossBody.velocity.y < 0)
+        {
+            _state = JumpState.Falling;
+            
+            if (callerNode.GetType().Equals(typeof(JumpNode)))
+                ((JumpNode)callerNode).TopOfJump();
+        }
     }
 
     private IEnumerator JumpAndPound()
@@ -32,12 +54,17 @@ public class JumpPound : BossAbility
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (_state != JumpState.Jumping) return;
+        if (_state != JumpState.Falling) return;
         if (other.collider.tag == "BossFloor")
         {
-            StartCoroutine("ShakeScreen", 0.5f);
             _state = JumpState.Idle;
             BossEvents.JumpLanded();
+
+            if (bShakesScreenOnLand)
+                StartCoroutine("ShakeScreen", 0.5f);
+            
+            if (callerNode.GetType().Equals(typeof(JumpNode)))
+                ((JumpNode)callerNode).Landed();
         }
     }
 

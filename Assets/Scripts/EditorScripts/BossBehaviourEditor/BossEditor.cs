@@ -185,15 +185,31 @@ public class BossEditor : EditorWindow {
     {
         Vector3 startPos = new Vector3(start.x + start.width / 2, start.y + start.height / 2, 0f);
         Vector3 endPos = new Vector3(end.x + end.width / 2, end.y + end.height / 2, 0f);
-        Vector3 startTan = startPos + Vector3.right * 50;
-        Vector3 endTan = endPos + Vector3.left * 50;
         Color shadowCol = new Color(0.7f, 0.7f, 1f, 0.06f);
+
+        Vector3 tanScale = GetTanScale(startPos, endPos);
+        Vector3 startTan = startPos + tanScale;
+        Vector3 endTan = endPos - tanScale;
 
         for (int i = 0; i < 3; i++)
         {
             Handles.DrawBezier(startPos, endPos, startTan, endTan, shadowCol, null, (i + 1) * 7);
         }
         Handles.DrawBezier(startPos, endPos, startTan, endTan, new Color(0.7f, 0.7f, 1f), null, 3);
+    }
+
+    private static Vector3 GetTanScale(Vector3 startPos, Vector3 endPos)
+    {
+        Vector3 tanScale = new Vector3(50f, 0f, 0f);
+
+        float dX = startPos.x - endPos.x;
+        if (dX > 0)
+        {
+            float dY = startPos.y - endPos.y;
+            if (dY < 0) dY = -dY;
+            tanScale += new Vector3(dX, dY, 0f) / 2f;
+        }
+        return tanScale;
     }
 
     public void AddNode(BaseNode newNode)

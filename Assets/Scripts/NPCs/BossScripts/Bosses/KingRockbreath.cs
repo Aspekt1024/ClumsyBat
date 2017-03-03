@@ -70,7 +70,6 @@ public class KingRockbreath : Boss
 
     private IEnumerator Jump()
     {
-        _jumpPound.Activate();
         yield return StartCoroutine("WaitSeconds", 2f);
     }
 

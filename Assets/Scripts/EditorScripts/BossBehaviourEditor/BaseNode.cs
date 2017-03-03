@@ -21,6 +21,9 @@ public abstract class BaseNode : ScriptableObject {
         public string label;
     }
 
+    protected BossBehaviour bossBehaviour;
+    protected GameObject boss;
+
     private Vector2 selectedOutputPos;
 
     public abstract void SetupNode();
@@ -316,4 +319,9 @@ public abstract class BaseNode : ScriptableObject {
         }
     }
 
+    public virtual void GameSetup(BossBehaviour behaviour, GameObject bossReference)
+    {
+        bossBehaviour = behaviour;
+        boss = bossReference;
+    }
 }
