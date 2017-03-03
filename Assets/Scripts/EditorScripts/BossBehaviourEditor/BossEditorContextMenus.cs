@@ -3,12 +3,16 @@ using System.Reflection;
 using UnityEngine;
 using UnityEditor;
 
-using NodeMenuSelections = BossEditorMouseInput.NodeMenuSelections;
-
 public class BossEditorContextMenus{
     
     private BossEditor editor;
     private BaseNode selectedNode;
+    
+    public enum NodeMenuSelections
+    {
+        FindStart,
+        DeleteNode
+    }
 
     public BossEditorContextMenus(BossEditor editorInstance)
     {
@@ -18,14 +22,16 @@ public class BossEditorContextMenus{
     public void ShowMenu()
     {
         GenericMenu menu = new GenericMenu();
-        menu.AddSeparator("");
         menu.AddItem(new GUIContent("JumpPound/Jump"), false, ContextCallback, typeof(JumpNode));
         menu.AddSeparator("");
         menu.AddItem(new GUIContent("Add Death Node"), false, ContextCallback, typeof(BaseNode));
+        menu.AddSeparator("");
         menu.AddItem(new GUIContent("Add Wait Node"), false, ContextCallback, typeof(WaitNode));
         menu.AddSeparator("");
         menu.AddItem(new GUIContent("Add Start Node"), false, ContextCallback, typeof(StartNode));
         menu.AddItem(new GUIContent("Add Loop Node"), false, ContextCallback, typeof(LoopNode));
+        menu.AddSeparator("");
+        menu.AddItem(new GUIContent("Find Start"), false, ContextCallback, NodeMenuSelections.FindStart);
         menu.ShowAsContext();
     }
     
@@ -34,12 +40,26 @@ public class BossEditorContextMenus{
         selectedNode = mouseDownNode;
 
         GenericMenu menu = new GenericMenu();
-        menu.AddItem(new GUIContent("Do Nothing"), false, ContextCallback, NodeMenuSelections.DoNothing);
+        menu.AddItem(new GUIContent("Find Start"), false, ContextCallback, NodeMenuSelections.FindStart);
         menu.AddSeparator("");
         menu.AddItem(new GUIContent("Delete Node"), false, ContextCallback, NodeMenuSelections.DeleteNode);
         menu.ShowAsContext();
     }
-    
+
+
+    private void ActionNodeMenuSelection(NodeMenuSelections selection)
+    {
+        switch (selection)
+        {
+            case NodeMenuSelections.FindStart:
+                editor.MoveToStart();
+                break;
+            case NodeMenuSelections.DeleteNode:
+                editor.RemoveNode(selectedNode);
+                break;
+        }
+    }
+
     public void ContextCallback(object obj)
     {
         if (obj is Type)
@@ -71,18 +91,5 @@ public class BossEditorContextMenus{
         BaseNode newNode = ScriptableObject.CreateInstance<T>();
         if (newNode != null)
             editor.AddNode(newNode);
-    }
-
-    private void ActionNodeMenuSelection(NodeMenuSelections selection)
-    {
-        switch (selection)
-        {
-            case NodeMenuSelections.DoNothing:
-                // as it says
-                break;
-            case NodeMenuSelections.DeleteNode:
-                editor.RemoveNode(selectedNode);
-                break;
-        }
     }
 }

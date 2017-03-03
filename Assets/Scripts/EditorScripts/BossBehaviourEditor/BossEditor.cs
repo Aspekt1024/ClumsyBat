@@ -7,12 +7,16 @@ public class BossEditor : EditorWindow {
     public List<BaseNode> Nodes;
     public BossCreator BossCreatorObject;
     public bool ConnectionMode;
+    public bool MoveEditorMode;
 
     private BaseNode _currentNode;
     private Texture2D _bg;
     private BossEditorMouseInput _mouseInput;
     private Vector2 _mousePos;
-    
+    private Vector2 startMousePos;
+    private Vector2 canvasDisplacement;
+    private float timeSinceUpdate;
+
     [MenuItem("Window/Boss Editor")]
     private static void ShowEditor()
     {
@@ -61,6 +65,19 @@ public class BossEditor : EditorWindow {
         }
     }
 
+    private void Update()
+    {
+        if (!MoveEditorMode) return;
+        canvasDisplacement = _mousePos - startMousePos;
+        timeSinceUpdate += Time.deltaTime;
+        if (timeSinceUpdate > 0.1f)
+        {
+            timeSinceUpdate -= 0.1f;
+            Repaint();
+        }
+
+    }
+
     private void OnGUI()
     {
         // TODO if no object, show text to display one, else show title in editor of what the boss is
@@ -68,8 +85,9 @@ public class BossEditor : EditorWindow {
 
         Event e = Event.current;
         _mousePos = e.mousePosition;
-        _mouseInput.ProcessMouseEvents(e);
         
+        _mouseInput.ProcessMouseEvents(e);
+
         if (_bg == null)
         {
             _bg = new Texture2D(1, 1, TextureFormat.RGBA32, false);
@@ -78,8 +96,8 @@ public class BossEditor : EditorWindow {
         }
         GUI.DrawTexture(new Rect(0, 0, maxSize.x, maxSize.y), _bg, ScaleMode.StretchToFill);
         
-        DrawNodeCurves();
         DrawNodeWindows();
+        DrawNodeCurves();
     }
 
     public BaseNode GetSelectedNode()
@@ -101,6 +119,42 @@ public class BossEditor : EditorWindow {
     {
         _currentNode = node;
     }
+    
+    private void DrawNodeWindows()
+    {
+        BeginWindows();
+        for (int i = 0; i < Nodes.Count; i++)
+        {
+            Rect nodeRect = Nodes[i].WindowRect;
+            if (MoveEditorMode)
+            {
+                nodeRect.x = Nodes[i].OriginalRect.x + canvasDisplacement.x;
+                nodeRect.y = Nodes[i].OriginalRect.y + canvasDisplacement.y;
+            }
+            Nodes[i].WindowRect = GUI.Window(i, nodeRect, DrawNodeWindow, Nodes[i].WindowTitle);
+        }
+        EndWindows();
+    }
+    
+    public void StartMovingEditorCanvas()
+    {
+        startMousePos = _mousePos;
+        MoveEditorMode = true;
+        foreach (var node in Nodes)
+        {
+            node.OriginalRect = node.WindowRect;
+        }
+    }
+
+    public void StopMovingEditorCanvas()
+    {
+        MoveEditorMode = false;
+        foreach (var node in Nodes)
+        {
+            node.WindowRect = node.OriginalRect;
+        }
+        AddDisplacementToNodes();
+    }
 
     private void DrawNodeWindow(int id)
     {
@@ -109,16 +163,6 @@ public class BossEditor : EditorWindow {
         {
             GUI.DragWindow();
         }
-    }
-    
-    private void DrawNodeWindows()
-    {
-        BeginWindows();
-        for (int i = 0; i < Nodes.Count; i++)
-        {
-            Nodes[i].WindowRect = GUI.Window(i, Nodes[i].WindowRect, DrawNodeWindow, Nodes[i].WindowTitle);
-        }
-        EndWindows();
     }
 
     private void DrawNodeCurves()
@@ -190,5 +234,27 @@ public class BossEditor : EditorWindow {
             }
         }
         return startFound;
+    }
+
+    public void MoveToStart()
+    {
+        foreach (var node in Nodes)
+        {
+            if (node.GetType().Equals(typeof(StartNode)))
+            {
+                canvasDisplacement = _mousePos - new Vector2(node.WindowRect.x, node.WindowRect.y);
+                AddDisplacementToNodes();
+                break;
+            }
+        }
+    }
+
+    private void AddDisplacementToNodes()
+    {
+        foreach(var node in Nodes)
+        {
+            node.WindowRect.x += canvasDisplacement.x;
+            node.WindowRect.y += canvasDisplacement.y;
+        }
     }
 }

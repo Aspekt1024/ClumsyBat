@@ -6,12 +6,6 @@ public class BossEditorMouseInput {
     {
         LeftClick = 0, RightClick = 1, MiddleClick = 2
     }
-    
-    public enum NodeMenuSelections
-    {
-        DoNothing,
-        DeleteNode
-    }
 
     public bool MouseDownHeld;
 
@@ -41,7 +35,8 @@ public class BossEditorMouseInput {
                 e.Use();
             }
         }
-        else if (e.type == EventType.MouseUp)
+        else if ((e.rawType == EventType.MouseUp && e.button == (int)MouseButtons.LeftClick)
+            || e.type == EventType.MouseUp)
         {
             ActionMouseUp(e.button);
         }
@@ -89,8 +84,14 @@ public class BossEditorMouseInput {
 
     private void ActionLeftMouseDown()
     {
-        if (_mouseDownNode == null) return;
-        
+        if (_mouseDownNode == null)
+            _editor.StartMovingEditorCanvas();
+        else
+            StartDraggingConnections();
+    }
+
+    private void StartDraggingConnections()
+    {
         _outputIndex = _mouseDownNode.OutputClicked(_mousePos);
         int inputIndex = _mouseDownNode.InputClicked(_mousePos);
         if (_outputIndex >= 0)
@@ -99,18 +100,23 @@ public class BossEditorMouseInput {
         }
         else if (inputIndex >= 0)
         {
-            if (_mouseDownNode.InputIsConnected(inputIndex))
-            {
-                var output = _mouseDownNode.GetConnectedInterfaceFromInput(inputIndex);
-                _mouseDownNode.DisconnectInput(inputIndex);
+            MoveInputConnectionIfConnected(inputIndex);
+        }
+    }
 
-                _mouseDownNode = output.connectedNode;
-                _outputIndex = output.interfaceIndex;
-                _mouseDownNode.DisconnectOutput(_outputIndex);
+    private void MoveInputConnectionIfConnected(int inputIndex)
+    {
+        if (_mouseDownNode.InputIsConnected(inputIndex))
+        {
+            var output = _mouseDownNode.GetConnectedInterfaceFromInput(inputIndex);
+            _mouseDownNode.DisconnectInput(inputIndex);
 
-                _editor.SetSelectedNode(output.connectedNode);
-                _editor.ConnectionMode = true; 
-            }
+            _mouseDownNode = output.connectedNode;
+            _outputIndex = output.interfaceIndex;
+            _mouseDownNode.DisconnectOutput(_outputIndex);
+
+            _editor.SetSelectedNode(output.connectedNode);
+            _editor.ConnectionMode = true;
         }
     }
 
@@ -132,6 +138,9 @@ public class BossEditorMouseInput {
                 _mouseUpNode.SetInput(inputIndex, _mouseDownNode, _outputIndex);
             }
         }
-        _editor.ConnectionMode = false;
+        if (_editor.MoveEditorMode)
+            _editor.StopMovingEditorCanvas();
+        else
+            _editor.ConnectionMode = false;
     }
 }

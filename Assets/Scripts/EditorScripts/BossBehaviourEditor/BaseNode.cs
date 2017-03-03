@@ -5,6 +5,7 @@ using UnityEditor;
 public abstract class BaseNode : ScriptableObject {
 
     public Rect WindowRect;
+    public Rect OriginalRect;
     public string WindowTitle = "Untitled";
 
     public List<InterfaceType> inputs = new List<InterfaceType>();
