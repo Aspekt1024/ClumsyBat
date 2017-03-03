@@ -57,14 +57,6 @@ public class BossBehaviour : MonoBehaviour {
         }
     }
 
-    private void AddAbilities()
-    {
-        foreach (var ability in BossProps.AbilitySet)
-        {
-            _abilities.Add((BossAbility)_boss.AddComponent(ability.GetClass()));
-        }
-    }
-
     public void WaitSeconds(float waitTime, BaseNode caller)
     {
         StartCoroutine(Wait(waitTime, caller));

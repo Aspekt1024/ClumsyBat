@@ -8,7 +8,7 @@ public class BossEditorContextMenus{
     private BossEditor editor;
     private BaseNode selectedNode;
     
-    public enum NodeMenuSelections
+    private enum NodeMenuSelections
     {
         FindStart,
         DeleteNode
@@ -23,6 +23,7 @@ public class BossEditorContextMenus{
     {
         GenericMenu menu = new GenericMenu();
         menu.AddItem(new GUIContent("JumpPound/Jump"), false, ContextCallback, typeof(JumpNode));
+        menu.AddItem(new GUIContent("Projectile Abilities/Parabolic"), false, ContextCallback, typeof(ParabolicProjectileNode));
         menu.AddSeparator("");
         menu.AddItem(new GUIContent("Add Death Node"), false, ContextCallback, typeof(BaseNode));
         menu.AddSeparator("");
@@ -60,7 +61,7 @@ public class BossEditorContextMenus{
         }
     }
 
-    public void ContextCallback(object obj)
+    private void ContextCallback(object obj)
     {
         if (obj is Type)
             CreateNodeIfNodeType((Type)obj);

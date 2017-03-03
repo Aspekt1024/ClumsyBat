@@ -36,7 +36,7 @@ public class KingRockbreath : Boss
     
     private void LoadAbilities()
     {
-        _projectile = new ParabolicProjectile(transform);
+        //_projectile = new ParabolicProjectile(transform);
         _jumpPound = gameObject.AddComponent<JumpPound>();
         _walk = gameObject.AddComponent<Walk>();
         _stalControl = gameObject.AddComponent<SpawnStalactites>();

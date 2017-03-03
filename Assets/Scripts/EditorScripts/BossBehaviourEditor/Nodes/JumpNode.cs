@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 
 public class JumpNode : BaseNode {
-
-    public bool ScreenShakeOnLand;
-
+    
     private JumpPound jumpAbility;
 
     private enum Outputs

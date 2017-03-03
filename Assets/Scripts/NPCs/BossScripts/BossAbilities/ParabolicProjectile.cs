@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class ParabolicProjectile {
-
-    private readonly Transform _owner;
+public class ParabolicProjectile : BossAbility {
+    
     private const float DefaultProjectileSpeed = 12.5f; // Todo could add variance / some randomness to this speed.
     private const int NumProjectiles = 4;
     private readonly List<ProjectileType> _projectiles = new List<ProjectileType>();
@@ -18,9 +17,8 @@ public class ParabolicProjectile {
         public float PausedAngularVelocity;
     }
 
-    public ParabolicProjectile(Transform owner)
+    private void Start()
     {
-        _owner = owner;
         CreateProjectilePool();
     }
 
@@ -53,7 +51,7 @@ public class ParabolicProjectile {
     {
         _projectileIndex++;
         if (_projectileIndex == NumProjectiles) { _projectileIndex = 0; }
-        var startPos = _owner.position;
+        var startPos = transform.position;
         
         Vector2 velocity = CalculateThrowingVelocity(startPos, playerPos, speed);
         if (Mathf.Abs(velocity.x) < 0.0001f) { return false; }
