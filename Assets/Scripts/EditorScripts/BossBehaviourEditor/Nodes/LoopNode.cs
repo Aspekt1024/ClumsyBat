@@ -23,7 +23,7 @@ public class LoopNode : BaseNode {
 
     public override void Activate()
     {
-        foreach(var node in Toolbox.Instance.Boss.BossProps.Nodes)
+        foreach(var node in bossBehaviour.BossProps.CurrentState.Nodes)
         {
             if (node.GetType().Equals(typeof(StartNode)))
                 node.Activate();

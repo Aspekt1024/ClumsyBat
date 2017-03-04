@@ -28,7 +28,7 @@ public class StraightProjectile
         var projectileParent = new GameObject("Projectiles").transform;
         for (int i = 0; i < NumProjectiles; i++)
         {
-            var newProjectileObj = Object.Instantiate(Resources.Load<GameObject>("Projectile"));
+            var newProjectileObj = Object.Instantiate(Resources.Load<GameObject>("Projectiles/Fireball"));
             var newProjectile = new ProjectileType
             {
                 Tf = newProjectileObj.transform,

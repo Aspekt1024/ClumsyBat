@@ -9,16 +9,12 @@ public class BossCreator : ScriptableObject
     public string BossName;
     public GameObject BossPrefab; 
     public int Health;
-    public bool bSpawnMoths;
+    public bool bSpawnMoths;    // TODO make into selectable list, per state
     
-    public enum BossActions
-    {
-        Wait,
-        Speak,
-        Die
-    }
-    public List<BossActions> things;
-    public List<BaseNode> Nodes;
+    public List<BaseNode> Nodes = new List<BaseNode>();
+    public List<BossState> States = new List<BossState>();
+
+    public BossState CurrentState;
 
     [OnOpenAsset()]
     private static bool LoadBossEditor(int instanceID, int line)
@@ -27,19 +23,41 @@ public class BossCreator : ScriptableObject
         if (EditorUtility.InstanceIDToObject(instanceID).GetType() == typeof(BossCreator))
         {
             BossEditor editor = EditorWindow.GetWindow<BossEditor>(desiredDockNextTo: typeof(SceneView));
-            editor.LoadBoss((BossCreator)obj);
+            editor.LoadEditor((BossCreator)obj);
         }
         return false;
     }
-    
+
+    public void NodeGameSetup(BossBehaviour behaviour, GameObject boss)
+    {
+        foreach (var state in States)
+        {
+            foreach (var node in state.Nodes)
+            {
+                node.GameSetup(behaviour, boss);
+            }
+        }
+    }
+
     public void AwakenBoss()
     {
         foreach(var node in Nodes)
         {
             if (node.GetType().Equals(typeof(StartNode)))
-            {
-                node.Activate();
-            }
+                ActivateStateIfStateNode(node.GetNextNode());
+        }
+    }
+
+    private void ActivateStateIfStateNode(BaseNode node)
+    {
+        if (!node.GetType().Equals(typeof(StateNode))) return;
+
+        CurrentState = ((StateNode)node).State;
+
+        foreach (var n in CurrentState.Nodes)
+        {
+            if (n.GetType().Equals(typeof(StartNode)))
+                n.Activate();
         }
     }
 }

@@ -9,8 +9,8 @@ public class BossEditorMouseInput {
 
     public bool MouseDownHeld;
 
-    private BossEditor _editor;
-    private BossEditorContextMenus contextMenus;
+    private BaseEditor _editor;
+    private BaseContextMenus contextMenus;
 
     private BaseNode _mouseDownNode;
     private int _outputIndex;
@@ -18,10 +18,17 @@ public class BossEditorMouseInput {
 
     private Vector2 _mousePos;
     
-    public BossEditorMouseInput(BossEditor editor)
+    public BossEditorMouseInput(BaseEditor editor)
     {
         _editor = editor;
-        contextMenus = new BossEditorContextMenus(editor);
+        if (editor.GetType().Equals(typeof(BossStateEditor)))
+        {
+            contextMenus = new BossStateEditorContextMenus(editor);
+        }
+        else if (editor.GetType().Equals(typeof(BossEditor)))
+        {
+            contextMenus = new BossEditorContextMenus(editor);
+        }
     }
 
 	public void ProcessMouseEvents(Event e)

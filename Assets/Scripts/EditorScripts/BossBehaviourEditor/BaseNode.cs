@@ -76,6 +76,7 @@ public abstract class BaseNode : ScriptableObject {
                 EditorGUIUtility.labelWidth = 70f;
                 var gs = GUI.skin.GetStyle("Label");
                 gs.alignment = TextAnchor.UpperRight;
+                gs.normal.textColor = Color.black;
                 EditorGUI.LabelField(new Rect(new Vector2(WindowRect.width - 85f, output.yPos - 9), new Vector2(70, 18)), output.label, gs);
             }
         }
@@ -89,6 +90,7 @@ public abstract class BaseNode : ScriptableObject {
                 EditorGUIUtility.labelWidth = 70f;
                 var gs = GUI.skin.GetStyle("Label");
                 gs.alignment = TextAnchor.UpperRight;
+                gs.normal.textColor = Color.black;
                 EditorGUI.LabelField(new Rect(new Vector2(15f, input.yPos - 9), new Vector2(70, 18)), input.label, gs);
             }
         }
@@ -187,7 +189,7 @@ public abstract class BaseNode : ScriptableObject {
             width = 1,
             height = 1
         };
-        BossEditor.DrawCurve(start, end);
+        BossStateEditor.DrawCurve(start, end);
     }
 
     private Vector2 GetInputPos(int inputIndex)
@@ -230,7 +232,7 @@ public abstract class BaseNode : ScriptableObject {
         outputs[outputIndex] = output;
     }
 
-    public void DeleteNode()
+    public virtual void DeleteNode()
     {
         foreach (var input in inputs)
         {
@@ -317,6 +319,20 @@ public abstract class BaseNode : ScriptableObject {
             if (output.identifier == id && output.connectedNode != null)
                 output.connectedNode.Activate();
         }
+    }
+
+    public BaseNode GetNextNode(int id = 0)
+    {
+        BaseNode nextNode = null;
+        foreach (var output in outputs)
+        {
+            if (output.identifier == id && output.connectedNode != null)
+            {
+                nextNode = output.connectedNode;
+                break;
+            }
+        }
+        return nextNode;
     }
 
     public virtual void GameSetup(BossBehaviour behaviour, GameObject bossReference)

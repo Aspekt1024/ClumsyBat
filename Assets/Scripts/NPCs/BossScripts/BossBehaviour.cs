@@ -13,8 +13,7 @@ public class BossBehaviour : MonoBehaviour {
     private enum BossStates
     {
         Disabled,
-        Idle,
-        Jumping,
+        Active,
         Dead
     }
     private BossStates _state;
@@ -35,7 +34,7 @@ public class BossBehaviour : MonoBehaviour {
         Toolbox.Instance.Boss = this;  // TODO move this somewhere else? this is so nodes can access it.
         _state = BossStates.Disabled;
         _boss = Instantiate(BossProps.BossPrefab, transform.position, new Quaternion(), transform);
-        PassBossReferenceToNodes();
+        BossProps.NodeGameSetup(this, _boss);
 	}
 	
 	private void Update () {
@@ -45,16 +44,8 @@ public class BossBehaviour : MonoBehaviour {
 
     private void BossStart()
     {
-        _state = BossStates.Idle;
+        _state = BossStates.Active;
         BossProps.AwakenBoss();
-    }
-
-    private void PassBossReferenceToNodes()
-    {
-        foreach (var node in BossProps.Nodes)
-        {
-            node.GameSetup(this, _boss);
-        }
     }
 
     public void WaitSeconds(float waitTime, BaseNode caller)

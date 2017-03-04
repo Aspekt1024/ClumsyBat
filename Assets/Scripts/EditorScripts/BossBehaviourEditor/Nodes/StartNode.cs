@@ -22,6 +22,6 @@
 
     public override void Activate()
     {
-        outputs[0].connectedNode.Activate();
+        CallNext();
     }
 }

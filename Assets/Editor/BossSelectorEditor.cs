@@ -24,7 +24,9 @@ public class BossSelectorEditor : Editor {
         DisplayBossAttributes();
         EditorGUILayout.Space();
         DisplayAbilitySet();
-        
+        EditorGUILayout.Space();
+        DisplayStates();
+
         EditorUtility.SetDirty(target);
     }
     
@@ -59,7 +61,7 @@ public class BossSelectorEditor : Editor {
     private void DisplayBossName()
     {
         if (bossProps.BossName == null || bossProps.BossName == string.Empty)
-            bossProps.BossName = EditorHelpers.AddSpacesToName(bossProps.name);
+            bossProps.BossName = BossSelectorHelpers.AddSpacesToName(bossProps.name);
         
         bossProps.BossName = EditorGUILayout.TextField("Boss Name", bossProps.BossName);
     }
@@ -71,8 +73,8 @@ public class BossSelectorEditor : Editor {
         if (bossProps.BossPrefab == null)
             bossProps.BossPrefab = bosses[0];
 
-        var bossInspectorIndex = EditorHelpers.GetIndexFromObject(bosses, bossProps.BossPrefab);
-        var bossArray = EditorHelpers.ObjectArrayToStringArray(bosses);
+        var bossInspectorIndex = BossSelectorHelpers.GetIndexFromObject(bosses, bossProps.BossPrefab);
+        var bossArray = BossSelectorHelpers.ObjectArrayToStringArray(bosses);
 
         int bossIndex = EditorGUILayout.Popup("Boss Prefab", bossInspectorIndex, bossArray);
         bossProps.BossPrefab = bosses[bossIndex];
@@ -81,7 +83,7 @@ public class BossSelectorEditor : Editor {
     private void DisplayBossAttributes()
     {
         bAttributesClicked = EditorGUILayout.Foldout(bAttributesClicked, "Boss Attributes", true);
-        if (bAbilitiesClicked)
+        if (bAttributesClicked)
         {
             bossProps.Health = EditorGUILayout.IntField("Boss Health: ", bossProps.Health);
             bossProps.bSpawnMoths = EditorGUILayout.Toggle("Spawns moths?", bossProps.bSpawnMoths); // TODO Add dropdown for spawn type
@@ -90,7 +92,7 @@ public class BossSelectorEditor : Editor {
 
     private void DisplayAbilitySet()
     {
-        var abilities = EditorHelpers.GetScriptAssetsOfType<BossAbility>();
+        var abilities = BossSelectorHelpers.GetScriptAssetsOfType<BossAbility>();
 
         EditorGUILayout.Separator();
         GUIContent someContent = new GUIContent()
@@ -98,17 +100,27 @@ public class BossSelectorEditor : Editor {
             text = "Boss Abilities",
             image = Resources.Load<Texture>("LevelButtons/Main1Available"),
         };
+        
         bAbilitiesClicked = EditorGUILayout.Foldout(bAbilitiesClicked, someContent, true);
         if (bAbilitiesClicked)
         {
             for (int i = 0; i < abilities.Length; i++)
             {
-                EditorGUILayout.LabelField("Ability " + (i + 1) + ":" + abilities[i].name);
+                EditorGUILayout.LabelField(string.Format("Ability {0}:{1}", i + 1, abilities[i].name));
                 // TODO add ability attributes to abilities pane
             }
         }
         EditorGUILayout.Separator();
 
+    }
+
+    private void DisplayStates()
+    {
+        EditorGUILayout.LabelField("Boss States:");
+        for (int i = 0; i < bossProps.States.Count; i++)
+        {
+            bossProps.States[i] = (BossState)EditorGUILayout.ObjectField("State " + i, bossProps.States[i], typeof(BossState), true);
+        }
     }
 
 }

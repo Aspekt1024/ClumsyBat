@@ -1,33 +1,17 @@
-﻿using System;
-using System.Reflection;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
 
-public class BossEditorContextMenus{
+public class BossEditorContextMenus : BaseContextMenus {
     
-    private BossEditor editor;
-    private BaseNode selectedNode;
-    
-    private enum NodeMenuSelections
-    {
-        FindStart,
-        DeleteNode
-    }
-
-    public BossEditorContextMenus(BossEditor editorInstance)
+    public BossEditorContextMenus(BaseEditor editorInstance) : base(editorInstance)
     {
         editor = editorInstance;
     }
 
-    public void ShowMenu()
+    public override void ShowMenu()
     {
         GenericMenu menu = new GenericMenu();
-        menu.AddItem(new GUIContent("JumpPound/Jump"), false, ContextCallback, typeof(JumpNode));
-        menu.AddItem(new GUIContent("Projectile Abilities/Parabolic"), false, ContextCallback, typeof(ParabolicProjectileNode));
-        menu.AddSeparator("");
-        menu.AddItem(new GUIContent("Add Death Node"), false, ContextCallback, typeof(BaseNode));
-        menu.AddSeparator("");
-        menu.AddItem(new GUIContent("Add Wait Node"), false, ContextCallback, typeof(WaitNode));
+        menu.AddItem(new GUIContent("Add New State"), false, ContextCallback, typeof(StateNode));
         menu.AddSeparator("");
         menu.AddItem(new GUIContent("Add Start Node"), false, ContextCallback, typeof(StartNode));
         menu.AddItem(new GUIContent("Add Loop Node"), false, ContextCallback, typeof(LoopNode));
@@ -36,61 +20,19 @@ public class BossEditorContextMenus{
         menu.ShowAsContext();
     }
     
-    public void ShowNodeMenu(BaseNode mouseDownNode)
+    public override void ShowNodeMenu(BaseNode mouseDownNode)
     {
         selectedNode = mouseDownNode;
 
         GenericMenu menu = new GenericMenu();
+        if (mouseDownNode.GetType().Equals(typeof(StateNode)))
+        {
+            menu.AddItem(new GUIContent("Edit State"), false, ContextCallback, NodeMenuSelections.EditState);
+            menu.AddSeparator("");
+        }
         menu.AddItem(new GUIContent("Find Start"), false, ContextCallback, NodeMenuSelections.FindStart);
         menu.AddSeparator("");
         menu.AddItem(new GUIContent("Delete Node"), false, ContextCallback, NodeMenuSelections.DeleteNode);
         menu.ShowAsContext();
-    }
-
-
-    private void ActionNodeMenuSelection(NodeMenuSelections selection)
-    {
-        switch (selection)
-        {
-            case NodeMenuSelections.FindStart:
-                editor.MoveToStart();
-                break;
-            case NodeMenuSelections.DeleteNode:
-                editor.RemoveNode(selectedNode);
-                break;
-        }
-    }
-
-    private void ContextCallback(object obj)
-    {
-        if (obj is Type)
-            CreateNodeIfNodeType((Type)obj);
-        else if (obj is NodeMenuSelections)
-            ActionNodeMenuSelection((NodeMenuSelections)obj);
-    }
-
-    private void CreateNodeIfNodeType(Type type)
-    {
-        if (!type.IsSubclassOf(typeof(BaseNode))) return;
-
-        MethodInfo method = ((Action)CreateNode<BaseNode>)
-            .Method
-            .GetGenericMethodDefinition()
-            .MakeGenericMethod(type);
-
-        method.Invoke(this, null);
-    }
-
-    public void CreateNode<T>() where T : BaseNode
-    {
-        if (typeof(T).Equals(typeof(StartNode)) && editor.StartExists())
-        {
-            Debug.LogError("Start Node already exists. Cannot create another!");
-            return;
-        }
-
-        BaseNode newNode = ScriptableObject.CreateInstance<T>();
-        if (newNode != null)
-            editor.AddNode(newNode);
     }
 }
