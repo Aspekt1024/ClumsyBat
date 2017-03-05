@@ -2,6 +2,7 @@
     
     public override void SetupNode()
     {
+        Action = CreateInstance<StartAction>();
         AddOutput();
     }
 
@@ -20,8 +21,4 @@
         DrawInterfaces();
     }
 
-    public override void Activate()
-    {
-        CallNext();
-    }
 }

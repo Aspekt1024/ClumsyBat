@@ -1,5 +1,4 @@
 ﻿using UnityEditor;
-using UnityEngine;
 
 public class StateNode : BaseNode {
 
@@ -32,11 +31,6 @@ public class StateNode : BaseNode {
         DrawInterfaces();
     }
 
-    public override void Activate()
-    {
-        Debug.Log("state node activated");
-    }
-
     public void CreateNewState(string dataFolder, string bossName)
     {
         State = CreateInstance<BossState>();
@@ -59,6 +53,12 @@ public class StateNode : BaseNode {
             AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(State));
 
         State = null;*/
+    }
+
+    public override void SaveAction()
+    {
+        ((MachineState)Action).State = State;
+        base.SaveAction();
     }
 
 }

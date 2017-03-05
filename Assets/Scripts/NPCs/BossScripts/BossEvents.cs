@@ -4,7 +4,7 @@
     public static BossEventHandler OnJumpLanded;
     public static BossEventHandler OnBossFightStart;
     
-    public delegate void BossWaitEvent(float waitTime, BaseNode caller);
+    public delegate void BossWaitEvent(float waitTime, BaseAction caller);
     public static BossWaitEvent OnWait;
 
     public static void JumpLanded()
@@ -19,7 +19,7 @@
             OnBossFightStart();
     }
 
-    public static void Wait(float waitTime, BaseNode caller)
+    public static void Wait(float waitTime, BaseAction caller)
     {
         if (OnWait != null)
             OnWait(waitTime, caller);

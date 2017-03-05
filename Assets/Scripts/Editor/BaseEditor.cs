@@ -3,12 +3,13 @@ using UnityEditor;
 using System.Collections.Generic;
 
 public abstract class BaseEditor : EditorWindow {
-    
+
+    public BossEditorNodeData NodeData;
     public List<BaseNode> Nodes;
     public bool ConnectionMode;
     public bool MoveEditorMode;
 
-    protected ScriptableObject ParentObject;
+    protected ScriptableObject ParentObject;    // TODO create Base class for BossCreator and BossState (e.g. BaseBossEditable)
     protected string EditorLabel;
 
     protected ColourThemes colourTheme;
@@ -19,16 +20,38 @@ public abstract class BaseEditor : EditorWindow {
     }
 
     protected BaseNode _currentNode;
-
-
-    private Texture2D _bg;  // TODO themes? e.g. blue = state editor, green = boss machine editor
+    
+    private Texture2D _bg;
     private BossEditorMouseInput _mouseInput;
     private Vector2 _mousePos;
     private Vector2 startMousePos;
     private Vector2 canvasDisplacement;
     private float timeSinceUpdate;
     
-    public abstract void LoadEditor(ScriptableObject obj);
+    protected abstract void SetEditorTheme();
+
+    public virtual void LoadEditor(ScriptableObject obj)
+    {
+        SetEditorTheme();
+        ParentObject = obj;
+        
+        if (NodeData == null)
+        {
+            NodeData = CreateInstance<BossEditorNodeData>();
+            Nodes = new List<BaseNode>();
+            SaveNodeDataAsset();
+        }
+        else
+            Nodes = NodeData.Nodes;
+    }
+
+    private void SaveNodeDataAsset()
+    {
+        string dataFolder = EditorHelpers.GetAssetDataFolder(ParentObject);
+        EditorHelpers.SaveObjectToFolder(NodeData, dataFolder, "NodeData");
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
 
     protected virtual void OnEnable()
     {
@@ -43,7 +66,9 @@ public abstract class BaseEditor : EditorWindow {
     protected virtual void OnLostFocus()
     {
         if (ParentObject != null)
+        {
             SaveNodes();
+        }
     }
 
     private void SaveNodes()
@@ -55,10 +80,15 @@ public abstract class BaseEditor : EditorWindow {
             EditorHelpers.SaveObjectToFolder(Nodes[i], dataFolder, Nodes[i].WindowTitle);
             EditorUtility.SetDirty(Nodes[i]);
         }
+
+        NodeData.Nodes = Nodes;
+        EditorUtility.SetDirty(NodeData);
+
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
     }
 
+    
     private void Update()
     {
         if (!MoveEditorMode) return;
@@ -69,7 +99,6 @@ public abstract class BaseEditor : EditorWindow {
             timeSinceUpdate -= 0.1f;
             Repaint();
         }
-
     }
 
     private void OnGUI()

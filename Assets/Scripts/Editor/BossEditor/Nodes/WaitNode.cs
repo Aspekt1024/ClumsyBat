@@ -29,13 +29,10 @@ public class WaitNode : BaseNode {
         SetInterfacePositions();
         DrawInterfaces();
     }
-    
-    public override void Activate()
+
+    public override void SaveAction()
     {
-        BossEvents.Wait(WaitTime, this);
-    }
-    public void WaitComplete()
-    {
-        CallNext();
+        ((WaitAction)Action).WaitTime = WaitTime;
+        base.SaveAction();
     }
 }

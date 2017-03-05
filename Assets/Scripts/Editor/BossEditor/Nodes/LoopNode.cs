@@ -21,13 +21,4 @@ public class LoopNode : BaseNode {
         DrawInterfaces();
     }
 
-    public override void Activate()
-    {
-        foreach(var node in bossBehaviour.BossProps.CurrentState.Nodes)
-        {
-            if (node.GetType().Equals(typeof(StartNode)))
-                node.Activate();
-        }
-    }
-
 }

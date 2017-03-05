@@ -13,17 +13,17 @@ public class JumpPound : BossAbility
     }
     private JumpState _state;
     private Rigidbody2D bossBody;
-    private BaseNode callerNode;
+    private BaseAction callerAction;
     
     private void Start()
     {
         bossBody = GetComponent<Rigidbody2D>();
     }
 
-    public void Jump(BaseNode caller)
+    public void Jump(BaseAction caller)
     {
         _state = JumpState.Jumping;
-        callerNode = caller;
+        callerAction = caller;
         StartCoroutine("JumpAndPound");
     }
 
@@ -33,8 +33,8 @@ public class JumpPound : BossAbility
         {
             _state = JumpState.Falling;
             
-            if (callerNode.GetType().Equals(typeof(JumpNode)))
-                ((JumpNode)callerNode).TopOfJump();
+            if (callerAction.GetType().Equals(typeof(JumpAction)))
+                ((JumpAction)callerAction).TopOfJump();
         }
     }
 
@@ -63,8 +63,8 @@ public class JumpPound : BossAbility
             if (bShakesScreenOnLand)
                 StartCoroutine("ShakeScreen", 0.5f);
             
-            if (callerNode.GetType().Equals(typeof(JumpNode)))
-                ((JumpNode)callerNode).Landed();
+            if (callerAction.GetType().Equals(typeof(JumpAction)))
+                ((JumpAction)callerAction).Landed();
         }
     }
 

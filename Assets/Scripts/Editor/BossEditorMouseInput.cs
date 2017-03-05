@@ -119,7 +119,7 @@ public class BossEditorMouseInput {
             _mouseDownNode.DisconnectInput(inputIndex);
 
             _mouseDownNode = output.connectedNode;
-            _outputIndex = output.interfaceIndex;
+            _outputIndex = output.connectedInterfaceIndex;
             _mouseDownNode.DisconnectOutput(_outputIndex);
 
             _editor.SetSelectedNode(output.connectedNode);

@@ -7,26 +7,51 @@ public abstract class BaseNode : ScriptableObject {
     public Rect WindowRect;
     public Rect OriginalRect;
     public string WindowTitle = "Untitled";
-
+    public BaseAction Action;   // TODO make this exist
+    
     public List<InterfaceType> inputs = new List<InterfaceType>();
     public List<InterfaceType> outputs = new List<InterfaceType>();
+
+    protected BossBehaviour bossBehaviour;
+    protected GameObject boss;
 
     [System.Serializable]
     public struct InterfaceType
     {
         public float yPos;
         public BaseNode connectedNode;
-        public int interfaceIndex;
+        public int connectedInterfaceIndex;
         public int identifier;
         public string label;
     }
 
-    protected BossBehaviour bossBehaviour;
-    protected GameObject boss;
-
     private Vector2 selectedOutputPos;
 
     public abstract void SetupNode();
+
+    public virtual void SaveAction()
+    {
+        Action.inputs = new List<BaseAction.InterfaceType>();
+        Action.outputs = new List<BaseAction.InterfaceType>();
+        foreach (var input in inputs)
+        {
+            Action.inputs.Add(ConvertInterface(input));
+        }
+        foreach (var output in outputs)
+        {
+            Action.outputs.Add(ConvertInterface(output));
+        }
+    }
+
+    private static BaseAction.InterfaceType ConvertInterface(InterfaceType iface)
+    {
+        return new BaseAction.InterfaceType()
+        {
+            identifier = iface.identifier,
+            connectedAction = iface.connectedNode.Action,
+            connectedInterfaceIndex = iface.connectedInterfaceIndex
+        };
+    }
 
     public virtual void DrawWindow()
     {
@@ -45,7 +70,7 @@ public abstract class BaseNode : ScriptableObject {
         {
             yPos = 0,
             connectedNode = null,
-            interfaceIndex = 0,
+            connectedInterfaceIndex = 0,
             identifier = id,
             label = ""
         };
@@ -58,7 +83,7 @@ public abstract class BaseNode : ScriptableObject {
         {
             yPos = 0,
             connectedNode = null,
-            interfaceIndex = 0,
+            connectedInterfaceIndex = 0,
             identifier = id,
             label = ""
         };
@@ -181,7 +206,7 @@ public abstract class BaseNode : ScriptableObject {
             height = 1
         };
         
-        Vector2 inputPos = output.connectedNode.GetInputPos(output.interfaceIndex);
+        Vector2 inputPos = output.connectedNode.GetInputPos(output.connectedInterfaceIndex);
         Rect end = new Rect()
         {
             x = inputPos.x,
@@ -189,7 +214,7 @@ public abstract class BaseNode : ScriptableObject {
             width = 1,
             height = 1
         };
-        BossStateEditor.DrawCurve(start, end);
+        BaseEditor.DrawCurve(start, end);
     }
 
     private Vector2 GetInputPos(int inputIndex)
@@ -210,15 +235,15 @@ public abstract class BaseNode : ScriptableObject {
         if (outNode.OutputIsConnected(outputIndex))
         {
             var originalInterface = outNode.GetConnectedInterfaceFromOutput(outputIndex);
-            originalInterface.connectedNode.DisconnectInput(originalInterface.interfaceIndex);
+            originalInterface.connectedNode.DisconnectInput(originalInterface.connectedInterfaceIndex);
         }
 
         var input = inputs[inputIndex];
         if (input.connectedNode != null)
-            input.connectedNode.DisconnectOutput(input.interfaceIndex);
+            input.connectedNode.DisconnectOutput(input.connectedInterfaceIndex);
 
         input.connectedNode = outNode;
-        input.interfaceIndex = outputIndex;
+        input.connectedInterfaceIndex = outputIndex;
         inputs[inputIndex] = input;
         
         outNode.SetOutput(outputIndex, this, inputIndex);
@@ -228,7 +253,7 @@ public abstract class BaseNode : ScriptableObject {
     {
         var output = outputs[outputIndex];
         output.connectedNode = node;
-        output.interfaceIndex = inputIndex;
+        output.connectedInterfaceIndex = inputIndex;
         outputs[outputIndex] = output;
     }
 
@@ -237,12 +262,12 @@ public abstract class BaseNode : ScriptableObject {
         foreach (var input in inputs)
         {
             if (input.connectedNode != null)
-                input.connectedNode.DisconnectOutput(input.interfaceIndex);
+                input.connectedNode.DisconnectOutput(input.connectedInterfaceIndex);
         }
         foreach (var output in outputs)
         {
             if (output.connectedNode != null)
-                output.connectedNode.DisconnectInput(output.interfaceIndex);
+                output.connectedNode.DisconnectInput(output.connectedInterfaceIndex);
         }
     }
 
@@ -308,36 +333,5 @@ public abstract class BaseNode : ScriptableObject {
                 break;
             }
         }
-    }
-
-    public abstract void Activate();
-
-    public void CallNext(int id = 0)
-    {
-        foreach (var output in outputs)
-        {
-            if (output.identifier == id && output.connectedNode != null)
-                output.connectedNode.Activate();
-        }
-    }
-
-    public BaseNode GetNextNode(int id = 0)
-    {
-        BaseNode nextNode = null;
-        foreach (var output in outputs)
-        {
-            if (output.identifier == id && output.connectedNode != null)
-            {
-                nextNode = output.connectedNode;
-                break;
-            }
-        }
-        return nextNode;
-    }
-
-    public virtual void GameSetup(BossBehaviour behaviour, GameObject bossReference)
-    {
-        bossBehaviour = behaviour;
-        boss = bossReference;
     }
 }

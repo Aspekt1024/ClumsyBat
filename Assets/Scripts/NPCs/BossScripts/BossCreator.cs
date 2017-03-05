@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using UnityEditor;
-using UnityEditor.Callbacks;
 using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "BossData", menuName = "Custom/Boss", order = 1)]
@@ -11,53 +9,43 @@ public class BossCreator : ScriptableObject
     public int Health;
     public bool bSpawnMoths;    // TODO make into selectable list, per state
     
-    public List<BaseNode> Nodes = new List<BaseNode>();
+    public List<BaseAction> Actions = new List<BaseAction>();
     public List<BossState> States = new List<BossState>();
 
     public BossState CurrentState;
-
-    [OnOpenAsset()]
-    private static bool LoadBossEditor(int instanceID, int line)
-    {
-        Object obj = EditorUtility.InstanceIDToObject(instanceID);
-        if (EditorUtility.InstanceIDToObject(instanceID).GetType() == typeof(BossCreator))
-        {
-            BossEditor editor = EditorWindow.GetWindow<BossEditor>(desiredDockNextTo: typeof(SceneView));
-            editor.LoadEditor((BossCreator)obj);
-        }
-        return false;
-    }
 
     public void NodeGameSetup(BossBehaviour behaviour, GameObject boss)
     {
         foreach (var state in States)
         {
-            foreach (var node in state.Nodes)
+            foreach (var action in state.Actions)
             {
-                node.GameSetup(behaviour, boss);
+                action.GameSetup(behaviour, boss);
             }
         }
     }
 
     public void AwakenBoss()
     {
-        foreach(var node in Nodes)
+        foreach(var action in Actions)
         {
-            if (node.GetType().Equals(typeof(StartNode)))
-                ActivateStateIfStateNode(node.GetNextNode());
+            Debug.Log("action " + action);
+            if (action.GetType().Equals(typeof(StartAction)))
+                ActivateStateIfStateNode(action.GetNextAction());
         }
     }
 
-    private void ActivateStateIfStateNode(BaseNode node)
+    private void ActivateStateIfStateNode(BaseAction action)
     {
-        if (!node.GetType().Equals(typeof(StateNode))) return;
+        Debug.Log(action);
+        if (!action.GetType().Equals(typeof(MachineState))) return;
 
-        CurrentState = ((StateNode)node).State;
+        CurrentState = ((MachineState)action).State;
 
-        foreach (var n in CurrentState.Nodes)
+        foreach (var a in CurrentState.Actions)
         {
-            if (n.GetType().Equals(typeof(StartNode)))
-                n.Activate();
+            if (a.GetType().Equals(typeof(StartAction)))
+                a.Activate();
         }
     }
 }

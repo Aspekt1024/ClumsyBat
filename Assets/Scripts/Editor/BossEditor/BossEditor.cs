@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using System.Collections.Generic;
 
 public class BossEditor : BaseEditor {
 
@@ -16,31 +15,26 @@ public class BossEditor : BaseEditor {
     
     protected override void OnLostFocus()
     {
-        if (ParentObject == null) return;
+        if (BossCreatorObject == null) return;
 
+        BossCreatorObject.Actions = EditorHelpers.GetActionsFromNodes(Nodes);
         base.OnLostFocus();
-        ((BossCreator)ParentObject).Nodes = Nodes;
-        EditorUtility.SetDirty(ParentObject);
+        EditorUtility.SetDirty(BossCreatorObject);
     }
 
     public override void LoadEditor(ScriptableObject creatorObj)
     {
-        ParentObject = creatorObj;
         BossCreatorObject = (BossCreator)creatorObj;    // TODO create Base class for BossCreator and BossState (e.g. BaseBossEditable)
-
-        SetEditorTheme();
-
-        if (BossCreatorObject.Nodes == null || BossCreatorObject.Nodes.Count == 0)
-            Nodes = new List<BaseNode>();
-        else
-        {
-            Nodes = BossCreatorObject.Nodes;
-        }
+        base.LoadEditor(creatorObj);
     }
 
-    private void SetEditorTheme()
+    protected override void SetEditorTheme()
     {
-        EditorLabel = "State machine : " + BossCreatorObject.BossName;
+        if (BossCreatorObject != null)
+        {
+            EditorLabel = "State machine : " + BossCreatorObject.BossName;
+        }
+
         titleContent.image = (Texture)Resources.Load("LevelButtons/Boss1AvailableClicked");
         titleContent.text = "Boss Editor";
         colourTheme = ColourThemes.Green;

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using System.Collections.Generic;
 
 public class BossStateEditor : BaseEditor {
     
@@ -10,7 +9,7 @@ public class BossStateEditor : BaseEditor {
     private static void ShowEditor()
     {
         BossStateEditor editor = GetWindow<BossStateEditor>();
-        editor.SetTitle();
+        editor.SetEditorTheme();
         editor.BossStateObject = null;
     }
     
@@ -19,27 +18,25 @@ public class BossStateEditor : BaseEditor {
         if (BossStateObject == null) return;
 
         base.OnLostFocus();
-        BossStateObject.Nodes = Nodes;
-        EditorUtility.SetDirty(ParentObject);
+        BossStateObject.Actions = EditorHelpers.GetActionsFromNodes(Nodes);
+        EditorUtility.SetDirty(BossStateObject);
     }
-    
+
     public override void LoadEditor(ScriptableObject obj)
     {
-        SetTitle();
-        ParentObject = obj;
-        BossStateObject = (BossState)obj;
-        
-        EditorLabel = string.Format("{0} - {1}", BossStateObject.BossName, BossStateObject.StateName);
-
-        if (BossStateObject.Nodes == null || BossStateObject.Nodes.Count == 0)
-            Nodes = new List<BaseNode>();
-        else
-            Nodes = BossStateObject.Nodes;
+        BossStateObject = (BossState)obj;    // TODO create Base class for BossCreator and BossState (e.g. BaseBossEditable)
+        base.LoadEditor(obj);
     }
 
-    private void SetTitle()
+    protected override void SetEditorTheme()
     {
+        if (BossStateObject != null)
+        {
+            EditorLabel = string.Format("{0} - {1}", BossStateObject.BossName, BossStateObject.StateName);
+        }
+
         titleContent.image = (Texture)Resources.Load("LevelButtons/Boss1Available");
         titleContent.text = "Boss State";
+        colourTheme = ColourThemes.Blue;
     }
 }

@@ -6,7 +6,7 @@ using UnityEditor;
 [CustomEditor(typeof(BossCreator))]
 public class BossSelectorEditor : Editor {
 
-    private BossCreator bossProps;
+    private BossCreator creatorObj;
     private readonly List<Type> abilities = new List<Type>();
 
     private bool bAbilitiesClicked;
@@ -14,7 +14,7 @@ public class BossSelectorEditor : Editor {
 
     public override void OnInspectorGUI()
     {
-        bossProps = (BossCreator)target;
+        creatorObj = (BossCreator)target;
         GetAbilityList();
 
         DisplayBossName();
@@ -32,8 +32,9 @@ public class BossSelectorEditor : Editor {
     
     private void GetAbilityList()
     {
-        foreach(var node in bossProps.Nodes)
+        foreach(var node in creatorObj.Actions)
         {
+            Debug.Log("Node: " + node);
             if (node.GetType().Equals(typeof(JumpNode)))
                 AddAbility<JumpPound>();
             if (node.GetType().Equals(typeof(ParabolicProjectileNode)))
@@ -60,24 +61,24 @@ public class BossSelectorEditor : Editor {
 
     private void DisplayBossName()
     {
-        if (bossProps.BossName == null || bossProps.BossName == string.Empty)
-            bossProps.BossName = BossSelectorHelpers.AddSpacesToName(bossProps.name);
+        if (creatorObj.BossName == null || creatorObj.BossName == string.Empty)
+            creatorObj.BossName = BossSelectorHelpers.AddSpacesToName(creatorObj.name);
         
-        bossProps.BossName = EditorGUILayout.TextField("Boss Name", bossProps.BossName);
+        creatorObj.BossName = EditorGUILayout.TextField("Boss Name", creatorObj.BossName);
     }
 
     private void DisplayBossObjectDropdown()
     {
         var bosses = Resources.LoadAll<GameObject>("NPCs/Bosses");
 
-        if (bossProps.BossPrefab == null)
-            bossProps.BossPrefab = bosses[0];
+        if (creatorObj.BossPrefab == null)
+            creatorObj.BossPrefab = bosses[0];
 
-        var bossInspectorIndex = BossSelectorHelpers.GetIndexFromObject(bosses, bossProps.BossPrefab);
+        var bossInspectorIndex = BossSelectorHelpers.GetIndexFromObject(bosses, creatorObj.BossPrefab);
         var bossArray = BossSelectorHelpers.ObjectArrayToStringArray(bosses);
 
         int bossIndex = EditorGUILayout.Popup("Boss Prefab", bossInspectorIndex, bossArray);
-        bossProps.BossPrefab = bosses[bossIndex];
+        creatorObj.BossPrefab = bosses[bossIndex];
     }
 
     private void DisplayBossAttributes()
@@ -85,8 +86,8 @@ public class BossSelectorEditor : Editor {
         bAttributesClicked = EditorGUILayout.Foldout(bAttributesClicked, "Boss Attributes", true);
         if (bAttributesClicked)
         {
-            bossProps.Health = EditorGUILayout.IntField("Boss Health: ", bossProps.Health);
-            bossProps.bSpawnMoths = EditorGUILayout.Toggle("Spawns moths?", bossProps.bSpawnMoths); // TODO Add dropdown for spawn type
+            creatorObj.Health = EditorGUILayout.IntField("Boss Health: ", creatorObj.Health);
+            creatorObj.bSpawnMoths = EditorGUILayout.Toggle("Spawns moths?", creatorObj.bSpawnMoths); // TODO Add dropdown for spawn type
         }
     }
 
@@ -117,9 +118,9 @@ public class BossSelectorEditor : Editor {
     private void DisplayStates()
     {
         EditorGUILayout.LabelField("Boss States:");
-        for (int i = 0; i < bossProps.States.Count; i++)
+        for (int i = 0; i < creatorObj.States.Count; i++)
         {
-            bossProps.States[i] = (BossState)EditorGUILayout.ObjectField("State " + i, bossProps.States[i], typeof(BossState), true);
+            creatorObj.States[i] = (BossState)EditorGUILayout.ObjectField("State " + i, creatorObj.States[i], typeof(BossState), true);
         }
     }
 

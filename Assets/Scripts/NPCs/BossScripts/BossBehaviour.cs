@@ -48,12 +48,12 @@ public class BossBehaviour : MonoBehaviour {
         BossProps.AwakenBoss();
     }
 
-    public void WaitSeconds(float waitTime, BaseNode caller)
+    public void WaitSeconds(float waitTime, BaseAction caller)
     {
         StartCoroutine(Wait(waitTime, caller));
     }
 
-    private IEnumerator Wait(float waitTime, BaseNode caller)
+    private IEnumerator Wait(float waitTime, BaseAction caller)
     {
         float timeWaited = 0f;
         while (timeWaited < waitTime)
@@ -64,7 +64,7 @@ public class BossBehaviour : MonoBehaviour {
             }
             yield return null;
         }
-        ((WaitNode)caller).WaitComplete();  // TODO could be an event instead...?
+        ((WaitAction)caller).WaitComplete();  // TODO could be an event instead...?
     }
 
     public BossAbility GetAbility<T>() where T : BossAbility

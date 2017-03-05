@@ -1,5 +1,6 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using System.Collections.Generic;
 
 public static class EditorHelpers {
     
@@ -33,5 +34,15 @@ public static class EditorHelpers {
         }
 
         AssetDatabase.CreateAsset(sObj, string.Format("{0}{1}.asset", assetPath, assetNum));
+    }
+
+    public static List<BaseAction> GetActionsFromNodes(List<BaseNode> Nodes)
+    {
+        List<BaseAction> actions = new List<BaseAction>();
+        foreach (var node in Nodes)
+        {
+            actions.Add(node.Action);
+        }
+        return actions;
     }
 }
