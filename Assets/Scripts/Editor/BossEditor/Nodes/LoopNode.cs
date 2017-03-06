@@ -1,14 +1,22 @@
 ﻿
 public class LoopNode : BaseNode {
 
-    public override void SetupNode()
+    public override void SetupNode(BossDataContainer dataContainer)
     {
+        DataContainer = dataContainer;
+        SaveThisNodeAsset();
+        
+        Action = CreateInstance<LoopAction>();
+        SaveActionAsset();
+
         AddInput();
+        
+        UpdateActionInterfaces();
     }
 
     private void SetInterfacePositions()
     {
-        SetInput(25);
+        CreateInput(25);
     }
 
     public override void DrawWindow()

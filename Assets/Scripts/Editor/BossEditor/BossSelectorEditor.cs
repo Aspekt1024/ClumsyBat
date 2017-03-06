@@ -7,7 +7,7 @@ using UnityEditor;
 public class BossSelectorEditor : Editor {
 
     private BossCreator creatorObj;
-    private readonly List<Type> abilities = new List<Type>();
+    private List<Type> abilities = new List<Type>();
 
     private bool bAbilitiesClicked;
     private bool bAttributesClicked;
@@ -32,20 +32,27 @@ public class BossSelectorEditor : Editor {
     
     private void GetAbilityList()
     {
-        foreach(var node in creatorObj.Actions)
+        abilities = new List<Type>();
+        foreach(var stateAction in creatorObj.Actions)
         {
-            Debug.Log("Node: " + node);
-            if (node.GetType().Equals(typeof(JumpNode)))
-                AddAbility<JumpPound>();
-            if (node.GetType().Equals(typeof(ParabolicProjectileNode)))
-                AddAbility<ParabolicProjectile>();
+            if (stateAction.GetType().Equals(typeof(MachineState)))
+            {
+                foreach (var action in ((MachineState)stateAction).State.Actions)
+                {
+                    if (action.GetType().Equals(typeof(JumpAction)))
+                        AddAbility<JumpPound>();
+                    if (action.GetType().Equals(typeof(ProjectileAction)))
+                        AddAbility<ParabolicProjectile>();
+                }
+            }
         }
     }
 
     private void AddAbility<T>() where T : BossAbility
     {
+        //var abilityList = BossSelectorHelpers.GetScriptAssetsOfType<BossAbility>();
         bool abilityExitsInList = false;
-        foreach (Type ability in abilities)
+        foreach (var ability in abilities)
         {
             if (ability.Equals(typeof(T)))
             {
@@ -93,8 +100,6 @@ public class BossSelectorEditor : Editor {
 
     private void DisplayAbilitySet()
     {
-        var abilities = BossSelectorHelpers.GetScriptAssetsOfType<BossAbility>();
-
         EditorGUILayout.Separator();
         GUIContent someContent = new GUIContent()
         {
@@ -105,9 +110,9 @@ public class BossSelectorEditor : Editor {
         bAbilitiesClicked = EditorGUILayout.Foldout(bAbilitiesClicked, someContent, true);
         if (bAbilitiesClicked)
         {
-            for (int i = 0; i < abilities.Length; i++)
+            for (int i = 0; i < abilities.Count; i++)
             {
-                EditorGUILayout.LabelField(string.Format("Ability {0}:{1}", i + 1, abilities[i].name));
+                EditorGUILayout.LabelField(string.Format("Ability {0}: {1}", i + 1, abilities[i].Name));
                 // TODO add ability attributes to abilities pane
             }
         }
@@ -118,9 +123,10 @@ public class BossSelectorEditor : Editor {
     private void DisplayStates()
     {
         EditorGUILayout.LabelField("Boss States:");
-        for (int i = 0; i < creatorObj.States.Count; i++)
+        for (int i = 0; i < creatorObj.Actions.Count; i++)
         {
-            creatorObj.States[i] = (BossState)EditorGUILayout.ObjectField("State " + i, creatorObj.States[i], typeof(BossState), true);
+            if (creatorObj.Actions[i].GetType().Equals(typeof(MachineState)))
+            ((MachineState)creatorObj.Actions[i]).State = (BossState)EditorGUILayout.ObjectField("State " + i, ((MachineState)creatorObj.Actions[i]).State, typeof(BossState), true);
         }
     }
 

@@ -15,6 +15,8 @@ public abstract class BaseNode : ScriptableObject {
     protected BossBehaviour bossBehaviour;
     protected GameObject boss;
 
+    protected BossDataContainer DataContainer;
+
     [System.Serializable]
     public struct InterfaceType
     {
@@ -27,9 +29,18 @@ public abstract class BaseNode : ScriptableObject {
 
     private Vector2 selectedOutputPos;
 
-    public abstract void SetupNode();
+    public virtual void SetupNode(BossDataContainer dataContainer)
+    {
+        DataContainer = dataContainer;
+        SaveThisNodeAsset();
+    }
 
-    public virtual void SaveAction()
+    protected void SaveThisNodeAsset()
+    {
+        EditorHelpers.SaveNodeEditorAsset(this, DataContainer, "NodeData", GetType().ToString());
+    }
+
+    public virtual void UpdateActionInterfaces()
     {
         Action.inputs = new List<BaseAction.InterfaceType>();
         Action.outputs = new List<BaseAction.InterfaceType>();
@@ -41,6 +52,13 @@ public abstract class BaseNode : ScriptableObject {
         {
             Action.outputs.Add(ConvertInterface(output));
         }
+        EditorUtility.SetDirty(Action);
+    }
+    
+    protected void SaveActionAsset()
+    {
+        DataContainer.Actions.Add(Action);
+        EditorHelpers.SaveActionAsset(Action, DataContainer, "ActionData", Action.GetType().ToString());
     }
 
     private static BaseAction.InterfaceType ConvertInterface(InterfaceType iface)
@@ -48,7 +66,7 @@ public abstract class BaseNode : ScriptableObject {
         return new BaseAction.InterfaceType()
         {
             identifier = iface.identifier,
-            connectedAction = iface.connectedNode.Action,
+            connectedAction = iface.connectedNode != null ? iface.connectedNode.Action : null,
             connectedInterfaceIndex = iface.connectedInterfaceIndex
         };
     }
@@ -228,7 +246,7 @@ public abstract class BaseNode : ScriptableObject {
         return selectedOutputPos + new Vector2(WindowRect.x, WindowRect.y);
     }
 
-    public void SetInput(int inputIndex, BaseNode outNode, int outputIndex)
+    public void ConnectInput(int inputIndex, BaseNode outNode, int outputIndex)
     {
         if (outNode == this) return;    // Can't connect to self
         
@@ -246,15 +264,18 @@ public abstract class BaseNode : ScriptableObject {
         input.connectedInterfaceIndex = outputIndex;
         inputs[inputIndex] = input;
         
-        outNode.SetOutput(outputIndex, this, inputIndex);
+        outNode.ConnectOutput(outputIndex, this, inputIndex);
+
+        UpdateActionInterfaces();
     }
 
-    private void SetOutput(int outputIndex, BaseNode node, int inputIndex)
+    private void ConnectOutput(int outputIndex, BaseNode node, int inputIndex)
     {
         var output = outputs[outputIndex];
         output.connectedNode = node;
         output.connectedInterfaceIndex = inputIndex;
         outputs[outputIndex] = output;
+        UpdateActionInterfaces();
     }
 
     public virtual void DeleteNode()
@@ -276,6 +297,7 @@ public abstract class BaseNode : ScriptableObject {
         var output = outputs[outputIndex];
         output.connectedNode = null;
         outputs[outputIndex] = output;
+        UpdateActionInterfaces();
     }
 
     public void DisconnectInput(int inputIndex)
@@ -283,6 +305,7 @@ public abstract class BaseNode : ScriptableObject {
         var input = inputs[inputIndex];
         input.connectedNode = null;
         inputs[inputIndex] = input;
+        UpdateActionInterfaces();
     }
 
     private bool OutputIsConnected(int outputIndex)
@@ -305,7 +328,8 @@ public abstract class BaseNode : ScriptableObject {
         return outputs[outputIndex];
     }
 
-    protected void SetInput(float yPos, int id = 0, string label = "")
+    // TODO rename this because it's not an accurate description. Was perviously SetInput
+    protected void CreateInput(float yPos, int id = 0, string label = "")
     {
         for (int i = 0; i < inputs.Count; i++)
         {
@@ -320,7 +344,7 @@ public abstract class BaseNode : ScriptableObject {
         }
     }
 
-    protected void SetOutput(float yPos, int id = 0, string label = "")
+    protected void CreateOutput(float yPos, int id = 0, string label = "")
     {
         for (int i = 0; i < outputs.Count; i++)
         {

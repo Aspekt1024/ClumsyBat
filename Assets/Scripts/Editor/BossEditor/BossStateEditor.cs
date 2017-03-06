@@ -3,36 +3,25 @@ using UnityEditor;
 
 public class BossStateEditor : BaseEditor {
     
-    public BossState BossStateObject;
-
     [MenuItem("Window/Boss State Editor")]
     private static void ShowEditor()
     {
         BossStateEditor editor = GetWindow<BossStateEditor>();
         editor.SetEditorTheme();
-        editor.BossStateObject = null;
-    }
-    
-    protected override void OnLostFocus()
-    {
-        if (BossStateObject == null) return;
-
-        base.OnLostFocus();
-        BossStateObject.Actions = EditorHelpers.GetActionsFromNodes(Nodes);
-        EditorUtility.SetDirty(BossStateObject);
+        editor.ParentObject = null;
     }
 
-    public override void LoadEditor(ScriptableObject obj)
+    public override void LoadEditor(BossDataContainer obj)
     {
-        BossStateObject = (BossState)obj;    // TODO create Base class for BossCreator and BossState (e.g. BaseBossEditable)
+        ParentObject = (BossState)obj;    // TODO create Base class for BossCreator and BossState (e.g. BaseBossEditable)
         base.LoadEditor(obj);
     }
 
     protected override void SetEditorTheme()
     {
-        if (BossStateObject != null)
+        if (ParentObject != null)
         {
-            EditorLabel = string.Format("{0} - {1}", BossStateObject.BossName, BossStateObject.StateName);
+            EditorLabel = string.Format("{0} - {1}", ParentObject.BossName, ((BossState)ParentObject).StateName);
         }
 
         titleContent.image = (Texture)Resources.Load("LevelButtons/Boss1Available");

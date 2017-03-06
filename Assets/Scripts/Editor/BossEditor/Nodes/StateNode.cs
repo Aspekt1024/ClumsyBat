@@ -1,19 +1,30 @@
-﻿using UnityEditor;
+﻿using UnityEngine;
+using UnityEditor;
 
 public class StateNode : BaseNode {
 
     public BossState State;
 
-    public override void SetupNode()
+    public override void SetupNode(BossDataContainer dataContainer)
     {
+        DataContainer = dataContainer;
+        SaveThisNodeAsset();
+
+        Action = CreateInstance<MachineState>();
+        SaveActionAsset();
+
         AddInput();
         AddOutput();
+
+        UpdateActionInterfaces();
+
+        CreateNewState();
     }
 
     private void SetInterfacePositions()
     {
-        SetInput(25f);
-        SetOutput(25f);
+        CreateInput(25f);
+        CreateOutput(25f);
     }
 
     public override void DrawWindow()
@@ -31,34 +42,32 @@ public class StateNode : BaseNode {
         DrawInterfaces();
     }
 
-    public void CreateNewState(string dataFolder, string bossName)
+    private void CreateNewState()
     {
         State = CreateInstance<BossState>();
-        State.BossName = bossName;
 
-        EditorHelpers.CreateFolderIfNotExist(dataFolder.Substring(0, dataFolder.Length - 1), "States");
-        EditorHelpers.SaveObjectToFolder(State, dataFolder + "States/", "State");
+        State.BossName = DataContainer.BossName;
+        ((MachineState)Action).State = State;
+        EditorUtility.SetDirty(DataContainer);
+
+        EditorHelpers.SaveActionAsset(State, DataContainer, "States", "State");
         EditorUtility.SetDirty(State);
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
     }
 
     public override void DeleteNode()
     {
         base.DeleteNode();
 
-        // TODO decide if we want to do this.
-        // Remove if no decision by 04.04.17
-        /*if (AssetDatabase.Contains(State))
-            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(State));
+        // TODO find all nodes and actions belonging to this state and remove them from the assetdatabase.
+        // Good luck!
 
-        State = null;*/
+        State = null;
     }
 
-    public override void SaveAction()
+    public override void UpdateActionInterfaces()
     {
         ((MachineState)Action).State = State;
-        base.SaveAction();
+        base.UpdateActionInterfaces();
     }
 
 }

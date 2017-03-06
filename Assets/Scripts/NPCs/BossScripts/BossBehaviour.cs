@@ -8,8 +8,7 @@ public class BossBehaviour : MonoBehaviour {
 
     private GameObject _boss;
     private readonly List<BossAbility> _abilities = new List<BossAbility>();
-
-    // TODO set this dynamically
+    
     private enum BossStates
     {
         Disabled,

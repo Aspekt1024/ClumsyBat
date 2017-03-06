@@ -142,7 +142,7 @@ public class BossEditorMouseInput {
             int inputIndex = _mouseUpNode.GetReleasedNode(_mousePos);
             if (_editor.ConnectionMode && inputIndex >= 0)
             {
-                _mouseUpNode.SetInput(inputIndex, _mouseDownNode, _outputIndex);
+                _mouseUpNode.ConnectInput(inputIndex, _mouseDownNode, _outputIndex);
             }
         }
         if (_editor.MoveEditorMode)

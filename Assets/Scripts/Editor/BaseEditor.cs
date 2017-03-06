@@ -5,11 +5,10 @@ using System.Collections.Generic;
 public abstract class BaseEditor : EditorWindow {
 
     public BossEditorNodeData NodeData;
-    public List<BaseNode> Nodes;
     public bool ConnectionMode;
     public bool MoveEditorMode;
 
-    protected ScriptableObject ParentObject;    // TODO create Base class for BossCreator and BossState (e.g. BaseBossEditable)
+    protected BossDataContainer ParentObject;
     protected string EditorLabel;
 
     protected ColourThemes colourTheme;
@@ -30,27 +29,16 @@ public abstract class BaseEditor : EditorWindow {
     
     protected abstract void SetEditorTheme();
 
-    public virtual void LoadEditor(ScriptableObject obj)
+    public virtual void LoadEditor(BossDataContainer obj)
     {
         SetEditorTheme();
         ParentObject = obj;
-        
-        if (NodeData == null)
-        {
-            NodeData = CreateInstance<BossEditorNodeData>();
-            Nodes = new List<BaseNode>();
-            SaveNodeDataAsset();
-        }
-        else
-            Nodes = NodeData.Nodes;
-    }
 
-    private void SaveNodeDataAsset()
-    {
-        string dataFolder = EditorHelpers.GetAssetDataFolder(ParentObject);
-        EditorHelpers.SaveObjectToFolder(NodeData, dataFolder, "NodeData");
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
+        if (NodeData != null) return;
+
+        NodeData = CreateInstance<BossEditorNodeData>();
+        NodeData.Nodes = new List<BaseNode>();
+        EditorHelpers.SaveNodeEditorAsset(NodeData, ParentObject, "", "NodeContainer");
     }
 
     protected virtual void OnEnable()
@@ -63,31 +51,21 @@ public abstract class BaseEditor : EditorWindow {
         }
     }
 
-    protected virtual void OnLostFocus()
+    private void OnLostFocus()
     {
-        if (ParentObject != null)
-        {
-            SaveNodes();
-        }
+        SetAllNodesAndActionsDirty();
     }
 
-    private void SaveNodes()
+    protected virtual void SetAllNodesAndActionsDirty() //TODO private?
     {
-        string dataFolder = EditorHelpers.GetAssetDataFolder(ParentObject);
-        
-        for (int i = 0; i < Nodes.Count; i++)
+        foreach (var node in NodeData.Nodes)
         {
-            EditorHelpers.SaveObjectToFolder(Nodes[i], dataFolder, Nodes[i].WindowTitle);
-            EditorUtility.SetDirty(Nodes[i]);
+            EditorUtility.SetDirty(node);
+            EditorUtility.SetDirty(node.Action);
         }
-
-        NodeData.Nodes = Nodes;
         EditorUtility.SetDirty(NodeData);
-
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
+        EditorUtility.SetDirty(ParentObject);
     }
-
     
     private void Update()
     {
@@ -154,16 +132,16 @@ public abstract class BaseEditor : EditorWindow {
     public BaseNode GetSelectedNode()
     {
         int index = -1;
-        for (int i = 0; i < Nodes.Count; i++)
+        for (int i = 0; i < NodeData.Nodes.Count; i++)
         {
-            if (Nodes[i].WindowRect.Contains(_mousePos))
+            if (NodeData.Nodes[i].WindowRect.Contains(_mousePos))
             {
                 index = i;
-                _currentNode = Nodes[i];
+                _currentNode = NodeData.Nodes[i];
                 break;
             }
         }
-        return index >= 0 ? Nodes[index] : null;
+        return index >= 0 ? NodeData.Nodes[index] : null;
     }
 
     public void SetSelectedNode(BaseNode node)
@@ -174,15 +152,15 @@ public abstract class BaseEditor : EditorWindow {
     private void DrawNodeWindows()
     {
         BeginWindows();
-        for (int i = 0; i < Nodes.Count; i++)
+        for (int i = 0; i < NodeData.Nodes.Count; i++)
         {
-            Rect nodeRect = Nodes[i].WindowRect;
+            Rect nodeRect = NodeData.Nodes[i].WindowRect;
             if (MoveEditorMode)
             {
-                nodeRect.x = Nodes[i].OriginalRect.x + canvasDisplacement.x;
-                nodeRect.y = Nodes[i].OriginalRect.y + canvasDisplacement.y;
+                nodeRect.x = NodeData.Nodes[i].OriginalRect.x + canvasDisplacement.x;
+                nodeRect.y = NodeData.Nodes[i].OriginalRect.y + canvasDisplacement.y;
             }
-            Nodes[i].WindowRect = GUI.Window(i, nodeRect, DrawNodeWindow, Nodes[i].WindowTitle);
+            NodeData.Nodes[i].WindowRect = GUI.Window(i, nodeRect, DrawNodeWindow, NodeData.Nodes[i].WindowTitle);
         }
         EndWindows();
     }
@@ -191,7 +169,7 @@ public abstract class BaseEditor : EditorWindow {
     {
         startMousePos = _mousePos;
         MoveEditorMode = true;
-        foreach (var node in Nodes)
+        foreach (var node in NodeData.Nodes)
         {
             node.OriginalRect = node.WindowRect;
         }
@@ -200,7 +178,7 @@ public abstract class BaseEditor : EditorWindow {
     public void StopMovingEditorCanvas()
     {
         MoveEditorMode = false;
-        foreach (var node in Nodes)
+        foreach (var node in NodeData.Nodes)
         {
             node.WindowRect = node.OriginalRect;
         }
@@ -209,7 +187,7 @@ public abstract class BaseEditor : EditorWindow {
 
     private void DrawNodeWindow(int id)
     {
-        Nodes[id].DrawWindow();
+        NodeData.Nodes[id].DrawWindow();
         if (!ConnectionMode)
         {
             GUI.DragWindow();
@@ -226,7 +204,7 @@ public abstract class BaseEditor : EditorWindow {
             Repaint();
         }
 
-        foreach (var node in Nodes)
+        foreach (var node in NodeData.Nodes)
         {
             node.DrawCurves();
         }
@@ -266,14 +244,14 @@ public abstract class BaseEditor : EditorWindow {
     public virtual void AddNode(BaseNode newNode)
     {
         newNode.SetWindowRect(_mousePos);
-        newNode.SetupNode();
-        Nodes.Add(newNode);
+        newNode.SetupNode(ParentObject);
+        NodeData.Nodes.Add(newNode);
     }
 
     public void RemoveNode(BaseNode node)
     {
         node.DeleteNode();
-        Nodes.Remove(node);
+        NodeData.Nodes.Remove(node);
 
         if (AssetDatabase.Contains(node))
             AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(node));
@@ -281,7 +259,7 @@ public abstract class BaseEditor : EditorWindow {
     
     private void AddDisplacementToNodes()
     {
-        foreach (var node in Nodes)
+        foreach (var node in NodeData.Nodes)
         {
             node.WindowRect.x += canvasDisplacement.x;
             node.WindowRect.y += canvasDisplacement.y;
@@ -290,7 +268,7 @@ public abstract class BaseEditor : EditorWindow {
     
     public void MoveToStart()
     {
-        foreach (var node in Nodes)
+        foreach (var node in NodeData.Nodes)
         {
             if (node.GetType().Equals(typeof(StartNode)))
             {
@@ -304,7 +282,7 @@ public abstract class BaseEditor : EditorWindow {
     public bool StartExists()
     {
         bool startFound = false;
-        foreach (var node in Nodes)
+        foreach (var node in NodeData.Nodes)
         {
             if (node.GetType().Equals(typeof(StartNode)))
             {
