@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 public abstract class BaseEditor : EditorWindow {
 
-    public BossEditorNodeData NodeData;
+    public BossEditorNodeData NodeData = null;
     public bool ConnectionMode;
     public bool MoveEditorMode;
 
-    protected BossDataContainer ParentObject;
+    protected BossDataContainer BaseContainer;
     protected string EditorLabel;
 
     protected ColourThemes colourTheme;
@@ -32,39 +32,63 @@ public abstract class BaseEditor : EditorWindow {
     public virtual void LoadEditor(BossDataContainer obj)
     {
         SetEditorTheme();
-        ParentObject = obj;
+        BaseContainer = obj;
 
-        if (NodeData != null) return;
+        SetRootContainerToSelf();
 
+        if (NodeData == null)
+            CreateNewNodeData();
+    }
+
+    private void SetRootContainerToSelf()
+    {
+        if (BaseContainer.RootContainer == null)
+            BaseContainer.RootContainer = BaseContainer;
+    }
+
+    private void CreateNewNodeData()
+    {
         NodeData = CreateInstance<BossEditorNodeData>();
         NodeData.Nodes = new List<BaseNode>();
-        EditorHelpers.SaveNodeEditorAsset(NodeData, ParentObject, "", "NodeContainer");
+
+        string subFolder = "";
+        if (BaseContainer.IsType<BossState>())
+        {
+            subFolder = BaseContainer.name + "Data";
+            Debug.Log("SubfolderName: " + subFolder);
+        }
+        EditorHelpers.SaveNodeEditorAsset(NodeData, BaseContainer.RootContainer, subFolder, "NodeData");
     }
 
     protected virtual void OnEnable()
     {
         if (_mouseInput == null) _mouseInput = new BossEditorMouseInput(this);
 
-        if (ParentObject != null)
+        if (BaseContainer != null)
         {
-            LoadEditor(ParentObject);
+            LoadEditor(BaseContainer);
         }
     }
 
     private void OnLostFocus()
     {
-        SetAllNodesAndActionsDirty();
+        if (NodeData == null || BaseContainer == null) return;
+
+        SetAllNodesDirty();
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
     }
 
-    protected virtual void SetAllNodesAndActionsDirty() //TODO private?
+    protected virtual void SetAllNodesDirty() //TODO private?
     {
+        // TODO setdirty isnt... used anymroe...
         foreach (var node in NodeData.Nodes)
         {
             EditorUtility.SetDirty(node);
-            EditorUtility.SetDirty(node.Action);
         }
         EditorUtility.SetDirty(NodeData);
-        EditorUtility.SetDirty(ParentObject);
+        EditorUtility.SetDirty(BaseContainer);
     }
     
     private void Update()
@@ -82,7 +106,7 @@ public abstract class BaseEditor : EditorWindow {
     private void OnGUI()
     {
         // TODO if no object, show text to tell user to display one, else show title in editor of what the boss is
-        if (ParentObject == null) return;
+        if (BaseContainer == null) return;
 
         Event e = Event.current;
         _mousePos = e.mousePosition;
@@ -244,7 +268,7 @@ public abstract class BaseEditor : EditorWindow {
     public virtual void AddNode(BaseNode newNode)
     {
         newNode.SetWindowRect(_mousePos);
-        newNode.SetupNode(ParentObject);
+        newNode.SetupNode(BaseContainer);
         NodeData.Nodes.Add(newNode);
     }
 

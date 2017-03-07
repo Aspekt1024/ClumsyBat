@@ -7,14 +7,10 @@ public abstract class BaseNode : ScriptableObject {
     public Rect WindowRect;
     public Rect OriginalRect;
     public string WindowTitle = "Untitled";
-    public BaseAction Action;   // TODO make this exist
     
     public List<InterfaceType> inputs = new List<InterfaceType>();
     public List<InterfaceType> outputs = new List<InterfaceType>();
-
-    protected BossBehaviour bossBehaviour;
-    protected GameObject boss;
-
+    
     protected BossDataContainer DataContainer;
 
     [System.Serializable]
@@ -29,36 +25,24 @@ public abstract class BaseNode : ScriptableObject {
 
     private Vector2 selectedOutputPos;
 
+    protected abstract void AddInterfaces();
+
     public virtual void SetupNode(BossDataContainer dataContainer)
     {
         DataContainer = dataContainer;
+        AddInterfaces();
         SaveThisNodeAsset();
     }
 
     protected void SaveThisNodeAsset()
     {
-        EditorHelpers.SaveNodeEditorAsset(this, DataContainer, "NodeData", GetType().ToString());
-    }
+        string subFolder = "";
+        if (DataContainer.IsType<BossState>())
+        {
+            subFolder = DataContainer.name + "Data";
+        }
 
-    public virtual void UpdateActionInterfaces()
-    {
-        Action.inputs = new List<BaseAction.InterfaceType>();
-        Action.outputs = new List<BaseAction.InterfaceType>();
-        foreach (var input in inputs)
-        {
-            Action.inputs.Add(ConvertInterface(input));
-        }
-        foreach (var output in outputs)
-        {
-            Action.outputs.Add(ConvertInterface(output));
-        }
-        EditorUtility.SetDirty(Action);
-    }
-    
-    protected void SaveActionAsset()
-    {
-        DataContainer.Actions.Add(Action);
-        EditorHelpers.SaveActionAsset(Action, DataContainer, "ActionData", Action.GetType().ToString());
+        EditorHelpers.SaveNodeEditorAsset(this, DataContainer.RootContainer, subFolder, GetType().ToString());
     }
 
     private static BaseAction.InterfaceType ConvertInterface(InterfaceType iface)
@@ -66,7 +50,6 @@ public abstract class BaseNode : ScriptableObject {
         return new BaseAction.InterfaceType()
         {
             identifier = iface.identifier,
-            connectedAction = iface.connectedNode != null ? iface.connectedNode.Action : null,
             connectedInterfaceIndex = iface.connectedInterfaceIndex
         };
     }
@@ -265,8 +248,6 @@ public abstract class BaseNode : ScriptableObject {
         inputs[inputIndex] = input;
         
         outNode.ConnectOutput(outputIndex, this, inputIndex);
-
-        UpdateActionInterfaces();
     }
 
     private void ConnectOutput(int outputIndex, BaseNode node, int inputIndex)
@@ -275,7 +256,6 @@ public abstract class BaseNode : ScriptableObject {
         output.connectedNode = node;
         output.connectedInterfaceIndex = inputIndex;
         outputs[outputIndex] = output;
-        UpdateActionInterfaces();
     }
 
     public virtual void DeleteNode()
@@ -297,7 +277,6 @@ public abstract class BaseNode : ScriptableObject {
         var output = outputs[outputIndex];
         output.connectedNode = null;
         outputs[outputIndex] = output;
-        UpdateActionInterfaces();
     }
 
     public void DisconnectInput(int inputIndex)
@@ -305,7 +284,6 @@ public abstract class BaseNode : ScriptableObject {
         var input = inputs[inputIndex];
         input.connectedNode = null;
         inputs[inputIndex] = input;
-        UpdateActionInterfaces();
     }
 
     private bool OutputIsConnected(int outputIndex)
@@ -327,9 +305,8 @@ public abstract class BaseNode : ScriptableObject {
     {
         return outputs[outputIndex];
     }
-
-    // TODO rename this because it's not an accurate description. Was perviously SetInput
-    protected void CreateInput(float yPos, int id = 0, string label = "")
+    
+    protected void SetInput(float yPos, int id = 0, string label = "")
     {
         for (int i = 0; i < inputs.Count; i++)
         {
@@ -344,7 +321,7 @@ public abstract class BaseNode : ScriptableObject {
         }
     }
 
-    protected void CreateOutput(float yPos, int id = 0, string label = "")
+    protected void SetOutput(float yPos, int id = 0, string label = "")
     {
         for (int i = 0; i < outputs.Count; i++)
         {
@@ -357,5 +334,10 @@ public abstract class BaseNode : ScriptableObject {
                 break;
             }
         }
+    }
+
+    public bool IsType<T>() where T : BaseNode
+    {
+        return GetType().Equals(typeof(T));
     }
 }

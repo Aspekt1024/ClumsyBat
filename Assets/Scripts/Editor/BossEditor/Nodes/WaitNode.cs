@@ -1,28 +1,21 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System;
 
 public class WaitNode : BaseNode {
 
     public float WaitTime = 1f;
-
-    public override void SetupNode(BossDataContainer dataContainer)
+    
+    protected override void AddInterfaces()
     {
-        DataContainer = dataContainer;
-        SaveThisNodeAsset();
-        
-        Action = CreateInstance<WaitAction>();
-        SaveActionAsset();
-
         AddInput();
         AddOutput();
-        
-        UpdateActionInterfaces();
     }
 
     private void SetInterfacePositions()
     {
-        CreateInput(25);
-        CreateOutput(25);
+        SetInput(25);
+        SetOutput(25);
     }
 
     public override void DrawWindow()
@@ -36,11 +29,5 @@ public class WaitNode : BaseNode {
 
         SetInterfacePositions();
         DrawInterfaces();
-    }
-
-    public override void UpdateActionInterfaces()
-    {
-        ((WaitAction)Action).WaitTime = WaitTime;
-        base.UpdateActionInterfaces();
     }
 }

@@ -1,24 +1,18 @@
 ﻿
-public class ParabolicProjectileNode : BaseNode {
-    
-    public override void SetupNode(BossDataContainer dataContainer)
-    {
-        DataContainer = dataContainer;
-        SaveThisNodeAsset();
-        
-        Action = CreateInstance<ProjectileAction>();
-        SaveActionAsset();
+using System;
 
+public class ParabolicProjectileNode : BaseNode {
+
+    protected override void AddInterfaces()
+    {
         AddInput();
         AddOutput();
-
-        UpdateActionInterfaces();
     }
 
     private void SetInterfacePositions()
     {
-        CreateInput(WindowRect.height / 2);
-        CreateOutput(WindowRect.height / 2);
+        SetInput(WindowRect.height / 2);
+        SetOutput(WindowRect.height / 2);
     }
 
     public override void DrawWindow()

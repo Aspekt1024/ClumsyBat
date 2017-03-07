@@ -1,23 +1,16 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class StartNode : BaseNode {
 
-    public override void SetupNode(BossDataContainer dataContainer)
+    protected override void AddInterfaces()
     {
-        DataContainer = dataContainer;
-        SaveThisNodeAsset();
-
-        Action = CreateInstance<StartAction>();
-        SaveActionAsset();
-
         AddOutput();
-
-        UpdateActionInterfaces();
     }
 
     private void SetInterfacePositions()
     {
-        CreateOutput(25f);
+        SetOutput(25f);
     }
 
     public override void DrawWindow()

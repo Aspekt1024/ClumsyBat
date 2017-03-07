@@ -8,20 +8,20 @@ public class BossEditor : BaseEditor {
     {
         BossEditor editor = GetWindow<BossEditor>();
         editor.SetEditorTheme();
-        editor.ParentObject = null;
+        editor.BaseContainer = null;
     }
 
     public override void LoadEditor(BossDataContainer creatorObj)
     {
-        ParentObject = creatorObj;
+        BaseContainer = creatorObj;
         base.LoadEditor(creatorObj);
     }
 
     protected override void SetEditorTheme()
     {
-        if (ParentObject != null)
+        if (BaseContainer != null)
         {
-            EditorLabel = "State machine : " + ParentObject.BossName;
+            EditorLabel = "State machine : " + BaseContainer.BossName;
         }
 
         titleContent.image = (Texture)Resources.Load("LevelButtons/Boss1AvailableClicked");

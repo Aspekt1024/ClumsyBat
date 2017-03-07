@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System;
 
 public class StateNode : BaseNode {
 
@@ -7,24 +8,30 @@ public class StateNode : BaseNode {
 
     public override void SetupNode(BossDataContainer dataContainer)
     {
-        DataContainer = dataContainer;
-        SaveThisNodeAsset();
-
-        Action = CreateInstance<MachineState>();
-        SaveActionAsset();
-
+        State = CreateNewState(dataContainer);
+        base.SetupNode(dataContainer);
+    }
+    
+    private BossState CreateNewState(BossDataContainer baseContainer)
+    {
+        BossState newState = CreateInstance<BossState>();
+        newState.StateName = "State";
+        newState.BossName = baseContainer.BossName;
+        newState.RootContainer = baseContainer;
+        EditorHelpers.SaveNodeEditorAsset(newState, baseContainer, "", "State");
+        return newState;
+    }
+    
+protected override void AddInterfaces()
+    {
         AddInput();
         AddOutput();
-
-        UpdateActionInterfaces();
-
-        CreateNewState();
     }
 
     private void SetInterfacePositions()
     {
-        CreateInput(25f);
-        CreateOutput(25f);
+        SetInput(25f);
+        SetOutput(25f);
     }
 
     public override void DrawWindow()
@@ -42,32 +49,12 @@ public class StateNode : BaseNode {
         DrawInterfaces();
     }
 
-    private void CreateNewState()
-    {
-        State = CreateInstance<BossState>();
-
-        State.BossName = DataContainer.BossName;
-        ((MachineState)Action).State = State;
-        EditorUtility.SetDirty(DataContainer);
-
-        EditorHelpers.SaveActionAsset(State, DataContainer, "States", "State");
-        EditorUtility.SetDirty(State);
-    }
-
     public override void DeleteNode()
     {
+        // TODO State.DeleteAllNodes();
         base.DeleteNode();
 
-        // TODO find all nodes and actions belonging to this state and remove them from the assetdatabase.
+        // TODO find all nodes belonging to this state and remove them from the assetdatabase.
         // Good luck!
-
-        State = null;
     }
-
-    public override void UpdateActionInterfaces()
-    {
-        ((MachineState)Action).State = State;
-        base.UpdateActionInterfaces();
-    }
-
 }

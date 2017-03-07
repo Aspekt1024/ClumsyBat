@@ -4,25 +4,6 @@ using System.Collections.Generic;
 
 public static class EditorHelpers {
     
-    // TODO not sure if this is used
-    public static List<BaseAction> GetActionsFromNodes(List<BaseNode> Nodes)
-    {
-        List<BaseAction> actions = new List<BaseAction>();
-        foreach (var node in Nodes)
-        {
-            actions.Add(node.Action);
-        }
-        return actions;
-    }
-
-    public static void SaveActionAsset(ScriptableObject obj, ScriptableObject parent, string subFolder = "", string assetName = "")
-    {
-        string dataPath = GetAssetDataFolder(parent);
-        dataPath = AppendSubFolder(dataPath, subFolder);
-
-        SaveObjectToFolder(obj, dataPath, assetName);
-    }
-
     public static void SaveNodeEditorAsset(ScriptableObject obj, ScriptableObject parent, string subFolder = "", string assetName = "")
     {
         const string savesPath = "Assets/Scripts/Editor/NodeSaves";
@@ -32,6 +13,7 @@ public static class EditorHelpers {
         string dataPath = string.Format("{0}/{1}", savesPath, dataFolder);
         dataPath = AppendSubFolder(dataPath, subFolder);
 
+        //Debug.Log("Creating asset " + obj + " for " + parent + " called " + assetName + " in " + dataPath);
         SaveObjectToFolder(obj, dataPath, assetName);
     }
 
@@ -65,20 +47,19 @@ public static class EditorHelpers {
     private static void SaveObjectToFolder(ScriptableObject obj, string dataFolder, string assetName)
     {
         int assetNum = 1;
-
-        while (AssetDatabase.LoadAssetAtPath<BaseNode>(string.Format("{0}/{1} {2}.asset", dataFolder, assetName, assetNum)) != null)
+        
+        while (AssetDatabase.LoadAssetAtPath<ScriptableObject>(string.Format("{0}/{1}{2}.asset", dataFolder, assetName, assetNum)) != null)
         {
             assetNum++;
         }
-        string assetFileName = string.Format("{0} {1}.asset", assetName, assetNum);
+        string assetFileName = string.Format("{0}{1}.asset", assetName, assetNum);
 
         if (AssetDatabase.Contains(obj))
             MoveIfPathDifferent(obj, dataFolder, assetFileName);
         else
+        {
             AssetDatabase.CreateAsset(obj, string.Format("{0}/{1}", dataFolder, assetFileName));
-        
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
+        }
     }
 
     private static void MoveIfPathDifferent(ScriptableObject obj, string dataFolder, string fileName)

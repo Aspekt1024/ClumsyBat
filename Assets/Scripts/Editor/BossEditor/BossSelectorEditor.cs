@@ -15,7 +15,7 @@ public class BossSelectorEditor : Editor {
     public override void OnInspectorGUI()
     {
         creatorObj = (BossCreator)target;
-        GetAbilityList();
+        // TODO GetAbilityList();
 
         DisplayBossName();
         EditorGUILayout.Space();
@@ -25,27 +25,9 @@ public class BossSelectorEditor : Editor {
         EditorGUILayout.Space();
         DisplayAbilitySet();
         EditorGUILayout.Space();
-        DisplayStates();
+        // TODO DisplayStates();
 
         EditorUtility.SetDirty(target);
-    }
-    
-    private void GetAbilityList()
-    {
-        abilities = new List<Type>();
-        foreach(var stateAction in creatorObj.Actions)
-        {
-            if (stateAction.GetType().Equals(typeof(MachineState)))
-            {
-                foreach (var action in ((MachineState)stateAction).State.Actions)
-                {
-                    if (action.GetType().Equals(typeof(JumpAction)))
-                        AddAbility<JumpPound>();
-                    if (action.GetType().Equals(typeof(ProjectileAction)))
-                        AddAbility<ParabolicProjectile>();
-                }
-            }
-        }
     }
 
     private void AddAbility<T>() where T : BossAbility
@@ -118,16 +100,6 @@ public class BossSelectorEditor : Editor {
         }
         EditorGUILayout.Separator();
 
-    }
-
-    private void DisplayStates()
-    {
-        EditorGUILayout.LabelField("Boss States:");
-        for (int i = 0; i < creatorObj.Actions.Count; i++)
-        {
-            if (creatorObj.Actions[i].GetType().Equals(typeof(MachineState)))
-            ((MachineState)creatorObj.Actions[i]).State = (BossState)EditorGUILayout.ObjectField("State " + i, ((MachineState)creatorObj.Actions[i]).State, typeof(BossState), true);
-        }
     }
 
 }

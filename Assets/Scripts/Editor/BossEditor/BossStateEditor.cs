@@ -8,20 +8,20 @@ public class BossStateEditor : BaseEditor {
     {
         BossStateEditor editor = GetWindow<BossStateEditor>();
         editor.SetEditorTheme();
-        editor.ParentObject = null;
+        editor.BaseContainer = null;
     }
 
     public override void LoadEditor(BossDataContainer obj)
     {
-        ParentObject = (BossState)obj;    // TODO create Base class for BossCreator and BossState (e.g. BaseBossEditable)
+        BaseContainer = obj;
         base.LoadEditor(obj);
     }
 
     protected override void SetEditorTheme()
     {
-        if (ParentObject != null)
+        if (BaseContainer != null)
         {
-            EditorLabel = string.Format("{0} - {1}", ParentObject.BossName, ((BossState)ParentObject).StateName);
+            EditorLabel = string.Format("{0} - {1}", BaseContainer.BossName, ((BossState)BaseContainer).StateName);
         }
 
         titleContent.image = (Texture)Resources.Load("LevelButtons/Boss1Available");
