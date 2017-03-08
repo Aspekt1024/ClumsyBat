@@ -3,20 +3,26 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public static class EditorHelpers {
-    
+
+    private const string savesPath = "Assets/Scripts/Editor/NodeSaves";
+
     public static void SaveNodeEditorAsset(ScriptableObject obj, ScriptableObject parent, string subFolder = "", string assetName = "")
     {
-        const string savesPath = "Assets/Scripts/Editor/NodeSaves";
-        string dataFolder = parent.name + "Data";
-
-        CreateFolderIfNotExist(savesPath, dataFolder);
-        string dataPath = string.Format("{0}/{1}", savesPath, dataFolder);
+        string dataPath = GetDataPath(parent);
         dataPath = AppendSubFolder(dataPath, subFolder);
 
         //Debug.Log("Creating asset " + obj + " for " + parent + " called " + assetName + " in " + dataPath);
         SaveObjectToFolder(obj, dataPath, assetName);
     }
 
+    public static string GetDataPath(ScriptableObject parent)
+    {
+        string dataFolder = parent.name + "Data";
+        CreateFolderIfNotExist(savesPath, dataFolder);
+        return string.Format("{0}/{1}", savesPath, dataFolder);
+    }
+
+    // TODO used for saving near scriptable object for in-game data. this is in resources.
     private static string GetAssetDataFolder(ScriptableObject obj)
     {
         string assetPath = AssetDatabase.GetAssetPath(obj);
@@ -38,7 +44,7 @@ public static class EditorHelpers {
         return dataPath;
     }
 
-    private static void CreateFolderIfNotExist(string assetPath, string dataFolder)
+    public static void CreateFolderIfNotExist(string assetPath, string dataFolder)
     {
         if (!AssetDatabase.IsValidFolder(string.Format("{0}/{1}", assetPath, dataFolder)))
             AssetDatabase.CreateFolder(assetPath, dataFolder);

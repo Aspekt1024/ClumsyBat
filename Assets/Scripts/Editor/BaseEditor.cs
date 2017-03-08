@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public abstract class BaseEditor : EditorWindow {
 
-    public BossEditorNodeData NodeData = null;
+    public BossEditorNodeData NodeData;
     public bool ConnectionMode;
     public bool MoveEditorMode;
 
@@ -36,8 +36,7 @@ public abstract class BaseEditor : EditorWindow {
 
         SetRootContainerToSelf();
 
-        if (NodeData == null)
-            CreateNewNodeData();
+        LoadNodeData();
     }
 
     private void SetRootContainerToSelf()
@@ -46,7 +45,25 @@ public abstract class BaseEditor : EditorWindow {
             BaseContainer.RootContainer = BaseContainer;
     }
 
-    private void CreateNewNodeData()
+    private void LoadNodeData()
+    {
+        const string nodeDataName = "NodeData";
+        string nodeDataFolder = GetNodeDataFolder();
+        string nodeDataPath = string.Format("{0}/{1}.asset", nodeDataFolder, nodeDataName);
+
+        NodeData = AssetDatabase.LoadAssetAtPath<BossEditorNodeData>(nodeDataPath);
+
+        if (NodeData == null)
+            CreateNewNodeData(nodeDataPath);
+    }
+
+    private string GetNodeDataFolder()
+    {
+        string subFolder = GetSubfolderIfState(BaseContainer);
+        return EditorHelpers.GetDataPath(BaseContainer) + (subFolder.Length > 0 ? "/" + subFolder : "");
+    }
+
+    private void CreateNewNodeData(string nodeDataPath)
     {
         NodeData = CreateInstance<BossEditorNodeData>();
         NodeData.Nodes = new List<BaseNode>();
@@ -55,9 +72,19 @@ public abstract class BaseEditor : EditorWindow {
         if (BaseContainer.IsType<BossState>())
         {
             subFolder = BaseContainer.name + "Data";
-            Debug.Log("SubfolderName: " + subFolder);
+            EditorHelpers.CreateFolderIfNotExist(GetNodeDataFolder(), subFolder);
         }
-        EditorHelpers.SaveNodeEditorAsset(NodeData, BaseContainer.RootContainer, subFolder, "NodeData");
+        AssetDatabase.CreateAsset(NodeData, nodeDataPath);
+    }
+
+    private string GetSubfolderIfState(BossDataContainer container)
+    {
+        string subFolder = "";
+        if (BaseContainer.IsType<BossState>())
+        {
+            subFolder = BaseContainer.name + "Data";
+        }
+        return subFolder;
     }
 
     protected virtual void OnEnable()
