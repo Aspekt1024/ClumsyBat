@@ -60,7 +60,7 @@ public abstract class BaseEditor : EditorWindow {
     private string GetNodeDataFolder()
     {
         string subFolder = GetSubfolderIfState(BaseContainer);
-        return EditorHelpers.GetDataPath(BaseContainer) + (subFolder.Length > 0 ? "/" + subFolder : "");
+        return EditorHelpers.GetDataPath(BaseContainer.RootContainer) + (subFolder.Length > 0 ? "/" + subFolder : "");
     }
 
     private void CreateNewNodeData(string nodeDataPath)
@@ -72,7 +72,7 @@ public abstract class BaseEditor : EditorWindow {
         if (BaseContainer.IsType<BossState>())
         {
             subFolder = BaseContainer.name + "Data";
-            EditorHelpers.CreateFolderIfNotExist(GetNodeDataFolder(), subFolder);
+            EditorHelpers.CreateFolderIfNotExist(EditorHelpers.GetDataPath(BaseContainer.RootContainer), subFolder);
         }
         AssetDatabase.CreateAsset(NodeData, nodeDataPath);
     }
