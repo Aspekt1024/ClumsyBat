@@ -33,8 +33,8 @@ public class JumpNode : BaseNode {
         DrawInterfaces();
     }
 
-    public override BaseAction ConvertNodeToAction()
+    protected override void CreateAction()
     {
-        return new JumpAction();
+        Action = CreateInstance<JumpAction>();
     }
 }

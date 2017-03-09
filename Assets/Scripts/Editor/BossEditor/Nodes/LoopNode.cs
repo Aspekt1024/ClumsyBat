@@ -1,8 +1,7 @@
-﻿
-using System;
+﻿using UnityEngine;
 
 public class LoopNode : BaseNode {
-
+    
     protected override void AddInterfaces()
     {
         AddInput();
@@ -23,9 +22,9 @@ public class LoopNode : BaseNode {
         DrawInterfaces();
     }
 
-    public override BaseAction ConvertNodeToAction()
+    protected override void CreateAction()
     {
-        return new LoopAction();
+        Action = CreateInstance<LoopAction>();
     }
 
 }

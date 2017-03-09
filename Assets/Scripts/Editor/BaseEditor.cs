@@ -52,7 +52,7 @@ public abstract class BaseEditor : EditorWindow {
         string nodeDataPath = string.Format("{0}/{1}.asset", nodeDataFolder, nodeDataName);
 
         NodeData = AssetDatabase.LoadAssetAtPath<BossEditorNodeData>(nodeDataPath);
-
+        
         if (NodeData == null)
             CreateNewNodeData(nodeDataPath);
     }
@@ -115,36 +115,82 @@ public abstract class BaseEditor : EditorWindow {
         if (startNode == null) return;
 
         string dataFolder = EditorHelpers.GetAssetDataFolder(BaseContainer.RootContainer);
-        DeleteExistingActionData(dataFolder);
-        BaseContainer.Actions = new List<BaseAction>();
+        string dataPath = string.Format("{0}/BossData.asset", dataFolder);
+        DeleteExistingActionData(dataPath);
 
+        BaseContainer.RootContainer.Actions = new List<BaseAction>();
+        BaseContainer.RootContainer.StartingAction = (StartAction)startNode.ConvertNodeToAction();
+
+        AssetDatabase.CreateAsset(BaseContainer.RootContainer.StartingAction, dataPath);
+        BaseContainer.Actions.Add(BaseContainer.RootContainer.StartingAction);
         
-        // TODO make this recursive
-        AddAction(startNode.ConvertNodeToAction(), dataFolder);
-        
+        TraverseAndConvertNodes(startNode, dataPath);
+    }
 
-
-
-        foreach (var output in startNode.outputs)
+    private void TraverseAndConvertNodes(BaseNode node, string dataPath)
+    {
+        foreach (var output in node.outputs)
         {
+            if (output.connectedNode != null)
+            {
+                var newAction = output.connectedNode.ConvertNodeToAction();
 
+                if (output.connectedNode.IsType<StateNode>())
+                {
+                    SaveStateData((StateNode)output.connectedNode);
+                    // Not sure if this all gets updated as intended.
+                }
+
+                TraverseAndConvertNodes(output.connectedNode, dataPath);
+                AddAction(newAction, dataPath);
+            }
         }
     }
 
-    private void AddAction(BaseAction action, string dataFolder)
+    private void SaveStateData(StateNode node)
     {
-        string dataPath = string.Format("{0}/Start.asset", dataFolder);
-        AssetDatabase.CreateAsset(action, dataPath);
-        BaseContainer.Actions.Add(action);
+        string dataFolder = EditorHelpers.GetDataPath(BaseContainer.RootContainer);
+        string subFolder = node.State.name + "Data";
+        string nodeDataPath = string.Format("{0}/{1}/NodeData.asset", dataFolder, subFolder);
+        node.NodeData = AssetDatabase.LoadAssetAtPath<BossEditorNodeData>(nodeDataPath);
+        
+        if (node.NodeData == null) return;
+
+        node.StartingNode = GetStateStartNode(node);
+        if (node.StartingNode == null) return;
+
+        dataFolder = EditorHelpers.GetAssetDataFolder(BaseContainer.RootContainer);
+        string dataPath = string.Format("{0}/BossData.asset", dataFolder);
+        var newAction = ((MachineState)node.Action).StartingAction;
+        TraverseAndConvertNodes(node.StartingNode, dataPath);
+        AddAction(newAction, dataPath);
     }
 
-    private void DeleteExistingActionData(string dataFolder)
+    private StartNode GetStateStartNode(StateNode node)
     {
-        var existingAssets = AssetDatabase.LoadAllAssetsAtPath(dataFolder);
-        foreach (var asset in existingAssets)
+        foreach(var n in node.NodeData.Nodes)
         {
-            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(asset));
+            if (n.IsType<StartNode>())
+                return (StartNode)n;
         }
+        return null;
+    }
+
+    private void AddAction(BaseAction action, string dataPath)
+    {
+        if (action == null)
+        {
+            Debug.Log("you need to fix this issue");
+            return;
+        }
+        if (AssetDatabase.Contains(action)) return;
+        AssetDatabase.AddObjectToAsset(action, dataPath);
+        BaseContainer.RootContainer.Actions.Add(action);
+    }
+
+    private void DeleteExistingActionData(string dataPath)
+    {
+        AssetDatabase.DeleteAsset(dataPath);
     }
 
     private StartNode GetStartNode()

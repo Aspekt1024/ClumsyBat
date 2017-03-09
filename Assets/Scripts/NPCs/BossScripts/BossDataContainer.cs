@@ -6,6 +6,7 @@ public class BossDataContainer : ScriptableObject {
     public string BossName;
     public BossDataContainer RootContainer;
 
+    public StartAction StartingAction;
     public List<BaseAction> Actions = new List<BaseAction>();
 
     public bool IsType<T>() where T : BossDataContainer

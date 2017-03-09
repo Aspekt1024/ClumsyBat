@@ -26,8 +26,8 @@ public class ParabolicProjectileNode : BaseNode {
         DrawInterfaces();
     }
 
-    public override BaseAction ConvertNodeToAction()
+    protected override void CreateAction()
     {
-        throw new NotImplementedException();
+        Action = CreateInstance<ProjectileAction>();
     }
 }

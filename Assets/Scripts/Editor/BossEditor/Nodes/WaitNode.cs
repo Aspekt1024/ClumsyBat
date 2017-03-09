@@ -31,8 +31,8 @@ public class WaitNode : BaseNode {
         DrawInterfaces();
     }
 
-    public override BaseAction ConvertNodeToAction()
+    protected override void CreateAction()
     {
-        throw new NotImplementedException();
+        Action = CreateInstance<WaitAction>();
     }
 }

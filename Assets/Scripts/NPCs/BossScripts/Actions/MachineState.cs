@@ -2,11 +2,12 @@
 
 public class MachineState : BaseAction {
 
-    public BossState State;
+    public BossState State; // TODO remove?
+    public StartAction StartingAction;
     
     public override void Activate()
     {
-        Debug.Log("state node activated");
+        StartingAction.Activate();
     }
 
 }

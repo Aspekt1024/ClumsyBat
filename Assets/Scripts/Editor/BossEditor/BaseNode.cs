@@ -11,7 +11,11 @@ public abstract class BaseNode : ScriptableObject {
     public List<InterfaceType> inputs = new List<InterfaceType>();
     public List<InterfaceType> outputs = new List<InterfaceType>();
     
-    protected BossDataContainer DataContainer;
+    [HideInInspector]
+    public BossDataContainer DataContainer;
+
+    
+    public BaseAction Action;
 
     [System.Serializable]
     public struct InterfaceType
@@ -24,8 +28,7 @@ public abstract class BaseNode : ScriptableObject {
     }
 
     private Vector2 selectedOutputPos;
-
-    public abstract BaseAction ConvertNodeToAction();
+    
     protected abstract void AddInterfaces();
 
     public virtual void SetupNode(BossDataContainer dataContainer)
@@ -340,5 +343,41 @@ public abstract class BaseNode : ScriptableObject {
     public bool IsType<T>() where T : BaseNode
     {
         return GetType().Equals(typeof(T));
+    }
+    
+    public virtual BaseAction ConvertNodeToAction()
+    {
+        CreateActionIfNotInAssets();
+        foreach (var output in outputs)
+        {
+            if (output.connectedNode != null)
+            {
+                output.connectedNode.CreateActionIfNotInAssets();
+                var actionOutput = GetActionOutput(output);
+                Action.outputs.Add(actionOutput);
+            }
+        }
+
+        return Action;
+    }
+
+    public void CreateActionIfNotInAssets()
+    {
+        if (Action == null)
+        {
+            CreateAction();
+        }
+    }
+    
+    protected abstract void CreateAction();
+
+    protected BaseAction.InterfaceType GetActionOutput(InterfaceType output)
+    {
+        return new BaseAction.InterfaceType()
+        {
+            identifier = output.identifier,
+            connectedAction = output.connectedNode.Action,
+            connectedInterfaceIndex = output.connectedInterfaceIndex
+        };
     }
 }

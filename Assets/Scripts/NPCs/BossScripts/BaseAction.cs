@@ -24,7 +24,9 @@ public abstract class BaseAction : ScriptableObject {
         foreach (var output in outputs)
         {
             if (output.identifier == id && output.connectedAction != null)
+            {
                 output.connectedAction.Activate();
+            }
         }
     }
 
@@ -46,5 +48,10 @@ public abstract class BaseAction : ScriptableObject {
     {
         bossBehaviour = behaviour;
         boss = bossReference;
+    }
+
+    public bool IsType<T>() where T : BaseAction
+    {
+        return GetType().Equals(typeof(T));
     }
 }

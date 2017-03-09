@@ -4,7 +4,9 @@ using System;
 
 public class StateNode : BaseNode {
 
-    public BossState State;
+    public BossState State; // TODO probably remove this .. not used for anything
+    public StartNode StartingNode;
+    public BossEditorNodeData NodeData;
 
     public override void SetupNode(BossDataContainer dataContainer)
     {
@@ -58,8 +60,12 @@ protected override void AddInterfaces()
         // Good luck!
     }
 
-    public override BaseAction ConvertNodeToAction()
+    protected override void CreateAction()
     {
-        throw new NotImplementedException();
+        Action = CreateInstance<MachineState>();
+        if (StartingNode != null)
+        {
+            ((MachineState)Action).StartingAction = (StartAction)StartingNode.ConvertNodeToAction();
+        }
     }
 }

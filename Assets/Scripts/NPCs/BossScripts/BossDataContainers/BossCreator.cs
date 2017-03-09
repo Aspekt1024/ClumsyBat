@@ -9,16 +9,19 @@ public class BossCreator : BossDataContainer
     public bool bSpawnMoths;    // TODO make into selectable list, per state
     
     public BossState CurrentState;
+    public StartAction LastStartingAction;
 
     public void NodeGameSetup(BossBehaviour behaviour, GameObject boss)
     {
-        Debug.Log(Actions.Count);
-        Debug.Log(((StartAction)Actions[0]).TestVariable);
+        foreach(var action in Actions)
+        {
+            action.GameSetup(behaviour, boss);
+        }
     }
 
     public void AwakenBoss()
     {
-
+        StartingAction.Activate();
     }
 
     private void ActivateStateIfStateNode(BaseAction action)
