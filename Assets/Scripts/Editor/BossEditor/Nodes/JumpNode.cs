@@ -1,4 +1,7 @@
-﻿using Outputs = JumpAction.Outputs;
+﻿using System;
+using System.Collections.Generic;
+
+using Outputs = JumpAction.Outputs;
 
 public class JumpNode : BaseNode {
     
@@ -29,5 +32,9 @@ public class JumpNode : BaseNode {
         SetInterfacePositions();
         DrawInterfaces();
     }
-    
+
+    public override BaseAction ConvertNodeToAction()
+    {
+        return new JumpAction();
+    }
 }

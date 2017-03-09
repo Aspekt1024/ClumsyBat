@@ -101,10 +101,70 @@ public abstract class BaseEditor : EditorWindow {
     {
         if (NodeData == null || BaseContainer == null) return;
 
-        SetAllNodesDirty();
+        CreateBossActionFile();
 
+        SetAllNodesDirty();
+        EditorUtility.SetDirty(BaseContainer);
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
+    }
+
+    private void CreateBossActionFile()
+    {
+        var startNode = GetStartNode();
+        if (startNode == null) return;
+
+        string dataFolder = EditorHelpers.GetAssetDataFolder(BaseContainer.RootContainer);
+        DeleteExistingActionData(dataFolder);
+        BaseContainer.Actions = new List<BaseAction>();
+
+        
+        // TODO make this recursive
+        AddAction(startNode.ConvertNodeToAction(), dataFolder);
+        
+
+
+
+        foreach (var output in startNode.outputs)
+        {
+
+        }
+    }
+
+    private void AddAction(BaseAction action, string dataFolder)
+    {
+        string dataPath = string.Format("{0}/Start.asset", dataFolder);
+        AssetDatabase.CreateAsset(action, dataPath);
+        BaseContainer.Actions.Add(action);
+    }
+
+    private void DeleteExistingActionData(string dataFolder)
+    {
+        var existingAssets = AssetDatabase.LoadAllAssetsAtPath(dataFolder);
+        foreach (var asset in existingAssets)
+        {
+            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(asset));
+        }
+    }
+
+    private StartNode GetStartNode()
+    {
+        BossEditorNodeData machineNodeData = GetStateMachineNodeData();
+        if (machineNodeData == null) return null;
+
+        foreach (var node in machineNodeData.Nodes)
+        {
+            if (node.IsType<StartNode>())
+                return (StartNode)node;
+        }
+        return null;
+    }
+
+    private BossEditorNodeData GetStateMachineNodeData()
+    {
+        string nodeDataFolder = EditorHelpers.GetDataPath(BaseContainer.RootContainer);
+        string nodeDataPath = string.Format("{0}/NodeData.asset", nodeDataFolder);
+        return AssetDatabase.LoadAssetAtPath<BossEditorNodeData>(nodeDataPath);
     }
 
     protected virtual void SetAllNodesDirty() //TODO private?
@@ -115,7 +175,6 @@ public abstract class BaseEditor : EditorWindow {
             EditorUtility.SetDirty(node);
         }
         EditorUtility.SetDirty(NodeData);
-        EditorUtility.SetDirty(BaseContainer);
     }
     
     private void Update()

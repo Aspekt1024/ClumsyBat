@@ -23,4 +23,9 @@ public class LoopNode : BaseNode {
         DrawInterfaces();
     }
 
+    public override BaseAction ConvertNodeToAction()
+    {
+        return new LoopAction();
+    }
+
 }

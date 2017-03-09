@@ -23,7 +23,7 @@ public static class EditorHelpers {
     }
 
     // TODO used for saving near scriptable object for in-game data. this is in resources.
-    private static string GetAssetDataFolder(ScriptableObject obj)
+    public static string GetAssetDataFolder(ScriptableObject obj)
     {
         string assetPath = AssetDatabase.GetAssetPath(obj);
         assetPath = assetPath.Substring(0, assetPath.Length - (string.Format("/{0}.asset", obj.name)).Length);

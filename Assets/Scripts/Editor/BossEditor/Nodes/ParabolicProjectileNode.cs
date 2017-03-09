@@ -25,4 +25,9 @@ public class ParabolicProjectileNode : BaseNode {
         SetInterfacePositions();
         DrawInterfaces();
     }
+
+    public override BaseAction ConvertNodeToAction()
+    {
+        throw new NotImplementedException();
+    }
 }

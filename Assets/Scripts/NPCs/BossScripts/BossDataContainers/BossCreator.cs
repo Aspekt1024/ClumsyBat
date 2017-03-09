@@ -12,7 +12,8 @@ public class BossCreator : BossDataContainer
 
     public void NodeGameSetup(BossBehaviour behaviour, GameObject boss)
     {
-
+        Debug.Log(Actions.Count);
+        Debug.Log(((StartAction)Actions[0]).TestVariable);
     }
 
     public void AwakenBoss()

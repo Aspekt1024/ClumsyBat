@@ -57,4 +57,9 @@ protected override void AddInterfaces()
         // TODO find all nodes belonging to this state and remove them from the assetdatabase.
         // Good luck!
     }
+
+    public override BaseAction ConvertNodeToAction()
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -25,6 +25,7 @@ public abstract class BaseNode : ScriptableObject {
 
     private Vector2 selectedOutputPos;
 
+    public abstract BaseAction ConvertNodeToAction();
     protected abstract void AddInterfaces();
 
     public virtual void SetupNode(BossDataContainer dataContainer)

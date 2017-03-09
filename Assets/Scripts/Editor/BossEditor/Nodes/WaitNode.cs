@@ -30,4 +30,9 @@ public class WaitNode : BaseNode {
         SetInterfacePositions();
         DrawInterfaces();
     }
+
+    public override BaseAction ConvertNodeToAction()
+    {
+        throw new NotImplementedException();
+    }
 }
