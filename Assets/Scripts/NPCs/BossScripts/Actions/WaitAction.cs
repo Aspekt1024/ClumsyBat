@@ -1,15 +1,27 @@
-﻿using UnityEngine;
-
+﻿
 public class WaitAction : BaseAction {
 
     public float WaitTime = 1f;
 
+    private bool bWaitActive;
+    private float timeWaited;
+
     public override void Activate()
     {
-        BossEvents.Wait(WaitTime, this);
+        bWaitActive = true;
+        timeWaited = 0f;
     }
-    public void WaitComplete()
+
+    public override void Tick(float deltaTime)
     {
-        CallNext();
+        if (!bWaitActive) return;
+
+        timeWaited += deltaTime;
+        if (timeWaited > WaitTime)
+        {
+            bWaitActive = false;
+            CallNext();
+        }
     }
+
 }

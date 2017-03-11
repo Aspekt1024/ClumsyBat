@@ -20,12 +20,10 @@ public class BossBehaviour : MonoBehaviour {
     private void OnEnable()
     {
         BossEvents.OnBossFightStart += BossStart;
-        BossEvents.OnWait += WaitSeconds;
     }
     private void OnDisable()
     {
         BossEvents.OnBossFightStart -= BossStart;
-        BossEvents.OnWait -= WaitSeconds;
     }
     
     private void Start ()
@@ -37,8 +35,12 @@ public class BossBehaviour : MonoBehaviour {
 	}
 	
 	private void Update () {
-        if (_state == BossStates.Disabled) return;
+        if (_state == BossStates.Disabled || Toolbox.Instance.GamePaused) return;
         
+        foreach(var action in BossProps.Actions)
+        {
+            action.Tick(Time.deltaTime);
+        }
 	}
 
     private void BossStart()
@@ -47,35 +49,19 @@ public class BossBehaviour : MonoBehaviour {
         BossProps.AwakenBoss();
     }
 
-    public void WaitSeconds(float waitTime, BaseAction caller)
-    {
-        StartCoroutine(Wait(waitTime, caller));
-    }
-
-    private IEnumerator Wait(float waitTime, BaseAction caller)
-    {
-        float timeWaited = 0f;
-        while (timeWaited < waitTime)
-        {
-            if (!Toolbox.Instance.GamePaused)
-            {
-                timeWaited += Time.deltaTime;
-            }
-            yield return null;
-        }
-        ((WaitAction)caller).WaitComplete();  // TODO could be an event instead...?
-    }
-
     public BossAbility GetAbility<T>() where T : BossAbility
     {
         BossAbility ability = null;
         foreach (var a in _abilities)
         {
-            if (a.GetType() is T)
+            if (a.GetType() == typeof(T))
+            {
                 ability = a;
+                break;
+            }
         }
 
-        if (!ability)
+        if (ability == null)
         {
             ability = (BossAbility)_boss.AddComponent(typeof(T));
             _abilities.Add(ability);

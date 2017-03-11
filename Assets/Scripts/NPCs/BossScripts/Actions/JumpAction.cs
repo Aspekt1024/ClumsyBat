@@ -2,9 +2,7 @@
 
 [System.Serializable]
 public class JumpAction : BaseAction {
-
-    public int TestVariableForSerialization;    // TODO remove this once we confirm deserialization restores this variable
-
+    
     private JumpPound jumpAbility;
     
     public enum Outputs

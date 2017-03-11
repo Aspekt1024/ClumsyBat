@@ -13,6 +13,7 @@ public class BossCreator : BossDataContainer
 
     public void NodeGameSetup(BossBehaviour behaviour, GameObject boss)
     {
+        Toolbox.Instance.GamePaused = false;    // TODO shouldnt be done here...
         foreach(var action in Actions)
         {
             action.GameSetup(behaviour, boss);

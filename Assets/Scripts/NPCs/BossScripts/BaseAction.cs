@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseAction : ScriptableObject {
-    
+public abstract class BaseAction : ScriptableObject
+{
+
     public List<InterfaceType> inputs = new List<InterfaceType>();
     public List<InterfaceType> outputs = new List<InterfaceType>();
 
@@ -18,6 +19,8 @@ public abstract class BaseAction : ScriptableObject {
     }
 
     public abstract void Activate();
+
+    public virtual void Tick(float deltaTime) { }
 
     public void CallNext(int id = 0)
     {
