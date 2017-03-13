@@ -5,9 +5,7 @@ public class MachineState : BaseAction {
     
     public enum BossDamageObjects
     {
-        Hypersonic,
-        Stalactite,
-        Player
+        Hypersonic, Stalactite, Player
     }
     
     public BossState State;
@@ -17,18 +15,22 @@ public class MachineState : BaseAction {
     public override void ActivateBehaviour()
     {
         bossBehaviour.BossProps.AssignNewState(State);
-        State.StartingAction.Activate();
+        State.BeginState();
     }
 
     public override void GameSetup(BossDataContainer owningContainer, BossBehaviour behaviour, GameObject bossReference)
     {
         base.GameSetup(owningContainer, behaviour, bossReference);
         State.SetupActions(behaviour, bossReference);
+        State.bEnabled = false;
     }
 
     public override void Tick(float deltaTime)
     {
-        State.CurrentAction.Tick(deltaTime);
+        if (State.bEnabled)
+        {
+            State.CurrentAction.Tick(deltaTime);
+        }
     }
 
 }

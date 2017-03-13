@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+
+using StateChangeTypes = BossState.StateChangeTypes;
 
 /// <summary>
 /// A node representing a state in the state machine.
@@ -14,7 +18,8 @@ public class StateNode : BaseNode {
 
     private string newStateName = "New State";
     private int selectedStateIndex;
-
+    private int selectedStateChangeIndex;
+    
     public override void SetupNode(BossDataContainer dataContainer)
     {
         base.SetupNode(dataContainer);
@@ -50,22 +55,37 @@ public class StateNode : BaseNode {
     
     private void DisplayStateInfo()
     {
-        EditorGUILayout.LabelField("Move on:"); // TODO dropdown for state move type
+        var ChoiceArray = Enum.GetValues(typeof(StateChangeTypes));
+        string[] choiceStringArray = new string[ChoiceArray.Length];
+        for (int i = 0; i < ChoiceArray.Length; i++)
+        {
+            choiceStringArray[i] = ChoiceArray.GetValue(i).ToString();
+        }
+        EditorGUIUtility.labelWidth = 115;
+        selectedStateChangeIndex = EditorGUILayout.Popup("Change state on:", selectedStateChangeIndex, choiceStringArray);
+        State.StateChange = (StateChangeTypes)ChoiceArray.GetValue(selectedStateChangeIndex);
+        GetStateChangeData();
+
+        EditorGUILayout.Space();
         EditorGUIUtility.labelWidth = 160;
         State.DamagedByHypersonic = EditorGUILayout.Toggle("Damaged by Hypersonic?", State.DamagedByHypersonic);    // TODO dropdown with add button - should be a list. this is messy.
         State.DamagedByStalactites = EditorGUILayout.Toggle("Damaged by Stalactites?", State.DamagedByStalactites);
         State.DamagedByPlayer = EditorGUILayout.Toggle("Damaged by Player?", State.DamagedByPlayer);
     }
-    
-    protected override void CreateAction()
-    {
-        Action = CreateInstance<MachineState>();
-        if (NodeData == null) return;
 
-        StartNode start = NodeData.GetStartNode();
-        if (start != null)
+    private void GetStateChangeData()
+    {
+        switch (State.StateChange)
         {
-            ((MachineState)Action).State = State;
+            case StateChangeTypes.Health:
+                State.MoveOnHP = EditorGUILayout.IntField("Move when HP =", State.MoveOnHP);
+                break;
+            case StateChangeTypes.NumLoops:
+                State.MoveOnLoops = EditorGUILayout.IntField("Move on x loops:", State.MoveOnLoops);
+                break;
+            case StateChangeTypes.Time:
+                State.MoveAfterSeconds = EditorGUILayout.FloatField("Move after seconds:", State.MoveAfterSeconds);
+                break;
         }
     }
 
@@ -90,8 +110,6 @@ public class StateNode : BaseNode {
         }
         else
         {
-            // TODO remove all this.
-
             EditorGUILayout.LabelField("No existing states found.");
             EditorGUILayout.Space();
         }
@@ -132,8 +150,24 @@ public class StateNode : BaseNode {
     private void UseExistingState(BossState existingState)
     {
         State = existingState;
-        // TODO load node data
+        string dataFolder = EditorHelpers.GetDataPath(DataContainer) + "/States";
+        string assetName = existingState.StateName.Replace(" ", "") + ".asset";
+        string dataPath = string.Format("{0}/{1}", dataFolder, assetName);
+        NodeData = AssetDatabase.LoadAssetAtPath<BossEditorNodeData>(dataPath);
     }
+    
+    protected override void CreateAction()
+    {
+        MachineState machineState = CreateInstance<MachineState>();
+        if (NodeData == null) return;
 
+        StartNode start = NodeData.GetStartNode();
+        if (start != null)
+        {
+            machineState.State = State;
+        }
+
+        Action = machineState;
+    }
 
 }

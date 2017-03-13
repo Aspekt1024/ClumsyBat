@@ -4,7 +4,7 @@ using UnityEngine;
 public class ParabolicProjectile : BossAbility {
     
     private const float DefaultProjectileSpeed = 12.5f; // Todo could add variance / some randomness to this speed.
-    private const int NumProjectiles = 4;
+    private const int NumProjectiles = 400;
     private readonly List<ProjectileType> _projectiles = new List<ProjectileType>();
 
     private int _projectileIndex;
@@ -13,6 +13,7 @@ public class ParabolicProjectile : BossAbility {
     {
         public Transform Tf;
         public Rigidbody2D Body;
+        public Collider2D Coll;
         public Vector2 PausedVelocity;
         public float PausedAngularVelocity;
     }
@@ -31,13 +32,15 @@ public class ParabolicProjectile : BossAbility {
             var newProjectile = new ProjectileType
             {
                 Tf = newProjectileObj.transform,
-                Body = newProjectileObj.GetComponent<Rigidbody2D>()
+                Body = newProjectileObj.GetComponent<Rigidbody2D>(),
+                Coll = newProjectileObj.GetComponent<Collider2D>()
             };
 
             newProjectile.Tf.name = "Rock";
             newProjectile.Tf.SetParent(projectileParent);
             newProjectile.Tf.position = Toolbox.Instance.HoldingArea;
             newProjectile.Body.isKinematic = false;
+            newProjectile.Coll.enabled = false;
 
             _projectiles.Add(newProjectile);
         }
@@ -52,13 +55,14 @@ public class ParabolicProjectile : BossAbility {
         _projectileIndex++;
         if (_projectileIndex == NumProjectiles) { _projectileIndex = 0; }
         var startPos = transform.position;
-        
+
         Vector2 velocity = CalculateThrowingVelocity(startPos, playerPos, speed);
         if (Mathf.Abs(velocity.x) < 0.0001f) { return false; }
         
         var projectile = _projectiles[_projectileIndex];
         projectile.Tf.position = startPos;
         projectile.Body.velocity = velocity;
+        projectile.Coll.enabled = true;
         projectile.Body.AddTorque(200f);    // TODO could randomise this torque
         _projectiles[_projectileIndex] = projectile;
         return true;

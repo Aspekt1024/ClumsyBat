@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class BossDataContainer : ScriptableObject {
+public abstract class BossDataContainer : ScriptableObject {
 
     public string BossName;
     public BossDataContainer RootContainer;
@@ -21,4 +21,6 @@ public class BossDataContainer : ScriptableObject {
     {
         bEnabled = false;
     }
+
+    public abstract void RequestLoopToStart();
 }

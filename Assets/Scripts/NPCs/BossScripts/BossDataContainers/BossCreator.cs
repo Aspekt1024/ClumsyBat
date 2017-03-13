@@ -38,4 +38,9 @@ public class BossCreator : BossDataContainer
         CurrentState = state;
         bossObject.GetComponent<Boss>().SetPropsFromState(state);
     }
+
+    public override void RequestLoopToStart()
+    {
+        StartingAction.Activate();
+    }
 }

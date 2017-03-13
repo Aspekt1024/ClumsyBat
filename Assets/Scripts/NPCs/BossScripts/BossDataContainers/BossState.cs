@@ -3,10 +3,21 @@
 public class BossState : BossDataContainer {
     
     public string StateName = "State";
+
+    public enum StateChangeTypes
+    {
+        Never, Health, NumLoops, Time
+    }
+    public StateChangeTypes StateChange;
+    public int MoveOnHP;
+    public float MoveAfterSeconds;
+    public int MoveOnLoops;
     
     public bool DamagedByHypersonic;
     public bool DamagedByStalactites;
     public bool DamagedByPlayer;
+
+    private int numLoops;
 
     public void SetupActions(BossBehaviour behaviour, GameObject bossReference)
     {
@@ -16,8 +27,24 @@ public class BossState : BossDataContainer {
         }
     }
 
-    public void RenameState(string newStateName)
+    public void BeginState()
     {
-        // TODO not sure if this is required... this is a reminder to implement if required.
+        numLoops = 0;
+        bEnabled = true;
+        StartingAction.Activate();
+    }
+
+    public override void RequestLoopToStart()
+    {
+        numLoops++;
+        if (StateChange == StateChangeTypes.NumLoops && numLoops > MoveOnLoops)
+        {
+            bEnabled = false;
+            RootContainer.CurrentAction.CallNext();
+        }
+        else
+        {
+            StartingAction.Activate();
+        }
     }
 }
