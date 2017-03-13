@@ -11,6 +11,7 @@ public class BossMoths : MonoBehaviour
     private const float MothVariance = 3f;
     private float _timeSinceLastMoth = 2f;
     private int _numCrappyMothsSinceTheOneWeWant;
+    private bool bEnabled;
 
     private void OnEnable()
     {
@@ -32,7 +33,7 @@ public class BossMoths : MonoBehaviour
     {
 		if (_bPaused) { return; }
         _timeSinceLastMoth += Time.deltaTime;
-        if (_timeSinceLastMoth > MothInterval)
+        if (_timeSinceLastMoth > MothInterval && bEnabled)
         {
             _timeSinceLastMoth = 0f + Random.Range(-MothVariance, MothVariance);
             SpawnMothFromEssence();
@@ -80,5 +81,10 @@ public class BossMoths : MonoBehaviour
     {
         _bPaused = false;
         _moths.PauseGame(false);
+    }
+
+    public void Enable()
+    {
+        bEnabled = true;
     }
 }

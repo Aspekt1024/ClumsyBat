@@ -4,8 +4,10 @@ using System.Collections;
 
 using StoryEventID = StoryEventControl.StoryEvents;
 using PlayerSounds = ClumsyAudioControl.PlayerSounds;
+using ClumsyAnimations = ClumsyAnimator.ClumsyAnimations;
 
 public class Player : MonoBehaviour {
+
 
     #region Public GameObjects
     [HideInInspector]
@@ -22,9 +24,9 @@ public class Player : MonoBehaviour {
     #endregion
 
     #region Clumsy Components
+    public ClumsyAnimator Anim;
     private Rigidbody2D _playerRigidBody;
     private Rigidbody2D _lanternBody;
-    private Animator _anim;
     private JumpClearance _clearance;
     private ClumsyAudioControl _audioControl;
     private PlayerController _playerController;
@@ -64,9 +66,9 @@ public class Player : MonoBehaviour {
         _playerRigidBody = GetComponent<Rigidbody2D>();
         _playerRigidBody.isKinematic = true;
         _playerRigidBody.gravityScale = GravityScale;
+        Anim = gameObject.AddComponent<ClumsyAnimator>();
         _audioControl = gameObject.AddComponent<ClumsyAudioControl>();
         _gameHandler = FindObjectOfType<GameHandler>();
-        _anim = GetComponent<Animator>();
         _lanternBody = GameObject.Find("Lantern").GetComponent<Rigidbody2D>();
         _playerController = GetComponent<PlayerController>();
         Lantern = _lanternBody.GetComponent<Lantern>();
@@ -181,6 +183,7 @@ public class Player : MonoBehaviour {
 
         _playerRigidBody.velocity = new Vector2(0, 3f);
         _state = PlayerState.Normal;
+        Anim.PlayAnimation(ClumsyAnimations.Hover);
     }
 
     public void CaveEndReached()
@@ -228,10 +231,6 @@ public class Player : MonoBehaviour {
     {
         _playerRigidBody.velocity = velocity;
     }
-    public void SetAnimation(string animationName)
-    {
-        _anim.Play(animationName, 0, 0f);
-    }
     public void SetPlayerSpeed(float speed)
     {
         _playerSpeed = speed;
@@ -271,7 +270,6 @@ public class Player : MonoBehaviour {
         _perch.Unperch();
         EventListener.Death();
         DisablePlayerController();
-        _state = PlayerState.Dying;
         _data.Stats.Deaths += 1;
         GetComponent<CircleCollider2D>().enabled = false;
         _playerRigidBody.gravityScale = GravityScale;
@@ -279,9 +277,17 @@ public class Player : MonoBehaviour {
         _rush.GamePaused(true);
         Lantern.Drop();
 
-        transform.localScale *= 4;
-        transform.localRotation = Quaternion.identity;
-        _anim.Play("Die", 0, 0.25f);
+        StartCoroutine(PauseForDeath());
+    }
+
+    private IEnumerator PauseForDeath()
+    {
+        _gameHandler.PauseGame(showMenu: false);
+        yield return new WaitForSeconds(0.47f);
+        _gameHandler.ResumeGame(immediate:true);
+        _state = PlayerState.Dying;
+        _playerRigidBody.velocity = new Vector2(-3f, 1f);
+        Anim.PlayAnimation(ClumsyAnimations.Die);
     }
 
     private IEnumerator GameOverSequence()
@@ -312,7 +318,6 @@ public class Player : MonoBehaviour {
         _playerRigidBody.WakeUp();
         _playerRigidBody.isKinematic = false;
         Fog.Resume();
-        _anim.enabled = true;
         _playerRigidBody.velocity = _nudgeVelocity;
     }
 
@@ -332,7 +337,6 @@ public class Player : MonoBehaviour {
             _playerRigidBody.velocity = _savedVelocity;
             Fog.Resume();
         }
-        _anim.enabled = !gamePaused;
         Lantern.GamePaused(gamePaused);
         AbilitiesPaused(gamePaused);
     }
@@ -369,6 +373,8 @@ public class Player : MonoBehaviour {
         _playerRigidBody.velocity = Vector2.zero;
         _playerRigidBody.isKinematic = true;
         _playerController.PauseInput(true);
+        Anim.PlayAnimation(ClumsyAnimations.Hover);
+
         StartCoroutine("Hover", transform.position.y);
     }
 

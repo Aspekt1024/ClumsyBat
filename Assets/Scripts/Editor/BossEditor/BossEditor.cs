@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System;
 
 public class BossEditor : BaseEditor {
     
@@ -31,8 +32,21 @@ public class BossEditor : BaseEditor {
     
     public void EditState()
     {
+        // TODO this only works if the editor is already active...
         BossState state = ((StateNode)_currentNode).State;
         BossStateEditor editor = GetWindow<BossStateEditor>(desiredDockNextTo: typeof(SceneView));
         editor.LoadEditor(state);
+    }
+
+    protected override void LoadNodeData()
+    {
+        const string nodeDataName = "NodeData";
+        string nodeDataFolder = EditorHelpers.GetDataPath(BaseContainer.RootContainer);
+        string nodeDataPath = string.Format("{0}/{1}.asset", nodeDataFolder, nodeDataName);
+
+        NodeData = AssetDatabase.LoadAssetAtPath<BossEditorNodeData>(nodeDataPath);
+
+        if (NodeData == null)
+            CreateNewNodeData(nodeDataPath);
     }
 }

@@ -3,10 +3,10 @@ using UnityEngine;
 
 public abstract class BaseAction : ScriptableObject
 {
-
     public List<InterfaceType> inputs = new List<InterfaceType>();
     public List<InterfaceType> outputs = new List<InterfaceType>();
 
+    protected BossDataContainer owner;
     protected BossBehaviour bossBehaviour;
     protected GameObject boss;
 
@@ -18,7 +18,13 @@ public abstract class BaseAction : ScriptableObject
         public int connectedInterfaceIndex;
     }
 
-    public abstract void Activate();
+    public void Activate()
+    {
+        owner.CurrentAction = this;
+        ActivateBehaviour();
+    }
+
+    public abstract void ActivateBehaviour();
 
     public virtual void Tick(float deltaTime) { }
 
@@ -47,8 +53,9 @@ public abstract class BaseAction : ScriptableObject
         return nextAction;
     }
 
-    public virtual void GameSetup(BossBehaviour behaviour, GameObject bossReference)
+    public virtual void GameSetup(BossDataContainer owningContainer, BossBehaviour behaviour, GameObject bossReference)
     {
+        owner = owningContainer;
         bossBehaviour = behaviour;
         boss = bossReference;
     }

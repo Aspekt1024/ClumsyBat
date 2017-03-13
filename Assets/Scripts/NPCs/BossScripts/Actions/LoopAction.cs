@@ -2,7 +2,7 @@
 
 public class LoopAction : BaseAction {
     
-    public override void Activate()
+    public override void ActivateBehaviour()
     {
         bossBehaviour.BossProps.LastStartingAction.Activate();
     }

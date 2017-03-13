@@ -73,11 +73,12 @@ public class BossSelectorEditor : Editor {
     private void DisplayBossAttributes()
     {
         bAttributesClicked = EditorGUILayout.Foldout(bAttributesClicked, "Boss Attributes", true);
-        if (bAttributesClicked)
-        {
-            creatorObj.Health = EditorGUILayout.IntField("Boss Health: ", creatorObj.Health);
-            creatorObj.bSpawnMoths = EditorGUILayout.Toggle("Spawns moths?", creatorObj.bSpawnMoths); // TODO Add dropdown for spawn type
-        }
+        //if (bAttributesClicked)
+        //{
+        creatorObj.Health = EditorGUILayout.IntField("Boss Health:", creatorObj.Health);
+        creatorObj.SpawnMoths = EditorGUILayout.Toggle("Spawns moths?", creatorObj.SpawnMoths); // TODO Add dropdown for spawn type
+        creatorObj.ShakeScreenOnLanding = EditorGUILayout.Toggle("Shake on landing?", creatorObj.ShakeScreenOnLanding);
+        //}
     }
 
     private void DisplayAbilitySet()
@@ -90,14 +91,14 @@ public class BossSelectorEditor : Editor {
         };
         
         bAbilitiesClicked = EditorGUILayout.Foldout(bAbilitiesClicked, someContent, true);
-        if (bAbilitiesClicked)
-        {
+        //if (bAbilitiesClicked)
+        //{
             for (int i = 0; i < abilities.Count; i++)
             {
                 EditorGUILayout.LabelField(string.Format("Ability {0}: {1}", i + 1, abilities[i].Name));
                 // TODO add ability attributes to abilities pane
             }
-        }
+        //}
         EditorGUILayout.Separator();
 
     }

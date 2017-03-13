@@ -101,7 +101,7 @@ public class ParabolicProjectile : BossAbility {
         projectileBody.position = Toolbox.Instance.HoldingArea;
     }
 
-    public void Pause()
+    public override void Pause()
     {
         for (int i = 0; i < _projectiles.Count; i++)
         {
@@ -115,7 +115,7 @@ public class ParabolicProjectile : BossAbility {
         }
     }
 
-    public void Resume()
+    public override void Resume()
     {
         for (int i = 0; i < _projectiles.Count; i++)
         {

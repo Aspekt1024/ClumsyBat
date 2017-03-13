@@ -12,13 +12,13 @@ public class JumpAction : BaseAction {
         Landed
     }
 
-    public override void GameSetup(BossBehaviour behaviour, GameObject bossReference)
+    public override void GameSetup(BossDataContainer owningContainer, BossBehaviour behaviour, GameObject bossReference)
     {
-        base.GameSetup(behaviour, bossReference);
+        base.GameSetup(owningContainer, behaviour, bossReference);
         jumpAbility = (JumpPound)bossBehaviour.GetAbility<JumpPound>();
     }
 
-    public override void Activate()
+    public override void ActivateBehaviour()
     {
         jumpAbility.Jump(this);
         CallNext((int)Outputs.Jumped);
@@ -26,6 +26,10 @@ public class JumpAction : BaseAction {
 
     public void Landed()
     {
+        if (bossBehaviour.BossProps.ShakeScreenOnLanding)
+        {
+            CameraEventListener.CameraShake(0.4f);
+        }
         CallNext((int)Outputs.Landed);
     }
 

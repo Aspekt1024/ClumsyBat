@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class JumpPound : BossAbility
 {
-    public bool bShakesScreenOnLand;
-
     private enum JumpState
     {
         Idle,
@@ -60,20 +58,11 @@ public class JumpPound : BossAbility
             _state = JumpState.Idle;
             BossEvents.JumpLanded();
 
-            if (bShakesScreenOnLand)
-                StartCoroutine("ShakeScreen", 0.5f);
-            
+            GetComponent<Rigidbody2D>().velocity = Vector2.up * 0.5f;    // Prevents the boss from falling through the floor // TODO replace collider with floor collider
+
             if (callerAction.GetType().Equals(typeof(JumpAction)))
                 ((JumpAction)callerAction).Landed();
         }
-    }
-
-    private IEnumerator ShakeScreen(float time)
-    {
-        GetComponent<Rigidbody2D>().velocity = Vector2.up * 0.5f;    // Prevents the boss from falling through the floor
-        CameraEventListener.CameraShake();
-        yield return StartCoroutine("WaitSeconds", time);
-        CameraEventListener.StopCameraShake();
     }
     
     private IEnumerator WaitSeconds(float secs)

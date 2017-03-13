@@ -6,7 +6,6 @@ public class PerchComponent : MonoBehaviour
     private Player _player;
     private Rigidbody2D _body;
     private GameHandler _gameHandler;
-    private Animator _anim;
     private Transform _lantern;
     private Rigidbody2D _lanternBody;
 
@@ -29,7 +28,6 @@ public class PerchComponent : MonoBehaviour
 	    _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
 	    _body = _player.GetComponent<Rigidbody2D>();
 	    _gameHandler = FindObjectOfType<GameHandler>();
-	    _anim = _player.GetComponent<Animator>();
         _lantern = _player.Lantern.transform;
         _lanternBody = _lantern.GetComponent<Rigidbody2D>();
     }
@@ -77,7 +75,7 @@ public class PerchComponent : MonoBehaviour
         {
             FlipPlayer();
         }
-        _anim.Play("Perch", 0, 0f);
+        _player.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Perch);
     }
 
     public void Unperch()

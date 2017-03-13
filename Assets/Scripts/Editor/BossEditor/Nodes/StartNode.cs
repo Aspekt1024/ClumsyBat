@@ -1,8 +1,6 @@
 ﻿
 public class StartNode : BaseNode {
-
-    private int TestVar = 211;
-
+    
     protected override void AddInterfaces()
     {
         AddOutput();
@@ -26,6 +24,5 @@ public class StartNode : BaseNode {
     protected override void CreateAction()
     {
         Action = CreateInstance<StartAction>();
-        ((StartAction)Action).TestVariable = TestVar;   // TODO remove after testing
     }
 }

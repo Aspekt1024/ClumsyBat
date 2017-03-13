@@ -3,6 +3,7 @@
     public delegate void BossEventHandler();
     public static BossEventHandler OnJumpLanded;
     public static BossEventHandler OnBossFightStart;
+    public static BossEventHandler OnBossDeath;
     
     public delegate void BossWaitEvent(float waitTime, BaseAction caller);
     public static BossWaitEvent OnWait;
@@ -23,6 +24,12 @@
     {
         if (OnWait != null)
             OnWait(waitTime, caller);
+    }
+
+    public static void BossDeath()
+    {
+        if (OnBossDeath != null)
+            OnBossDeath();
     }
 }
 

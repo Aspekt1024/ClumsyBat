@@ -49,15 +49,6 @@ public abstract class BaseNode : ScriptableObject {
         EditorHelpers.SaveNodeEditorAsset(this, DataContainer.RootContainer, subFolder, GetType().ToString());
     }
 
-    private static BaseAction.InterfaceType ConvertInterface(InterfaceType iface)
-    {
-        return new BaseAction.InterfaceType()
-        {
-            identifier = iface.identifier,
-            connectedInterfaceIndex = iface.connectedInterfaceIndex
-        };
-    }
-
     public virtual void DrawWindow()
     {
         WindowTitle = EditorGUILayout.TextField("Title", WindowTitle);
@@ -344,40 +335,58 @@ public abstract class BaseNode : ScriptableObject {
     {
         return GetType().Equals(typeof(T));
     }
-    
-    public virtual BaseAction ConvertNodeToAction()
-    {
-        CreateActionIfNotInAssets();
-        foreach (var output in outputs)
-        {
-            if (output.connectedNode != null)
-            {
-                output.connectedNode.CreateActionIfNotInAssets();
-                var actionOutput = GetActionOutput(output);
-                Action.outputs.Add(actionOutput);
-            }
-        }
 
-        return Action;
-    }
-
-    public void CreateActionIfNotInAssets()
+    public BaseAction GetAction()
     {
         if (Action == null)
-        {
             CreateAction();
-        }
+
+        return Action;
     }
     
     protected abstract void CreateAction();
 
-    protected BaseAction.InterfaceType GetActionOutput(InterfaceType output)
+
+    #region Assign node interfaces to Action
+
+    public virtual void ConvertInterfaces()
+    {
+        ConvertInputInterfaces();
+        ConvertOutputInterfaces();
+    }
+
+    private void ConvertInputInterfaces()
+    {
+        foreach(var input in inputs)
+        {
+            if (input.connectedNode != null)
+            {
+                var actionInput = ConvertInterface(input);
+                Action.inputs.Add(actionInput);
+            }
+        }
+    }
+
+    private void ConvertOutputInterfaces()
+    {
+        foreach (var output in outputs)
+        {
+            if (output.connectedNode != null)
+            {
+                var actionOutput = ConvertInterface(output);
+                Action.outputs.Add(actionOutput);
+            }
+        }
+    }
+    
+    private static BaseAction.InterfaceType ConvertInterface(InterfaceType iface)
     {
         return new BaseAction.InterfaceType()
         {
-            identifier = output.identifier,
-            connectedAction = output.connectedNode.Action,
-            connectedInterfaceIndex = output.connectedInterfaceIndex
+            identifier = iface.identifier,
+            connectedAction = iface.connectedNode.Action,
+            connectedInterfaceIndex = iface.connectedInterfaceIndex
         };
     }
+    #endregion
 }

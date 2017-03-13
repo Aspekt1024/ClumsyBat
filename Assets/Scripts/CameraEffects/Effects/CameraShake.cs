@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class CameraShake : MonoBehaviour {
 
@@ -10,6 +11,9 @@ public class CameraShake : MonoBehaviour {
     private const float ShakeRate = 0.05f;
     private const float Radius = 0.1f;
 
+    private float shakeTimer;
+    private bool bShakeActive;
+
     private void Awake()
     {
         _camera = GameObject.FindGameObjectWithTag("MainCamera").transform;
@@ -18,16 +22,28 @@ public class CameraShake : MonoBehaviour {
     private void OnEnable()
     {
         CameraEventListener.OnCameraShake += Shake;
-        CameraEventListener.OnStopCameraShake += StopShake;
     }
     private void OnDisable()
     {
         CameraEventListener.OnCameraShake -= Shake;
-        CameraEventListener.OnStopCameraShake -= StopShake;
     }
 
-    public void Shake()
+    private void Update()
     {
+        if (!bShakeActive) return;
+
+        shakeTimer -= Time.deltaTime;
+        if (shakeTimer < 0)
+        {
+            bShakeActive = false;
+            StopShake();
+        }
+    }
+
+    public void Shake(float timeSeconds)
+    {
+        bShakeActive = true;
+        shakeTimer = timeSeconds;
         _startPos = new Vector3(_camera.position.x - _xDeviation, _camera.position.y, _camera.position.z);
         _xDeviation = 0f;
         CancelInvoke();
@@ -41,7 +57,7 @@ public class CameraShake : MonoBehaviour {
         _xDeviation = rPos.x;
     }
 
-    public void StopShake()
+    private void StopShake()
     {
         _camera.position = new Vector3(_camera.position.x - _xDeviation, 0f, _startPos.z);
         CancelInvoke();

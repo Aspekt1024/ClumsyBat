@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 
 public class StartAction : BaseAction {
-
-    public int TestVariable = 199;
-
-    public override void Activate()
+    
+    public override void ActivateBehaviour()
     {
         CallNext();
         if (bossBehaviour != null)

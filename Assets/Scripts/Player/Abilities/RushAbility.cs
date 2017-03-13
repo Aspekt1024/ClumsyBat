@@ -127,11 +127,12 @@ public class RushAbility : MonoBehaviour {
         _thePlayer.SetVelocity(new Vector2(8f, 0f));
         if (_epicDashEnabled)
         {
-            _thePlayer.SetAnimation("Rush"); // TODO special dash
+            _thePlayer.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Rush);
+            // TODO special dash
         }
         else
         {
-            _thePlayer.SetAnimation("Rush");
+            _thePlayer.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Rush);
         }
         _lantern.AddRushForce();
 
@@ -171,7 +172,7 @@ public class RushAbility : MonoBehaviour {
         if (!_bDisabled)
         {
             _thePlayer.SetVelocity(new Vector2(0, _playerBody.velocity.y));
-            _thePlayer.SetAnimation("Flap");
+            _thePlayer.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Hover);
         }
     }
 

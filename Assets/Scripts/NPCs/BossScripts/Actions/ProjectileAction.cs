@@ -5,14 +5,14 @@ public class ProjectileAction : BaseAction {
     private ParabolicProjectile parProjectile;
     private Player player;
 
-    public override void GameSetup(BossBehaviour behaviour, GameObject bossReference)
+    public override void GameSetup(BossDataContainer owningContainer, BossBehaviour behaviour, GameObject bossReference)
     {
-        base.GameSetup(behaviour, bossReference);
+        base.GameSetup(owningContainer, behaviour, bossReference);
         parProjectile = (ParabolicProjectile)bossBehaviour.GetAbility<ParabolicProjectile>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
-    public override void Activate()
+    public override void ActivateBehaviour()
     {
         parProjectile.ActivateProjectile(player.transform.position);
         CallNext();

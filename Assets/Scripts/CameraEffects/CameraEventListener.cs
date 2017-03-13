@@ -1,20 +1,12 @@
 ﻿public class CameraEventListener {
 
-    public delegate void CameraEventHandler();
+    public delegate void CameraTimedEvent(float time);
 
-    public static CameraEventHandler OnCameraShake;
-    public static CameraEventHandler OnStopCameraShake;
-
-
-    public static void CameraShake()
+    public static CameraTimedEvent OnCameraShake;
+    
+    public static void CameraShake(float time)
     {
         if (OnCameraShake != null)
-            OnCameraShake();
-    }
-
-    public static void StopCameraShake()
-    {
-        if (OnStopCameraShake != null)
-            OnStopCameraShake();
+            OnCameraShake(time);
     }
 }

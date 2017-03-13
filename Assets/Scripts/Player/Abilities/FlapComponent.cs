@@ -25,7 +25,7 @@ public class FlapComponent {
         _player.SetVelocity(velocity);
 
         GameData.Instance.Data.Stats.TotalJumps++;
-        _player.SetAnimation("Flap");
+        _player.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Flap);
         _player.PlaySound(ClumsyAudioControl.PlayerSounds.Flap);
     }
 

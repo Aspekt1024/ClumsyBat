@@ -6,27 +6,36 @@ public class BossCreator : BossDataContainer
 {
     public GameObject BossPrefab; 
     public int Health;
-    public bool bSpawnMoths;    // TODO make into selectable list, per state
+    public bool SpawnMoths;    // TODO make into selectable list, per state
+    public bool ShakeScreenOnLanding;
     
     public BossState CurrentState;
     public StartAction LastStartingAction;
 
-    public void NodeGameSetup(BossBehaviour behaviour, GameObject boss)
+    private BossBehaviour behaviour;
+    private GameObject bossObject;
+
+    public void NodeGameSetup(BossBehaviour bossBehaviour, GameObject boss)
     {
         Toolbox.Instance.GamePaused = false;    // TODO shouldnt be done here...
+        behaviour = bossBehaviour;
+        bossObject = boss;
         foreach(var action in Actions)
         {
-            action.GameSetup(behaviour, boss);
+            action.GameSetup(this, bossBehaviour, boss);
         }
     }
 
     public void AwakenBoss()
     {
+        bEnabled = true;
         StartingAction.Activate();
+        CurrentState.bEnabled = true;
     }
 
-    private void ActivateStateIfStateNode(BaseAction action)
+    public void AssignNewState(BossState state)
     {
-
+        CurrentState = state;
+        bossObject.GetComponent<Boss>().SetPropsFromState(state);
     }
 }

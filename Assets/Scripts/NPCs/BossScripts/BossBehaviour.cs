@@ -6,8 +6,12 @@ public class BossBehaviour : MonoBehaviour {
 
     public BossCreator BossProps;
 
-    private GameObject _boss;
+    private GameObject bossObject;
+    private Boss bossScripts;
     private readonly List<BossAbility> _abilities = new List<BossAbility>();
+    private BossMoths moths;
+
+    private Player player;
     
     private enum BossStates
     {
@@ -19,24 +23,34 @@ public class BossBehaviour : MonoBehaviour {
 
     private void OnEnable()
     {
+        EventListener.OnPauseGame += PauseGame;
+        EventListener.OnResumeGame += ResumeGame;
         BossEvents.OnBossFightStart += BossStart;
+        BossEvents.OnBossDeath += Die;
     }
     private void OnDisable()
     {
+        EventListener.OnPauseGame -= PauseGame;
+        EventListener.OnResumeGame -= ResumeGame;
         BossEvents.OnBossFightStart -= BossStart;
+        BossEvents.OnBossDeath -= Die;
     }
     
     private void Start ()
     {
-        Toolbox.Instance.Boss = this;  // TODO move this somewhere else? this is so nodes can access it.
         _state = BossStates.Disabled;
-        _boss = Instantiate(BossProps.BossPrefab, transform.position, new Quaternion(), transform);
-        BossProps.NodeGameSetup(this, _boss);
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        bossObject = Instantiate(BossProps.BossPrefab, transform.position, new Quaternion(), transform);
+        bossScripts = bossObject.AddComponent<Boss>();
+
+        bossScripts.SetBaseProperties(BossProps);
+        SetupAbilities();
+        BossProps.NodeGameSetup(this, bossObject);
 	}
 	
 	private void Update () {
         if (_state == BossStates.Disabled || Toolbox.Instance.GamePaused) return;
-        
+
         foreach(var action in BossProps.Actions)
         {
             action.Tick(Time.deltaTime);
@@ -47,6 +61,19 @@ public class BossBehaviour : MonoBehaviour {
     {
         _state = BossStates.Active;
         BossProps.AwakenBoss();
+
+        if (moths != null)
+        {
+            moths.Enable();
+        }
+    }
+
+    private void SetupAbilities()
+    {
+        if (BossProps.SpawnMoths)
+        {
+            moths = gameObject.AddComponent<BossMoths>();
+        }
     }
 
     public BossAbility GetAbility<T>() where T : BossAbility
@@ -63,9 +90,34 @@ public class BossBehaviour : MonoBehaviour {
 
         if (ability == null)
         {
-            ability = (BossAbility)_boss.AddComponent(typeof(T));
+            ability = (BossAbility)bossObject.AddComponent(typeof(T));
             _abilities.Add(ability);
         }
         return (T)ability;
+    }
+
+    private void Die()
+    {
+        _state = BossStates.Dead;
+
+        BossProps.Stop();
+        if (!player.IsAlive()) return;
+        EventListener.LevelWon();
+    }
+
+    private void PauseGame()
+    {
+        foreach(var ability in _abilities)
+        {
+            ability.Pause();
+        }
+    }
+
+    private void ResumeGame()
+    {
+        foreach (var ability in _abilities)
+        {
+            ability.Resume();
+        }
     }
 }

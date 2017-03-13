@@ -9,7 +9,6 @@ public class Shield : MonoBehaviour {
 
     private Player _thePlayer;
     private Rigidbody2D _playerBody;
-    private Animator _playerAnim;
     private GameHandler _gameHandler;
     //private StatsHandler Stats;
 
@@ -41,7 +40,7 @@ public class Shield : MonoBehaviour {
         // PlayerAnim.Play("Knockback", 0, 0f);
         yield return StartCoroutine("Knockback");
 
-        _playerAnim.Play("Flap", 0, 0f);
+        _thePlayer.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Hover);
         yield return StartCoroutine("MoveForward");
 
         _state = ShieldStates.Idle;
@@ -108,7 +107,6 @@ public class Shield : MonoBehaviour {
 
         _thePlayer = playerRef;
         _playerBody = _thePlayer.GetComponent<Rigidbody2D>();
-        _playerAnim = _thePlayer.GetComponent<Animator>();
         _gameHandler = _thePlayer.GetGameHandler();
 
     }

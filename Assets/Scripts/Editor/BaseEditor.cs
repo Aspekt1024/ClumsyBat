@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public abstract class BaseEditor : EditorWindow {
 
-    public BossEditorNodeData NodeData;
+    public BossEditorNodeData NodeData; // Node data cannot be saved in the editor persistently
     public bool ConnectionMode;
     public bool MoveEditorMode;
 
@@ -19,7 +19,7 @@ public abstract class BaseEditor : EditorWindow {
     }
 
     protected BaseNode _currentNode;
-    
+
     private Texture2D _bg;
     private BossEditorMouseInput _mouseInput;
     private Vector2 _mousePos;
@@ -45,46 +45,13 @@ public abstract class BaseEditor : EditorWindow {
             BaseContainer.RootContainer = BaseContainer;
     }
 
-    private void LoadNodeData()
-    {
-        const string nodeDataName = "NodeData";
-        string nodeDataFolder = GetNodeDataFolder();
-        string nodeDataPath = string.Format("{0}/{1}.asset", nodeDataFolder, nodeDataName);
+    protected abstract void LoadNodeData();
 
-        NodeData = AssetDatabase.LoadAssetAtPath<BossEditorNodeData>(nodeDataPath);
-        
-        if (NodeData == null)
-            CreateNewNodeData(nodeDataPath);
-    }
-
-    private string GetNodeDataFolder()
-    {
-        string subFolder = GetSubfolderIfState(BaseContainer);
-        return EditorHelpers.GetDataPath(BaseContainer.RootContainer) + (subFolder.Length > 0 ? "/" + subFolder : "");
-    }
-
-    private void CreateNewNodeData(string nodeDataPath)
+    protected void CreateNewNodeData(string nodeDataPath)
     {
         NodeData = CreateInstance<BossEditorNodeData>();
         NodeData.Nodes = new List<BaseNode>();
-
-        string subFolder = "";
-        if (BaseContainer.IsType<BossState>())
-        {
-            subFolder = BaseContainer.name + "Data";
-            EditorHelpers.CreateFolderIfNotExist(EditorHelpers.GetDataPath(BaseContainer.RootContainer), subFolder);
-        }
         AssetDatabase.CreateAsset(NodeData, nodeDataPath);
-    }
-
-    private string GetSubfolderIfState(BossDataContainer container)
-    {
-        string subFolder = "";
-        if (BaseContainer.IsType<BossState>())
-        {
-            subFolder = BaseContainer.name + "Data";
-        }
-        return subFolder;
     }
 
     protected virtual void OnEnable()
@@ -100,127 +67,13 @@ public abstract class BaseEditor : EditorWindow {
     private void OnLostFocus()
     {
         if (NodeData == null || BaseContainer == null) return;
-
-        CreateBossActionFile();
-
-        SetAllNodesDirty();
-        EditorUtility.SetDirty(BaseContainer);
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
+        SaveActionData();
     }
 
-    private void CreateBossActionFile()
+    public void SaveActionData()
     {
-        var startNode = GetStartNode();
-        if (startNode == null) return;
-
-        string dataFolder = EditorHelpers.GetAssetDataFolder(BaseContainer.RootContainer);
-        string dataPath = string.Format("{0}/BossData.asset", dataFolder);
-        DeleteExistingActionData(dataPath);
-
-        BaseContainer.RootContainer.Actions = new List<BaseAction>();
-        BaseContainer.RootContainer.StartingAction = (StartAction)startNode.ConvertNodeToAction();
-
-        AssetDatabase.CreateAsset(BaseContainer.RootContainer.StartingAction, dataPath);
-        BaseContainer.Actions.Add(BaseContainer.RootContainer.StartingAction);
-        
-        TraverseAndConvertNodes(startNode, dataPath);
-    }
-
-    private void TraverseAndConvertNodes(BaseNode node, string dataPath)
-    {
-        foreach (var output in node.outputs)
-        {
-            if (output.connectedNode != null)
-            {
-                var newAction = output.connectedNode.ConvertNodeToAction();
-
-                if (output.connectedNode.IsType<StateNode>())
-                {
-                    SaveStateData((StateNode)output.connectedNode);
-                    // Not sure if this all gets updated as intended.
-                }
-
-                TraverseAndConvertNodes(output.connectedNode, dataPath);
-                AddAction(newAction, dataPath);
-            }
-        }
-    }
-
-    private void SaveStateData(StateNode node)
-    {
-        string dataFolder = EditorHelpers.GetDataPath(BaseContainer.RootContainer);
-        string subFolder = node.State.name + "Data";
-        string nodeDataPath = string.Format("{0}/{1}/NodeData.asset", dataFolder, subFolder);
-        node.NodeData = AssetDatabase.LoadAssetAtPath<BossEditorNodeData>(nodeDataPath);
-        
-        if (node.NodeData == null) return;
-
-        node.StartingNode = GetStateStartNode(node);
-        if (node.StartingNode == null) return;
-
-        dataFolder = EditorHelpers.GetAssetDataFolder(BaseContainer.RootContainer);
-        string dataPath = string.Format("{0}/BossData.asset", dataFolder);
-        var newAction = ((MachineState)node.Action).StartingAction;
-        TraverseAndConvertNodes(node.StartingNode, dataPath);
-        AddAction(newAction, dataPath);
-    }
-
-    private StartNode GetStateStartNode(StateNode node)
-    {
-        foreach(var n in node.NodeData.Nodes)
-        {
-            if (n.IsType<StartNode>())
-                return (StartNode)n;
-        }
-        return null;
-    }
-
-    private void AddAction(BaseAction action, string dataPath)
-    {
-        if (action == null)
-        {
-            Debug.Log("you need to fix this issue");
-            return;
-        }
-        if (AssetDatabase.Contains(action)) return;
-        AssetDatabase.AddObjectToAsset(action, dataPath);
-        BaseContainer.RootContainer.Actions.Add(action);
-    }
-
-    private void DeleteExistingActionData(string dataPath)
-    {
-        AssetDatabase.DeleteAsset(dataPath);
-    }
-
-    private StartNode GetStartNode()
-    {
-        BossEditorNodeData machineNodeData = GetStateMachineNodeData();
-        if (machineNodeData == null) return null;
-
-        foreach (var node in machineNodeData.Nodes)
-        {
-            if (node.IsType<StartNode>())
-                return (StartNode)node;
-        }
-        return null;
-    }
-
-    private BossEditorNodeData GetStateMachineNodeData()
-    {
-        string nodeDataFolder = EditorHelpers.GetDataPath(BaseContainer.RootContainer);
-        string nodeDataPath = string.Format("{0}/NodeData.asset", nodeDataFolder);
-        return AssetDatabase.LoadAssetAtPath<BossEditorNodeData>(nodeDataPath);
-    }
-
-    protected virtual void SetAllNodesDirty() //TODO private?
-    {
-        // TODO setdirty isnt... used anymroe...
-        foreach (var node in NodeData.Nodes)
-        {
-            EditorUtility.SetDirty(node);
-        }
-        EditorUtility.SetDirty(NodeData);
+        BossEditorSave editorSaveScript = new BossEditorSave();
+        editorSaveScript.CreateActionFile(BaseContainer, NodeData);
     }
     
     private void Update()
@@ -237,7 +90,6 @@ public abstract class BaseEditor : EditorWindow {
 
     private void OnGUI()
     {
-        // TODO if no object, show text to tell user to display one, else show title in editor of what the boss is
         if (BaseContainer == null) return;
 
         Event e = Event.current;

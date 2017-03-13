@@ -4,7 +4,7 @@ using UnityEditor.Callbacks;
 
 public static class OpenAssetHandler {
     
-    [OnOpenAsset()]
+    [OnOpenAsset(1)]
     private static bool LoadBossEditor(int instanceID, int line)
     {
         Object obj = EditorUtility.InstanceIDToObject(instanceID);
@@ -16,7 +16,7 @@ public static class OpenAssetHandler {
         return false;
     }
     
-    [OnOpenAsset()]
+    [OnOpenAsset(2)]
     private static bool LoadBossStateEditor(int instanceID, int line)
     {
         Object obj = EditorUtility.InstanceIDToObject(instanceID);
