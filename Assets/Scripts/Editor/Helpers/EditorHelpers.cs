@@ -1,9 +1,11 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using System;
 using System.Collections.Generic;
 
 public static class EditorHelpers {
 
+    #region Save Functionality
     private const string savesPath = "Assets/Scripts/Editor/NodeSaves";
 
     public static void SaveNodeEditorAsset(ScriptableObject obj, ScriptableObject parent, string subFolder = "", string assetName = "")
@@ -76,4 +78,18 @@ public static class EditorHelpers {
         if (dataFolder != existingFolder)
             AssetDatabase.MoveAsset(existingPath, string.Format("{0}/{1}", dataFolder, fileName));
     }
+    #endregion
+
+    #region Actual Helpers
+    public static string[] GetEnumStringArray(Type enumType)
+    {
+        var enumArray = Enum.GetValues(enumType);
+        string[] enumStringArray = new string[enumArray.Length];
+        for (int i = 0; i < enumArray.Length; i++)
+        {
+            enumStringArray[i] = enumArray.GetValue(i).ToString();
+        }
+        return enumStringArray;
+    }
+    #endregion
 }

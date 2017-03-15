@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnStalactites : MonoBehaviour {
+public class SpawnStalactites : BossAbility {
 
     private const int NumStals = 3;
     private readonly List<Stalactite> _stals = new List<Stalactite>();
@@ -75,6 +75,22 @@ public class SpawnStalactites : MonoBehaviour {
             newStal.transform.position = Toolbox.Instance.HoldingArea;
             newStal.UnstableStalactite = false;
             _stals.Add(newStal);
+        }
+    }
+
+    public override void Pause()
+    {
+        foreach (var stal in _stals)
+        {
+            stal.PauseGame(true);
+        }
+    }
+
+    public override void Resume()
+    {
+        foreach (var stal in _stals)
+        {
+            stal.PauseGame(false);
         }
     }
 }

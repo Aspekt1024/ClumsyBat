@@ -18,6 +18,7 @@ public class StalDropComponent : MonoBehaviour {
 
     private bool _paused;
     private Vector2 _storedVelocity = Vector2.zero;
+    private bool storedKinematicState;
 
     private enum DropStates
     {
@@ -121,11 +122,12 @@ public class StalDropComponent : MonoBehaviour {
             {
                 _storedVelocity = _stalBody.velocity;
                 _stalBody.velocity = Vector2.zero;
+                storedKinematicState = _stalBody.isKinematic;
                 _stalBody.isKinematic = true;
             }
             else
             {
-                _stalBody.isKinematic = false;
+                _stalBody.isKinematic = storedKinematicState;
                 _stalBody.velocity = _storedVelocity;
             }
         }

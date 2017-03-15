@@ -57,6 +57,7 @@ public class StateNode : BaseNode {
     
     private void DisplayStateInfo()
     {
+        // TODO use EditorHelpers.GetEnumStringArray(typeof(StateChangeTypes));
         var ChoiceArray = Enum.GetValues(typeof(StateChangeTypes));
         string[] choiceStringArray = new string[ChoiceArray.Length];
         for (int i = 0; i < ChoiceArray.Length; i++)
