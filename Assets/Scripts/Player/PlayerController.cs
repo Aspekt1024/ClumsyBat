@@ -9,7 +9,7 @@ using GameState = GameHandler.GameStates;
 public class PlayerController : MonoBehaviour
 {
     public Player ThePlayer;
-    public GameState State { get; set; }
+    public GameState State;
 
     private GameHandler _gameHandler;
     private InputManager _inputManager;

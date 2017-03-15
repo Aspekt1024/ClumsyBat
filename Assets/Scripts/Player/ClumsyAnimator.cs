@@ -6,8 +6,9 @@ public class ClumsyAnimator : MonoBehaviour {
 
     public enum ClumsyAnimations
     {
-        Flap, FlapBlink, Perch, Hover, Die, Rush
+        Flap, FlapBlink, Perch, Hover, Die, Rush, WingClose
     }
+    private ClumsyAnimations currentAnimType;
 
     private struct AnimationData
     {
@@ -21,14 +22,17 @@ public class ClumsyAnimator : MonoBehaviour {
     private AnimationData perch = new AnimationData() { name = "Perch", scale = 1f, rotation = 0f };
     private AnimationData hover = new AnimationData() { name = "Hover", scale = 1f, rotation = 0f };
     private AnimationData rush = new AnimationData() { name = "Rush", scale = 1f, rotation = 0f };
+    private AnimationData wingClose = new AnimationData() { name = "WingClose", scale = 1f, rotation = 0f };
 
     private Dictionary<ClumsyAnimations, AnimationData> animDict = new Dictionary<ClumsyAnimations, AnimationData>();
 
     private AnimationData currentAnimation;
     private float currentScaleModifier;
     private Quaternion initialRotation;
+    private float animTimer;
 
     private Animator anim;
+    private Rigidbody2D playerBody;
 
     private void OnEnable()
     {
@@ -43,12 +47,25 @@ public class ClumsyAnimator : MonoBehaviour {
 
     private void Start()
     {
+        playerBody = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         anim.enabled = true;
         currentAnimation = flap;
         currentScaleModifier = 1f;
         initialRotation = transform.localRotation;
         PopulateAnimDict();
+    }
+
+    private void Update()
+    {
+        if (currentAnimType == ClumsyAnimations.Flap || currentAnimType == ClumsyAnimations.FlapBlink)
+        {
+            animTimer += Time.deltaTime;
+            if (animTimer > 0.7f && Mathf.Abs(playerBody.velocity.y) < 1)
+            {
+                PlayAnimation(ClumsyAnimations.WingClose);
+            }
+        }
     }
 
     private void PopulateAnimDict()
@@ -59,12 +76,15 @@ public class ClumsyAnimator : MonoBehaviour {
         animDict.Add(ClumsyAnimations.Perch, perch);
         animDict.Add(ClumsyAnimations.Hover, hover);
         animDict.Add(ClumsyAnimations.Rush, rush);
+        animDict.Add(ClumsyAnimations.WingClose, wingClose);
     }
 
     public void PlayAnimation(ClumsyAnimations animId)
     {
+        animTimer = 0f;
         if (animId == ClumsyAnimations.Flap)
         {
+
             if (Random.Range(0f, 1f) > 0.73f)
                 animId = ClumsyAnimations.FlapBlink;
         }
@@ -73,6 +93,7 @@ public class ClumsyAnimator : MonoBehaviour {
             transform.localRotation = Quaternion.identity;
         }
 
+        currentAnimType = animId;
         currentAnimation = animDict[animId];
         ChangeScale(currentAnimation.scale);
         anim.Play(currentAnimation.name, 0, 0f);

@@ -119,7 +119,7 @@ public class Player : MonoBehaviour {
         _shield = abilityScripts.AddComponent<Shield>();
         _hypersonic = FindObjectOfType<Hypersonic>();
         _perch = abilityScripts.AddComponent<PerchComponent>();
-        _flap = new FlapComponent(this);
+        _flap = abilityScripts.AddComponent<FlapComponent>();
         Fog = FindObjectOfType<FogEffect>();
         
         _rush.Setup(this, Lantern);
@@ -253,6 +253,7 @@ public class Player : MonoBehaviour {
     
     private void OnCollisionEnter2D(Collision2D other)
     {
+        _flap.CancelIfMoving();
         if (_state != PlayerState.Normal) { return; }
         if (other.gameObject.name.Contains("Cave") || other.gameObject.name.Contains("Entrance") || other.gameObject.name.Contains("Exit"))
         {
@@ -417,6 +418,10 @@ public class Player : MonoBehaviour {
         // TODO lantern hinge constraints
     }
 
+    public void HitByObject()
+    {
+        _flap.CancelIfMoving();
+    }
     public void StartFog() { Fog.StartOfLevel(); }
     public void PlaySound(PlayerSounds soundId) { _audioControl.PlaySound(soundId); }
     private void DisablePlayerController() { FindObjectOfType<PlayerController>().PauseInput(true); }

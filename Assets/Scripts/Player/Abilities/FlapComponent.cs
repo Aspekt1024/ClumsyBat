@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 
-public class FlapComponent {
+public class FlapComponent : MonoBehaviour {
 
-    private Player _player;
-    private const float _horizontalVelocity = 3f;
-    private const float _verticalVelocity = 9f;
+    private Player player;
+    private Rigidbody2D playerBody;
+    private const float horizontalVelocity = 4f;
+    private const float verticalVelocity = 9f;
 
     public FlapComponent(Player player)
     {
-        _player = player;
+        this.player = player;
     }
 
     public enum MovementMode
@@ -18,31 +19,62 @@ public class FlapComponent {
     }
     public MovementMode Mode;
 
-    public void Flap(InputManager.TapDirection tapDir = InputManager.TapDirection.Center)
+    private enum HorizMoveState
     {
-        float horizVelocity = GetHorizontalVelocity(tapDir);
-        var velocity = new Vector2(horizVelocity, _verticalVelocity);
-        _player.SetVelocity(velocity);
+        None, MoveLeft, MoveRight
+    }
+    private HorizMoveState horizontalState;
+    private const float moveDuration = 0.7f;
+    private float moveTimer;
 
-        GameData.Instance.Data.Stats.TotalJumps++;
-        _player.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Flap);
-        _player.PlaySound(ClumsyAudioControl.PlayerSounds.Flap);
+    private void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        playerBody = player.gameObject.GetComponent<Rigidbody2D>();
     }
 
-    private float GetHorizontalVelocity(InputManager.TapDirection tapDir)
+    private void Update()
     {
-        float horizVelocity = 0f;
-        if (Mode == MovementMode.HorizontalEnabled)
+        if (horizontalState == HorizMoveState.None) return;
+        moveTimer += Time.deltaTime;
+        if (moveTimer > moveDuration)
         {
-            if (tapDir == InputManager.TapDirection.Left)
-            {
-                horizVelocity = -_horizontalVelocity;
-            }
-            else if (tapDir == InputManager.TapDirection.Right)
-            {
-                horizVelocity = _horizontalVelocity;
-            }
+            horizontalState = HorizMoveState.None;
         }
-        return horizVelocity;
+        else
+        {
+            float velocityX = horizontalState == HorizMoveState.MoveLeft ? -horizontalVelocity : horizontalVelocity;
+            playerBody.velocity = new Vector2(velocityX, playerBody.velocity.y);
+        }
+    }
+    
+    public void Flap(InputManager.TapDirection tapDir = InputManager.TapDirection.Center)
+    {
+        if (Mode != MovementMode.VerticalOnly)
+        {
+            SetHorizontalState(tapDir);
+            moveTimer = 0f;
+        }
+        var velocity = new Vector2(0f, verticalVelocity);
+        player.SetVelocity(velocity);
+
+        GameData.Instance.Data.Stats.TotalJumps++;
+        player.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Flap);
+        player.PlaySound(ClumsyAudioControl.PlayerSounds.Flap);
+    }
+
+    private void SetHorizontalState(InputManager.TapDirection tapDir)
+    {
+        if (tapDir == InputManager.TapDirection.Left)
+            horizontalState = HorizMoveState.MoveLeft;
+        else if (tapDir == InputManager.TapDirection.Right)
+            horizontalState = HorizMoveState.MoveRight;
+        else
+            horizontalState = HorizMoveState.None;
+    }
+
+    public void CancelIfMoving()
+    {
+        horizontalState = HorizMoveState.None;
     }
 }
