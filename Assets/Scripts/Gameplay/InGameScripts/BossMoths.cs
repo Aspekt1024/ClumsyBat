@@ -87,4 +87,9 @@ public class BossMoths : MonoBehaviour
     {
         bEnabled = true;
     }
+
+    public void Disable()
+    {
+        bEnabled = false;
+    }
 }

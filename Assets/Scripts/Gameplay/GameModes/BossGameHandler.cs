@@ -156,6 +156,7 @@ public class BossGameHandler : GameHandler {
 
     public override void LevelComplete()
     {
+        PlayerController.InputPaused();
         _gameHud.LevelWon();
         StartCoroutine("BossFightWon");
     }

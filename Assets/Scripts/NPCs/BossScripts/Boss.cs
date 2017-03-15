@@ -7,8 +7,8 @@ using BossDamageObjects = MachineState.BossDamageObjects;
 public class Boss : MonoBehaviour {
     
     protected bool _bPaused;
+    protected int health;
 
-    private int health;
     private SpriteRenderer bossRenderer;
     private Rigidbody2D body;
     private Collider2D bossCollider;
@@ -94,7 +94,10 @@ public class Boss : MonoBehaviour {
         {
             StartCoroutine("Damaged");
         }
+        HealthUpdate();
     }
+
+    protected virtual void HealthUpdate() { }
 
     protected virtual void Die()
     {

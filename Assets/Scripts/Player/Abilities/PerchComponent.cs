@@ -89,6 +89,7 @@ public class PerchComponent : MonoBehaviour
         {
             _state = PerchState.Unperched;
             FlipPlayer();
+            _player.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.FlapBlink);
             _player.SwitchPerchState();
         }
         else

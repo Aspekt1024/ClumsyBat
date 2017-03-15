@@ -17,6 +17,7 @@ public class BossState : BossDataContainer {
     public bool DamagedByStalactites;
     public bool DamagedByPlayer;
 
+    [SerializeField]
     private int numLoops;
 
     public void SetupActions(BossBehaviour behaviour, GameObject bossReference)

@@ -41,7 +41,9 @@ public class BossBehaviour : MonoBehaviour {
         _state = BossStates.Disabled;
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         bossObject = Instantiate(BossProps.BossPrefab, transform.position, new Quaternion(), transform);
-        bossScripts = bossObject.AddComponent<Boss>();
+        bossScripts = bossObject.GetComponent<Boss>();
+        if (bossScripts == null)
+            bossScripts = bossObject.AddComponent<Boss>();
 
         bossScripts.SetBaseProperties(BossProps);
         SetupAbilities();
@@ -99,6 +101,7 @@ public class BossBehaviour : MonoBehaviour {
     private void Die()
     {
         _state = BossStates.Dead;
+        moths.Disable();
 
         BossProps.Stop();
         if (!player.IsAlive()) return;

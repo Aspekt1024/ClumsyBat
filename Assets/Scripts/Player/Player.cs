@@ -165,6 +165,7 @@ public class Player : MonoBehaviour {
 
     public IEnumerator CaveEntranceAnimation()
     {
+        Anim.PlayAnimation(ClumsyAnimations.Hover);
         _state = PlayerState.Startup;
         float animTimer = 0f;
         const float animDuration = 0.63f;
@@ -183,7 +184,6 @@ public class Player : MonoBehaviour {
 
         _playerRigidBody.velocity = new Vector2(0, 3f);
         _state = PlayerState.Normal;
-        Anim.PlayAnimation(ClumsyAnimations.Hover);
     }
 
     public void CaveEndReached()

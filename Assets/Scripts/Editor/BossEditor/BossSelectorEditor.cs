@@ -18,34 +18,10 @@ public class BossSelectorEditor : Editor {
         // TODO GetAbilityList();
 
         DisplayBossName();
-        EditorGUILayout.Space();
         DisplayBossObjectDropdown();
-        EditorGUILayout.Space();
         DisplayBossAttributes();
-        EditorGUILayout.Space();
-        DisplayAbilitySet();
-        EditorGUILayout.Space();
-        // TODO DisplayStates();
 
         EditorUtility.SetDirty(target);
-    }
-
-    private void AddAbility<T>() where T : BossAbility
-    {
-        //var abilityList = BossSelectorHelpers.GetScriptAssetsOfType<BossAbility>();
-        bool abilityExitsInList = false;
-        foreach (var ability in abilities)
-        {
-            if (ability.Equals(typeof(T)))
-            {
-                abilityExitsInList = true;
-                break;
-            }
-        }
-        if (!abilityExitsInList)
-        {
-            abilities.Add(typeof(T));
-        }
     }
 
     private void DisplayBossName()
@@ -66,41 +42,18 @@ public class BossSelectorEditor : Editor {
         var bossInspectorIndex = BossSelectorHelpers.GetIndexFromObject(bosses, creatorObj.BossPrefab);
         var bossArray = BossSelectorHelpers.ObjectArrayToStringArray(bosses);
 
+        EditorGUILayout.Space();
         int bossIndex = EditorGUILayout.Popup("Boss Prefab", bossInspectorIndex, bossArray);
         creatorObj.BossPrefab = bosses[bossIndex];
     }
 
     private void DisplayBossAttributes()
     {
+        EditorGUILayout.Space();
         bAttributesClicked = EditorGUILayout.Foldout(bAttributesClicked, "Boss Attributes", true);
-        //if (bAttributesClicked)
-        //{
         creatorObj.Health = EditorGUILayout.IntField("Boss Health:", creatorObj.Health);
         creatorObj.SpawnMoths = EditorGUILayout.Toggle("Spawns moths?", creatorObj.SpawnMoths); // TODO Add dropdown for spawn type
         creatorObj.ShakeScreenOnLanding = EditorGUILayout.Toggle("Shake on landing?", creatorObj.ShakeScreenOnLanding);
-        //}
-    }
-
-    private void DisplayAbilitySet()
-    {
-        EditorGUILayout.Separator();
-        GUIContent someContent = new GUIContent()
-        {
-            text = "Boss Abilities",
-            image = Resources.Load<Texture>("LevelButtons/Main1Available"),
-        };
-        
-        bAbilitiesClicked = EditorGUILayout.Foldout(bAbilitiesClicked, someContent, true);
-        //if (bAbilitiesClicked)
-        //{
-            for (int i = 0; i < abilities.Count; i++)
-            {
-                EditorGUILayout.LabelField(string.Format("Ability {0}: {1}", i + 1, abilities[i].Name));
-                // TODO add ability attributes to abilities pane
-            }
-        //}
-        EditorGUILayout.Separator();
-
     }
 
 }
