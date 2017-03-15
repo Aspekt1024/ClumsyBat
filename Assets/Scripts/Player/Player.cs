@@ -282,6 +282,7 @@ public class Player : MonoBehaviour {
 
     private IEnumerator PauseForDeath()
     {
+        // TODO play sound
         _gameHandler.PauseGame(showMenu: false);
         yield return new WaitForSeconds(0.47f);
         _gameHandler.ResumeGame(immediate:true);

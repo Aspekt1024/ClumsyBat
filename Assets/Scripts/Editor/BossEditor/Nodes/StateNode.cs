@@ -18,6 +18,8 @@ public class StateNode : BaseNode {
 
     private string newStateName = "New State";
     private int selectedStateIndex;
+
+    [SerializeField]
     private int selectedStateChangeIndex;
     
     public override void SetupNode(BossDataContainer dataContainer)

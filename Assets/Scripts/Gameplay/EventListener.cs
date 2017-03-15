@@ -1,4 +1,6 @@
-﻿public class EventListener
+﻿using UnityEngine;
+
+public class EventListener
 {
     public delegate void EventHandler();
     public static EventHandler OnDeath;

@@ -102,7 +102,7 @@ public class BossBehaviour : MonoBehaviour {
 
         BossProps.Stop();
         if (!player.IsAlive()) return;
-        EventListener.LevelWon();
+        player.GetGameHandler().LevelComplete();
     }
 
     private void PauseGame()

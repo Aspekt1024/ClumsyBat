@@ -124,7 +124,7 @@ public abstract class BaseNode : ScriptableObject {
 
         if (connected)
         {
-            DrawCircle(position, 3f, Color.blue);
+            DrawCircle(position, 3f, new Color(0.5f, 0.5f, 1f));
         }
     }
 
@@ -149,6 +149,11 @@ public abstract class BaseNode : ScriptableObject {
             }
         }
         return chosenOutput;
+    }
+
+    public void SetSelectedOutputPosFromIndex(int outputIndex)
+    {
+        selectedOutputPos = new Vector2(WindowRect.width - 7f, outputs[outputIndex].yPos);
     }
 
     public int InputClicked(Vector2 mousePos)

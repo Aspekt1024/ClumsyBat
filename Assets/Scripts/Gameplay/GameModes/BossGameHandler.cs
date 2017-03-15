@@ -14,15 +14,6 @@ public class BossGameHandler : GameHandler {
 
     private float _distTravelled;
 
-    private void OnEnable()
-    {
-        EventListener.OnLevelWon += LevelComplete;
-    }
-    private void OnDisable()
-    {
-        EventListener.OnLevelWon -= LevelComplete;
-    }
-
     private enum BossGameState
     {
         Startup,

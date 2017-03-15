@@ -154,6 +154,7 @@ public abstract class BaseEditor : EditorWindow {
 
     public void SetSelectedNode(BaseNode node)
     {
+        Debug.Log("Current node = " + _currentNode);
         _currentNode = node;
     }
 
