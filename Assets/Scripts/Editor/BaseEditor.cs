@@ -3,7 +3,7 @@ using UnityEditor;
 using System.Collections.Generic;
 
 public abstract class BaseEditor : EditorWindow {
-
+    
     public BossEditorNodeData NodeData; // Node data cannot be saved in the editor persistently
     public bool ConnectionMode;
     public bool MoveEditorMode;
@@ -218,11 +218,13 @@ public abstract class BaseEditor : EditorWindow {
         }
     }
 
-    public static void DrawCurve(Rect start, Rect end)
+    public static void DrawCurve(Rect start, Rect end, BaseNode.InterfaceTypes outputType = BaseNode.InterfaceTypes.Event)
     {
         Vector3 startPos = new Vector3(start.x + start.width / 2, start.y + start.height / 2, 0f);
         Vector3 endPos = new Vector3(end.x + end.width / 2, end.y + end.height / 2, 0f);
-        Color shadowCol = new Color(0.7f, 0.7f, 1f, 0.06f);
+        Color shadowCol = new Color(0.7f, 0.7f, 1f);
+        if (outputType == BaseNode.InterfaceTypes.Object)
+            shadowCol = new Color(1f, 0.7f, 0.7f);
 
         Vector3 tanScale = GetTanScale(startPos, endPos);
         Vector3 startTan = startPos + tanScale;
@@ -230,9 +232,9 @@ public abstract class BaseEditor : EditorWindow {
 
         for (int i = 0; i < 3; i++)
         {
-            Handles.DrawBezier(startPos, endPos, startTan, endTan, shadowCol, null, (i + 1) * 7);
+            Handles.DrawBezier(startPos, endPos, startTan, endTan, shadowCol * new Color(1f, 1f, 1f, 0.06f), null, (i + 1) * 7);
         }
-        Handles.DrawBezier(startPos, endPos, startTan, endTan, new Color(0.7f, 0.7f, 1f), null, 3);
+        Handles.DrawBezier(startPos, endPos, startTan, endTan, shadowCol, null, 3);
     }
 
     private static Vector3 GetTanScale(Vector3 startPos, Vector3 endPos)

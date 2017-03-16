@@ -4,6 +4,11 @@ using UnityEditor;
 
 public abstract class BaseNode : ScriptableObject {
 
+    public enum InterfaceTypes
+    {
+        Event, Object
+    }
+
     public Rect WindowRect;
     public Rect OriginalRect;
     public string WindowTitle = "Untitled";
@@ -25,6 +30,7 @@ public abstract class BaseNode : ScriptableObject {
         public int connectedInterfaceIndex;
         public int identifier;
         public string label;
+        public InterfaceTypes type; 
     }
 
     private Vector2 selectedOutputPos;
@@ -60,7 +66,7 @@ public abstract class BaseNode : ScriptableObject {
         WindowRect = new Rect(position.x, position.y, WindowRect.width, WindowRect.height);
     }
 
-    protected void AddOutput(int id = 0)
+    protected void AddOutput(int id = 0, InterfaceTypes ifaceType = InterfaceTypes.Event)
     {
         InterfaceType outputPos = new InterfaceType()
         {
@@ -68,12 +74,13 @@ public abstract class BaseNode : ScriptableObject {
             connectedNode = null,
             connectedInterfaceIndex = 0,
             identifier = id,
-            label = ""
+            label = "",
+            type = ifaceType
         };
         outputs.Add(outputPos);
     }
 
-    protected void AddInput(int id = 0)
+    protected void AddInput(int id = 0, InterfaceTypes ifaceType = InterfaceTypes.Event)
     {
         InterfaceType inputPos = new InterfaceType()
         {
@@ -81,7 +88,8 @@ public abstract class BaseNode : ScriptableObject {
             connectedNode = null,
             connectedInterfaceIndex = 0,
             identifier = id,
-            label = ""
+            label = "",
+            type = ifaceType
         };
         inputs.Add(inputPos);
     }
@@ -91,7 +99,7 @@ public abstract class BaseNode : ScriptableObject {
         foreach (InterfaceType output in outputs)
         {
             Vector3 position = new Vector3(WindowRect.width - 7f, output.yPos, 0f);
-            DrawInterfaceAt(position, output.connectedNode != null);
+            DrawInterfaceAt(position, output.connectedNode != null, output.type);
             if (output.label != string.Empty)
             {
                 EditorGUIUtility.labelWidth = 70f;
@@ -105,26 +113,33 @@ public abstract class BaseNode : ScriptableObject {
         foreach (InterfaceType input in inputs)
         {
             Vector3 position = new Vector3(7f, input.yPos, 0f);
-            DrawInterfaceAt(position, input.connectedNode != null);
+            DrawInterfaceAt(position, input.connectedNode != null, input.type);
             if (input.label != string.Empty)
             {
                 EditorGUIUtility.labelWidth = 70f;
                 var gs = GUI.skin.GetStyle("Label");
-                gs.alignment = TextAnchor.UpperRight;
+                gs.alignment = TextAnchor.UpperLeft;
                 gs.normal.textColor = Color.black;
                 EditorGUI.LabelField(new Rect(new Vector2(15f, input.yPos - 9), new Vector2(70, 18)), input.label, gs);
             }
         }
     } 
 
-    private void DrawInterfaceAt(Vector3 position, bool connected)
+    private void DrawInterfaceAt(Vector3 position, bool connected, InterfaceTypes type)
     {
-        DrawCircle(position, 6f, Color.blue);
+        Color ringCol = Color.blue;
+        Color connCol = new Color(0.5f, 0.5f, 1f);
+        if (type == InterfaceTypes.Object) {
+            ringCol = Color.red;
+            connCol = new Color(1f, 0.5f, 0.5f);
+        }
+
+        DrawCircle(position, 6f, ringCol);
         DrawCircle(position, 4f, Color.white);
 
         if (connected)
         {
-            DrawCircle(position, 3f, new Color(0.5f, 0.5f, 1f));
+            DrawCircle(position, 3f, connCol);
         }
     }
 
@@ -215,7 +230,7 @@ public abstract class BaseNode : ScriptableObject {
             width = 1,
             height = 1
         };
-        BaseEditor.DrawCurve(start, end);
+        BaseEditor.DrawCurve(start, end, output.type);
     }
 
     private Vector2 GetInputPos(int inputIndex)

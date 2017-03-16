@@ -53,6 +53,8 @@ public abstract class BaseAction : ScriptableObject
         return nextAction;
     }
 
+    public virtual GameObject GetObject(int id) { return null; }
+
     public virtual void GameSetup(BossDataContainer owningContainer, BossBehaviour behaviour, GameObject bossReference)
     {
         owner = owningContainer;

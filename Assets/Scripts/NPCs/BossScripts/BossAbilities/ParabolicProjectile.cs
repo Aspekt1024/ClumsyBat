@@ -15,11 +15,15 @@ public class ParabolicProjectile : BossAbility {
         public Rigidbody2D Body;
         public Collider2D Coll;
         public Vector2 PausedVelocity;
+        public Projectile Script;
         public float PausedAngularVelocity;
     }
 
+    private Player player;
+
     private void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         CreateProjectilePool();
     }
 
@@ -28,12 +32,13 @@ public class ParabolicProjectile : BossAbility {
         var projectileParent = new GameObject("Rocks").transform;
         for (int i = 0; i < NumProjectiles; i++)
         {
-            var newProjectileObj = Object.Instantiate(Resources.Load<GameObject>("Projectiles/Rock"));
+            var newProjectileObj = Instantiate(Resources.Load<GameObject>("Projectiles/Rock"));
             var newProjectile = new ProjectileType
             {
                 Tf = newProjectileObj.transform,
                 Body = newProjectileObj.GetComponent<Rigidbody2D>(),
-                Coll = newProjectileObj.GetComponent<Collider2D>()
+                Coll = newProjectileObj.GetComponent<Collider2D>(),
+                Script = newProjectileObj.GetComponent<Projectile>()
             };
 
             newProjectile.Tf.name = "Rock";
@@ -41,6 +46,7 @@ public class ParabolicProjectile : BossAbility {
             newProjectile.Tf.position = Toolbox.Instance.HoldingArea;
             newProjectile.Body.isKinematic = false;
             newProjectile.Coll.enabled = false;
+            newProjectile.Script.SetPoolOwner(this);
 
             _projectiles.Add(newProjectile);
         }
@@ -50,13 +56,13 @@ public class ParabolicProjectile : BossAbility {
     /// Fires a projectile at the player at a given (or default) speed.
     /// Returns true if throwing a projectile will hit the player position.
     /// </summary>
-    public bool ActivateProjectile(Vector3 playerPos, float speed = DefaultProjectileSpeed)
+    public bool ActivateProjectile(ProjectileAction caller, float speed = DefaultProjectileSpeed)
     {
         _projectileIndex++;
         if (_projectileIndex == NumProjectiles) { _projectileIndex = 0; }
         var startPos = transform.position;
-
-        Vector2 velocity = CalculateThrowingVelocity(startPos, playerPos, speed);
+        
+        Vector2 velocity = CalculateThrowingVelocity(startPos, player.transform.position, speed);
         if (Mathf.Abs(velocity.x) < 0.0001f) { return false; }
         
         var projectile = _projectiles[_projectileIndex];
@@ -64,13 +70,16 @@ public class ParabolicProjectile : BossAbility {
         projectile.Body.velocity = velocity;
         projectile.Coll.enabled = true;
         projectile.Body.AddTorque(200f);    // TODO could randomise this torque
+        projectile.Script.SetCaller(caller);
         _projectiles[_projectileIndex] = projectile;
+
+        caller.Launched();
+
         return true;
     }
 
     private Vector2 CalculateThrowingVelocity(Vector3 startPos, Vector3 playerPos, float speed)
     {
-
         float angle = CalculateThrowingAngle(startPos, playerPos, speed);
         if (Mathf.Abs(angle) < 0.001f)
         {

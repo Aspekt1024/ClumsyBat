@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEngine;
 
 using StalActions = SpawnStalAction.StalActions;
+using Inputs = SpawnStalAction.Inputs;
 
 public class SpawnStalNode : BaseNode {
 
@@ -12,13 +13,16 @@ public class SpawnStalNode : BaseNode {
 
     protected override void AddInterfaces()
     {
-        AddInput();
+        AddInput((int)Inputs.Main);
+        AddInput((int)Inputs.PositionObj, InterfaceTypes.Object);
+
         AddOutput();
     }
 
     private void SetInterfacePositions()
     {
-        SetInput(25);
+        SetInput(25, (int)Inputs.Main);
+        SetInput(65, (int)Inputs.PositionObj, "xPos");
         SetOutput(25);
     }
 
@@ -26,7 +30,7 @@ public class SpawnStalNode : BaseNode {
     {
         WindowTitle = "Spawn Stal";
         WindowRect.width = 150;
-        WindowRect.height = 60;
+        WindowRect.height = 80;
 
         var stalActionArray = Enum.GetValues(typeof(StalActions));
         var stalActionStringArray = EditorHelpers.GetEnumStringArray(typeof(StalActions));

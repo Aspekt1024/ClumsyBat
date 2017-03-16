@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpawnStalactites : BossAbility {
 
-    private const int NumStals = 3;
+    private const int NumStals = 20;
     private readonly List<Stalactite> _stals = new List<Stalactite>();
 
     private Transform _playerTf;
@@ -15,9 +15,9 @@ public class SpawnStalactites : BossAbility {
         _playerTf = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
-    public void Spawn()
+    public void Spawn(float spawnPosX)
     {
-        StartCoroutine("SpawnStals");
+        StartCoroutine("SpawnStals", spawnPosX);
     }
 
     public void Drop()
@@ -25,16 +25,18 @@ public class SpawnStalactites : BossAbility {
         StartCoroutine("DropStalactites");
     }
 
-    private IEnumerator SpawnStals()
+    private IEnumerator SpawnStals(float spawnPosX)
     {
-        ActivateStal(1);
-        Transform stalTf = _stals[1].transform;
+        int index = GetUnusedStalIndex();
+        ActivateStal(index, spawnPosX);
+        Transform stalTf = _stals[index].transform;
 
         float startY = stalTf.position.y;
         const float endY = 5f;
         const float animDuration = 1.2f;
         float animTimer = 0f;
 
+        _stals[index].SetState(Stalactite.StalStates.Forming);
         while (animTimer < animDuration)
         {
             if (!Toolbox.Instance.GamePaused)
@@ -45,25 +47,44 @@ public class SpawnStalactites : BossAbility {
             }
             yield return null;
         }
+        _stals[index].SetState(Stalactite.StalStates.Normal);
     }
 
     private IEnumerator DropStalactites()
     {
-        _stals[1].Drop();
-        yield return null;
+        foreach(var stal in _stals)
+        {
+            if (stal.Active() && !stal.IsForming())
+            {
+                stal.Drop();
+                yield return new WaitForSeconds(0.2f);
+            }
+        }
     }
 
-    private void ActivateStal(int index)
+    private void ActivateStal(int index, float spawnPosX)
     {
         const float startY = 10f;
         Spawnable.SpawnType spawnTf = new Spawnable.SpawnType
         {
-            Pos = new Vector2(_playerTf.position.x, startY),
+            Pos = new Vector2(spawnPosX, startY),
             Rotation = new Quaternion(),
             Scale = Vector2.one
         };
         _stals[index].Activate(spawnTf, false, Vector2.zero);
     }
+
+    private int GetUnusedStalIndex()
+    {
+        int i = 0;
+        for (i = 0; i < _stals.Count - 1; i++)
+        {
+            if (!_stals[i].Active())
+                break;
+        }
+        return i;
+    }
+
 
     private void CreateStals()
     {

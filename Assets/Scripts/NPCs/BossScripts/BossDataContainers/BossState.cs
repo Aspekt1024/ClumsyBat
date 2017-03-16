@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class BossState : BossDataContainer {
     
@@ -46,6 +47,14 @@ public class BossState : BossDataContainer {
         else
         {
             StartingAction.Activate();
+        }
+    }
+
+    public override void Tick(float deltaTime)
+    {
+        foreach (var action in Actions)
+        {
+            action.Tick(deltaTime);
         }
     }
 }

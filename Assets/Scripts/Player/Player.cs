@@ -375,6 +375,7 @@ public class Player : MonoBehaviour {
         _playerRigidBody.velocity = Vector2.zero;
         _playerRigidBody.isKinematic = true;
         _playerController.PauseInput(true);
+        _flap.CancelIfMoving();
         Anim.PlayAnimation(ClumsyAnimations.Hover);
 
         StartCoroutine("Hover", transform.position.y);

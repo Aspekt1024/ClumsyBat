@@ -29,7 +29,7 @@ public class MachineState : BaseAction {
     {
         if (State.bEnabled)
         {
-            State.CurrentAction.Tick(deltaTime);
+            State.Tick(deltaTime);
         }
     }
 

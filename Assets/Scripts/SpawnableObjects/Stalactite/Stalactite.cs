@@ -2,7 +2,13 @@
 using System.Collections;
 
 public class Stalactite : Spawnable {
-    
+
+    public enum StalStates
+    {
+        Normal, Falling, Exploding, Forming
+    }
+    private StalStates state;
+
     public struct StalacType
     {
         public PolygonCollider2D Collider;
@@ -13,7 +19,6 @@ public class Stalactite : Spawnable {
         public StalDropComponent DropControl;
         public bool bExploding;
     }
-    
     private StalacType _stal;
     
     // These variables are set in the level editor
@@ -133,4 +138,6 @@ public class Stalactite : Spawnable {
 
     public bool IsPaused() { return bPaused; }
     public bool Active() { return IsActive; }
+    public bool IsForming() { return state == StalStates.Forming; }
+    public void SetState(StalStates newState) { state = newState; }
 }

@@ -2,7 +2,9 @@
 
 [System.Serializable]
 public class JumpAction : BaseAction {
-    
+
+    public float JumpForce;
+
     private JumpPound jumpAbility;
     
     public enum Outputs
@@ -15,12 +17,12 @@ public class JumpAction : BaseAction {
     public override void GameSetup(BossDataContainer owningContainer, BossBehaviour behaviour, GameObject bossReference)
     {
         base.GameSetup(owningContainer, behaviour, bossReference);
-        jumpAbility = (JumpPound)bossBehaviour.GetAbility<JumpPound>();
+        jumpAbility = bossBehaviour.GetAbility<JumpPound>();
     }
 
     public override void ActivateBehaviour()
     {
-        jumpAbility.Jump(this);
+        jumpAbility.Jump(this, JumpForce);
         CallNext((int)Outputs.Jumped);
     }
 

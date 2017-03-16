@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class SpawnStalAction : BaseAction {
     
+    public enum Inputs
+    {
+        Main, PositionObj
+    }
+
     public enum StalActions
     {
         Spawn, Drop, Alternate
@@ -17,26 +22,59 @@ public class SpawnStalAction : BaseAction {
     public override void GameSetup(BossDataContainer owningContainer, BossBehaviour behaviour, GameObject bossReference)
     {
         base.GameSetup(owningContainer, behaviour, bossReference);
-        spawnAbility = (SpawnStalactites)bossBehaviour.GetAbility<SpawnStalactites>();
+        spawnAbility = bossBehaviour.GetAbility<SpawnStalactites>();
         spawnPhase = true;
     }
 
     public override void ActivateBehaviour()
     {
+        float spawnPosX = 0;
+        GameObject posObj = GetInputObj((int)Inputs.PositionObj);
+        if (posObj != null)
+        {
+            DespawnIfProjectile(posObj);
+            spawnPosX = posObj.transform.position.x;
+        }
+        else
+            spawnPosX = GameObject.FindGameObjectWithTag("Player").transform.position.x;
+            
+
         if (StalAction == StalActions.Spawn)
-            spawnAbility.Spawn();
+            spawnAbility.Spawn(spawnPosX);
         else if (StalAction == StalActions.Drop)
             spawnAbility.Drop();
         else if (StalAction == StalActions.Alternate)
         {
             if (spawnPhase)
-                spawnAbility.Spawn();
+                spawnAbility.Spawn(spawnPosX);
             else
                 spawnAbility.Drop();
 
             spawnPhase = !spawnPhase;
         }
-
         CallNext();
+    }
+
+    private GameObject GetInputObj(int inputId)
+    {
+        GameObject obj = null;
+        foreach(var input in inputs)
+        {
+            if (input.identifier == inputId)
+            {
+                obj = input.connectedAction.GetObject(input.connectedInterfaceIndex);
+                break;
+            }
+        }
+        return obj;
+    }
+
+    private void DespawnIfProjectile(GameObject obj)
+    {
+        Projectile proj = obj.GetComponent<Projectile>();
+        if (proj != null)
+        {
+            proj.DespawnToEarth();
+        }
     }
 }

@@ -18,11 +18,10 @@ public class JumpPound : BossAbility
         bossBody = GetComponent<Rigidbody2D>();
     }
 
-    public void Jump(BaseAction caller)
+    public void Jump(BaseAction caller, float jumpForce)
     {
-        _state = JumpState.Jumping;
         callerAction = caller;
-        StartCoroutine("JumpAndPound");
+        StartCoroutine("JumpAndPound", jumpForce);
     }
 
     private void Update()
@@ -36,18 +35,18 @@ public class JumpPound : BossAbility
         }
     }
 
-    private IEnumerator JumpAndPound()
+    private IEnumerator JumpAndPound(float jumpForce = 1000f)
     {
-        GetComponent<Rigidbody2D>().AddForce(Vector2.up * 1000f);
-        
-        yield return new WaitForSeconds(0.5f);
+        GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpForce);
+        yield return null;
+        _state = JumpState.Jumping;
 
         while (GetComponent<Rigidbody2D>().velocity.y >= 0)
         {
             yield return null;
         }
 
-        GetComponent<Rigidbody2D>().AddForce(Vector2.down * 1000f);
+        GetComponent<Rigidbody2D>().AddForce(Vector2.down * jumpForce);
     }
 
     private void OnCollisionEnter2D(Collision2D other)

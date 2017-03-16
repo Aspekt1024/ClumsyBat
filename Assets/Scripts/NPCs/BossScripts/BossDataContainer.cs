@@ -23,4 +23,7 @@ public abstract class BossDataContainer : ScriptableObject {
     }
 
     public abstract void RequestLoopToStart();
+    public virtual void Tick(float deltaTime) { }
+    public virtual void AddToTickList(BaseAction action) { }
+    public virtual void RemoveFromTickList(BaseAction action) { }
 }
