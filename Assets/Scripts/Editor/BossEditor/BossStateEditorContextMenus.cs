@@ -11,9 +11,12 @@ public class BossStateEditorContextMenus : BaseContextMenus {
     public override void ShowMenu()
     {
         GenericMenu menu = new GenericMenu();
+        // TODO get all ability nodes and generate them dynamically
+        // Use the window title of each node
         menu.AddItem(new GUIContent("JumpPound/Jump"), false, ContextCallback, typeof(JumpNode));
         menu.AddItem(new GUIContent("Projectile Abilities/Parabolic"), false, ContextCallback, typeof(ParabolicProjectileNode));
         menu.AddItem(new GUIContent("Stalactite Abilities/Spawn & Drop"), false, ContextCallback, typeof(SpawnStalNode));
+        menu.AddItem(new GUIContent("Movement/Walk"), false, ContextCallback, typeof(WalkNode));
         menu.AddSeparator("");
         menu.AddItem(new GUIContent("Add Death Node"), false, ContextCallback, typeof(BaseNode));
         menu.AddSeparator("");

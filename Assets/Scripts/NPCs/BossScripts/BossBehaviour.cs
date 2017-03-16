@@ -78,7 +78,7 @@ public class BossBehaviour : MonoBehaviour {
         }
     }
 
-    public BossAbility GetAbility<T>() where T : BossAbility
+    public T GetAbility<T>() where T : BossAbility
     {
         BossAbility ability = null;
         foreach (var a in _abilities)
