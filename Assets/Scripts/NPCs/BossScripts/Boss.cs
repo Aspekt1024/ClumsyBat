@@ -12,6 +12,7 @@ public class Boss : MonoBehaviour {
     private SpriteRenderer bossRenderer;
     private Rigidbody2D body;
     private Collider2D bossCollider;
+    private BossCreator bossProps;
 
     private Vector2 storedVelocity;
     
@@ -35,6 +36,7 @@ public class Boss : MonoBehaviour {
 
     public void SetBaseProperties(BossCreator props)
     {
+        bossProps = props;
         health = props.Health;
     }
 
@@ -94,6 +96,7 @@ public class Boss : MonoBehaviour {
         {
             StartCoroutine("Damaged");
         }
+        bossProps.HealthChanged(health);
         HealthUpdate();
     }
 

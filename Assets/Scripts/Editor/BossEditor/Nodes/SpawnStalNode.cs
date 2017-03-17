@@ -27,15 +27,15 @@ public class SpawnStalNode : BaseNode {
     private void SetInterfacePositions()
     {
         SetInput(25, (int)Inputs.Main);
-        SetInput(65, (int)Inputs.PositionObj, "xPos");
+        SetInput(80, (int)Inputs.PositionObj, "xPos");
         SetOutput(25);
     }
 
     public override void DrawWindow()
     {
         WindowTitle = "Spawn Stal";
-        WindowRect.width = 150;
-        WindowRect.height = 80;
+        WindowRect.width = 180;
+        WindowRect.height = 100;
 
         var stalActionArray = Enum.GetValues(typeof(StalActions));
         var stalActionStringArray = EditorHelpers.GetEnumStringArray(typeof(StalActions));

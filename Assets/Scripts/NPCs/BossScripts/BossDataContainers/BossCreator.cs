@@ -43,4 +43,13 @@ public class BossCreator : BossDataContainer
     {
         StartingAction.Activate();
     }
+
+    public void HealthChanged(int health)
+    {
+        if (CurrentState.StateChange == BossState.StateChangeTypes.Health && health == CurrentState.MoveOnHP)
+        {
+            CurrentState.Stop();
+            CurrentAction.CallNext();
+        }
+    }
 }
