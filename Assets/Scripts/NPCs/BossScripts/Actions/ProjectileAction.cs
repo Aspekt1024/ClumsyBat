@@ -21,7 +21,11 @@ public class ProjectileAction : BaseAction {
 
     public override void ActivateBehaviour()
     {
-        parProjectile.ActivateProjectile(this);
+        bool projectileSuccess = parProjectile.ActivateProjectile(this);
+        if (!projectileSuccess)
+        {
+            Launched();
+        }
     }
 
     public void Launched()

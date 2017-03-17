@@ -9,11 +9,10 @@ public class SpawnStalAction : BaseAction {
         Main, PositionObj
     }
 
-    public enum StalActions
-    {
-        Spawn, Drop, Alternate
-    }
+    public enum StalActions { Spawn, Drop, Alternate }
+    public enum StalSpawnDirection { FromTop, FromBottom }
     public StalActions StalAction;
+    public StalSpawnDirection SpawnDirection;
 
     private bool spawnPhase;
 
@@ -40,13 +39,13 @@ public class SpawnStalAction : BaseAction {
             
 
         if (StalAction == StalActions.Spawn)
-            spawnAbility.Spawn(spawnPosX);
+            spawnAbility.Spawn(spawnPosX, SpawnDirection);
         else if (StalAction == StalActions.Drop)
             spawnAbility.Drop();
         else if (StalAction == StalActions.Alternate)
         {
             if (spawnPhase)
-                spawnAbility.Spawn(spawnPosX);
+                spawnAbility.Spawn(spawnPosX, SpawnDirection);
             else
                 spawnAbility.Drop();
 

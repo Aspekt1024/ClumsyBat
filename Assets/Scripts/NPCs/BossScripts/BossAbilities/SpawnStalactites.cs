@@ -15,9 +15,9 @@ public class SpawnStalactites : BossAbility {
         _playerTf = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
-    public void Spawn(float spawnPosX)
+    public void Spawn(float spawnPosX, SpawnStalAction.StalSpawnDirection direction)
     {
-        StartCoroutine("SpawnStals", spawnPosX);
+        StartCoroutine(SpawnStals(spawnPosX, direction));
     }
 
     public void Drop()
@@ -25,14 +25,21 @@ public class SpawnStalactites : BossAbility {
         StartCoroutine("DropStalactites");
     }
 
-    private IEnumerator SpawnStals(float spawnPosX)
+    private IEnumerator SpawnStals(float spawnPosX, SpawnStalAction.StalSpawnDirection direction)
     {
         int index = GetUnusedStalIndex();
         ActivateStal(index, spawnPosX);
         Transform stalTf = _stals[index].transform;
-
+        
         float startY = stalTf.position.y;
-        const float endY = 5f;
+        float endY = 5f;
+        if (direction == SpawnStalAction.StalSpawnDirection.FromBottom)
+        {
+            startY = -10f;
+            endY = -5f;
+            stalTf.Rotate(Vector3.forward, 180f);
+        }
+
         const float animDuration = 1.2f;
         float animTimer = 0f;
 

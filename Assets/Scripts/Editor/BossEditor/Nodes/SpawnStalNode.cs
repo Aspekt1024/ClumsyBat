@@ -4,12 +4,17 @@ using UnityEditor;
 using UnityEngine;
 
 using StalActions = SpawnStalAction.StalActions;
+using StalSpawnDirection = SpawnStalAction.StalSpawnDirection;
 using Inputs = SpawnStalAction.Inputs;
 
 public class SpawnStalNode : BaseNode {
 
     public StalActions selectedStalAction;
     public int selectedStalActionIndex = 1;
+
+    public StalSpawnDirection SpawnDirection;
+    public int selectedSpawnDirectionIndex = 1;
+
 
     protected override void AddInterfaces()
     {
@@ -34,12 +39,16 @@ public class SpawnStalNode : BaseNode {
 
         var stalActionArray = Enum.GetValues(typeof(StalActions));
         var stalActionStringArray = EditorHelpers.GetEnumStringArray(typeof(StalActions));
+        var stalDirectionArray = Enum.GetValues(typeof(StalSpawnDirection));
+        var stalDirectionStringArray = EditorHelpers.GetEnumStringArray(typeof(StalSpawnDirection));
 
         EditorGUILayout.Space();
         EditorGUILayout.Space();
         EditorGUIUtility.labelWidth = 70;
         selectedStalActionIndex = EditorGUILayout.Popup("Stal action:", selectedStalActionIndex, stalActionStringArray);
         selectedStalAction = (StalActions)stalActionArray.GetValue(selectedStalActionIndex);
+        selectedSpawnDirectionIndex = EditorGUILayout.Popup("Direction:", selectedSpawnDirectionIndex, stalDirectionStringArray);
+        SpawnDirection = (StalSpawnDirection)stalDirectionArray.GetValue(selectedSpawnDirectionIndex);
 
         SetInterfacePositions();
         DrawInterfaces();
@@ -49,6 +58,7 @@ public class SpawnStalNode : BaseNode {
     {
         Action = CreateInstance<SpawnStalAction>();
         ((SpawnStalAction)Action).StalAction = selectedStalAction;
+        ((SpawnStalAction)Action).SpawnDirection = SpawnDirection;
     }
     
 
