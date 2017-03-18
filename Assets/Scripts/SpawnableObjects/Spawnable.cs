@@ -17,8 +17,14 @@ public abstract class Spawnable : MonoBehaviour {
     
     public virtual void SendToInactivePool()
     {
+        ResetObjectState();
         transform.position = Toolbox.Instance.HoldingArea;
         IsActive = false;
+    }
+
+    protected virtual void ResetObjectState()
+    {
+        transform.localRotation = new Quaternion();
     }
 
     public virtual void Activate(Transform tf, SpawnType spawnTf)

@@ -17,7 +17,7 @@ public class SpawnStalactites : BossAbility {
 
     public void Spawn(float spawnPosX, SpawnStalAction.StalSpawnDirection direction)
     {
-        StartCoroutine(SpawnStals(spawnPosX, direction));
+        StartCoroutine(SpawnStal(spawnPosX, direction));
     }
 
     public void Drop()
@@ -25,11 +25,12 @@ public class SpawnStalactites : BossAbility {
         StartCoroutine("DropStalactites");
     }
 
-    private IEnumerator SpawnStals(float spawnPosX, SpawnStalAction.StalSpawnDirection direction)
+    private IEnumerator SpawnStal(float spawnPosX, SpawnStalAction.StalSpawnDirection direction)
     {
         int index = GetUnusedStalIndex();
         ActivateStal(index, spawnPosX);
         Transform stalTf = _stals[index].transform;
+        stalTf.localRotation = new Quaternion();
         
         float startY = stalTf.position.y;
         float endY = 5f;

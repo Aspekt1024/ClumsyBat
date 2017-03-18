@@ -19,11 +19,8 @@ public class ParabolicProjectile : BossAbility {
         public float PausedAngularVelocity;
     }
 
-    private Player player;
-
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         CreateProjectilePool();
     }
 
@@ -56,13 +53,13 @@ public class ParabolicProjectile : BossAbility {
     /// Fires a projectile at the player at a given (or default) speed.
     /// Returns true if throwing a projectile will hit the player position.
     /// </summary>
-    public bool ActivateProjectile(ProjectileAction caller, float speed = DefaultProjectileSpeed)
+    public bool ActivateProjectile(ProjectileAction caller, Vector2 targetPos, float speed = DefaultProjectileSpeed)
     {
         _projectileIndex++;
         if (_projectileIndex == NumProjectiles) { _projectileIndex = 0; }
         var startPos = transform.position;
         
-        Vector2 velocity = CalculateThrowingVelocity(startPos, player.transform.position, speed);
+        Vector2 velocity = CalculateThrowingVelocity(startPos, targetPos, caller.TargetGround, speed);
         if (Mathf.Abs(velocity.x) < 0.0001f) { return false; }
         
         var projectile = _projectiles[_projectileIndex];
@@ -78,9 +75,9 @@ public class ParabolicProjectile : BossAbility {
         return true;
     }
 
-    private Vector2 CalculateThrowingVelocity(Vector3 startPos, Vector3 playerPos, float speed)
+    private Vector2 CalculateThrowingVelocity(Vector3 startPos, Vector3 playerPos, bool targetGround, float speed)
     {
-        float angle = CalculateThrowingAngle(startPos, playerPos, speed);
+        float angle = CalculateThrowingAngle(startPos, playerPos, targetGround, speed);
         if (Mathf.Abs(angle) < 0.001f)
         {
             return Vector2.zero;
@@ -93,7 +90,7 @@ public class ParabolicProjectile : BossAbility {
         return velocity;
     }
 
-    private float CalculateThrowingAngle(Vector3 startPos, Vector3 playerPos, float s)
+    private float CalculateThrowingAngle(Vector3 startPos, Vector3 playerPos, bool upperPath, float s)
     {
         float g = -Physics2D.gravity.y;
         float x = startPos.x - playerPos.x;
@@ -103,7 +100,12 @@ public class ParabolicProjectile : BossAbility {
         if (backwards) x = -x;
 
         // Source: https://en.wikipedia.org/wiki/Trajectory_of_a_projectile#Angle_required_to_hit_coordinate_.28x.2Cy.29
-        float angle = Mathf.Atan((s * s - Mathf.Sqrt(Mathf.Pow(s, 4) - g * (g * x * x + 2 * y * s * s))) / (g * x));
+        float angle;
+        if (upperPath)
+            angle = Mathf.Atan((s * s + Mathf.Sqrt(Mathf.Pow(s, 4) - g * (g * x * x + 2 * y * s * s))) / (g * x));
+        else
+            angle = Mathf.Atan((s * s - Mathf.Sqrt(Mathf.Pow(s, 4) - g * (g * x * x + 2 * y * s * s))) / (g * x));
+
         if (float.IsNaN(angle)) angle = 0;
         return backwards ? Mathf.PI - angle : angle;
     }

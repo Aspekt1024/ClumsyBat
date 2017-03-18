@@ -2,6 +2,15 @@
 
 public class ProjectileAction : BaseAction {
 
+    public bool TargetGround;
+    public Vector2 TargetPos;
+    public float ProjectileSpeed;
+
+    public enum Inputs
+    {
+        Main,
+        Projectile, Position
+    }
     public enum Outputs
     {
         Launched, Landed, HitPlayer,
@@ -9,7 +18,7 @@ public class ProjectileAction : BaseAction {
     }
 
     private ParabolicProjectile parProjectile;
-    private Player player;
+    private Player player;  // TODO remove if this isn't the default. It won't be if we introduce a player node.
     private Projectile projectileObj;
 
     public override void GameSetup(BossDataContainer owningContainer, BossBehaviour behaviour, GameObject bossReference)
@@ -21,7 +30,8 @@ public class ProjectileAction : BaseAction {
 
     public override void ActivateBehaviour()
     {
-        bool projectileSuccess = parProjectile.ActivateProjectile(this);
+        Vector2 tarPos = CalculateTargetPos();
+        bool projectileSuccess = parProjectile.ActivateProjectile(this, tarPos, ProjectileSpeed);
         if (!projectileSuccess)
         {
             Launched();
@@ -47,5 +57,20 @@ public class ProjectileAction : BaseAction {
     public override GameObject GetObject(int id)
     {
         return projectileObj.gameObject;
+    }
+
+    private Vector2 CalculateTargetPos()
+    {
+        Vector2 outputPos = Vector2.zero;
+        outputPos.x = TargetPos.x + GameObject.FindGameObjectWithTag("MainCamera").transform.position.x;
+        if (TargetGround)
+        {
+            RaycastHit2D hit = Physics2D.Raycast(new Vector2(outputPos.x, 0), Vector3.down, 10f, (1 << LayerMask.NameToLayer("BossFloor")));
+            if (hit.collider != null)
+                outputPos.y = hit.point.y + 0.2f;
+            else
+                outputPos.y = -5f;
+        }
+        return outputPos;
     }
 }

@@ -94,6 +94,7 @@ public class StalDropComponent : MonoBehaviour {
                 yield return null;
             }
         }
+        _stal.SendToInactivePool();
     }
     
     IEnumerator Shake()

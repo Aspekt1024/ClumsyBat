@@ -95,7 +95,7 @@ public abstract class BaseEditor : EditorWindow {
         Event e = Event.current;
         _mousePos = e.mousePosition;
         _mouseInput.ProcessMouseEvents(e);
-
+        
         DrawBackground();
         DrawHeading();
         DrawNodeWindows();
@@ -167,6 +167,12 @@ public abstract class BaseEditor : EditorWindow {
             {
                 nodeRect.x = NodeData.Nodes[i].OriginalRect.x + canvasDisplacement.x;
                 nodeRect.y = NodeData.Nodes[i].OriginalRect.y + canvasDisplacement.y;
+            }
+            else
+            {
+                const float windowPosIncrement = 10f;
+                nodeRect.x = windowPosIncrement * Mathf.Round(nodeRect.x / windowPosIncrement);
+                nodeRect.y = windowPosIncrement * Mathf.Round(nodeRect.y / windowPosIncrement);
             }
             NodeData.Nodes[i].WindowRect = GUI.Window(i, nodeRect, DrawNodeWindow, NodeData.Nodes[i].WindowTitle);
         }
