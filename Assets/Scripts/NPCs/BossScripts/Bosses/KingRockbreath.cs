@@ -33,19 +33,19 @@ public class KingRockbreath : Boss
         // TODO using hard coding for now, but could update this so that damage levels are set in the editor. Depends what Scott wants to implement graphically
         switch (health)
         {
-            case 4:
+            case 5:
                 anim.Play(spriteDict[HealthLevels.Normal], 0, 0f);
                 break;
-            case 3:
+            case 4:
                 anim.Play(spriteDict[HealthLevels.Injured], 0, 0f);
                 break;
-            case 2:
+            case 3:
                 anim.Play(spriteDict[HealthLevels.Damaged], 0, 0f);
                 break;
-            case 1:
+            case 2:
                 anim.Play(spriteDict[HealthLevels.Critical], 0, 0f);
                 break;
-            case 0:
+            case 1:
                 anim.Play(spriteDict[HealthLevels.Dead], 0, 0f);
                 break;
         }

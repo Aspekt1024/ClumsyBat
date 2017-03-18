@@ -6,13 +6,10 @@ public class SpawnStalactites : BossAbility {
 
     private const int NumStals = 20;
     private readonly List<Stalactite> _stals = new List<Stalactite>();
-
-    private Transform _playerTf;
-
+    
     private void Start()
     {
         CreateStals();
-        _playerTf = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     public void Spawn(float spawnPosX, SpawnStalAction.StalSpawnDirection direction)

@@ -197,6 +197,7 @@ public abstract class BaseEditor : EditorWindow {
             node.WindowRect = node.OriginalRect;
         }
         AddDisplacementToNodes();
+        Repaint();
     }
 
     private void DrawNodeWindow(int id)
@@ -279,7 +280,15 @@ public abstract class BaseEditor : EditorWindow {
         {
             node.WindowRect.x += canvasDisplacement.x;
             node.WindowRect.y += canvasDisplacement.y;
+            node.WindowRect.x = SnapToGrid(node.WindowRect.x);
+            node.WindowRect.y = SnapToGrid(node.WindowRect.y);
         }
+    }
+
+    private float SnapToGrid(float pos)
+    {
+        const float windowPosIncrement = 10f;
+        return windowPosIncrement * Mathf.Round(pos / windowPosIncrement);
     }
     
     public void MoveToStart()

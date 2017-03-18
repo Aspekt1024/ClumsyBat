@@ -7,7 +7,6 @@ using UnityEditor;
 public class BossSelectorEditor : Editor {
 
     private BossCreator creatorObj;
-    private List<Type> abilities = new List<Type>();
 
     private bool bAbilitiesClicked;
     private bool bAttributesClicked;
@@ -15,7 +14,6 @@ public class BossSelectorEditor : Editor {
     public override void OnInspectorGUI()
     {
         creatorObj = (BossCreator)target;
-        // TODO GetAbilityList();
 
         DisplayBossName();
         DisplayBossObjectDropdown();

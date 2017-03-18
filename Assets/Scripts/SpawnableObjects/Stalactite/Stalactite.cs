@@ -89,7 +89,7 @@ public class Stalactite : Spawnable {
 
     public void DestroyStalactite()
     {
-        if (!_stal.bExploding)
+        if (!_stal.bExploding && state != StalStates.Forming)
         {
             _stal.bExploding = true;
             _stal.Collider.enabled = false;
@@ -139,5 +139,6 @@ public class Stalactite : Spawnable {
     public bool IsPaused() { return bPaused; }
     public bool Active() { return IsActive; }
     public bool IsForming() { return state == StalStates.Forming; }
+    public bool IsFalling() { return state == StalStates.Falling; }
     public void SetState(StalStates newState) { state = newState; }
 }

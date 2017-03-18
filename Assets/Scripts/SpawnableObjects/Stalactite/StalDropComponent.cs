@@ -67,6 +67,7 @@ public class StalDropComponent : MonoBehaviour {
         if (_state != DropStates.Falling)
         {
             _state = DropStates.Falling;
+            _stal.SetState(Stalactite.StalStates.Falling);
             StartCoroutine("DropSequence");
         }
     }

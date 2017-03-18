@@ -28,7 +28,7 @@ public class ClumsyAnimator : MonoBehaviour {
 
     private AnimationData currentAnimation;
     private float currentScaleModifier;
-    private Quaternion initialRotation;
+    //private Quaternion initialRotation; // TODO remove if no rotation modifier is required for clumsy's animations
     private float animTimer;
 
     private Animator anim;
@@ -52,7 +52,6 @@ public class ClumsyAnimator : MonoBehaviour {
         anim.enabled = true;
         currentAnimation = flap;
         currentScaleModifier = 1f;
-        initialRotation = transform.localRotation;
         PopulateAnimDict();
     }
 

@@ -13,17 +13,18 @@ public class BossStateEditorContextMenus : BaseContextMenus {
         GenericMenu menu = new GenericMenu();
         // TODO get all ability nodes and generate them dynamically
         // Use the window title of each node
-        menu.AddItem(new GUIContent("JumpPound/Jump"), false, ContextCallback, typeof(JumpNode));
-        menu.AddItem(new GUIContent("Projectile Abilities/Parabolic"), false, ContextCallback, typeof(ParabolicProjectileNode));
-        menu.AddItem(new GUIContent("Stalactite Abilities/Spawn & Drop"), false, ContextCallback, typeof(SpawnStalNode));
-        menu.AddItem(new GUIContent("Movement/Walk"), false, ContextCallback, typeof(WalkNode));
+        menu.AddItem(new GUIContent("Abilities/Jump"), false, ContextCallback, typeof(JumpNode));
+        menu.AddItem(new GUIContent("Abilities/Projectile"), false, ContextCallback, typeof(ParabolicProjectileNode));
+        menu.AddItem(new GUIContent("Abilities/Stalactite"), false, ContextCallback, typeof(SpawnStalNode));
+        menu.AddItem(new GUIContent("Abilities/Movement"), false, ContextCallback, typeof(WalkNode));
         menu.AddSeparator("");
-        menu.AddItem(new GUIContent("Add Death Node"), false, ContextCallback, typeof(BaseNode));
+        menu.AddItem(new GUIContent("Player Reference"), false, ContextCallback, typeof(PlayerNode));
+        menu.AddItem(new GUIContent("Boss Reference"), false, ContextCallback, typeof(BossNode));
         menu.AddSeparator("");
-        menu.AddItem(new GUIContent("Add Wait Node"), false, ContextCallback, typeof(WaitNode));
+        menu.AddItem(new GUIContent("Add Wait"), false, ContextCallback, typeof(WaitNode));
         menu.AddSeparator("");
-        menu.AddItem(new GUIContent("Add Start Node"), false, ContextCallback, typeof(StartNode));
-        menu.AddItem(new GUIContent("Add Loop Node"), false, ContextCallback, typeof(LoopNode));
+        menu.AddItem(new GUIContent("Add Start"), false, ContextCallback, typeof(StartNode));
+        menu.AddItem(new GUIContent("Add Loop"), false, ContextCallback, typeof(LoopNode));
         menu.AddSeparator("");
         menu.AddItem(new GUIContent("Find Start"), false, ContextCallback, NodeMenuSelections.FindStart);
         menu.ShowAsContext();

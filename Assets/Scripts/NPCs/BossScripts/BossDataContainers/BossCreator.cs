@@ -11,14 +11,12 @@ public class BossCreator : BossDataContainer
     
     public BossState CurrentState;
     public StartAction LastStartingAction;
-
-    private BossBehaviour behaviour;
+    
     private GameObject bossObject;
 
     public void NodeGameSetup(BossBehaviour bossBehaviour, GameObject boss)
     {
         Toolbox.Instance.GamePaused = false;    // TODO shouldnt be done here...
-        behaviour = bossBehaviour;
         bossObject = boss;
         foreach(var action in Actions)
         {

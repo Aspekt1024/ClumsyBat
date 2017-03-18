@@ -254,10 +254,9 @@ public class Player : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D other)
     {
         _flap.CancelIfMoving();
-        if (_state != PlayerState.Normal) { return; }
         if (other.gameObject.name.Contains("Cave") || other.gameObject.name.Contains("Entrance") || other.gameObject.name.Contains("Exit"))
         {
-            if(_shield.IsInUse() || _playerController.InputPaused()) { return; }
+            if(_shield.IsInUse() || _playerController.InputPaused() || _state != PlayerState.Normal) { return; }
             _perch.Perch(other.gameObject.name, _playerController.TouchHeld());
         }
         else

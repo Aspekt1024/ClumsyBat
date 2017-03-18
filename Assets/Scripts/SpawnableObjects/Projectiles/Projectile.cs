@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour {
 
-    private ParabolicProjectile poolOwner;
+    private ProjectileAbility poolOwner;
     private ProjectileAction callerAction;
     private bool bActive;
 
@@ -19,10 +19,12 @@ public class Projectile : MonoBehaviour {
         else if (other.gameObject.tag == "BossFloor" && transform.position.y < 0)
         {
             callerAction.Landed(this);
+            GetComponent<Collider2D>().enabled = false;
+            GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, 200f));
         }
     }
 
-    public void SetPoolOwner(ParabolicProjectile owner)
+    public void SetPoolOwner(ProjectileAbility owner)
     {
         poolOwner = owner;
     }
@@ -55,10 +57,16 @@ public class Projectile : MonoBehaviour {
             transform.position += Vector3.down * 0.1f;
             yield return null;
         }
-
-        transform.localScale = originalScale;
-        poolOwner.DeactivateProjectile(GetComponent<Rigidbody2D>());
+        DeactivateProjectile(originalScale);
     }
 
+
+    private void DeactivateProjectile(Vector3 originalScale)
+    {
+        var projectileBody = GetComponent<Rigidbody2D>();
+        transform.localScale = originalScale;
+        projectileBody.velocity = Vector2.zero;
+        projectileBody.position = Toolbox.Instance.HoldingArea;
+    }
 
 }

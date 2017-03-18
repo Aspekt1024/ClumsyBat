@@ -57,6 +57,9 @@ public abstract class GameHandler : MonoBehaviour {
                 Moth moth = other.GetComponentInParent<Moth>();
                 moth.ConsumeMoth();
                 break;
+            case "Boss":
+                ThePlayer.Die();
+                break;
             default:
                 Debug.Log(other.name + " has unknown trigger tag: " + other.tag);
                 break;

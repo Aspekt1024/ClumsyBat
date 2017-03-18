@@ -63,6 +63,7 @@ public class Toolbox : Singleton<Toolbox>
         // TODO WebFront 0.1f?
         ZLayers.Add("Cave", 0f);
         ZLayers.Add("Hypersonic", 1f);
+        ZLayers.Add("Projectile", 3f);
         ZLayers.Add("Spore", 3.9f);
         ZLayers.Add("Stalactite", 4f);
         ZLayers.Add("Mushroom", 5f);

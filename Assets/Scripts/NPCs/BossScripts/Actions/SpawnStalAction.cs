@@ -6,7 +6,8 @@ public class SpawnStalAction : BaseAction {
     
     public enum Inputs
     {
-        Main, PositionObj
+        Main,
+        PositionObj
     }
 
     public enum StalActions { Spawn, Drop, Alternate }

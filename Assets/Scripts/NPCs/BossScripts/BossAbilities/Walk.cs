@@ -23,7 +23,7 @@ public class Walk : BossAbility {
     {
         if (collision.collider.tag == "CaveWall")
         {
-            if (_direction == WalkDirection.Left)
+            if (transform.position.x < GameObject.FindGameObjectWithTag("MainCamera").transform.position.x)
                 _direction = WalkDirection.Right;
             else
                 _direction = WalkDirection.Left;

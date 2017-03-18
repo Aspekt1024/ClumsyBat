@@ -42,6 +42,7 @@ public class Boss : MonoBehaviour {
 
     public void SetPropsFromState(BossState state)
     {
+        damageObjects = new List<BossDamageObjects>();
         if (state.DamagedByHypersonic)
         {
             damageObjects.Add(BossDamageObjects.Hypersonic);
@@ -82,7 +83,10 @@ public class Boss : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.collider.tag == "Stalactite" && InDamageObjects(BossDamageObjects.Stalactite))
-            TakeDamage();
+        {
+            if (other.gameObject.GetComponent<Stalactite>().IsFalling())
+                TakeDamage();
+        }
     }
 
     protected void TakeDamage(int damage = 1)

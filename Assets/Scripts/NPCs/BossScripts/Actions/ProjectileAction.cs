@@ -17,15 +17,13 @@ public class ProjectileAction : BaseAction {
         Projectile
     }
 
-    private ParabolicProjectile parProjectile;
-    private Player player;  // TODO remove if this isn't the default. It won't be if we introduce a player node.
+    private ProjectileAbility parProjectile;
     private Projectile projectileObj;
 
     public override void GameSetup(BossDataContainer owningContainer, BossBehaviour behaviour, GameObject bossReference)
     {
         base.GameSetup(owningContainer, behaviour, bossReference);
-        parProjectile = bossBehaviour.GetAbility<ParabolicProjectile>();
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        parProjectile = bossBehaviour.GetAbility<ProjectileAbility>();
     }
 
     public override void ActivateBehaviour()

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class ParabolicProjectile : BossAbility {
+public class ProjectileAbility : BossAbility {
     
     private const float DefaultProjectileSpeed = 12.5f; // Todo could add variance / some randomness to this speed.
     private const int NumProjectiles = 400;
@@ -51,13 +51,13 @@ public class ParabolicProjectile : BossAbility {
 
     /// <summary>
     /// Fires a projectile at the player at a given (or default) speed.
-    /// Returns true if throwing a projectile will hit the player position.
+    /// Returns true if throwing a projectile will hit the target position.
     /// </summary>
     public bool ActivateProjectile(ProjectileAction caller, Vector2 targetPos, float speed = DefaultProjectileSpeed)
     {
         _projectileIndex++;
         if (_projectileIndex == NumProjectiles) { _projectileIndex = 0; }
-        var startPos = transform.position;
+        var startPos = new Vector3(transform.position.x, transform.position.y, Toolbox.Instance.ZLayers["Projectile"]);
         
         Vector2 velocity = CalculateThrowingVelocity(startPos, targetPos, caller.TargetGround, speed);
         if (Mathf.Abs(velocity.x) < 0.0001f) { return false; }
@@ -108,12 +108,6 @@ public class ParabolicProjectile : BossAbility {
 
         if (float.IsNaN(angle)) angle = 0;
         return backwards ? Mathf.PI - angle : angle;
-    }
-
-    public void DeactivateProjectile(Rigidbody2D projectileBody)
-    {
-        projectileBody.velocity = Vector2.zero;
-        projectileBody.position = Toolbox.Instance.HoldingArea;
     }
 
     public override void Pause()
