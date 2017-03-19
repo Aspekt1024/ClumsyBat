@@ -17,19 +17,19 @@ public class ProjectileAction : BaseAction {
         Projectile
     }
 
-    private ProjectileAbility parProjectile;
+    private ProjectileAbility projAbility;
     private Projectile projectileObj;
 
     public override void GameSetup(BossDataContainer owningContainer, BossBehaviour behaviour, GameObject bossReference)
     {
         base.GameSetup(owningContainer, behaviour, bossReference);
-        parProjectile = bossBehaviour.GetAbility<ProjectileAbility>();
+        projAbility = bossBehaviour.GetAbility<ProjectileAbility>();
     }
 
     public override void ActivateBehaviour()
     {
         Vector2 tarPos = CalculateTargetPos();
-        bool projectileSuccess = parProjectile.ActivateProjectile(this, tarPos, ProjectileSpeed);
+        bool projectileSuccess = projAbility.ActivateProjectile(this, tarPos, ProjectileSpeed);
         if (!projectileSuccess)
         {
             Launched();
@@ -54,6 +54,7 @@ public class ProjectileAction : BaseAction {
 
     public override GameObject GetObject(int id)
     {
+        if (projectileObj == null) return null;
         return projectileObj.gameObject;
     }
 

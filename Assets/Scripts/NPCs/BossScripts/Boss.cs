@@ -14,6 +14,7 @@ public class Boss : MonoBehaviour {
     private Collider2D bossCollider;
     private BossCreator bossProps;
 
+    private Vector2 originalScale;  // Used for facing the boss left/right
     private Vector2 storedVelocity;
     
     private List<BossDamageObjects> damageObjects = new List<BossDamageObjects>();
@@ -32,6 +33,7 @@ public class Boss : MonoBehaviour {
         body = GetComponent<Rigidbody2D>();
         bossCollider = GetComponent<Collider2D>();
         bossRenderer = GetComponent<SpriteRenderer>();
+        originalScale = transform.localScale;   // Boss should be facing left first
     }
 
     public void SetBaseProperties(BossCreator props)
@@ -43,6 +45,7 @@ public class Boss : MonoBehaviour {
     public void SetPropsFromState(BossState state)
     {
         damageObjects = new List<BossDamageObjects>();
+        gameObject.layer = LayerMask.NameToLayer("Boss");
         if (state.DamagedByHypersonic)
         {
             damageObjects.Add(BossDamageObjects.Hypersonic);
@@ -54,6 +57,7 @@ public class Boss : MonoBehaviour {
         if (state.DamagedByStalactites)
         {
             damageObjects.Add(BossDamageObjects.Stalactite);
+            gameObject.layer = LayerMask.NameToLayer("BossStalactite");
         }
     }
 
@@ -84,7 +88,7 @@ public class Boss : MonoBehaviour {
     {
         if (other.collider.tag == "Stalactite" && InDamageObjects(BossDamageObjects.Stalactite))
         {
-            if (other.gameObject.GetComponent<Stalactite>().IsFalling())
+            if (other.collider.gameObject.GetComponentInParent<Stalactite>().IsFalling())
                 TakeDamage();
         }
     }
@@ -167,5 +171,18 @@ public class Boss : MonoBehaviour {
                 isInList = true;
         }
         return isInList;
+    }
+    
+    public void FaceDirection(bool bFaceLeft)
+    {
+        if (bFaceLeft)
+            transform.localScale = new Vector2(originalScale.x, originalScale.y);
+        else
+            transform.localScale = new Vector2(-originalScale.x, originalScale.y);
+    }
+
+    public void SetHealth(int newHealth)
+    {
+        health = newHealth;
     }
 }

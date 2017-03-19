@@ -11,10 +11,13 @@ public class BossEditorContextMenus : BaseContextMenus {
     public override void ShowMenu()
     {
         GenericMenu menu = new GenericMenu();
-        menu.AddItem(new GUIContent("Add New State"), false, ContextCallback, typeof(StateNode));
+        menu.AddItem(new GUIContent("Set Health"), false, ContextCallback, typeof(HealthNode));
+        menu.AddItem(new GUIContent("Add Wait"), false, ContextCallback, typeof(WaitNode));
         menu.AddSeparator("");
-        menu.AddItem(new GUIContent("Add Start Node"), false, ContextCallback, typeof(StartNode));
-        menu.AddItem(new GUIContent("Add Loop Node"), false, ContextCallback, typeof(LoopNode));
+        menu.AddItem(new GUIContent("New State"), false, ContextCallback, typeof(StateNode));
+        menu.AddSeparator("");
+        menu.AddItem(new GUIContent("Add Start"), false, ContextCallback, typeof(StartNode));
+        menu.AddItem(new GUIContent("Add Loop"), false, ContextCallback, typeof(LoopNode));
         menu.AddSeparator("");
         menu.AddItem(new GUIContent("Find Start"), false, ContextCallback, NodeMenuSelections.FindStart);
         menu.ShowAsContext();
@@ -25,7 +28,7 @@ public class BossEditorContextMenus : BaseContextMenus {
         selectedNode = mouseDownNode;
 
         GenericMenu menu = new GenericMenu();
-        if (mouseDownNode.GetType().Equals(typeof(StateNode)))
+        if (mouseDownNode.IsType<StateNode>())
         {
             menu.AddItem(new GUIContent("Edit State"), false, ContextCallback, NodeMenuSelections.EditState);
             menu.AddSeparator("");

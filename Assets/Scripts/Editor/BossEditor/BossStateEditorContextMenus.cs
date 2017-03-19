@@ -14,9 +14,10 @@ public class BossStateEditorContextMenus : BaseContextMenus {
         // TODO get all ability nodes and generate them dynamically
         // Use the window title of each node
         menu.AddItem(new GUIContent("Abilities/Jump"), false, ContextCallback, typeof(JumpNode));
-        menu.AddItem(new GUIContent("Abilities/Projectile"), false, ContextCallback, typeof(ParabolicProjectileNode));
+        menu.AddItem(new GUIContent("Abilities/Projectile"), false, ContextCallback, typeof(ProjectileNode));
         menu.AddItem(new GUIContent("Abilities/Stalactite"), false, ContextCallback, typeof(SpawnStalNode));
         menu.AddItem(new GUIContent("Abilities/Movement"), false, ContextCallback, typeof(WalkNode));
+        menu.AddItem(new GUIContent("Abilities/Charge"), false, ContextCallback, typeof(ChargeNode));
         menu.AddSeparator("");
         menu.AddItem(new GUIContent("Player Reference"), false, ContextCallback, typeof(PlayerNode));
         menu.AddItem(new GUIContent("Boss Reference"), false, ContextCallback, typeof(BossNode));

@@ -8,7 +8,7 @@ public class StartNode : BaseNode {
 
     private void SetInterfacePositions()
     {
-        SetOutput(25f);
+        SetOutput(30f);
     }
 
     public override void DrawWindow()

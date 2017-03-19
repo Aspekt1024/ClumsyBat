@@ -24,4 +24,10 @@ public class WaitAction : BaseAction {
         }
     }
 
+    public override void GameSetup(BossDataContainer owningContainer, BossBehaviour behaviour, GameObject bossReference)
+    {
+        base.GameSetup(owningContainer, behaviour, bossReference);
+        bWaitActive = false;
+    }
+
 }

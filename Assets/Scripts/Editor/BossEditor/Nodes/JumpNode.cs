@@ -21,7 +21,7 @@ public class JumpNode : BaseNode {
 
     private void SetInterfacePositions()
     {
-        SetInput(WindowRect.height / 2);
+        SetInput(50);
         SetOutput(50, (int)Outputs.Jumped, "Jumped");
         SetOutput(70, (int)Outputs.Top, "Top");
         SetOutput(90, (int)Outputs.Landed, "Landed");
@@ -30,13 +30,15 @@ public class JumpNode : BaseNode {
     public override void DrawWindow()
     {
         WindowTitle = "Jump";
-        WindowRect.width = 180;
+        WindowRect.width = 120;
         WindowRect.height = 105;
 
         if (jumpForce < 300f) jumpForce = 300f;
 
-        EditorGUIUtility.labelWidth = 70;
+        EditorGUIUtility.labelWidth = 50;
         jumpForce = EditorGUILayout.FloatField("Force:", jumpForce);
+        jumpForce = GUI.VerticalSlider(new Rect(new Vector2(25, 40), new Vector2(15, 60)), jumpForce, 1200, 300);
+        jumpForce = Mathf.Round(jumpForce / 10) * 10f;
         
         SetInterfacePositions();
         DrawInterfaces();

@@ -9,7 +9,7 @@ public class LoopNode : BaseNode {
 
     private void SetInterfacePositions()
     {
-        SetInput(25);
+        SetInput(30);
     }
 
     public override void DrawWindow()

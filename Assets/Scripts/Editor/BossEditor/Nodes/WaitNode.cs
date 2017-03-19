@@ -14,8 +14,8 @@ public class WaitNode : BaseNode {
 
     private void SetInterfacePositions()
     {
-        SetInput(25);
-        SetOutput(25);
+        SetInput(30);
+        SetOutput(30);
     }
 
     public override void DrawWindow()

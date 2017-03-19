@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+using WalkOptions = WalkAction.WalkOptions;
+
 public class Walk : BossAbility {
 
     private BaseAction callerAction;
@@ -13,10 +15,15 @@ public class Walk : BossAbility {
 
     private WalkDirection _direction;
 
-    public void Activate(BaseAction caller)
+    public void Activate(BaseAction caller, float duration, float speed, WalkOptions option)
     {
         callerAction = caller;
-        StartCoroutine("TakeSteps");
+        if (option == WalkOptions.Left)
+            _direction = WalkDirection.Left;
+        else if (option == WalkOptions.Right)
+            _direction = WalkDirection.Right;
+
+        StartCoroutine(TakeSteps(duration, speed));
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -30,13 +37,10 @@ public class Walk : BossAbility {
         }
     }
 
-    private IEnumerator TakeSteps()
+    private IEnumerator TakeSteps(float duration = 1f, float speed = 2.4f)
     {
-        const float walkDuration = 1f;
         float walkTimer = 0f;
-        float speed = 2.4f;
-
-        while (walkTimer < walkDuration)
+        while (walkTimer < duration)
         {
             if (!Toolbox.Instance.GamePaused)
             {
@@ -46,7 +50,6 @@ public class Walk : BossAbility {
             }
             yield return null;
         }
-        //ReverseDirectionIfAtEnd();    // TODO remove?
         ((WalkAction)callerAction).EndWalk();
     }
 
@@ -57,10 +60,12 @@ public class Walk : BossAbility {
         if (_direction == WalkDirection.Left && transform.position.x < -3.5f + camPosX)
         {
             _direction = WalkDirection.Right;
+            GetComponent<Boss>().FaceDirection(bFaceLeft: false);
         }
         else if (_direction == WalkDirection.Right && transform.position.x > 4f + camPosX)
         {
             _direction = WalkDirection.Left;
+            GetComponent<Boss>().FaceDirection(bFaceLeft: true);
         }
     }
 }
