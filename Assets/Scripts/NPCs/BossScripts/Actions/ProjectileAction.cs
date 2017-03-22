@@ -62,6 +62,11 @@ public class ProjectileAction : BaseAction {
     {
         Vector2 outputPos = Vector2.zero;
         outputPos.x = TargetPos.x + GameObject.FindGameObjectWithTag("MainCamera").transform.position.x;
+
+        var posInput = GetInput((int)Inputs.Position);
+        if (posInput.connectedAction != null)
+            outputPos = posInput.connectedAction.GetObject(posInput.connectedInterfaceIndex).transform.position;
+
         if (TargetGround)
         {
             RaycastHit2D hit = Physics2D.Raycast(new Vector2(outputPos.x, 0), Vector3.down, 10f, (1 << LayerMask.NameToLayer("BossFloor")));

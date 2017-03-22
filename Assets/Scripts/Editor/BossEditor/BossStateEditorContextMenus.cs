@@ -18,6 +18,8 @@ public class BossStateEditorContextMenus : BaseContextMenus {
         menu.AddItem(new GUIContent("Abilities/Stalactite"), false, ContextCallback, typeof(SpawnStalNode));
         menu.AddItem(new GUIContent("Abilities/Movement"), false, ContextCallback, typeof(WalkNode));
         menu.AddItem(new GUIContent("Abilities/Charge"), false, ContextCallback, typeof(ChargeNode));
+        menu.AddItem(new GUIContent("Events/Player"), false, ContextCallback, typeof(PlayerEventNode));
+        menu.AddItem(new GUIContent("Events/Moth"), false, ContextCallback, typeof(SpawnMothNode));
         menu.AddSeparator("");
         menu.AddItem(new GUIContent("Player Reference"), false, ContextCallback, typeof(PlayerNode));
         menu.AddItem(new GUIContent("Boss Reference"), false, ContextCallback, typeof(BossNode));

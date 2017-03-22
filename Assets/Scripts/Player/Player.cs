@@ -417,6 +417,30 @@ public class Player : MonoBehaviour {
         _lanternBody.position = lanternPos;
         // TODO lantern hinge constraints
     }
+    
+    // TODO can call directly into the coroutine
+    public void Stun(float duration)
+    {
+        StartCoroutine(StunAnim(duration));
+    }
+
+    public IEnumerator StunAnim(float stunDuration)
+    {
+        float stunTimer = 0f;
+        Anim.PlayAnimation(ClumsyAnimations.WingClose);
+        _playerController.PauseInput(true);
+        // TODO flash?
+        while (stunTimer < stunDuration)
+        {
+            if (!_bPaused)
+            {
+                stunTimer += Time.deltaTime;
+            }
+            yield return null;
+        }
+        Anim.PlayAnimation(ClumsyAnimations.FlapBlink);
+        _playerController.PauseInput(false);
+    }
 
     public void HitByObject()
     {

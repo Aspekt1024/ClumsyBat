@@ -278,10 +278,10 @@ public abstract class BaseEditor : EditorWindow {
     {
         foreach (var node in NodeData.Nodes)
         {
-            node.WindowRect.x += canvasDisplacement.x;
-            node.WindowRect.y += canvasDisplacement.y;
             node.WindowRect.x = SnapToGrid(node.WindowRect.x);
             node.WindowRect.y = SnapToGrid(node.WindowRect.y);
+            node.WindowRect.x += canvasDisplacement.x;
+            node.WindowRect.y += canvasDisplacement.y;
         }
     }
 

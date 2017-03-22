@@ -16,8 +16,8 @@ public class SpawnStalNode : BaseNode {
     public StalSpawnDirection SpawnDirection;
     public int selectedSpawnDirectionIndex;
 
+    [SerializeField]
     private int numStals = 1;
-
     [SerializeField]
     private List<StalSpawnType> stalSpawns = new List<StalSpawnType>();
 
@@ -36,25 +36,32 @@ public class SpawnStalNode : BaseNode {
 
     public override void DrawWindow()
     {
-        WindowTitle = "Spawn Stal";
+        WindowTitle = "Stalactites";
         WindowRect.width = 180;
         WindowRect.height = 102 + stalSpawns.Count * 19;
+        
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
 
+        EditorGUIUtility.labelWidth = 70;
         var stalActionArray = Enum.GetValues(typeof(StalActions));
         var stalActionStringArray = EditorHelpers.GetEnumStringArray(typeof(StalActions));
-        var stalDirectionArray = Enum.GetValues(typeof(StalSpawnDirection));
-        var stalDirectionStringArray = EditorHelpers.GetEnumStringArray(typeof(StalSpawnDirection));
-
-        EditorGUILayout.Space();
-        EditorGUILayout.Space();
-        EditorGUILayout.Space();
-        EditorGUIUtility.labelWidth = 70;
         selectedStalActionIndex = EditorGUILayout.Popup("Stal action:", selectedStalActionIndex, stalActionStringArray);
         selectedStalAction = (StalActions)stalActionArray.GetValue(selectedStalActionIndex);
-        selectedSpawnDirectionIndex = EditorGUILayout.Popup("Direction:", selectedSpawnDirectionIndex, stalDirectionStringArray);
-        SpawnDirection = (StalSpawnDirection)stalDirectionArray.GetValue(selectedSpawnDirectionIndex);
-        
-        DisplayStalListForEditing();
+
+        if (selectedStalAction != StalActions.Drop)
+        {
+            var stalDirectionArray = Enum.GetValues(typeof(StalSpawnDirection));
+            var stalDirectionStringArray = EditorHelpers.GetEnumStringArray(typeof(StalSpawnDirection));
+            selectedSpawnDirectionIndex = EditorGUILayout.Popup("Direction:", selectedSpawnDirectionIndex, stalDirectionStringArray);
+            SpawnDirection = (StalSpawnDirection)stalDirectionArray.GetValue(selectedSpawnDirectionIndex);
+            DisplayStalListForEditing();
+        }
+        else
+        {
+            WindowRect.height = 80f;    // TODO this just hides the stal pos input interface set if it exists
+        }
 
         SetInterfacePositions();
         DrawInterfaces();

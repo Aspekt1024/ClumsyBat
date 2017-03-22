@@ -98,32 +98,42 @@ public abstract class BaseNode : ScriptableObject {
     {
         foreach (InterfaceType output in outputs)
         {
-            Vector3 position = new Vector3(WindowRect.width - 7f, output.yPos, 0f);
-            DrawInterfaceAt(position, output.connectedNode != null, output.type);
-            if (output.label != string.Empty)
-            {
-                EditorGUIUtility.labelWidth = 70f;
-                var gs = GUI.skin.GetStyle("Label");
-                gs.alignment = TextAnchor.UpperRight;
-                gs.normal.textColor = Color.black;
-                EditorGUI.LabelField(new Rect(new Vector2(WindowRect.width - 85f, output.yPos - 9), new Vector2(70, 18)), output.label, gs);
-            }
+            DrawOutputInterface(output);
         }
         
         foreach (InterfaceType input in inputs)
         {
-            Vector3 position = new Vector3(7f, input.yPos, 0f);
-            DrawInterfaceAt(position, input.connectedNode != null, input.type);
-            if (input.label != string.Empty)
-            {
-                EditorGUIUtility.labelWidth = 70f;
-                var gs = GUI.skin.GetStyle("Label");
-                gs.alignment = TextAnchor.UpperLeft;
-                gs.normal.textColor = Color.black;
-                EditorGUI.LabelField(new Rect(new Vector2(15f, input.yPos - 9), new Vector2(70, 18)), input.label, gs);
-            }
+            DrawInputInterface(input);
         }
     } 
+
+    protected void DrawOutputInterface(InterfaceType output)
+    {
+        Vector3 position = new Vector3(WindowRect.width - 7f, output.yPos, 0f);
+        DrawInterfaceAt(position, output.connectedNode != null, output.type);
+        if (output.label != string.Empty)
+        {
+            EditorGUIUtility.labelWidth = 70f;
+            var gs = GUI.skin.GetStyle("Label");
+            gs.alignment = TextAnchor.UpperRight;
+            gs.normal.textColor = Color.black;
+            EditorGUI.LabelField(new Rect(new Vector2(WindowRect.width - 85f, output.yPos - 9), new Vector2(70, 18)), output.label, gs);
+        }
+    }
+
+    protected void DrawInputInterface(InterfaceType input)
+    {
+        Vector3 position = new Vector3(7f, input.yPos, 0f);
+        DrawInterfaceAt(position, input.connectedNode != null, input.type);
+        if (input.label != string.Empty)
+        {
+            EditorGUIUtility.labelWidth = 70f;
+            var gs = GUI.skin.GetStyle("Label");
+            gs.alignment = TextAnchor.UpperLeft;
+            gs.normal.textColor = Color.black;
+            EditorGUI.LabelField(new Rect(new Vector2(15f, input.yPos - 9), new Vector2(70, 18)), input.label, gs);
+        }
+    }
 
     private void DrawInterfaceAt(Vector3 position, bool connected, InterfaceTypes type)
     {

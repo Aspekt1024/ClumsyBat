@@ -43,7 +43,7 @@ public class ProjectileNode : BaseNode {
 
     public override void DrawWindow()
     {
-        WindowTitle = "Parabolic Projectile";
+        WindowTitle = "Projectile";
         WindowRect.width = 200;
         WindowRect.height = 125;
 

@@ -53,6 +53,20 @@ public abstract class BaseAction : ScriptableObject
         return nextAction;
     }
 
+    protected InterfaceType GetInput(int index)
+    {
+        InterfaceType input = new InterfaceType();
+        for (int i = 0; i < inputs.Count; i++)
+        {
+            if (inputs[i].identifier == index)
+            {
+                input = inputs[i];
+                break;
+            }
+        }
+        return input;
+    }
+
     public virtual GameObject GetObject(int id) { return null; }
 
     public virtual void GameSetup(BossDataContainer owningContainer, BossBehaviour behaviour, GameObject bossReference)
