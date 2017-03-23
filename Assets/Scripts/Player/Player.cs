@@ -427,6 +427,7 @@ public class Player : MonoBehaviour {
     public IEnumerator StunAnim(float stunDuration)
     {
         float stunTimer = 0f;
+        _playerRigidBody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
         Anim.PlayAnimation(ClumsyAnimations.WingClose);
         _playerController.PauseInput(true);
         // TODO flash?
@@ -438,6 +439,7 @@ public class Player : MonoBehaviour {
             }
             yield return null;
         }
+        _playerRigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
         Anim.PlayAnimation(ClumsyAnimations.FlapBlink);
         _playerController.PauseInput(false);
     }

@@ -130,6 +130,7 @@ public class PlayerController : MonoBehaviour
     public void PauseInput(bool bPaused)
     {
         // This is currently only used by the Gameover sequence and is reset upon loading the scene
+        _inputManager.ClearInput();
         _bTouchInputEnabled = !bPaused;
     }
 

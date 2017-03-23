@@ -14,6 +14,7 @@ public class LevelEditorActions : MonoBehaviour
 
     private GameObject _levelObj;
     public LevelProgressionHandler.Levels LevelId;
+    public bool IsInEditMode;
     public bool DebugMode;
 
     private readonly StalactiteEditor _stalEditControl = new StalactiteEditor();
