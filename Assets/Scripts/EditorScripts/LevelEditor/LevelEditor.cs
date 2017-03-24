@@ -6,9 +6,23 @@ using UnityEditor.SceneManagement;
 
 public class LevelEditor : MonoBehaviour {
 
-    public bool IsInEditMode;
+    public LevelContainer Level;
+    public bool EditMode;
+    public bool DebugMode;
+    public LevelProgressionHandler.Levels LevelId;
 
+    public LevelEditorActions actions;
     private GameObject heldObject;
+
+    public LevelEditor()
+    {
+        Debug.Log("instantiating level editor");
+    }
+
+    private void OnEnable()
+    {
+        Debug.Log("enabling level editor");
+    }
 
     public void ProcessEvent()
     {
@@ -36,6 +50,19 @@ public class LevelEditor : MonoBehaviour {
             else
                 ProcessFreeMouseUp();
         }
+        else if (Event.current.type == EventType.Layout)
+        {
+            ProcessActions();
+        }
+    }
+
+    private void ProcessActions()
+    {
+        if (actions == null)
+        {
+            actions = new LevelEditorActions();
+        }
+        actions.ProcessActions();
     }
     
     private void ProcessHeldKeyUp()

@@ -8,25 +8,15 @@ using System.IO;
 /// Then, while still in the early days, I expanded the functionality and kept it all in one
 /// bulky class. Have fun!
 /// </summary>
-public class LevelEditorActions : MonoBehaviour
+public class LevelEditorActions
 {
     public LevelContainer Level;
-
+    public LevelEditorObjectHandler objectHandler;
+    
     private GameObject _levelObj;
-    public LevelProgressionHandler.Levels LevelId;
-    public bool IsInEditMode;
-    public bool DebugMode;
 
     private readonly StalactiteEditor _stalEditControl = new StalactiteEditor();
 
-    private Transform _caveParent;
-    private Transform _mothParent;
-    private Transform _stalParent;
-    private Transform _shroomParent;
-    private Transform _webParent;
-    private Transform _spiderParent;
-    private Transform _triggerParent;
-    private Transform _npcParent;
     private int _numSections;
     private LevelProgressionHandler.Levels _loadedLevelNum;
 
@@ -39,108 +29,29 @@ public class LevelEditorActions : MonoBehaviour
     private float _webZ;
     private float _triggerZ;
     private float _npcZ;
-
-    private void Awake()
-    {
-        Toolbox.Instance.Debug = DebugMode;
-        if (LevelId == 0)
-        {
-            Debug.Log("No Level Set!!!!");
-        }
-    }
-
+    
     private void Start()
     {
         Level = new LevelContainer();
-        _caveParent = GameObject.Find("Caves").transform;
-        _mothParent = GameObject.Find("Moths").transform;
-        _stalParent = GameObject.Find("Stalactites").transform;
-        _spiderParent = GameObject.Find("Spiders").transform;
-        _triggerParent = GameObject.Find("Triggers").transform;
-        _shroomParent = GameObject.Find("Mushrooms").transform;
-        _npcParent = GameObject.Find("Npcs").transform;
-        _webParent = GameObject.Find("Webs").transform;
         _levelObj = GameObject.Find("Level");
-        SetZLayers();
-        SetLevelNum();
-        LoadBtn();
+        //SetLevelNum();
+        //LoadBtn();
     }
 
-    private void Update()
+    public void ProcessActions()
     {
-        if (_caveParent != null)
+        if (objectHandler == null)
         {
-            SetLevelStats();
-            LineUpCaves();
+            objectHandler = new LevelEditorObjectHandler();
         }
-
-        if (_mothParent != null)
-        {
-            AlignMoths();
-        }
-        
-        _stalEditControl.ProcessStalactites(_stalParent);
+        objectHandler.GUIEvent();
+        //SetLevelStats();
     }
-
-    private void AlignMoths()
-    {
-        foreach (Transform moth in _mothParent)
-        {
-            Moth mothScript = moth.GetComponent<Moth>();
-            foreach (Transform mothTf in moth.transform)
-            {
-                if (mothTf.name != "MothTrigger") continue;
-                if (mothTf.position != moth.transform.position)
-                {
-                    mothTf.position = moth.transform.position;
-                }
-            }
-            
-            SpriteRenderer mothRenderer = moth.GetComponentInChildren<SpriteRenderer>();
-            switch (mothScript.Colour)
-            {
-                case Moth.MothColour.Blue:
-                    mothRenderer.color = new Color(0f, 0f, 1f);
-                    break;
-                case Moth.MothColour.Green:
-                    mothRenderer.color = new Color(0f, 1f, 0f);
-                    break;
-                case Moth.MothColour.Gold:
-                    mothRenderer.color = new Color(1f, 1f, 0f);
-                    break;
-            }
-            
-        }
-    }
-
-    // TODO couldn't figure this out... try again later
-    /*private void PlaceOnInput()
-    {
-        //Vector2 Pos = GUIUtility.GUIToScreenPoint(Event.current.mousePosition);
-        //Debug.Log(Input.mousePosition.ToString());
-
-        //Debug.Log(Pos);
-
-        Transform MothParent = GameObject.Find("Moths").transform;
-        Transform ShroomParent = GameObject.Find("Mushrooms").transform;
-        if (Input.GetKeyUp("m"))
-        {
-            //GameObject NewMoth = (GameObject)Instantiate(Resources.Load("Collectibles/Moth"), new Vector3(Pos.x, Pos.y, MothZ), new Quaternion(), MothParent);
-        }
-        else if (Input.GetKeyUp("h"))
-        {
-            GameObject NewShroom = (GameObject)Instantiate(Resources.Load("Obstacles/Mushroom"), ShroomParent);
-        }
-        else if (Input.GetKeyUp("s"))
-        {
-
-        }
-
-    }*/
 
     private void SetLevelStats()
     {
-        GetNumSections();
+        // TODO set text somewhere else
+        //GetNumSections();
         int sections = _numSections;
         const float distOffset = 0f;
         float distance = sections * 19.2f - distOffset;
@@ -151,51 +62,7 @@ public class LevelEditorActions : MonoBehaviour
         GameObject.Find("TimeText").GetComponent<Text>().text = "Time to complete: " + timeTaken + " sec";
     }
 
-    private void LineUpCaves()
-    {
-        foreach (Transform cave in _caveParent)
-        {
-            int index = Mathf.RoundToInt(cave.position.x / _tileSizeX);
-            PolygonCollider2D caveCollider = cave.GetComponent<PolygonCollider2D>();
-            if (caveCollider != null)
-            {
-                caveCollider.enabled = false;
-            }
-
-            SpriteRenderer caveRenderer = cave.GetComponent<SpriteRenderer>();
-            if (caveRenderer != null)
-            {
-                if (cave.name != caveRenderer.sprite.name)
-                {
-                    cave.name = caveRenderer.sprite.name;
-                }
-            }
-            cave.transform.position = new Vector3(index * _tileSizeX, 0f, _caveZ);
-        }
-    }
-
-    private void SetZLayers()
-    {
-        _tileSizeX = Toolbox.TileSizeX;
-        _caveZ = Toolbox.Instance.ZLayers["Cave"];
-        _stalZ = Toolbox.Instance.ZLayers["Stalactite"];
-        _shroomZ = Toolbox.Instance.ZLayers["Mushroom"];
-        _mothZ = Toolbox.Instance.ZLayers["Moth"];
-        _spiderZ = Toolbox.Instance.ZLayers["Spider"];
-        _webZ = Toolbox.Instance.ZLayers["Web"];
-        _triggerZ = Toolbox.Instance.ZLayers["Trigger"];
-        _npcZ = Toolbox.Instance.ZLayers["NPC"];
-
-        _stalEditControl.SetZLayers(_triggerZ);
-
-        _mothParent.position = new Vector3(0, 0, _mothZ);
-        _spiderParent.position = new Vector3(0, 0, _spiderZ);
-        _webParent.position = new Vector3(0, 0, _webZ);
-        _triggerParent.position = new Vector3(0, 0, _triggerZ);
-        _shroomParent.position = new Vector3(0, 0, _shroomZ);
-        _npcParent.position = new Vector3(0, 0, _npcZ);
-    }
-
+    /*
     public void SaveBtn()
     {
         if (_caveParent == null) { _caveParent = GameObject.Find("Caves").GetComponent<Transform>(); }
@@ -716,5 +583,5 @@ public class LevelEditorActions : MonoBehaviour
             spawnTf.Pos += new Vector2(posIndex * _tileSizeX, 0f);
             newNpc.GetComponent<NPC>().SetTransform(newNpc.transform, spawnTf);
         }
-    }
+    }*/
 }

@@ -15,8 +15,10 @@ public static class LevelEditorSceneView
 
     private static void OnSceneGUI(SceneView sceneView)
     {
-        LevelEditor editor = GameObject.FindGameObjectWithTag("Scripts").GetComponent<LevelEditor>();
-        if (editor != null && editor.IsInEditMode)
+        GameObject scriptsObject = GameObject.FindGameObjectWithTag("Scripts");
+        if (scriptsObject == null) return;
+        LevelEditor editor = scriptsObject.GetComponent<LevelEditor>();
+        if (editor != null && editor.EditMode)
         {
             editor.ProcessEvent();
         }
