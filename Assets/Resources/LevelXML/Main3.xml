@@ -12,6 +12,7 @@
       <Spiders />
       <Webs />
       <Triggers />
+      <Npcs />
     </Cave>
     <Cave>
       <TopIndex>1</TopIndex>
@@ -21,39 +22,111 @@
       <Shrooms />
       <Stals>
         <StalType>
-          <SpawnTranform>
+          <SpawnTransform>
             <Pos>
-              <x>-4.27000046</x>
-              <y>4.92</y>
+              <x>-4.35684872</x>
+              <y>4.88526535</y>
             </Pos>
             <Scale>
-              <x>1.09828424</x>
-              <y>1.09828448</y>
+              <x>1</x>
+              <y>1</y>
             </Scale>
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>0.0309746433</z>
-              <w>0.9995202</w>
+              <z>0</z>
+              <w>1</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
-                <z>3.55000043</z>
+                <z>0</z>
               </eulerAngles>
             </Rotation>
-          </SpawnTranform>
-          <TriggerPos>
-            <x>-8.002628</x>
-            <y>0.98</y>
-          </TriggerPos>
+          </SpawnTransform>
+          <TriggerPosX>0</TriggerPosX>
+          <DropEnabled>false</DropEnabled>
+        </StalType>
+        <StalType>
+          <SpawnTransform>
+            <Pos>
+              <x>1.38272476</x>
+              <y>3.681158</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <TriggerPosX>2</TriggerPosX>
           <DropEnabled>true</DropEnabled>
-          <Flipped>false</Flipped>
+        </StalType>
+        <StalType>
+          <SpawnTransform>
+            <Pos>
+              <x>6.199152</x>
+              <y>5.56759262</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <TriggerPosX>0</TriggerPosX>
+          <DropEnabled>false</DropEnabled>
+        </StalType>
+        <StalType>
+          <SpawnTransform>
+            <Pos>
+              <x>8.767912</x>
+              <y>5.52745628</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <TriggerPosX>0</TriggerPosX>
+          <DropEnabled>false</DropEnabled>
         </StalType>
       </Stals>
       <Moths />
       <Spiders />
       <Webs />
       <Triggers />
+      <Npcs />
     </Cave>
     <Cave>
       <TopIndex>2</TopIndex>
@@ -93,30 +166,33 @@
       <Webs />
       <Triggers>
         <TriggerType>
-          <Pos>
-            <x>-2.34000015</x>
-            <y>0</y>
-          </Pos>
-          <Scale>
-            <x>1</x>
-            <y>11.4500237</y>
-          </Scale>
-          <Rotation>
-            <x>0</x>
-            <y>0</y>
-            <z>0</z>
-            <w>1</w>
-            <eulerAngles>
+          <SpawnTransform>
+            <Pos>
+              <x>0</x>
+              <y>0</y>
+            </Pos>
+            <Scale>
+              <x>0</x>
+              <y>0</y>
+            </Scale>
+            <Rotation>
               <x>0</x>
               <y>0</y>
               <z>0</z>
-            </eulerAngles>
-          </Rotation>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
           <EventType>Dialogue</EventType>
           <EventId>AllOnYourOwn</EventId>
           <PausesGame>false</PausesGame>
         </TriggerType>
       </Triggers>
+      <Npcs />
     </Cave>
     <Cave>
       <TopIndex>0</TopIndex>
@@ -129,6 +205,7 @@
       <Spiders />
       <Webs />
       <Triggers />
+      <Npcs />
     </Cave>
     <Cave>
       <TopIndex>4</TopIndex>
@@ -142,54 +219,59 @@
       <Webs />
       <Triggers>
         <TriggerType>
-          <Pos>
-            <x>-6.70000458</x>
-            <y>0.68</y>
-          </Pos>
-          <Scale>
-            <x>1</x>
-            <y>11.4500237</y>
-          </Scale>
-          <Rotation>
-            <x>0</x>
-            <y>0</y>
-            <z>0</z>
-            <w>1</w>
-            <eulerAngles>
+          <SpawnTransform>
+            <Pos>
+              <x>0</x>
+              <y>0</y>
+            </Pos>
+            <Scale>
+              <x>0</x>
+              <y>0</y>
+            </Scale>
+            <Rotation>
               <x>0</x>
               <y>0</y>
               <z>0</z>
-            </eulerAngles>
-          </Rotation>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
           <EventType>Dialogue</EventType>
           <EventId>FirstDeath</EventId>
           <PausesGame>false</PausesGame>
         </TriggerType>
         <TriggerType>
-          <Pos>
-            <x>8.019997</x>
-            <y>0.68</y>
-          </Pos>
-          <Scale>
-            <x>1</x>
-            <y>11.4500237</y>
-          </Scale>
-          <Rotation>
-            <x>0</x>
-            <y>0</y>
-            <z>0</z>
-            <w>1</w>
-            <eulerAngles>
+          <SpawnTransform>
+            <Pos>
+              <x>0</x>
+              <y>0</y>
+            </Pos>
+            <Scale>
+              <x>0</x>
+              <y>0</y>
+            </Scale>
+            <Rotation>
               <x>0</x>
               <y>0</y>
               <z>0</z>
-            </eulerAngles>
-          </Rotation>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
           <EventType>Dialogue</EventType>
           <EventId>FirstDeath</EventId>
           <PausesGame>false</PausesGame>
         </TriggerType>
       </Triggers>
+      <Npcs />
     </Cave>
     <Cave>
       <TopIndex>1</TopIndex>
@@ -202,6 +284,7 @@
       <Spiders />
       <Webs />
       <Triggers />
+      <Npcs />
     </Cave>
     <Cave>
       <TopIndex>0</TopIndex>
@@ -214,6 +297,7 @@
       <Spiders />
       <Webs />
       <Triggers />
+      <Npcs />
     </Cave>
     <Cave>
       <TopIndex>1001</TopIndex>
@@ -226,26 +310,27 @@
       <Spiders />
       <Webs />
       <Triggers />
+      <Npcs />
     </Cave>
   </CaveList>
   <Clumsy>
     <Pos>
-      <x>-4.83</x>
-      <y>1</y>
+      <x>0</x>
+      <y>0</y>
     </Pos>
     <Scale>
-      <x>0.177492425</x>
-      <y>0.194299191</y>
+      <x>0</x>
+      <y>0</y>
     </Scale>
     <Rotation>
       <x>0</x>
       <y>0</y>
-      <z>0.248385757</z>
-      <w>-0.9686612</w>
+      <z>0</z>
+      <w>0</w>
       <eulerAngles>
         <x>0</x>
         <y>0</y>
-        <z>331.236</z>
+        <z>0</z>
       </eulerAngles>
     </Rotation>
   </Clumsy>

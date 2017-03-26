@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using UnityEngine.SceneManagement;
 
 public class LevelEditor : MonoBehaviour {
@@ -14,17 +13,12 @@ public class LevelEditor : MonoBehaviour {
     public LevelEditorObjectHandler objectHandler;
     private GameObject heldObject;
     
-    public void ProcessEvent()
+    public void ProcessEvent(Vector3 mousePosition)
     {
         if (SceneManager.GetActiveScene().name != "LevelEditor") return;
         
-        Vector3 mousePosition = Event.current.mousePosition;
-        mousePosition.y = SceneView.currentDrawingSceneView.camera.pixelHeight - mousePosition.y;
-        mousePosition = SceneView.currentDrawingSceneView.camera.ScreenToWorldPoint(mousePosition);
-        mousePosition.z = 0f;
-        
         if (heldObject != null)
-            heldObject.transform.position = mousePosition;
+            heldObject.transform.position = new Vector3(mousePosition.x, mousePosition.y, heldObject.transform.position.z);
         
         if (Event.current.type == EventType.keyUp)
         {
@@ -78,7 +72,7 @@ public class LevelEditor : MonoBehaviour {
                 heldObject = Object.Instantiate(Resources.Load<GameObject>("Collectibles/Moth"));
                 break;
             case KeyCode.Keypad2:
-                heldObject = Object.Instantiate(Resources.Load<GameObject>("Obstacles/EditorStalactite"));
+                heldObject = objectHandler.SpawnObject<StalEditorHandler>();
                 break;
             default:
                 bUnused = true;
@@ -90,29 +84,17 @@ public class LevelEditor : MonoBehaviour {
 
     private void ProcessHeldMouseUp()
     {
-        bool bUnused = false;
-        
         switch (Event.current.button)
         {
             case 1:
                 heldObject = null;
                 break;
-            default:
-                bUnused = true;
-                break;
         }
-
     }
 
     private void ProcessFreeMouseUp()
     {
 
-        bool bUnused = false;
-
-        bUnused = true;
-
-        if (!bUnused)
-            Event.current.Use();
     }
 
     private void RotateLeft()

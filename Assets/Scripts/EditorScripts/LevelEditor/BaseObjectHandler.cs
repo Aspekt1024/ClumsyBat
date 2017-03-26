@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class BaseObjectHandler
 {
+    protected string resourcePath;
     protected LevelEditorObjectHandler objectHandler;
     protected Transform parentObj;
     protected LevelContainer level;
@@ -49,6 +50,7 @@ public abstract class BaseObjectHandler
         parentObj.SetParent(levelTf);
     }
 
+    public virtual GameObject CreateNewObject() { return null; }
     public abstract void StoreObjects(ref LevelContainer level);
     protected abstract void SetObjects(LevelContainer level);
     protected abstract void Update();
@@ -71,7 +73,6 @@ public abstract class BaseObjectHandler
 
     protected int[] GetObjCounts(Transform objParent)
     {
-        Debug.Log(objParent);
         int[] objCounts = new int[level.Caves.Length];
         foreach (Transform obj in objParent)
         {

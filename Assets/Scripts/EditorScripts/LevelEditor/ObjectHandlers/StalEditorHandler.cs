@@ -8,6 +8,7 @@ public class StalEditorHandler : BaseObjectHandler
 
     public StalEditorHandler(LevelEditorObjectHandler objHandler) : base(objHandler)
     {
+        resourcePath = "Obstacles/Stalactite";
         parentObj = GetParentTransform("Stalactites");
         zLayer = LevelEditorConstants.StalactiteZ;
         stalHandler = new StalactiteEditor(parentObj);
@@ -20,8 +21,16 @@ public class StalEditorHandler : BaseObjectHandler
         //stalHandler.ProcessStalactites();
     }
 
-    public override void StoreObjects(ref LevelContainer level)
+    public override GameObject CreateNewObject()
     {
+        GameObject obj = Object.Instantiate(Resources.Load<GameObject>(resourcePath), parentObj);
+        obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y, zLayer);
+        return obj;
+    }
+
+    public override void StoreObjects(ref LevelContainer levelObj)
+    {
+        level = levelObj;
         var StalCounts = GetObjCounts(parentObj);
         for (int i = 0; i < level.Caves.Length; i++)
         {
@@ -49,7 +58,7 @@ public class StalEditorHandler : BaseObjectHandler
             if (level.Caves[i].Stals == null || level.Caves[i].Stals.Length == 0) continue;
             foreach (StalPool.StalType Stal in level.Caves[i].Stals)
             {
-                GameObject newStal = (GameObject)Object.Instantiate(Resources.Load("Obstacles/Stalactite"), parentObj);
+                GameObject newStal = (GameObject)Object.Instantiate(Resources.Load(resourcePath), parentObj);
                 Spawnable.SpawnType spawnTf = Stal.SpawnTransform;
                 spawnTf.Pos += new Vector2(i * LevelEditorConstants.TileSizeX, 0f);
                 newStal.GetComponent<Stalactite>().SetTransform(newStal.transform, spawnTf);

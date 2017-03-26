@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using System.Reflection;
 
 public class LevelEditorObjectHandler {
@@ -45,5 +44,21 @@ public class LevelEditorObjectHandler {
     public int GetNumSections()
     {
         return numSections;
+    }
+
+    public GameObject SpawnObject<T>() where T : BaseObjectHandler
+    {
+        BaseObjectHandler handler = null;
+        foreach (var h in ObjHandlers)
+        {
+            if (h.IsType<T>())
+            {
+                handler = h;
+                break;
+            }
+        }
+        if (handler == null) return null;
+        
+        return handler.CreateNewObject();
     }
 }

@@ -20,7 +20,11 @@ public static class LevelEditorSceneView
         LevelEditor editor = scriptsObject.GetComponent<LevelEditor>();
         if (editor != null && editor.EditMode)
         {
-            editor.ProcessEvent();
+            Vector3 mousePosition = Event.current.mousePosition;
+            mousePosition.y = SceneView.currentDrawingSceneView.camera.pixelHeight - mousePosition.y;
+            mousePosition = SceneView.currentDrawingSceneView.camera.ScreenToWorldPoint(mousePosition);
+            mousePosition.z = 0f;
+            editor.ProcessEvent(mousePosition);
         }
     }
 }

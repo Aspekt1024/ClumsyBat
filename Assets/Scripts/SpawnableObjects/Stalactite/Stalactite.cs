@@ -20,9 +20,7 @@ public class Stalactite : Spawnable {
         public bool bExploding;
     }
     private StalacType stal;
-
-    private Player player;
-
+    
     // These variables are set in the level editor
     public bool DropEnabled;
     public float TriggerPosX;
@@ -32,7 +30,6 @@ public class Stalactite : Spawnable {
         GetStalComponents();
         IsActive = false;
         stal.Anim.enabled = true;
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
     private void FixedUpdate()
