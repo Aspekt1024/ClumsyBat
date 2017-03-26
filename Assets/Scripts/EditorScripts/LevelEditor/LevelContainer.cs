@@ -17,7 +17,7 @@ public class LevelContainer {
         public SpiderPool.SpiderType[] Spiders;
         public WebPool.WebType[] Webs;
         public TriggerHandler.TriggerType[] Triggers;
-        public NPCPool.NpcType[] Npcs;
+        public NpcPool.NpcType[] Npcs;
     }
     
     public struct ClumsyType

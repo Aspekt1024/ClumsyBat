@@ -50,9 +50,9 @@ public class CaveRandomiser {
             }
             else
             {
-                StalList[0].SpawnTranform.Pos = new Vector2(0, 0);
-                StalList[0].SpawnTranform.Rotation = new Quaternion();
-                StalList[0].SpawnTranform.Scale = new Vector2(1f, 1f);
+                StalList[0].SpawnTransform.Pos = new Vector2(0, 0);
+                StalList[0].SpawnTransform.Rotation = new Quaternion();
+                StalList[0].SpawnTransform.Scale = new Vector2(1f, 1f);
                 StalList[0].DropEnabled = true;
             }
 

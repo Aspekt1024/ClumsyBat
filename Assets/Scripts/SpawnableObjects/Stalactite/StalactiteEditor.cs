@@ -3,20 +3,21 @@ using System.Collections.Generic;
 
 public class StalactiteEditor {
 
-    private Transform StalParent = null;
-    //private float TriggerZ;
+    private Transform stalParent = null;
 
     Transform Stal = null;
     Stalactite StalScript = null;
     Transform StalBody = null;
     SpriteRenderer StalTrigger = null;
 
-    public void ProcessStalactites(Transform _StalParent)
+    public StalactiteEditor(Transform parentTf)
     {
-        if (_StalParent == null) { return; }
-        StalParent = _StalParent;
+        stalParent = parentTf;
+    }
 
-        foreach (Transform StalChild in StalParent)
+    public void ProcessStalactites()
+    {
+        foreach (Transform StalChild in stalParent)
         {
             Stal = StalChild;
             GetStalComponents();
@@ -58,7 +59,6 @@ public class StalactiteEditor {
         if (Stal.localRotation.eulerAngles != Vector3.zero)
         {
             StalBody.localRotation = Stal.localRotation;
-            if (StalScript.Flipped) { StalBody.Rotate(Vector3.forward * 180f); }
             Stal.localRotation = new Quaternion();
         }
 
@@ -71,7 +71,7 @@ public class StalactiteEditor {
 
     private void ProcessTriggerView()
     {
-        if (StalScript.UnstableStalactite)
+        if (StalScript.DropEnabled)
         {
             StalTrigger.enabled = true;
         }

@@ -1,21 +1,28 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
+using System.Reflection;
 
 public class LevelEditorObjectHandler {
     
     public List<BaseObjectHandler> ObjHandlers;
 
+    private int numSections;
+
     public LevelEditorObjectHandler()
     {
         ObjHandlers = new List<BaseObjectHandler>();
-        ObjHandlers.Add(new CaveEditorHandler(this));
-        ObjHandlers.Add(new MothEditorHandler(this));
-    }
 
-    public void GetCaveList()
-    {
-
+        Type[] types = Assembly.GetExecutingAssembly().GetTypes();
+        foreach(Type type in types)
+        {
+            if (type.IsSubclassOf(typeof(BaseObjectHandler)))
+            {
+                ObjHandlers.Add((BaseObjectHandler)Activator.CreateInstance(type, this));
+            }
+        }
     }
 
     public void GUIEvent()
@@ -28,6 +35,15 @@ public class LevelEditorObjectHandler {
         foreach(var objHandler in ObjHandlers)
         {
             objHandler.GUIUpdate();
+            if (objHandler.IsType<CaveEditorHandler>())
+            {
+                numSections = ((CaveEditorHandler)objHandler).GetNumSections();
+            }
         }
+    }
+
+    public int GetNumSections()
+    {
+        return numSections;
     }
 }

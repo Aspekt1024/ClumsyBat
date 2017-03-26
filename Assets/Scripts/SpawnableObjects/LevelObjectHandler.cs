@@ -16,7 +16,7 @@ public class LevelObjectHandler : MonoBehaviour {
         public SpiderPool.SpiderType[] SpiderList;
         public WebPool.WebType[] WebList;
         public TriggerHandler.TriggerType[] TriggerList;
-        public NPCPool.NpcType[] NpcList;
+        public NpcPool.NpcType[] NpcList;
     }
     
     private LevelContainer _level;
@@ -30,7 +30,7 @@ public class LevelObjectHandler : MonoBehaviour {
     private SpiderPool _spiders;
     private WebPool _webs;
     private TriggerHandler _triggers;
-    private NPCPool _npcs;
+    private NpcPool _npcs;
 
     private void Awake()
     {
@@ -43,7 +43,7 @@ public class LevelObjectHandler : MonoBehaviour {
         _spiders = new SpiderPool();
         _webs = new WebPool();
         _triggers = new TriggerHandler();
-        _npcs = new NPCPool();
+        _npcs = new NpcPool();
     }
 
     private void Start ()

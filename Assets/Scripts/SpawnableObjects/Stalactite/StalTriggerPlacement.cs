@@ -26,8 +26,8 @@ public class StalTriggerPlacement : MonoBehaviour {
     
 	void Update ()
     {
-        TelegraphImage.enabled = Stal.UnstableStalactite;
-        if (!Stal.UnstableStalactite) { return; }
+        TelegraphImage.enabled = Stal.DropEnabled;
+        if (!Stal.DropEnabled) { return; }
         
         PositionTrigger();
 	}

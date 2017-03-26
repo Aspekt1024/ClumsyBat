@@ -81,6 +81,9 @@ public static class EditorHelpers {
     #endregion
 
     #region Actual Helpers
+    // TODO remove this as it's not required...
+    // it was introduced as a helper to turn an enum into an array for displaying a GUILayout
+    // however enum guilayouts are available already
     public static string[] GetEnumStringArray(Type enumType)
     {
         var enumArray = Enum.GetValues(enumType);

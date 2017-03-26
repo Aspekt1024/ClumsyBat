@@ -5,10 +5,10 @@ public class StalDropComponent : MonoBehaviour {
 
     [HideInInspector]
     public SpriteRenderer TriggerSprite;
-    private Stalactite _stal;
+    private Stalactite stal;
     private StalAnimationHandler _anim;
     private Rigidbody2D _stalBody;
-    private Transform _playerBody;
+    private Transform playerTf;
     private PlayerController _playerControl;
 
     [HideInInspector]
@@ -19,6 +19,7 @@ public class StalDropComponent : MonoBehaviour {
     private bool _paused;
     private Vector2 _storedVelocity = Vector2.zero;
     private bool storedKinematicState;
+    private const float shakeThresholdX = 6f;
 
     private enum DropStates
     {
@@ -33,33 +34,36 @@ public class StalDropComponent : MonoBehaviour {
         GetComponentList();
     }
 
+    private void FixedUpdate()
+    {
+        if (!stal.DropEnabled || !stal.Active() || _paused || _state == DropStates.Falling || !_playerControl.ThePlayer.IsAlive()) return;
+        
+        if (playerTf.transform.position.x > transform.position.x + stal.TriggerPosX)
+        {
+            Drop();
+        }
+        else
+        {
+            if (playerTf.transform.position.x > transform.position.x + stal.TriggerPosX - shakeThresholdX && _state == DropStates.None)
+            {
+                StartCoroutine("Shake");
+            }
+        }
+    }
+
     private void Update()
     {
-        if (!_stal.Active() || !_stal.UnstableStalactite) { return; }
-
-        if ((_playerBody.position.x + 8f > transform.position.x) && _state == DropStates.None && _playerControl.ThePlayer.IsAlive())
-        {
-            _state = DropStates.Shaking;
-            StartCoroutine("Shake");
-        }
-
-        if (!_playerControl) { return; } // Editor clumsy has no player control
         if (!_playerControl.ThePlayer.IsAlive() && _state == DropStates.Shaking)
         {
             _state = DropStates.None;
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (_stal.UnstableStalactite) { Drop(); }
-    }
-
     public void NewStalactite()
     {
         _state = DropStates.None;
         StopAllCoroutines();
-        TriggerSprite.enabled = Toolbox.Instance.Debug && _stal.UnstableStalactite;
+        TriggerSprite.enabled = Toolbox.Instance.Debug && stal.DropEnabled;
     }
     
     public void Drop()
@@ -67,7 +71,7 @@ public class StalDropComponent : MonoBehaviour {
         if (_state != DropStates.Falling)
         {
             _state = DropStates.Falling;
-            _stal.SetState(Stalactite.StalStates.Falling);
+            stal.SetState(Stalactite.StalStates.Falling);
             StartCoroutine("DropSequence");
         }
     }
@@ -95,11 +99,12 @@ public class StalDropComponent : MonoBehaviour {
                 yield return null;
             }
         }
-        _stal.SendToInactivePool();
+        stal.SendToInactivePool();
     }
     
     IEnumerator Shake()
     {
+        _state = DropStates.Shaking;
         const float shakeInterval = 0.07f;
         const float shakeIntensity = 1.8f;
         bool bRotateForward = true;
@@ -140,15 +145,15 @@ public class StalDropComponent : MonoBehaviour {
         GameObject thePlayer = GameObject.FindGameObjectWithTag("Player");
         if (thePlayer)
         {
-            _playerBody = GameObject.FindGameObjectWithTag("Player").transform;
-            _playerControl = _playerBody.GetComponent<PlayerController>();
+            playerTf = GameObject.FindGameObjectWithTag("Player").transform;
+            _playerControl = playerTf.GetComponent<PlayerController>();
         }
         
         TriggerSprite = GetComponent<SpriteRenderer>();
-        _stal = GetComponentInParent<Stalactite>();
-        _anim = _stal.GetComponentInChildren<StalAnimationHandler>();
+        stal = GetComponentInParent<Stalactite>();
+        _anim = stal.GetComponentInChildren<StalAnimationHandler>();
 
-        foreach (Transform tf in _stal.GetComponent<Transform>())
+        foreach (Transform tf in stal.GetComponent<Transform>())
         {
             if (tf.name == "StalObject")
             {

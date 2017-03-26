@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public sealed class NPCPool : SpawnPool<NPC> {
+public sealed class NpcPool : SpawnPool<NPC> {
 
-    public NPCPool()
+    public NpcPool()
     {
         ParentName = "NPCs";
         ParentZ = Toolbox.Instance.ZLayers["NPC"];

@@ -11,7 +11,7 @@ public class LevelEditor : MonoBehaviour {
     public bool DebugMode;
     public LevelProgressionHandler.Levels LevelId;
 
-    public LevelEditorActions actions;
+    public LevelEditorObjectHandler objectHandler;
     private GameObject heldObject;
     
     public void ProcessEvent()
@@ -42,17 +42,10 @@ public class LevelEditor : MonoBehaviour {
         }
         else if (Event.current.type == EventType.Layout)
         {
-            ProcessActions();
+            if (objectHandler == null)
+                objectHandler = new LevelEditorObjectHandler();
+            objectHandler.GUIEvent();
         }
-    }
-
-    private void ProcessActions()
-    {
-        if (actions == null)
-        {
-            actions = new LevelEditorActions();
-        }
-        actions.ProcessActions();
     }
     
     private void ProcessHeldKeyUp()
@@ -135,12 +128,12 @@ public class LevelEditor : MonoBehaviour {
     public void LoadLevel()
     {
         SaveLevelHandler saveHandler = new SaveLevelHandler();
-        saveHandler.Load(actions.objectHandler, LevelId);
+        saveHandler.Load(objectHandler, LevelId);
     }
 
     public void SaveLevel()
     {
         SaveLevelHandler saveHandler = new SaveLevelHandler();
-        saveHandler.Save(actions.objectHandler, LevelId);
+        saveHandler.Save(objectHandler, LevelId);
     }
 }

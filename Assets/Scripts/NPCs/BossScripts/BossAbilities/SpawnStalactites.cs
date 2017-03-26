@@ -76,7 +76,7 @@ public class SpawnStalactites : BossAbility {
             Rotation = new Quaternion(),
             Scale = Vector2.one
         };
-        _stals[index].Activate(spawnTf, false, Vector2.zero);
+        _stals[index].Activate(spawnTf, false, 0);
     }
 
     private int GetUnusedStalIndex()
@@ -99,7 +99,7 @@ public class SpawnStalactites : BossAbility {
         {
             Stalactite newStal = Instantiate(Resources.Load<Stalactite>("Obstacles/Stalactite"), stalParent);
             newStal.transform.position = Toolbox.Instance.HoldingArea;
-            newStal.UnstableStalactite = false;
+            newStal.DropEnabled = false;
             _stals.Add(newStal);
         }
     }

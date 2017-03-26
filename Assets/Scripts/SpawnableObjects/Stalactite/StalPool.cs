@@ -14,10 +14,9 @@ public sealed class StalPool : SpawnPool<Stalactite> {
 
     public struct StalType
     {
-        public Spawnable.SpawnType SpawnTranform;
-        public Vector2 TriggerPos;
+        public Spawnable.SpawnType SpawnTransform;
+        public float TriggerPosX;
         public bool DropEnabled;
-        public bool Flipped;
     }
 
     public void SetupStalactitesInList(StalType[] stalList, float xOffset)
@@ -25,9 +24,9 @@ public sealed class StalPool : SpawnPool<Stalactite> {
         foreach (StalType stal in stalList)
         {
             Stalactite newStal = GetNextObject();
-            Spawnable.SpawnType spawnTf = stal.SpawnTranform;
+            Spawnable.SpawnType spawnTf = stal.SpawnTransform;
             spawnTf.Pos += new Vector2(xOffset, 0f);
-            newStal.Activate(spawnTf, stal.DropEnabled, stal.TriggerPos, xOffset);
+            newStal.Activate(spawnTf, stal.DropEnabled, stal.TriggerPosX, xOffset);
         }
     }
 }
