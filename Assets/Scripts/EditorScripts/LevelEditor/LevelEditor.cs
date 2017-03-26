@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 
 public class LevelEditor : MonoBehaviour {
 
@@ -13,20 +13,10 @@ public class LevelEditor : MonoBehaviour {
 
     public LevelEditorActions actions;
     private GameObject heldObject;
-
-    public LevelEditor()
-    {
-        Debug.Log("instantiating level editor");
-    }
-
-    private void OnEnable()
-    {
-        Debug.Log("enabling level editor");
-    }
-
+    
     public void ProcessEvent()
     {
-        if (EditorSceneManager.GetActiveScene().name != "LevelEditor") return;
+        if (SceneManager.GetActiveScene().name != "LevelEditor") return;
         
         Vector3 mousePosition = Event.current.mousePosition;
         mousePosition.y = SceneView.currentDrawingSceneView.camera.pixelHeight - mousePosition.y;
@@ -140,5 +130,17 @@ public class LevelEditor : MonoBehaviour {
     private void RotateRight()
     {
 
+    }
+
+    public void LoadLevel()
+    {
+        SaveLevelHandler saveHandler = new SaveLevelHandler();
+        saveHandler.Load(actions.objectHandler, LevelId);
+    }
+
+    public void SaveLevel()
+    {
+        SaveLevelHandler saveHandler = new SaveLevelHandler();
+        saveHandler.Save(actions.objectHandler, LevelId);
     }
 }

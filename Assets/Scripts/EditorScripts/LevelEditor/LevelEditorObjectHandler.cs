@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class LevelEditorObjectHandler {
     
-    private List<BaseObjectHandler> objHandlers;
+    public List<BaseObjectHandler> ObjHandlers;
 
     public LevelEditorObjectHandler()
     {
-        objHandlers = new List<BaseObjectHandler>();
-        objHandlers.Add(new CaveEditorHandler(this));
-        objHandlers.Add(new MothEditorHandler(this));
+        ObjHandlers = new List<BaseObjectHandler>();
+        ObjHandlers.Add(new CaveEditorHandler(this));
+        ObjHandlers.Add(new MothEditorHandler(this));
+    }
+
+    public void GetCaveList()
+    {
+
     }
 
     public void GUIEvent()
@@ -20,7 +25,7 @@ public class LevelEditorObjectHandler {
     
     private void Update ()
     {
-        foreach(var objHandler in objHandlers)
+        foreach(var objHandler in ObjHandlers)
         {
             objHandler.GUIUpdate();
         }

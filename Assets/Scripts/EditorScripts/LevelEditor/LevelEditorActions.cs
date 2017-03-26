@@ -10,30 +10,17 @@ using System.IO;
 /// </summary>
 public class LevelEditorActions
 {
-    public LevelContainer Level;
+    public LevelContainer Level;// TODO not sure this is needed
     public LevelEditorObjectHandler objectHandler;
-    
-    private GameObject _levelObj;
 
     private readonly StalactiteEditor _stalEditControl = new StalactiteEditor();
 
     private int _numSections;
     private LevelProgressionHandler.Levels _loadedLevelNum;
-
-    private float _tileSizeX;
-    private float _caveZ;
-    private float _stalZ;
-    private float _shroomZ;
-    private float _mothZ;
-    private float _spiderZ;
-    private float _webZ;
-    private float _triggerZ;
-    private float _npcZ;
     
     private void Start()
     {
         Level = new LevelContainer();
-        _levelObj = GameObject.Find("Level");
         //SetLevelNum();
         //LoadBtn();
     }
@@ -63,27 +50,6 @@ public class LevelEditorActions
     }
 
     /*
-    public void SaveBtn()
-    {
-        if (_caveParent == null) { _caveParent = GameObject.Find("Caves").GetComponent<Transform>(); }
-        GetNumSections();
-        Level.Caves = new LevelContainer.CaveType[_numSections];
-        InitialiseCaveList();
-        StoreCaveIndexes();
-
-        StoreStalactites();
-        StoreMushrooms();
-        StoreMoths();
-        StoreSpiders();
-        StoreWebs();
-        StoreTriggers();
-        StoreNpcs();
-
-        string levelName = LevelId + ".xml";
-        const string pathName = "Assets/Resources/LevelXML";
-        Level.Save(Path.Combine(pathName, levelName));
-        Debug.Log("Level data saved to " + pathName + "/" + levelName);
-    }
 
     public void TestButton()
     {
@@ -113,91 +79,11 @@ public class LevelEditorActions
         GameObject.Find("LevelNumText").GetComponent<Text>().text = "Level: " + LevelId.ToString();
     }
 
-    private void InitialiseCaveList()
-    {
-        for (int i = 0; i < _numSections; i++)
-        {
-            Level.Caves[i].TopIndex = 0;
-            Level.Caves[i].BottomIndex = 0;
-            Level.Caves[i].bTopSecretPath = false;
-            Level.Caves[i].bBottomSecretPath = false;
-            Level.Caves[i].Shrooms = new ShroomPool.ShroomType[0];
-            Level.Caves[i].Stals = new StalPool.StalType[0];
-            Level.Caves[i].Moths = new MothPool.MothType[0];
-            Level.Caves[i].Spiders = new SpiderPool.SpiderType[0];
-            Level.Caves[i].Webs = new WebPool.WebType[0];
-            Level.Caves[i].Triggers = new TriggerHandler.TriggerType[0];
-            Level.Caves[i].Npcs = new NPCPool.NpcType[0];
-        }
-    }
 
-    private void StoreCaveIndexes()
-    {
-        foreach (Transform cave in _caveParent)
-        {
-            int index = Mathf.RoundToInt(cave.position.x / _tileSizeX);
-            if (cave.name == "CaveEntrance")
-            {
-                Level.Caves[index].BottomIndex = Toolbox.CaveStartIndex;
-                Level.Caves[index].TopIndex = Toolbox.CaveStartIndex;
-            }
-            else if (cave.name == "CaveExit")
-            {
-                Level.Caves[index].BottomIndex = Toolbox.CaveEndIndex;
-                Level.Caves[index].TopIndex = Toolbox.CaveEndIndex;
-            }
-            else if (cave.name == "CaveGnomeEnd")
-            {
-                Level.Caves[index].BottomIndex = Toolbox.CaveGnomeEndIndex;
-                Level.Caves[index].TopIndex = Toolbox.CaveGnomeEndIndex;
-            }
-            else if (cave.name.Contains("Top"))
-            {
-                int caveType = int.Parse(cave.name.Substring(cave.name.Length - 1, 1)) - 1;
-                Level.Caves[index].TopIndex = caveType;
-                if (cave.name.Contains("Exit"))
-                {
-                    Level.Caves[index].bTopSecretPath = true;
-                }
-            }
-            else if (cave.name.Contains("Bottom"))
-            {
-                int caveType = int.Parse(cave.name.Substring(cave.name.Length - 1, 1)) - 1;
-                Level.Caves[index].BottomIndex = caveType;
-                if (cave.name.Contains("Exit"))
-                {
-                    Level.Caves[index].bBottomSecretPath = true;
-                }
-            }
-        }
-    }
 
-    public void GetNumSections()
-    {
-        _numSections = 2;
-        foreach (Transform cave in _caveParent)
-        {
-            if (cave.name.Contains("Cave"))
-            {
-                int index = Mathf.RoundToInt(cave.position.x / _tileSizeX);
-                if (index + 1 > _numSections)
-                {
-                    _numSections = index + 1;
-                }
-            }
-        }
-    }
 
-    private int[] GetObjCounts(Transform objParent)
-    {
-        int[] objCounts = new int[_numSections];
-        foreach (Transform obj in objParent)
-        {
-            int index = Mathf.RoundToInt(obj.position.x / _tileSizeX);
-            objCounts[index]++;
-        }
-        return objCounts;
-    }
+
+
 
     private void StoreStalactites()
     {
@@ -258,27 +144,7 @@ public class LevelEditorActions
         }
     }
 
-    private void StoreMoths()
-    {
-        var mothCounts = GetObjCounts(_mothParent);
-        for (int i = 0; i < _numSections; i++)
-        {
-            Level.Caves[i].Moths = new MothPool.MothType[mothCounts[i]];
-        }
 
-        int[] mothNum = new int[_numSections];
-        foreach (Transform moth in _mothParent)
-        {
-            int index = Mathf.RoundToInt(moth.position.x / _tileSizeX);
-
-            MothPool.MothType newMoth = Level.Caves[index].Moths[mothNum[index]];
-            newMoth.SpawnTransform = ProduceSpawnTf(moth, index);
-            newMoth.Colour = moth.GetComponent<Moth>().Colour;
-            newMoth.PathType = moth.GetComponent<Moth>().PathType;
-            Level.Caves[index].Moths[mothNum[index]] = newMoth;
-            mothNum[index]++;
-        }
-    }
 
     private void StoreSpiders()
     {
@@ -363,120 +229,7 @@ public class LevelEditorActions
             npcNum[index]++;
         }
     }
-
-    private Spawnable.SpawnType ProduceSpawnTf(Transform objTf, int index)
-    {
-        var spawnTf = new Spawnable.SpawnType
-        {
-            Pos = new Vector2(objTf.position.x - _tileSizeX * index, objTf.position.y),
-            Scale = objTf.localScale,
-            Rotation = objTf.localRotation
-        };
-        return spawnTf;
-    }
-
-    public void LoadBtn()
-    {
-        if (LevelId == 0) { return; }
-        TextAsset levelTxt = (TextAsset)Resources.Load("LevelXML/" + LevelId);
-        Level = LevelContainer.LoadFromText(levelTxt.text);
-        ClearLevelObjects();
-        SetLevelObjects();
-        _loadedLevelNum = LevelId;
-    }
-
-    private void ClearLevelObjects()
-    {
-        Destroy(GameObject.Find("Stalactites"));
-        Destroy(GameObject.Find("Mushrooms"));
-        Destroy(GameObject.Find("Moths"));
-        Destroy(GameObject.Find("Spiders"));
-        Destroy(GameObject.Find("Webs"));
-        Destroy(GameObject.Find("Triggers"));
-        Destroy(GameObject.Find("Npcs"));
-        Destroy(GameObject.Find("Clumsy"));
-
-        foreach(Transform cave in _caveParent)
-        {
-            Destroy(cave.gameObject);
-        }
-    }
-
-    private void SetLevelObjects()
-    {
-        if (_levelObj == null) {
-            Debug.Log("Lost level");
-            _levelObj = new GameObject("Level");
-        }
-        GameObject stals = new GameObject("Stalactites");
-        GameObject shrooms = new GameObject("Mushrooms");
-        GameObject moths = new GameObject("Moths");
-        GameObject spiders = new GameObject("Spiders");
-        GameObject webs = new GameObject("Webs");
-        GameObject triggers = new GameObject("Triggers");
-        GameObject caves = _caveParent.gameObject;
-        _mothParent = moths.transform;
-        _stalParent = stals.transform;
-        _shroomParent = shrooms.transform;
-        _webParent = webs.transform;
-        _spiderParent = spiders.transform;
-        _triggerParent = triggers.transform;
-        _npcParent = new GameObject("Npcs").transform;
-
-        _stalParent.SetParent(_levelObj.transform);
-        _shroomParent.SetParent(_levelObj.transform);
-        _mothParent.SetParent(_levelObj.transform);
-        _spiderParent.SetParent(_levelObj.transform);
-        _webParent.SetParent(_levelObj.transform);
-        _triggerParent.SetParent(_levelObj.transform);
-        _npcParent.SetParent(_levelObj.transform);
-
-        //GameObject Clumsy = (GameObject)Instantiate(Resources.Load("ClumsyLevelEditor"), _levelObj.transform);
-        //Clumsy.name = "Clumsy";
-        //Clumsy.transform.position = new Vector3(Level.Clumsy.Pos.x, Level.Clumsy.Pos.y, _clumsyZ);
-        //Clumsy.transform.localRotation = Level.Clumsy.Rotation;
-        //Clumsy.transform.localScale = Level.Clumsy.Scale;
-
-        for (int i = 0; i < Level.Caves.Length; i++)
-        {
-            LevelContainer.CaveType cave = Level.Caves[i];
-            GameObject caveTop;
-            if (cave.TopIndex == Toolbox.CaveStartIndex)
-            {
-                caveTop = (GameObject)Instantiate(Resources.Load("Caves/CaveEntrance"), caves.transform);
-                caveTop.name = "CaveEntrance";
-            }
-            else if (cave.TopIndex == Toolbox.CaveEndIndex)
-            {
-                caveTop = (GameObject)Instantiate(Resources.Load("Caves/CaveExit"), caves.transform);
-                caveTop.name = "CaveExit";
-            }
-            else if (cave.TopIndex == Toolbox.CaveGnomeEndIndex)
-            {
-                caveTop = (GameObject) Instantiate(Resources.Load("Caves/CaveGnomeEnd"), caves.transform);
-                caveTop.name = "CaveGnomeEnd";
-            }
-            else
-            {
-                string caveBottomName = "CaveBottom" + (cave.bBottomSecretPath ? "Exit" : "") + (cave.BottomIndex + 1).ToString();
-                string caveTopName = "CaveTop" + (cave.bTopSecretPath ? "Exit" : "") + (cave.TopIndex + 1).ToString();
-                var caveBottom = (GameObject)Instantiate(Resources.Load("Caves/" + caveBottomName), caves.transform);
-                caveTop = (GameObject)Instantiate(Resources.Load("Caves/" + caveTopName), caves.transform);
-                caveBottom.name = caveBottomName;
-                caveTop.name = caveTopName;
-                caveBottom.transform.position = new Vector3(_tileSizeX * i, 0f, _caveZ);
-            }
-            caveTop.transform.position = new Vector3(_tileSizeX * i, 0f, _caveZ);
-
-            SetStalactites(stals, cave.Stals, i);
-            SetMushrooms(shrooms, cave.Shrooms, i);
-            SetMoths(moths, cave.Moths, i);
-            SetSpiders(spiders, cave.Spiders, i);
-            SetWebs(webs, cave.Webs, i);
-            SetTriggers(triggers, cave.Triggers, i);
-            SetNpcs(cave.Npcs, i);
-        }
-    }
+    
 
     private void SetStalactites(GameObject stals, StalPool.StalType[] stalList, int posIndex)
     {

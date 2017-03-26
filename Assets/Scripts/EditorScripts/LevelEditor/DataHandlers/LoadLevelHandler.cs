@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseObject : MonoBehaviour {
+public class LoadLevelHandler : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {

@@ -5,14 +5,12 @@ using UnityEngine;
 public class ChargeAbility : BossAbility {
 
     private Rigidbody2D body;
-    private Collider2D bossCollider;
 
     private bool chargeEnabled;
     private ChargeAction chargeCaller;
 
 	void Start () {
         body = GetComponent<Rigidbody2D>();
-        bossCollider = GetComponent<Collider2D>();
 	}
 	
 	void Update () {
