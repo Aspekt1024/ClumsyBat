@@ -38,7 +38,7 @@ public class Toolbox : Singleton<Toolbox>
     private void Awake()
     {
         HoldingArea = new Vector2(100, 0);
-        LevelSpeed = 6f;
+        LevelSpeed = 5f;
         GravityScale = 4f;
         MenuScreen = MenuSelector.MainMenu;
         

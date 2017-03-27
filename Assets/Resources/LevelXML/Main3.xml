@@ -7,7 +7,33 @@
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
       <Shrooms />
-      <Stals />
+      <Stals>
+        <StalType>
+          <SpawnTransform>
+            <Pos>
+              <x>8.431267</x>
+              <y>5.63</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <TriggerPosX>5.99</TriggerPosX>
+          <DropEnabled>true</DropEnabled>
+        </StalType>
+      </Stals>
       <Moths />
       <Spiders />
       <Webs />
@@ -43,14 +69,14 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>0</TriggerPosX>
-          <DropEnabled>false</DropEnabled>
+          <TriggerPosX>5.55</TriggerPosX>
+          <DropEnabled>true</DropEnabled>
         </StalType>
         <StalType>
           <SpawnTransform>
             <Pos>
-              <x>1.38272476</x>
-              <y>3.681158</y>
+              <x>1.38999939</x>
+              <y>4.01</y>
             </Pos>
             <Scale>
               <x>1</x>
@@ -68,7 +94,7 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>2</TriggerPosX>
+          <TriggerPosX>5.07</TriggerPosX>
           <DropEnabled>true</DropEnabled>
         </StalType>
         <StalType>
@@ -93,8 +119,8 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>0</TriggerPosX>
-          <DropEnabled>false</DropEnabled>
+          <TriggerPosX>1.06</TriggerPosX>
+          <DropEnabled>true</DropEnabled>
         </StalType>
         <StalType>
           <SpawnTransform>
@@ -118,8 +144,8 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>0</TriggerPosX>
-          <DropEnabled>false</DropEnabled>
+          <TriggerPosX>4.02</TriggerPosX>
+          <DropEnabled>true</DropEnabled>
         </StalType>
       </Stals>
       <Moths />

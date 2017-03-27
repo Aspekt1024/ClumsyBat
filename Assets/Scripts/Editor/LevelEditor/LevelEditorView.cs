@@ -8,10 +8,12 @@ using UnityEngine.SceneManagement;
 public class LevelEditorView : Editor {
 
     LevelEditor editor;
+    LevelEditorObjectHandler objectHandler;
 
     public override void OnInspectorGUI()
     {
         editor = (LevelEditor)target;
+        if (objectHandler == null) objectHandler = new LevelEditorObjectHandler();
 
         editor.EditMode = EditorGUILayout.Toggle("Edit Mode", editor.EditMode);
         editor.DebugMode = EditorGUILayout.Toggle("Debug Mode", editor.DebugMode);
@@ -23,11 +25,11 @@ public class LevelEditorView : Editor {
         EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("Load"))
         {
-            editor.LoadLevel();
+            LoadLevel();
         }
         if (GUILayout.Button("Save"))
         {
-            editor.SaveLevel();
+            SaveLevel();
         }
         EditorGUILayout.EndHorizontal();
 
@@ -51,7 +53,7 @@ public class LevelEditorView : Editor {
 
     private void ShowLevelStats()
     {
-        int numSections = editor.objectHandler.GetNumSections();
+        int numSections = objectHandler.GetNumSections();
         float distance = numSections * LevelEditorConstants.TileSizeX;
         float timeTaken = distance / 6f;    // TODO set level speed somewhere else...... where?
 
@@ -59,5 +61,16 @@ public class LevelEditorView : Editor {
         EditorGUILayout.LabelField("Distance: " + distance);
         EditorGUILayout.LabelField("Time to complete: " + timeTaken + " sec");
     }
+    
+    public void LoadLevel()
+    {
+        SaveLevelHandler saveHandler = new SaveLevelHandler();
+        saveHandler.Load(objectHandler, editor.LevelId);
+    }
 
+    public void SaveLevel()
+    {
+        SaveLevelHandler saveHandler = new SaveLevelHandler();
+        saveHandler.Save(objectHandler, editor.LevelId);
+    }
 }

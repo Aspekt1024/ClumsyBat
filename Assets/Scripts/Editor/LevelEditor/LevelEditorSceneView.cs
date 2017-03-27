@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEditor;
-using UnityEditor.SceneManagement;
-using UnityEditor.Callbacks;
 
 [InitializeOnLoad]
-public static class LevelEditorSceneView
+public class LevelEditorSceneView
 {
     static LevelEditorSceneView()
     {
@@ -17,6 +14,7 @@ public static class LevelEditorSceneView
     {
         GameObject scriptsObject = GameObject.FindGameObjectWithTag("Scripts");
         if (scriptsObject == null) return;
+
         LevelEditor editor = scriptsObject.GetComponent<LevelEditor>();
         if (editor != null && editor.EditMode)
         {
@@ -24,7 +22,12 @@ public static class LevelEditorSceneView
             mousePosition.y = SceneView.currentDrawingSceneView.camera.pixelHeight - mousePosition.y;
             mousePosition = SceneView.currentDrawingSceneView.camera.ScreenToWorldPoint(mousePosition);
             mousePosition.z = 0f;
-            editor.ProcessEvent(mousePosition);
+
+            if (editor.EditMode)
+            {
+                var editorActions = new LevelEditorActions();
+                editorActions.ProcessEvent(mousePosition, editor);
+            }
         }
     }
 }

@@ -24,7 +24,6 @@ public class SaveLevelHandler {
         level = new LevelContainer();
 
         InitialiseCaveList();
-        Debug.Log("cave list initialised");
 
         foreach (var handler in objects.ObjHandlers)
         {
