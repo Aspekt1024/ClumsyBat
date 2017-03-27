@@ -50,7 +50,13 @@ public abstract class BaseObjectHandler
         parentObj.SetParent(levelTf);
     }
 
-    public virtual GameObject CreateNewObject() { return null; }
+    public GameObject CreateNewObject()
+    {
+        GameObject obj = Object.Instantiate(Resources.Load<GameObject>(resourcePath), parentObj);
+        obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y, zLayer);
+        return obj;
+    }
+
     public abstract void StoreObjects(ref LevelContainer level);
     protected abstract void SetObjects(LevelContainer level);
     protected abstract void Update();

@@ -7,9 +7,7 @@ using System.Reflection;
 public class LevelEditorObjectHandler {
     
     public List<BaseObjectHandler> ObjHandlers;
-
-    private int numSections;
-
+    
     public LevelEditorObjectHandler()
     {
         ObjHandlers = new List<BaseObjectHandler>();
@@ -34,16 +32,17 @@ public class LevelEditorObjectHandler {
         foreach(var objHandler in ObjHandlers)
         {
             objHandler.GUIUpdate();
-            if (objHandler.IsType<CaveEditorHandler>())
-            {
-                numSections = ((CaveEditorHandler)objHandler).GetNumSections();
-            }
         }
     }
 
     public int GetNumSections()
     {
-        return numSections;
+        foreach (var objHandler in ObjHandlers)
+        {
+            if (objHandler.IsType<CaveEditorHandler>())
+                return ((CaveEditorHandler)objHandler).GetNumSections();
+        }
+        return 0;
     }
 
     public GameObject SpawnObject<T>() where T : BaseObjectHandler

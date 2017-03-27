@@ -6,6 +6,7 @@ public class MothEditorHandler : BaseObjectHandler {
 
     public MothEditorHandler(LevelEditorObjectHandler objHandler) : base(objHandler)
     {
+        resourcePath = "Collectibles/Moth";
         parentObj = GetParentTransform("Moths");
         zLayer = LevelEditorConstants.MothZ;
     }
@@ -74,7 +75,7 @@ public class MothEditorHandler : BaseObjectHandler {
         {
             foreach (MothPool.MothType moth in level.Caves[i].Moths)
             {
-                GameObject newMoth = (GameObject)Object.Instantiate(Resources.Load("Collectibles/Moth"), parentObj);
+                GameObject newMoth = (GameObject)Object.Instantiate(Resources.Load(resourcePath), parentObj);
                 Spawnable.SpawnType spawnTf = moth.SpawnTransform;
                 spawnTf.Pos += new Vector2(i * LevelEditorConstants.TileSizeX, 0f);
                 newMoth.GetComponent<Moth>().SetTransform(newMoth.transform, spawnTf);

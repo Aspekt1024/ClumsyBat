@@ -30,6 +30,7 @@ public class StalactiteEditor
         }
     }
 
+    // TODO tidy this up
     private void ProcessTriggerView()
     {
         Color trigCol = new Color(0.9f, 0.3f, 0.3f);
@@ -38,7 +39,7 @@ public class StalactiteEditor
         
         float Dist = stalScript.TriggerPosX - stalTf.localScale.x * 2 / 5f;
         float TimeToReachDest = (Dist / ClumsySpeed) - AnimTime;
-        float DistanceToFall = StalDropComponent.FallDistance * Mathf.Pow((TimeToReachDest / StalDropComponent.FallDuration), 2);
+        float DistanceToFall = StalDropComponent.FallDistance * Mathf.Pow((TimeToReachDest / StalDropComponent.FallDuration), 2);   // TODO put this formula somewhere else.. static? should reference the same code the in-game control does
         Vector2 telePos = new Vector3(stalTf.position.x, stalTf.position.y - DistanceToFall);
 
         trigCol = new Color(0.9f, 0.3f, 0.3f);

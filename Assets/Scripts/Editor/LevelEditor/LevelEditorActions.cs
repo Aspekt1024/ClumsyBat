@@ -16,6 +16,7 @@ public class LevelEditorActions
         if (editor.HeldObject != null)
             editor.HeldObject.transform.position = new Vector3(mousePosition.x, mousePosition.y, editor.HeldObject.transform.position.z);
 
+        // TODO decouple inputs
         if (Event.current.type == EventType.keyUp)
         {
             if (editor.HeldObject != null)
@@ -61,8 +62,7 @@ public class LevelEditorActions
         switch (Event.current.keyCode)
         {
             case KeyCode.Keypad1:
-                // TODO setup spawner
-                editor.HeldObject = Object.Instantiate(Resources.Load<GameObject>("Collectibles/Moth"));
+                editor.HeldObject = objectHandler.SpawnObject<MothEditorHandler>();
                 break;
             case KeyCode.Keypad2:
                 editor.HeldObject = objectHandler.SpawnObject<StalEditorHandler>();

@@ -18,14 +18,7 @@ public class StalEditorHandler : BaseObjectHandler
     {
         stalHandler.ProcessStalactites();
     }
-
-    public override GameObject CreateNewObject()
-    {
-        GameObject obj = Object.Instantiate(Resources.Load<GameObject>(resourcePath), parentObj);
-        obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y, zLayer);
-        return obj;
-    }
-
+    
     public override void StoreObjects(ref LevelContainer levelObj)
     {
         level = levelObj;
