@@ -88,7 +88,7 @@ public class Boss : MonoBehaviour {
     {
         if (other.collider.tag == "Stalactite" && InDamageObjects(BossDamageObjects.Stalactite))
         {
-            if (other.collider.gameObject.GetComponentInParent<Stalactite>().IsFalling())
+            if (other.collider.gameObject.GetComponent<Stalactite>().IsFalling())
                 TakeDamage();
         }
     }

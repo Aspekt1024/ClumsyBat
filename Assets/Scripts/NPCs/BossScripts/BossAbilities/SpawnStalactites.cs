@@ -76,7 +76,13 @@ public class SpawnStalactites : BossAbility {
             Rotation = new Quaternion(),
             Scale = Vector2.one
         };
-        _stals[index].Activate(spawnTf, false, 0);
+        StalPool.StalType stalProps = new StalPool.StalType()
+        {
+            SpawnTransform = spawnTf,
+            DropEnabled = false,
+            TriggerPosX = 0
+        };
+        _stals[index].Activate(stalProps, 0);
     }
 
     private int GetUnusedStalIndex()

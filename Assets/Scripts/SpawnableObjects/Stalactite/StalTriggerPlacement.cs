@@ -54,8 +54,10 @@ public class StalTriggerPlacement : MonoBehaviour {
 
     private void GetScriptComponents()
     {
-        Stal = GetComponentInParent<Stalactite>();
+        Stal = GetComponent<Stalactite>();
         TelegraphImage = GetComponent<SpriteRenderer>();
+        // TODO fix this - remove or replace as required
+        Debug.Log("dan, fix this if you're using it");
         foreach (Transform TF in Stal.GetComponent<Transform>())
         {
             if (TF.name == "StalObject")

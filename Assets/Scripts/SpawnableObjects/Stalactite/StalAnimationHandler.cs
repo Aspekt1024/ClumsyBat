@@ -20,7 +20,7 @@ public class StalAnimationHandler : MonoBehaviour
     void Awake()
     {
         _anim = GetComponent<Animator>();
-        _stal = GetComponentInParent<Stalactite>();
+        _stal = GetComponent<Stalactite>();
         NewStalactite();
     }
 

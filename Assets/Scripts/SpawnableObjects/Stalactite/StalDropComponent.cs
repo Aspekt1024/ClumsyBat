@@ -38,13 +38,13 @@ public class StalDropComponent : MonoBehaviour {
     {
         if (!stal.DropEnabled || !stal.Active() || _paused || _state == DropStates.Falling || !_playerControl.ThePlayer.IsAlive()) return;
         
-        if (playerTf.transform.position.x > transform.position.x + stal.TriggerPosX)
+        if (playerTf.transform.position.x > transform.position.x - stal.TriggerPosX)
         {
             Drop();
         }
         else
         {
-            if (playerTf.transform.position.x > transform.position.x + stal.TriggerPosX - shakeThresholdX && _state == DropStates.None)
+            if (playerTf.transform.position.x > transform.position.x - stal.TriggerPosX - shakeThresholdX && _state == DropStates.None)
             {
                 StartCoroutine("Shake");
             }
@@ -143,22 +143,15 @@ public class StalDropComponent : MonoBehaviour {
     private void GetComponentList()
     {
         GameObject thePlayer = GameObject.FindGameObjectWithTag("Player");
-        if (thePlayer)
+        if (thePlayer != null)
         {
             playerTf = GameObject.FindGameObjectWithTag("Player").transform;
             _playerControl = playerTf.GetComponent<PlayerController>();
         }
         
         TriggerSprite = GetComponent<SpriteRenderer>();
-        stal = GetComponentInParent<Stalactite>();
-        _anim = stal.GetComponentInChildren<StalAnimationHandler>();
-
-        foreach (Transform tf in stal.GetComponent<Transform>())
-        {
-            if (tf.name == "StalObject")
-            {
-                _stalBody = tf.GetComponent<Rigidbody2D>();
-            }
-        }
+        stal = GetComponent<Stalactite>();
+        _anim =GetComponent<StalAnimationHandler>();
+        _stalBody = transform.GetComponent<Rigidbody2D>();
     }
 }

@@ -16,9 +16,7 @@ public class StalEditorHandler : BaseObjectHandler
 
     protected override void Update()
     {
-        // TODO show trigger
-        // NB trigger is relative to the position of the stalactite (and would be negative pretty much every time)
-        //stalHandler.ProcessStalactites();
+        stalHandler.ProcessStalactites();
     }
 
     public override GameObject CreateNewObject()

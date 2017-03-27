@@ -4,11 +4,8 @@ using System.Collections.Generic;
 public class StalactiteEditor {
 
     private Transform stalParent = null;
-
-    Transform Stal = null;
-    Stalactite StalScript = null;
-    Transform StalBody = null;
-    SpriteRenderer StalTrigger = null;
+    private Transform stalTf = null;
+    private Stalactite stalScript = null;
 
     public StalactiteEditor(Transform parentTf)
     {
@@ -17,72 +14,22 @@ public class StalactiteEditor {
 
     public void ProcessStalactites()
     {
-        foreach (Transform StalChild in stalParent)
+        foreach (Transform tf in stalParent)
         {
-            Stal = StalChild;
-            GetStalComponents();
-            
-            LockSpritePosition();
-            DelegateSpriteRotationAndScale();
-            ProcessTriggerView();
-        }
-    }
+            stalTf = tf;
+            stalScript = stalTf.GetComponent<Stalactite>();
 
-    private void GetStalComponents()
-    {
-        StalBody = null;
-        StalTrigger = null;
-        StalScript = Stal.GetComponent<Stalactite>();
-        foreach (Transform StalChild in Stal)
-        {
-            if (StalChild.name == "StalObject")
+            if (stalScript.DropEnabled)
             {
-                StalBody = StalChild;
-            }
-            else if (StalChild.name == "StalTrigger")
-            {
-                StalTrigger = StalChild.GetComponent<SpriteRenderer>();
+                ProcessTriggerView();
             }
         }
     }
-
-    private void LockSpritePosition()
-    {
-        if (Stal.position != StalBody.position)
-        {
-            StalBody.position = Stal.position;
-        }
-    }
-
-    private void DelegateSpriteRotationAndScale()
-    {
-        if (Stal.localRotation.eulerAngles != Vector3.zero)
-        {
-            StalBody.localRotation = Stal.localRotation;
-            Stal.localRotation = new Quaternion();
-        }
-
-        if (Stal.localScale != Vector3.one)
-        {
-            StalBody.localScale = Stal.localScale;
-            Stal.localScale = Vector3.one;
-        }
-    }
+    
 
     private void ProcessTriggerView()
     {
-        if (StalScript.DropEnabled)
-        {
-            StalTrigger.enabled = true;
-        }
-        else
-        {
-            StalTrigger.enabled = false;
-        }
-    }
-
-    public void SetZLayers(float TriggerZLayer)
-    {
-        //TriggerZ = TriggerZLayer;
+        GUI.DrawTexture(new Rect(0, 0, 10, 100), Resources.Load<Texture2D>("Textures/TriggerSquare"));
+        
     }
 }

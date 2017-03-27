@@ -2,10 +2,15 @@
 
 public class LevelScript : MonoBehaviour {
 
+    // These attributes can be set in the inspector
+    public float LevelScrollSpeed = 5f;    // first initialisation of LevelSpeed
     public LevelProgressionHandler.Levels DefaultLevel = LevelProgressionHandler.Levels.Main1;
     
+    // These attributes must be set in the inspector (remnants of the early days)
     public ParralaxBG Background;
     public GameMenuOverlay GameMenu;
+
+    [HideInInspector]
     public GameUI GameHud;
 
     private GameObject _levelScripts;
@@ -13,7 +18,6 @@ public class LevelScript : MonoBehaviour {
     private AudioSource _audioControl;
 
     // Gameplay attributes
-    public const float LevelScrollSpeed = 5f;    // first initialisation of LevelSpeed
     private bool _bGameStarted;
     private bool _bGamePaused;
     private bool _bAtEnd;

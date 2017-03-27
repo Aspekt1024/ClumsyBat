@@ -47,13 +47,12 @@ public class Stalactite : Spawnable {
         stal.DropControl = gameObject.AddComponent<StalDropComponent>();
     }
 
-    public void Activate(SpawnType spawnTf, bool dropEnabled, float triggerPosX, float xOffset = 0)
+    public void Activate(StalPool.StalType stalProps, float xOffset = 0)
     {
-        transform.localPosition = spawnTf.Pos;
-        stal.Body.transform.localPosition = Vector3.zero;
-        stal.Body.transform.localScale = spawnTf.Scale;
-        stal.Body.transform.rotation = spawnTf.Rotation;
-        TriggerPosX = xOffset + triggerPosX;
+        transform.localPosition = stalProps.SpawnTransform.Pos + Vector2.right * xOffset;
+        transform.localScale = stalProps.SpawnTransform.Scale;
+        transform.rotation = stalProps.SpawnTransform.Rotation;
+        TriggerPosX = stalProps.TriggerPosX;
 
         stal.Anim.NewStalactite();
         stal.DropControl.NewStalactite();
@@ -62,7 +61,7 @@ public class Stalactite : Spawnable {
         stal.bExploding = false;
         stal.Collider.enabled = true;
         stal.Renderer.enabled = true;
-        DropEnabled = dropEnabled;
+        DropEnabled = stalProps.DropEnabled;
 
         // TODO display trigger box in debug mode
         //stal.StalTrigger.GetComponent<SpriteRenderer>().enabled = Toolbox.Instance.Debug && DropEnabled;

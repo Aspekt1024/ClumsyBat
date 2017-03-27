@@ -24,9 +24,7 @@ public sealed class StalPool : SpawnPool<Stalactite> {
         foreach (StalType stal in stalList)
         {
             Stalactite newStal = GetNextObject();
-            Spawnable.SpawnType spawnTf = stal.SpawnTransform;
-            spawnTf.Pos += new Vector2(xOffset, 0f);
-            newStal.Activate(spawnTf, stal.DropEnabled, stal.TriggerPosX, xOffset);
+            newStal.Activate(stal, xOffset);
         }
     }
 }

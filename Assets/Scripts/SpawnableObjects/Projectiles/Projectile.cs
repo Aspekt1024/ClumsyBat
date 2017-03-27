@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This is a boss ability weapon.
+/// This could also be used for standard level mechanics if decided later.
+/// </summary>
 public class Projectile : MonoBehaviour {
-
-    private ProjectileAbility poolOwner;
+    
     private ProjectileAction callerAction;
     private bool bActive;
 
@@ -26,7 +29,9 @@ public class Projectile : MonoBehaviour {
 
     public void SetPoolOwner(ProjectileAbility owner)
     {
-        poolOwner = owner;
+        // TODO if this exists on April 30 without implementation, remove it!
+        // It was only put here because we thought it would be necessary to feed data back to the boss ability
+        //poolOwner = owner;
     }
 
     public void SetCaller(ProjectileAction caller)

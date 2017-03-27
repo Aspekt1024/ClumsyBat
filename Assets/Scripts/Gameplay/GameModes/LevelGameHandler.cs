@@ -2,6 +2,7 @@
 using System.Collections;
 public class LevelGameHandler : GameHandler
 {
+    [HideInInspector]
     public LevelScript Level;
     
     private float _resumeTimerStart;
@@ -144,7 +145,7 @@ public class LevelGameHandler : GameHandler
     {
         ThePlayer.DeactivateRush();
 
-        if (other.collider.name == "StalObject") { other.collider.GetComponentInParent<Stalactite>().Crack(); }
+        if (other.collider.name == "StalObject") { other.collider.GetComponent<Stalactite>().Crack(); }
 
         if (ThePlayer.ActivateShield())
         { 
