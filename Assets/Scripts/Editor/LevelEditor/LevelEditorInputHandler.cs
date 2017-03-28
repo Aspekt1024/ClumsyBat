@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -29,8 +29,8 @@ public class LevelEditorInputHandler
 
         { InputBindings.RotateLeft, KeyCode.A },
         { InputBindings.RotateRight, KeyCode.D },
-        { InputBindings.RandomiseRotation, KeyCode.S },
-        { InputBindings.Flip, KeyCode.F },
+        { InputBindings.RandomiseRotation, KeyCode.G },
+        { InputBindings.Flip, KeyCode.S },
 
         { InputBindings.ScaleUp, KeyCode.KeypadPlus },
         { InputBindings.ScaleDown, KeyCode.KeypadMinus },
@@ -44,13 +44,8 @@ public class LevelEditorInputHandler
     {
         editor = editorRef;
         actions = actionsRef;
-        
-        if (Event.current.type == EventType.Used)
-        {
-            if (Selection.activeObject != null)
-                actions.SelectObject((GameObject)Selection.activeObject);
-        }
-        else if (Event.current.type == EventType.keyUp)
+
+        if (Event.current.type == EventType.keyUp)
         {
             if (editor.HeldObject != null)
                 ProcessHeldKeyUp();
@@ -125,8 +120,17 @@ public class LevelEditorInputHandler
     private void ProcessFreeMouseUp()
     {
         if (Event.current.button == 1)
-            actions.PickupObject();
-        
+        {
+            TimeSpan t = (DateTime.UtcNow - new DateTime(1970, 1, 1));
+            if (t.TotalSeconds - editor.timeClicked < 0.2f)
+            {
+                actions.PickupObject();
+            }
+            else
+            {
+                editor.timeClicked = t.TotalSeconds;
+            }
+        }
     }
 
     private bool BindingPressed(InputBindings binding)

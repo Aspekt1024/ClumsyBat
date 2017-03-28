@@ -12,4 +12,8 @@ public class LevelEditor : MonoBehaviour {
 
     [HideInInspector]
     public GameObject HeldObject;
+    [HideInInspector]
+    public double timeClicked;   // Used for the LevelEditorInputHandler for double-clicking
+    [HideInInspector]
+    public Vector2 PickupOffset; // Mouse pos offset when picking up objects
 }

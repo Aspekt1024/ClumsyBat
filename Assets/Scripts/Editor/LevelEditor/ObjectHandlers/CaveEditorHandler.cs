@@ -30,7 +30,7 @@ public class CaveEditorHandler : BaseObjectHandler {
             PolygonCollider2D caveCollider = cave.GetComponent<PolygonCollider2D>();
             if (caveCollider != null)
             {
-                caveCollider.enabled = false;
+                caveCollider.enabled = true;
             }
 
             SpriteRenderer caveRenderer = cave.GetComponent<SpriteRenderer>();

@@ -17,8 +17,7 @@ public class LevelEditorActions
         
         inputHandler.ProcessInput(editor, this);
 
-        if (editor.HeldObject != null)
-            editor.HeldObject.transform.position = new Vector3(mousePosition.x, mousePosition.y, editor.HeldObject.transform.position.z);
+        PositionHeldObject(mousePosition);
         
         if (Event.current.type == EventType.Layout || Event.current.type == EventType.Repaint)
         {
@@ -53,38 +52,37 @@ public class LevelEditorActions
     {
         Selection.activeObject = editor.gameObject;
     }
-
-    public void SelectObject(GameObject obj)
-    {
-        return;
-        if (obj.name == "MothTrigger")
-        {
-            obj = obj.GetComponentInParent<Moth>().gameObject;
-        }
-
-        // TODO only pick up object if the mouse is positioned over it
-        if (editor.HeldObject != obj)
-            editor.HeldObject = obj;
-    }
-
+    
     public void DropHeldObject()
     {
-        if (editor.HeldObject != null)
-        {
-            //Selection.activeGameObject = null;
-            editor.HeldObject = null;
-        }
+        editor.HeldObject = null;
+        editor.PickupOffset = Vector2.zero;
     }
 
     public void PickupObject()
     {
-        GameObject obj = Selection.activeGameObject;
-        if (obj == null) return;
+        Ray ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
+        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+        if (!hit) return;
+
+        GameObject obj = hit.collider.gameObject;
 
         if (obj.name == "MothTrigger")
         {
             obj = obj.GetComponentInParent<Moth>().gameObject;
         }
-        editor.HeldObject = Selection.activeGameObject;
+
+        editor.PickupOffset = ray.origin - obj.transform.position;
+        editor.HeldObject = obj;
+        Selection.activeObject = obj;
+    }
+
+    private void PositionHeldObject(Vector2 mousePos)
+    {
+        if (editor.HeldObject == null) return;
+
+        float xPos = mousePos.x - editor.PickupOffset.x;
+        float yPos = mousePos.y - editor.PickupOffset.y;
+        editor.HeldObject.transform.position = new Vector3(xPos, yPos, editor.HeldObject.transform.position.z);
     }
 }
