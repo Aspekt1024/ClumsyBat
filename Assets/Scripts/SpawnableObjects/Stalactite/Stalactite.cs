@@ -23,6 +23,7 @@ public class Stalactite : Spawnable {
     
     // These variables are set in the level editor
     public bool DropEnabled;
+    [Range(2.5f, 7.5f)]
     public float TriggerPosX;
 
     private void Awake ()

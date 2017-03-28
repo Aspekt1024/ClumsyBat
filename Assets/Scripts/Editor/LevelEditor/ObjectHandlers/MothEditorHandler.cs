@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class MothEditorHandler : BaseObjectHandler {
 
@@ -13,36 +14,48 @@ public class MothEditorHandler : BaseObjectHandler {
 
     protected override void Update()
     {
-        AlignMoths();
-    }
-
-    private void AlignMoths()
-    {
         foreach (Transform moth in parentObj)
         {
-            Moth mothScript = moth.GetComponent<Moth>();
-            foreach (Transform mothTf in moth.transform)
-            {
-                if (mothTf.name != "MothTrigger") continue;
-                if (mothTf.position != moth.transform.position)
-                {
-                    mothTf.position = moth.transform.position;
-                }
-            }
+            GlueMothObjects(moth);
+            SetMothColour(moth);
+        }
+    }
 
-            SpriteRenderer mothRenderer = moth.GetComponentInChildren<SpriteRenderer>();
-            switch (mothScript.Colour)
+    private void GlueMothObjects(Transform moth)
+    {
+        foreach (Transform mothTf in moth.transform)
+        {
+            if (mothTf.name != "MothTrigger") continue;
+            if (mothTf.position != moth.transform.position)
             {
-                case Moth.MothColour.Blue:
-                    mothRenderer.color = new Color(0f, 0f, 1f);
-                    break;
-                case Moth.MothColour.Green:
-                    mothRenderer.color = new Color(0f, 1f, 0f);
-                    break;
-                case Moth.MothColour.Gold:
-                    mothRenderer.color = new Color(1f, 1f, 0f);
-                    break;
+                Selection.activeObject = moth.gameObject;
+                mothTf.position = moth.transform.position;
             }
+        }
+    }
+
+    private void SetMothColour(Transform moth)
+    {
+        Moth mothScript = moth.GetComponent<Moth>();
+        SpriteRenderer mothRenderer = moth.GetComponentInChildren<SpriteRenderer>();
+
+        if (mothRenderer == null)
+        {
+            Object.DestroyImmediate(moth.gameObject);
+            return;
+        }
+
+        switch (mothScript.Colour)
+        {
+            case Moth.MothColour.Blue:
+                mothRenderer.color = new Color(0.4f, 0.4f, 1f);
+                break;
+            case Moth.MothColour.Green:
+                mothRenderer.color = new Color(0f, 1f, 0f);
+                break;
+            case Moth.MothColour.Gold:
+                mothRenderer.color = new Color(1f, 1f, 0f);
+                break;
         }
     }
 

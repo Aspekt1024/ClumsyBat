@@ -52,6 +52,11 @@ public abstract class BaseObjectHandler
 
     public GameObject CreateNewObject()
     {
+        if (resourcePath == null)
+        {
+            Debug.Log("Resource path not set in " + GetType());
+            return null;
+        }
         GameObject obj = Object.Instantiate(Resources.Load<GameObject>(resourcePath), parentObj);
         obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y, zLayer);
         return obj;

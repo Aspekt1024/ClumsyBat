@@ -1,102 +1,90 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using System.IO;
+using UnityEditor;
 
 public class LevelEditorActions
 {
-    public LevelEditorObjectHandler objectHandler = new LevelEditorObjectHandler();
+    public LevelEditorObjectHandler ObjectHandler = new LevelEditorObjectHandler();
+    
+    private LevelEditorInputHandler inputHandler = new LevelEditorInputHandler();
     private LevelEditor editor;
 
     public void ProcessEvent(Vector3 mousePosition, LevelEditor editorRef)
     {
         if (SceneManager.GetActiveScene().name != "LevelEditor") return;
+
         editor = editorRef;
+        
+        inputHandler.ProcessInput(editor, this);
 
         if (editor.HeldObject != null)
             editor.HeldObject.transform.position = new Vector3(mousePosition.x, mousePosition.y, editor.HeldObject.transform.position.z);
-
-        // TODO decouple inputs
-        if (Event.current.type == EventType.keyUp)
+        
+        if (Event.current.type == EventType.Layout || Event.current.type == EventType.Repaint)
         {
-            if (editor.HeldObject != null)
-                ProcessHeldKeyUp();
-            else
-                ProcessFreeKeyUp();
-        }
-        else if (Event.current.type == EventType.MouseUp)
-        {
-            if (editor.HeldObject != null)
-                ProcessHeldMouseUp();
-            else
-                ProcessFreeMouseUp();
-        }
-        else
-        {
-            objectHandler.GUIEvent();
+            ObjectHandler.GUIEvent();
         }
     }
-
-    private void ProcessHeldKeyUp()
+    
+    public void RotateLeft() { editor.HeldObject.transform.Rotate(Vector3.forward, 10f); }
+    public void RotateRight() { editor.HeldObject.transform.Rotate(Vector3.forward, -10f); }
+    public void Flip() { editor.HeldObject.transform.Rotate(Vector3.forward, 180f); }
+    public void RandomRotation()
     {
-        bool bUnused = false;
-        switch (Event.current.keyCode)
-        {
-            case KeyCode.A:
-                RotateLeft();
-                break;
-            case KeyCode.D:
-                RotateRight();
-                break;
-            default:
-                bUnused = true;
-                break;
-        }
-        if (!bUnused)
-            Event.current.Use();
+        float rotation = Random.Range(-10f, 10f);
+        editor.HeldObject.transform.Rotate(Vector3.forward, rotation);
     }
 
-    private void ProcessFreeKeyUp()
+    public void ScaleUp() { editor.HeldObject.transform.localScale *= 1.1f; }
+    public void ScaleDown() { editor.HeldObject.transform.localScale /= 1.1f; }
+    public void RandomScale()
     {
-        bool bUnused = false;
-        switch (Event.current.keyCode)
-        {
-            case KeyCode.Keypad1:
-                editor.HeldObject = objectHandler.SpawnObject<MothEditorHandler>();
-                break;
-            case KeyCode.Keypad2:
-                editor.HeldObject = objectHandler.SpawnObject<StalEditorHandler>();
-                break;
-            default:
-                bUnused = true;
-                break;
-        }
-        if (!bUnused)
-            Event.current.Use();
+        float scale = Random.Range(1/1.2f, 1.2f);
+        editor.HeldObject.transform.localScale *= scale;
     }
 
-    private void ProcessHeldMouseUp()
+    public void ResetRotationAndScale()
     {
-        switch (Event.current.button)
+        editor.HeldObject.transform.localRotation = new Quaternion();
+        editor.HeldObject.transform.localScale = Vector3.one;
+    }
+
+    public void LevelEditorInspector()
+    {
+        Selection.activeObject = editor.gameObject;
+    }
+
+    public void SelectObject(GameObject obj)
+    {
+        return;
+        if (obj.name == "MothTrigger")
         {
-            case 1:
-                editor.HeldObject = null;
-                break;
+            obj = obj.GetComponentInParent<Moth>().gameObject;
+        }
+
+        // TODO only pick up object if the mouse is positioned over it
+        if (editor.HeldObject != obj)
+            editor.HeldObject = obj;
+    }
+
+    public void DropHeldObject()
+    {
+        if (editor.HeldObject != null)
+        {
+            //Selection.activeGameObject = null;
+            editor.HeldObject = null;
         }
     }
 
-    private void ProcessFreeMouseUp()
+    public void PickupObject()
     {
+        GameObject obj = Selection.activeGameObject;
+        if (obj == null) return;
 
-    }
-
-    private void RotateLeft()
-    {
-
-    }
-
-    private void RotateRight()
-    {
-
+        if (obj.name == "MothTrigger")
+        {
+            obj = obj.GetComponentInParent<Moth>().gameObject;
+        }
+        editor.HeldObject = Selection.activeGameObject;
     }
 }

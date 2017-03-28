@@ -192,7 +192,7 @@ public class Moth : Spawnable {
 
     private void GetMothComponents()
     {
-        _mothAudio = GetComponent<AudioSource>();
+        _mothAudio = gameObject.AddComponent<AudioSource>();
         _mothInteractor = gameObject.AddComponent<MothInteractivity>();
         _pathHandler = new MothPathHandler(this);
         foreach (Transform tf in transform)
