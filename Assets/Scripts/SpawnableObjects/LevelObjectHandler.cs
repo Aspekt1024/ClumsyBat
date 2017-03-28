@@ -112,6 +112,7 @@ public class LevelObjectHandler : MonoBehaviour {
     public void SetPaused(bool pauseGame)
     {
         // Caves?
+        _cave.PauseGame(pauseGame);
         _shrooms.PauseGame(pauseGame);
         _stals.PauseGame(pauseGame);
         _moths.PauseGame(pauseGame);

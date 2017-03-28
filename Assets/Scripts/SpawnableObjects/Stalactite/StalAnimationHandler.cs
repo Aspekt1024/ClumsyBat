@@ -85,19 +85,16 @@ public class StalAnimationHandler : MonoBehaviour
     {
         _anim.enabled = true;
         _behaviour = StalBehaviour.Exploding;
+        float normCrumbleTime = 0f;
         if (_normCrackTime > 0f)
         {
             int crackFrameNum = Mathf.FloorToInt(7 * _normCrackTime);
-            if (crackFrameNum < 6)
-            {
-                const float normCrumbleTime = 3f / 16; // Start from frame 4 of 16
-                _anim.Play("Crumble", 0, normCrumbleTime);
-            }
+            if (crackFrameNum < 6 || true)
+                normCrumbleTime = 3f / 16; // Start from frame 4 of 16
+            else
+                normCrumbleTime = 4f / 16;
         }
-        else
-        {
-            _anim.Play("Crumble", 0, 0f);
-        }
+        _anim.Play("Crumble", 0, normCrumbleTime);
     }
 
     public bool ReadyToFall()

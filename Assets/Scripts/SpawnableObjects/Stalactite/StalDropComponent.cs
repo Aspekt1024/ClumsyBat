@@ -53,6 +53,7 @@ public class StalDropComponent : MonoBehaviour {
 
     private void Update()
     {
+        if (_playerControl == null) return;
         if (!_playerControl.ThePlayer.IsAlive() && _state == DropStates.Shaking)
         {
             _state = DropStates.None;

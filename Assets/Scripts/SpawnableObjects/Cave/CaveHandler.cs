@@ -13,6 +13,8 @@ public class CaveHandler : MonoBehaviour {
     private bool _bEndlessMode;
     private bool _bGnomeEnd;
 
+    private bool bPaused;
+
     public enum CaveStates
     {
         Start,
@@ -69,10 +71,18 @@ public class CaveHandler : MonoBehaviour {
     public bool AtCaveEnd() { return State == CaveStates.Final; }
     public bool IsGnomeEnding() { return _bGnomeEnd; }
 
+    public void PauseGame(bool paused)
+    {
+        bPaused = paused;
+    }
+
     public void SetVelocity(float speed)
     {
         if (State == CaveStates.Final) { return; }
-        _caveBody.velocity = new Vector2(-speed, 0);
+        if (bPaused)
+            _caveBody.velocity = Vector2.zero;
+        else
+            _caveBody.velocity = new Vector2(-speed, 0);
     }
 
     private void GeneratePresetLevelCave()

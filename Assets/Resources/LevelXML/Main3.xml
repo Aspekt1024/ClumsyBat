@@ -11,8 +11,8 @@
         <StalType>
           <SpawnTransform>
             <Pos>
-              <x>8.431267</x>
-              <y>5.63</y>
+              <x>8.376584</x>
+              <y>5.81098557</y>
             </Pos>
             <Scale>
               <x>1</x>
@@ -21,25 +21,23 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>0</z>
-              <w>1</w>
+              <z>-0.0301475525</z>
+              <w>0.9995455</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
-                <z>0</z>
+                <z>356.54483</z>
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>5.99</TriggerPosX>
+          <TriggerPosX>6.03</TriggerPosX>
           <DropEnabled>true</DropEnabled>
         </StalType>
-      </Stals>
-      <Moths>
-        <MothType>
+        <StalType>
           <SpawnTransform>
             <Pos>
-              <x>4.707219</x>
-              <y>1.1569339</y>
+              <x>5.691068</x>
+              <y>5.513465</y>
             </Pos>
             <Scale>
               <x>1</x>
@@ -48,19 +46,20 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>0</z>
+              <z>5.960465E-08</z>
               <w>1</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
-                <z>0</z>
+                <z>6.83019E-06</z>
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <Colour>Green</Colour>
-          <PathType>Clover</PathType>
-        </MothType>
-      </Moths>
+          <TriggerPosX>0</TriggerPosX>
+          <DropEnabled>false</DropEnabled>
+        </StalType>
+      </Stals>
+      <Moths />
       <Spiders />
       <Webs />
       <Triggers />
@@ -76,8 +75,8 @@
         <StalType>
           <SpawnTransform>
             <Pos>
-              <x>-4.35684872</x>
-              <y>4.88526535</y>
+              <x>-4.150814</x>
+              <y>5.021968</y>
             </Pos>
             <Scale>
               <x>1</x>
@@ -95,14 +94,14 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>5.55</TriggerPosX>
+          <TriggerPosX>5.45</TriggerPosX>
           <DropEnabled>true</DropEnabled>
         </StalType>
         <StalType>
           <SpawnTransform>
             <Pos>
-              <x>1.38999939</x>
-              <y>4.01</y>
+              <x>1.339056</x>
+              <y>3.94031429</y>
             </Pos>
             <Scale>
               <x>1</x>
@@ -126,8 +125,8 @@
         <StalType>
           <SpawnTransform>
             <Pos>
-              <x>6.199152</x>
-              <y>5.56759262</y>
+              <x>6.538452</x>
+              <y>5.93569136</y>
             </Pos>
             <Scale>
               <x>1</x>
@@ -151,8 +150,123 @@
         <StalType>
           <SpawnTransform>
             <Pos>
-              <x>8.767912</x>
-              <y>5.52745628</y>
+              <x>-9.520577</x>
+              <y>-3.42457771</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0.99159795</z>
+              <w>0.1293581</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>165.135</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <TriggerPosX>0</TriggerPosX>
+          <DropEnabled>false</DropEnabled>
+        </StalType>
+        <StalType>
+          <SpawnTransform>
+            <Pos>
+              <x>-8.284394</x>
+              <y>5.18659973</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <TriggerPosX>0</TriggerPosX>
+          <DropEnabled>false</DropEnabled>
+        </StalType>
+        <StalType>
+          <SpawnTransform>
+            <Pos>
+              <x>4.0407505</x>
+              <y>5.33075142</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <TriggerPosX>0</TriggerPosX>
+          <DropEnabled>false</DropEnabled>
+        </StalType>
+      </Stals>
+      <Moths>
+        <MothType>
+          <SpawnTransform>
+            <Pos>
+              <x>-6.380703</x>
+              <y>0.743810534</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <Colour>Gold</Colour>
+          <PathType>Clover</PathType>
+        </MothType>
+      </Moths>
+      <Spiders />
+      <Webs />
+      <Triggers />
+      <Npcs />
+    </Cave>
+    <Cave>
+      <TopIndex>2</TopIndex>
+      <BottomIndex>3</BottomIndex>
+      <bTopSecretPath>false</bTopSecretPath>
+      <bBottomSecretPath>false</bBottomSecretPath>
+      <Shrooms />
+      <Stals>
+        <StalType>
+          <SpawnTransform>
+            <Pos>
+              <x>-6.78025246</x>
+              <y>5.68159437</y>
             </Pos>
             <Scale>
               <x>1</x>
@@ -174,222 +288,7 @@
           <DropEnabled>true</DropEnabled>
         </StalType>
       </Stals>
-      <Moths>
-        <MothType>
-          <SpawnTransform>
-            <Pos>
-              <x>-7.2662</x>
-              <y>0.8321441</y>
-            </Pos>
-            <Scale>
-              <x>1</x>
-              <y>1</y>
-            </Scale>
-            <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
-              <w>1</w>
-              <eulerAngles>
-                <x>0</x>
-                <y>0</y>
-                <z>0</z>
-              </eulerAngles>
-            </Rotation>
-          </SpawnTransform>
-          <Colour>Green</Colour>
-          <PathType>Clover</PathType>
-        </MothType>
-        <MothType>
-          <SpawnTransform>
-            <Pos>
-              <x>-1.20344925</x>
-              <y>-0.304622024</y>
-            </Pos>
-            <Scale>
-              <x>1</x>
-              <y>1</y>
-            </Scale>
-            <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
-              <w>1</w>
-              <eulerAngles>
-                <x>0</x>
-                <y>0</y>
-                <z>0</z>
-              </eulerAngles>
-            </Rotation>
-          </SpawnTransform>
-          <Colour>Green</Colour>
-          <PathType>Clover</PathType>
-        </MothType>
-        <MothType>
-          <SpawnTransform>
-            <Pos>
-              <x>4.07440567</x>
-              <y>0.29082346</y>
-            </Pos>
-            <Scale>
-              <x>1</x>
-              <y>1</y>
-            </Scale>
-            <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
-              <w>1</w>
-              <eulerAngles>
-                <x>0</x>
-                <y>0</y>
-                <z>0</z>
-              </eulerAngles>
-            </Rotation>
-          </SpawnTransform>
-          <Colour>Green</Colour>
-          <PathType>Clover</PathType>
-        </MothType>
-        <MothType>
-          <SpawnTransform>
-            <Pos>
-              <x>6.88925552</x>
-              <y>1.91477513</y>
-            </Pos>
-            <Scale>
-              <x>1</x>
-              <y>1</y>
-            </Scale>
-            <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
-              <w>1</w>
-              <eulerAngles>
-                <x>0</x>
-                <y>0</y>
-                <z>0</z>
-              </eulerAngles>
-            </Rotation>
-          </SpawnTransform>
-          <Colour>Green</Colour>
-          <PathType>Clover</PathType>
-        </MothType>
-        <MothType>
-          <SpawnTransform>
-            <Pos>
-              <x>6.97045326</x>
-              <y>0.399087</y>
-            </Pos>
-            <Scale>
-              <x>1</x>
-              <y>1</y>
-            </Scale>
-            <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
-              <w>1</w>
-              <eulerAngles>
-                <x>0</x>
-                <y>0</y>
-                <z>0</z>
-              </eulerAngles>
-            </Rotation>
-          </SpawnTransform>
-          <Colour>Green</Colour>
-          <PathType>Clover</PathType>
-        </MothType>
-        <MothType>
-          <SpawnTransform>
-            <Pos>
-              <x>4.020275</x>
-              <y>1.61705077</y>
-            </Pos>
-            <Scale>
-              <x>1</x>
-              <y>1</y>
-            </Scale>
-            <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
-              <w>1</w>
-              <eulerAngles>
-                <x>0</x>
-                <y>0</y>
-                <z>0</z>
-              </eulerAngles>
-            </Rotation>
-          </SpawnTransform>
-          <Colour>Green</Colour>
-          <PathType>Clover</PathType>
-        </MothType>
-        <MothType>
-          <SpawnTransform>
-            <Pos>
-              <x>3.18123436</x>
-              <y>-1.19779837</y>
-            </Pos>
-            <Scale>
-              <x>1</x>
-              <y>1</y>
-            </Scale>
-            <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
-              <w>1</w>
-              <eulerAngles>
-                <x>0</x>
-                <y>0</y>
-                <z>0</z>
-              </eulerAngles>
-            </Rotation>
-          </SpawnTransform>
-          <Colour>Green</Colour>
-          <PathType>Clover</PathType>
-        </MothType>
-      </Moths>
-      <Spiders />
-      <Webs />
-      <Triggers />
-      <Npcs />
-    </Cave>
-    <Cave>
-      <TopIndex>2</TopIndex>
-      <BottomIndex>3</BottomIndex>
-      <bTopSecretPath>false</bTopSecretPath>
-      <bBottomSecretPath>false</bBottomSecretPath>
-      <Shrooms />
-      <Stals />
-      <Moths>
-        <MothType>
-          <SpawnTransform>
-            <Pos>
-              <x>8.140999</x>
-              <y>0.587</y>
-            </Pos>
-            <Scale>
-              <x>1</x>
-              <y>1</y>
-            </Scale>
-            <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
-              <w>1</w>
-              <eulerAngles>
-                <x>0</x>
-                <y>0</y>
-                <z>0</z>
-              </eulerAngles>
-            </Rotation>
-          </SpawnTransform>
-          <Colour>Green</Colour>
-          <PathType>Clover</PathType>
-        </MothType>
-      </Moths>
+      <Moths />
       <Spiders />
       <Webs />
       <Triggers>

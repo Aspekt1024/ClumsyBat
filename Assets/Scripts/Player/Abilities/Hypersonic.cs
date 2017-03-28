@@ -70,7 +70,7 @@ public class Hypersonic : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.name == "StalObject" && _bCanDestroyStals)
+        if (other.tag == "Stalactite" && _bCanDestroyStals)
         {
             other.GetComponent<Stalactite>().DestroyStalactite();
         }

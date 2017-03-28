@@ -90,8 +90,11 @@ public class LevelGameHandler : GameHandler
 
     public sealed override void PauseGame(bool showMenu)
     {
+        EventListener.PauseGame();
         GameState = GameStates.Paused;
+        Toolbox.Instance.GamePaused = true;
         Level.PauseGame(showMenu);
+        ThePlayer.PauseGame(true);
         GameData.Instance.Data.SaveData();
     }
 
@@ -126,7 +129,10 @@ public class LevelGameHandler : GameHandler
     public void ResumeGameplay()
     {
         GameState = GameStates.Normal;
+        Toolbox.Instance.GamePaused = false;
+        EventListener.ResumeGame();
         PlayerController.ResumeGameplay();
+        ThePlayer.PauseGame(false);
         Level.GameHud.HideResumeTimer();
         Level.ResumeGame();
     }

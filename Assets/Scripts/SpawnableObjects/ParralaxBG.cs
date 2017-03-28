@@ -55,6 +55,7 @@ public class ParralaxBG : MonoBehaviour {
 
     private void UpdateBgPos(Rigidbody2D[] bgList, float bgShift)
     {
+        if (Toolbox.Instance.GamePaused) return;
         foreach (Rigidbody2D bg in bgList)
         {
             float newXPos = bg.transform.position.x - _scrollSpeed * bgShift;
