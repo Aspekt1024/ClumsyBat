@@ -6,7 +6,7 @@ public class ClumsyAnimator : MonoBehaviour {
 
     public enum ClumsyAnimations
     {
-        Flap, FlapBlink, Perch, Hover, Die, Rush, WingClose
+        Flap, FlapBlink, Perch, Hover, Die, Rush, WingClose, Land, Unperch
     }
     private ClumsyAnimations currentAnimType;
 
@@ -19,7 +19,9 @@ public class ClumsyAnimator : MonoBehaviour {
     private AnimationData death = new AnimationData() { name = "Die", scale = 1f, rotation = 0f };
     private AnimationData flap = new AnimationData() { name = "Flap", scale = 1f, rotation = 0f };
     private AnimationData flapBlink = new AnimationData() { name = "FlapBlink", scale = 1f, rotation = 0f };
-    private AnimationData perch = new AnimationData() { name = "Perch", scale = 1f, rotation = 0f };
+    private AnimationData perch = new AnimationData() { name = "Perch", scale = 1.28f, rotation = 0f };
+    private AnimationData unperch = new AnimationData() { name = "Unperch", scale = 1.1f, rotation = 0f };
+    private AnimationData land = new AnimationData() { name = "Land", scale = 1f, rotation = 0f };
     private AnimationData hover = new AnimationData() { name = "Hover", scale = 1f, rotation = 0f };
     private AnimationData rush = new AnimationData() { name = "Rush", scale = 1f, rotation = 0f };
     private AnimationData wingClose = new AnimationData() { name = "WingClose", scale = 1f, rotation = 0f };
@@ -73,6 +75,8 @@ public class ClumsyAnimator : MonoBehaviour {
         animDict.Add(ClumsyAnimations.Flap, flap);
         animDict.Add(ClumsyAnimations.FlapBlink, flapBlink);
         animDict.Add(ClumsyAnimations.Perch, perch);
+        animDict.Add(ClumsyAnimations.Unperch, unperch);
+        animDict.Add(ClumsyAnimations.Land, land);
         animDict.Add(ClumsyAnimations.Hover, hover);
         animDict.Add(ClumsyAnimations.Rush, rush);
         animDict.Add(ClumsyAnimations.WingClose, wingClose);
@@ -101,6 +105,7 @@ public class ClumsyAnimator : MonoBehaviour {
     private void ChangeScale(float newScale)
     {
         transform.localScale *= newScale / currentScaleModifier;
+        GetComponent<CircleCollider2D>().radius /= newScale / currentScaleModifier;
         currentScaleModifier = newScale;
     }
 

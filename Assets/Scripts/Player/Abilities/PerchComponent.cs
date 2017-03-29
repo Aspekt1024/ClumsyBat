@@ -73,9 +73,13 @@ public class PerchComponent : MonoBehaviour
     {
         if (_state == PerchState.PerchedTop)
         {
-            FlipPlayer();
+            StartCoroutine("MoveLantern", false);
+            _player.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Perch);
         }
-        _player.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Perch);
+        else
+        {
+            _player.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Land);
+        }
     }
 
     public void Unperch()
@@ -88,9 +92,10 @@ public class PerchComponent : MonoBehaviour
         if (_state == PerchState.PerchedTop)
         {
             _state = PerchState.Unperched;
-            FlipPlayer();
-            _player.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.FlapBlink);
+            Debug.Log("playing unperch");
+            _player.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Unperch);
             _player.SwitchPerchState();
+            StartCoroutine("MoveLantern", true);
         }
         else
         {
@@ -106,12 +111,6 @@ public class PerchComponent : MonoBehaviour
     private bool PerchPossible()
     {
         return !(_timeSinceUnperch < PerchSwitchTime);
-    }
-
-    private void FlipPlayer()
-    {
-        StartCoroutine("MoveLantern", _state == PerchState.Unperched);
-        _player.transform.localScale = new Vector3(_player.transform.localScale.x, -_player.transform.localScale.y, 1f);
     }
 
     private IEnumerator MoveLantern(bool bToPlayer)
