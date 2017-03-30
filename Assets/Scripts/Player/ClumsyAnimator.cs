@@ -19,7 +19,7 @@ public class ClumsyAnimator : MonoBehaviour {
     private AnimationData death = new AnimationData() { name = "Die", scale = 1f, rotation = 0f };
     private AnimationData flap = new AnimationData() { name = "Flap", scale = 1f, rotation = 0f };
     private AnimationData flapBlink = new AnimationData() { name = "FlapBlink", scale = 1f, rotation = 0f };
-    private AnimationData perch = new AnimationData() { name = "Perch", scale = 1.28f, rotation = 0f };
+    private AnimationData perch = new AnimationData() { name = "Perch", scale = 1.28f, rotation = 13.7f };
     private AnimationData unperch = new AnimationData() { name = "Unperch", scale = 1.1f, rotation = 0f };
     private AnimationData land = new AnimationData() { name = "Land", scale = 1f, rotation = 0f };
     private AnimationData hover = new AnimationData() { name = "Hover", scale = 1f, rotation = 0f };
@@ -30,6 +30,7 @@ public class ClumsyAnimator : MonoBehaviour {
 
     private AnimationData currentAnimation;
     private float currentScaleModifier;
+    private float currentRotationModifier;
     //private Quaternion initialRotation; // TODO remove if no rotation modifier is required for clumsy's animations
     private float animTimer;
 
@@ -99,14 +100,23 @@ public class ClumsyAnimator : MonoBehaviour {
         currentAnimType = animId;
         currentAnimation = animDict[animId];
         ChangeScale(currentAnimation.scale);
+        ChangeRotation(currentAnimation.rotation);
         anim.Play(currentAnimation.name, 0, 0f);
     }
 
     private void ChangeScale(float newScale)
     {
+        if (newScale == currentScaleModifier) return;
         transform.localScale *= newScale / currentScaleModifier;
         GetComponent<CircleCollider2D>().radius /= newScale / currentScaleModifier;
         currentScaleModifier = newScale;
+    }
+
+    private void ChangeRotation(float newRotation)
+    {
+        if (newRotation == currentRotationModifier) return;
+        transform.Rotate(Vector3.forward, newRotation - currentRotationModifier);
+        currentRotationModifier = newRotation;
     }
 
     private void PauseGame()
@@ -118,7 +128,12 @@ public class ClumsyAnimator : MonoBehaviour {
     {
         anim.enabled = true;
     }
-
-    // TODO rotation;
-    
+    /*
+    // TODO update colliders: [frame x y] for perch animation;
+    0 .15 .18
+    4 0 .33
+    8 -.16 .33
+    10 -.15 .16
+    14 0 -.21
+    39 .15 -.39*/
 }

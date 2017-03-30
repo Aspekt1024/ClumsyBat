@@ -17,6 +17,7 @@ public class PerchComponent : MonoBehaviour
     private enum PerchState
     {
         Unperched,
+        Transitioning,
         PerchedTop,
         PerchedBottom
     }
@@ -91,10 +92,9 @@ public class PerchComponent : MonoBehaviour
 
         if (_state == PerchState.PerchedTop)
         {
-            _state = PerchState.Unperched;
-            Debug.Log("playing unperch");
+            _state = PerchState.Transitioning;
             _player.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Unperch);
-            _player.SwitchPerchState();
+            StartCoroutine(Drop(0.1f));
             StartCoroutine("MoveLantern", true);
         }
         else
@@ -103,14 +103,34 @@ public class PerchComponent : MonoBehaviour
             _player.transform.position += Vector3.up * 0.2f;
             _player.SwitchPerchState();
             _player.UnperchBottom();
+            _gameHandler.UpdateGameSpeed(1);
         }
 
-        _gameHandler.UpdateGameSpeed(1);
     }
 
     private bool PerchPossible()
     {
         return !(_timeSinceUnperch < PerchSwitchTime);
+    }
+
+    // Stops Clumsy moving immediately after dismounting
+    private IEnumerator Drop(float dropDuration)
+    {
+        float dropTimer = 0f;
+        while (dropTimer < dropDuration)
+        {
+            if (!Toolbox.Instance.GamePaused)
+                dropTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        if (_state == PerchState.Transitioning)
+        {
+            _state = PerchState.Unperched;
+            _player.SwitchPerchState();
+            _gameHandler.UpdateGameSpeed(1);
+        }
     }
 
     private IEnumerator MoveLantern(bool bToPlayer)
