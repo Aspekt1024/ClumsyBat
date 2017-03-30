@@ -12,11 +12,13 @@ public sealed class TriggerHandler : SpawnPool<TriggerClass> {
         SetupPool();
     }
 
-    public enum EventType { Dialogue, StoryEvent }
+    public enum EventType { Dialogue, OneTimeEvent, Tooltip }
     public struct TriggerType
     {
         public Spawnable.SpawnType SpawnTransform;
         public EventType EventType;
+        public string TooltipText;
+        public float TooltipDuration;
         public TooltipHandler.DialogueId EventId;
         public bool PausesGame;
     }
@@ -31,4 +33,5 @@ public sealed class TriggerHandler : SpawnPool<TriggerClass> {
             newTrigger.Activate(trigger, spawnTf);
         }
     }
+    
 }

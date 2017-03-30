@@ -34,6 +34,8 @@ public class TriggerEditorHandler : BaseObjectHandler
             newTrigger.EventId = Trigger.GetComponent<TriggerClass>().EventId;
             newTrigger.EventType = Trigger.GetComponent<TriggerClass>().EventType;
             newTrigger.PausesGame = Trigger.GetComponent<TriggerClass>().PausesGame;
+            newTrigger.TooltipText = Trigger.GetComponent<TriggerClass>().TooltipText;
+            newTrigger.TooltipDuration = Trigger.GetComponent<TriggerClass>().TooltipDuration;
             level.Caves[index].Triggers[TriggerNum[index]] = newTrigger;
             TriggerNum[index]++;
         }
@@ -53,6 +55,8 @@ public class TriggerEditorHandler : BaseObjectHandler
                 newTrigger.GetComponent<TriggerClass>().EventId = Trigger.EventId;
                 newTrigger.GetComponent<TriggerClass>().EventType = Trigger.EventType;
                 newTrigger.GetComponent<TriggerClass>().PausesGame = Trigger.PausesGame;
+                newTrigger.GetComponent<TriggerClass>().TooltipText = Trigger.TooltipText;
+                newTrigger.GetComponent<TriggerClass>().TooltipDuration = Trigger.TooltipDuration;
             }
         }
     }

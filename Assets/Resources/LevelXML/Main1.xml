@@ -35,6 +35,8 @@
             </Rotation>
           </SpawnTransform>
           <EventType>Dialogue</EventType>
+          <TooltipText />
+          <TooltipDuration>3</TooltipDuration>
           <EventId>FirstJump</EventId>
           <PausesGame>true</PausesGame>
         </TriggerType>
@@ -100,7 +102,9 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <EventType>Dialogue</EventType>
+          <EventType>Tooltip</EventType>
+          <TooltipText>Here's a lot of text to read. It's probably quite distracting, but it's here anyway!</TooltipText>
+          <TooltipDuration>3</TooltipDuration>
           <EventId>FirstMoth</EventId>
           <PausesGame>false</PausesGame>
         </TriggerType>
@@ -149,22 +153,22 @@
   </CaveList>
   <Clumsy>
     <Pos>
-      <x>-4.83</x>
-      <y>1</y>
+      <x>0</x>
+      <y>0</y>
     </Pos>
     <Scale>
-      <x>0.177492425</x>
-      <y>0.194299191</y>
+      <x>0</x>
+      <y>0</y>
     </Scale>
     <Rotation>
       <x>0</x>
       <y>0</y>
-      <z>0.248385757</z>
-      <w>-0.9686612</w>
+      <z>0</z>
+      <w>0</w>
       <eulerAngles>
         <x>0</x>
         <y>0</y>
-        <z>331.236</z>
+        <z>0</z>
       </eulerAngles>
     </Rotation>
   </Clumsy>
