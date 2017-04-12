@@ -1,4 +1,6 @@
-﻿Shader "Custom/Tint" {
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Custom/Tint" {
 	Properties{
 		_Color("Color", Color) = (1,1,1,1)
 		_MainTex("Albedo (RGB)", 2D) = "white" {}
@@ -38,16 +40,16 @@
 			vertexOutput vert(vertexInput input)
 			{
 				vertexOutput output;
-				output.pos = mul(UNITY_MATRIX_MVP, input.vertex);
+				output.pos = UnityObjectToClipPos(input.vertex);
 				output.WSPos = mul(unity_ObjectToWorld, input.vertex);
 				output.tex = input.texcoord;
 				return output;
 			}
 			float4 frag(vertexOutput input) : COLOR
 			{
-				tex = input;
+				float4 tex = input.tex;
 				//float ray = length(_PlayerPos.xy - input.WSPos.xy);
-				float alpha = tex.a
+				float alpha = tex.a;
 				return float4(0, 0, 0, alpha);
 			}
 			ENDCG

@@ -27,11 +27,13 @@ public class WalkAction : BaseAction {
 
     public override void ActivateBehaviour()
     {
+        boss.GetComponent<Boss>().Walk();
         walkAbility.Activate(this, WalkDuration, WalkSpeed, WalkOption);
     }
 
     public void EndWalk()
     {
+        boss.GetComponent<Boss>().EndWalk();
         CallNext((int)Outputs.EndWalk);
     }
 

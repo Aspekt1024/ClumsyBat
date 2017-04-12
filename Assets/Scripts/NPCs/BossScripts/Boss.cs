@@ -8,14 +8,15 @@ public class Boss : MonoBehaviour {
     
     protected bool _bPaused;
     protected int health;
+    protected SpriteRenderer bossRenderer;
+    protected Rigidbody2D body;
+    protected Collider2D bossCollider;
 
-    private SpriteRenderer bossRenderer;
-    private Rigidbody2D body;
-    private Collider2D bossCollider;
     private BossCreator bossProps;
 
     private Vector2 originalScale;  // Used for facing the boss left/right
     private Vector2 storedVelocity;
+    private float damageCooldownTimer;
     
     private List<BossDamageObjects> damageObjects = new List<BossDamageObjects>();
 
@@ -30,10 +31,21 @@ public class Boss : MonoBehaviour {
 
     private void Awake()
     {
+        GetBossComponents();
+        originalScale = transform.localScale;   // Boss should be facing left first
+    }
+
+    private void Update()
+    {
+        if (damageCooldownTimer < 0) return;
+        damageCooldownTimer -= Time.deltaTime;
+    }
+
+    protected virtual void GetBossComponents()
+    {
         body = GetComponent<Rigidbody2D>();
         bossCollider = GetComponent<Collider2D>();
         bossRenderer = GetComponent<SpriteRenderer>();
-        originalScale = transform.localScale;   // Boss should be facing left first
     }
 
     public void SetBaseProperties(BossCreator props)
@@ -57,7 +69,7 @@ public class Boss : MonoBehaviour {
         if (state.DamagedByStalactites)
         {
             damageObjects.Add(BossDamageObjects.Stalactite);
-            gameObject.layer = LayerMask.NameToLayer("BossStalactite");
+            bossCollider.gameObject.layer = LayerMask.NameToLayer("BossStalactite");
         }
     }
 
@@ -76,20 +88,29 @@ public class Boss : MonoBehaviour {
         body.isKinematic = false;
     }
 
-    public void HitByHypersonic()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (InDamageObjects(BossDamageObjects.Hypersonic))
+        if (damageCooldownTimer > 0) return;
+        if (other.name == "HypersonicMask" && InDamageObjects(BossDamageObjects.Hypersonic))
         {
             TakeDamage();
+            damageCooldownTimer = 1f;
         }
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.collider.tag == "Stalactite" && InDamageObjects(BossDamageObjects.Stalactite))
+        if (other.collider.tag == "Stalactite" && other.collider.gameObject.GetComponent<Stalactite>().IsFalling())
         {
-            if (other.collider.gameObject.GetComponent<Stalactite>().IsFalling())
+            if (InDamageObjects(BossDamageObjects.Stalactite))
+            {
                 TakeDamage();
+            }
+            else
+            {
+                other.transform.GetComponent<Rigidbody2D>().velocity = Vector3.up;
+                other.transform.Rotate(Vector3.forward, 5f);
+            }
         }
     }
 
@@ -122,9 +143,7 @@ public class Boss : MonoBehaviour {
     {
         const int numFlashes = 8;
         const float flashDuration = 0.05f;
-
-        Color originalColor = bossRenderer.color;
-
+        
         bool flashOn = true;
 
         for (var i = 0; i < numFlashes; i++)
@@ -142,7 +161,7 @@ public class Boss : MonoBehaviour {
                 yield return null;
             }
         }
-        bossRenderer.color = originalColor;
+        bossRenderer.color = Color.white;
     }
 
     public bool IsPaused()
@@ -161,6 +180,9 @@ public class Boss : MonoBehaviour {
         EventListener.OnPauseGame -= PauseGame;
         EventListener.OnResumeGame -= ResumeGame;
     }
+
+    public virtual void Walk() { }
+    public virtual void EndWalk() { }
 
     private bool InDamageObjects(BossDamageObjects obj)
     {

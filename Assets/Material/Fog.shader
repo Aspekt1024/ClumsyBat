@@ -1,4 +1,6 @@
-﻿Shader "Custom/Fog" {
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Custom/Fog" {
 	Properties{
 		_MainTex("Color (RGBA)", Color) = (0, 0, 0, 1)
 		_PlayerPos("Player Pos", Vector) = (0, 0, 0, 0)
@@ -37,7 +39,7 @@
 			vertexOutput vert(vertexInput input)
 			{
 				vertexOutput output;
-				output.pos = mul(UNITY_MATRIX_MVP, input.vertex);
+				output.pos = UnityObjectToClipPos(input.vertex);
 				output.WSPos = mul(unity_ObjectToWorld, input.vertex);
 				output.tex = input.texcoord;
 				return output;

@@ -82,10 +82,6 @@ public class Hypersonic : MonoBehaviour {
         {
             other.GetComponent<Mushroom>().DestroyMushroom();
         }
-        if (other.GetComponent<Boss>() != null)
-        {
-            other.GetComponent<Boss>().HitByHypersonic();
-        }
     }
 
     private IEnumerator HypersonicAbilityGo()
