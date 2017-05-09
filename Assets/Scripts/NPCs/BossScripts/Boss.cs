@@ -183,6 +183,8 @@ public class Boss : MonoBehaviour {
 
     public virtual void Walk() { }
     public virtual void EndWalk() { }
+    public virtual void Jump() { }
+    public virtual void EndJump() { }
 
     private bool InDamageObjects(BossDamageObjects obj)
     {

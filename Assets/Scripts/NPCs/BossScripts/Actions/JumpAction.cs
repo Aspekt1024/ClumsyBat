@@ -22,6 +22,7 @@ public class JumpAction : BaseAction {
 
     public override void ActivateBehaviour()
     {
+        boss.GetComponent<Boss>().Jump();
         jumpAbility.Jump(this, JumpForce);
         CallNext((int)Outputs.Jumped);
     }
@@ -32,6 +33,7 @@ public class JumpAction : BaseAction {
         {
             CameraEventListener.CameraShake(0.4f);
         }
+        boss.GetComponent<Boss>().EndJump();
         CallNext((int)Outputs.Landed);
     }
 

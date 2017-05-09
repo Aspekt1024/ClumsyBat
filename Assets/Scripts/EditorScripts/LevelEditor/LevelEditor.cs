@@ -11,7 +11,7 @@ public class LevelEditor : MonoBehaviour {
     public LevelProgressionHandler.Levels LevelId;
 
     [HideInInspector]
-    public GameObject HeldObject;
+    public GameObject HeldObject = null;
     [HideInInspector]
     public double timeClicked;   // Used for the LevelEditorInputHandler for double-clicking
     [HideInInspector]

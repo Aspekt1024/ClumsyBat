@@ -4,12 +4,12 @@ using System;
 
 public class KingRockbreath : Boss
 {
-    private enum HealthLevels
+    private enum Animations
     {
-        Normal, Injured, Damaged, Critical, Dead
+        Idle, Walk, Jump
     }
-    private HealthLevels healthLevel;
-    private Dictionary<HealthLevels, string> spriteDict = new Dictionary<HealthLevels, string>();
+    private Animations currentAnim;
+    private Dictionary<Animations, string> spriteDict = new Dictionary<Animations, string>();
     private Animator anim;
 
     private enum RockbreathSprites
@@ -23,13 +23,14 @@ public class KingRockbreath : Boss
         PopulateSpriteDict();
         GetSprites();
         anim = GetComponentInChildren<Animator>();
-        anim.Play(spriteDict[HealthLevels.Normal], 0, 0f);
-        anim.enabled = false;
+        anim.Play(spriteDict[Animations.Idle], 0, 0f);
     }
 
     private void PopulateSpriteDict()
     {
-        spriteDict.Add(HealthLevels.Normal, "RockbreathWalk");
+        spriteDict.Add(Animations.Idle, "RockbreathIdle");
+        spriteDict.Add(Animations.Walk, "RockbreathWalk");
+        spriteDict.Add(Animations.Jump, "RockbreathJump");
     }
 
     protected override void GetBossComponents()
@@ -85,11 +86,19 @@ public class KingRockbreath : Boss
 
     public override void Walk()
     {
-        anim.enabled = true;
+        anim.Play(spriteDict[Animations.Walk], 0, 0f);
     }
     public override void EndWalk()
     {
-        anim.Play(spriteDict[HealthLevels.Normal], 0, 0f);
-        anim.enabled = false;
+        anim.Play(spriteDict[Animations.Idle], 0, 0f);
+    }
+
+    public override void Jump()
+    {
+        anim.Play(spriteDict[Animations.Jump], 0, 0f);
+    }
+    public override void EndJump()
+    {
+        anim.Play(spriteDict[Animations.Idle], 0, 0f);
     }
 }

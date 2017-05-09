@@ -19,13 +19,13 @@ public class LevelEditorInputHandler
 
     static Dictionary<InputBindings, KeyCode> bindingDict = new Dictionary<InputBindings, KeyCode>()
     {
-        { InputBindings.SpawnMoth, KeyCode.Keypad1 },
-        { InputBindings.SpawnStal, KeyCode.Keypad2 },
-        { InputBindings.SpawnShroom, KeyCode.Keypad3 },
-        { InputBindings.SpawnSpider, KeyCode.Keypad4 },
-        { InputBindings.SpawnNpc, KeyCode.Keypad5 },
-        { InputBindings.SpawnTrigger, KeyCode.Keypad6 },
-        { InputBindings.SpawnWeb, KeyCode.Keypad7 },
+        { InputBindings.SpawnMoth, KeyCode.Alpha1 },
+        { InputBindings.SpawnStal, KeyCode.Alpha2 },
+        { InputBindings.SpawnShroom, KeyCode.Alpha3 },
+        { InputBindings.SpawnSpider, KeyCode.Alpha4 },
+        { InputBindings.SpawnNpc, KeyCode.Q },
+        { InputBindings.SpawnTrigger, KeyCode.W },
+        { InputBindings.SpawnWeb, KeyCode.E },
 
         { InputBindings.RotateLeft, KeyCode.A },
         { InputBindings.RotateRight, KeyCode.D },
@@ -37,14 +37,14 @@ public class LevelEditorInputHandler
         { InputBindings.RandomiseScale, KeyCode.C },
 
         { InputBindings.ResetRotationAndScale, KeyCode.Space },
-        { InputBindings.LevelEditorInspector, KeyCode.Keypad0 }
+        { InputBindings.LevelEditorInspector, KeyCode.Space }
     };
 
     public void ProcessInput(LevelEditor editorRef, LevelEditorActions actionsRef)
     {
         editor = editorRef;
         actions = actionsRef;
-
+        
         if (Event.current.type == EventType.keyUp)
         {
             if (editor.HeldObject != null)
@@ -60,6 +60,7 @@ public class LevelEditorInputHandler
                 ProcessFreeMouseUp();
         }
     }
+
     private void ProcessHeldKeyUp()
     {
         bool bUnused = false;
@@ -90,19 +91,25 @@ public class LevelEditorInputHandler
     private void ProcessFreeKeyUp()
     {
         bool bUnused = false;
-
-        if (BindingPressed(InputBindings.SpawnMoth))
-            editor.HeldObject = actions.ObjectHandler.SpawnObject<MothEditorHandler>();
-        else if (BindingPressed(InputBindings.SpawnStal))
-            editor.HeldObject = actions.ObjectHandler.SpawnObject<StalEditorHandler>();
-        else if (BindingPressed(InputBindings.SpawnShroom))
-            editor.HeldObject = actions.ObjectHandler.SpawnObject<MushroomEditorHandler>();
-        else if (BindingPressed(InputBindings.LevelEditorInspector))
+        
+        if (BindingPressed(InputBindings.LevelEditorInspector))
             actions.LevelEditorInspector();
+        else if (Event.current.shift)
+        {
+            if (BindingPressed(InputBindings.SpawnMoth))
+                editor.HeldObject = actions.ObjectHandler.SpawnObject<MothEditorHandler>();
+            else if (BindingPressed(InputBindings.SpawnStal))
+                editor.HeldObject = actions.ObjectHandler.SpawnObject<StalEditorHandler>();
+            else if (BindingPressed(InputBindings.SpawnShroom))
+                editor.HeldObject = actions.ObjectHandler.SpawnObject<MushroomEditorHandler>();
+            else
+                bUnused = true;
+        }
         else
         {
             bUnused = true;
         }
+
         if (!bUnused)
             Event.current.Use();
     }
