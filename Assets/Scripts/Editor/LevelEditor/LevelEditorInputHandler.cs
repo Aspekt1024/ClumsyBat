@@ -11,6 +11,7 @@ public class LevelEditorInputHandler
     private enum InputBindings
     {
         SpawnMoth, SpawnStal, SpawnSpider, SpawnNpc, SpawnShroom, SpawnTrigger, SpawnWeb,
+        DestroyObject,
         RotateLeft, RotateRight, RandomiseRotation, Flip,
         RandomiseScale, ScaleUp, ScaleDown,
         ResetRotationAndScale,
@@ -26,6 +27,8 @@ public class LevelEditorInputHandler
         { InputBindings.SpawnNpc, KeyCode.Q },
         { InputBindings.SpawnTrigger, KeyCode.W },
         { InputBindings.SpawnWeb, KeyCode.E },
+
+        { InputBindings.DestroyObject, KeyCode.Escape },
 
         { InputBindings.RotateLeft, KeyCode.A },
         { InputBindings.RotateRight, KeyCode.D },
@@ -81,6 +84,8 @@ public class LevelEditorInputHandler
             actions.RandomScale();
         else if (BindingPressed(InputBindings.ResetRotationAndScale))
             actions.ResetRotationAndScale();
+        else if (BindingPressed(InputBindings.DestroyObject))
+            actions.DestroyHeldObject();
         else
             bUnused = true;
 
@@ -129,9 +134,9 @@ public class LevelEditorInputHandler
         if (Event.current.button == 1)
         {
             TimeSpan t = (DateTime.UtcNow - new DateTime(1970, 1, 1));
-            if (t.TotalSeconds - editor.timeClicked < 0.2f)
+            if (t.TotalSeconds - editor.timeClicked < 0.2f || Event.current.control || Event.current.shift)
             {
-                actions.PickupObject();
+                actions.PickupObject(Event.current.mousePosition);
             }
             else
             {

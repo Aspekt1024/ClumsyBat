@@ -8,6 +8,8 @@ public abstract class BaseEditor : EditorWindow {
     public bool ConnectionMode;
     public bool MoveEditorMode;
 
+    public const float GridSpacing = 10f;
+
     protected BossDataContainer BaseContainer;
     protected string EditorLabel;
 
@@ -15,18 +17,20 @@ public abstract class BaseEditor : EditorWindow {
 
     protected enum ColourThemes
     {
-        Blue, Green
+        Blue, Green, Black
     }
 
     protected BaseNode _currentNode;
 
     private Texture2D _bg;
-    private BossEditorMouseInput _mouseInput;
+    private BaseEditorMouseInput _mouseInput;
     private Vector2 _mousePos;
     private Vector2 startMousePos;
-    private Vector2 canvasDisplacement;
+    private Vector2 canvasDrag;
+    private Vector2 canvasOffset = Vector2.zero;
     private float timeSinceUpdate;
-    
+
+
     protected abstract void SetEditorTheme();
 
     public virtual void LoadEditor(BossDataContainer obj)
@@ -37,6 +41,29 @@ public abstract class BaseEditor : EditorWindow {
         SetRootContainerToSelf();
 
         LoadNodeData();
+    }
+
+    public void Drag(Vector2 delta)
+    {
+        if (!MoveEditorMode && !ConnectionMode)
+        {
+            foreach (BaseNode node in NodeData.Nodes)
+            {
+                node.Drag(delta);
+            }
+        }
+        if (delta.magnitude > 0.01f)
+        {
+            Repaint();
+        }
+    }
+
+    public void DeselectAllNodes()
+    {
+        foreach (BaseNode node in NodeData.Nodes)
+        {
+            node.IsSelected = false;
+        }
     }
 
     private void SetRootContainerToSelf()
@@ -56,7 +83,7 @@ public abstract class BaseEditor : EditorWindow {
 
     protected virtual void OnEnable()
     {
-        if (_mouseInput == null) _mouseInput = new BossEditorMouseInput(this);
+        if (_mouseInput == null) _mouseInput = new BaseEditorMouseInput(this);
 
         if (BaseContainer != null)
         {
@@ -79,11 +106,13 @@ public abstract class BaseEditor : EditorWindow {
     private void Update()
     {
         if (!MoveEditorMode) return;
-        canvasDisplacement = _mousePos - startMousePos;
+
+        canvasDrag = _mousePos - startMousePos;
+
         timeSinceUpdate += Time.deltaTime;
-        if (timeSinceUpdate > 0.1f)
+        if (timeSinceUpdate > 0.05f)
         {
-            timeSinceUpdate -= 0.1f;
+            timeSinceUpdate -= 0.05f;
             Repaint();
         }
     }
@@ -99,7 +128,7 @@ public abstract class BaseEditor : EditorWindow {
         DrawBackground();
         DrawHeading();
         DrawNodeWindows();
-        DrawNodeCurves();
+        DrawConnections();
     }
 
     private void DrawBackground()
@@ -111,6 +140,33 @@ public abstract class BaseEditor : EditorWindow {
             _bg.Apply();
         }
         GUI.DrawTexture(new Rect(0, 0, maxSize.x, maxSize.y), _bg, ScaleMode.StretchToFill);
+        DrawGrid(250, new Color(1f, 1f, 1f, 0.4f));
+        DrawGrid(50, new Color(1f, 1f, 1f, 0.1f));
+        DrawGrid(10, new Color(1f, 1f, 1f, 0.03f));
+    }
+
+    private void DrawGrid(float gridSpacing, Color gridColour)
+    {
+        Handles.BeginGUI(); 
+        Handles.color = gridColour;
+
+        float hPos = (canvasOffset.x + canvasDrag.x) % gridSpacing;
+        float vPos = (canvasOffset.y + canvasDrag.y) % gridSpacing;
+
+        while (hPos < position.width)
+        {
+            Handles.DrawLine(new Vector3(hPos, 0, 0), new Vector3(hPos, position.height, 0));
+            hPos += gridSpacing;
+        }
+
+        while (vPos < position.height)
+        {
+            Handles.DrawLine(new Vector3(0, vPos, 0), new Vector3(position.width, vPos, 0));
+            vPos += gridSpacing;
+        }
+
+        Handles.color = Color.white;
+        Handles.EndGUI();
     }
 
     private Color GetBgColour()
@@ -159,63 +215,43 @@ public abstract class BaseEditor : EditorWindow {
 
     private void DrawNodeWindows()
     {
-        BeginWindows();
-        for (int i = 0; i < NodeData.Nodes.Count; i++)
+        foreach(BaseNode node in NodeData.Nodes)
         {
-            Rect nodeRect = NodeData.Nodes[i].WindowRect;
-            if (MoveEditorMode)
-            {
-                nodeRect.x = NodeData.Nodes[i].OriginalRect.x + canvasDisplacement.x;
-                nodeRect.y = NodeData.Nodes[i].OriginalRect.y + canvasDisplacement.y;
-            }
-            else
-            {
-                const float windowPosIncrement = 10f;
-                nodeRect.x = windowPosIncrement * Mathf.Round(nodeRect.x / windowPosIncrement);
-                nodeRect.y = windowPosIncrement * Mathf.Round(nodeRect.y / windowPosIncrement);
-            }
-            NodeData.Nodes[i].WindowRect = GUI.Window(i, nodeRect, DrawNodeWindow, NodeData.Nodes[i].WindowTitle);
+            node.DrawNodeWindow(canvasOffset + canvasDrag);
         }
-        EndWindows();
     }
 
     public void StartMovingEditorCanvas()
     {
         startMousePos = _mousePos;
         MoveEditorMode = true;
-        foreach (var node in NodeData.Nodes)
-        {
-            node.OriginalRect = node.WindowRect;
-        }
     }
 
     public void StopMovingEditorCanvas()
     {
         MoveEditorMode = false;
-        foreach (var node in NodeData.Nodes)
-        {
-            node.WindowRect = node.OriginalRect;
-        }
-        AddDisplacementToNodes();
+        canvasOffset += canvasDrag;
+        canvasDrag = Vector2.zero;
         Repaint();
     }
 
-    private void DrawNodeWindow(int id)
+    public void StopMovingNodes()
     {
-        NodeData.Nodes[id].DrawWindow();
-        if (!ConnectionMode)
+        foreach (BaseNode node in NodeData.Nodes)
         {
-            GUI.DragWindow();
+            node.StopDragging();
         }
+        Repaint();
     }
 
-    private void DrawNodeCurves()
+    private void DrawConnections()
     {
         if (ConnectionMode && _currentNode != null)
         {
             Rect mouseRect = new Rect(_mousePos.x, _mousePos.y, 10, 10);
             Rect outputRect = new Rect(_currentNode.GetSelectedOutputPos().x, _currentNode.GetSelectedOutputPos().y, 1, 1);
-            DrawCurve(outputRect, mouseRect);
+            DrawConnection(outputRect, mouseRect);
+            Debug.Log("repainted from connection");
             Repaint();
         }
 
@@ -225,7 +261,7 @@ public abstract class BaseEditor : EditorWindow {
         }
     }
 
-    public static void DrawCurve(Rect start, Rect end, BaseNode.InterfaceTypes outputType = BaseNode.InterfaceTypes.Event)
+    public static void DrawConnection(Rect start, Rect end, BaseNode.InterfaceTypes outputType = BaseNode.InterfaceTypes.Event)
     {
         Vector3 startPos = new Vector3(start.x + start.width / 2, start.y + start.height / 2, 0f);
         Vector3 endPos = new Vector3(end.x + end.width / 2, end.y + end.height / 2, 0f);
@@ -273,17 +309,6 @@ public abstract class BaseEditor : EditorWindow {
         if (AssetDatabase.Contains(node))
             AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(node));
     }
-    
-    private void AddDisplacementToNodes()
-    {
-        foreach (var node in NodeData.Nodes)
-        {
-            node.WindowRect.x = SnapToGrid(node.WindowRect.x);
-            node.WindowRect.y = SnapToGrid(node.WindowRect.y);
-            node.WindowRect.x += canvasDisplacement.x;
-            node.WindowRect.y += canvasDisplacement.y;
-        }
-    }
 
     private float SnapToGrid(float pos)
     {
@@ -297,8 +322,7 @@ public abstract class BaseEditor : EditorWindow {
         {
             if (node.GetType().Equals(typeof(StartNode)))
             {
-                canvasDisplacement = _mousePos - new Vector2(node.WindowRect.x, node.WindowRect.y);
-                AddDisplacementToNodes();
+                canvasOffset = _mousePos - new Vector2(node.WindowRect.x, node.WindowRect.y);
                 break;
             }
         }

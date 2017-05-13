@@ -59,9 +59,15 @@ public class LevelEditorActions
         editor.PickupOffset = Vector2.zero;
     }
 
-    public void PickupObject()
+    public void DestroyHeldObject()
     {
-        Ray ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
+        Object.DestroyImmediate(editor.HeldObject);
+        editor.HeldObject = null;
+    }
+
+    public void PickupObject(Vector2 screenPos)
+    {
+        Ray ray = HandleUtility.GUIPointToWorldRay(screenPos);
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
         if (!hit) return;
 

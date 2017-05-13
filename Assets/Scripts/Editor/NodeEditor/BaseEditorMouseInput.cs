@@ -1,26 +1,28 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class BossEditorMouseInput {
+public class BaseEditorMouseInput {
 
-    private enum MouseButtons
+    protected enum MouseButtons
     {
         LeftClick = 0, RightClick = 1, MiddleClick = 2
     }
 
     public bool MouseDownHeld;
 
-    private BaseEditor _editor;
+    private BaseEditor editor;
     private BaseContextMenus contextMenus;
 
-    private BaseNode _mouseDownNode;
-    private int _outputIndex;
-    private BaseNode _mouseUpNode;
+    private BaseNode mouseDownNode;
+    private int outputIndex;
+    private BaseNode mouseUpNode;
 
     private Vector2 _mousePos;
-    
-    public BossEditorMouseInput(BaseEditor editor)
+
+    public BaseEditorMouseInput(BaseEditor editorRef)
     {
-        _editor = editor;
+        editor = editorRef;
         if (editor.GetType().Equals(typeof(BossStateEditor)))
         {
             contextMenus = new BossStateEditorContextMenus(editor);
@@ -31,10 +33,10 @@ public class BossEditorMouseInput {
         }
     }
 
-	public void ProcessMouseEvents(Event e)
+    public void ProcessMouseEvents(Event e)
     {
         _mousePos = e.mousePosition;
-        
+
         if (e.type == EventType.MouseDown)
         {
             if (ActionMouseDown(e.button))
@@ -47,13 +49,16 @@ public class BossEditorMouseInput {
         {
             ActionMouseUp(e.button);
         }
-
+        else if ((e.rawType == EventType.MouseDrag && e.button == (int)MouseButtons.LeftClick))
+        {
+            editor.Drag(e.delta);
+        }
     }
-    
+
     private bool ActionMouseDown(int button)
     {
         MouseDownHeld = true;
-        _mouseDownNode = _editor.GetSelectedNode();
+        mouseDownNode = editor.GetSelectedNode();
         bool clickActioned = false;
         switch (button)
         {
@@ -74,7 +79,7 @@ public class BossEditorMouseInput {
     private void ActionMouseUp(int button)
     {
         MouseDownHeld = false;
-        _mouseUpNode = _editor.GetSelectedNode();
+        mouseUpNode = editor.GetSelectedNode();
         switch (button)
         {
             case (int)MouseButtons.LeftClick:
@@ -91,19 +96,26 @@ public class BossEditorMouseInput {
 
     private void ActionLeftMouseDown()
     {
-        if (_mouseDownNode == null)
-            _editor.StartMovingEditorCanvas();
+        if (mouseDownNode == null)
+            editor.StartMovingEditorCanvas();
         else
+        {
+            if (!mouseDownNode.IsSelected && !Event.current.shift)
+                editor.DeselectAllNodes();
+            mouseDownNode.IsSelected = true;
+            editor.Repaint();
             StartDraggingConnections();
+        }
     }
 
     private void StartDraggingConnections()
     {
-        _outputIndex = _mouseDownNode.OutputClicked(_mousePos);
-        int inputIndex = _mouseDownNode.InputClicked(_mousePos);
-        if (_outputIndex >= 0)
+        outputIndex = mouseDownNode.OutputClicked(_mousePos);
+        int inputIndex = mouseDownNode.InputClicked(_mousePos);
+        if (outputIndex >= 0)
         {
-            _editor.ConnectionMode = true;
+            editor.ConnectionMode = true;   // TODO make this a property so deselect is done implicitly?
+            editor.DeselectAllNodes();
         }
         else if (inputIndex >= 0)
         {
@@ -113,42 +125,52 @@ public class BossEditorMouseInput {
 
     private void MoveInputConnectionIfConnected(int inputIndex)
     {
-        if (_mouseDownNode.InputIsConnected(inputIndex))
+        if (mouseDownNode.InputIsConnected(inputIndex))
         {
-            var output = _mouseDownNode.GetConnectedInterfaceFromInput(inputIndex);
-            _mouseDownNode.DisconnectInput(inputIndex);
+            var output = mouseDownNode.GetConnectedInterfaceFromInput(inputIndex);
+            mouseDownNode.DisconnectInput(inputIndex);
 
-            _mouseDownNode = output.connectedNode;
-            _outputIndex = output.connectedInterfaceIndex;
-            _mouseDownNode.DisconnectOutput(_outputIndex);
+            mouseDownNode = output.connectedNode;
+            outputIndex = output.connectedInterfaceIndex;
+            mouseDownNode.DisconnectOutput(outputIndex);
 
-            _editor.SetSelectedNode(output.connectedNode);
+            editor.SetSelectedNode(output.connectedNode);
             output.connectedNode.SetSelectedOutputPosFromIndex(output.connectedInterfaceIndex);
-            _editor.ConnectionMode = true;
+            editor.ConnectionMode = true;
+            editor.DeselectAllNodes();
         }
     }
 
     private void ActionRightMouseUp()
     {
-        if (_mouseDownNode == null)
+        if (mouseDownNode == null)
             contextMenus.ShowMenu();
         else
-            contextMenus.ShowNodeMenu(_mouseDownNode);
+            contextMenus.ShowNodeMenu(mouseDownNode);
     }
 
     private void ActionLeftMouseUp()
     {
-        if (_mouseUpNode != null)
+        MouseDownHeld = false;
+        if (mouseUpNode != null)
         {
-            int inputIndex = _mouseUpNode.GetReleasedNode(_mousePos);
-            if (_editor.ConnectionMode && inputIndex >= 0)
+            int inputIndex = mouseUpNode.GetReleasedNode(_mousePos);
+            if (editor.ConnectionMode && inputIndex >= 0)
             {
-                _mouseUpNode.ConnectInput(inputIndex, _mouseDownNode, _outputIndex);
+                mouseUpNode.ConnectInput(inputIndex, mouseDownNode, outputIndex);
             }
         }
-        if (_editor.MoveEditorMode)
-            _editor.StopMovingEditorCanvas();
         else
-            _editor.ConnectionMode = false;
+        {
+            editor.DeselectAllNodes();
+        }
+
+        if (editor.MoveEditorMode)
+            editor.StopMovingEditorCanvas();
+        else
+        {
+            editor.ConnectionMode = false;
+            editor.StopMovingNodes();
+        }
     }
 }
