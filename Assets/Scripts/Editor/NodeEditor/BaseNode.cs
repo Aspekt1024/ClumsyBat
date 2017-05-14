@@ -67,19 +67,35 @@ public abstract class BaseNode : ScriptableObject {
         Rect nodeRect = WindowRect;
         nodeRect.x += offset.x;
         nodeRect.y += offset.y;
-        
-        GUIStyle style = GUI.skin.GetStyle("Window");
 
+        GUISkin mySkin = null;
+
+        GUI.color = Color.white;
         if (IsSelected)
         {
-            GUI.color = new Color(0.9f, 0.9f, 0.9f, 1f);
+            mySkin = (GUISkin)EditorGUIUtility.Load("NodeWindowSkin.guiskin");
         }
         else
         {
-            GUI.color = new Color(0.8f, 0.8f, 0.8f, 0.9f);
+            mySkin = (GUISkin)EditorGUIUtility.Load("NodeNormalSkin.guiskin");
         }
+
+        GUIStyle style = mySkin.GetStyle("Window");
+
         nodeRect = GUI.Window(id, nodeRect, DrawWindowCallback, WindowTitle, style);
-        editor.NodeDrag += WindowRect.position - nodeRect.position + offset;
+        
+        if (IsSelected && editor.GetNumSelectedNodes() > 1)
+        {
+            // TODO tidy this up.. nodes don't move together because drag.magnitude is often == 0
+            // making for jittery behaviour
+            nodeRect = GUI.Window(id, nodeRect, DrawWindowCallback, WindowTitle, style);
+            Vector2 drag = WindowRect.position - nodeRect.position + offset;
+            editor.NodeDrag += drag;
+        }
+        else
+        {
+            WindowRect.position = nodeRect.position - offset;
+        }
     }
 
     private void DrawWindowCallback(int id)
@@ -98,7 +114,7 @@ public abstract class BaseNode : ScriptableObject {
         WindowRect = new Rect(position.x, position.y, WindowRect.width, WindowRect.height);
     }
 
-    public void Drag(Vector2 delta)
+    public void DragIfSelected(Vector2 delta)
     {
         if (!IsSelected) return;
         WindowRect.position -= delta;
@@ -207,11 +223,11 @@ public abstract class BaseNode : ScriptableObject {
         int chosenOutput = -1;
         for (int i = 0; i < outputs.Count; i++)
         {
-            Vector2 delta = new Vector2 (WindowRect.x + WindowRect.width - 7f, WindowRect.y + outputs[i].yPos) - mousePos;
+            Vector2 delta = new Vector2 (WindowRect.x + offset.x + WindowRect.width - 7f, WindowRect.y + offset.y + outputs[i].yPos) - mousePos;
             float dist = Mathf.Sqrt(delta.x * delta.x + delta.y * delta.y);
             if (dist < 6)
             {
-                selectedOutputPos = new Vector2 (WindowRect.width - 7f, outputs[i].yPos);
+                selectedOutputPos = new Vector2 (WindowRect.width - 7f + offset.x, outputs[i].yPos + offset.y);
                 chosenOutput = i;
                 break;
             }
@@ -245,7 +261,7 @@ public abstract class BaseNode : ScriptableObject {
         int chosenInput = -1;
         for (int i = 0; i < inputs.Count; i++)
         {
-            Vector2 delta = new Vector2(WindowRect.x + 7f, WindowRect.y + inputs[i].yPos) - mousePos;
+            Vector2 delta = new Vector2(WindowRect.x + offset.x + 7f, WindowRect.y + offset.y + inputs[i].yPos) - mousePos;
             float dist = Mathf.Sqrt(delta.x * delta.x + delta.y * delta.y);
             if (dist < 10)
             {
@@ -278,8 +294,8 @@ public abstract class BaseNode : ScriptableObject {
         Vector2 inputPos = output.connectedNode.GetInputPos(output.connectedInterfaceIndex);
         Rect end = new Rect()
         {
-            x = offset.x + inputPos.x,
-            y = offset.y + inputPos.y,
+            x = inputPos.x,
+            y = inputPos.y,
             width = 1,
             height = 1
         };
@@ -288,13 +304,13 @@ public abstract class BaseNode : ScriptableObject {
 
     private Vector2 GetInputPos(int inputIndex)
     {
-        Vector2 inputPos = new Vector2(7f, inputs[inputIndex].yPos);
-        return inputPos + new Vector2(WindowRect.x, WindowRect.y);
+        Vector2 inputPos = new Vector2(7f, inputs[inputIndex].yPos) + WindowRect.position + offset;
+        return inputPos;
     }
 
     public Vector2 GetSelectedOutputPos()
     {
-        return selectedOutputPos + new Vector2(WindowRect.x, WindowRect.y);
+        return selectedOutputPos + WindowRect.position + offset;
     }
 
     public void ConnectInput(int inputIndex, BaseNode outNode, int outputIndex)

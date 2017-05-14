@@ -46,13 +46,14 @@ public abstract class BaseEditor : EditorWindow {
     {
         if (!MoveEditorMode && !ConnectionMode)
         {
-            Vector2 dragAmount = new Vector2(Mathf.Round(NodeDrag.x / NodeGUIElements.GridSpacing), Mathf.Round(NodeDrag.y / NodeGUIElements.GridSpacing)) * NodeGUIElements.GridSpacing;
+            Vector2 dragAmount = new Vector2(Mathf.Floor(NodeDrag.x / NodeGUIElements.GridSpacing), Mathf.Floor(NodeDrag.y / NodeGUIElements.GridSpacing)) * NodeGUIElements.GridSpacing;
             if (dragAmount.magnitude > 0)
             {
                 NodeDrag -= dragAmount;
+
                 foreach (BaseNode node in NodeData.Nodes)
                 {
-                    node.Drag(dragAmount / 2);
+                    node.DragIfSelected(dragAmount / 2);
                 }
                 Repaint();
             }
@@ -201,7 +202,7 @@ public abstract class BaseEditor : EditorWindow {
     public BaseNode GetSelectedNode()
     {
         int index = -1;
-        for (int i = 0; i < NodeData.Nodes.Count; i++)
+        for (int i = NodeData.Nodes.Count - 1; i >= 0; i--)
         {
             if (NodeData.Nodes[i].Contains(_mousePos))
             {
@@ -247,7 +248,7 @@ public abstract class BaseEditor : EditorWindow {
         if (ConnectionMode && _currentNode != null)
         {
             Rect mouseRect = new Rect(_mousePos.x, _mousePos.y, 10, 10);
-            Rect outputRect = new Rect(_currentNode.GetSelectedOutputPos().x, _currentNode.GetSelectedOutputPos().y, 1, 1);
+            Rect outputRect = new Rect(_currentNode.GetSelectedOutputPos().x - canvasOffset.x, _currentNode.GetSelectedOutputPos().y - canvasOffset.y, 1, 1);
             DrawConnection(outputRect, mouseRect);
             Repaint();
         }
@@ -337,5 +338,16 @@ public abstract class BaseEditor : EditorWindow {
             }
         }
         return startFound;
+    }
+
+    public int GetNumSelectedNodes()
+    {
+        int numSelectedNodes = 0;
+        foreach (BaseNode node in NodeData.Nodes)
+        {
+            if (node.IsSelected)
+                numSelectedNodes++;
+        }
+        return numSelectedNodes;
     }
 }
