@@ -36,7 +36,6 @@ public abstract class BaseNode : ScriptableObject {
 
     private Vector2 selectedOutputPos;
     private Vector2 offset;
-    private Vector2 draggedDistance;
     
     protected abstract void AddInterfaces();
 
@@ -58,27 +57,40 @@ public abstract class BaseNode : ScriptableObject {
         EditorHelpers.SaveNodeEditorAsset(this, DataContainer.RootContainer, subFolder, GetType().ToString());
     }
 
-    public void DrawNodeWindow(Vector2 canvasOffset)
+    public void DrawNodeWindow(BaseEditor editor, int id, Vector2 canvasOffset)
     {
         offset = canvasOffset;
 
-        WindowRect.x = BaseEditor.GridSpacing * Mathf.Round((BasePosition.x + draggedDistance.x) / BaseEditor.GridSpacing) + offset.x;
-        WindowRect.y = BaseEditor.GridSpacing * Mathf.Round((BasePosition.y + draggedDistance.y) / BaseEditor.GridSpacing) + offset.y;
-
-        GUI.Box(WindowRect, WindowTitle);
+        WindowRect.x = NodeGUIElements.GridSpacing * Mathf.Round(WindowRect.x / NodeGUIElements.GridSpacing);
+        WindowRect.y = NodeGUIElements.GridSpacing * Mathf.Round(WindowRect.y / NodeGUIElements.GridSpacing);
         
+        Rect nodeRect = WindowRect;
+        nodeRect.x += offset.x;
+        nodeRect.y += offset.y;
+        
+        GUIStyle style = GUI.skin.GetStyle("Window");
+
         if (IsSelected)
         {
-            Handles.DrawSolidRectangleWithOutline(WindowRect, new Color(1f, 1f, 1f, 0.1f), new Color(1f, 1f, 1f, 0.5f));
+            GUI.color = new Color(0.9f, 0.9f, 0.9f, 1f);
         }
+        else
+        {
+            GUI.color = new Color(0.8f, 0.8f, 0.8f, 0.9f);
+        }
+        nodeRect = GUI.Window(id, nodeRect, DrawWindowCallback, WindowTitle, style);
+        editor.NodeDrag += WindowRect.position - nodeRect.position + offset;
+    }
 
-        DrawInterfaces();
-        //DrawWindow();
+    private void DrawWindowCallback(int id)
+    {
+        DrawWindow();
+        GUI.DragWindow();
     }
 
     public virtual void DrawWindow()
     {
-        //DrawInterfaces();
+        DrawInterfaces();
     }
     
     public virtual void SetWindowRect(Vector2 position)
@@ -89,17 +101,12 @@ public abstract class BaseNode : ScriptableObject {
     public void Drag(Vector2 delta)
     {
         if (!IsSelected) return;
-        draggedDistance += delta;
+        WindowRect.position -= delta;
     }
 
-    public void StopDragging()
+    public bool Contains(Vector2 pos)
     {
-        if (!IsSelected) return;
-        BasePosition += draggedDistance;
-        draggedDistance = Vector2.zero;
-
-        BasePosition.x = BaseEditor.GridSpacing * Mathf.Round((BasePosition.x + draggedDistance.x) / BaseEditor.GridSpacing);
-        BasePosition.y = BaseEditor.GridSpacing * Mathf.Round((BasePosition.y + draggedDistance.y) / BaseEditor.GridSpacing);
+        return new Rect(WindowRect.position + offset, WindowRect.size).Contains(pos);
     }
 
     protected void AddOutput(int id = 0, InterfaceTypes ifaceType = InterfaceTypes.Event)
@@ -145,7 +152,7 @@ public abstract class BaseNode : ScriptableObject {
 
     protected void DrawOutputInterface(InterfaceType output)
     {
-        Vector3 position = new Vector3(WindowRect.x + WindowRect.width - 7f, WindowRect.y + output.yPos, 0f);
+        Vector3 position = new Vector3(WindowRect.width - 7f, output.yPos, 0f);
         DrawInterfaceAt(position, output.connectedNode != null, output.type);
         if (output.label != string.Empty)
         {
@@ -153,13 +160,13 @@ public abstract class BaseNode : ScriptableObject {
             var gs = GUI.skin.GetStyle("Label");
             gs.alignment = TextAnchor.UpperRight;
             gs.normal.textColor = Color.black;
-            EditorGUI.LabelField(new Rect(new Vector2(WindowRect.x + WindowRect.width - 85f, WindowRect.y + output.yPos - 9), new Vector2(70, 18)), output.label, gs);
+            EditorGUI.LabelField(new Rect(new Vector2(WindowRect.width - 85f, output.yPos - 9), new Vector2(70, 18)), output.label, gs);
         }
     }
 
     protected void DrawInputInterface(InterfaceType input)
     {
-        Vector3 position = new Vector3(WindowRect.x + 7f, WindowRect.y + input.yPos, 0f);
+        Vector3 position = new Vector3(7f, input.yPos, 0f);
         DrawInterfaceAt(position, input.connectedNode != null, input.type);
         if (input.label != string.Empty)
         {
@@ -167,7 +174,7 @@ public abstract class BaseNode : ScriptableObject {
             var gs = GUI.skin.GetStyle("Label");
             gs.alignment = TextAnchor.UpperLeft;
             gs.normal.textColor = Color.black;
-            EditorGUI.LabelField(new Rect(new Vector2(WindowRect.x + 15f, WindowRect.y + input.yPos - 9), new Vector2(70, 18)), input.label, gs);
+            EditorGUI.LabelField(new Rect(new Vector2(15f, input.yPos - 9), new Vector2(70, 18)), input.label, gs);
         }
     }
 
@@ -222,7 +229,7 @@ public abstract class BaseNode : ScriptableObject {
         int chosenInput = -1;
         for (int i = 0; i < inputs.Count; i++)
         {
-            Vector2 delta = new Vector2(WindowRect.x + 7f, WindowRect.y + inputs[i].yPos) - mousePos;
+            Vector2 delta = new Vector2(WindowRect.x + 7f + offset.x, WindowRect.y + inputs[i].yPos + offset.y) - mousePos;
             float dist = Mathf.Sqrt(delta.x * delta.x + delta.y * delta.y);
             if (dist < 6)
             {
@@ -249,21 +256,21 @@ public abstract class BaseNode : ScriptableObject {
         return chosenInput;
     }
     
-    public void DrawCurves()
+    public void DrawConnections()
     {
         foreach (InterfaceType output in outputs)
         {
             if (output.connectedNode != null)
-                DrawCurvesFromOutput(output);
+                DrawConnectionFromOutput(output);
         }
     }
 
-    private void DrawCurvesFromOutput(InterfaceType output)
+    private void DrawConnectionFromOutput(InterfaceType output)
     {
         Rect start = new Rect()
         {
-            x = WindowRect.x + WindowRect.width - 7f,
-            y = WindowRect.y + output.yPos,
+            x = WindowRect.x + offset.x + WindowRect.width - 7f,
+            y = WindowRect.y + offset.y + output.yPos,
             width = 1,
             height = 1
         };
@@ -271,8 +278,8 @@ public abstract class BaseNode : ScriptableObject {
         Vector2 inputPos = output.connectedNode.GetInputPos(output.connectedInterfaceIndex);
         Rect end = new Rect()
         {
-            x = inputPos.x,
-            y = inputPos.y,
+            x = offset.x + inputPos.x,
+            y = offset.y + inputPos.y,
             width = 1,
             height = 1
         };

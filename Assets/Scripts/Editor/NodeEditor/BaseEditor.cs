@@ -7,9 +7,8 @@ public abstract class BaseEditor : EditorWindow {
     public BossEditorNodeData NodeData; // Node data cannot be saved in the editor persistently
     public bool ConnectionMode;
     public bool MoveEditorMode;
-
-    public const float GridSpacing = 10f;
-
+    public Vector2 NodeDrag;
+    
     protected BossDataContainer BaseContainer;
     protected string EditorLabel;
 
@@ -47,12 +46,18 @@ public abstract class BaseEditor : EditorWindow {
     {
         if (!MoveEditorMode && !ConnectionMode)
         {
-            foreach (BaseNode node in NodeData.Nodes)
+            Vector2 dragAmount = new Vector2(Mathf.Round(NodeDrag.x / NodeGUIElements.GridSpacing), Mathf.Round(NodeDrag.y / NodeGUIElements.GridSpacing)) * NodeGUIElements.GridSpacing;
+            if (dragAmount.magnitude > 0)
             {
-                node.Drag(delta);
+                NodeDrag -= dragAmount;
+                foreach (BaseNode node in NodeData.Nodes)
+                {
+                    node.Drag(dragAmount / 2);
+                }
+                Repaint();
             }
         }
-        if (delta.magnitude > 0.01f)
+        else if (delta.magnitude > 0.01f)
         {
             Repaint();
         }
@@ -112,8 +117,8 @@ public abstract class BaseEditor : EditorWindow {
         timeSinceUpdate += Time.deltaTime;
         if (timeSinceUpdate > 0.05f)
         {
-            timeSinceUpdate -= 0.05f;
             Repaint();
+            timeSinceUpdate = 0f;
         }
     }
 
@@ -198,7 +203,7 @@ public abstract class BaseEditor : EditorWindow {
         int index = -1;
         for (int i = 0; i < NodeData.Nodes.Count; i++)
         {
-            if (NodeData.Nodes[i].WindowRect.Contains(_mousePos))
+            if (NodeData.Nodes[i].Contains(_mousePos))
             {
                 index = i;
                 _currentNode = NodeData.Nodes[i];
@@ -215,10 +220,12 @@ public abstract class BaseEditor : EditorWindow {
 
     private void DrawNodeWindows()
     {
-        foreach(BaseNode node in NodeData.Nodes)
+        BeginWindows();
+        for (int i = 0; i < NodeData.Nodes.Count; i++)
         {
-            node.DrawNodeWindow(canvasOffset + canvasDrag);
+            NodeData.Nodes[i].DrawNodeWindow(this, i, canvasOffset + canvasDrag);
         }
+        EndWindows();
     }
 
     public void StartMovingEditorCanvas()
@@ -235,15 +242,6 @@ public abstract class BaseEditor : EditorWindow {
         Repaint();
     }
 
-    public void StopMovingNodes()
-    {
-        foreach (BaseNode node in NodeData.Nodes)
-        {
-            node.StopDragging();
-        }
-        Repaint();
-    }
-
     private void DrawConnections()
     {
         if (ConnectionMode && _currentNode != null)
@@ -251,13 +249,12 @@ public abstract class BaseEditor : EditorWindow {
             Rect mouseRect = new Rect(_mousePos.x, _mousePos.y, 10, 10);
             Rect outputRect = new Rect(_currentNode.GetSelectedOutputPos().x, _currentNode.GetSelectedOutputPos().y, 1, 1);
             DrawConnection(outputRect, mouseRect);
-            Debug.Log("repainted from connection");
             Repaint();
         }
 
         foreach (var node in NodeData.Nodes)
         {
-            node.DrawCurves();
+            node.DrawConnections();
         }
     }
 

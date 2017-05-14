@@ -49,7 +49,7 @@ public class BaseEditorMouseInput {
         {
             ActionMouseUp(e.button);
         }
-        else if ((e.rawType == EventType.MouseDrag && e.button == (int)MouseButtons.LeftClick))
+        else if ((e.type == EventType.MouseDrag && e.button == (int)MouseButtons.LeftClick))
         {
             editor.Drag(e.delta);
         }
@@ -103,6 +103,7 @@ public class BaseEditorMouseInput {
             if (!mouseDownNode.IsSelected && !Event.current.shift)
                 editor.DeselectAllNodes();
             mouseDownNode.IsSelected = true;
+            editor.NodeDrag = Vector2.zero;
             editor.Repaint();
             StartDraggingConnections();
         }
@@ -170,7 +171,6 @@ public class BaseEditorMouseInput {
         else
         {
             editor.ConnectionMode = false;
-            editor.StopMovingNodes();
         }
     }
 }

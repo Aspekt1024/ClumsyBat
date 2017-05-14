@@ -8,7 +8,10 @@ using Outputs = JumpAction.Outputs;
 public class JumpNode : BaseNode {
     
     [SerializeField]
-    private float jumpForce = 200;
+    private float jumpForce = 300f;
+
+    private const float minJumpForce = 300f;
+    private const float maxJumpForce = 1200f;
 
     protected override void AddInterfaces()
     {
@@ -21,24 +24,21 @@ public class JumpNode : BaseNode {
 
     private void SetInterfacePositions()
     {
-        SetInput(50);
-        SetOutput(50, (int)Outputs.Jumped, "Jumped");
-        SetOutput(70, (int)Outputs.Top, "Top");
-        SetOutput(90, (int)Outputs.Landed, "Landed");
+        SetInput(30);
+        SetOutput(30, (int)Outputs.Jumped, "next");
+        SetOutput(50, (int)Outputs.Top, "Top");
+        SetOutput(70, (int)Outputs.Landed, "Landed");
     }
 
     public override void DrawWindow()
     {
         WindowTitle = "Jump";
-        WindowRect.width = 120;
-        WindowRect.height = 105;
+        WindowRect.width = 15 * NodeGUIElements.GridSpacing;
+        WindowRect.height = 9 * NodeGUIElements.GridSpacing;
 
-        if (jumpForce < 300f) jumpForce = 300f;
+        if (jumpForce < minJumpForce) jumpForce = minJumpForce;
 
-        EditorGUIUtility.labelWidth = 50;
-        jumpForce = EditorGUILayout.FloatField("Force:", jumpForce);
-        jumpForce = GUI.VerticalSlider(new Rect(new Vector2(25, 40), new Vector2(15, 60)), jumpForce, 1200, 300);
-        jumpForce = Mathf.Round(jumpForce / 10) * 10f;
+        jumpForce = NodeGUIElements.VerticalSlider(this, new Rect(2, 2, 2, 6), jumpForce, minJumpForce, maxJumpForce, 50f, "Height");
         
         SetInterfacePositions();
         DrawInterfaces();
