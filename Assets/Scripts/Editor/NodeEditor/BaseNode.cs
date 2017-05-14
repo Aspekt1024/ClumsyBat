@@ -67,28 +67,25 @@ public abstract class BaseNode : ScriptableObject {
         Rect nodeRect = WindowRect;
         nodeRect.x += offset.x;
         nodeRect.y += offset.y;
-
-        GUISkin mySkin = null;
-
-        GUI.color = Color.white;
+        
         if (IsSelected)
         {
-            mySkin = (GUISkin)EditorGUIUtility.Load("NodeWindowSkin.guiskin");
+            GUI.skin = (GUISkin)EditorGUIUtility.Load("NodeWindowSkin.guiskin");
         }
         else
         {
-            mySkin = (GUISkin)EditorGUIUtility.Load("NodeNormalSkin.guiskin");
+            GUI.skin = (GUISkin)EditorGUIUtility.Load("NodeNormalSkin.guiskin");
         }
-
-        GUIStyle style = mySkin.GetStyle("Window");
-
-        nodeRect = GUI.Window(id, nodeRect, DrawWindowCallback, WindowTitle, style);
         
+        nodeRect = GUI.Window(id, nodeRect, DrawWindowCallback, WindowTitle);
+
+        if (editor.ConnectionMode) return;
+
         if (IsSelected && editor.GetNumSelectedNodes() > 1)
         {
             // TODO tidy this up.. nodes don't move together because drag.magnitude is often == 0
             // making for jittery behaviour
-            nodeRect = GUI.Window(id, nodeRect, DrawWindowCallback, WindowTitle, style);
+            nodeRect = GUI.Window(id, nodeRect, DrawWindowCallback, WindowTitle);
             Vector2 drag = WindowRect.position - nodeRect.position + offset;
             editor.NodeDrag += drag;
         }
@@ -175,7 +172,6 @@ public abstract class BaseNode : ScriptableObject {
             EditorGUIUtility.labelWidth = 70f;
             var gs = GUI.skin.GetStyle("Label");
             gs.alignment = TextAnchor.UpperRight;
-            gs.normal.textColor = Color.black;
             EditorGUI.LabelField(new Rect(new Vector2(WindowRect.width - 85f, output.yPos - 9), new Vector2(70, 18)), output.label, gs);
         }
     }
@@ -189,7 +185,6 @@ public abstract class BaseNode : ScriptableObject {
             EditorGUIUtility.labelWidth = 70f;
             var gs = GUI.skin.GetStyle("Label");
             gs.alignment = TextAnchor.UpperLeft;
-            gs.normal.textColor = Color.black;
             EditorGUI.LabelField(new Rect(new Vector2(15f, input.yPos - 9), new Vector2(70, 18)), input.label, gs);
         }
     }

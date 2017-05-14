@@ -46,13 +46,13 @@ public class ProjectileNode : BaseNode {
         WindowTitle = "Projectile";
         WindowRect.width = 200;
         WindowRect.height = 125;
-
-        EditorGUI.LabelField(new Rect(new Vector2(10, 30), new Vector2(45, 15)), "Speed:");
+        
+        GUI.Label(new Rect(new Vector2(8, 28), new Vector2(45, 20)), "Speed:");
         projectileSpeed = EditorGUI.FloatField(new Rect(new Vector2(55, 30), new Vector2(40, 15)), projectileSpeed);
         AddSpaces(11);
         ShowPositionGUI();
         EditorGUIUtility.labelWidth = 100f;
-        targetGround = EditorGUILayout.Toggle("Target Ground?", targetGround);
+        targetGround = EditorGUILayout.Toggle("Target Ground?", targetGround, GUI.skin.GetStyle("Toggle"));
 
         SetInterfacePositions();
         DrawInterfaces();
@@ -87,12 +87,15 @@ public class ProjectileNode : BaseNode {
         {
             if (!targetGround)
             {
+
                 EditorGUILayout.BeginHorizontal();
-                EditorGUIUtility.labelWidth = 23f;
                 EditorGUIUtility.fieldWidth = 30f;
-                targetPos.x = EditorGUILayout.FloatField("  x:", targetPos.x);
+                EditorGUIUtility.labelWidth = 20f;
+                GUI.Label(new Rect(10, 87, 20, 20), "x:");
+                targetPos.x = EditorGUILayout.FloatField("    ", targetPos.x);
                 EditorGUIUtility.labelWidth = 15f;
-                targetPos.y = EditorGUILayout.FloatField("y:", targetPos.y);
+                GUI.Label(new Rect(62, 87, 20, 20), "y:");
+                targetPos.y = EditorGUILayout.FloatField("    ", targetPos.y);
                 EditorGUIUtility.labelWidth = 70f;
                 EditorGUILayout.LabelField("");
                 EditorGUILayout.EndHorizontal();

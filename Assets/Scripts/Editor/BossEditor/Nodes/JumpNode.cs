@@ -35,11 +35,14 @@ public class JumpNode : BaseNode {
         WindowTitle = "Jump";
         WindowRect.width = 15 * NodeGUIElements.GridSpacing;
         WindowRect.height = 9 * NodeGUIElements.GridSpacing;
-
-        if (jumpForce < minJumpForce) jumpForce = minJumpForce;
-
-        jumpForce = NodeGUIElements.VerticalSlider(this, new Rect(2, 2, 2, 6), jumpForce, minJumpForce, maxJumpForce, 50f, "Height");
         
+        Vector2 pos = new Vector2(2, 2) * NodeGUIElements.GridSpacing;
+        GUI.Label(new Rect(pos + new Vector2(15f, 0f), new Vector2(50, 20)), "Height");
+        jumpForce = EditorGUI.FloatField(new Rect(pos + new Vector2(15f, 20f), new Vector2(35f, 15f)), jumpForce);
+        jumpForce = GUI.VerticalSlider(new Rect(pos, new Vector2(2, 6) * NodeGUIElements.GridSpacing), jumpForce, maxJumpForce, minJumpForce);
+        jumpForce -= jumpForce % 50f;
+        jumpForce = Mathf.Clamp(jumpForce, minJumpForce, maxJumpForce);
+
         SetInterfacePositions();
         DrawInterfaces();
     }
