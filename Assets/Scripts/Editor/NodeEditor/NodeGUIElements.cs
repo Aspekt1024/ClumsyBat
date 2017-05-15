@@ -19,4 +19,10 @@ public static class NodeGUIElements {
         return value;
     }
 	
+    public static float FloatField(Vector2 position, float value, string label)
+    {
+        GUI.skin.label.alignment = TextAnchor.UpperRight;
+        GUI.Label(new Rect(position, new Vector2(50, 20)), label);
+        return EditorGUI.FloatField(new Rect(position + new Vector2(53, 1), new Vector2(40, 15)), value);
+    }
 }

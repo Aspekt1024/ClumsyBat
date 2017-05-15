@@ -3,17 +3,15 @@ using UnityEngine;
 using UnityEditor;
 
 public abstract class BaseNode : ScriptableObject {
-
-    public bool IsSelected;
-
+    
     public enum InterfaceTypes
     {
         Event, Object
     }
 
     public Rect WindowRect;
-    public Vector2 BasePosition;
     public string WindowTitle = "Untitled";
+    public bool IsSelected;
     
     public List<InterfaceType> inputs = new List<InterfaceType>();
     public List<InterfaceType> outputs = new List<InterfaceType>();
@@ -34,9 +32,13 @@ public abstract class BaseNode : ScriptableObject {
         public InterfaceTypes type; 
     }
 
+    private BaseEditor editor;
     private Vector2 selectedOutputPos;
-    private Vector2 offset;
-    
+
+    private bool IsDragged;
+    private Rect OffsetRect;
+    private Vector2 dragOffset;
+
     protected abstract void AddInterfaces();
 
     public virtual void SetupNode(BossDataContainer dataContainer)
@@ -56,17 +58,13 @@ public abstract class BaseNode : ScriptableObject {
 
         EditorHelpers.SaveNodeEditorAsset(this, DataContainer.RootContainer, subFolder, GetType().ToString());
     }
-
-    public void DrawNodeWindow(BaseEditor editor, int id, Vector2 canvasOffset)
+    
+    public void DrawNodeWindow(BaseEditor editorRef, int id, Vector2 canvasOffset)
     {
-        offset = canvasOffset;
+        editor = editorRef; // TODO idk... this doesn't seem right to be here
 
-        WindowRect.x = NodeGUIElements.GridSpacing * Mathf.Round(WindowRect.x / NodeGUIElements.GridSpacing);
-        WindowRect.y = NodeGUIElements.GridSpacing * Mathf.Round(WindowRect.y / NodeGUIElements.GridSpacing);
-        
-        Rect nodeRect = WindowRect;
-        nodeRect.x += offset.x;
-        nodeRect.y += offset.y;
+        WindowRect.position = SnapToGrid(WindowRect.position);
+        OffsetRect = new Rect(SnapToGrid(WindowRect.position + dragOffset) + canvasOffset, WindowRect.size);
         
         if (IsSelected)
         {
@@ -77,33 +75,75 @@ public abstract class BaseNode : ScriptableObject {
             GUI.skin = (GUISkin)EditorGUIUtility.Load("NodeNormalSkin.guiskin");
         }
         
-        nodeRect = GUI.Window(id, nodeRect, DrawWindowCallback, WindowTitle);
-
-        if (editor.ConnectionMode) return;
-
-        if (IsSelected && editor.GetNumSelectedNodes() > 1)
-        {
-            // TODO tidy this up.. nodes don't move together because drag.magnitude is often == 0
-            // making for jittery behaviour
-            nodeRect = GUI.Window(id, nodeRect, DrawWindowCallback, WindowTitle);
-            Vector2 drag = WindowRect.position - nodeRect.position + offset;
-            editor.NodeDrag += drag;
-        }
-        else
-        {
-            WindowRect.position = nodeRect.position - offset;
-        }
+        GUI.Box(OffsetRect, WindowTitle);
+        GUI.BeginGroup(OffsetRect);
+        Draw();
+        GUI.EndGroup();
+        
     }
 
-    private void DrawWindowCallback(int id)
+    private Vector2 SnapToGrid(Vector2 pos)
+    {
+        Vector2 snappedPos = new Vector2
+        {
+            x = NodeGUIElements.GridSpacing * Mathf.Round(pos.x / NodeGUIElements.GridSpacing),
+            y = NodeGUIElements.GridSpacing * Mathf.Round(pos.y / NodeGUIElements.GridSpacing)
+        };
+        return snappedPos;
+    }
+
+    private void Draw()
     {
         DrawWindow();
-        GUI.DragWindow();
     }
 
     public virtual void DrawWindow()
     {
         DrawInterfaces();
+    }
+
+    public void ProcessEvents(Event e)
+    {
+        switch (e.type)
+        {
+            case EventType.MouseDown:
+                if (e.button == 0)
+                {
+                    if (OffsetRect.Contains(e.mousePosition))
+                    {
+                        IsDragged = true;
+
+                        if (e.shift)
+                            IsSelected = !IsSelected;
+                        else
+                        {
+                            if (!IsSelected)
+                                editor.DeselectAllNodes();
+
+                            IsSelected = true;
+                        }
+
+                        GUI.changed = true;
+                    }
+                }
+                break;
+            case EventType.mouseUp:
+                if (IsDragged)
+                {
+                    WindowRect.position += dragOffset;
+                    dragOffset = Vector2.zero;
+                    IsDragged = false;
+                }
+                break;
+            case EventType.MouseDrag:
+                if (e.button == 0 && IsDragged)
+                {
+                    dragOffset += e.delta;
+                    e.Use();
+                    return;
+                }
+                break;
+        }
     }
     
     public virtual void SetWindowRect(Vector2 position)
@@ -111,15 +151,9 @@ public abstract class BaseNode : ScriptableObject {
         WindowRect = new Rect(position.x, position.y, WindowRect.width, WindowRect.height);
     }
 
-    public void DragIfSelected(Vector2 delta)
-    {
-        if (!IsSelected) return;
-        WindowRect.position -= delta;
-    }
-
     public bool Contains(Vector2 pos)
     {
-        return new Rect(WindowRect.position + offset, WindowRect.size).Contains(pos);
+        return new Rect(OffsetRect.position, WindowRect.size).Contains(pos);
     }
 
     protected void AddOutput(int id = 0, InterfaceTypes ifaceType = InterfaceTypes.Event)
@@ -218,11 +252,11 @@ public abstract class BaseNode : ScriptableObject {
         int chosenOutput = -1;
         for (int i = 0; i < outputs.Count; i++)
         {
-            Vector2 delta = new Vector2 (WindowRect.x + offset.x + WindowRect.width - 7f, WindowRect.y + offset.y + outputs[i].yPos) - mousePos;
+            Vector2 delta = new Vector2 (OffsetRect.x + WindowRect.width - 7f, OffsetRect.y + outputs[i].yPos) - mousePos;
             float dist = Mathf.Sqrt(delta.x * delta.x + delta.y * delta.y);
             if (dist < 6)
             {
-                selectedOutputPos = new Vector2 (WindowRect.width - 7f + offset.x, outputs[i].yPos + offset.y);
+                selectedOutputPos = new Vector2 (WindowRect.width - 7f, outputs[i].yPos);
                 chosenOutput = i;
                 break;
             }
@@ -240,7 +274,7 @@ public abstract class BaseNode : ScriptableObject {
         int chosenInput = -1;
         for (int i = 0; i < inputs.Count; i++)
         {
-            Vector2 delta = new Vector2(WindowRect.x + 7f + offset.x, WindowRect.y + inputs[i].yPos + offset.y) - mousePos;
+            Vector2 delta = new Vector2(OffsetRect.x + 7f, OffsetRect.y + inputs[i].yPos) - mousePos;
             float dist = Mathf.Sqrt(delta.x * delta.x + delta.y * delta.y);
             if (dist < 6)
             {
@@ -256,7 +290,7 @@ public abstract class BaseNode : ScriptableObject {
         int chosenInput = -1;
         for (int i = 0; i < inputs.Count; i++)
         {
-            Vector2 delta = new Vector2(WindowRect.x + offset.x + 7f, WindowRect.y + offset.y + inputs[i].yPos) - mousePos;
+            Vector2 delta = new Vector2(OffsetRect.x + 7f, OffsetRect.y + inputs[i].yPos) - mousePos;
             float dist = Mathf.Sqrt(delta.x * delta.x + delta.y * delta.y);
             if (dist < 10)
             {
@@ -280,8 +314,8 @@ public abstract class BaseNode : ScriptableObject {
     {
         Rect start = new Rect()
         {
-            x = WindowRect.x + offset.x + WindowRect.width - 7f,
-            y = WindowRect.y + offset.y + output.yPos,
+            x = OffsetRect.x + WindowRect.width - 7f,
+            y = OffsetRect.y + output.yPos,
             width = 1,
             height = 1
         };
@@ -299,13 +333,13 @@ public abstract class BaseNode : ScriptableObject {
 
     private Vector2 GetInputPos(int inputIndex)
     {
-        Vector2 inputPos = new Vector2(7f, inputs[inputIndex].yPos) + WindowRect.position + offset;
+        Vector2 inputPos = new Vector2(7f, inputs[inputIndex].yPos) + OffsetRect.position;
         return inputPos;
     }
 
     public Vector2 GetSelectedOutputPos()
     {
-        return selectedOutputPos + WindowRect.position + offset;
+        return selectedOutputPos + OffsetRect.position;
     }
 
     public void ConnectInput(int inputIndex, BaseNode outNode, int outputIndex)

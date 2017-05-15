@@ -44,26 +44,14 @@ public abstract class BaseEditor : EditorWindow {
 
     public void Drag(Vector2 delta)
     {
-        if (!MoveEditorMode && !ConnectionMode)
-        {
-            Vector2 dragAmount = new Vector2(Mathf.Floor(NodeDrag.x / NodeGUIElements.GridSpacing), Mathf.Floor(NodeDrag.y / NodeGUIElements.GridSpacing)) * NodeGUIElements.GridSpacing;
-            if (dragAmount.magnitude > 0)
-            {
-                NodeDrag -= dragAmount;
+        if (!MoveEditorMode && !ConnectionMode) return;
 
-                foreach (BaseNode node in NodeData.Nodes)
-                {
-                    node.DragIfSelected(dragAmount / 2);
-                }
-                Repaint();
-            }
-        }
-        else if (delta.magnitude > 0.01f)
+        if (delta.magnitude > 0.01f)
         {
             Repaint();
         }
     }
-
+    
     public void DeselectAllNodes()
     {
         foreach (BaseNode node in NodeData.Nodes)
@@ -135,6 +123,10 @@ public abstract class BaseEditor : EditorWindow {
         DrawHeading();
         DrawNodeWindows();
         DrawConnections();
+        if (!ConnectionMode && !MoveEditorMode)
+            ProcessNodeEvents();
+
+        if (GUI.changed) Repaint();
     }
 
     private void DrawBackground()
@@ -221,12 +213,18 @@ public abstract class BaseEditor : EditorWindow {
 
     private void DrawNodeWindows()
     {
-        BeginWindows();
         for (int i = 0; i < NodeData.Nodes.Count; i++)
         {
             NodeData.Nodes[i].DrawNodeWindow(this, i, canvasOffset + canvasDrag);
         }
-        EndWindows();
+    }
+
+    private void ProcessNodeEvents()
+    {
+        for (int i = 0; i < NodeData.Nodes.Count; i++)
+        {
+            NodeData.Nodes[i].ProcessEvents(Event.current);
+        }
     }
 
     public void StartMovingEditorCanvas()
@@ -248,7 +246,7 @@ public abstract class BaseEditor : EditorWindow {
         if (ConnectionMode && _currentNode != null)
         {
             Rect mouseRect = new Rect(_mousePos.x, _mousePos.y, 10, 10);
-            Rect outputRect = new Rect(_currentNode.GetSelectedOutputPos().x - canvasOffset.x, _currentNode.GetSelectedOutputPos().y - canvasOffset.y, 1, 1);
+            Rect outputRect = new Rect(_currentNode.GetSelectedOutputPos().x, _currentNode.GetSelectedOutputPos().y, 1, 1);
             DrawConnection(outputRect, mouseRect);
             Repaint();
         }
@@ -338,16 +336,5 @@ public abstract class BaseEditor : EditorWindow {
             }
         }
         return startFound;
-    }
-
-    public int GetNumSelectedNodes()
-    {
-        int numSelectedNodes = 0;
-        foreach (BaseNode node in NodeData.Nodes)
-        {
-            if (node.IsSelected)
-                numSelectedNodes++;
-        }
-        return numSelectedNodes;
     }
 }

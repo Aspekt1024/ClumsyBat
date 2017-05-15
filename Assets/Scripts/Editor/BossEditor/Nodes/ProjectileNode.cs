@@ -46,12 +46,12 @@ public class ProjectileNode : BaseNode {
         WindowTitle = "Projectile";
         WindowRect.width = 200;
         WindowRect.height = 125;
-        
-        GUI.Label(new Rect(new Vector2(8, 28), new Vector2(45, 20)), "Speed:");
-        projectileSpeed = EditorGUI.FloatField(new Rect(new Vector2(55, 30), new Vector2(40, 15)), projectileSpeed);
+
+        projectileSpeed = NodeGUIElements.FloatField(new Vector2(10, 30), projectileSpeed, "Speed:");
         AddSpaces(11);
         ShowPositionGUI();
         EditorGUIUtility.labelWidth = 100f;
+        GUI.skin.label.alignment = TextAnchor.LowerRight;
         targetGround = EditorGUILayout.Toggle("Target Ground?", targetGround, GUI.skin.GetStyle("Toggle"));
 
         SetInterfacePositions();

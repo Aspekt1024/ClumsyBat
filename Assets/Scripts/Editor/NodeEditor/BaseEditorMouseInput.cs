@@ -99,14 +99,7 @@ public class BaseEditorMouseInput {
         if (mouseDownNode == null)
             editor.StartMovingEditorCanvas();
         else
-        {
-            if (!mouseDownNode.IsSelected && !Event.current.shift)
-                editor.DeselectAllNodes();
-            mouseDownNode.IsSelected = true;
-            editor.NodeDrag = Vector2.zero;
-            editor.Repaint();
             StartDraggingConnections();
-        }
     }
 
     private void StartDraggingConnections()
