@@ -41,13 +41,13 @@ public class ProjectileNode : BaseNode {
         SetOutput(95, (int)Outputs.Projectile, "Projectile");
     }
 
-    public override void DrawWindow()
+    public override void Draw()
     {
         WindowTitle = "Projectile";
-        WindowRect.width = 200;
-        WindowRect.height = 125;
+        Transform.Width = 200;
+        Transform.Height = 125;
 
-        projectileSpeed = NodeGUIElements.FloatField(new Vector2(10, 30), projectileSpeed, "Speed:");
+        projectileSpeed = NodeGUI.FloatField(new Vector2(10, 30), projectileSpeed, "Speed:");
         AddSpaces(11);
         ShowPositionGUI();
         EditorGUIUtility.labelWidth = 100f;

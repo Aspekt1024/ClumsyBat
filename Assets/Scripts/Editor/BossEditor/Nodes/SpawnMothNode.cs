@@ -15,11 +15,11 @@ public class SpawnMothNode : BaseNode {
         SetInput(30);
     }
 
-    public override void DrawWindow()
+    public override void Draw()
     {
         WindowTitle = "Spawn Moth";
-        WindowRect.width = 120;
-        WindowRect.height = 60;
+        Transform.Width = 120;
+        Transform.Height = 60;
 
         SetInterfacePositions();
         DrawInterfaces();

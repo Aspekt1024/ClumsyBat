@@ -22,10 +22,10 @@ public class ChargeNode : BaseNode {
         SetOutput(70f, (int)Outputs.Recovered, "Recovered");
     }
 
-    public override void DrawWindow()
+    public override void Draw()
     {
-        WindowRect.width = 110;
-        WindowRect.height = 82;
+        Transform.Width = 110;
+        Transform.Height = 82;
         WindowTitle = "Charge";
 
         SetInterfacePositions();

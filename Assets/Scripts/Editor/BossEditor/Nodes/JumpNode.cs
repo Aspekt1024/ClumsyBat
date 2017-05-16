@@ -30,16 +30,16 @@ public class JumpNode : BaseNode {
         SetOutput(70, (int)Outputs.Landed, "Landed");
     }
 
-    public override void DrawWindow()
+    public override void Draw()
     {
         WindowTitle = "Jump";
-        WindowRect.width = 15 * NodeGUIElements.GridSpacing;
-        WindowRect.height = 9 * NodeGUIElements.GridSpacing;
+        Transform.Width = 15 * NodeGUI.GridSpacing;
+        Transform.Height = 9 * NodeGUI.GridSpacing;
         
-        Vector2 pos = new Vector2(2, 2) * NodeGUIElements.GridSpacing;
+        Vector2 pos = new Vector2(2, 2) * NodeGUI.GridSpacing;
         GUI.Label(new Rect(pos + new Vector2(15f, 0f), new Vector2(50, 20)), "Height");
         jumpForce = EditorGUI.FloatField(new Rect(pos + new Vector2(15f, 20f), new Vector2(35f, 15f)), jumpForce);
-        jumpForce = GUI.VerticalSlider(new Rect(pos, new Vector2(2, 6) * NodeGUIElements.GridSpacing), jumpForce, maxJumpForce, minJumpForce);
+        jumpForce = GUI.VerticalSlider(new Rect(pos, new Vector2(2, 6) * NodeGUI.GridSpacing), jumpForce, maxJumpForce, minJumpForce);
         jumpForce -= jumpForce % 50f;
         jumpForce = Mathf.Clamp(jumpForce, minJumpForce, maxJumpForce);
 

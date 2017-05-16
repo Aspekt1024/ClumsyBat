@@ -32,11 +32,11 @@ public class WalkNode : BaseNode {
         SetOutput(70, (int)Outputs.HitWall, "Hit Wall");
     }
 
-    public override void DrawWindow()
+    public override void Draw()
     {
         WindowTitle = "Movement";
-        WindowRect.width = 170;
-        WindowRect.height = 145;
+        Transform.Width = 170;
+        Transform.Height = 145;
 
         AddSpaces(3);
         EditorGUILayout.Separator();

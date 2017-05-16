@@ -14,10 +14,10 @@ public class BossNode : BaseNode {
         SetOutput(30f, 0, "Object");
     }
 
-    public override void DrawWindow()
+    public override void Draw()
     {
-        WindowRect.width = 80;
-        WindowRect.height = 40;
+        Transform.Width = 80;
+        Transform.Height = 40;
         WindowTitle = "Boss";
 
         SetInterfacePositions();

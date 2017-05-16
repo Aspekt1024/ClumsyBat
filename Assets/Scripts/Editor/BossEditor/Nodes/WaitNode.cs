@@ -18,15 +18,15 @@ public class WaitNode : BaseNode {
         SetOutput(30);
     }
 
-    public override void DrawWindow()
+    public override void Draw()
     {
         WindowTitle = "Wait";
-        WindowRect.width = 70;
-        WindowRect.height = 40;
+        Transform.Width = 70;
+        Transform.Height = 40;
 
         EditorGUIUtility.labelWidth = 70f;
-        WaitTime = EditorGUI.FloatField(new Rect(new Vector2(15, 18), new Vector2(WindowRect.width - 40, 18)), WaitTime);
-        EditorGUI.LabelField(new Rect(new Vector2(WindowRect.width - 25, 18), new Vector2(10, 18)), "s");
+        WaitTime = EditorGUI.FloatField(new Rect(new Vector2(15, 18), new Vector2(Transform.Width - 40, 18)), WaitTime);
+        EditorGUI.LabelField(new Rect(new Vector2(Transform.Width - 25, 18), new Vector2(10, 18)), "s");
 
         SetInterfacePositions();
         DrawInterfaces();

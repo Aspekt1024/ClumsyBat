@@ -12,11 +12,11 @@ public class LoopNode : BaseNode {
         SetInput(30);
     }
 
-    public override void DrawWindow()
+    public override void Draw()
     {
         WindowTitle = "Loop to Start";
-        WindowRect.width = 120;
-        WindowRect.height = 40;
+        Transform.Width = 120;
+        Transform.Height = 40;
 
         SetInterfacePositions();
         DrawInterfaces();

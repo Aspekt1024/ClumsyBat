@@ -20,10 +20,10 @@ public class HealthNode : BaseNode {
         SetOutput(30f);
     }
 
-    public override void DrawWindow()
+    public override void Draw()
     {
-        WindowRect.width = 80;
-        WindowRect.height = 60;
+        Transform.Width = 80;
+        Transform.Height = 60;
         WindowTitle = "Health";
 
         EditorGUILayout.Space();

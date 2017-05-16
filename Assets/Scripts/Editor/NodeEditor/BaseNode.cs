@@ -9,9 +9,7 @@ public abstract class BaseNode : ScriptableObject {
         Event, Object
     }
 
-    public Rect WindowRect;
     public string WindowTitle = "Untitled";
-    public bool IsSelected;
     
     public List<InterfaceType> inputs = new List<InterfaceType>();
     public List<InterfaceType> outputs = new List<InterfaceType>();
@@ -33,13 +31,17 @@ public abstract class BaseNode : ScriptableObject {
     }
 
     private BaseEditor editor;
+    private Rect NodeRect;
     private Vector2 selectedOutputPos;
 
-    private bool IsDragged;
-    private Rect OffsetRect;
-    private Vector2 dragOffset;
-
+    public NodeTransform Transform;
+    
     protected abstract void AddInterfaces();
+
+    public Rect GetWindowRect()
+    {
+        return Transform.WindowRect;
+    }
 
     public virtual void SetupNode(BossDataContainer dataContainer)
     {
@@ -63,10 +65,9 @@ public abstract class BaseNode : ScriptableObject {
     {
         editor = editorRef; // TODO idk... this doesn't seem right to be here
 
-        WindowRect.position = SnapToGrid(WindowRect.position);
-        OffsetRect = new Rect(SnapToGrid(WindowRect.position + dragOffset) + canvasOffset, WindowRect.size);
+        NodeRect = Transform.GetWindow(canvasOffset);
         
-        if (IsSelected)
+        if (Transform.IsSelected)
         {
             GUI.skin = (GUISkin)EditorGUIUtility.Load("NodeWindowSkin.guiskin");
         }
@@ -75,85 +76,31 @@ public abstract class BaseNode : ScriptableObject {
             GUI.skin = (GUISkin)EditorGUIUtility.Load("NodeNormalSkin.guiskin");
         }
         
-        GUI.Box(OffsetRect, WindowTitle);
-        GUI.BeginGroup(OffsetRect);
+        GUI.Box(NodeRect, WindowTitle);
+        GUI.BeginGroup(NodeRect);
         Draw();
         GUI.EndGroup();
         
     }
 
-    private Vector2 SnapToGrid(Vector2 pos)
-    {
-        Vector2 snappedPos = new Vector2
-        {
-            x = NodeGUIElements.GridSpacing * Mathf.Round(pos.x / NodeGUIElements.GridSpacing),
-            y = NodeGUIElements.GridSpacing * Mathf.Round(pos.y / NodeGUIElements.GridSpacing)
-        };
-        return snappedPos;
-    }
-
-    private void Draw()
-    {
-        DrawWindow();
-    }
-
-    public virtual void DrawWindow()
+    public virtual void Draw()
     {
         DrawInterfaces();
-    }
-
-    public void ProcessEvents(Event e)
-    {
-        switch (e.type)
-        {
-            case EventType.MouseDown:
-                if (e.button == 0)
-                {
-                    if (OffsetRect.Contains(e.mousePosition))
-                    {
-                        IsDragged = true;
-
-                        if (e.shift)
-                            IsSelected = !IsSelected;
-                        else
-                        {
-                            if (!IsSelected)
-                                editor.DeselectAllNodes();
-
-                            IsSelected = true;
-                        }
-
-                        GUI.changed = true;
-                    }
-                }
-                break;
-            case EventType.mouseUp:
-                if (IsDragged)
-                {
-                    WindowRect.position += dragOffset;
-                    dragOffset = Vector2.zero;
-                    IsDragged = false;
-                }
-                break;
-            case EventType.MouseDrag:
-                if (e.button == 0 && IsDragged)
-                {
-                    dragOffset += e.delta;
-                    e.Use();
-                    return;
-                }
-                break;
-        }
     }
     
     public virtual void SetWindowRect(Vector2 position)
     {
-        WindowRect = new Rect(position.x, position.y, WindowRect.width, WindowRect.height);
+        Transform.WindowRect = new Rect(position.x, position.y, Transform.WindowRect.width, Transform.WindowRect.height);
     }
 
     public bool Contains(Vector2 pos)
     {
-        return new Rect(OffsetRect.position, WindowRect.size).Contains(pos);
+        return new Rect(NodeRect.position, Transform.WindowRect.size).Contains(pos);
+    }
+
+    private void OnEnable()
+    {
+        if (Transform == null) Transform = new NodeTransform(this);
     }
 
     protected void AddOutput(int id = 0, InterfaceTypes ifaceType = InterfaceTypes.Event)
@@ -199,14 +146,14 @@ public abstract class BaseNode : ScriptableObject {
 
     protected void DrawOutputInterface(InterfaceType output)
     {
-        Vector3 position = new Vector3(WindowRect.width - 7f, output.yPos, 0f);
+        Vector3 position = new Vector3(Transform.WindowRect.width - 7f, output.yPos, 0f);
         DrawInterfaceAt(position, output.connectedNode != null, output.type);
         if (output.label != string.Empty)
         {
             EditorGUIUtility.labelWidth = 70f;
             var gs = GUI.skin.GetStyle("Label");
             gs.alignment = TextAnchor.UpperRight;
-            EditorGUI.LabelField(new Rect(new Vector2(WindowRect.width - 85f, output.yPos - 9), new Vector2(70, 18)), output.label, gs);
+            EditorGUI.LabelField(new Rect(new Vector2(Transform.WindowRect.width - 85f, output.yPos - 9), new Vector2(70, 18)), output.label, gs);
         }
     }
 
@@ -252,11 +199,11 @@ public abstract class BaseNode : ScriptableObject {
         int chosenOutput = -1;
         for (int i = 0; i < outputs.Count; i++)
         {
-            Vector2 delta = new Vector2 (OffsetRect.x + WindowRect.width - 7f, OffsetRect.y + outputs[i].yPos) - mousePos;
+            Vector2 delta = new Vector2 (NodeRect.x + Transform.WindowRect.width - 7f, NodeRect.y + outputs[i].yPos) - mousePos;
             float dist = Mathf.Sqrt(delta.x * delta.x + delta.y * delta.y);
             if (dist < 6)
             {
-                selectedOutputPos = new Vector2 (WindowRect.width - 7f, outputs[i].yPos);
+                selectedOutputPos = new Vector2 (Transform.WindowRect.width - 7f, outputs[i].yPos);
                 chosenOutput = i;
                 break;
             }
@@ -266,7 +213,7 @@ public abstract class BaseNode : ScriptableObject {
 
     public void SetSelectedOutputPosFromIndex(int outputIndex)
     {
-        selectedOutputPos = new Vector2(WindowRect.width - 7f, outputs[outputIndex].yPos);
+        selectedOutputPos = new Vector2(Transform.WindowRect.width - 7f, outputs[outputIndex].yPos);
     }
 
     public int InputClicked(Vector2 mousePos)
@@ -274,7 +221,7 @@ public abstract class BaseNode : ScriptableObject {
         int chosenInput = -1;
         for (int i = 0; i < inputs.Count; i++)
         {
-            Vector2 delta = new Vector2(OffsetRect.x + 7f, OffsetRect.y + inputs[i].yPos) - mousePos;
+            Vector2 delta = new Vector2(NodeRect.x + 7f, NodeRect.y + inputs[i].yPos) - mousePos;
             float dist = Mathf.Sqrt(delta.x * delta.x + delta.y * delta.y);
             if (dist < 6)
             {
@@ -290,7 +237,7 @@ public abstract class BaseNode : ScriptableObject {
         int chosenInput = -1;
         for (int i = 0; i < inputs.Count; i++)
         {
-            Vector2 delta = new Vector2(OffsetRect.x + 7f, OffsetRect.y + inputs[i].yPos) - mousePos;
+            Vector2 delta = new Vector2(NodeRect.x + 7f, NodeRect.y + inputs[i].yPos) - mousePos;
             float dist = Mathf.Sqrt(delta.x * delta.x + delta.y * delta.y);
             if (dist < 10)
             {
@@ -314,8 +261,8 @@ public abstract class BaseNode : ScriptableObject {
     {
         Rect start = new Rect()
         {
-            x = OffsetRect.x + WindowRect.width - 7f,
-            y = OffsetRect.y + output.yPos,
+            x = NodeRect.x + Transform.WindowRect.width - 7f,
+            y = NodeRect.y + output.yPos,
             width = 1,
             height = 1
         };
@@ -333,13 +280,13 @@ public abstract class BaseNode : ScriptableObject {
 
     private Vector2 GetInputPos(int inputIndex)
     {
-        Vector2 inputPos = new Vector2(7f, inputs[inputIndex].yPos) + OffsetRect.position;
+        Vector2 inputPos = new Vector2(7f, inputs[inputIndex].yPos) + NodeRect.position;
         return inputPos;
     }
 
     public Vector2 GetSelectedOutputPos()
     {
-        return selectedOutputPos + OffsetRect.position;
+        return selectedOutputPos + NodeRect.position;
     }
 
     public void ConnectInput(int inputIndex, BaseNode outNode, int outputIndex)

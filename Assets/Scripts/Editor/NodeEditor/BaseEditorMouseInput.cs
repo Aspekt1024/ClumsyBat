@@ -109,7 +109,7 @@ public class BaseEditorMouseInput {
         if (outputIndex >= 0)
         {
             editor.ConnectionMode = true;   // TODO make this a property so deselect is done implicitly?
-            editor.DeselectAllNodes();
+            NodeGUI.DeselectAllNodes();
         }
         else if (inputIndex >= 0)
         {
@@ -131,7 +131,7 @@ public class BaseEditorMouseInput {
             editor.SetSelectedNode(output.connectedNode);
             output.connectedNode.SetSelectedOutputPosFromIndex(output.connectedInterfaceIndex);
             editor.ConnectionMode = true;
-            editor.DeselectAllNodes();
+            NodeGUI.DeselectAllNodes();
         }
     }
 
@@ -156,7 +156,7 @@ public class BaseEditorMouseInput {
         }
         else
         {
-            editor.DeselectAllNodes();
+            NodeGUI.DeselectAllNodes();
         }
 
         if (editor.MoveEditorMode)

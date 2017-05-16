@@ -34,11 +34,11 @@ public class SpawnStalNode : BaseNode {
         SetOutput(30);
     }
 
-    public override void DrawWindow()
+    public override void Draw()
     {
         WindowTitle = "Stalactites";
-        WindowRect.width = 180;
-        WindowRect.height = 102 + stalSpawns.Count * 19;
+        Transform.Width = 180;
+        Transform.Height = 102 + stalSpawns.Count * 19;
         
         EditorGUILayout.Space();
         EditorGUILayout.Space();
@@ -60,7 +60,7 @@ public class SpawnStalNode : BaseNode {
         }
         else
         {
-            WindowRect.height = 80f;    // TODO this just hides the stal pos input interface set if it exists
+            Transform.Height = 80f;    // TODO this just hides the stal pos input interface set if it exists
         }
 
         SetInterfacePositions();

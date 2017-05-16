@@ -29,9 +29,10 @@ public abstract class BaseEditor : EditorWindow {
     private Vector2 canvasOffset = Vector2.zero;
     private float timeSinceUpdate;
 
+    private bool editorSetup;
 
     protected abstract void SetEditorTheme();
-
+    
     public virtual void LoadEditor(BossDataContainer obj)
     {
         SetEditorTheme();
@@ -52,14 +53,6 @@ public abstract class BaseEditor : EditorWindow {
         }
     }
     
-    public void DeselectAllNodes()
-    {
-        foreach (BaseNode node in NodeData.Nodes)
-        {
-            node.IsSelected = false;
-        }
-    }
-
     private void SetRootContainerToSelf()
     {
         if (BaseContainer.RootContainer == null)
@@ -77,11 +70,25 @@ public abstract class BaseEditor : EditorWindow {
 
     protected virtual void OnEnable()
     {
-        if (_mouseInput == null) _mouseInput = new BaseEditorMouseInput(this);
-
+        if (!editorSetup)
+        {
+            NodeGUI.OnDeselectAllNodes += DeselectAllNodes;
+            if (_mouseInput == null) _mouseInput = new BaseEditorMouseInput(this);
+            editorSetup = true;
+        }
+        
         if (BaseContainer != null)
         {
             LoadEditor(BaseContainer);
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (editorSetup)
+        {
+            NodeGUI.OnDeselectAllNodes -= DeselectAllNodes;
+            editorSetup = false;
         }
     }
 
@@ -91,6 +98,14 @@ public abstract class BaseEditor : EditorWindow {
         SaveActionData();
     }
 
+    private void DeselectAllNodes()
+    {
+        foreach (BaseNode node in NodeData.Nodes)
+        {
+            node.Transform.IsSelected = false;
+        }
+    }
+    
     public void SaveActionData()
     {
         BossEditorSave editorSaveScript = new BossEditorSave();
@@ -223,7 +238,7 @@ public abstract class BaseEditor : EditorWindow {
     {
         for (int i = 0; i < NodeData.Nodes.Count; i++)
         {
-            NodeData.Nodes[i].ProcessEvents(Event.current);
+            NodeData.Nodes[i].Transform.ProcessEvents(Event.current);
         }
     }
 
@@ -318,7 +333,7 @@ public abstract class BaseEditor : EditorWindow {
         {
             if (node.GetType().Equals(typeof(StartNode)))
             {
-                canvasOffset = _mousePos - new Vector2(node.WindowRect.x, node.WindowRect.y);
+                canvasOffset = _mousePos - new Vector2(node.Transform.WindowRect.x, node.Transform.WindowRect.y);
                 break;
             }
         }

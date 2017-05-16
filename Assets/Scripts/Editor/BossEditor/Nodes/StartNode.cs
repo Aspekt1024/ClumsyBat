@@ -11,10 +11,10 @@ public class StartNode : BaseNode {
         SetOutput(30f);
     }
 
-    public override void DrawWindow()
+    public override void Draw()
     {
-        WindowRect.width = 80;
-        WindowRect.height = 40;
+        Transform.Width = 80;
+        Transform.Height = 40;
         WindowTitle = "Start";
 
         SetInterfacePositions();

@@ -39,10 +39,10 @@ public class StateNode : BaseNode {
         SetOutput(8f);
     }
 
-    public override void DrawWindow()
+    public override void Draw()
     {
-        WindowRect.width = 200;
-        WindowRect.height = 120;
+        Transform.Width = 200;
+        Transform.Height = 120;
         WindowTitle = State == null ? "New State" : State.StateName;
 
         if (State != null)
