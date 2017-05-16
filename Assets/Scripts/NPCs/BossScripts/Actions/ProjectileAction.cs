@@ -6,15 +6,13 @@ public class ProjectileAction : BaseAction {
     public Vector2 TargetPos;
     public float ProjectileSpeed;
 
-    public enum Inputs
+    public enum Ifaces
     {
         Main,
-        Projectile, Position
-    }
-    public enum Outputs
-    {
+        ProjectileIn, Position,
+
         Launched, Landed, HitPlayer,
-        Projectile
+        ProjectileOut
     }
 
     private ProjectileAbility projAbility;
@@ -38,18 +36,18 @@ public class ProjectileAction : BaseAction {
 
     public void Launched()
     {
-        CallNext((int)Outputs.Launched);
+        CallNext((int)Ifaces.Launched);
     }
 
     public void HitPlayer()
     {
-        CallNext((int)Outputs.HitPlayer);
+        CallNext((int)Ifaces.HitPlayer);
     }
 
     public void Landed(Projectile projectile)
     {
         projectileObj = projectile;
-        CallNext((int)Outputs.Landed);
+        CallNext((int)Ifaces.Landed);
     }
 
     public override GameObject GetObject(int id)
@@ -63,7 +61,7 @@ public class ProjectileAction : BaseAction {
         Vector2 outputPos = Vector2.zero;
         outputPos.x = TargetPos.x + GameObject.FindGameObjectWithTag("MainCamera").transform.position.x;
 
-        var posInput = GetInput((int)Inputs.Position);
+        var posInput = GetInput((int)Ifaces.Position);
         if (posInput.connectedAction != null)
             outputPos = posInput.connectedAction.GetObject(posInput.connectedInterfaceIndex).transform.position;
 

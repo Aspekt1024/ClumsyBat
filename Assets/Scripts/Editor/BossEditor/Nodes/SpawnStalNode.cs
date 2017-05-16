@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+using IODirection = NodeInterface.IODirection;
+using InterfaceTypes = NodeInterface.InterfaceTypes;
+
 using StalActions = SpawnStalAction.StalActions;
 using StalSpawnDirection = SpawnStalAction.StalSpawnDirection;
-using Inputs = SpawnStalAction.Inputs;
+using Ifaces = SpawnStalAction.Ifaces;
 using StalSpawnType = SpawnStalAction.StalSpawnType;
 
 public class SpawnStalNode : BaseNode {
@@ -23,15 +26,15 @@ public class SpawnStalNode : BaseNode {
 
     protected override void AddInterfaces()
     {
-        AddInput((int)Inputs.Main);
+        AddInterface(IODirection.Input, (int)Ifaces.Main);
 
-        AddOutput();
+        AddInterface(IODirection.Output, (int)Ifaces.Output);
     }
 
     private void SetInterfacePositions()
     {
-        SetInput(30, (int)Inputs.Main);
-        SetOutput(30);
+        SetInterface(30, (int)Ifaces.Main);
+        SetInterface(30, (int)Ifaces.Output);
     }
 
     public override void Draw()
@@ -91,15 +94,15 @@ public class SpawnStalNode : BaseNode {
             Vector2 startPos = new Vector2(15f, 95f + i * 19f);
 
             var spawn = stalSpawns[i];
-            if (inputs[spawn.inputIndex].connectedNode != null)
+            if (interfaces[spawn.inputIndex].IsConnected())
             {
-                EditorGUI.LabelField(new Rect(startPos.x, startPos.y, 150f, 15f), "At " + inputs[spawn.inputIndex].connectedNode.WindowTitle);
+                EditorGUI.LabelField(new Rect(startPos.x, startPos.y, 150f, 15f), "At " + interfaces[spawn.inputIndex].ConnectedInterface.GetNode().WindowTitle);
             }
             else
             {
                 EditorGUI.LabelField(new Rect(startPos.x, startPos.y, 30f, 15f), "rng:");
                 EditorGUI.MinMaxSlider(new Rect(startPos.x + 30, startPos.y, 65f, 15), ref spawn.xPosStart, ref spawn.xPosEnd, -6.2f, 6.2f);
-                SetInput(startPos.y + 8f, spawn.inputIndex);
+                SetInterface(startPos.y + 8f, spawn.inputIndex);
             }
             EditorGUI.LabelField(new Rect(startPos.x + 100f, startPos.y, 40f, 15f), "dly:");
             spawn.delay = EditorGUI.FloatField(new Rect(startPos.x + 125f, startPos.y, 30f, 15f), spawn.delay);
@@ -124,15 +127,15 @@ public class SpawnStalNode : BaseNode {
     {
         var newSpawn = new StalSpawnType()
         {
-            inputIndex = inputs.Count
+            inputIndex = interfaces.Count
         };
         stalSpawns.Add(newSpawn);
-        AddInput(inputs.Count, InterfaceTypes.Object);
+        AddInterface(IODirection.Input, interfaces.Count, InterfaceTypes.Object);
     }
 
     private void RemoveStalSpawn(int index)
     {
-        inputs.Remove(inputs[stalSpawns[index].inputIndex]);
+        interfaces.Remove(interfaces[stalSpawns[index].inputIndex]);
         stalSpawns.Remove(stalSpawns[index]);
     }
 

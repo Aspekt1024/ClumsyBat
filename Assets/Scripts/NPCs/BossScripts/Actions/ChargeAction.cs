@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class ChargeAction : BaseAction {
 
-    public enum Outputs
+    public enum Ifaces
     {
-        Charging, HitWall, Recovered
+        Input, Charging, HitWall, Recovered
     }
 
     private ChargeAbility charge;
@@ -14,17 +14,17 @@ public class ChargeAction : BaseAction {
     public override void ActivateBehaviour()
     {
         charge.Activate(this);
-        CallNext((int)Outputs.Charging);
+        CallNext((int)Ifaces.Charging);
     }
 
     public void HitWall()
     {
-        CallNext((int)Outputs.HitWall);
+        CallNext((int)Ifaces.HitWall);
     }
 
     public void Recovered()
     {
-        CallNext((int)Outputs.Recovered);
+        CallNext((int)Ifaces.Recovered);
     }
 
     public override void GameSetup(BossDataContainer owningContainer, BossBehaviour behaviour, GameObject bossReference)

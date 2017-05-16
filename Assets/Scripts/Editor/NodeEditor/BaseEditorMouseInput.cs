@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BaseEditorMouseInput {
 
-    protected enum MouseButtons
+    private enum MouseButtons
     {
         LeftClick = 0, RightClick = 1, MiddleClick = 2
     }
@@ -15,7 +15,6 @@ public class BaseEditorMouseInput {
     private BaseContextMenus contextMenus;
 
     private BaseNode mouseDownNode;
-    private int outputIndex;
     private BaseNode mouseUpNode;
 
     private Vector2 _mousePos;
@@ -98,41 +97,6 @@ public class BaseEditorMouseInput {
     {
         if (mouseDownNode == null)
             editor.StartMovingEditorCanvas();
-        else
-            StartDraggingConnections();
-    }
-
-    private void StartDraggingConnections()
-    {
-        outputIndex = mouseDownNode.OutputClicked(_mousePos);
-        int inputIndex = mouseDownNode.InputClicked(_mousePos);
-        if (outputIndex >= 0)
-        {
-            editor.ConnectionMode = true;
-            NodeGUI.DeselectAllNodes();
-        }
-        else if (inputIndex >= 0)
-        {
-            MoveInputConnectionIfConnected(inputIndex);
-        }
-    }
-
-    private void MoveInputConnectionIfConnected(int inputIndex)
-    {
-        if (mouseDownNode.InputIsConnected(inputIndex))
-        {
-            var output = mouseDownNode.GetConnectedInterfaceFromInput(inputIndex);
-            mouseDownNode.DisconnectInput(inputIndex);
-
-            mouseDownNode = output.connectedNode;
-            outputIndex = output.connectedInterfaceIndex;
-            mouseDownNode.DisconnectOutput(outputIndex);
-
-            editor.SetSelectedNode(output.connectedNode);
-            output.connectedNode.SetSelectedOutputPosFromIndex(output.connectedInterfaceIndex);
-            editor.ConnectionMode = true;
-            NodeGUI.DeselectAllNodes();
-        }
     }
 
     private void ActionRightMouseUp()
@@ -146,24 +110,10 @@ public class BaseEditorMouseInput {
     private void ActionLeftMouseUp()
     {
         MouseDownHeld = false;
-        if (mouseUpNode != null)
-        {
-            int inputIndex = mouseUpNode.GetReleasedNode(_mousePos);
-            if (editor.ConnectionMode && inputIndex >= 0)
-            {
-                mouseUpNode.ConnectInput(inputIndex, mouseDownNode, outputIndex);
-            }
-        }
-        else
-        {
-            NodeGUI.DeselectAllNodes();
-        }
+        NodeGUI.DeselectAllNodes();
+        // TODO if editor canvas was moved, don't deselect nodes!
 
         if (editor.MoveEditorMode)
             editor.StopMovingEditorCanvas();
-        else
-        {
-            editor.ConnectionMode = false;
-        }
     }
 }

@@ -2,24 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using Outputs = ChargeAction.Outputs;
+using IODirection = NodeInterface.IODirection;
+using InterfaceTypes = NodeInterface.InterfaceTypes;
+
+using Ifaces = ChargeAction.Ifaces;
 
 public class ChargeNode : BaseNode {
     
     protected override void AddInterfaces()
     {
-        AddInput();
-        AddOutput((int)Outputs.Charging);
-        AddOutput((int)Outputs.HitWall);
-        AddOutput((int)Outputs.Recovered);
+        AddInterface(IODirection.Input, (int)Ifaces.Input);
+        AddInterface(IODirection.Output, (int)Ifaces.Charging);
+        AddInterface(IODirection.Output, (int)Ifaces.HitWall);
+        AddInterface(IODirection.Output, (int)Ifaces.Recovered);
     }
 
     private void SetInterfacePositions()
     {
-        SetInput(30f);
-        SetOutput(30f, (int)Outputs.Charging, "Charging");
-        SetOutput(50f, (int)Outputs.HitWall, "Hit Wall");
-        SetOutput(70f, (int)Outputs.Recovered, "Recovered");
+        SetInterface(30f, (int)Ifaces.Input);
+        SetInterface(30f, (int)Ifaces.Charging, "Charging");
+        SetInterface(50f, (int)Ifaces.HitWall, "Hit Wall");
+        SetInterface(70f, (int)Ifaces.Recovered, "Recovered");
     }
 
     public override void Draw()

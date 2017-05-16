@@ -1,15 +1,18 @@
 ﻿using UnityEngine;
 
+using IODirection = NodeInterface.IODirection;
+using InterfaceTypes = NodeInterface.InterfaceTypes;
+
 public class LoopNode : BaseNode {
     
     protected override void AddInterfaces()
     {
-        AddInput();
+        AddInterface(IODirection.Input, 0);
     }
 
     private void SetInterfacePositions()
     {
-        SetInput(30);
+        SetInterface(30f, 0);
     }
 
     public override void Draw()

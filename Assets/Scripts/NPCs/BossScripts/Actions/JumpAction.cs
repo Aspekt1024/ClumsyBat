@@ -7,8 +7,9 @@ public class JumpAction : BaseAction {
 
     private JumpPound jumpAbility;
     
-    public enum Outputs
+    public enum Ifaces
     {
+        Input,
         Jumped,
         Top,
         Landed
@@ -24,7 +25,7 @@ public class JumpAction : BaseAction {
     {
         boss.GetComponent<Boss>().Jump();
         jumpAbility.Jump(this, JumpForce);
-        CallNext((int)Outputs.Jumped);
+        CallNext((int)Ifaces.Jumped);
     }
 
     public void Landed()
@@ -34,11 +35,11 @@ public class JumpAction : BaseAction {
             CameraEventListener.CameraShake(0.4f);
         }
         boss.GetComponent<Boss>().EndJump();
-        CallNext((int)Outputs.Landed);
+        CallNext((int)Ifaces.Landed);
     }
 
     public void TopOfJump()
     {
-        CallNext((int)Outputs.Top);
+        CallNext((int)Ifaces.Top);
     }
 }

@@ -29,14 +29,14 @@ public class StateNode : BaseNode {
     
     protected override void AddInterfaces()
     {
-        AddInput();
-        AddOutput();
+        AddInterface(NodeInterface.IODirection.Input, 0);
+        AddInterface(NodeInterface.IODirection.Output, 1);
     }
 
     private void SetInterfacePositions()
     {
-        SetInput(8f);
-        SetOutput(8f);
+        SetInterface(8f, 0);
+        SetInterface(8f, 1);
     }
 
     public override void Draw()

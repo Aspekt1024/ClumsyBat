@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+using IODirection = NodeInterface.IODirection;
+using InterfaceTypes = NodeInterface.InterfaceTypes;
+
 public class HealthNode : BaseNode {
 
     [SerializeField]
@@ -10,14 +13,14 @@ public class HealthNode : BaseNode {
 
     protected override void AddInterfaces()
     {
-        AddInput();
-        AddOutput();
+        AddInterface(IODirection.Input, 0);
+        AddInterface(IODirection.Output, 1);
     }
 
     private void SetInterfacePositions()
     {
-        SetInput(30f);
-        SetOutput(30f);
+        SetInterface(30f, 0);
+        SetInterface(30f, 1);
     }
 
     public override void Draw()

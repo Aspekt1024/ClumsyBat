@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-using Outputs = WalkAction.Outputs;
+using IODirection = NodeInterface.IODirection;
+using InterfaceTypes = NodeInterface.InterfaceTypes;
+
+using Ifaces = WalkAction.Ifaces;
 
 public class WalkNode : BaseNode {
 
@@ -17,19 +20,20 @@ public class WalkNode : BaseNode {
 
     protected override void AddInterfaces()
     {
-        AddInput();
+        AddInterface(IODirection.Input, (int)Ifaces.Input);
 
-        AddOutput((int)Outputs.StartWalk);
-        AddOutput((int)Outputs.EndWalk);
-        AddOutput((int)Outputs.HitWall);
+        AddInterface(IODirection.Output, (int)Ifaces.StartWalk);
+        AddInterface(IODirection.Output, (int)Ifaces.EndWalk);
+        AddInterface(IODirection.Output, (int)Ifaces.HitWall);
     }
 
     private void SetInterfacePositions()
     {
-        SetInput(30);
-        SetOutput(30, (int)Outputs.StartWalk, "Begin");
-        SetOutput(50, (int)Outputs.EndWalk, "End");
-        SetOutput(70, (int)Outputs.HitWall, "Hit Wall");
+        SetInterface(30, (int)Ifaces.Input);
+
+        SetInterface(30, (int)Ifaces.StartWalk, "Begin");
+        SetInterface(50, (int)Ifaces.EndWalk, "End");
+        SetInterface(70, (int)Ifaces.HitWall, "Hit Wall");
     }
 
     public override void Draw()

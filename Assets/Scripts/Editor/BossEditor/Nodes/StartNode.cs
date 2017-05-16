@@ -3,12 +3,12 @@ public class StartNode : BaseNode {
     
     protected override void AddInterfaces()
     {
-        AddOutput();
+        AddInterface(NodeInterface.IODirection.Output, 0);
     }
 
     private void SetInterfacePositions()
     {
-        SetOutput(30f);
+        SetInterface(30f, 0);
     }
 
     public override void Draw()

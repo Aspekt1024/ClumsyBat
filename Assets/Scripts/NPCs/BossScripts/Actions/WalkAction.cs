@@ -14,8 +14,9 @@ public class WalkAction : BaseAction {
 
     private Walk walkAbility;
 
-    public enum Outputs
+    public enum Ifaces
     {
+        Input,
         StartWalk, EndWalk, HitWall
     }
 
@@ -34,11 +35,11 @@ public class WalkAction : BaseAction {
     public void EndWalk()
     {
         boss.GetComponent<Boss>().EndWalk();
-        CallNext((int)Outputs.EndWalk);
+        CallNext((int)Ifaces.EndWalk);
     }
 
     public void HitWall()
     {
-        CallNext((int)Outputs.HitWall);
+        CallNext((int)Ifaces.HitWall);
     }
 }

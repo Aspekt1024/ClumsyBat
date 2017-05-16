@@ -12,10 +12,11 @@ public class SpawnStalAction : BaseAction {
         public float xPosEnd;
         public int inputIndex;
     }
-    public enum Inputs
+    public enum Ifaces
     {
-        Main,
-        PositionObj
+        Main, PositionObj,
+
+        Output
     }
     
     public enum StalActions { Spawn, Drop, AltDropFirst, AltSpawnFirst }

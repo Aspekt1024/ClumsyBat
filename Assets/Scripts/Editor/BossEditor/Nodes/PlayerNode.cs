@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using IODirection = NodeInterface.IODirection;
+using InterfaceTypes = NodeInterface.InterfaceTypes;
+
 public class PlayerNode : BaseNode {
 
     protected override void AddInterfaces()
     {
-        AddOutput(0, InterfaceTypes.Object);
+        AddInterface(IODirection.Output, 0, InterfaceTypes.Object);
     }
 
     private void SetInterfacePositions()
     {
-        SetOutput(25f, 0, "Object");
+        SetInterface(25f, 0, "Object");
     }
 
     public override void Draw()

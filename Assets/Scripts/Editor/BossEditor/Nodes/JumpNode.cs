@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-using Outputs = JumpAction.Outputs;
+using IODirection = NodeInterface.IODirection;
+using InterfaceTypes = NodeInterface.InterfaceTypes;
+
+using Ifaces = JumpAction.Ifaces;
 
 public class JumpNode : BaseNode {
     
@@ -15,19 +18,20 @@ public class JumpNode : BaseNode {
 
     protected override void AddInterfaces()
     {
-        AddInput();
+        AddInterface(IODirection.Input, (int)Ifaces.Input);
 
-        AddOutput((int)Outputs.Jumped);
-        AddOutput((int)Outputs.Top);
-        AddOutput((int)Outputs.Landed);
+        AddInterface(IODirection.Output, (int)Ifaces.Jumped);
+        AddInterface(IODirection.Output, (int)Ifaces.Top);
+        AddInterface(IODirection.Output, (int)Ifaces.Landed);
     }
 
     private void SetInterfacePositions()
     {
-        SetInput(30);
-        SetOutput(30, (int)Outputs.Jumped, "next");
-        SetOutput(50, (int)Outputs.Top, "Top");
-        SetOutput(70, (int)Outputs.Landed, "Landed");
+        SetInterface(30, (int)Ifaces.Input);
+
+        SetInterface(30, (int)Ifaces.Jumped, "next");
+        SetInterface(50, (int)Ifaces.Top, "Top");
+        SetInterface(70, (int)Ifaces.Landed, "Landed");
     }
 
     public override void Draw()

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+using IODirection = NodeInterface.IODirection;
+using InterfaceTypes = NodeInterface.InterfaceTypes;
+
 using PlayerEvents = PlayerEventAction.PlayerEvents;
 
 public class PlayerEventNode : BaseNode {
@@ -14,12 +17,12 @@ public class PlayerEventNode : BaseNode {
 
     protected override void AddInterfaces()
     {
-        AddInput();
+        AddInterface(IODirection.Input, 0);
     }
 
     private void SetInterfacePositions()
     {
-        SetInput(30);
+        SetInterface(30, 0);
     }
 
     public override void Draw()

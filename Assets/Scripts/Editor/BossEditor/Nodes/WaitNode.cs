@@ -8,14 +8,14 @@ public class WaitNode : BaseNode {
     
     protected override void AddInterfaces()
     {
-        AddInput();
-        AddOutput();
+        AddInterface(NodeInterface.IODirection.Input, 0);
+        AddInterface(NodeInterface.IODirection.Output, 0);
     }
 
     private void SetInterfacePositions()
     {
-        SetInput(30);
-        SetOutput(30);
+        SetInterface(30, 0);
+        SetInterface(30, 1);
     }
 
     public override void Draw()
