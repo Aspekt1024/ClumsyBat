@@ -3,7 +3,9 @@ using UnityEngine;
 using UnityEditor;
 
 public abstract class BaseNode : ScriptableObject {
-    
+
+    public Rect WindowRect;
+
     public enum InterfaceTypes
     {
         Event, Object
@@ -29,8 +31,7 @@ public abstract class BaseNode : ScriptableObject {
         public string label;
         public InterfaceTypes type; 
     }
-
-    private BaseEditor editor;
+    
     private Rect NodeRect;
     private Vector2 selectedOutputPos;
 
@@ -61,10 +62,8 @@ public abstract class BaseNode : ScriptableObject {
         EditorHelpers.SaveNodeEditorAsset(this, DataContainer.RootContainer, subFolder, GetType().ToString());
     }
     
-    public void DrawNodeWindow(BaseEditor editorRef, int id, Vector2 canvasOffset)
+    public void DrawNodeWindow(Vector2 canvasOffset)
     {
-        editor = editorRef; // TODO idk... this doesn't seem right to be here
-
         NodeRect = Transform.GetWindow(canvasOffset);
         
         if (Transform.IsSelected)

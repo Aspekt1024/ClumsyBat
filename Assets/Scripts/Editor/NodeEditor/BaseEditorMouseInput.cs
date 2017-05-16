@@ -108,7 +108,7 @@ public class BaseEditorMouseInput {
         int inputIndex = mouseDownNode.InputClicked(_mousePos);
         if (outputIndex >= 0)
         {
-            editor.ConnectionMode = true;   // TODO make this a property so deselect is done implicitly?
+            editor.ConnectionMode = true;
             NodeGUI.DeselectAllNodes();
         }
         else if (inputIndex >= 0)

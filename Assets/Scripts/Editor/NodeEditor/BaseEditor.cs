@@ -73,6 +73,7 @@ public abstract class BaseEditor : EditorWindow {
         if (!editorSetup)
         {
             NodeGUI.OnDeselectAllNodes += DeselectAllNodes;
+            NodeGUI.OnMoveAllSelectedNodes += MoveAllSelectedNodes;
             if (_mouseInput == null) _mouseInput = new BaseEditorMouseInput(this);
             editorSetup = true;
         }
@@ -88,6 +89,7 @@ public abstract class BaseEditor : EditorWindow {
         if (editorSetup)
         {
             NodeGUI.OnDeselectAllNodes -= DeselectAllNodes;
+            NodeGUI.OnMoveAllSelectedNodes -= MoveAllSelectedNodes;
             editorSetup = false;
         }
     }
@@ -105,9 +107,19 @@ public abstract class BaseEditor : EditorWindow {
             node.Transform.IsSelected = false;
         }
     }
+
+    private void MoveAllSelectedNodes(Vector2 delta)
+    {
+        foreach (BaseNode node in NodeData.Nodes)
+        {
+            if (node.Transform.IsSelected)
+                node.WindowRect.position += delta;
+        }
+    }
     
     public void SaveActionData()
     {
+
         BossEditorSave editorSaveScript = new BossEditorSave();
         editorSaveScript.CreateActionFile(BaseContainer, NodeData);
     }
@@ -230,7 +242,7 @@ public abstract class BaseEditor : EditorWindow {
     {
         for (int i = 0; i < NodeData.Nodes.Count; i++)
         {
-            NodeData.Nodes[i].DrawNodeWindow(this, i, canvasOffset + canvasDrag);
+            NodeData.Nodes[i].DrawNodeWindow(canvasOffset + canvasDrag);
         }
     }
 

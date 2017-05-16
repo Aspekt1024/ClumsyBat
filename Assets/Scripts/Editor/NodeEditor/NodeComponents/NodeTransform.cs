@@ -4,23 +4,28 @@ using UnityEngine;
 
 public class NodeTransform {
 
-    public Rect WindowRect;
+    public Rect WindowRect
+    {
+        get { return node.WindowRect; }
+        set { node.WindowRect = value; }
+    }
+
     public bool IsSelected;
+    public bool IsDragged;
 
     public float Width
     {
-        get { return WindowRect.width; }
-        set { WindowRect.width = value; }
+        get { return node.WindowRect.width; }
+        set { node.WindowRect.width = value; }
     }
 
     public float Height
     {
-        get { return WindowRect.height; }
-        set { WindowRect.height = value; }
+        get { return node.WindowRect.height; }
+        set { node.WindowRect.height = value; }
     }
 
     private BaseNode node;
-    private bool IsDragged;
 
     private Vector2 dragOffset;
     private Rect offsetRect;
@@ -43,7 +48,7 @@ public class NodeTransform {
             case EventType.mouseUp:
                 if (IsDragged)
                 {
-                    WindowRect.position += dragOffset;
+                    node.WindowRect.position += dragOffset;
                     dragOffset = Vector2.zero;
                     IsDragged = false;
                 }
@@ -81,8 +86,17 @@ public class NodeTransform {
 
     public Rect GetWindow(Vector2 canvasOffset)
     {
-        WindowRect.position = SnapToGrid(WindowRect.position);
-        offsetRect = new Rect(SnapToGrid(WindowRect.position + dragOffset) + canvasOffset, WindowRect.size);
+        node.WindowRect.position = SnapToGrid(WindowRect.position);
+
+        Vector2 draggedPosition = SnapToGrid(WindowRect.position + dragOffset);
+        if (draggedPosition != WindowRect.position)
+        {
+            Vector2 delta = draggedPosition - WindowRect.position;
+            NodeGUI.MoveAllSelectedNodes(delta);
+            dragOffset -= delta;
+        }
+
+        offsetRect = new Rect(draggedPosition + canvasOffset, WindowRect.size);
         return offsetRect;
     }
     
