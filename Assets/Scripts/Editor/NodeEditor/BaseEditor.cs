@@ -4,10 +4,12 @@ using System.Collections.Generic;
 
 public abstract class BaseEditor : EditorWindow {
     
-    public BossEditorNodeData NodeData; // Node data cannot be saved in the editor persistently
-    public bool MoveEditorMode;
+    public NodeData NodeData;
     public Vector2 NodeDrag;
-    
+    public Vector2 CanvasOffset;
+    public Vector2 CanvasDrag;
+    public NodeInterface DraggedInterface;
+
     protected BossDataContainer BaseContainer;
     protected string EditorLabel;
 
@@ -24,12 +26,8 @@ public abstract class BaseEditor : EditorWindow {
     private BaseEditorMouseInput _mouseInput;
     private Vector2 _mousePos;
     private Vector2 startMousePos;
-    private Vector2 canvasDrag;
-    private Vector2 canvasOffset = Vector2.zero;
     private float timeSinceUpdate;
-
-    private bool editorSetup;
-
+    
     protected abstract void SetEditorTheme();
     
     public virtual void LoadEditor(BossDataContainer obj)
@@ -40,17 +38,17 @@ public abstract class BaseEditor : EditorWindow {
         SetRootContainerToSelf();
 
         LoadNodeData();
+
+        foreach (var node in NodeData.Nodes)
+        {
+            node.ParentEditor = this;
+        }
     }
 
     public void Drag(Vector2 delta)
     {
-        if (!MoveEditorMode) return;
-
-        // TODO necessary?
-        if (delta.magnitude > 0.01f)
-        {
-            Repaint();
-        }
+        CanvasDrag += delta;
+        Repaint();
     }
     
     private void SetRootContainerToSelf()
@@ -63,34 +61,19 @@ public abstract class BaseEditor : EditorWindow {
 
     protected void CreateNewNodeData(string nodeDataPath)
     {
-        NodeData = CreateInstance<BossEditorNodeData>();
-        NodeData.Nodes = new List<BaseNode>();
-        AssetDatabase.CreateAsset(NodeData, nodeDataPath);
+        NodeData = new NodeData();
+        // TODO save this somewherE?
+        //AssetDatabase.CreateAsset(NodeData, nodeDataPath);
+
     }
 
     protected virtual void OnEnable()
     {
-        if (!editorSetup)
-        {
-            NodeGUI.OnDeselectAllNodes += DeselectAllNodes;
-            NodeGUI.OnMoveAllSelectedNodes += MoveAllSelectedNodes;
-            if (_mouseInput == null) _mouseInput = new BaseEditorMouseInput(this);
-            editorSetup = true;
-        }
+        if (_mouseInput == null) _mouseInput = new BaseEditorMouseInput(this);
         
         if (BaseContainer != null)
         {
             LoadEditor(BaseContainer);
-        }
-    }
-
-    private void OnDisable()
-    {
-        if (editorSetup)
-        {
-            NodeGUI.OnDeselectAllNodes -= DeselectAllNodes;
-            NodeGUI.OnMoveAllSelectedNodes -= MoveAllSelectedNodes;
-            editorSetup = false;
         }
     }
 
@@ -100,7 +83,7 @@ public abstract class BaseEditor : EditorWindow {
         SaveActionData();
     }
 
-    private void DeselectAllNodes()
+    public void DeselectAllNodes()
     {
         foreach (BaseNode node in NodeData.Nodes)
         {
@@ -108,7 +91,7 @@ public abstract class BaseEditor : EditorWindow {
         }
     }
 
-    private void MoveAllSelectedNodes(Vector2 delta)
+    public void MoveAllSelectedNodes(Vector2 delta)
     {
         foreach (BaseNode node in NodeData.Nodes)
         {
@@ -119,39 +102,29 @@ public abstract class BaseEditor : EditorWindow {
     
     public void SaveActionData()
     {
-
-        BossEditorSave editorSaveScript = new BossEditorSave();
-        editorSaveScript.CreateActionFile(BaseContainer, NodeData);
+        Debug.Log("TODO save action");
+        // TODO this
+        //BossEditorSave editorSaveScript = new BossEditorSave();
+        //editorSaveScript.CreateActionFile(BaseContainer, NodeData);
     }
     
-    private void Update()
-    {
-        if (!MoveEditorMode) return;
-
-        canvasDrag = _mousePos - startMousePos;
-
-        timeSinceUpdate += Time.deltaTime;
-        if (timeSinceUpdate > 0.05f)
-        {
-            Repaint();
-            timeSinceUpdate = 0f;
-        }
-    }
-
     private void OnGUI()
     {
         if (BaseContainer == null) return;
-
-        Event e = Event.current;
-        _mousePos = e.mousePosition;
-        _mouseInput.ProcessMouseEvents(e);
         
         DrawBackground();
         DrawHeading();
         DrawNodeWindows();
 
-        if (!MoveEditorMode)
-            ProcessNodeEvents();
+        ProcessEvents();
+    }
+
+    private void ProcessEvents()
+    {
+        Event e = Event.current;
+        _mousePos = e.mousePosition;
+        ProcessNodeEvents();
+        _mouseInput.ProcessMouseEvents(e);
 
         if (GUI.changed) Repaint();
     }
@@ -175,8 +148,8 @@ public abstract class BaseEditor : EditorWindow {
         Handles.BeginGUI(); 
         Handles.color = gridColour;
 
-        float hPos = (canvasOffset.x + canvasDrag.x) % gridSpacing;
-        float vPos = (canvasOffset.y + canvasDrag.y) % gridSpacing;
+        float hPos = (CanvasOffset.x + CanvasDrag.x) % gridSpacing;
+        float vPos = (CanvasOffset.y + CanvasDrag.y) % gridSpacing;
 
         while (hPos < position.width)
         {
@@ -242,7 +215,7 @@ public abstract class BaseEditor : EditorWindow {
     {
         for (int i = 0; i < NodeData.Nodes.Count; i++)
         {
-            NodeData.Nodes[i].DrawNodeWindow(canvasOffset + canvasDrag);
+            NodeData.Nodes[i].DrawNodeWindow(CanvasOffset + CanvasDrag);
         }
     }
 
@@ -256,21 +229,20 @@ public abstract class BaseEditor : EditorWindow {
 
     public void StartMovingEditorCanvas()
     {
+        CanvasDrag = Vector2.zero;
         startMousePos = _mousePos;
-        MoveEditorMode = true;
     }
 
     public void StopMovingEditorCanvas()
     {
-        MoveEditorMode = false;
-        canvasOffset += canvasDrag;
-        canvasDrag = Vector2.zero;
+        CanvasOffset += CanvasDrag;
+        CanvasDrag = Vector2.zero;
         Repaint();
     }
 
     public virtual void AddNode(BaseNode newNode)
     {
-        newNode.SetWindowRect(_mousePos);
+        newNode.InitialiseNode(_mousePos - CanvasOffset, this);
         newNode.SetupNode(BaseContainer);
         NodeData.Nodes.Add(newNode);
     }
@@ -280,8 +252,9 @@ public abstract class BaseEditor : EditorWindow {
         node.DeleteNode();
         NodeData.Nodes.Remove(node);
 
-        if (AssetDatabase.Contains(node))
-            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(node));
+        // TODO remove from save file
+        //if (AssetDatabase.Contains(node))
+        //    AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(node));
     }
 
     private float SnapToGrid(float pos)
@@ -296,7 +269,7 @@ public abstract class BaseEditor : EditorWindow {
         {
             if (node.GetType().Equals(typeof(StartNode)))
             {
-                canvasOffset = _mousePos - new Vector2(node.Transform.WindowRect.x, node.Transform.WindowRect.y);
+                CanvasOffset = _mousePos - new Vector2(node.Transform.WindowRect.x, node.Transform.WindowRect.y);
                 break;
             }
         }

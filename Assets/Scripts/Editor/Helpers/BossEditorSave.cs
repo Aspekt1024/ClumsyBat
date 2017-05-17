@@ -6,10 +6,10 @@ using UnityEditor;
 public class BossEditorSave {
 
     private BossDataContainer dataContainer;
-    private BossEditorNodeData nodeData;
+    private NodeData nodeData;
     private string dataPath;
     
-    public void CreateActionFile(BossDataContainer baseContainer, BossEditorNodeData bossNodeData)
+    public void CreateActionFile(BossDataContainer baseContainer, NodeData bossNodeData)
     {
         dataContainer = baseContainer;
         nodeData = bossNodeData;
@@ -55,7 +55,9 @@ public class BossEditorSave {
         GetNodeActions();
         ConvertNodeInterfaces();
         SaveActions();
-        CommitAssetDatabase();
+
+        nodeData.Save();
+        dataContainer.Save();
     }
 
     private void GetNodeActions()
@@ -89,19 +91,5 @@ public class BossEditorSave {
                 AssetDatabase.AddObjectToAsset(action, dataPath);
             }
         }
-    }
-
-    private void CommitAssetDatabase()
-    {
-        foreach(var node in nodeData.Nodes)
-        {
-            EditorUtility.SetDirty(node);
-        }
-
-        EditorUtility.SetDirty(nodeData);
-        EditorUtility.SetDirty(dataContainer);
-
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
     }
 }

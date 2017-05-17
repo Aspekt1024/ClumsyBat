@@ -8,13 +8,13 @@ public class NodeInterface {
     
     public Vector2 Position;
     public NodeInterface ConnectedInterface;
-    public int ConnectedInterfaceIndex;
     public int ID;
     public string Label;
     public InterfaceTypes Type;
     public IODirection Direction;
     
-    private bool isDragged;
+    public bool IsDragged;
+    private Vector2 mousePos;
 
     public enum InterfaceTypes
     {
@@ -26,58 +26,98 @@ public class NodeInterface {
         Input, Output
     }
 
-    private BaseNode node;
+    private BaseNode Node;
 
     public NodeInterface(BaseNode parent)
     {
-        node = parent;
+        Node = parent;
     }
 
     public void ProcessEvents(Event e)
     {
+        mousePos = e.mousePosition;
         switch (e.type)
         {
             case EventType.MouseDown:
-                Vector2.Distance(e.mousePosition, node.WindowRect.position + Position);
-                Debug.Log("clicked iface");
-                //selectedOutputPos = new Vector2(Transform.WindowRect.width - 7f, outputs[i].yPos);
-                //chosenOutput = i;
-                isDragged = true;
-                e.Use();
-                break;
-            case EventType.MouseUp:
-                isDragged = false;
-                // TODO connect
-                break;
-            case EventType.MouseDrag:
-                if (isDragged)
+                if (Vector2.Distance(mousePos, Node.GetOffsetPosition() + Position) < 10)
                 {
-                    DrawDraggedConnection(e.mousePosition);
+                    StartDraggingInterface();
                     e.Use();
                 }
                 break;
+
+            case EventType.MouseUp:
+                IsDragged = false;
+                if (Vector2.Distance(mousePos, Node.GetOffsetPosition() + Position) < 10)
+                {
+                    ConnectInterfacesIfValid();
+                    e.Use();
+                }
+                break;
+
+            case EventType.MouseDrag:
+                if (IsDragged)
+                    e.Use();
+                break;
         }
+    }
+
+    private void StartDraggingInterface()
+    {
+        if (Direction == IODirection.Input)
+        {
+            if (ConnectedInterface == null) return;
+            Node.ParentEditor.DraggedInterface = ConnectedInterface;
+            Disconnect();
+        }
+        else
+        {
+            Node.ParentEditor.DraggedInterface = this;
+        }
+
+        Node.ParentEditor.DraggedInterface.IsDragged = true;
+    }
+
+    private void ConnectInterfacesIfValid()
+    {
+        NodeInterface iface2 = Node.ParentEditor.DraggedInterface;
+        Node.ParentEditor.DraggedInterface = null;
+
+        if (Direction == IODirection.Output)
+            Disconnect();
+
+        if (iface2 == null) return;
+
+        iface2.IsDragged = false;
+
+        if (Direction == iface2.Direction || Node == iface2.Node) return;
+
+        Disconnect();
+        iface2.Disconnect();
+        ConnectedInterface = iface2;
+        iface2.ConnectedInterface = this;
+        
     }
 
     public void SetInterface(float yPos, string label)
     {
         Label = label;
+        Position.y = yPos;
 
         if (Direction == IODirection.Input)
             Position.x = 7f;
         else
-            Position.x = node.WindowRect.width - 7f;
+            Position.x = Node.WindowRect.width - 7f;
     }
 
     public void Draw()
     {
-        Vector3 position = new Vector3(node.WindowRect.width - 7f, Position.y, 0f);
+        Vector3 position = new Vector3(Node.WindowRect.width - 7f, Position.y, 0f);
         if (Direction == IODirection.Input)
             position.x = 7f;
 
         DrawInterfaceAt(position);
         DrawLabel();
-        DrawConnections();
     }
     
     private void DrawInterfaceAt(Vector3 position)
@@ -93,7 +133,7 @@ public class NodeInterface {
         DrawCircle(position, 6f, ringCol);
         DrawCircle(position, 4f, Color.white);
 
-        if (ConnectedInterface !=  null || isDragged)
+        if (ConnectedInterface !=  null || IsDragged)
         {
             DrawCircle(position, 3f, connCol);
         }
@@ -107,7 +147,7 @@ public class NodeInterface {
         var gs = GUI.skin.GetStyle("Label");
         gs.alignment = Direction == IODirection.Input ? TextAnchor.UpperLeft : TextAnchor.UpperRight;
 
-        Vector2 position = new Vector2(node.WindowRect.width - 85f, Position.y - 9);
+        Vector2 position = new Vector2(Node.WindowRect.width - 85f, Position.y - 9);
         if (Direction == IODirection.Input)
             position.x = 15f;
 
@@ -119,17 +159,6 @@ public class NodeInterface {
         Handles.color = color;
         Handles.DrawSolidDisc(position, Vector3.back, radius);
     }
-    
-    public void DrawConnections()
-    {
-        if (Direction == IODirection.Output && ConnectedInterface != null)
-        {
-            Rect start = new Rect(node.WindowRect.position + Position, Vector2.one);
-            Rect end = new Rect(ConnectedInterface.Position, Vector2.one);
-
-            DrawConnection(start, end, Type);
-        }
-    }
 
     public void Disconnect()
     {
@@ -138,35 +167,49 @@ public class NodeInterface {
             ConnectedInterface.ConnectedInterface = null;   // TODO if multiple connections are allowed, check ID
         else
             ConnectedInterface.ConnectedInterface = null;
+
+        ConnectedInterface = null;
+    }
+    
+    public void DrawConnections()
+    {
+        if (Direction == IODirection.Output && ConnectedInterface != null)
+        {
+            Vector2 start = Node.GetOffsetPosition() + Position;
+            Vector2 end = ConnectedInterface.Node.GetOffsetPosition() + ConnectedInterface.Position;
+
+            DrawConnection(start, end, Type);
+        }
+
+        if (IsDragged)
+            DrawDraggedConnection();
     }
 
-    private void DrawDraggedConnection(Vector2 mousePos)
+    private void DrawDraggedConnection()
     {
-        if (Direction == IODirection.Input && ConnectedInterface == null) return;
+        NodeInterface iface = Node.ParentEditor.DraggedInterface;
+        if (iface == null) return;
 
-        Rect startRect = new Rect(Direction == IODirection.Input ? ConnectedInterface.Position : Position, Vector2.one);
-        Rect endRect = new Rect(mousePos, Vector2.one);
-        
-        DrawConnection(startRect, endRect, Type);
+        Vector2 startPos = iface.Position + iface.Node.GetOffsetPosition();
+        DrawConnection(startPos, mousePos, Type);
     }
 
-    private void DrawConnection(Rect start, Rect end, InterfaceTypes outputType = NodeInterface.InterfaceTypes.Event)
+    private void DrawConnection(Vector2 startPos, Vector2 endPos, InterfaceTypes outputType = InterfaceTypes.Event)
     {
-        Vector3 startPos = new Vector3(start.x + start.width / 2, start.y + start.height / 2, 0f);
-        Vector3 endPos = new Vector3(end.x + end.width / 2, end.y + end.height / 2, 0f);
         Color shadowCol = new Color(0.7f, 0.7f, 1f);
         if (outputType == InterfaceTypes.Object)
             shadowCol = new Color(1f, 0.7f, 0.7f);
 
         Vector3 tanScale = GetTanScale(startPos, endPos);
-        Vector3 startTan = startPos + tanScale;
-        Vector3 endTan = endPos - tanScale;
+        Vector3 startTan = new Vector3(startPos.x, startPos.y, 0) + tanScale;
+        Vector3 endTan = new Vector3(endPos.x, endPos.y, 0) - tanScale;
 
         for (int i = 0; i < 3; i++)
         {
             Handles.DrawBezier(startPos, endPos, startTan, endTan, shadowCol * new Color(1f, 1f, 1f, 0.06f), null, (i + 1) * 7);
         }
         Handles.DrawBezier(startPos, endPos, startTan, endTan, shadowCol, null, 3);
+        Node.ParentEditor.Repaint();
     }
     
     private Vector3 GetTanScale(Vector3 startPos, Vector3 endPos)
@@ -174,45 +217,12 @@ public class NodeInterface {
         Vector3 tanScale = new Vector3(50f, 0f, 0f);
 
         float dX = startPos.x - endPos.x;
+        float dY = startPos.y - endPos.y;
         if (dX > 0)
         {
-            float dY = startPos.y - endPos.y;
-            if (dY < 0) dY = -dY;
-            tanScale += new Vector3(dX, dY, 0f) / 2f;
+            tanScale += new Vector3(dX, -dY, 0f) / 2f;
         }
         return tanScale;
-    }
-
-
-
-
-    public void ConnectInput(int inputIndex, BaseNode outNode, int outputIndex)
-    {
-        //if (outNode == this) return;    // Can't connect to self
-
-        //if (outNode.OutputIsConnected(outputIndex))
-        //{
-        //    var originalInterface = outNode.GetConnectedInterfaceFromOutput(outputIndex);
-        //    originalInterface.ConnectedNode.DisconnectInput(originalInterface.ConnectedInterfaceIndex);
-        //}
-
-        //var input = inputs[inputIndex];
-        //if (input.connectedNode != null)
-        //    input.connectedNode.DisconnectOutput(input.connectedInterfaceIndex);
-
-        //input.connectedNode = outNode;
-        //input.connectedInterfaceIndex = outputIndex;
-        //inputs[inputIndex] = input;
-
-        //outNode.ConnectOutput(outputIndex, this, inputIndex);
-    }
-
-    private void ConnectOutput(int outputIndex, BaseNode node, int inputIndex)
-    {
-        //var output = outputs[outputIndex];
-        //output.connectedNode = node;
-        //output.connectedInterfaceIndex = inputIndex;
-        //outputs[outputIndex] = output;
     }
 
     public bool IsConnected()
@@ -222,6 +232,6 @@ public class NodeInterface {
 
     public BaseNode GetNode()
     {
-        return node;
+        return Node;
     }
 }

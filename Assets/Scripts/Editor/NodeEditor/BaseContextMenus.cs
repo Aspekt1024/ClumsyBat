@@ -33,26 +33,19 @@ public abstract class BaseContextMenus {
     protected void CreateNodeIfNodeType(Type type)
     {
         if (!type.IsSubclassOf(typeof(BaseNode))) return;
-
-        MethodInfo method = ((Action)CreateNode<BaseNode>)
-            .Method
-            .GetGenericMethodDefinition()
-            .MakeGenericMethod(type);
-
-        method.Invoke(this, null);
-    }
-
-    public void CreateNode<T>() where T : BaseNode
-    {
-        if (typeof(T).Equals(typeof(StartNode)) && editor.StartExists())
+        
+        if (type.Equals(typeof(StartNode)) && editor.StartExists())
         {
             Debug.LogError("Start Node already exists. Cannot create another!");
             return;
         }
 
-        BaseNode newNode = ScriptableObject.CreateInstance<T>();
+        BaseNode newNode = (BaseNode)Activator.CreateInstance(type);
         if (newNode != null)
             editor.AddNode(newNode);
+
+        //MethodInfo method = typeof(BaseNode).GetMethod("CreateNode", BindingFlags.NonPublic | BindingFlags.Instance).MakeGenericMethod(type);
+        //method.Invoke(this, null);
     }
     
     private void ActionNodeMenuSelection(NodeMenuSelections selection)

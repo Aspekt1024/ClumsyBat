@@ -29,16 +29,9 @@ public static class NodeGUI {
     #region Node GUI Events
 
     public delegate void NodeGUIEvents();
-    public static NodeGUIEvents OnDeselectAllNodes;
 
     public delegate void NodeGUIPositionEvents(Vector2 delta);
     public static NodeGUIPositionEvents OnMoveAllSelectedNodes;
-
-    public static void DeselectAllNodes()
-    {
-        if (OnDeselectAllNodes != null)
-            OnDeselectAllNodes();
-    }
 
     public static void MoveAllSelectedNodes(Vector2 delta)
     {

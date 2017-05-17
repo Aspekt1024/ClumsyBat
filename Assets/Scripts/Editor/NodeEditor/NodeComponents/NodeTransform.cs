@@ -75,7 +75,7 @@ public class NodeTransform {
             else
             {
                 if (!IsSelected)
-                    NodeGUI.DeselectAllNodes();
+                    node.ParentEditor.DeselectAllNodes();
 
                 IsSelected = true;
             }
@@ -92,7 +92,7 @@ public class NodeTransform {
         if (draggedPosition != WindowRect.position)
         {
             Vector2 delta = draggedPosition - WindowRect.position;
-            NodeGUI.MoveAllSelectedNodes(delta);
+            node.ParentEditor.MoveAllSelectedNodes(delta);
             dragOffset -= delta;
         }
 

@@ -9,15 +9,14 @@ public class BaseEditorMouseInput {
         LeftClick = 0, RightClick = 1, MiddleClick = 2
     }
 
-    public bool MouseDownHeld;
-
     private BaseEditor editor;
     private BaseContextMenus contextMenus;
 
     private BaseNode mouseDownNode;
     private BaseNode mouseUpNode;
 
-    private Vector2 _mousePos;
+    private bool isDragged;
+    private bool canvasWasDragged;
 
     public BaseEditorMouseInput(BaseEditor editorRef)
     {
@@ -34,86 +33,57 @@ public class BaseEditorMouseInput {
 
     public void ProcessMouseEvents(Event e)
     {
-        _mousePos = e.mousePosition;
+        if(editor.NodeData == null) Debug.Log("process");
 
-        if (e.type == EventType.MouseDown)
+        switch (e.type)
         {
-            if (ActionMouseDown(e.button))
-            {
-                e.Use();
-            }
-        }
-        else if ((e.rawType == EventType.MouseUp && e.button == (int)MouseButtons.LeftClick)
-            || e.type == EventType.MouseUp)
-        {
-            ActionMouseUp(e.button);
-        }
-        else if ((e.type == EventType.MouseDrag && e.button == (int)MouseButtons.LeftClick))
-        {
-            editor.Drag(e.delta);
-        }
-    }
+            case EventType.MouseDown:
+                if (e.button == (int)MouseButtons.LeftClick)
+                    ActionLeftMouseDown();
+                break;
 
-    private bool ActionMouseDown(int button)
-    {
-        MouseDownHeld = true;
-        mouseDownNode = editor.GetSelectedNode();
-        bool clickActioned = false;
-        switch (button)
-        {
-            case (int)MouseButtons.LeftClick:
-                ActionLeftMouseDown();
+            case EventType.MouseUp:
+                isDragged = false;
+                if (e.button == (int)MouseButtons.LeftClick)
+                    ActionLeftMouseUp();
+                else if (e.button == (int)MouseButtons.RightClick)
+                    ActionRightMouseUp();
                 break;
-            case (int)MouseButtons.RightClick:
-                // do nothing
-                clickActioned = true;
-                break;
-            case (int)MouseButtons.MiddleClick:
-                // nothing?
-                break;
-        }
-        return clickActioned;
-    }
 
-    private void ActionMouseUp(int button)
-    {
-        MouseDownHeld = false;
-        mouseUpNode = editor.GetSelectedNode();
-        switch (button)
-        {
-            case (int)MouseButtons.LeftClick:
-                ActionLeftMouseUp();
-                break;
-            case (int)MouseButtons.RightClick:
-                ActionRightMouseUp();
-                break;
-            case (int)MouseButtons.MiddleClick:
-                // nothing?
+            case EventType.MouseDrag:
+                if (isDragged && e.button == (int)MouseButtons.LeftClick)
+                {
+                    canvasWasDragged = true;
+                    editor.Drag(e.delta);
+                    e.Use();
+                }
                 break;
         }
     }
 
     private void ActionLeftMouseDown()
     {
+        mouseDownNode = editor.GetSelectedNode();
         if (mouseDownNode == null)
+        {
+            isDragged = true;
             editor.StartMovingEditorCanvas();
+        }
+    }
+    
+    private void ActionLeftMouseUp()
+    {
+        editor.DeselectAllNodes();
+        editor.StopMovingEditorCanvas();
     }
 
     private void ActionRightMouseUp()
     {
-        if (mouseDownNode == null)
+        mouseUpNode = editor.GetSelectedNode();
+        if (mouseUpNode == null)
             contextMenus.ShowMenu();
         else
-            contextMenus.ShowNodeMenu(mouseDownNode);
+            contextMenus.ShowNodeMenu(mouseUpNode);
     }
 
-    private void ActionLeftMouseUp()
-    {
-        MouseDownHeld = false;
-        NodeGUI.DeselectAllNodes();
-        // TODO if editor canvas was moved, don't deselect nodes!
-
-        if (editor.MoveEditorMode)
-            editor.StopMovingEditorCanvas();
-    }
 }

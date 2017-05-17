@@ -4,29 +4,27 @@ using UnityEditor;
 
 using IODirection = NodeInterface.IODirection;
 
-public abstract class BaseNode : ScriptableObject {
-
-    public Rect WindowRect;
-
-    public string WindowTitle = "Untitled";
+public abstract class BaseNode {
     
+    public string WindowTitle = "Untitled";
+    public Rect WindowRect;
+    public NodeTransform Transform;
+    public BaseEditor ParentEditor;
     public List<NodeInterface> interfaces = new List<NodeInterface>();
     
     [HideInInspector]
-    public BossDataContainer DataContainer;
+    public BossDataContainer DataContainer; // TODO remove/rename... generic, not boss
     
     public BaseAction Action;
     
     private Rect NodeRect;
     private Vector2 selectedOutputPos;
-
-    public NodeTransform Transform;
     
     protected abstract void AddInterfaces();
-
-    public Rect GetWindowRect()
+    
+    public Vector2 GetOffsetPosition()
     {
-        return Transform.WindowRect;
+        return ParentEditor.CanvasOffset + ParentEditor.CanvasDrag + WindowRect.position;
     }
 
     public virtual void SetupNode(BossDataContainer dataContainer)
@@ -43,8 +41,8 @@ public abstract class BaseNode : ScriptableObject {
         {
             subFolder = DataContainer.name + "Data";
         }
-
-        EditorHelpers.SaveNodeEditorAsset(this, DataContainer.RootContainer, subFolder, GetType().ToString());
+        // TODO save
+        //EditorHelpers.SaveNodeEditorAsset(this, DataContainer.RootContainer, subFolder, GetType().ToString());
     }
 
     public void ProcessEvents(Event e)
@@ -73,26 +71,26 @@ public abstract class BaseNode : ScriptableObject {
         GUI.BeginGroup(NodeRect);
         Draw();
         GUI.EndGroup();
+        
+        DrawConnections();
     }
 
-    public virtual void Draw()
+    public virtual void Draw()  // protected?
     {
         DrawInterfaces();
     }
+
     
-    public virtual void SetWindowRect(Vector2 position)
+    public virtual void InitialiseNode(Vector2 position, BaseEditor editor)
     {
+        ParentEditor = editor;
+        Transform = new NodeTransform(this);
         Transform.WindowRect = new Rect(position.x, position.y, Transform.WindowRect.width, Transform.WindowRect.height);
     }
 
     public bool Contains(Vector2 pos)
     {
         return new Rect(NodeRect.position, Transform.WindowRect.size).Contains(pos);
-    }
-
-    private void OnEnable()
-    {
-        if (Transform == null) Transform = new NodeTransform(this);
     }
     
     protected void AddInterface(IODirection ioType, int id, NodeInterface.InterfaceTypes ifaceType = NodeInterface.InterfaceTypes.Event)
@@ -109,6 +107,15 @@ public abstract class BaseNode : ScriptableObject {
         foreach (NodeInterface iface in interfaces)
         {
             iface.Draw();
+        }
+    }
+
+    private void DrawConnections()
+    {
+        // TODO check if this works in no
+        foreach (NodeInterface iface in interfaces)
+        {
+            iface.DrawConnections();
         }
     }
 
@@ -174,8 +181,7 @@ public abstract class BaseNode : ScriptableObject {
         return new BaseAction.InterfaceType()
         {
             identifier = iface.ID,
-            //connectedAction = iface.ConnectedNode.Action,
-            connectedInterfaceIndex = iface.ConnectedInterfaceIndex
+            //connectedAction = iface.ConnectedNode.Action
         };
     }
     #endregion
