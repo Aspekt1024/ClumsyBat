@@ -46,11 +46,12 @@ public class NodeTransform {
                 }
                 break;
             case EventType.mouseUp:
-                if (IsDragged)
+                if (IsDragged && e.button == 0)
                 {
                     node.WindowRect.position += dragOffset;
                     dragOffset = Vector2.zero;
                     IsDragged = false;
+                    e.Use();
                 }
                 break;
             case EventType.MouseDrag:
@@ -75,7 +76,9 @@ public class NodeTransform {
             else
             {
                 if (!IsSelected)
+                {
                     node.ParentEditor.DeselectAllNodes();
+                }
 
                 IsSelected = true;
             }

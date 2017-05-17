@@ -59,27 +59,24 @@ public abstract class BaseNode {
         NodeRect = Transform.GetWindow(canvasOffset);
         
         if (Transform.IsSelected)
-        {
             GUI.skin = (GUISkin)EditorGUIUtility.Load("NodeWindowSkin.guiskin");
-        }
         else
-        {
             GUI.skin = (GUISkin)EditorGUIUtility.Load("NodeNormalSkin.guiskin");
-        }
         
         GUI.Box(NodeRect, WindowTitle);
+
+        if (Transform.IsSelected)
+            DrawSelectedOutline();
+
         GUI.BeginGroup(NodeRect);
         Draw();
         GUI.EndGroup();
-        
-        DrawConnections();
     }
 
     public virtual void Draw()  // protected?
     {
         DrawInterfaces();
     }
-
     
     public virtual void InitialiseNode(Vector2 position, BaseEditor editor)
     {
@@ -102,6 +99,32 @@ public abstract class BaseNode {
         interfaces.Add(iface);
     }
 
+    private void DrawSelectedOutline()
+    {
+        Vector2 p1 = GetOffsetPosition();
+        Vector2 p2 = p1 + Vector2.right * WindowRect.width;
+        Vector2 p3 = p2 + Vector2.up * WindowRect.height;
+        Vector2 p4 = p1 + Vector2.up * WindowRect.height;
+
+        const int innerThickness = 4;
+        const int outerThickness = 10;
+
+        Handles.color = Color.white;
+        for (int i = 0; i < outerThickness; i++)
+        {
+            Color rectColor = new Color(0.4f, 0.6f, 0.8f, Mathf.Pow((1 - i / (float)outerThickness), 3f) * 0.7f);
+            Rect rect = new Rect(p1 - Vector2.one * (i + 2), WindowRect.size + Vector2.one * 2 * (i + 2));
+            Handles.DrawSolidRectangleWithOutline(rect, Color.clear, rectColor);
+        }
+
+        for (int i = 0; i < innerThickness; i++)
+        {
+            Color rectColor = new Color(0.8f, 0.8f, 1f, Mathf.Pow(1 - i / (float)innerThickness, 3) * 0.7f);
+            Rect rect = new Rect(p1 + Vector2.one * (i - 2), WindowRect.size - Vector2.one * 2 * (i - 2));
+            Handles.DrawSolidRectangleWithOutline(rect, Color.clear, rectColor);
+        }
+    }
+
     protected void DrawInterfaces()
     {
         foreach (NodeInterface iface in interfaces)
@@ -110,9 +133,9 @@ public abstract class BaseNode {
         }
     }
 
-    private void DrawConnections()
+    public void DrawConnections()
     {
-        // TODO check if this works in no
+        // Must be drawn outside of GUI.BeginGroup()
         foreach (NodeInterface iface in interfaces)
         {
             iface.DrawConnections();

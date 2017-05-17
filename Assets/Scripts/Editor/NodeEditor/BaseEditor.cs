@@ -215,6 +215,10 @@ public abstract class BaseEditor : EditorWindow {
     {
         for (int i = 0; i < NodeData.Nodes.Count; i++)
         {
+            NodeData.Nodes[i].DrawConnections();
+        }
+        for (int i = 0; i < NodeData.Nodes.Count; i++)
+        {
             NodeData.Nodes[i].DrawNodeWindow(CanvasOffset + CanvasDrag);
         }
     }

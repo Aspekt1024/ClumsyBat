@@ -201,8 +201,8 @@ public class NodeInterface {
             shadowCol = new Color(1f, 0.7f, 0.7f);
 
         Vector3 tanScale = GetTanScale(startPos, endPos);
-        Vector3 startTan = new Vector3(startPos.x, startPos.y, 0) + tanScale;
-        Vector3 endTan = new Vector3(endPos.x, endPos.y, 0) - tanScale;
+        Vector3 startTan = new Vector3(startPos.x, startPos.y, -1) + tanScale;
+        Vector3 endTan = new Vector3(endPos.x, endPos.y, -1) - tanScale;
 
         for (int i = 0; i < 3; i++)
         {
@@ -216,11 +216,11 @@ public class NodeInterface {
     {
         Vector3 tanScale = new Vector3(50f, 0f, 0f);
 
-        float dX = startPos.x - endPos.x;
-        float dY = startPos.y - endPos.y;
+        float dX = Mathf.Clamp(startPos.x - endPos.x, 0f, 500f);
+        float dY = Mathf.Clamp(startPos.y - endPos.y, 0f, 500f);
         if (dX > 0)
         {
-            tanScale += new Vector3(dX, -dY, 0f) / 2f;
+            tanScale += new Vector3(dX / 2, -dY, 0f);
         }
         return tanScale;
     }
