@@ -24,11 +24,6 @@ public class NodeTransform {
     private Vector2 dragOffset;
     private Rect offsetRect;
 
-    public NodeTransform()
-    {
-        node = null;
-    }
-
     public NodeTransform(BaseNode parent)
     {
         node = parent;
