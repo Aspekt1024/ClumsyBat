@@ -1,32 +1,36 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 using UnityEditor;
 
-[System.Serializable]
+[Serializable]
 public class NodeInterface {
     
     public Vector2 Position;
-    public NodeInterface ConnectedInterface;
     public int ID;
     public string Label;
     public InterfaceTypes Type;
     public IODirection Direction;
-    
+
+    [XmlIgnore] // TODO fix circular reference
+    public NodeInterface ConnectedInterface;
+
+    [XmlIgnore]
     public bool IsDragged;
+    [XmlIgnore]
+    public BaseNode Node;
+
     private Vector2 mousePos;
 
-    public enum InterfaceTypes
+    public enum InterfaceTypes { Event, Object }
+    public enum IODirection { Input, Output }
+    
+    public NodeInterface()
     {
-        Event, Object
+        Node = null;
     }
-
-    public enum IODirection
-    {
-        Input, Output
-    }
-
-    private BaseNode Node;
 
     public NodeInterface(BaseNode parent)
     {
@@ -216,11 +220,11 @@ public class NodeInterface {
     {
         Vector3 tanScale = new Vector3(50f, 0f, 0f);
 
-        float dX = Mathf.Clamp(startPos.x - endPos.x, 0f, 500f);
-        float dY = Mathf.Clamp(startPos.y - endPos.y, 0f, 500f);
-        if (dX > 0)
+        float dX = Mathf.Clamp(endPos.x - startPos.x, -300f, 300f);
+        float dY = Mathf.Clamp(endPos.y - startPos.y, -300f, 300f);
+        if (dX < 0)
         {
-            tanScale += new Vector3(dX / 2, -dY, 0f);
+            tanScale += new Vector3(-dX / 2, dY/8 * Mathf.Clamp(-dX / 50f, 0f, 1f), 0f);
         }
         return tanScale;
     }

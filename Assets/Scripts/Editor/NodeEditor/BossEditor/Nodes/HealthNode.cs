@@ -41,8 +41,8 @@ public class HealthNode : BaseNode {
 
     protected override void CreateAction()
     {
-        Action = new HealthAction();
-        ((HealthAction)Action).Health = health;
+        //Action = typeof(HealthAction);
+        //((HealthAction)Action).Health = health;
     }
 
 }

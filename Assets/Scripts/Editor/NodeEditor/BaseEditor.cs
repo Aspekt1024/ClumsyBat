@@ -3,8 +3,8 @@ using UnityEditor;
 using System.Collections.Generic;
 
 public abstract class BaseEditor : EditorWindow {
-    
-    public NodeData NodeData;
+
+    public List<BaseNode> Nodes;
     public Vector2 NodeDrag;
     public Vector2 CanvasOffset;
     public Vector2 CanvasDrag;
@@ -25,7 +25,6 @@ public abstract class BaseEditor : EditorWindow {
     private Texture2D _bg;
     private BaseEditorMouseInput _mouseInput;
     private Vector2 _mousePos;
-    private Vector2 startMousePos;
     private float timeSinceUpdate;
     
     protected abstract void SetEditorTheme();
@@ -36,13 +35,18 @@ public abstract class BaseEditor : EditorWindow {
         BaseContainer = obj;
 
         SetRootContainerToSelf();
-
-        LoadNodeData();
-
-        foreach (var node in NodeData.Nodes)
+        
+        try
         {
-            node.ParentEditor = this;
+            NodeEditorSaveHandler.Load(this);
         }
+        catch
+        {
+            Nodes = new List<BaseNode>();
+        }
+
+        //LoadNodeData(); // TODO this?????
+
     }
 
     public void Drag(Vector2 delta)
@@ -58,15 +62,7 @@ public abstract class BaseEditor : EditorWindow {
     }
 
     protected abstract void LoadNodeData();
-
-    protected void CreateNewNodeData(string nodeDataPath)
-    {
-        NodeData = new NodeData();
-        // TODO save this somewherE?
-        //AssetDatabase.CreateAsset(NodeData, nodeDataPath);
-
-    }
-
+    
     protected virtual void OnEnable()
     {
         if (_mouseInput == null) _mouseInput = new BaseEditorMouseInput(this);
@@ -79,33 +75,31 @@ public abstract class BaseEditor : EditorWindow {
 
     private void OnLostFocus()
     {
-        if (NodeData == null || BaseContainer == null) return;
-        SaveActionData();
+        if (Nodes == null || Nodes.Count == 0) return;
+        Save();
+    }
+
+    private void Save()
+    {
+        NodeEditorSaveHandler.Save(this);
     }
 
     public void DeselectAllNodes()
     {
-        foreach (BaseNode node in NodeData.Nodes)
+        foreach (BaseNode node in Nodes)
         {
             node.Transform.IsSelected = false;
         }
+        Repaint();
     }
 
     public void MoveAllSelectedNodes(Vector2 delta)
     {
-        foreach (BaseNode node in NodeData.Nodes)
+        foreach (BaseNode node in Nodes)
         {
             if (node.Transform.IsSelected)
                 node.WindowRect.position += delta;
         }
-    }
-    
-    public void SaveActionData()
-    {
-        Debug.Log("TODO save action");
-        // TODO this
-        //BossEditorSave editorSaveScript = new BossEditorSave();
-        //editorSaveScript.CreateActionFile(BaseContainer, NodeData);
     }
     
     private void OnGUI()
@@ -126,7 +120,8 @@ public abstract class BaseEditor : EditorWindow {
         ProcessNodeEvents();
         _mouseInput.ProcessMouseEvents(e);
 
-        if (GUI.changed) Repaint();
+        if (GUI.changed)
+            Repaint();
     }
 
     private void DrawBackground()
@@ -194,16 +189,16 @@ public abstract class BaseEditor : EditorWindow {
     public BaseNode GetSelectedNode()
     {
         int index = -1;
-        for (int i = NodeData.Nodes.Count - 1; i >= 0; i--)
+        for (int i = Nodes.Count - 1; i >= 0; i--)
         {
-            if (NodeData.Nodes[i].Contains(_mousePos))
+            if (Nodes[i].Contains(_mousePos))
             {
                 index = i;
-                _currentNode = NodeData.Nodes[i];
+                _currentNode = Nodes[i];
                 break;
             }
         }
-        return index >= 0 ? NodeData.Nodes[index] : null;
+        return index >= 0 ? Nodes[index] : null;
     }
 
     public void SetSelectedNode(BaseNode node)
@@ -213,52 +208,41 @@ public abstract class BaseEditor : EditorWindow {
 
     private void DrawNodeWindows()
     {
-        for (int i = 0; i < NodeData.Nodes.Count; i++)
+        for (int i = 0; i < Nodes.Count; i++)
         {
-            NodeData.Nodes[i].DrawConnections();
+            Nodes[i].DrawConnections();
         }
-        for (int i = 0; i < NodeData.Nodes.Count; i++)
+        for (int i = 0; i < Nodes.Count; i++)
         {
-            NodeData.Nodes[i].DrawNodeWindow(CanvasOffset + CanvasDrag);
+            Nodes[i].DrawNodeWindow(CanvasOffset + CanvasDrag);
         }
     }
 
     private void ProcessNodeEvents()
     {
-        for (int i = 0; i < NodeData.Nodes.Count; i++)
+        for (int i = 0; i < Nodes.Count; i++)
         {
-            NodeData.Nodes[i].ProcessEvents(Event.current);
+            Nodes[i].ProcessEvents(Event.current);
         }
     }
-
-    public void StartMovingEditorCanvas()
-    {
-        CanvasDrag = Vector2.zero;
-        startMousePos = _mousePos;
-    }
-
+    
     public void StopMovingEditorCanvas()
     {
         CanvasOffset += CanvasDrag;
         CanvasDrag = Vector2.zero;
-        Repaint();
     }
 
     public virtual void AddNode(BaseNode newNode)
     {
         newNode.InitialiseNode(_mousePos - CanvasOffset, this);
         newNode.SetupNode(BaseContainer);
-        NodeData.Nodes.Add(newNode);
+        Nodes.Add(newNode);
     }
 
     public void RemoveNode(BaseNode node)
     {
         node.DeleteNode();
-        NodeData.Nodes.Remove(node);
-
-        // TODO remove from save file
-        //if (AssetDatabase.Contains(node))
-        //    AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(node));
+        Nodes.Remove(node);
     }
 
     private float SnapToGrid(float pos)
@@ -269,11 +253,11 @@ public abstract class BaseEditor : EditorWindow {
     
     public void MoveToStart()
     {
-        foreach (var node in NodeData.Nodes)
+        foreach (var node in Nodes)
         {
             if (node.GetType().Equals(typeof(StartNode)))
             {
-                CanvasOffset = _mousePos - new Vector2(node.Transform.WindowRect.x, node.Transform.WindowRect.y);
+                CanvasOffset = _mousePos - new Vector2(node.WindowRect.x, node.WindowRect.y);
                 break;
             }
         }
@@ -282,7 +266,7 @@ public abstract class BaseEditor : EditorWindow {
     public bool StartExists()
     {
         bool startFound = false;
-        foreach (var node in NodeData.Nodes)
+        foreach (var node in Nodes)
         {
             if (node.GetType().Equals(typeof(StartNode)))
             {
@@ -291,5 +275,15 @@ public abstract class BaseEditor : EditorWindow {
             }
         }
         return startFound;
+    }
+
+    public StartNode GetStartNode()
+    {
+        foreach (var node in Nodes)
+        {
+            if (node.IsType<StartNode>())
+                return (StartNode)node;
+        }
+        return null;
     }
 }

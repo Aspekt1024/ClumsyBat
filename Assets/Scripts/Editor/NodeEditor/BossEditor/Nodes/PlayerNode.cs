@@ -29,6 +29,6 @@ public class PlayerNode : BaseNode {
 
     protected override void CreateAction()
     {
-        Action = new PlayerAction();
+        //Action = new PlayerAction();
     }
 }

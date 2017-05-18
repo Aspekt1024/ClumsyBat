@@ -53,7 +53,7 @@ public class JumpNode : BaseNode {
 
     protected override void CreateAction()
     {
-        Action = new JumpAction();
-        ((JumpAction)Action).JumpForce = jumpForce;
+        //Action = new JumpAction();
+        //((JumpAction)Action).JumpForce = jumpForce;
     }
 }

@@ -48,17 +48,11 @@ public class SpawnStalNode : BaseNode {
         EditorGUILayout.Space();
 
         EditorGUIUtility.labelWidth = 70;
-        var stalActionArray = Enum.GetValues(typeof(StalActions));
-        var stalActionStringArray = EditorHelpers.GetEnumStringArray(typeof(StalActions));
-        selectedStalActionIndex = EditorGUILayout.Popup("Stal action:", selectedStalActionIndex, stalActionStringArray);
-        selectedStalAction = (StalActions)stalActionArray.GetValue(selectedStalActionIndex);
+        selectedStalAction = (StalActions)EditorGUILayout.EnumPopup("Stal action:", selectedStalAction);
 
         if (selectedStalAction != StalActions.Drop)
         {
-            var stalDirectionArray = Enum.GetValues(typeof(StalSpawnDirection));
-            var stalDirectionStringArray = EditorHelpers.GetEnumStringArray(typeof(StalSpawnDirection));
-            selectedSpawnDirectionIndex = EditorGUILayout.Popup("Direction:", selectedSpawnDirectionIndex, stalDirectionStringArray);
-            SpawnDirection = (StalSpawnDirection)stalDirectionArray.GetValue(selectedSpawnDirectionIndex);
+            SpawnDirection = (StalSpawnDirection)EditorGUILayout.EnumPopup("Direction:", SpawnDirection);
             DisplayStalListForEditing();
         }
         else
@@ -72,10 +66,10 @@ public class SpawnStalNode : BaseNode {
 
     protected override void CreateAction()
     {
-        Action = new SpawnStalAction();
-        ((SpawnStalAction)Action).StalAction = selectedStalAction;
-        ((SpawnStalAction)Action).SpawnDirection = SpawnDirection;
-        ((SpawnStalAction)Action).stalSpawns = stalSpawns;
+        //Action = new SpawnStalAction();
+        //((SpawnStalAction)Action).StalAction = selectedStalAction;
+        //((SpawnStalAction)Action).SpawnDirection = SpawnDirection;
+        //((SpawnStalAction)Action).stalSpawns = stalSpawns;
     }
 
     public override void SetupNode(BossDataContainer dataContainer)

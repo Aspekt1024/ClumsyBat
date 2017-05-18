@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System;
+using System.Collections.Generic;
 
 public class BossStateEditor : BaseEditor {
     
@@ -32,24 +33,17 @@ public class BossStateEditor : BaseEditor {
 
     protected override void LoadNodeData()
     {
-        string nodeDataName = BaseContainer.name.Replace(" ", "");
-        string nodeDataFolder = EditorHelpers.GetDataPath(BaseContainer.RootContainer);
-        string nodeDataPath = string.Format("{0}/States/{1}.asset", nodeDataFolder, nodeDataName); // TODO this must match what's in StateNode... merge into one static function e.g. GetStateNodePath(...)
-
         // TODO load
         //NodeData = AssetDatabase.LoadAssetAtPath<NodeData>(nodeDataPath);
-        Debug.Log("here");
-        if (NodeData == null)
-        {
-            EditorHelpers.CreateFolderIfNotExist(nodeDataFolder, "States");
-            CreateNewNodeData(nodeDataPath);
-        }
+        
+        if (Nodes == null || Nodes.Count == 0)
+            Nodes = new List<BaseNode>();
     }
 
     private string GetNodeDataFolder()
     {
         string subFolder = GetSubfolderIfState(BaseContainer);
-        return EditorHelpers.GetDataPath(BaseContainer.RootContainer) + (subFolder.Length > 0 ? "/" + subFolder : "");
+        return "";//EditorHelpers.GetDataPath(BaseContainer.RootContainer) + (subFolder.Length > 0 ? "/" + subFolder : "");
     }
 
     private string GetSubfolderIfState(BossDataContainer container)

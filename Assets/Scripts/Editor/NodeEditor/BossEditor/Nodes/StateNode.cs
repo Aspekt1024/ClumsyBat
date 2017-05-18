@@ -14,10 +14,8 @@ using StateChangeTypes = BossState.StateChangeTypes;
 public class StateNode : BaseNode {
 
     public BossState State;
-    public NodeData NodeData;
 
     private string newStateName = "New State";
-    private int selectedStateIndex;
 
     [SerializeField]
     private int selectedStateChangeIndex;
@@ -57,16 +55,8 @@ public class StateNode : BaseNode {
     
     private void DisplayStateInfo()
     {
-        // TODO use EditorHelpers.GetEnumStringArray(typeof(StateChangeTypes));
-        var ChoiceArray = Enum.GetValues(typeof(StateChangeTypes));
-        string[] choiceStringArray = new string[ChoiceArray.Length];
-        for (int i = 0; i < ChoiceArray.Length; i++)
-        {
-            choiceStringArray[i] = ChoiceArray.GetValue(i).ToString();
-        }
         EditorGUIUtility.labelWidth = 115;
-        selectedStateChangeIndex = EditorGUILayout.Popup("Change state on:", selectedStateChangeIndex, choiceStringArray);
-        State.StateChange = (StateChangeTypes)ChoiceArray.GetValue(selectedStateChangeIndex);
+        State.StateChange = (StateChangeTypes)EditorGUILayout.EnumPopup("Change state on:", State.StateChange);
         GetStateChangeData();
 
         EditorGUILayout.Space();
@@ -127,52 +117,52 @@ public class StateNode : BaseNode {
 
     private void CreateNewState()
     {
-        BossState newState = new BossState();
-        newState.StateName = newStateName;
-        newState.BossName = DataContainer.BossName;
-        newState.RootContainer = DataContainer;
+        //BossState newState = new BossState();
+        //newState.StateName = newStateName;
+        //newState.BossName = DataContainer.BossName;
+        //newState.RootContainer = DataContainer;
 
-        string dataFolder = EditorHelpers.GetAssetDataFolder(DataContainer);
-        string subFolder = "States";
-        EditorHelpers.CreateFolderIfNotExist(dataFolder, subFolder);
-        string assetName = newStateName.Replace(" ", "") + ".asset";
-        string dataPath = string.Format("{0}/{1}/{2}", dataFolder, subFolder, assetName);
+        //string dataFolder = EditorHelpers.GetAssetDataFolder(DataContainer);
+        //string subFolder = "States";
+        //EditorHelpers.CreateFolderIfNotExist(dataFolder, subFolder);
+        //string assetName = newStateName.Replace(" ", "") + ".asset";
+        //string dataPath = string.Format("{0}/{1}/{2}", dataFolder, subFolder, assetName);
 
-        AssetDatabase.CreateAsset(newState, dataPath);
-        State = newState;
+        //AssetDatabase.CreateAsset(newState, dataPath);
+        //State = newState;
 
-        NodeData = new NodeData();
-        dataFolder = EditorHelpers.GetDataPath(DataContainer);
-        EditorHelpers.CreateFolderIfNotExist(dataFolder, "States");
-        dataPath = string.Format("{0}/States/{1}", dataFolder, assetName);
+        //NodeData = new NodeData();
+        //dataFolder = EditorHelpers.GetDataPath(DataContainer);
+        //EditorHelpers.CreateFolderIfNotExist(dataFolder, "States");
+        //dataPath = string.Format("{0}/States/{1}", dataFolder, assetName);
 
-        // TODO store?
-        //AssetDatabase.CreateAsset(NodeData, dataPath);
+        //// TODO store?
+        ////AssetDatabase.CreateAsset(NodeData, dataPath);
     }
 
     private void UseExistingState(BossState existingState)
     {
-        State = existingState;
-        string dataFolder = EditorHelpers.GetDataPath(DataContainer) + "/States";
-        string assetName = existingState.StateName.Replace(" ", "") + ".asset";
-        string dataPath = string.Format("{0}/{1}", dataFolder, assetName);
+        //State = existingState;
+        //string dataFolder = EditorHelpers.GetDataPath(DataContainer) + "/States";
+        //string assetName = existingState.StateName.Replace(" ", "") + ".asset";
+        //string dataPath = string.Format("{0}/{1}", dataFolder, assetName);
 
-        // TODO load
-        //NodeData = AssetDatabase.LoadAssetAtPath<NodeData>(dataPath);
+        //// TODO load
+        ////NodeData = AssetDatabase.LoadAssetAtPath<NodeData>(dataPath);
     }
     
     protected override void CreateAction()
     {
         MachineState machineState = new MachineState();
-        if (NodeData == null) return;
+        //if (NodeData == null) return;
 
-        StartNode start = NodeData.GetStartNode();
-        if (start != null)
-        {
-            machineState.State = State;
-        }
+        //StartNode start = ParentEditor.GetStartNode();
+        //if (start != null)
+        //{
+        //    machineState.State = State;
+        //}
 
-        Action = machineState;
+        //Action = machineState;
     }
 
 }

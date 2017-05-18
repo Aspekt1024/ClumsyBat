@@ -34,7 +34,7 @@ public class WaitNode : BaseNode {
 
     protected override void CreateAction()
     {
-        Action = new WaitAction();
-        ((WaitAction)Action).WaitTime = WaitTime;
+        //Action = new WaitAction();
+        //((WaitAction)Action).WaitTime = WaitTime;
     }
 }

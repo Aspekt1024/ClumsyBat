@@ -27,7 +27,7 @@ public class LoopNode : BaseNode {
 
     protected override void CreateAction()
     {
-        Action = new LoopAction();
+        //Action = new LoopAction();
     }
 
 }

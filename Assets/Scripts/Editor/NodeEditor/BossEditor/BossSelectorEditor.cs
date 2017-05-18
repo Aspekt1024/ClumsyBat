@@ -7,8 +7,7 @@ using UnityEditor;
 public class BossSelectorEditor : Editor {
 
     private BossCreator creatorObj;
-
-    private bool bAbilitiesClicked;
+    
     private bool bAttributesClicked;
 
     public override void OnInspectorGUI()

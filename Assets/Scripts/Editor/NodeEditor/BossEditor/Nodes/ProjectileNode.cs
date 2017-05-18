@@ -62,10 +62,10 @@ public class ProjectileNode : BaseNode {
 
     protected override void CreateAction()
     {
-        Action = new ProjectileAction();
-        ((ProjectileAction)Action).TargetGround = targetGround;
-        ((ProjectileAction)Action).TargetPos = targetPos;
-        ((ProjectileAction)Action).ProjectileSpeed = projectileSpeed;
+        //Action = new ProjectileAction();
+        //((ProjectileAction)Action).TargetGround = targetGround;
+        //((ProjectileAction)Action).TargetPos = targetPos;
+        //((ProjectileAction)Action).ProjectileSpeed = projectileSpeed;
     }
 
     private void AddSpaces(int numSpaces)

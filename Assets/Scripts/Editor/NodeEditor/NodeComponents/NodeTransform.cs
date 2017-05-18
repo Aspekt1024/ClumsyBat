@@ -3,13 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class NodeTransform {
-
-    public Rect WindowRect
-    {
-        get { return node.WindowRect; }
-        set { node.WindowRect = value; }
-    }
-
+    
     public bool IsSelected;
     public bool IsDragged;
 
@@ -29,6 +23,11 @@ public class NodeTransform {
 
     private Vector2 dragOffset;
     private Rect offsetRect;
+
+    public NodeTransform()
+    {
+        node = null;
+    }
 
     public NodeTransform(BaseNode parent)
     {
@@ -89,17 +88,17 @@ public class NodeTransform {
 
     public Rect GetWindow(Vector2 canvasOffset)
     {
-        node.WindowRect.position = SnapToGrid(WindowRect.position);
+        node.WindowRect.position = SnapToGrid(node.WindowRect.position);
 
-        Vector2 draggedPosition = SnapToGrid(WindowRect.position + dragOffset);
-        if (draggedPosition != WindowRect.position)
+        Vector2 draggedPosition = SnapToGrid(node.WindowRect.position + dragOffset);
+        if (draggedPosition != node.WindowRect.position)
         {
-            Vector2 delta = draggedPosition - WindowRect.position;
+            Vector2 delta = draggedPosition - node.WindowRect.position;
             node.ParentEditor.MoveAllSelectedNodes(delta);
             dragOffset -= delta;
         }
 
-        offsetRect = new Rect(draggedPosition + canvasOffset, WindowRect.size);
+        offsetRect = new Rect(draggedPosition + canvasOffset, node.WindowRect.size);
         return offsetRect;
     }
     

@@ -46,10 +46,7 @@ public class WalkNode : BaseNode {
         EditorGUILayout.Separator();
 
         EditorGUIUtility.labelWidth = 82f;
-        var walkOptionArray = Enum.GetValues(typeof(WalkAction.WalkOptions));
-        var walkOptionStringArray = EditorHelpers.GetEnumStringArray(typeof(WalkAction.WalkOptions));
-        selectedWalkOptionIndex = EditorGUILayout.Popup("Walk option:", selectedWalkOptionIndex, walkOptionStringArray);
-        walkOption = (WalkAction.WalkOptions)walkOptionArray.GetValue(selectedWalkOptionIndex);
+        walkOption = (WalkAction.WalkOptions)EditorGUILayout.EnumPopup("Walk option:", walkOption);
 
         walkSpeed = EditorGUILayout.FloatField("Speed:", walkSpeed);
         walkDuration = EditorGUILayout.FloatField("Duration:", walkDuration);
@@ -60,10 +57,10 @@ public class WalkNode : BaseNode {
 
     protected override void CreateAction()
     {
-        Action = new WalkAction();
-        ((WalkAction)Action).WalkDuration = walkDuration;
-        ((WalkAction)Action).WalkSpeed = walkSpeed;
-        ((WalkAction)Action).WalkOption = walkOption;
+        //Action = new WalkAction();
+        //((WalkAction)Action).WalkDuration = walkDuration;
+        //((WalkAction)Action).WalkSpeed = walkSpeed;
+        //((WalkAction)Action).WalkOption = walkOption;
     }
 
     private void AddSpaces(int numSpaces)

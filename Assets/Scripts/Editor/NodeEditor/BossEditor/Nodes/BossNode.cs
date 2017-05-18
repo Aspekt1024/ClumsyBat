@@ -29,6 +29,6 @@ public class BossNode : BaseNode {
 
     protected override void CreateAction()
     {
-        Action = new BossAction();
+        //Action = typeof(BossAction);
     }
 }

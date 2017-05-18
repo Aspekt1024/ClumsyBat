@@ -1,9 +1,11 @@
-﻿
+﻿using System;
+using System.Xml.Serialization;
+
 public class StartNode : BaseNode {
     
     protected override void AddInterfaces()
     {
-        AddInterface(NodeInterface.IODirection.Output, 0);
+        AddOutput(0);
     }
 
     private void SetInterfacePositions()
@@ -16,13 +18,10 @@ public class StartNode : BaseNode {
         Transform.Width = 80;
         Transform.Height = 40;
         WindowTitle = "Start";
+        Action = typeof(StartAction);
 
         SetInterfacePositions();
         DrawInterfaces();
-    }
 
-    protected override void CreateAction()
-    {
-        Action = new StartAction();
     }
 }

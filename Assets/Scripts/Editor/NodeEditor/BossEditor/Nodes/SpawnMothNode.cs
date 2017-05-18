@@ -30,6 +30,6 @@ public class SpawnMothNode : BaseNode {
 
     protected override void CreateAction()
     {
-        Action = new SpawnMothAction();
+        //Action = new SpawnMothAction();
     }
 }

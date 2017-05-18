@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System;
+using System.Collections.Generic;
 
 public class BossEditor : BaseEditor {
     
@@ -40,14 +41,10 @@ public class BossEditor : BaseEditor {
 
     protected override void LoadNodeData()
     {
-        const string nodeDataName = "NodeData";
-        string nodeDataFolder = EditorHelpers.GetDataPath(BaseContainer.RootContainer);
-        string nodeDataPath = string.Format("{0}/{1}.asset", nodeDataFolder, nodeDataName);
-
         // TODO load
         //NodeData = AssetDatabase.LoadAssetAtPath<NodeData>(nodeDataPath);
-        
-        if (NodeData == null)
-            CreateNewNodeData(nodeDataPath);
+
+        if (Nodes == null || Nodes.Count == 0)
+            Nodes = new List<BaseNode>();
     }
 }

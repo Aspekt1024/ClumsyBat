@@ -34,10 +34,7 @@ public class PlayerEventNode : BaseNode {
         EditorGUILayout.Space();
         EditorGUILayout.Space();
         EditorGUILayout.Space();
-        var playerEventArray = Enum.GetValues(typeof(PlayerEvents));
-        var playerEventStringArray = EditorHelpers.GetEnumStringArray(typeof(PlayerEvents));
-        selectedPlayerEventIndex = EditorGUILayout.Popup(selectedPlayerEventIndex, playerEventStringArray);
-        playerEvent = (PlayerEvents)playerEventArray.GetValue(selectedPlayerEventIndex);
+        playerEvent = (PlayerEvents)EditorGUILayout.EnumPopup(playerEvent);
 
         SetInterfacePositions();
         DrawInterfaces();
@@ -45,7 +42,7 @@ public class PlayerEventNode : BaseNode {
 
     protected override void CreateAction()
     {
-        Action = new PlayerEventAction();
-        ((PlayerEventAction)Action).PlayerEvent = playerEvent;
+        //Action = new PlayerEventAction();
+        //((PlayerEventAction)Action).PlayerEvent = playerEvent;
     }
 }

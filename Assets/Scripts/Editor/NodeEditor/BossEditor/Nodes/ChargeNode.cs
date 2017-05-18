@@ -37,7 +37,7 @@ public class ChargeNode : BaseNode {
 
     protected override void CreateAction()
     {
-        Action = new ChargeAction();
+        //Action = new ChargeAction();
     }
 
 }

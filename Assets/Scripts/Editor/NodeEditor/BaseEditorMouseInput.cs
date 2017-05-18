@@ -33,8 +33,6 @@ public class BaseEditorMouseInput {
 
     public void ProcessMouseEvents(Event e)
     {
-        if(editor.NodeData == null) Debug.Log("process");
-
         switch (e.type)
         {
             case EventType.MouseDown:
@@ -64,16 +62,15 @@ public class BaseEditorMouseInput {
     private void ActionLeftMouseDown()
     {
         mouseDownNode = editor.GetSelectedNode();
-        if (mouseDownNode == null)
-        {
-            isDragged = true;
-            editor.StartMovingEditorCanvas();
-        }
+        isDragged = mouseDownNode == null;
     }
     
     private void ActionLeftMouseUp()
     {
-        editor.DeselectAllNodes();
+        if (!canvasWasDragged)
+            editor.DeselectAllNodes();
+
+        canvasWasDragged = false;
         editor.StopMovingEditorCanvas();
     }
 

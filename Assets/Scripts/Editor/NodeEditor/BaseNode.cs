@@ -1,27 +1,31 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 using UnityEditor;
 
 using IODirection = NodeInterface.IODirection;
 
 public abstract class BaseNode {
-    
+
     public string WindowTitle = "Untitled";
-    public Rect WindowRect;
-    public NodeTransform Transform;
-    public BaseEditor ParentEditor;
     public List<NodeInterface> interfaces = new List<NodeInterface>();
-    
-    [HideInInspector]
-    public BossDataContainer DataContainer; // TODO remove/rename... generic, not boss
-    
-    public BaseAction Action;
+    public Rect WindowRect;
+
+    [XmlIgnore]
+    public Type Action;
+
+    [XmlIgnore]
+    public NodeTransform Transform;
+    [XmlIgnore]
+    public BaseEditor ParentEditor;
     
     private Rect NodeRect;
     private Vector2 selectedOutputPos;
     
     protected abstract void AddInterfaces();
-    
+    protected virtual void CreateAction() { }   // TODO delete this
+
     public Vector2 GetOffsetPosition()
     {
         return ParentEditor.CanvasOffset + ParentEditor.CanvasDrag + WindowRect.position;
@@ -29,20 +33,7 @@ public abstract class BaseNode {
 
     public virtual void SetupNode(BossDataContainer dataContainer)
     {
-        DataContainer = dataContainer;
         AddInterfaces();
-        SaveThisNodeAsset();
-    }
-
-    protected void SaveThisNodeAsset()
-    {
-        string subFolder = "";
-        if (DataContainer.IsType<BossState>())
-        {
-            subFolder = DataContainer.name + "Data";
-        }
-        // TODO save
-        //EditorHelpers.SaveNodeEditorAsset(this, DataContainer.RootContainer, subFolder, GetType().ToString());
     }
 
     public void ProcessEvents(Event e)
@@ -82,14 +73,24 @@ public abstract class BaseNode {
     {
         ParentEditor = editor;
         Transform = new NodeTransform(this);
-        Transform.WindowRect = new Rect(position.x, position.y, Transform.WindowRect.width, Transform.WindowRect.height);
+        WindowRect = new Rect(position.x, position.y, WindowRect.width, WindowRect.height);
     }
 
     public bool Contains(Vector2 pos)
     {
-        return new Rect(NodeRect.position, Transform.WindowRect.size).Contains(pos);
+        return new Rect(NodeRect.position, WindowRect.size).Contains(pos);
     }
-    
+
+    protected void AddInput(int id, NodeInterface.InterfaceTypes ifaceType = NodeInterface.InterfaceTypes.Event)
+    {
+        AddInterface(IODirection.Input, id, ifaceType);
+    }
+
+    protected void AddOutput(int id, NodeInterface.InterfaceTypes ifaceType = NodeInterface.InterfaceTypes.Event)
+    {
+        AddInterface(IODirection.Output, id, ifaceType);
+    }
+
     protected void AddInterface(IODirection ioType, int id, NodeInterface.InterfaceTypes ifaceType = NodeInterface.InterfaceTypes.Event)
     {
         NodeInterface iface = new NodeInterface(this);
@@ -101,26 +102,23 @@ public abstract class BaseNode {
 
     private void DrawSelectedOutline()
     {
-        Vector2 p1 = GetOffsetPosition();
-        Vector2 p2 = p1 + Vector2.right * WindowRect.width;
-        Vector2 p3 = p2 + Vector2.up * WindowRect.height;
-        Vector2 p4 = p1 + Vector2.up * WindowRect.height;
-
         const int innerThickness = 4;
         const int outerThickness = 10;
 
         Handles.color = Color.white;
+        Vector2 pos = GetOffsetPosition();
+
         for (int i = 0; i < outerThickness; i++)
         {
             Color rectColor = new Color(0.4f, 0.6f, 0.8f, Mathf.Pow((1 - i / (float)outerThickness), 3f) * 0.7f);
-            Rect rect = new Rect(p1 - Vector2.one * (i + 2), WindowRect.size + Vector2.one * 2 * (i + 2));
+            Rect rect = new Rect(pos - Vector2.one * (i + 2), WindowRect.size + Vector2.one * 2 * (i + 2));
             Handles.DrawSolidRectangleWithOutline(rect, Color.clear, rectColor);
         }
 
         for (int i = 0; i < innerThickness; i++)
         {
             Color rectColor = new Color(0.8f, 0.8f, 1f, Mathf.Pow(1 - i / (float)innerThickness, 3) * 0.7f);
-            Rect rect = new Rect(p1 + Vector2.one * (i - 2), WindowRect.size - Vector2.one * 2 * (i - 2));
+            Rect rect = new Rect(pos + Vector2.one * (i - 2), WindowRect.size - Vector2.one * 2 * (i - 2));
             Handles.DrawSolidRectangleWithOutline(rect, Color.clear, rectColor);
         }
     }
@@ -173,18 +171,7 @@ public abstract class BaseNode {
     {
         return GetType().Equals(typeof(T));
     }
-
-    public BaseAction GetAction()
-    {
-        if (Action == null)
-            CreateAction();
-
-        return Action;
-    }
     
-    protected abstract void CreateAction();
-
-
     #region Assign node interfaces to Action
 
     public virtual void ConvertInterfaces()
