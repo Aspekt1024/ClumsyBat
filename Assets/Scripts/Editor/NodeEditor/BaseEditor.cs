@@ -3,7 +3,7 @@ using UnityEditor;
 using System.Collections.Generic;
 
 public abstract class BaseEditor : EditorWindow {
-
+    
     public List<BaseNode> Nodes;
     public Vector2 NodeDrag;
     public Vector2 CanvasOffset;
@@ -44,14 +44,14 @@ public abstract class BaseEditor : EditorWindow {
         {
             Nodes = new List<BaseNode>();
         }
-
-        //LoadNodeData(); // TODO this?????
-
     }
 
     public void Drag(Vector2 delta)
     {
         CanvasDrag += delta;
+        if (CanvasDrag.magnitude > 10)
+            _mouseInput.CanvasWasDragged = true;
+
         Repaint();
     }
     
@@ -60,8 +60,6 @@ public abstract class BaseEditor : EditorWindow {
         if (BaseContainer.RootContainer == null)
             BaseContainer.RootContainer = BaseContainer;
     }
-
-    protected abstract void LoadNodeData();
     
     protected virtual void OnEnable()
     {
@@ -173,6 +171,9 @@ public abstract class BaseEditor : EditorWindow {
             case ColourThemes.Green:
                 bgColour = new Color(0.1f, 0.2f, 0.1f);
                 break;
+            case ColourThemes.Black:
+                bgColour = new Color(0.1f, 0.1f, 0.1f);
+                break;
         }
         return bgColour;
     }
@@ -236,6 +237,7 @@ public abstract class BaseEditor : EditorWindow {
     {
         newNode.InitialiseNode(_mousePos - CanvasOffset, this);
         newNode.SetupNode(BaseContainer);
+        newNode.ID = Nodes.Count;
         Nodes.Add(newNode);
     }
 
@@ -243,6 +245,11 @@ public abstract class BaseEditor : EditorWindow {
     {
         node.DeleteNode();
         Nodes.Remove(node);
+
+        for (int i = 0; i < Nodes.Count; i++)
+        {
+            Nodes[i].ID = i;
+        }
     }
 
     private float SnapToGrid(float pos)

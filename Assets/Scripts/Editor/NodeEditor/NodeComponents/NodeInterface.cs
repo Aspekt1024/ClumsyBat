@@ -5,6 +5,8 @@ using System.Xml.Serialization;
 using UnityEngine;
 using UnityEditor;
 
+using IODirection = ActionConnection.IODirection;
+
 [Serializable]
 public class NodeInterface {
     
@@ -13,20 +15,17 @@ public class NodeInterface {
     public string Label;
     public InterfaceTypes Type;
     public IODirection Direction;
+    public int ConnectedNodeID;
+    public int ConnectedIfaceID;
+    
+    [XmlIgnore] public BaseNode Node;
+    [XmlIgnore] public NodeInterface ConnectedInterface;
+    [XmlIgnore] public bool IsDragged;
 
-    [XmlIgnore] // TODO fix circular reference
-    public NodeInterface ConnectedInterface;
-
-    [XmlIgnore]
-    public bool IsDragged;
-    [XmlIgnore]
-    public BaseNode Node;
+    public enum InterfaceTypes { Event, Object }
 
     private Vector2 mousePos;
 
-    public enum InterfaceTypes { Event, Object }
-    public enum IODirection { Input, Output }
-    
     public NodeInterface()
     {
         Node = null;
@@ -228,14 +227,14 @@ public class NodeInterface {
         }
         return tanScale;
     }
+    
+    public BaseNode GetNode()
+    {
+        return Node;
+    }
 
     public bool IsConnected()
     {
         return ConnectedInterface != null;
-    }
-
-    public BaseNode GetNode()
-    {
-        return Node;
     }
 }

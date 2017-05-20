@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-using IODirection = NodeInterface.IODirection;
+using IODirection = ActionConnection.IODirection;
 using InterfaceTypes = NodeInterface.InterfaceTypes;
 
 using Ifaces = WalkAction.Ifaces;
@@ -55,12 +55,14 @@ public class WalkNode : BaseNode {
         DrawInterfaces();
     }
 
-    protected override void CreateAction()
+    public override BaseAction GetAction()
     {
-        //Action = new WalkAction();
-        //((WalkAction)Action).WalkDuration = walkDuration;
-        //((WalkAction)Action).WalkSpeed = walkSpeed;
-        //((WalkAction)Action).WalkOption = walkOption;
+        return new WalkAction()
+        {
+            WalkDuration = walkDuration,
+            WalkSpeed = walkSpeed,
+            WalkOption = walkOption
+        };
     }
 
     private void AddSpaces(int numSpaces)

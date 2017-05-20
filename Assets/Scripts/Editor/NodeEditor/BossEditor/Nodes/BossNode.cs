@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using IODirection = NodeInterface.IODirection;
+using IODirection = ActionConnection.IODirection;
 using InterfaceTypes = NodeInterface.InterfaceTypes;
 
 public class BossNode : BaseNode {
@@ -27,8 +27,8 @@ public class BossNode : BaseNode {
         DrawInterfaces();
     }
 
-    protected override void CreateAction()
+    public override BaseAction GetAction()
     {
-        //Action = typeof(BossAction);
+        return new BossAction();
     }
 }

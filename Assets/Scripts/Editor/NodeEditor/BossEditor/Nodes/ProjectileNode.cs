@@ -2,7 +2,7 @@
 using UnityEditor;
 using System;
 
-using IODirection = NodeInterface.IODirection;
+using IODirection = ActionConnection.IODirection;
 using InterfaceTypes = NodeInterface.InterfaceTypes;
 
 using Ifaces = ProjectileAction.Ifaces;
@@ -60,12 +60,14 @@ public class ProjectileNode : BaseNode {
         DrawInterfaces();
     }
 
-    protected override void CreateAction()
+    public override BaseAction GetAction()
     {
-        //Action = new ProjectileAction();
-        //((ProjectileAction)Action).TargetGround = targetGround;
-        //((ProjectileAction)Action).TargetPos = targetPos;
-        //((ProjectileAction)Action).ProjectileSpeed = projectileSpeed;
+        return new ProjectileAction()
+        {
+            TargetGround = targetGround,
+            TargetPos = targetPos,
+            ProjectileSpeed = projectileSpeed
+        };
     }
 
     private void AddSpaces(int numSpaces)

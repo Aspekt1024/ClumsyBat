@@ -27,8 +27,8 @@ public class StateNode : BaseNode {
     
     protected override void AddInterfaces()
     {
-        AddInterface(NodeInterface.IODirection.Input, 0);
-        AddInterface(NodeInterface.IODirection.Output, 1);
+        AddInterface(ActionConnection.IODirection.Input, 0);
+        AddInterface(ActionConnection.IODirection.Output, 1);
     }
 
     private void SetInterfacePositions()
@@ -150,9 +150,10 @@ public class StateNode : BaseNode {
         //// TODO load
         ////NodeData = AssetDatabase.LoadAssetAtPath<NodeData>(dataPath);
     }
-    
-    protected override void CreateAction()
+
+    public override BaseAction GetAction()
     {
+        return new MachineState();
         MachineState machineState = new MachineState();
         //if (NodeData == null) return;
 

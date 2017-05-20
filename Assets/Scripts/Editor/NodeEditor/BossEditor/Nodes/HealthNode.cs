@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-using IODirection = NodeInterface.IODirection;
+using IODirection = ActionConnection.IODirection;
 using InterfaceTypes = NodeInterface.InterfaceTypes;
 
 public class HealthNode : BaseNode {
@@ -39,10 +39,12 @@ public class HealthNode : BaseNode {
         DrawInterfaces();
     }
 
-    protected override void CreateAction()
+    public override BaseAction GetAction()
     {
-        //Action = typeof(HealthAction);
-        //((HealthAction)Action).Health = health;
+        return new HealthAction()
+        {
+            Health = health
+        };
     }
 
 }

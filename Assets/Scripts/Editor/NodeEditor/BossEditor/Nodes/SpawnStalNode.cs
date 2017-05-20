@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-using IODirection = NodeInterface.IODirection;
+using IODirection = ActionConnection.IODirection;
 using InterfaceTypes = NodeInterface.InterfaceTypes;
 
 using StalActions = SpawnStalAction.StalActions;
@@ -64,12 +64,14 @@ public class SpawnStalNode : BaseNode {
         DrawInterfaces();
     }
 
-    protected override void CreateAction()
+    public override BaseAction GetAction()
     {
-        //Action = new SpawnStalAction();
-        //((SpawnStalAction)Action).StalAction = selectedStalAction;
-        //((SpawnStalAction)Action).SpawnDirection = SpawnDirection;
-        //((SpawnStalAction)Action).stalSpawns = stalSpawns;
+        return new SpawnStalAction()
+        {
+            StalAction = selectedStalAction,
+            SpawnDirection = SpawnDirection,
+            stalSpawns = stalSpawns
+        };
     }
 
     public override void SetupNode(BossDataContainer dataContainer)

@@ -18,10 +18,13 @@ public class StartNode : BaseNode {
         Transform.Width = 80;
         Transform.Height = 40;
         WindowTitle = "Start";
-        Action = typeof(StartAction);
 
         SetInterfacePositions();
         DrawInterfaces();
+    }
 
+    public override BaseAction GetAction()
+    {
+        return new StartAction();
     }
 }

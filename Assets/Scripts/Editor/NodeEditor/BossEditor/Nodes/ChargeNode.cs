@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using IODirection = NodeInterface.IODirection;
+using IODirection = ActionConnection.IODirection;
 using InterfaceTypes = NodeInterface.InterfaceTypes;
 
 using Ifaces = ChargeAction.Ifaces;
@@ -35,9 +35,9 @@ public class ChargeNode : BaseNode {
         DrawInterfaces();
     }
 
-    protected override void CreateAction()
+    public override BaseAction GetAction()
     {
-        //Action = new ChargeAction();
+        return new ChargeAction();
     }
 
 }

@@ -1,23 +1,15 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseAction : ScriptableObject
+public abstract class BaseAction
 {
-    public List<InterfaceType> inputs = new List<InterfaceType>();
-    public List<InterfaceType> outputs = new List<InterfaceType>();
+    public int ID;
+    public List<ActionConnection> connections = new List<ActionConnection>();
 
     protected BossDataContainer owner;
     protected BossBehaviour bossBehaviour;
     protected GameObject boss;
-
-    [System.Serializable]
-    public struct InterfaceType
-    {
-        public int identifier;
-        public BaseAction connectedAction;
-        public int connectedInterfaceIndex;
-    }
-
+    
     public void Activate()
     {
         owner.CurrentAction = this;
@@ -30,41 +22,39 @@ public abstract class BaseAction : ScriptableObject
 
     public void CallNext(int id = 0)
     {
-        foreach (var output in outputs)
+        foreach (var conn in connections)
         {
-            if (output.identifier == id && output.connectedAction != null)
-            {
-                output.connectedAction.Activate();
-            }
+            if (conn.ID == id)
+                conn.CallNext();
         }
     }
 
-    public BaseAction GetNextAction(int id = 0)
+    public BaseAction GetNextAction(int id)
     {
         BaseAction nextAction = null;
-        foreach (var output in outputs)
+        foreach (var conn in connections)
         {
-            if (output.identifier == id && output.connectedAction != null)
+            if (conn.ID == id && conn.IsConnected())
             {
-                nextAction = output.connectedAction;
+                nextAction = conn.ConnectedInterface.Action;
                 break;
             }
         }
         return nextAction;
     }
 
-    protected InterfaceType GetInput(int index)
+    protected ActionConnection GetInterface(int index)
     {
-        InterfaceType input = new InterfaceType();
-        for (int i = 0; i < inputs.Count; i++)
+        ActionConnection iface = new ActionConnection();
+        for (int i = 0; i < connections.Count; i++)
         {
-            if (inputs[i].identifier == index)
+            if (connections[i].ID == index)
             {
-                input = inputs[i];
+                iface = connections[i];
                 break;
             }
         }
-        return input;
+        return iface;
     }
 
     public virtual GameObject GetObject(int id) { return null; }

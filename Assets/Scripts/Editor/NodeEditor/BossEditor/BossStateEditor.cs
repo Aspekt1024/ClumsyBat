@@ -31,15 +31,7 @@ public class BossStateEditor : BaseEditor {
         colourTheme = ColourThemes.Blue;
     }
 
-    protected override void LoadNodeData()
-    {
-        // TODO load
-        //NodeData = AssetDatabase.LoadAssetAtPath<NodeData>(nodeDataPath);
-        
-        if (Nodes == null || Nodes.Count == 0)
-            Nodes = new List<BaseNode>();
-    }
-
+    // TODO needeD?
     private string GetNodeDataFolder()
     {
         string subFolder = GetSubfolderIfState(BaseContainer);

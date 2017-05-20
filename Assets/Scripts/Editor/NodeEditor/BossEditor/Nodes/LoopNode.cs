@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-using IODirection = NodeInterface.IODirection;
+using IODirection = ActionConnection.IODirection;
 using InterfaceTypes = NodeInterface.InterfaceTypes;
 
 public class LoopNode : BaseNode {
@@ -25,9 +25,9 @@ public class LoopNode : BaseNode {
         DrawInterfaces();
     }
 
-    protected override void CreateAction()
+    public override BaseAction GetAction()
     {
-        //Action = new LoopAction();
+        return new LoopAction();
     }
 
 }

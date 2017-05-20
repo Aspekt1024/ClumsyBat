@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BaseEditorMouseInput {
 
+    public bool CanvasWasDragged;
+
     private enum MouseButtons
     {
         LeftClick = 0, RightClick = 1, MiddleClick = 2
@@ -16,7 +18,6 @@ public class BaseEditorMouseInput {
     private BaseNode mouseUpNode;
 
     private bool isDragged;
-    private bool canvasWasDragged;
 
     public BaseEditorMouseInput(BaseEditor editorRef)
     {
@@ -41,21 +42,23 @@ public class BaseEditorMouseInput {
                 break;
 
             case EventType.MouseUp:
-                isDragged = false;
-                if (e.button == (int)MouseButtons.LeftClick)
-                    ActionLeftMouseUp();
-                else if (e.button == (int)MouseButtons.RightClick)
+                if (e.button == (int)MouseButtons.RightClick)
                     ActionRightMouseUp();
                 break;
 
             case EventType.MouseDrag:
                 if (isDragged && e.button == (int)MouseButtons.LeftClick)
                 {
-                    canvasWasDragged = true;
                     editor.Drag(e.delta);
                     e.Use();
                 }
                 break;
+        }
+        if (e.rawType == EventType.mouseUp && e.button == (int)MouseButtons.LeftClick)
+        {
+            isDragged = false;
+            if (e.button == (int)MouseButtons.LeftClick)
+                ActionLeftMouseUp();
         }
     }
 
@@ -67,10 +70,10 @@ public class BaseEditorMouseInput {
     
     private void ActionLeftMouseUp()
     {
-        if (!canvasWasDragged)
+        if (!CanvasWasDragged)
             editor.DeselectAllNodes();
 
-        canvasWasDragged = false;
+        CanvasWasDragged = false;
         editor.StopMovingEditorCanvas();
     }
 

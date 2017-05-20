@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using UnityEngine;
 
 public abstract class BaseContextMenus {
@@ -43,9 +42,6 @@ public abstract class BaseContextMenus {
         BaseNode newNode = (BaseNode)Activator.CreateInstance(type);
         if (newNode != null)
             editor.AddNode(newNode);
-
-        //MethodInfo method = typeof(BaseNode).GetMethod("CreateNode", BindingFlags.NonPublic | BindingFlags.Instance).MakeGenericMethod(type);
-        //method.Invoke(this, null);
     }
     
     private void ActionNodeMenuSelection(NodeMenuSelections selection)

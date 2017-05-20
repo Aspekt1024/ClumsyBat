@@ -117,14 +117,14 @@ public class SpawnStalAction : BaseAction {
         }
     }
 
-    private GameObject GetInputObj(int inputId)
+    private GameObject GetInputObj(int connID)
     {
         GameObject obj = null;
-        foreach(var input in inputs)
+        foreach(var conn in connections)
         {
-            if (input.identifier == inputId)
+            if (conn.ID == connID)
             {
-                obj = input.connectedAction.GetObject(input.connectedInterfaceIndex);
+                obj = conn.ConnectedInterface.Action.GetObject(conn.ConnectedInterface.ID);
                 break;
             }
         }

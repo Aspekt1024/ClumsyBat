@@ -8,8 +8,8 @@ public class WaitNode : BaseNode {
     
     protected override void AddInterfaces()
     {
-        AddInterface(NodeInterface.IODirection.Input, 0);
-        AddInterface(NodeInterface.IODirection.Output, 0);
+        AddInterface(ActionConnection.IODirection.Input, 0);
+        AddInterface(ActionConnection.IODirection.Output, 0);
     }
 
     private void SetInterfacePositions()
@@ -32,9 +32,11 @@ public class WaitNode : BaseNode {
         DrawInterfaces();
     }
 
-    protected override void CreateAction()
+    public override BaseAction GetAction()
     {
-        //Action = new WaitAction();
-        //((WaitAction)Action).WaitTime = WaitTime;
+        return new WaitAction()
+        {
+            WaitTime = WaitTime
+        };
     }
 }

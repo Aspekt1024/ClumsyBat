@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using IODirection = NodeInterface.IODirection;
+using IODirection = ActionConnection.IODirection;
 using InterfaceTypes = NodeInterface.InterfaceTypes;
 
 public class PlayerNode : BaseNode {
@@ -27,8 +27,8 @@ public class PlayerNode : BaseNode {
         DrawInterfaces();
     }
 
-    protected override void CreateAction()
+    public override BaseAction GetAction()
     {
-        //Action = new PlayerAction();
+        return new PlayerAction();
     }
 }

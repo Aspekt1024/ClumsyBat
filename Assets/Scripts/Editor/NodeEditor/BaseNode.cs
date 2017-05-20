@@ -4,32 +4,23 @@ using System.Xml.Serialization;
 using UnityEngine;
 using UnityEditor;
 
-using IODirection = NodeInterface.IODirection;
+using IODirection = ActionConnection.IODirection;
 
 public abstract class BaseNode {
 
     public string WindowTitle = "Untitled";
+    public int ID;
     public List<NodeInterface> interfaces = new List<NodeInterface>();
     public Rect WindowRect;
 
-    [XmlIgnore]
-    public Type Action;
-
-    [XmlIgnore]
-    public NodeTransform Transform;
-    [XmlIgnore]
-    public BaseEditor ParentEditor;
+    [XmlIgnore] public NodeTransform Transform;
+    [XmlIgnore] public BaseEditor ParentEditor;
     
     private Rect NodeRect;
     private Vector2 selectedOutputPos;
-    
-    protected abstract void AddInterfaces();
-    protected virtual void CreateAction() { }   // TODO delete this
 
-    public Vector2 GetOffsetPosition()
-    {
-        return ParentEditor.CanvasOffset + ParentEditor.CanvasDrag + WindowRect.position;
-    }
+    public abstract BaseAction GetAction();
+    protected abstract void AddInterfaces();
 
     public virtual void SetupNode(BossDataContainer dataContainer)
     {
@@ -123,6 +114,11 @@ public abstract class BaseNode {
         }
     }
 
+    public Vector2 GetOffsetPosition()
+    {
+        return ParentEditor.CanvasOffset + ParentEditor.CanvasDrag + WindowRect.position;
+    }
+
     protected void DrawInterfaces()
     {
         foreach (NodeInterface iface in interfaces)
@@ -171,28 +167,4 @@ public abstract class BaseNode {
     {
         return GetType().Equals(typeof(T));
     }
-    
-    #region Assign node interfaces to Action
-
-    public virtual void ConvertInterfaces()
-    {
-        foreach (var iface in interfaces)
-        {
-            if (iface.ConnectedInterface == null) continue;
-
-            var actionInput = ConvertInterface(iface);
-            //Action.Interfaces.Add(actionInput);   // TODO serialization
-        }
-    }
-
-    private static BaseAction.InterfaceType ConvertInterface(NodeInterface iface)
-    {
-        // TODO serialization
-        return new BaseAction.InterfaceType()
-        {
-            identifier = iface.ID,
-            //connectedAction = iface.ConnectedNode.Action
-        };
-    }
-    #endregion
 }

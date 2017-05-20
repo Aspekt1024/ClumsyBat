@@ -61,9 +61,9 @@ public class ProjectileAction : BaseAction {
         Vector2 outputPos = Vector2.zero;
         outputPos.x = TargetPos.x + GameObject.FindGameObjectWithTag("MainCamera").transform.position.x;
 
-        var posInput = GetInput((int)Ifaces.Position);
-        if (posInput.connectedAction != null)
-            outputPos = posInput.connectedAction.GetObject(posInput.connectedInterfaceIndex).transform.position;
+        ActionConnection posInput = GetInterface((int)Ifaces.Position);
+        if (posInput.IsConnected())
+            outputPos = posInput.ConnectedInterface.Action.GetObject(posInput.ConnectedInterface.ID).transform.position;
 
         if (TargetGround)
         {

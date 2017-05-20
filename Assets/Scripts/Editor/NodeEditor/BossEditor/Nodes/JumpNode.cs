@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-using IODirection = NodeInterface.IODirection;
+using IODirection = ActionConnection.IODirection;
 using InterfaceTypes = NodeInterface.InterfaceTypes;
 
 using Ifaces = JumpAction.Ifaces;
@@ -51,8 +51,12 @@ public class JumpNode : BaseNode {
         DrawInterfaces();
     }
 
-    protected override void CreateAction()
+    public override BaseAction GetAction()
     {
+        return new JumpAction()
+        {
+            JumpForce = jumpForce
+        };
         //Action = new JumpAction();
         //((JumpAction)Action).JumpForce = jumpForce;
     }

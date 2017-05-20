@@ -5,6 +5,12 @@ using System.Collections.Generic;
 
 public class BossEditor : BaseEditor {
     
+    public enum EditorType
+    {
+        StateMachine, State
+    }
+    public EditorType type;
+
     [MenuItem("Window/Boss Editor")]
     private static void ShowEditor()
     {
@@ -28,7 +34,7 @@ public class BossEditor : BaseEditor {
 
         titleContent.image = (Texture)Resources.Load("LevelButtons/Boss1AvailableClicked");
         titleContent.text = "Boss Editor";
-        colourTheme = ColourThemes.Green;
+        colourTheme = ColourThemes.Black;
     }
     
     public void EditState()
@@ -37,14 +43,5 @@ public class BossEditor : BaseEditor {
         BossState state = ((StateNode)_currentNode).State;
         BossStateEditor editor = GetWindow<BossStateEditor>(desiredDockNextTo: typeof(SceneView));
         editor.LoadEditor(state);
-    }
-
-    protected override void LoadNodeData()
-    {
-        // TODO load
-        //NodeData = AssetDatabase.LoadAssetAtPath<NodeData>(nodeDataPath);
-
-        if (Nodes == null || Nodes.Count == 0)
-            Nodes = new List<BaseNode>();
     }
 }
