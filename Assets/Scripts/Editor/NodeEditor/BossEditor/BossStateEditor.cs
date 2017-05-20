@@ -10,20 +10,20 @@ public class BossStateEditor : BaseEditor {
     {
         BossStateEditor editor = GetWindow<BossStateEditor>();
         editor.SetEditorTheme();
-        editor.BaseContainer = null;
+        editor.StateMachine = null;
     }
 
-    public override void LoadEditor(BossDataContainer obj)
+    public override void LoadEditor(StateMachine obj)
     {
-        BaseContainer = obj;
+        StateMachine = obj;
         base.LoadEditor(obj);
     }
 
     protected override void SetEditorTheme()
     {
-        if (BaseContainer != null)
+        if (StateMachine != null)
         {
-            EditorLabel = string.Format("{0} - {1}", BaseContainer.BossName, ((BossState)BaseContainer).StateName);
+            EditorLabel = string.Format("{0} - {1}", StateMachine.BossName, ((BossState)StateMachine).StateName);
         }
 
         titleContent.image = (Texture)Resources.Load("LevelButtons/Boss1Available");
@@ -34,16 +34,16 @@ public class BossStateEditor : BaseEditor {
     // TODO needeD?
     private string GetNodeDataFolder()
     {
-        string subFolder = GetSubfolderIfState(BaseContainer);
+        string subFolder = GetSubfolderIfState(StateMachine);
         return "";//EditorHelpers.GetDataPath(BaseContainer.RootContainer) + (subFolder.Length > 0 ? "/" + subFolder : "");
     }
 
-    private string GetSubfolderIfState(BossDataContainer container)
+    private string GetSubfolderIfState(StateMachine container)
     {
         string subFolder = "";
-        if (BaseContainer.IsType<BossState>())
+        if (StateMachine.IsType<BossState>())
         {
-            subFolder = BaseContainer.name + "Data";
+            subFolder = StateMachine.name + "Data";
         }
         return subFolder;
     }

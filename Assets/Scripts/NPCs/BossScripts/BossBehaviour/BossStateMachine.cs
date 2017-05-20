@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+/// <summary>
+/// State Machine for the Boss
+/// </summary>
 [CreateAssetMenu(fileName = "BossData", menuName = "Custom/Boss", order = 1)]
-public class BossCreator : BossDataContainer
+public class BossStateMachine : StateMachine
 {
     public GameObject BossPrefab; 
     public int Health;
@@ -14,7 +17,7 @@ public class BossCreator : BossDataContainer
     
     private GameObject bossObject;
 
-    public void NodeGameSetup(BossBehaviour bossBehaviour, GameObject boss)
+    public void NodeGameSetup(BossData bossBehaviour, GameObject boss)
     {
         Toolbox.Instance.GamePaused = false;    // TODO shouldnt be done here...
         bossObject = boss;

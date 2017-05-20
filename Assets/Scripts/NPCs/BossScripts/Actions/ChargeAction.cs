@@ -27,7 +27,7 @@ public class ChargeAction : BaseAction {
         CallNext((int)Ifaces.Recovered);
     }
 
-    public override void GameSetup(BossDataContainer owningContainer, BossBehaviour behaviour, GameObject bossReference)
+    public override void GameSetup(StateMachine owningContainer, BossData behaviour, GameObject bossReference)
     {
         base.GameSetup(owningContainer, behaviour, bossReference);
         charge = bossBehaviour.GetAbility<ChargeAbility>();

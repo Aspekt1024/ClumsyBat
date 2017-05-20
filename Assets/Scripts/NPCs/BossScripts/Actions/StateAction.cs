@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class MachineState : BaseAction {
+public class StateAction : BaseAction {
     
     public enum BossDamageObjects
     {
@@ -18,7 +18,7 @@ public class MachineState : BaseAction {
         State.BeginState();
     }
 
-    public override void GameSetup(BossDataContainer owningContainer, BossBehaviour behaviour, GameObject bossReference)
+    public override void GameSetup(StateMachine owningContainer, BossData behaviour, GameObject bossReference)
     {
         base.GameSetup(owningContainer, behaviour, bossReference);
         State.SetupActions(behaviour, bossReference);

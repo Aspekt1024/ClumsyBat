@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class BossState : BossDataContainer {
+/// <summary>
+/// A state within the machine for the Boss
+/// </summary>
+public class BossState : StateMachine {
     
     public string StateName = "State";
 
@@ -21,7 +24,7 @@ public class BossState : BossDataContainer {
     [SerializeField]
     private int numLoops;
 
-    public void SetupActions(BossBehaviour behaviour, GameObject bossReference)
+    public void SetupActions(BossData behaviour, GameObject bossReference)
     {
         foreach (var action in Actions)
         {

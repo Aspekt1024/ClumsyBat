@@ -22,7 +22,7 @@ public abstract class BaseNode {
     public abstract BaseAction GetAction();
     protected abstract void AddInterfaces();
 
-    public virtual void SetupNode(BossDataContainer dataContainer)
+    public virtual void SetupNode(StateMachine dataContainer)
     {
         AddInterfaces();
     }

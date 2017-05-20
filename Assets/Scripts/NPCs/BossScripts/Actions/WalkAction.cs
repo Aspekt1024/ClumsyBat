@@ -20,7 +20,7 @@ public class WalkAction : BaseAction {
         StartWalk, EndWalk, HitWall
     }
 
-    public override void GameSetup(BossDataContainer owningContainer, BossBehaviour behaviour, GameObject bossReference)
+    public override void GameSetup(StateMachine owningContainer, BossData behaviour, GameObject bossReference)
     {
         base.GameSetup(owningContainer, behaviour, bossReference);
         walkAbility = bossBehaviour.GetAbility<Walk>();

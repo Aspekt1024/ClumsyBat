@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(BossCreator))]
+[CustomEditor(typeof(BossStateMachine))]
 public class BossSelectorEditor : Editor {
 
-    private BossCreator creatorObj;
+    private BossStateMachine creatorObj;
     
     private bool bAttributesClicked;
 
     public override void OnInspectorGUI()
     {
-        creatorObj = (BossCreator)target;
+        creatorObj = (BossStateMachine)target;
 
         DisplayBossName();
         DisplayBossObjectDropdown();

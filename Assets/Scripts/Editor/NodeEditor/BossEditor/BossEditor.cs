@@ -16,20 +16,29 @@ public class BossEditor : BaseEditor {
     {
         BossEditor editor = GetWindow<BossEditor>();
         editor.SetEditorTheme();
-        editor.BaseContainer = null;
+        editor.StateMachine = null;
     }
 
-    public override void LoadEditor(BossDataContainer creatorObj)
+    public override void LoadEditor(StateMachine creatorObj)
     {
-        BaseContainer = creatorObj;
+        StateMachine = creatorObj;
+        if (StateMachine.IsType<BossStateMachine>())
+        {
+            type = EditorType.StateMachine;
+        }
+        else if (StateMachine.IsType<BossState>())
+        {
+            type = EditorType.State;
+        }
+
         base.LoadEditor(creatorObj);
     }
 
     protected override void SetEditorTheme()
     {
-        if (BaseContainer != null)
+        if (StateMachine != null)
         {
-            EditorLabel = "State machine : " + BaseContainer.BossName;
+            EditorLabel = "State machine : " + StateMachine.BossName;
         }
 
         titleContent.image = (Texture)Resources.Load("LevelButtons/Boss1AvailableClicked");

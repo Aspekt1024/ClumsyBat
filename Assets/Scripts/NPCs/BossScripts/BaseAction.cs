@@ -6,8 +6,8 @@ public abstract class BaseAction
     public int ID;
     public List<ActionConnection> connections = new List<ActionConnection>();
 
-    protected BossDataContainer owner;
-    protected BossBehaviour bossBehaviour;
+    protected StateMachine owner;
+    protected BossData bossBehaviour;
     protected GameObject boss;
     
     public void Activate()
@@ -59,7 +59,7 @@ public abstract class BaseAction
 
     public virtual GameObject GetObject(int id) { return null; }
 
-    public virtual void GameSetup(BossDataContainer owningContainer, BossBehaviour behaviour, GameObject bossReference)
+    public virtual void GameSetup(StateMachine owningContainer, BossData behaviour, GameObject bossReference)
     {
         owner = owningContainer;
         bossBehaviour = behaviour;

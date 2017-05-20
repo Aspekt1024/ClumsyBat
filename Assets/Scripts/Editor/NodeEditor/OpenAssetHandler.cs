@@ -8,10 +8,10 @@ public static class OpenAssetHandler {
     private static bool LoadBossEditor(int instanceID, int line)
     {
         Object obj = EditorUtility.InstanceIDToObject(instanceID);
-        if (EditorUtility.InstanceIDToObject(instanceID).GetType() == typeof(BossCreator))
+        if (EditorUtility.InstanceIDToObject(instanceID).GetType() == typeof(BossStateMachine))
         {
             BossEditor editor = EditorWindow.GetWindow<BossEditor>(desiredDockNextTo: typeof(SceneView));
-            editor.LoadEditor((BossCreator)obj);
+            editor.LoadEditor((BossStateMachine)obj);
         }
         return false;
     }

@@ -9,18 +9,17 @@ using StateChangeTypes = BossState.StateChangeTypes;
 /// <summary>
 /// A node representing a state in the state machine.
 /// It provides a window into the State by pairing the
-/// State (runtime) and its NodeData (editor)
+/// MachineState Actions (runtime) and the NodeData (editor)
 /// </summary>
 public class StateNode : BaseNode {
 
     public BossState State;
-
     private string newStateName = "New State";
 
     [SerializeField]
     private int selectedStateChangeIndex;
     
-    public override void SetupNode(BossDataContainer dataContainer)
+    public override void SetupNode(StateMachine dataContainer)
     {
         base.SetupNode(dataContainer);
     }
@@ -117,6 +116,7 @@ public class StateNode : BaseNode {
 
     private void CreateNewState()
     {
+
         //BossState newState = new BossState();
         //newState.StateName = newStateName;
         //newState.BossName = DataContainer.BossName;
@@ -153,8 +153,11 @@ public class StateNode : BaseNode {
 
     public override BaseAction GetAction()
     {
-        return new MachineState();
-        MachineState machineState = new MachineState();
+        return new StateAction()
+        {
+            State = State
+        };
+        StateAction machineState = new StateAction();
         //if (NodeData == null) return;
 
         //StartNode start = ParentEditor.GetStartNode();

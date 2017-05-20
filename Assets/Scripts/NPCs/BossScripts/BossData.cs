@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossBehaviour : MonoBehaviour {
+public class BossData : MonoBehaviour {
 
-    public BossCreator BossProps;
+    public BossStateMachine BossProps;
 
     private GameObject bossObject;
     private Boss bossScripts;

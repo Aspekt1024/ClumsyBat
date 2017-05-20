@@ -18,7 +18,7 @@ public class ProjectileAction : BaseAction {
     private ProjectileAbility projAbility;
     private Projectile projectileObj;
 
-    public override void GameSetup(BossDataContainer owningContainer, BossBehaviour behaviour, GameObject bossReference)
+    public override void GameSetup(StateMachine owningContainer, BossData behaviour, GameObject bossReference)
     {
         base.GameSetup(owningContainer, behaviour, bossReference);
         projAbility = bossBehaviour.GetAbility<ProjectileAbility>();

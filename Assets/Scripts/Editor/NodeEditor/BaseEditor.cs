@@ -10,7 +10,7 @@ public abstract class BaseEditor : EditorWindow {
     public Vector2 CanvasDrag;
     public NodeInterface DraggedInterface;
 
-    protected BossDataContainer BaseContainer;
+    protected StateMachine StateMachine;
     protected string EditorLabel;
 
     protected ColourThemes colourTheme;
@@ -29,10 +29,10 @@ public abstract class BaseEditor : EditorWindow {
     
     protected abstract void SetEditorTheme();
     
-    public virtual void LoadEditor(BossDataContainer obj)
+    public virtual void LoadEditor(StateMachine obj)
     {
         SetEditorTheme();
-        BaseContainer = obj;
+        StateMachine = obj;
 
         SetRootContainerToSelf();
         
@@ -57,17 +57,17 @@ public abstract class BaseEditor : EditorWindow {
     
     private void SetRootContainerToSelf()
     {
-        if (BaseContainer.RootContainer == null)
-            BaseContainer.RootContainer = BaseContainer;
+        if (StateMachine.RootContainer == null)
+            StateMachine.RootContainer = StateMachine;
     }
     
     protected virtual void OnEnable()
     {
         if (_mouseInput == null) _mouseInput = new BaseEditorMouseInput(this);
         
-        if (BaseContainer != null)
+        if (StateMachine != null)
         {
-            LoadEditor(BaseContainer);
+            LoadEditor(StateMachine);
         }
     }
 
@@ -102,7 +102,7 @@ public abstract class BaseEditor : EditorWindow {
     
     private void OnGUI()
     {
-        if (BaseContainer == null) return;
+        if (StateMachine == null) return;
         
         DrawBackground();
         DrawHeading();
@@ -236,7 +236,7 @@ public abstract class BaseEditor : EditorWindow {
     public virtual void AddNode(BaseNode newNode)
     {
         newNode.InitialiseNode(_mousePos - CanvasOffset, this);
-        newNode.SetupNode(BaseContainer);
+        newNode.SetupNode(StateMachine);
         newNode.ID = Nodes.Count;
         Nodes.Add(newNode);
     }

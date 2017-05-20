@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BossDataContainer : ScriptableObject {
+/// <summary>
+/// Base class for holding editor/runtime State Machine data
+/// </summary>
+public abstract class StateMachine : ScriptableObject {
 
     public string BossName;
-    public BossDataContainer RootContainer;
+    public StateMachine RootContainer;
 
     public StartAction StartingAction;
     public List<BaseAction> Actions = new List<BaseAction>();
@@ -12,7 +15,7 @@ public abstract class BossDataContainer : ScriptableObject {
 
     public BaseAction CurrentAction;
 
-    public bool IsType<T>() where T : BossDataContainer
+    public bool IsType<T>() where T : StateMachine
     {
         return GetType().Equals(typeof(T));
     }
@@ -27,8 +30,4 @@ public abstract class BossDataContainer : ScriptableObject {
     public virtual void AddToTickList(BaseAction action) { }
     public virtual void RemoveFromTickList(BaseAction action) { }
 
-    public void Save()
-    {
-        // TODO save this?
-    }
 }

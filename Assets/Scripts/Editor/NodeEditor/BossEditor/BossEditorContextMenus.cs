@@ -12,11 +12,11 @@ public class BossEditorContextMenus : BaseContextMenus {
     {
         switch (((BossEditor)editor).type)
         {
-            case BossEditor.EditorType.State:
+            case BossEditor.EditorType.StateMachine:
                 ShowStateMachineMenu();
                 break;
 
-            case BossEditor.EditorType.StateMachine:
+            case BossEditor.EditorType.State:
                 ShowStateMenu();
                 break;
         }

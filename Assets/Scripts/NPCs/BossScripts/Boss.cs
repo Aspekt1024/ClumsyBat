@@ -2,8 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 
-using BossDamageObjects = MachineState.BossDamageObjects;
+using BossDamageObjects = StateAction.BossDamageObjects;
 
+/// <summary>
+/// Base class for describing specific boss behaviour
+/// </summary>
 public class Boss : MonoBehaviour {
     
     protected bool _bPaused;
@@ -12,7 +15,7 @@ public class Boss : MonoBehaviour {
     protected Rigidbody2D body;
     protected Collider2D bossCollider;
 
-    private BossCreator bossProps;
+    private BossStateMachine bossProps;
 
     private Vector2 originalScale;  // Used for facing the boss left/right
     private Vector2 storedVelocity;
@@ -31,6 +34,7 @@ public class Boss : MonoBehaviour {
 
     private void Awake()
     {
+        Debug.Log("boss started");
         GetBossComponents();
         originalScale = transform.localScale;   // Boss should be facing left first
     }
@@ -48,7 +52,7 @@ public class Boss : MonoBehaviour {
         bossRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public void SetBaseProperties(BossCreator props)
+    public void SetBaseProperties(BossStateMachine props)
     {
         bossProps = props;
         health = props.Health;

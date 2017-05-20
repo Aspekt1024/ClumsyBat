@@ -34,7 +34,7 @@ public class SpawnStalAction : BaseAction {
 
     private SpawnStalactites spawnAbility;
     
-    public override void GameSetup(BossDataContainer owningContainer, BossBehaviour behaviour, GameObject bossReference)
+    public override void GameSetup(StateMachine owningContainer, BossData behaviour, GameObject bossReference)
     {
         base.GameSetup(owningContainer, behaviour, bossReference);
         spawnAbility = bossBehaviour.GetAbility<SpawnStalactites>();
