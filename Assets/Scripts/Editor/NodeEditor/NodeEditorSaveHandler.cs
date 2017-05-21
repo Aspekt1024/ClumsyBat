@@ -156,24 +156,29 @@ public static class NodeEditorSaveHandler {
     private static string GetStateMachineEditorDataPath(BaseEditor editor)
     {
         string stateMachineName = editor.StateMachine.name;
-        CreateFolderIfNotExists(stateMachineName);
+        CreateFolderIfNotExists(DataFolder, stateMachineName);
         return string.Format("{0}/{1}/StateMachineEditorData.xml", DataFolder, stateMachineName);
     }
 
     private static string GetStateEditorDataPath(BaseEditor editor)
     {
-        string stateName = editor.StateMachine.name;
+        string bossFolder = editor.StateMachine.BossName.Replace(" ", "");
+        CreateFolderIfNotExists(DataFolder, bossFolder);
+
+        string bossDataPath = string.Format("{0}/{1}", DataFolder, bossFolder);
         string stateMachineFolder = editor.StateMachine.RootStateMachine.name;
-        CreateFolderIfNotExists(stateMachineFolder);
-        return string.Format("{0}/{1}/{2}EditorData.xml", DataFolder, stateMachineFolder, stateName);
+        CreateFolderIfNotExists(bossDataPath, stateMachineFolder);
+
+        string stateName = editor.StateMachine.name;
+        return string.Format("{0}/{1}/{2}/EditorData.xml", bossDataPath, stateMachineFolder, stateName);
     }
     
-    public static void CreateFolderIfNotExists(string folderName)
+    public static void CreateFolderIfNotExists(string path, string folderName)
     {
-        if (AssetDatabase.IsValidFolder(DataFolder + "/" + folderName))
+        if (AssetDatabase.IsValidFolder(path + "/" + folderName))
             return;
 
-        AssetDatabase.CreateFolder(DataFolder, folderName);
+        AssetDatabase.CreateFolder(path, folderName);
     }
 
     private static BossState GetStateFromName(string stateName)
@@ -202,16 +207,22 @@ public static class NodeEditorSaveHandler {
     private static string GetStateMachineRuntimeDataPath(BaseEditor editor)
     {
         string stateMachineName = editor.StateMachine.name;
-        CreateFolderIfNotExists(stateMachineName);
+        CreateFolderIfNotExists(DataFolder, stateMachineName);
+        
         return string.Format("{0}/{1}/StateMachineRuntimeData.xml", DataFolder, stateMachineName);
     }
 
     private static string GetStateRuntimeDataPath(BaseEditor editor)
     {
-        string stateName = editor.StateMachine.name;
+        string bossFolder = editor.StateMachine.BossName.Replace(" ", "");
+        CreateFolderIfNotExists(DataFolder, bossFolder);
+
+        string bossDataPath = string.Format("{0}/{1}", DataFolder, bossFolder);
         string stateMachineFolder = editor.StateMachine.RootStateMachine.name;
-        CreateFolderIfNotExists(stateMachineFolder);
-        return string.Format("{0}/{1}/{2}RuntimeData.xml", DataFolder, stateMachineFolder, stateName);
+        CreateFolderIfNotExists(bossDataPath, stateMachineFolder);
+
+        string stateName = editor.StateMachine.name;
+        return string.Format("{0}/{1}/{2}/RuntimeData.xml", bossDataPath, stateMachineFolder, stateName);
     }
 }
 

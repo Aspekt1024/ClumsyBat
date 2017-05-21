@@ -21,19 +21,20 @@ public class StateAction : BaseAction {
         State.BeginState();
     }
 
-    public override void GameSetup(StateMachine parentMachine, BossData bossdata, GameObject bossReference)
+    public override void GameSetup(StateMachine parentMachine, BossData bossData, GameObject bossReference)
     {
-        base.GameSetup(parentMachine, bossdata, bossReference);
+        base.GameSetup(parentMachine, bossData, bossReference);
 
         string dataFolder = "NPCs/Bosses/BossBehaviours/Data";
-        string subFolder = parentMachine.BossName.Replace(" ", "");
-        string assetName = StateName.Replace(" ", "") + ".asset";
-        string resourcePath = string.Format("{0}/{1}/{2}", dataFolder, subFolder, assetName);
+        string bossFolder = parentMachine.BossName.Replace(" ", "");
+        string stateFolder = StateName.Replace(" ", "");
+        string assetName = stateFolder + ".asset";
+        string resourcePath = string.Format("{0}/{1}/{2}/{3}", dataFolder, bossFolder, stateFolder, assetName);
 
         State = Resources.Load<BossState>(resourcePath);
         if (State == null) return;
 
-        State.SetupActions(bossdata, bossReference);
+        State.SetupActions(bossData, bossReference);
         State.bEnabled = false;
     }
 

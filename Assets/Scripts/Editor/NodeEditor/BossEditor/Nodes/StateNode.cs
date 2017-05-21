@@ -123,10 +123,15 @@ public class StateNode : BaseNode {
         newState.BossName = newState.RootStateMachine.BossName;
 
         string dataFolder = NodeEditorSaveHandler.DataFolder;
-        string subFolder = newState.BossName.Replace(" ", "");
-        NodeEditorSaveHandler.CreateFolderIfNotExists(subFolder);
-        string assetName = StateName.Replace(" ", "") + ".asset";
-        string dataPath = string.Format("{0}/{1}/{2}", dataFolder, subFolder, assetName);
+        string bossFolder = newState.BossName.Replace(" ", "");
+        NodeEditorSaveHandler.CreateFolderIfNotExists(dataFolder, bossFolder);
+        string bossDataPath = string.Format("{0}/{1}", dataFolder, bossFolder);
+        
+        string stateFolder = StateName.Replace(" ", "");
+        NodeEditorSaveHandler.CreateFolderIfNotExists(bossDataPath, stateFolder);
+
+        string assetName = stateFolder + ".asset";
+        string dataPath = string.Format("{0}/{1}/{2}", bossDataPath, stateFolder, assetName);
         
         AssetDatabase.CreateAsset(newState, dataPath);
         State = newState;

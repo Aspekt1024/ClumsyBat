@@ -29,7 +29,6 @@ public class ActionConnection {
     {
         if (IsConnected())
         {
-            Debug.Log(Action + " calls " + ConnectedInterface.Action);
             ConnectedInterface.Action.Activate();
         }
     }

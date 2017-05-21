@@ -41,7 +41,6 @@ public class BossStateMachine : StateMachine
 
     public override void RequestLoopToStart()
     {
-        Debug.Log("looping to start");
         StartingAction.Activate();
     }
 

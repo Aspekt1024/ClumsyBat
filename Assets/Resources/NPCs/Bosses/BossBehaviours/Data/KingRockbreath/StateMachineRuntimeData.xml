@@ -39,7 +39,7 @@
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
-      <StateName>New State</StateName>
+      <StateName>State1</StateName>
     </BaseAction>
     <BaseAction xsi:type="StateAction">
       <ID>3</ID>
