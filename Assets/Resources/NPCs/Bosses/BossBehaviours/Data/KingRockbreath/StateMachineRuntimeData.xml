@@ -18,7 +18,7 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>4</OtherActionID>
+          <OtherActionID>2</OtherActionID>
           <OtherConnID>1</OtherConnID>
         </ActionConnection>
       </connections>
@@ -29,13 +29,13 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>-1</OtherActionID>
-          <OtherConnID>-1</OtherConnID>
+          <OtherActionID>4</OtherActionID>
+          <OtherConnID>1</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>1</ID>
           <Direction>Output</Direction>
-          <OtherActionID>3</OtherActionID>
+          <OtherActionID>1</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
@@ -47,8 +47,8 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>2</OtherActionID>
-          <OtherConnID>1</OtherConnID>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>1</ID>
@@ -71,7 +71,7 @@
         <ActionConnection>
           <ID>1</ID>
           <Direction>Output</Direction>
-          <OtherActionID>1</OtherActionID>
+          <OtherActionID>2</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>

@@ -24,11 +24,12 @@ public class BossState : StateMachine {
     [SerializeField]
     private int numLoops;
 
-    public void SetupActions(BossData behaviour, GameObject bossReference)
+    public void SetupActions(BossData bossData, GameObject bossReference)
     {
+        BossActionLoadHandler.Load(this);
         foreach (var action in Actions)
         {
-            action.GameSetup(this, behaviour, bossReference);
+            action.GameSetup(this, bossData, bossReference);
         }
     }
 

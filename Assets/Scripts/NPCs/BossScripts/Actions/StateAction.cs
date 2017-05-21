@@ -28,12 +28,12 @@ public class StateAction : BaseAction {
         string dataFolder = "NPCs/Bosses/BossBehaviours/Data";
         string bossFolder = parentMachine.BossName.Replace(" ", "");
         string stateFolder = StateName.Replace(" ", "");
-        string assetName = stateFolder + ".asset";
+        string assetName = stateFolder;
         string resourcePath = string.Format("{0}/{1}/{2}/{3}", dataFolder, bossFolder, stateFolder, assetName);
-
+        
         State = Resources.Load<BossState>(resourcePath);
         if (State == null) return;
-
+        
         State.SetupActions(bossData, bossReference);
         State.bEnabled = false;
     }

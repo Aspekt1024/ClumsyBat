@@ -11,7 +11,7 @@ public static class BossActionLoadHandler {
 
     public const string DataFolder = "Assets/Resources/NPCs/Bosses/BossBehaviours/Data";
 
-    public static void Load (BossStateMachine bossStateMachine) {
+    public static void Load (StateMachine bossStateMachine) {
 
         string filePath = GetDataPath(bossStateMachine);
         XmlSerializer serializer = new XmlSerializer(typeof(ActionDataContainer), GetActionTypes());
@@ -80,10 +80,9 @@ public static class BossActionLoadHandler {
         string bossFolder = stateMachine.BossName.Replace(" ", "");
 
         string bossDataPath = string.Format("{0}/{1}", DataFolder, bossFolder);
-        string stateMachineFolder = stateMachine.RootStateMachine.name;
-
-        string stateName = stateMachine.name;
-        return string.Format("{0}/{1}/{2}/RuntimeData.xml", bossDataPath, stateMachineFolder, stateName);
+        string stateFolder = ((BossState)stateMachine).StateName.Replace(" ", "");
+        
+        return string.Format("{0}/{1}/RuntimeData.xml", bossDataPath, stateFolder);
     }
 }
 
