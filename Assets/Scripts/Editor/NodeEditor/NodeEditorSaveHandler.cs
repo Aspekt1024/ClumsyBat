@@ -17,35 +17,6 @@ public static class NodeEditorSaveHandler {
         return;
         
 
-
-
-        // TODO move this to separate action loader
-        string filePath = string.Format("{0}/{1}.xml", DataFolder, "testNodeData");
-        XmlSerializer serializer = new XmlSerializer(typeof(NodeDataContainer), GetActionTypes());
-
-
-        NodeDataContainer data;
-        using (var stream = new FileStream(filePath, FileMode.Open))
-        {
-            data = (NodeDataContainer)serializer.Deserialize(stream);
-        }
-
-        editor.Nodes = data.Nodes;
-        editor.CanvasOffset = data.EditorOffset;
-
-        foreach (var node in editor.Nodes)
-        {
-            node.ParentEditor = editor;
-            node.Transform = new NodeTransform(node);
-            foreach (var iface in node.interfaces)
-            {
-                iface.Node = node;   // TODO Store this by creating INodeInterface : http://www.thomaslevesque.com/2009/06/12/c-parentchild-relationship-and-xml-serialization/
-                if (iface.ConnectedNodeID >= 0)
-                {
-                    iface.ConnectedInterface = GetInterface(editor.Nodes, iface.ConnectedNodeID, iface.ConnectedIfaceID);
-                }
-            }
-        }
     }
     
     private static void LoadNodeData(BaseEditor editor)
@@ -140,7 +111,7 @@ public static class NodeEditorSaveHandler {
             serializer.Serialize(stream, editorData);
         }
 
-        serializer = new XmlSerializer(typeof(ActionDataContainer), GetActionTypes());
+        serializer = new XmlSerializer(typeof(ActionDataContainer), BossActionLoadHandler.GetActionTypes());
         using (var stream = new FileStream(runtimeDataFilePath, FileMode.Create))
         {
             serializer.Serialize(stream, runtimeData);
@@ -155,8 +126,8 @@ public static class NodeEditorSaveHandler {
         ActionConnection conn = new ActionConnection()
         {
             ID = iface.ID,
-            OtherActionID = iface.ConnectedIfaceID,
-            OtherConnID = iface.ConnectedNodeID,
+            OtherActionID = iface.ConnectedNodeID,
+            OtherConnID = iface.ConnectedIfaceID,
             Direction = iface.Direction
         };
         return conn;
@@ -171,17 +142,7 @@ public static class NodeEditorSaveHandler {
         }
         return baseNodeTypes.ToArray();
     }
-
-    private static Type[] GetActionTypes()
-    {
-        List<Type> baseActionTypes = new List<Type>();
-        foreach (Type t in Assembly.GetAssembly(typeof(BaseAction)).GetTypes().Where(type => type.IsSubclassOf(typeof(BaseAction))))
-        {
-            baseActionTypes.Add(t);
-        }
-        return baseActionTypes.ToArray();
-    }
-
+    
     private static string GetEditorDataPath(BaseEditor editor)
     {
         string dataPath = GetStateMachineEditorDataPath(editor);
@@ -191,27 +152,12 @@ public static class NodeEditorSaveHandler {
         return dataPath;
     }
 
-    private static string GetRuntimeDataPath(BaseEditor editor)
-    {
-        string dataPath = GetStateMachineRuntimeDataPath(editor);
-        if (editor.StateMachine.IsType<BossState>())
-            dataPath = GetStateRuntimeDataPath(editor);
-
-        return dataPath;
-    }
 
     private static string GetStateMachineEditorDataPath(BaseEditor editor)
     {
         string stateMachineName = editor.StateMachine.name;
         CreateFolderIfNotExists(stateMachineName);
         return string.Format("{0}/{1}/StateMachineEditorData.xml", DataFolder, stateMachineName);
-    }
-
-    private static string GetStateMachineRuntimeDataPath(BaseEditor editor)
-    {
-        string stateMachineName = editor.StateMachine.name;
-        CreateFolderIfNotExists(stateMachineName);
-        return string.Format("{0}/{1}/StateMachineRuntimeData.xml", DataFolder, stateMachineName);
     }
 
     private static string GetStateEditorDataPath(BaseEditor editor)
@@ -221,15 +167,7 @@ public static class NodeEditorSaveHandler {
         CreateFolderIfNotExists(stateMachineFolder);
         return string.Format("{0}/{1}/{2}EditorData.xml", DataFolder, stateMachineFolder, stateName);
     }
-
-    private static string GetStateRuntimeDataPath(BaseEditor editor)
-    {
-        string stateName = editor.StateMachine.name;
-        string stateMachineFolder = editor.StateMachine.RootStateMachine.name;
-        CreateFolderIfNotExists(stateMachineFolder);
-        return string.Format("{0}/{1}/{2}RuntimeData.xml", DataFolder, stateMachineFolder, stateName);
-    }
-
+    
     public static void CreateFolderIfNotExists(string folderName)
     {
         if (AssetDatabase.IsValidFolder(DataFolder + "/" + folderName))
@@ -251,6 +189,30 @@ public static class NodeEditorSaveHandler {
         }
         return null;
     }
+
+    private static string GetRuntimeDataPath(BaseEditor editor)
+    {
+        string dataPath = GetStateMachineRuntimeDataPath(editor);
+        if (editor.StateMachine.IsType<BossState>())
+            dataPath = GetStateRuntimeDataPath(editor);
+
+        return dataPath;
+    }
+
+    private static string GetStateMachineRuntimeDataPath(BaseEditor editor)
+    {
+        string stateMachineName = editor.StateMachine.name;
+        CreateFolderIfNotExists(stateMachineName);
+        return string.Format("{0}/{1}/StateMachineRuntimeData.xml", DataFolder, stateMachineName);
+    }
+
+    private static string GetStateRuntimeDataPath(BaseEditor editor)
+    {
+        string stateName = editor.StateMachine.name;
+        string stateMachineFolder = editor.StateMachine.RootStateMachine.name;
+        CreateFolderIfNotExists(stateMachineFolder);
+        return string.Format("{0}/{1}/{2}RuntimeData.xml", DataFolder, stateMachineFolder, stateName);
+    }
 }
 
 [XmlRoot("NodeDataCollection")]
@@ -258,10 +220,4 @@ public class NodeDataContainer
 {
     public Vector2 EditorOffset = Vector2.zero;
     public List<BaseNode> Nodes = new List<BaseNode>();
-}
-
-[XmlRoot("ActionDataCollection")]
-public class ActionDataContainer
-{
-    public List<BaseAction> Actions = new List<BaseAction>();
 }

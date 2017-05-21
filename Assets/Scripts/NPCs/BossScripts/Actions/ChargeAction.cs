@@ -30,6 +30,6 @@ public class ChargeAction : BaseAction {
     public override void GameSetup(StateMachine owningContainer, BossData behaviour, GameObject bossReference)
     {
         base.GameSetup(owningContainer, behaviour, bossReference);
-        charge = bossBehaviour.GetAbility<ChargeAbility>();
+        charge = bossData.GetAbility<ChargeAbility>();
     }
 }

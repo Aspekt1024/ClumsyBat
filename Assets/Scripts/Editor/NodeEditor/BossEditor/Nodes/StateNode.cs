@@ -141,7 +141,7 @@ public class StateNode : BaseNode {
     {
         return new StateAction()
         {
-            State = State
+            StateName = StateName
         };
     }
 

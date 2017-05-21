@@ -45,7 +45,9 @@ public class BossState : StateMachine {
         if (StateChange == StateChangeTypes.NumLoops && numLoops > MoveOnLoops)
         {
             bEnabled = false;
-            RootStateMachine.CurrentAction.CallNext();
+            StartingAction.Activate();
+            //RootStateMachine.CurrentAction.CallNext(); // TODO this is no longer used. use events instead
+            // We will also be re-doing the Loop node to hold this data
         }
         else
         {

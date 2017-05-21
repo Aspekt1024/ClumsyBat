@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 
 public class WaitAction : BaseAction {
+    
+    public enum Ifaces
+    {
+        Input, Output
+    }
 
     public float WaitTime = 1f;
 
@@ -20,13 +25,13 @@ public class WaitAction : BaseAction {
         if (timeWaited > WaitTime)
         {
             bWaitActive = false;
-            CallNext();
+            CallNext((int)Ifaces.Output);
         }
     }
 
-    public override void GameSetup(StateMachine owningContainer, BossData behaviour, GameObject bossReference)
+    public override void GameSetup(StateMachine parentStateMachine, BossData bossData, GameObject bossReference)
     {
-        base.GameSetup(owningContainer, behaviour, bossReference);
+        base.GameSetup(parentStateMachine, bossData, bossReference);
         bWaitActive = false;
     }
 

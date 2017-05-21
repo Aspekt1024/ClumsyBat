@@ -18,7 +18,7 @@ public class JumpAction : BaseAction {
     public override void GameSetup(StateMachine owningContainer, BossData behaviour, GameObject bossReference)
     {
         base.GameSetup(owningContainer, behaviour, bossReference);
-        jumpAbility = bossBehaviour.GetAbility<JumpPound>();
+        jumpAbility = bossData.GetAbility<JumpPound>();
     }
 
     public override void ActivateBehaviour()
@@ -30,7 +30,7 @@ public class JumpAction : BaseAction {
 
     public void Landed()
     {
-        if (bossBehaviour.BossProps.ShakeScreenOnLanding)
+        if (bossData.BossStateMachine.ShakeScreenOnLanding)
         {
             CameraEventListener.CameraShake(0.4f);
         }

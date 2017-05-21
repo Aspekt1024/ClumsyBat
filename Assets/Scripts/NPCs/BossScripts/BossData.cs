@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BossData : MonoBehaviour {
 
-    public BossStateMachine BossProps;
+    public BossStateMachine BossStateMachine;
 
     private GameObject bossObject;
     private Boss bossScripts;
@@ -40,20 +40,21 @@ public class BossData : MonoBehaviour {
     {
         _state = BossStates.Disabled;
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        bossObject = Instantiate(BossProps.BossPrefab, transform.position, new Quaternion(), transform);
+        bossObject = Instantiate(BossStateMachine.BossPrefab, transform.position, new Quaternion(), transform);
         bossScripts = bossObject.GetComponent<Boss>();
         if (bossScripts == null)
             bossScripts = bossObject.AddComponent<Boss>();
 
-        bossScripts.SetBaseProperties(BossProps);
+        bossScripts.SetBaseProperties(BossStateMachine);
         SetupAbilities();
-        BossProps.NodeGameSetup(this, bossObject);
-	}
+        BossStateMachine.StateMachineSetup(this, bossObject);
+        Toolbox.Instance.GamePaused = false;    // TODO shouldnt be done here...
+    }
 	
 	private void Update () {
         if (_state == BossStates.Disabled || Toolbox.Instance.GamePaused) return;
 
-        foreach(var action in BossProps.Actions)
+        foreach(var action in BossStateMachine.Actions)
         {
             action.Tick(Time.deltaTime);
         }
@@ -62,7 +63,7 @@ public class BossData : MonoBehaviour {
     private void BossStart()
     {
         _state = BossStates.Active;
-        BossProps.AwakenBoss();
+        BossStateMachine.AwakenBoss();
 
         if (moths != null)
         {
@@ -72,7 +73,7 @@ public class BossData : MonoBehaviour {
 
     private void SetupAbilities()
     {
-        if (BossProps.SpawnMoths)
+        if (BossStateMachine.SpawnMoths)
         {
             moths = gameObject.AddComponent<BossMoths>();
         }
@@ -103,7 +104,7 @@ public class BossData : MonoBehaviour {
         _state = BossStates.Dead;
         moths.Disable();
 
-        BossProps.Stop();
+        BossStateMachine.Stop();
         if (!player.IsAlive()) return;
         player.GetGameHandler().LevelComplete();
     }

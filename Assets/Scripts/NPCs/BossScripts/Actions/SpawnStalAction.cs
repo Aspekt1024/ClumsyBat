@@ -37,7 +37,7 @@ public class SpawnStalAction : BaseAction {
     public override void GameSetup(StateMachine owningContainer, BossData behaviour, GameObject bossReference)
     {
         base.GameSetup(owningContainer, behaviour, bossReference);
-        spawnAbility = bossBehaviour.GetAbility<SpawnStalactites>();
+        spawnAbility = bossData.GetAbility<SpawnStalactites>();
         spawnPhase = StalAction == StalActions.AltSpawnFirst;
         awaitingDelay = false;
     }
@@ -46,7 +46,7 @@ public class SpawnStalAction : BaseAction {
     {
         if (stalSpawns.Count == 0)
         {
-            CallNext();
+            CallNext((int)Ifaces.Output);
         }
         else
         {
@@ -103,7 +103,7 @@ public class SpawnStalAction : BaseAction {
     private void SpawnsComplete()
     {
         spawnPhase = !spawnPhase;
-        CallNext();
+        CallNext((int)Ifaces.Output);
     }
 
     public override void Tick(float deltaTime)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+using Ifaces = HealthAction.Ifaces;
 using IODirection = ActionConnection.IODirection;
 using InterfaceTypes = NodeInterface.InterfaceTypes;
 
@@ -13,14 +14,14 @@ public class HealthNode : BaseNode {
 
     protected override void AddInterfaces()
     {
-        AddInterface(IODirection.Input, 0);
-        AddInterface(IODirection.Output, 1);
+        AddInterface(IODirection.Input, (int)Ifaces.Input);
+        AddInterface(IODirection.Output, (int)Ifaces.Output);
     }
 
     private void SetInterfacePositions()
     {
-        SetInterface(30f, 0);
-        SetInterface(30f, 1);
+        SetInterface(30f, (int)Ifaces.Input);
+        SetInterface(30f, (int)Ifaces.Output);
     }
 
     public override void Draw()

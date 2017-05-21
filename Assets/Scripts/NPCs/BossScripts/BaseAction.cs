@@ -6,13 +6,13 @@ public abstract class BaseAction
     public int ID;
     public List<ActionConnection> connections = new List<ActionConnection>();
 
-    protected StateMachine owner;
-    protected BossData bossBehaviour;
+    protected StateMachine ParentStateMachine;
+    protected BossData bossData;
     protected GameObject boss;
     
     public void Activate()
     {
-        owner.CurrentAction = this;
+        ParentStateMachine.CurrentAction = this;
         ActivateBehaviour();
     }
 
@@ -20,7 +20,7 @@ public abstract class BaseAction
 
     public virtual void Tick(float deltaTime) { }
 
-    public void CallNext(int id = 0)
+    public void CallNext(int id)
     {
         foreach (var conn in connections)
         {
@@ -59,10 +59,10 @@ public abstract class BaseAction
 
     public virtual GameObject GetObject(int id) { return null; }
 
-    public virtual void GameSetup(StateMachine owningContainer, BossData behaviour, GameObject bossReference)
+    public virtual void GameSetup(StateMachine parentMachine, BossData bossData, GameObject bossReference)
     {
-        owner = owningContainer;
-        bossBehaviour = behaviour;
+        ParentStateMachine = parentMachine;
+        this.bossData = bossData;
         boss = bossReference;
     }
 

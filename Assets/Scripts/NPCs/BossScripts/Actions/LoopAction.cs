@@ -4,7 +4,7 @@ public class LoopAction : BaseAction {
     
     public override void ActivateBehaviour()
     {
-        Debug.Log(Time.time + " : loop");
-        owner.RequestLoopToStart();
+        Debug.Log("loop");
+        ParentStateMachine.RequestLoopToStart();
     }
 }

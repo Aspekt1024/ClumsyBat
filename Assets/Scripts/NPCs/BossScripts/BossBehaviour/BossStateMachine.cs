@@ -12,18 +12,18 @@ public class BossStateMachine : StateMachine
     public bool SpawnMoths;    // TODO make into selectable list, per state
     public bool ShakeScreenOnLanding;
     
-    public BossState CurrentState;
-    public StartAction LastStartingAction;
+    public List<BossState> ActiveStates = new List<BossState>();
     
     private GameObject bossObject;
 
-    public void NodeGameSetup(BossData bossBehaviour, GameObject boss)
+    public void StateMachineSetup(BossData bossData, GameObject boss)
     {
-        Toolbox.Instance.GamePaused = false;    // TODO shouldnt be done here...
         bossObject = boss;
+        BossActionLoadHandler.Load(this);
+
         foreach(var action in Actions)
         {
-            action.GameSetup(this, bossBehaviour, boss);
+            action.GameSetup(this, bossData, boss);
         }
     }
 
@@ -31,26 +31,25 @@ public class BossStateMachine : StateMachine
     {
         bEnabled = true;
         StartingAction.Activate();
-        CurrentState.bEnabled = true;
     }
 
-    public void AssignNewState(BossState state)
+    public void ActivateNewState(BossState state)
     {
-        CurrentState = state;
-        bossObject.GetComponent<Boss>().SetPropsFromState(state);
+        ActiveStates.Add(state);
+        state.bEnabled = true;
     }
 
     public override void RequestLoopToStart()
     {
+        Debug.Log("looping to start");
         StartingAction.Activate();
     }
 
     public void HealthChanged(int health)
     {
-        if (CurrentState.StateChange == BossState.StateChangeTypes.Health && health == CurrentState.MoveOnHP)
-        {
-            CurrentState.Stop();
-            CurrentAction.CallNext();
-        }
+        // TODO insert list of interrupt events
+        // check if any of these are dependent on health, and what value
+
+        // this will need to pause any current scripts and run the interrupt first
     }
 }

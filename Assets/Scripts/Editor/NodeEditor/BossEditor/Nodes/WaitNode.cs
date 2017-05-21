@@ -2,20 +2,22 @@
 using UnityEditor;
 using System;
 
+using Iface = WaitAction.Ifaces;
+
 public class WaitNode : BaseNode {
 
     public float WaitTime = 1f;
     
     protected override void AddInterfaces()
     {
-        AddInterface(ActionConnection.IODirection.Input, 0);
-        AddInterface(ActionConnection.IODirection.Output, 0);
+        AddInput((int)Iface.Input);
+        AddOutput((int)Iface.Output);
     }
 
     private void SetInterfacePositions()
     {
-        SetInterface(30, 0);
-        SetInterface(30, 1);
+        SetInterface(30, (int)Iface.Input);
+        SetInterface(30, (int)Iface.Output);
     }
 
     public override void Draw()
