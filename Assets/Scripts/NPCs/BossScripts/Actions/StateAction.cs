@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 public class StateAction : BaseAction {
     
@@ -8,7 +9,7 @@ public class StateAction : BaseAction {
         Hypersonic, Stalactite, Player
     }
     
-    public BossState State;
+    [XmlIgnore] public BossState State;
 
     //public List<BossDamageObjects> damageObjects = new List<BossDamageObjects>(); // TODO could use this here instead
     

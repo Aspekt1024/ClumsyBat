@@ -19,7 +19,7 @@
           <ID>0</ID>
           <Direction>Input</Direction>
           <OtherActionID>1</OtherActionID>
-          <OtherConnID>2</OtherConnID>
+          <OtherConnID>3</OtherConnID>
         </ActionConnection>
       </connections>
     </BaseAction>
@@ -31,6 +31,23 @@
           <Direction>Input</Direction>
           <OtherActionID>0</OtherActionID>
           <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>0</OtherActionID>
+          <OtherConnID>3</OtherConnID>
+        </ActionConnection>
+      </connections>
+    </BaseAction>
+    <BaseAction xsi:type="StateAction">
+      <ID>3</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>1</OtherActionID>
+          <OtherConnID>2</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>1</ID>

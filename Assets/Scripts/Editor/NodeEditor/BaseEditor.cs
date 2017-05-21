@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 public abstract class BaseEditor : EditorWindow {
     
@@ -9,8 +10,8 @@ public abstract class BaseEditor : EditorWindow {
     public Vector2 CanvasOffset;
     public Vector2 CanvasDrag;
     public NodeInterface DraggedInterface;
+    public StateMachine StateMachine;
 
-    protected StateMachine StateMachine;
     protected string EditorLabel;
 
     protected ColourThemes colourTheme;
@@ -57,8 +58,8 @@ public abstract class BaseEditor : EditorWindow {
     
     private void SetRootContainerToSelf()
     {
-        if (StateMachine.RootContainer == null)
-            StateMachine.RootContainer = StateMachine;
+        if (StateMachine.RootStateMachine == null)
+            StateMachine.RootStateMachine = StateMachine;
     }
     
     protected virtual void OnEnable()

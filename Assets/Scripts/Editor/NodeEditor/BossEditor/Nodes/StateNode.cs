@@ -3,6 +3,7 @@ using UnityEditor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 using StateChangeTypes = BossState.StateChangeTypes;
 
@@ -13,9 +14,9 @@ using StateChangeTypes = BossState.StateChangeTypes;
 /// </summary>
 public class StateNode : BaseNode {
 
-    public BossState State;
-    private string newStateName = "New State";
-
+    public string StateName = "New State";
+    [XmlIgnore] public BossState State;
+    
     [SerializeField]
     private int selectedStateChangeIndex;
     
@@ -107,8 +108,8 @@ public class StateNode : BaseNode {
         }
 
         EditorGUIUtility.labelWidth = 80;
-        newStateName = EditorGUILayout.TextField("State Name:", newStateName);
-        if (GUILayout.Button("Create new state"))
+        StateName = NodeGUI.TextField(new Rect(1, 5, 18, 2), StateName, "State Name:");
+        if (NodeGUI.Button(new Rect(1, 7, 18, 2), "Create new State"))
         {
             CreateNewState();
         }
@@ -116,39 +117,24 @@ public class StateNode : BaseNode {
 
     private void CreateNewState()
     {
+        BossState newState = ScriptableObject.CreateInstance<BossState>();
+        newState.StateName = StateName;
+        newState.RootStateMachine = ParentEditor.StateMachine.RootStateMachine;
+        newState.BossName = newState.RootStateMachine.BossName;
 
-        //BossState newState = new BossState();
-        //newState.StateName = newStateName;
-        //newState.BossName = DataContainer.BossName;
-        //newState.RootContainer = DataContainer;
-
-        //string dataFolder = EditorHelpers.GetAssetDataFolder(DataContainer);
-        //string subFolder = "States";
-        //EditorHelpers.CreateFolderIfNotExist(dataFolder, subFolder);
-        //string assetName = newStateName.Replace(" ", "") + ".asset";
-        //string dataPath = string.Format("{0}/{1}/{2}", dataFolder, subFolder, assetName);
-
-        //AssetDatabase.CreateAsset(newState, dataPath);
-        //State = newState;
-
-        //NodeData = new NodeData();
-        //dataFolder = EditorHelpers.GetDataPath(DataContainer);
-        //EditorHelpers.CreateFolderIfNotExist(dataFolder, "States");
-        //dataPath = string.Format("{0}/States/{1}", dataFolder, assetName);
-
-        //// TODO store?
-        ////AssetDatabase.CreateAsset(NodeData, dataPath);
+        string dataFolder = NodeEditorSaveHandler.DataFolder;
+        string subFolder = newState.BossName.Replace(" ", "");
+        NodeEditorSaveHandler.CreateFolderIfNotExists(subFolder);
+        string assetName = StateName.Replace(" ", "") + ".asset";
+        string dataPath = string.Format("{0}/{1}/{2}", dataFolder, subFolder, assetName);
+        
+        AssetDatabase.CreateAsset(newState, dataPath);
+        State = newState;
     }
 
     private void UseExistingState(BossState existingState)
     {
-        //State = existingState;
-        //string dataFolder = EditorHelpers.GetDataPath(DataContainer) + "/States";
-        //string assetName = existingState.StateName.Replace(" ", "") + ".asset";
-        //string dataPath = string.Format("{0}/{1}", dataFolder, assetName);
-
-        //// TODO load
-        ////NodeData = AssetDatabase.LoadAssetAtPath<NodeData>(dataPath);
+        State = existingState;
     }
 
     public override BaseAction GetAction()
@@ -157,16 +143,6 @@ public class StateNode : BaseNode {
         {
             State = State
         };
-        StateAction machineState = new StateAction();
-        //if (NodeData == null) return;
-
-        //StartNode start = ParentEditor.GetStartNode();
-        //if (start != null)
-        //{
-        //    machineState.State = State;
-        //}
-
-        //Action = machineState;
     }
 
 }

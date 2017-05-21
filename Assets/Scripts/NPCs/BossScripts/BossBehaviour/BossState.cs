@@ -45,7 +45,7 @@ public class BossState : StateMachine {
         if (StateChange == StateChangeTypes.NumLoops && numLoops > MoveOnLoops)
         {
             bEnabled = false;
-            RootContainer.CurrentAction.CallNext();
+            RootStateMachine.CurrentAction.CallNext();
         }
         else
         {

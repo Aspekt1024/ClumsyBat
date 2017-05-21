@@ -18,6 +18,24 @@ public static class NodeGUI {
 
         return value;
     }
+
+    public static string TextField(Rect rect, string value, string label, float xSplitPercent = 0.4f)
+    {
+        Vector2 pos = rect.position * GridSpacing;
+        Vector2 size = rect.size * GridSpacing;
+
+        GUI.Label(new Rect(pos, new Vector2(size.x * xSplitPercent, size.y)), label);
+        value = EditorGUI.TextField(new Rect(pos + new Vector2(xSplitPercent * size.x, 0f), new Vector2((1 - xSplitPercent) * size.x, size.y)), value);
+
+        return value;
+    }
+
+    public static bool Button(Rect rect, string label)
+    {
+        Vector2 pos = rect.position * GridSpacing;
+        Vector2 size = rect.size * GridSpacing;
+        return GUI.Button(new Rect(pos, size), label);
+    }
 	
     public static float FloatField(Vector2 position, float value, string label)
     {

@@ -7,7 +7,7 @@ using UnityEngine;
 public abstract class StateMachine : ScriptableObject {
 
     public string BossName;
-    public StateMachine RootContainer;
+    public StateMachine RootStateMachine;
 
     public StartAction StartingAction;
     public List<BaseAction> Actions = new List<BaseAction>();

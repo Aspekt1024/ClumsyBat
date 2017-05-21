@@ -30,21 +30,4 @@ public class BossStateEditor : BaseEditor {
         titleContent.text = "Boss State";
         colourTheme = ColourThemes.Blue;
     }
-
-    // TODO needeD?
-    private string GetNodeDataFolder()
-    {
-        string subFolder = GetSubfolderIfState(StateMachine);
-        return "";//EditorHelpers.GetDataPath(BaseContainer.RootContainer) + (subFolder.Length > 0 ? "/" + subFolder : "");
-    }
-
-    private string GetSubfolderIfState(StateMachine container)
-    {
-        string subFolder = "";
-        if (StateMachine.IsType<BossState>())
-        {
-            subFolder = StateMachine.name + "Data";
-        }
-        return subFolder;
-    }
 }
