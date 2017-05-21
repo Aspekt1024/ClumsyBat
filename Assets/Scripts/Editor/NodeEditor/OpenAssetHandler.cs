@@ -22,7 +22,7 @@ public static class OpenAssetHandler {
         Object obj = EditorUtility.InstanceIDToObject(instanceID);
         if (EditorUtility.InstanceIDToObject(instanceID).GetType() == typeof(BossState))
         {
-            BossStateEditor editor = EditorWindow.GetWindow<BossStateEditor>(desiredDockNextTo: typeof(SceneView));
+            BossEditor editor = EditorWindow.GetWindow<BossEditor>(desiredDockNextTo: typeof(SceneView));
             editor.LoadEditor((BossState)obj);
         }
         return false;

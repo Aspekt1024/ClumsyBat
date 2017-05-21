@@ -166,11 +166,10 @@ public static class NodeEditorSaveHandler {
         CreateFolderIfNotExists(DataFolder, bossFolder);
 
         string bossDataPath = string.Format("{0}/{1}", DataFolder, bossFolder);
-        string stateMachineFolder = editor.StateMachine.RootStateMachine.name;
-        CreateFolderIfNotExists(bossDataPath, stateMachineFolder);
-
-        string stateName = editor.StateMachine.name;
-        return string.Format("{0}/{1}/{2}/EditorData.xml", bossDataPath, stateMachineFolder, stateName);
+        string stateName = editor.StateMachine.name.Replace(" ", "");
+        CreateFolderIfNotExists(bossDataPath, stateName);
+        
+        return string.Format("{0}/{1}/EditorData.xml", bossDataPath, stateName, stateName);
     }
     
     public static void CreateFolderIfNotExists(string path, string folderName)
@@ -218,11 +217,10 @@ public static class NodeEditorSaveHandler {
         CreateFolderIfNotExists(DataFolder, bossFolder);
 
         string bossDataPath = string.Format("{0}/{1}", DataFolder, bossFolder);
-        string stateMachineFolder = editor.StateMachine.RootStateMachine.name;
-        CreateFolderIfNotExists(bossDataPath, stateMachineFolder);
+        string stateName = editor.StateMachine.name.Replace(" ", "");
+        CreateFolderIfNotExists(bossDataPath, stateName);
 
-        string stateName = editor.StateMachine.name;
-        return string.Format("{0}/{1}/{2}/RuntimeData.xml", bossDataPath, stateMachineFolder, stateName);
+        return string.Format("{0}/{1}/RuntimeData.xml", bossDataPath, stateName, stateName);
     }
 }
 

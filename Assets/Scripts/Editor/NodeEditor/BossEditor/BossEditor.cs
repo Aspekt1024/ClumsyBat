@@ -48,9 +48,9 @@ public class BossEditor : BaseEditor {
     
     public void EditState()
     {
-        // TODO this only works if the editor is already active...
         BossState state = ((StateNode)_currentNode).State;
-        BossStateEditor editor = GetWindow<BossStateEditor>(desiredDockNextTo: typeof(SceneView));
-        editor.LoadEditor(state);
+        //BossEditor editor = GetWindow<BossEditor>(desiredDockNextTo: typeof(SceneView));
+        //editor.LoadEditor(state);
+        LoadEditor(state);
     }
 }

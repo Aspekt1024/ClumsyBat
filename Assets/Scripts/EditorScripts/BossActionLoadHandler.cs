@@ -32,7 +32,6 @@ public static class BossActionLoadHandler {
                 if (conn.OtherActionID >= 0)
                 {
                     conn.ConnectedInterface = GetConnection(bossStateMachine.Actions, conn.OtherActionID, conn.OtherConnID);
-                    Debug.Log("found that " + action + " " + conn.Direction + " is connected to " + conn.ConnectedInterface.Action + " " + conn.ConnectedInterface.Direction);
                 }
             }
         }
