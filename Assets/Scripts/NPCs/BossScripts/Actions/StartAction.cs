@@ -4,6 +4,7 @@ public class StartAction : BaseAction {
     
     public override void ActivateBehaviour()
     {
+        Active = false;
         CallNext(0);
     }
 

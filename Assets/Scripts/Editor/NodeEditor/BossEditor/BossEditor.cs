@@ -3,8 +3,9 @@ using UnityEditor;
 using System;
 using System.Collections.Generic;
 
-public class BossEditor : BaseEditor {
-    
+public class BossEditor : BaseEditor
+{
+
     public enum EditorType
     {
         StateMachine, State
@@ -45,7 +46,7 @@ public class BossEditor : BaseEditor {
         titleContent.text = "Boss Editor";
         colourTheme = ColourThemes.Black;
     }
-    
+
     public void EditState()
     {
         BossState state = ((StateNode)_currentNode).State;

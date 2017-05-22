@@ -9,9 +9,8 @@ using InterfaceTypes = NodeInterface.InterfaceTypes;
 using Ifaces = JumpAction.Ifaces;
 
 public class JumpNode : BaseNode {
-    
-    [SerializeField]
-    private float jumpForce = 300f;
+
+    public float JumpForce = 300f;   // TODO because of this, we should be using the DataContractSerializer
 
     private const float minJumpForce = 300f;
     private const float maxJumpForce = 1200f;
@@ -42,10 +41,10 @@ public class JumpNode : BaseNode {
         
         Vector2 pos = new Vector2(2, 2) * NodeGUI.GridSpacing;
         GUI.Label(new Rect(pos + new Vector2(15f, 0f), new Vector2(50, 20)), "Height");
-        jumpForce = EditorGUI.FloatField(new Rect(pos + new Vector2(15f, 20f), new Vector2(35f, 15f)), jumpForce);
-        jumpForce = GUI.VerticalSlider(new Rect(pos, new Vector2(2, 6) * NodeGUI.GridSpacing), jumpForce, maxJumpForce, minJumpForce);
-        jumpForce -= jumpForce % 50f;
-        jumpForce = Mathf.Clamp(jumpForce, minJumpForce, maxJumpForce);
+        JumpForce = EditorGUI.FloatField(new Rect(pos + new Vector2(15f, 20f), new Vector2(35f, 15f)), JumpForce);
+        JumpForce = GUI.VerticalSlider(new Rect(pos, new Vector2(2, 6) * NodeGUI.GridSpacing), JumpForce, maxJumpForce, minJumpForce);
+        JumpForce -= JumpForce % 50f;
+        JumpForce = Mathf.Clamp(JumpForce, minJumpForce, maxJumpForce);
 
         SetInterfacePositions();
         DrawInterfaces();
@@ -55,7 +54,7 @@ public class JumpNode : BaseNode {
     {
         return new JumpAction()
         {
-            JumpForce = jumpForce
+            JumpForce = JumpForce
         };
         //Action = new JumpAction();
         //((JumpAction)Action).JumpForce = jumpForce;

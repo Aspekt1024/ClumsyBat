@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
@@ -13,7 +14,6 @@ public abstract class BaseEditor : EditorWindow {
     public StateMachine StateMachine;
 
     protected string EditorLabel;
-
     protected ColourThemes colourTheme;
 
     protected enum ColourThemes
@@ -26,6 +26,7 @@ public abstract class BaseEditor : EditorWindow {
     private Texture2D _bg;
     private BaseEditorMouseInput _mouseInput;
     private Vector2 _mousePos;
+    private NodeRuntimeBorders runtimeBorders;
     private float timeSinceUpdate;
     
     protected abstract void SetEditorTheme();
@@ -110,6 +111,18 @@ public abstract class BaseEditor : EditorWindow {
         DrawNodeWindows();
 
         ProcessEvents();
+
+        ShowRuntimeBorders();
+    }
+
+    private void ShowRuntimeBorders()
+    {
+        if (!Application.isPlaying) return;
+
+        if (runtimeBorders == null)
+            runtimeBorders = new NodeRuntimeBorders(this);
+
+        runtimeBorders.Update();
     }
 
     private void ProcessEvents()

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <NodeDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <EditorOffset>
-    <x>1290</x>
-    <y>1086</y>
+    <x>1371</x>
+    <y>990</y>
   </EditorOffset>
   <Nodes>
     <BaseNode xsi:type="StartNode">
@@ -136,6 +136,7 @@
         <xMax>-840</xMax>
         <yMax>-840</yMax>
       </WindowRect>
+      <JumpForce>650</JumpForce>
     </BaseNode>
     <BaseNode xsi:type="WaitNode">
       <WindowTitle>Wait</WindowTitle>

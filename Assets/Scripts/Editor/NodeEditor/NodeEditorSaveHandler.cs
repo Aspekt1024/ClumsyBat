@@ -13,14 +13,6 @@ public static class NodeEditorSaveHandler {
     
     public static void Load(BaseEditor editor)
     {
-        LoadNodeData(editor);
-        return;
-        
-
-    }
-    
-    private static void LoadNodeData(BaseEditor editor)
-    {
         string filePath = GetStateMachineEditorDataPath(editor);
         if (editor.StateMachine.IsType<BossState>())
             filePath = GetStateEditorDataPath(editor);

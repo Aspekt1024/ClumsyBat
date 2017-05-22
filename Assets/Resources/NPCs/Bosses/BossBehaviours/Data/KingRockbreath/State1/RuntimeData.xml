@@ -40,7 +40,7 @@
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
-      <JumpForce>300</JumpForce>
+      <JumpForce>650</JumpForce>
     </BaseAction>
     <BaseAction xsi:type="WaitAction">
       <ID>2</ID>

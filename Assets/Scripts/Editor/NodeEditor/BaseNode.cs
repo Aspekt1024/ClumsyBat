@@ -15,6 +15,7 @@ public abstract class BaseNode {
 
     [XmlIgnore] public NodeTransform Transform;
     [XmlIgnore] public BaseEditor ParentEditor;
+    [XmlIgnore] public float SelectedBorderAlpha;
     
     private Rect NodeRect;
     private Vector2 selectedOutputPos;
@@ -47,8 +48,10 @@ public abstract class BaseNode {
         
         GUI.Box(NodeRect, WindowTitle);
 
-        if (Transform.IsSelected)
-            DrawSelectedOutline();
+        if (SelectedBorderAlpha > 0 && Application.isPlaying)
+            DrawOutline(new Color(0.9f, 0.6f, 0.6f), SelectedBorderAlpha);
+        else if (Transform.IsSelected)
+            DrawOutline(new Color(0.4f, 0.6f, 0.8f));
 
         GUI.BeginGroup(NodeRect);
         Draw();
@@ -91,7 +94,7 @@ public abstract class BaseNode {
         interfaces.Add(iface);
     }
 
-    private void DrawSelectedOutline()
+    private void DrawOutline(Color c, float alpha = 1f)
     {
         const int innerThickness = 4;
         const int outerThickness = 10;
@@ -101,14 +104,14 @@ public abstract class BaseNode {
 
         for (int i = 0; i < outerThickness; i++)
         {
-            Color rectColor = new Color(0.4f, 0.6f, 0.8f, Mathf.Pow((1 - i / (float)outerThickness), 3f) * 0.7f);
+            Color rectColor = new Color(c.r, c.g, c.b, Mathf.Pow((1 - i / (float)outerThickness), 3f) * 0.7f * alpha);
             Rect rect = new Rect(pos - Vector2.one * (i + 2), WindowRect.size + Vector2.one * 2 * (i + 2));
             Handles.DrawSolidRectangleWithOutline(rect, Color.clear, rectColor);
         }
 
         for (int i = 0; i < innerThickness; i++)
         {
-            Color rectColor = new Color(0.8f, 0.8f, 1f, Mathf.Pow(1 - i / (float)innerThickness, 3) * 0.7f);
+            Color rectColor = new Color(c.r, c.g, c.b, Mathf.Pow(1 - i / (float)innerThickness, 3) * 0.7f * alpha);
             Rect rect = new Rect(pos + Vector2.one * (i - 2), WindowRect.size - Vector2.one * 2 * (i - 2));
             Handles.DrawSolidRectangleWithOutline(rect, Color.clear, rectColor);
         }

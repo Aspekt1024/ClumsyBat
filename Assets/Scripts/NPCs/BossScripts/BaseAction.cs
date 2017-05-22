@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 
 public abstract class BaseAction
@@ -6,12 +7,17 @@ public abstract class BaseAction
     public int ID;
     public List<ActionConnection> connections = new List<ActionConnection>();
 
+    [XmlIgnore] public bool Active;
+    [XmlIgnore] public bool NewActivation;
+
     protected StateMachine ParentStateMachine;
     protected BossData bossData;
     protected GameObject boss;
     
     public void Activate()
     {
+        Active = true;
+        NewActivation = true;
         ParentStateMachine.CurrentAction = this;
         ActivateBehaviour();
     }

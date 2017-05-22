@@ -30,7 +30,8 @@ public class JumpAction : BaseAction {
 
     public void Landed()
     {
-        if (bossData.BossStateMachine.ShakeScreenOnLanding)
+        Active = false;
+        if (bossData.BossStateMachine.ShakeScreenOnLanding) // TODO this is a property of jump, not the boss
         {
             CameraEventListener.CameraShake(0.4f);
         }
