@@ -9,15 +9,16 @@ using System.Xml.Serialization;
 
 public static class BossActionLoadHandler {
 
-    public const string DataFolder = "Assets/Resources/NPCs/Bosses/BossBehaviours/Data";
+    private const string DataFolder = "NPCs/Bosses/BossBehaviours/Data";
 
     public static void Load (StateMachine bossStateMachine) {
 
-        string filePath = GetDataPath(bossStateMachine);
+        string filePath = GetDataResourcePath(bossStateMachine);
         XmlSerializer serializer = new XmlSerializer(typeof(ActionDataContainer), GetActionTypes());
         
         ActionDataContainer data;
-        using (var stream = new FileStream(filePath, FileMode.Open))
+        TextAsset actionDataText = (TextAsset)Resources.Load(filePath);
+        using (var stream = new StringReader(actionDataText.text))
         {
             data = (ActionDataContainer)serializer.Deserialize(stream);
         }
@@ -61,7 +62,7 @@ public static class BossActionLoadHandler {
         return baseActionTypes.ToArray();
     }
     
-    private static string GetDataPath(StateMachine stateMachine)
+    private static string GetDataResourcePath(StateMachine stateMachine)
     {
         string dataPath = GetStateMachineDataPath(stateMachine);
         if (stateMachine.IsType<BossState>())
@@ -72,7 +73,7 @@ public static class BossActionLoadHandler {
     private static string GetStateMachineDataPath(StateMachine stateMachine)
     {
         string stateMachineName = stateMachine.name;
-        return string.Format("{0}/{1}/StateMachineRuntimeData.xml", DataFolder, stateMachineName);
+        return string.Format("{0}/{1}/StateMachineRuntimeData", DataFolder, stateMachineName);
     }
     
     private static string GetStateDataPath(StateMachine stateMachine)
@@ -82,7 +83,7 @@ public static class BossActionLoadHandler {
         string bossDataPath = string.Format("{0}/{1}", DataFolder, bossFolder);
         string stateFolder = ((BossState)stateMachine).StateName.Replace(" ", "");
         
-        return string.Format("{0}/{1}/RuntimeData.xml", bossDataPath, stateFolder);
+        return string.Format("{0}/{1}/RuntimeData", bossDataPath, stateFolder);
     }
 }
 
