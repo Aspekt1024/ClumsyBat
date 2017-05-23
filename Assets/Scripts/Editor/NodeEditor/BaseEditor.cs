@@ -12,10 +12,10 @@ public abstract class BaseEditor : EditorWindow {
     public Vector2 CanvasDrag;
     public NodeInterface DraggedInterface;
     public StateMachine StateMachine;
+    public string EditorLabel;
 
-    protected string EditorLabel;
     protected ColourThemes colourTheme;
-
+    
     protected enum ColourThemes
     {
         Blue, Green, Black
@@ -27,12 +27,15 @@ public abstract class BaseEditor : EditorWindow {
     private BaseEditorMouseInput _mouseInput;
     private Vector2 _mousePos;
     private NodeRuntimeBorders runtimeBorders;
-    private float timeSinceUpdate;
+    protected NodeEditorMenu nodeMenu;
     
     protected abstract void SetEditorTheme();
     
     public virtual void LoadEditor(StateMachine obj)
     {
+        if (nodeMenu != null)
+            nodeMenu.SaveActiveSystem();
+
         SetEditorTheme();
         StateMachine = obj;
 
@@ -106,13 +109,13 @@ public abstract class BaseEditor : EditorWindow {
     {
         if (StateMachine == null) return;
         
+        // Last to be called is drawn on top
         DrawBackground();
-        DrawHeading();
         DrawNodeWindows();
+        ShowRuntimeBorders();
+        DrawHeading();
 
         ProcessEvents();
-
-        ShowRuntimeBorders();
     }
 
     private void ShowRuntimeBorders()
@@ -194,11 +197,8 @@ public abstract class BaseEditor : EditorWindow {
 
     private void DrawHeading()
     {
-        var cStyle = new GUIStyle();
-        cStyle.normal.textColor = Color.white;
-        cStyle.fontSize = 20;
-        cStyle.fontStyle = FontStyle.Bold;
-        EditorGUILayout.LabelField(EditorLabel, cStyle);
+        if (nodeMenu == null) nodeMenu = new NodeEditorMenu(this);
+        nodeMenu.Draw();
     }
 
     public BaseNode GetSelectedNode()

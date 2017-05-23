@@ -50,8 +50,9 @@ public class BossEditor : BaseEditor
     public void EditState()
     {
         BossState state = ((StateNode)_currentNode).State;
-        //BossEditor editor = GetWindow<BossEditor>(desiredDockNextTo: typeof(SceneView));
-        //editor.LoadEditor(state);
         LoadEditor(state);
+        
+        if (nodeMenu != null)
+            nodeMenu.SetSubSystem();
     }
 }
