@@ -21,7 +21,9 @@ public class NodeEditorMenu {
     {
         if (activeSystemID < 0) return;
 
-        NodeEditorSaveHandler.Save(editor);
+        if (!Application.isPlaying)
+            NodeEditorSaveHandler.Save(editor);
+
         if (activeSystemID == 0)
         {
             mainSystem.CanvasOffset = editor.CanvasOffset;
@@ -59,6 +61,7 @@ public class NodeEditorMenu {
         DrawMainSystemButton();
         DrawSubSystemButtons();
         DrawHeading();
+        DrawCloseButton();
     }
 
     private void DrawMenuBox()
@@ -112,7 +115,31 @@ public class NodeEditorMenu {
         cStyle.normal.textColor = Color.white;
         cStyle.fontSize = 20;
         cStyle.fontStyle = FontStyle.Bold;
-        EditorGUI.LabelField(new Rect(0, 0, editor.position.width, 30f), editor.EditorLabel, cStyle);
+        EditorGUI.LabelField(new Rect(3f, 3f, editor.position.width, 30f), editor.EditorLabel, cStyle);
+    }
+
+    private void DrawCloseButton()
+    {
+        if (activeSystemID <= 0) return;
+
+        Rect rect = new Rect(editor.position.width - 55f, 65f, 50f, 17f);
+        if (GUI.Button(rect, "Close"))
+        {
+            NodeEditorSaveHandler.Save(editor);
+
+            int systemToRemove = activeSystemID;
+            ActivateMainSystem();
+
+            for (int i = 0; i < systems.Count; i++)
+            {
+                if (systems[i].ID == systemToRemove)
+                {
+                    systems.Remove(systems[i]);
+                    break;
+                }
+            }
+        }
+
     }
 
     private int GetNewID()
