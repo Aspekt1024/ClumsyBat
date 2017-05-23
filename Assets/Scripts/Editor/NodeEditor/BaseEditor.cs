@@ -31,13 +31,14 @@ public abstract class BaseEditor : EditorWindow {
     
     protected abstract void SetEditorTheme();
     
-    public virtual void LoadEditor(StateMachine obj)
+    public virtual void LoadEditor(StateMachine machine)
     {
-        if (nodeMenu != null)
-            nodeMenu.SaveActiveSystem();
+        if (nodeMenu == null) nodeMenu = new NodeEditorMenu(this);
+        
+        nodeMenu.SaveCurrentMenuState();
 
+        StateMachine = machine;
         SetEditorTheme();
-        StateMachine = obj;
 
         SetRootContainerToSelf();
         
@@ -49,6 +50,8 @@ public abstract class BaseEditor : EditorWindow {
         {
             Nodes = new List<BaseNode>();
         }
+
+        nodeMenu.UpdateSystemModel();
     }
 
     public void Drag(Vector2 delta)
@@ -113,7 +116,7 @@ public abstract class BaseEditor : EditorWindow {
         DrawBackground();
         DrawNodeWindows();
         ShowRuntimeBorders();
-        DrawHeading();
+        nodeMenu.Draw();
 
         ProcessEvents();
     }
@@ -193,12 +196,6 @@ public abstract class BaseEditor : EditorWindow {
                 break;
         }
         return bgColour;
-    }
-
-    private void DrawHeading()
-    {
-        if (nodeMenu == null) nodeMenu = new NodeEditorMenu(this);
-        nodeMenu.Draw();
     }
 
     public BaseNode GetSelectedNode()

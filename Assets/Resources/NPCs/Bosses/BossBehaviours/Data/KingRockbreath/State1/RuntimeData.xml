@@ -7,7 +7,7 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Output</Direction>
-          <OtherActionID>2</OtherActionID>
+          <OtherActionID>3</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
@@ -18,13 +18,31 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>3</OtherActionID>
+          <OtherActionID>2</OtherActionID>
           <OtherConnID>1</OtherConnID>
         </ActionConnection>
       </connections>
     </BaseAction>
-    <BaseAction xsi:type="JumpAction">
+    <BaseAction xsi:type="WaitAction">
       <ID>2</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>3</OtherActionID>
+          <OtherConnID>3</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>1</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <WaitTime>2</WaitTime>
+    </BaseAction>
+    <BaseAction xsi:type="JumpAction">
+      <ID>3</ID>
       <connections>
         <ActionConnection>
           <ID>0</ID>
@@ -47,29 +65,11 @@
         <ActionConnection>
           <ID>3</ID>
           <Direction>Output</Direction>
-          <OtherActionID>3</OtherActionID>
-          <OtherConnID>0</OtherConnID>
-        </ActionConnection>
-      </connections>
-      <JumpForce>500</JumpForce>
-    </BaseAction>
-    <BaseAction xsi:type="WaitAction">
-      <ID>3</ID>
-      <connections>
-        <ActionConnection>
-          <ID>0</ID>
-          <Direction>Input</Direction>
           <OtherActionID>2</OtherActionID>
-          <OtherConnID>3</OtherConnID>
-        </ActionConnection>
-        <ActionConnection>
-          <ID>1</ID>
-          <Direction>Output</Direction>
-          <OtherActionID>1</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
-      <WaitTime>2</WaitTime>
+      <JumpForce>650</JumpForce>
     </BaseAction>
   </Actions>
 </ActionDataCollection>

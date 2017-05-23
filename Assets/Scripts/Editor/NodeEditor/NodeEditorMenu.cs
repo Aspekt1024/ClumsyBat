@@ -14,20 +14,13 @@ public class NodeEditorMenu {
     {
         editor = editorRef;
         systems = new List<NodeSystem>();
-        if (editor.StateMachine.IsType<BossStateMachine>())
-        {
-            SetMainSystem();
-        }
-        else
-        {
-            StoreSystem(1);
-            GetMainSystem();
-            ActivateSystemWithID(1);
-        }
+        activeSystemID = -1;
     }
 
-    public void SaveActiveSystem()
+    public void SaveCurrentMenuState()
     {
+        if (activeSystemID < 0) return;
+
         NodeEditorSaveHandler.Save(editor);
         if (activeSystemID == 0)
         {
@@ -43,10 +36,20 @@ public class NodeEditorMenu {
         }
     }
 
-    public void SetSubSystem()
+    public void UpdateSystemModel()
     {
-        int id = GetNewID();
-        StoreSystem(id);
+        if (editor.StateMachine.IsType<BossStateMachine>())
+        {
+            SetMainSystem();
+            activeSystemID = 0;
+        }
+        else
+        {
+            int id = GetNewID();
+            StoreSystem(id);
+            GetMainSystem();
+            ActivateSystemWithID(id);
+        }
     }
 
     public void Draw()
@@ -79,7 +82,7 @@ public class NodeEditorMenu {
         }
         else if (GUI.Button(rect, sysName))
         {
-            SaveActiveSystem();
+            SaveCurrentMenuState();
             ActivateMainSystem();
         }
     }
@@ -97,6 +100,7 @@ public class NodeEditorMenu {
             else if (GUI.Button(rect, sysName))
             {
                 if (activeSystemID == systems[i].ID) break;
+                SaveCurrentMenuState();
                 ActivateSystem(systems[i]);
             }
         }
