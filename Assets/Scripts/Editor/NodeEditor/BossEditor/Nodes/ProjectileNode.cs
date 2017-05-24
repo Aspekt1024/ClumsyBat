@@ -49,9 +49,11 @@ public class ProjectileNode : BaseNode {
         Transform.Width = 200;
         Transform.Height = 125;
 
-        projectileSpeed = NodeGUI.FloatField(new Vector2(10, 30), projectileSpeed, "Speed:");
-        AddSpaces(11);
+        projectileSpeed = NodeGUI.FloatFieldLayout(projectileSpeed, "Speed:");
+        NodeGUI.Space(4);
         ShowPositionGUI();
+
+        // TODO toggle
         EditorGUIUtility.labelWidth = 100f;
         GUI.skin.label.alignment = TextAnchor.LowerRight;
         targetGround = EditorGUILayout.Toggle("Target Ground?", targetGround, GUI.skin.GetStyle("Toggle"));
@@ -70,14 +72,6 @@ public class ProjectileNode : BaseNode {
         };
     }
 
-    private void AddSpaces(int numSpaces)
-    {
-        for (int i = 0; i < numSpaces; i++)
-        {
-            EditorGUILayout.Space();
-        }
-    }
-
     private void ShowPositionGUI()
     {
         if (Event.current.type == EventType.Layout) // Layout and Repaint events must have the same controls. Update controls on layout.
@@ -91,7 +85,7 @@ public class ProjectileNode : BaseNode {
 
         if (inputConnected)
         {
-            EditorGUILayout.LabelField("   (Player)");
+            NodeGUI.LabelLayout("(Player)");
         }
         else
         {
@@ -112,7 +106,8 @@ public class ProjectileNode : BaseNode {
             }
             else
             {
-                AddSpaces(3);
+                NodeGUI.Space(2);
+                NodeGUI.LabelLayout("xPos:");
                 EditorGUIUtility.labelWidth = 40;
                 EditorGUI.LabelField(new Rect(new Vector2(10, 90), new Vector2(40, 15)), "xPos:");
                 targetPos.x = GUI.HorizontalSlider(new Rect(new Vector2(50, 90), new Vector2(70, 15)), targetPos.x, -6.315f, 6.2f);

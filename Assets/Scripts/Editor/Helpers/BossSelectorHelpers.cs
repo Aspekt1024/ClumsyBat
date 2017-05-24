@@ -41,7 +41,7 @@ public static class BossSelectorHelpers
             if (objArray[i] == obj)
                 return i;
         }
-        return -1;
+        return 0;
     }
 
     public static string AddSpacesToName(string nameNoSpaces)

@@ -15,11 +15,11 @@ using StateChangeTypes = BossState.StateChangeTypes;
 public class StateNode : BaseNode {
 
     public string StateName = "New State";
+
     [XmlIgnore] public BossState State;
-    
-    [SerializeField]
-    private int selectedStateChangeIndex;
-    
+
+    private int selectedStateIndex;
+
     public override void SetupNode(StateMachine dataContainer)
     {
         base.SetupNode(dataContainer);
@@ -33,37 +33,37 @@ public class StateNode : BaseNode {
 
     private void SetInterfacePositions()
     {
-        SetInterface(8f, 0);
-        SetInterface(8f, 1);
+        SetInterface(25f, 0);
+        SetInterface(25f, 1);
     }
 
     public override void Draw()
     {
-        Transform.Width = 200;
-        Transform.Height = 120;
+        Transform.Width = 250;
+        Transform.Height = 150;
         WindowTitle = State == null ? "New State" : State.StateName;
 
         if (State != null)
+        {
             DisplayStateInfo();
+            SetInterfacePositions();
+            DrawInterfaces();
+        }
         else
+        {
             DisplayStateSelect();
-
-        SetInterfacePositions();
-        DrawInterfaces();
-
+        }
     }
     
     private void DisplayStateInfo()
     {
-        EditorGUIUtility.labelWidth = 115;
-        State.StateChange = (StateChangeTypes)EditorGUILayout.EnumPopup("Change state on:", State.StateChange);
-        GetStateChangeData();
+        //State.StateChange = (StateChangeTypes)NodeGUI.EnumPopupLayout("Change state on:", State.StateChange, 0.5f);
+        //GetStateChangeData();
 
-        EditorGUILayout.Space();
-        EditorGUIUtility.labelWidth = 160;
-        State.DamagedByHypersonic = EditorGUILayout.Toggle("Damaged by Hypersonic?", State.DamagedByHypersonic);    // TODO dropdown with add button - should be a list. this is messy.
-        State.DamagedByStalactites = EditorGUILayout.Toggle("Damaged by Stalactites?", State.DamagedByStalactites);
-        State.DamagedByPlayer = EditorGUILayout.Toggle("Damaged by Player?", State.DamagedByPlayer);
+        // TODO absorb these as events in the State machine
+        //State.DamagedByHypersonic = EditorGUILayout.Toggle("Damaged by Hypersonic?", State.DamagedByHypersonic);    // TODO dropdown with add button - should be a list. this is messy.
+        //State.DamagedByStalactites = EditorGUILayout.Toggle("Damaged by Stalactites?", State.DamagedByStalactites);
+        //State.DamagedByPlayer = EditorGUILayout.Toggle("Damaged by Player?", State.DamagedByPlayer);
     }
 
     private void GetStateChangeData()
@@ -84,37 +84,25 @@ public class StateNode : BaseNode {
 
     private void DisplayStateSelect()
     {
-        BossState[] allStates = Resources.LoadAll<BossState>("NPCs/Bosses/BossScriptableObjects");
-        if (allStates.Length > 0)
-        {
-            var selectedStateIndex = BossSelectorHelpers.GetIndexFromObject(allStates, State);
-            if (selectedStateIndex < 0) selectedStateIndex = 0;
-
-            var statesStringArray = BossSelectorHelpers.ObjectArrayToStringArray(allStates);
-                
-            EditorGUIUtility.labelWidth = 80;
-            EditorGUILayout.Popup("Existing:", selectedStateIndex, statesStringArray);
-            if (GUILayout.Button("Use existing state"))
-            {
-                UseExistingState(allStates[selectedStateIndex]);
-            }
-
-            EditorGUILayout.Space();
-        }
-        else
-        {
-            EditorGUILayout.LabelField("No existing states found.");
-            EditorGUILayout.Space();
-        }
-
-        EditorGUIUtility.labelWidth = 80;
 
         StateName = NodeGUI.TextFieldLayout(StateName, "State Name:");
-        StateName = NodeGUI.TextFieldLayout(StateName, "State Name:");
-
-        if (NodeGUI.Button(new Rect(1, 7, 18, 2), "Create new State"))
+        NodeGUI.Space(0.2f);
+        if (NodeGUI.ButtonLayout("Create new State"))
         {
             CreateNewState();
+        }
+
+        NodeGUI.Space();
+        BossState[] allStates = Resources.LoadAll<BossState>("NPCs/Bosses/BossBehaviours");
+        if (allStates.Length == 0) return;
+
+        var statesStringArray = BossSelectorHelpers.ObjectArrayToStringArray(allStates);
+        selectedStateIndex = NodeGUI.PopupLayout("Existing State:", selectedStateIndex, statesStringArray);
+
+        NodeGUI.Space(0.2f);
+        if (NodeGUI.ButtonLayout("Use existing State"))
+        {
+            UseExistingState(allStates[selectedStateIndex]);
         }
     }
 

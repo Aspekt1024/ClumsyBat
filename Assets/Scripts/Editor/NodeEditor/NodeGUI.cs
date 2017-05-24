@@ -1,13 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEditor;
 
 public class NodeGUI {
 
     public const float GridSpacing = 10f;
     private const float hPadding = 15f;
-    private const float vPadding = 20f;
+    private const float vPadding = 25f;
     
-    private int item = 0;
+    private float item = 0;
     private Vector2 winSize;
 
     public static void SetWindow(Vector2 windowSize)
@@ -16,11 +17,12 @@ public class NodeGUI {
         Instance.winSize = windowSize;
     }
 
-    public static void Space(int numSpaces = 1)
+    public static void Space(float space = 1f)
     {
-        Instance.item += numSpaces;
+        Instance.item += space;
     }
 
+    // TODO redo this... shouldn't really be using GridSpacing to define window sizing
     public static float VerticalSlider(Rect rect, float value, float minValue, float maxValue, float step, string label)
     {
         Vector2 pos = rect.position * GridSpacing;
@@ -34,34 +36,118 @@ public class NodeGUI {
         
         return value;
     }
+    
+    public static void LabelLayout(string label)
+    {
+        Label(NextLayoutRect(), label);
+    }
+
+    public static void Label(Rect rect, string label)
+    {
+        GUI.skin.label.alignment = TextAnchor.UpperLeft;
+        GUI.Label(rect, label);
+    }
 
     public static string TextFieldLayout(string value, string label, float xSplitPercent = 0.4f)
     {
-        Rect rect = new Rect(GetPosition(), GetSize());
-        Instance.item++;
-        return TextField(rect, value, label, xSplitPercent);
+        return TextField(NextLayoutRect(), value, label, xSplitPercent);
     }
 
     public static string TextField(Rect rect, string value, string label, float xSplitPercent = 0.4f)
     {
-        GUI.Label(new Rect(rect.position, new Vector2(rect.size.x * xSplitPercent, rect.size.y)), label);
-        value = EditorGUI.TextField(new Rect(rect.position + new Vector2(xSplitPercent * rect.size.x, 0f), new Vector2((1 - xSplitPercent) * rect.size.x, rect.size.y)), value);
+        FieldLabel(rect, value, xSplitPercent);
+        return EditorGUI.TextField(FieldRect(rect, xSplitPercent), value);
+    }
 
-        return value;
+    public static bool ButtonLayout(string label)
+    {
+        return Button(NextLayoutRect(), label);
     }
 
     public static bool Button(Rect rect, string label)
     {
-        Vector2 pos = rect.position * GridSpacing;
-        Vector2 size = rect.size * GridSpacing;
-        return GUI.Button(new Rect(pos, size), label);
+        return GUI.Button(rect, label);
     }
 	
-    public static float FloatField(Vector2 position, float value, string label)
+    public static float FloatFieldLayout(float value, string label, float xSplitPercent = 0.4f)
     {
-        GUI.skin.label.alignment = TextAnchor.UpperRight;
-        GUI.Label(new Rect(position, new Vector2(50, 20)), label);
-        return EditorGUI.FloatField(new Rect(position + new Vector2(53, 1), new Vector2(40, 15)), value);
+        return FloatField(NextLayoutRect(), value, label, xSplitPercent);
+    }
+
+    public static float FloatField(Rect rect, float value, string label, float xSplitPercent = 0.4f)
+    {
+        FieldLabel(rect, label, xSplitPercent);
+        return EditorGUI.FloatField(FieldRect(rect, xSplitPercent), value);
+    }
+    
+    public static int PopupLayout(string label, int selectedIndex, string[] selections, float xSplitPercent = 0.4f)
+    {
+        return Popup(NextLayoutRect(), label, selectedIndex, selections, xSplitPercent);
+    }
+
+    public static int Popup(Rect rect, string label, int selectedIndex, string[] selections, float xSplitPercent = 0.4f)
+    {
+        FieldLabel(rect, label, xSplitPercent);
+        return EditorGUI.Popup(FieldRect(rect, xSplitPercent), selectedIndex, selections);
+    }
+
+    public static Enum EnumPopupLayout(string label, Enum selected, float xSplitPercent = 0.4f)
+    {
+        return EnumPopup(NextLayoutRect(), label, selected, xSplitPercent);
+    }
+
+    public static Enum EnumPopup(Rect rect, string label, Enum selected, float xSplitPercent = 0.4f)
+    {
+        FieldLabel(rect, label, xSplitPercent);
+        return EditorGUI.EnumPopup(FieldRect(rect, xSplitPercent), selected);
+    }
+
+    public static int IntFieldLayout(string label, int value, float xSplitPercent = 0.4f)
+    {
+        return IntField(NextLayoutRect(), label, value, xSplitPercent);
+    }
+
+    public static int IntField(Rect rect, string label, int value, float xSplitPercent = 0.4f)
+    {
+        FieldLabel(rect, label, xSplitPercent);
+        return EditorGUI.IntField(FieldRect(rect, xSplitPercent), label, value);
+    }
+
+    public static bool ToggleLayout(string label, bool value, float xSplitPercent = 0.7f)
+    {
+        return Toggle(NextLayoutRect(), label, value);
+    }
+
+    public static bool Toggle(Rect rect, string label, bool value, float xSplitPercent = 0.7f)
+    {
+        FieldLabel(rect, label, xSplitPercent);
+        return EditorGUI.Toggle(FieldRect(rect, xSplitPercent), value);
+    }
+
+    #region layout
+    private static void FieldLabel(Rect rect, string label, float xSplitPercent = 0.4f)
+    {
+        GUI.skin.label.alignment = TextAnchor.UpperLeft;
+        GUI.Label(new Rect(rect.position, new Vector2(rect.size.x * xSplitPercent, rect.size.y)), label);
+    }
+
+    private static Rect FieldRect(Rect rect, float xSplitPercent)
+    {
+        Vector2 fieldPos = rect.position + new Vector2(rect.size.x * xSplitPercent, 0f);
+        Vector2 fieldSize = new Vector2(rect.size.x * (1 - xSplitPercent), rect.size.y);
+        return new Rect(fieldPos, fieldSize);
+    }
+
+    private static Rect NextLayoutRect()
+    {
+        Rect rect = GetLayoutRect();
+        Instance.item += 1f;
+        return rect;
+    }
+    
+    private static Rect GetLayoutRect()
+    {
+        return new Rect(GetPosition(), GetSize());
     }
 
     private static Vector2 GetPosition()
@@ -71,8 +157,9 @@ public class NodeGUI {
 
     private static Vector2 GetSize()
     {
-        return new Vector2(Instance.winSize.x - hPadding * 2f, 18f);
+        return new Vector2(Instance.winSize.x - hPadding * 2f, 20f);
     }
+    #endregion
 
     #region Node GUI Events
 
