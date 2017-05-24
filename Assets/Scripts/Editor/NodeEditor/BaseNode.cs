@@ -54,6 +54,7 @@ public abstract class BaseNode {
             DrawOutline(new Color(0.4f, 0.6f, 0.8f));
 
         GUI.BeginGroup(NodeRect);
+        NodeGUI.SetWindow(NodeRect.size);    // TODO completely replace GUI.BeginGroup with NodeGUI... eventually.
         Draw();
         GUI.EndGroup();
     }

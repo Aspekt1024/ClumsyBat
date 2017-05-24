@@ -108,7 +108,10 @@ public class StateNode : BaseNode {
         }
 
         EditorGUIUtility.labelWidth = 80;
-        StateName = NodeGUI.TextField(new Rect(1, 5, 18, 2), StateName, "State Name:");
+
+        StateName = NodeGUI.TextFieldLayout(StateName, "State Name:");
+        StateName = NodeGUI.TextFieldLayout(StateName, "State Name:");
+
         if (NodeGUI.Button(new Rect(1, 7, 18, 2), "Create new State"))
         {
             CreateNewState();
