@@ -19,11 +19,8 @@ public class NodeRuntimeBorders {
 
         foreach (var border in activeBorders)
         {
-            if (!border.Update())
-                border.Active = false;
+            border.Update();
         }
-
-        // TODO remove inactive borders
     }
 
     private void FindActiveNode()
@@ -32,8 +29,7 @@ public class NodeRuntimeBorders {
         {
             foreach (var node in editor.Nodes)
             {
-                if (node.ID != action.ID || !action.NewActivation) continue;
-
+                if (node.ID != action.ID || !(action.NewActivation || action.Active)) continue;
                 ActivateBorder(node, action);
             }
         }
@@ -41,16 +37,10 @@ public class NodeRuntimeBorders {
 
     private void ActivateBorder(BaseNode node, BaseAction action)
     {
-        action.NewActivation = false;
-
         foreach (var border in activeBorders)
         {
             if (border.Node == node)
-            {
-                border.Active = true;
-                border.AnimTimer = 0f;
                 return;
-            }
         }
 
         NodeActiveBorder newBorder = new NodeActiveBorder(node, action);
@@ -60,10 +50,9 @@ public class NodeRuntimeBorders {
 
 public class NodeActiveBorder
 {
-    public bool Active;
     public BaseNode Node;
-    public float AnimTimer;
 
+    private float animTimer;
     private BaseAction action;
     private const float animDuration = 0.8f;
 
@@ -71,24 +60,25 @@ public class NodeActiveBorder
     {
         Node = nodeRef;
         action = actionRef;
-        AnimTimer = 0f;
+        animTimer = 0f;
     }
 
-    public bool Update()
+    public void Update()
     {
-        if (action.Active)
+        if (action.Active || action.NewActivation)
         {
+            action.NewActivation = false;
+            animTimer = 0f;
             Node.SelectedBorderAlpha = 1f;
-            return true;
+            return;
         }
-        else if (AnimTimer < animDuration)
+        else if (animTimer < animDuration)
         {
-            AnimTimer += Time.deltaTime;
-            Node.SelectedBorderAlpha = (1f - AnimTimer / animDuration);
-            return true;
+            animTimer += Time.deltaTime;
+            Node.SelectedBorderAlpha = (1f - animTimer / animDuration);
+            return;
         }
 
         Node.SelectedBorderAlpha = -1f;
-        return false;
     }
 }
