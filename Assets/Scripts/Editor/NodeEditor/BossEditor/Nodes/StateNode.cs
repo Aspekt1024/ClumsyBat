@@ -33,8 +33,8 @@ public class StateNode : BaseNode {
 
     private void SetInterfacePositions()
     {
-        SetInterface(25f, 0);
-        SetInterface(25f, 1);
+        SetInterface(0, 1);
+        SetInterface(1, 1);
     }
 
     public override void Draw()

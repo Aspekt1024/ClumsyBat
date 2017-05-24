@@ -16,19 +16,17 @@ public class WaitNode : BaseNode {
 
     private void SetInterfacePositions()
     {
-        SetInterface(30, (int)Iface.Input);
-        SetInterface(30, (int)Iface.Output);
+        SetInterface((int)Iface.Input, 1);
+        SetInterface((int)Iface.Output, 1);
     }
 
     public override void Draw()
     {
         WindowTitle = "Wait";
         Transform.Width = 70;
-        Transform.Height = 40;
+        Transform.Height = 60;
 
-        EditorGUIUtility.labelWidth = 70f;
-        WaitTime = EditorGUI.FloatField(new Rect(new Vector2(15, 18), new Vector2(Transform.Width - 40, 18)), WaitTime);
-        EditorGUI.LabelField(new Rect(new Vector2(Transform.Width - 25, 18), new Vector2(10, 18)), "s");
+        WaitTime = NodeGUI.FloatFieldWithPrefixLayout(WaitTime, " s", 0.7f);
 
         SetInterfacePositions();
         DrawInterfaces();

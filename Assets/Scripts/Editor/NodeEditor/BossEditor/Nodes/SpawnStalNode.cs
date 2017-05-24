@@ -98,7 +98,7 @@ public class SpawnStalNode : BaseNode {
             {
                 EditorGUI.LabelField(new Rect(startPos.x, startPos.y, 30f, 15f), "rng:");
                 EditorGUI.MinMaxSlider(new Rect(startPos.x + 30, startPos.y, 65f, 15), ref spawn.xPosStart, ref spawn.xPosEnd, -6.2f, 6.2f);
-                SetInterface(startPos.y + 8f, spawn.inputIndex);
+                SetInterface(spawn.inputIndex, i + 4);
             }
             EditorGUI.LabelField(new Rect(startPos.x + 100f, startPos.y, 40f, 15f), "dly:");
             spawn.delay = EditorGUI.FloatField(new Rect(startPos.x + 125f, startPos.y, 30f, 15f), spawn.delay);

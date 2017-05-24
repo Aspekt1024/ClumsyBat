@@ -14,7 +14,7 @@ public class PlayerNode : BaseNode {
 
     private void SetInterfacePositions()
     {
-        SetInterface(25f, 0, "Object");
+        SetInterface(0, 1, "Object");
     }
 
     public override void Draw()

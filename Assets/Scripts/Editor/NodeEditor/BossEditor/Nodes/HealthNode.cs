@@ -20,8 +20,8 @@ public class HealthNode : BaseNode {
 
     private void SetInterfacePositions()
     {
-        SetInterface(30f, (int)Ifaces.Input);
-        SetInterface(30f, (int)Ifaces.Output);
+        SetInterface((int)Ifaces.Input, 1);
+        SetInterface((int)Ifaces.Output, 1);
     }
 
     public override void Draw()

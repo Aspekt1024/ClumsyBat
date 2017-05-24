@@ -140,12 +140,14 @@ public abstract class BaseNode {
         }
     }
 
-    protected void SetInterface(float yPos, int id, string label = "")
+    protected void SetInterface(int id, int yPos, string label = "")
     {
+        const float yPosSpacing = 20f;
+        const float yStartPos = 35f;
         foreach (var iface in interfaces)
         {
             if (iface.ID != id) continue;
-            iface.SetInterface(yPos, label);
+            iface.SetInterface((yPos - 1) * yPosSpacing + yStartPos, label);
         }
     }
 

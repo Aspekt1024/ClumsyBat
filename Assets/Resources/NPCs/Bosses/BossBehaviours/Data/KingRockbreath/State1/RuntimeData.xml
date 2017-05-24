@@ -39,7 +39,7 @@
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
-      <WaitTime>2</WaitTime>
+      <WaitTime>2.1</WaitTime>
     </BaseAction>
     <BaseAction xsi:type="JumpAction">
       <ID>3</ID>

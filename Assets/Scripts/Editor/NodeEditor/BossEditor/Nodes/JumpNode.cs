@@ -26,20 +26,20 @@ public class JumpNode : BaseNode {
 
     private void SetInterfacePositions()
     {
-        SetInterface(30, (int)Ifaces.Input);
+        SetInterface((int)Ifaces.Input, 1);
 
-        SetInterface(30, (int)Ifaces.Jumped, "next");
-        SetInterface(50, (int)Ifaces.Top, "Top");
-        SetInterface(70, (int)Ifaces.Landed, "Landed");
+        SetInterface((int)Ifaces.Jumped, 1, "next");
+        SetInterface((int)Ifaces.Top, 2, "Top");
+        SetInterface((int)Ifaces.Landed, 3, "Landed");
     }
 
     public override void Draw()
     {
         WindowTitle = "Jump";
         Transform.Width = 15 * NodeGUI.GridSpacing;
-        Transform.Height = 9 * NodeGUI.GridSpacing;
+        Transform.Height = 10 * NodeGUI.GridSpacing;
         
-        Vector2 pos = new Vector2(2, 2) * NodeGUI.GridSpacing;
+        Vector2 pos = new Vector2(2, 3) * NodeGUI.GridSpacing;
         GUI.Label(new Rect(pos + new Vector2(15f, 0f), new Vector2(50, 20)), "Height");
         JumpForce = EditorGUI.FloatField(new Rect(pos + new Vector2(15f, 20f), new Vector2(35f, 15f)), JumpForce);
         JumpForce = GUI.VerticalSlider(new Rect(pos, new Vector2(2, 6) * NodeGUI.GridSpacing), JumpForce, maxJumpForce, minJumpForce);

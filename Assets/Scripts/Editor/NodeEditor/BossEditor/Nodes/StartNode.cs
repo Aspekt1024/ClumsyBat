@@ -10,13 +10,13 @@ public class StartNode : BaseNode {
 
     private void SetInterfacePositions()
     {
-        SetInterface(30f, 0);
+        SetInterface(0, 1);
     }
 
     public override void Draw()
     {
         Transform.Width = 80;
-        Transform.Height = 40;
+        Transform.Height = 50;
         WindowTitle = "Start";
 
         SetInterfacePositions();

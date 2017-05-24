@@ -6,7 +6,7 @@ public class NodeGUI {
 
     public const float GridSpacing = 10f;
     private const float hPadding = 15f;
-    private const float vPadding = 25f;
+    private const float vPadding = 30f;
     
     private float item = 0;
     private Vector2 winSize;
@@ -27,6 +27,7 @@ public class NodeGUI {
     {
         Vector2 pos = rect.position * GridSpacing;
 
+        GUI.skin.label.alignment = TextAnchor.UpperLeft;
         GUI.Label(new Rect(pos + new Vector2(15f, 0f), new Vector2(50, 20)), label);
         value = EditorGUI.FloatField(new Rect(pos + new Vector2(15f, 20f), new Vector2(35f, 15f)), value);
 
@@ -68,7 +69,30 @@ public class NodeGUI {
     {
         return GUI.Button(rect, label);
     }
-	
+
+    public static float FloatFieldWithPrefixLayout(float value, string label, float xSplitPercent = 0.6f)
+    {
+        return FloatFieldWithPrefix(NextLayoutRect(), value, label, xSplitPercent); ;
+    }
+
+    public static float FloatFieldWithPrefix(Rect rect, float value, string label, float xSplitPercent = 0.6f)
+    {
+        value = EditorGUI.FloatField(new Rect(rect.position, new Vector2(rect.size.x * xSplitPercent, rect.size.y)), value);
+
+        Vector2 labelPos = rect.position + new Vector2(rect.size.x * xSplitPercent, 0f);
+        Vector2 labelSize = new Vector2(rect.size.x * (1 - xSplitPercent), rect.size.y);
+
+        GUI.skin.label.alignment = TextAnchor.UpperLeft;
+        GUI.Label(new Rect(labelPos, labelSize), label);
+
+        return value;
+    }
+
+    public static float FloatFieldLayout(float value)
+    {
+        return FloatFieldLayout(value, "", 0f);
+    }
+
     public static float FloatFieldLayout(float value, string label, float xSplitPercent = 0.4f)
     {
         return FloatField(NextLayoutRect(), value, label, xSplitPercent);

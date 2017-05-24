@@ -1,8 +1,105 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <NodeDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <EditorOffset>
-    <x>1374</x>
+    <x>1375</x>
     <y>1101</y>
   </EditorOffset>
-  <Nodes />
+  <Nodes>
+    <BaseNode xsi:type="StartNode">
+      <WindowTitle>Start</WindowTitle>
+      <ID>0</ID>
+      <interfaces>
+        <NodeInterface>
+          <Position>
+            <x>73</x>
+            <y>30</y>
+          </Position>
+          <ID>0</ID>
+          <Label />
+          <Type>Event</Type>
+          <Direction>Output</Direction>
+          <ConnectedNodeID>1</ConnectedNodeID>
+          <ConnectedIfaceID>0</ConnectedIfaceID>
+        </NodeInterface>
+      </interfaces>
+      <WindowRect>
+        <x>-1250</x>
+        <y>-1000</y>
+        <position>
+          <x>-1250</x>
+          <y>-1000</y>
+        </position>
+        <center>
+          <x>-1210</x>
+          <y>-980</y>
+        </center>
+        <min>
+          <x>-1250</x>
+          <y>-1000</y>
+        </min>
+        <max>
+          <x>-1170</x>
+          <y>-960</y>
+        </max>
+        <width>80</width>
+        <height>40</height>
+        <size>
+          <x>80</x>
+          <y>40</y>
+        </size>
+        <xMin>-1250</xMin>
+        <yMin>-1000</yMin>
+        <xMax>-1170</xMax>
+        <yMax>-960</yMax>
+      </WindowRect>
+    </BaseNode>
+    <BaseNode xsi:type="LoopNode">
+      <WindowTitle>Loop to Start</WindowTitle>
+      <ID>1</ID>
+      <interfaces>
+        <NodeInterface>
+          <Position>
+            <x>7</x>
+            <y>30</y>
+          </Position>
+          <ID>0</ID>
+          <Label />
+          <Type>Event</Type>
+          <Direction>Input</Direction>
+          <ConnectedNodeID>0</ConnectedNodeID>
+          <ConnectedIfaceID>0</ConnectedIfaceID>
+        </NodeInterface>
+      </interfaces>
+      <WindowRect>
+        <x>-870</x>
+        <y>-1000</y>
+        <position>
+          <x>-870</x>
+          <y>-1000</y>
+        </position>
+        <center>
+          <x>-810</x>
+          <y>-980</y>
+        </center>
+        <min>
+          <x>-870</x>
+          <y>-1000</y>
+        </min>
+        <max>
+          <x>-750</x>
+          <y>-960</y>
+        </max>
+        <width>120</width>
+        <height>40</height>
+        <size>
+          <x>120</x>
+          <y>40</y>
+        </size>
+        <xMin>-870</xMin>
+        <yMin>-1000</yMin>
+        <xMax>-750</xMax>
+        <yMax>-960</yMax>
+      </WindowRect>
+    </BaseNode>
+  </Nodes>
 </NodeDataCollection>

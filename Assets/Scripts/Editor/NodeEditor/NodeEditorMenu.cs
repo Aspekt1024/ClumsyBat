@@ -56,7 +56,7 @@ public class NodeEditorMenu {
 
     public void Draw()
     {
-        GUI.skin = (GUISkin)EditorGUIUtility.Load("NodeNormalSkin.guiskin");
+        GUI.skin = (GUISkin)EditorGUIUtility.Load("HeaderSkin.guiskin");
         DrawMenuBox();
         DrawMainSystemButton();
         DrawSubSystemButtons();

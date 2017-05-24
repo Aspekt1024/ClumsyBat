@@ -14,7 +14,7 @@ public class BossNode : BaseNode {
 
     private void SetInterfacePositions()
     {
-        SetInterface(30f, 0, "Object");
+        SetInterface(0, 1, "Object");
     }
 
     public override void Draw()
