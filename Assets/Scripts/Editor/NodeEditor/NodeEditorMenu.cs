@@ -40,14 +40,14 @@ public class NodeEditorMenu {
 
     public void UpdateSystemModel()
     {
-        if (editor.StateMachine.IsType<BossStateMachine>())
+        Debug.Log("TODO This should only run on LoadEditor, not on EditState"); // TODO
+        if (editor.BehaviourSet.IsType<StateMachine>())
         {
             SetMainSystem();
             activeSystemID = 0;
         }
         else
         {
-            Debug.Log("fix this being called when state is opened instead of state machine");
             int id = GetNewID();
             StoreSystem(id);
             GetMainSystem();
@@ -69,7 +69,7 @@ public class NodeEditorMenu {
     {
         Handles.color = Color.white;
 
-        if (editor.StateMachine.IsType<BossStateMachine>())
+        if (editor.BehaviourSet.IsType<StateMachine>())
             Handles.color = Color.red * 0.7f;
 
         Handles.DrawSolidRectangleWithOutline(new Rect(0, 0, editor.position.width, 60f), Color.black, Color.grey);
@@ -96,7 +96,7 @@ public class NodeEditorMenu {
         for (int i = 0; i < systems.Count; i++)
         {
             Rect rect = new Rect(115f + i * 110f, 30f, 100f, 25f);
-            string sysName = systems[i].Machine.name;
+            string sysName = systems[i].BehaviourSet.name;
             if (activeSystemID == systems[i].ID)
             {
                 GUI.Box(rect, sysName);
@@ -168,13 +168,13 @@ public class NodeEditorMenu {
     {
         foreach(var system in systems)
         {
-            if (system.Machine == editor.StateMachine)
+            if (system.BehaviourSet == editor.BehaviourSet)
             {
                 return;
             }
         }
 
-        NodeSystem newSystem = new NodeSystem(id, editor.Nodes, editor.CanvasOffset, editor.StateMachine);
+        NodeSystem newSystem = new NodeSystem(id, editor.Nodes, editor.CanvasOffset, editor.BehaviourSet);
         systems.Add(newSystem);
     }
 
@@ -197,20 +197,20 @@ public class NodeEditorMenu {
     private void ActivateSystem(NodeSystem system)
     {
         editor.Nodes = system.Nodes;
-        editor.StateMachine = system.Machine;
+        editor.BehaviourSet = system.BehaviourSet;
         editor.CanvasOffset = system.CanvasOffset;
         activeSystemID = system.ID;
     }
 
     private void GetMainSystem()
     {
-        editor.LoadEditor(editor.StateMachine.RootStateMachine);
+        editor.LoadEditor(editor.BehaviourSet.RootStateMachine);
         SetMainSystem();
     }
 
     private void SetMainSystem()
     {
-        mainSystem = new NodeSystem(0, editor.Nodes, editor.CanvasOffset, editor.StateMachine);
+        mainSystem = new NodeSystem(0, editor.Nodes, editor.CanvasOffset, editor.BehaviourSet);
     }
 }
 
@@ -219,13 +219,13 @@ public class NodeSystem
     public int ID;
     public List<BaseNode> Nodes;
     public Vector2 CanvasOffset;
-    public StateMachine Machine;
+    public BehaviourSet BehaviourSet;
 
-    public NodeSystem(int id, List<BaseNode> nodes, Vector2 offset, StateMachine stateMachine)
+    public NodeSystem(int id, List<BaseNode> nodes, Vector2 offset, BehaviourSet behaviour)
     {
         ID = id;
         Nodes = nodes;
         CanvasOffset = offset;
-        Machine = stateMachine;
+        BehaviourSet = behaviour;
     }
 }

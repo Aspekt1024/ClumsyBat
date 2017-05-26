@@ -30,9 +30,9 @@ public class WaitAction : BaseAction {
         }
     }
 
-    public override void GameSetup(StateMachine parentStateMachine, BossData bossData, GameObject bossReference)
+    public override void GameSetup(BehaviourSet behaviourSet, BossData bossData, GameObject bossReference)
     {
-        base.GameSetup(parentStateMachine, bossData, bossReference);
+        base.GameSetup(behaviourSet, bossData, bossReference);
         bWaitActive = false;
     }
 

@@ -11,9 +11,9 @@ public static class BossActionLoadHandler {
 
     private const string DataFolder = "NPCs/Bosses/BossBehaviours/Data";
 
-    public static void Load (StateMachine bossStateMachine) {
+    public static void Load (BehaviourSet behaviourSet) {
 
-        string filePath = GetDataResourcePath(bossStateMachine);
+        string filePath = GetDataResourcePath(behaviourSet);
         XmlSerializer serializer = new XmlSerializer(typeof(ActionDataContainer), GetActionTypes());
         
         ActionDataContainer data;
@@ -23,16 +23,16 @@ public static class BossActionLoadHandler {
             data = (ActionDataContainer)serializer.Deserialize(stream);
         }
 
-        bossStateMachine.Actions = data.Actions;
+        behaviourSet.Actions = data.Actions;
 
-        foreach (var action in bossStateMachine.Actions)
+        foreach (var action in behaviourSet.Actions)
         {
             foreach (var conn in action.connections)
             {
                 conn.Action = action;   // TODO Store this by creating INodeInterface : http://www.thomaslevesque.com/2009/06/12/c-parentchild-relationship-and-xml-serialization/
                 if (conn.OtherActionID >= 0)
                 {
-                    conn.ConnectedInterface = GetConnection(bossStateMachine.Actions, conn.OtherActionID, conn.OtherConnID);
+                    conn.ConnectedInterface = GetConnection(behaviourSet.Actions, conn.OtherActionID, conn.OtherConnID);
                 }
             }
         }
@@ -62,26 +62,26 @@ public static class BossActionLoadHandler {
         return baseActionTypes.ToArray();
     }
     
-    private static string GetDataResourcePath(StateMachine stateMachine)
+    private static string GetDataResourcePath(BehaviourSet behaviourSet)
     {
-        string dataPath = GetStateMachineDataPath(stateMachine);
-        if (stateMachine.IsType<BossState>())
-            dataPath = GetStateDataPath(stateMachine);
+        string dataPath = GetStateMachineDataPath(behaviourSet);
+        if (behaviourSet.IsType<State>())
+            dataPath = GetStateDataPath(behaviourSet);
 
         return dataPath;
     }
-    private static string GetStateMachineDataPath(StateMachine stateMachine)
+    private static string GetStateMachineDataPath(BehaviourSet behaviourSet)
     {
-        string stateMachineName = stateMachine.name;
+        string stateMachineName = behaviourSet.name;
         return string.Format("{0}/{1}/StateMachineRuntimeData", DataFolder, stateMachineName);
     }
     
-    private static string GetStateDataPath(StateMachine stateMachine)
+    private static string GetStateDataPath(BehaviourSet behaviourSet)
     {
-        string bossFolder = stateMachine.BossName.Replace(" ", "");
+        string bossFolder = behaviourSet.BossName.Replace(" ", "");
 
         string bossDataPath = string.Format("{0}/{1}", DataFolder, bossFolder);
-        string stateFolder = ((BossState)stateMachine).StateName.Replace(" ", "");
+        string stateFolder = ((State)behaviourSet).StateName.Replace(" ", "");
         
         return string.Format("{0}/{1}/RuntimeData", bossDataPath, stateFolder);
     }

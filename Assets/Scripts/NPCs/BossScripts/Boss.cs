@@ -15,7 +15,7 @@ public class Boss : MonoBehaviour {
     protected Rigidbody2D body;
     protected Collider2D bossCollider;
 
-    private BossStateMachine bossStateMachine;
+    private StateMachine machine;
 
     private Vector2 originalScale;  // Used for facing the boss left/right
     private Vector2 storedVelocity;
@@ -51,13 +51,13 @@ public class Boss : MonoBehaviour {
         bossRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public void SetBaseProperties(BossStateMachine props)
+    public void SetBaseProperties(StateMachine stateMachine)
     {
-        bossStateMachine = props;
-        health = props.Health;
+        machine = stateMachine;
+        health = stateMachine.Health;
     }
 
-    public void SetPropsFromState(BossState state)
+    public void SetPropsFromState(State state)
     {
         damageObjects = new List<BossDamageObjects>();
         gameObject.layer = LayerMask.NameToLayer("Boss");
@@ -128,7 +128,7 @@ public class Boss : MonoBehaviour {
         {
             StartCoroutine("Damaged");
         }
-        bossStateMachine.HealthChanged(health);
+        machine.HealthChanged(health);
         HealthUpdate();
     }
 

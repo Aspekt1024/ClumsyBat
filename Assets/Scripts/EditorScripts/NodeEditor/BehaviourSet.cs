@@ -4,10 +4,10 @@ using UnityEngine;
 /// <summary>
 /// Base class for holding editor/runtime State Machine data
 /// </summary>
-public abstract class StateMachine : ScriptableObject {
+public abstract class BehaviourSet : ScriptableObject {
 
     public string BossName;
-    public StateMachine RootStateMachine;
+    public BehaviourSet RootStateMachine;
 
     public StartAction StartingAction;
     public List<BaseAction> Actions = new List<BaseAction>();
@@ -15,7 +15,7 @@ public abstract class StateMachine : ScriptableObject {
 
     public BaseAction CurrentAction;
 
-    public bool IsType<T>() where T : StateMachine
+    public bool IsType<T>() where T : BehaviourSet
     {
         return GetType().Equals(typeof(T));
     }

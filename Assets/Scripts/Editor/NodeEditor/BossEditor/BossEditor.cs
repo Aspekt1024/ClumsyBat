@@ -10,14 +10,14 @@ public class BossEditor : BaseEditor
     {
         BossEditor editor = GetWindow<BossEditor>();
         editor.SetEditorTheme();
-        editor.StateMachine = null;
+        editor.BehaviourSet = null;
     }
 
     protected override void SetEditorTheme()
     {
-        if (StateMachine != null)
+        if (BehaviourSet != null)
         {
-            EditorLabel = "State machine : " + StateMachine.BossName;
+            EditorLabel = "State machine : " + BehaviourSet.BossName;
         }
 
         titleContent.image = (Texture)Resources.Load("LevelButtons/Boss1AvailableClicked");
@@ -27,7 +27,7 @@ public class BossEditor : BaseEditor
 
     public void EditState()
     {
-        BossState state = ((StateNode)_currentNode).State;
+        State state = ((StateNode)_currentNode).State;
         LoadEditor(state);
     }
 }

@@ -15,10 +15,10 @@ public class JumpAction : BaseAction {
         Landed
     }
 
-    public override void GameSetup(StateMachine owningContainer, BossData behaviour, GameObject bossReference)
+    public override void GameSetup(BehaviourSet behaviourSet, BossData bossData, GameObject bossReference)
     {
-        base.GameSetup(owningContainer, behaviour, bossReference);
-        jumpAbility = bossData.GetAbility<JumpPound>();
+        base.GameSetup(behaviourSet, bossData, bossReference);
+        jumpAbility = base.bossData.GetAbility<JumpPound>();
     }
 
     public override void ActivateBehaviour()

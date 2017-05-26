@@ -7,42 +7,13 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Output</Direction>
-          <OtherActionID>3</OtherActionID>
-          <OtherConnID>0</OtherConnID>
-        </ActionConnection>
-      </connections>
-    </BaseAction>
-    <BaseAction xsi:type="LoopAction">
-      <ID>1</ID>
-      <connections>
-        <ActionConnection>
-          <ID>0</ID>
-          <Direction>Input</Direction>
-          <OtherActionID>2</OtherActionID>
-          <OtherConnID>1</OtherConnID>
-        </ActionConnection>
-      </connections>
-    </BaseAction>
-    <BaseAction xsi:type="WaitAction">
-      <ID>2</ID>
-      <connections>
-        <ActionConnection>
-          <ID>0</ID>
-          <Direction>Input</Direction>
-          <OtherActionID>3</OtherActionID>
-          <OtherConnID>3</OtherConnID>
-        </ActionConnection>
-        <ActionConnection>
-          <ID>1</ID>
-          <Direction>Output</Direction>
           <OtherActionID>1</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
-      <WaitTime>2.1</WaitTime>
     </BaseAction>
-    <BaseAction xsi:type="JumpAction">
-      <ID>3</ID>
+    <BaseAction xsi:type="StateEventAction">
+      <ID>1</ID>
       <connections>
         <ActionConnection>
           <ID>0</ID>
@@ -50,26 +21,8 @@
           <OtherActionID>0</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
-        <ActionConnection>
-          <ID>1</ID>
-          <Direction>Output</Direction>
-          <OtherActionID>-1</OtherActionID>
-          <OtherConnID>-1</OtherConnID>
-        </ActionConnection>
-        <ActionConnection>
-          <ID>2</ID>
-          <Direction>Output</Direction>
-          <OtherActionID>-1</OtherActionID>
-          <OtherConnID>-1</OtherConnID>
-        </ActionConnection>
-        <ActionConnection>
-          <ID>3</ID>
-          <Direction>Output</Direction>
-          <OtherActionID>2</OtherActionID>
-          <OtherConnID>0</OtherConnID>
-        </ActionConnection>
       </connections>
-      <JumpForce>650</JumpForce>
+      <StateEventID>1</StateEventID>
     </BaseAction>
   </Actions>
 </ActionDataCollection>

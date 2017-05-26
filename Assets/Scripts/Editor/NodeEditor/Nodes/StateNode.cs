@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-using StateChangeTypes = BossState.StateChangeTypes;
+using StateChangeTypes = State.StateChangeTypes;
 
 /// <summary>
 /// A node representing a state in the state machine.
@@ -16,11 +16,11 @@ public class StateNode : BaseNode {
 
     public string StateName = "New State";
 
-    [XmlIgnore] public BossState State;
+    [XmlIgnore] public State State;
 
     private int selectedStateIndex;
 
-    public override void SetupNode(StateMachine dataContainer)
+    public override void SetupNode(BehaviourSet dataContainer)
     {
         base.SetupNode(dataContainer);
     }
@@ -97,7 +97,7 @@ public class StateNode : BaseNode {
         }
 
         NodeGUI.Space();
-        BossState[] allStates = Resources.LoadAll<BossState>("NPCs/Bosses/BossBehaviours");
+        State[] allStates = Resources.LoadAll<State>("NPCs/Bosses/BossBehaviours");
         if (allStates.Length == 0) return;
 
         var statesStringArray = BossSelectorHelpers.ObjectArrayToStringArray(allStates);
@@ -112,9 +112,9 @@ public class StateNode : BaseNode {
 
     private void CreateNewState()
     {
-        BossState newState = ScriptableObject.CreateInstance<BossState>();
+        State newState = ScriptableObject.CreateInstance<State>();
         newState.StateName = StateName;
-        newState.RootStateMachine = ParentEditor.StateMachine.RootStateMachine;
+        newState.RootStateMachine = ParentEditor.BehaviourSet.RootStateMachine;
         newState.BossName = newState.RootStateMachine.BossName;
 
         string dataFolder = NodeEditorSaveHandler.DataFolder;
@@ -132,7 +132,7 @@ public class StateNode : BaseNode {
         State = newState;
     }
 
-    private void UseExistingState(BossState existingState)
+    private void UseExistingState(State existingState)
     {
         State = existingState;
     }

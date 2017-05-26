@@ -8,10 +8,10 @@ public static class OpenAssetHandler {
     private static bool LoadBossEditor(int instanceID, int line)
     {
         Object obj = EditorUtility.InstanceIDToObject(instanceID);
-        if (EditorUtility.InstanceIDToObject(instanceID).GetType() == typeof(BossStateMachine))
+        if (EditorUtility.InstanceIDToObject(instanceID).GetType() == typeof(StateMachine))
         {
             BossEditor editor = EditorWindow.GetWindow<BossEditor>(desiredDockNextTo: typeof(SceneView));
-            editor.LoadEditor((BossStateMachine)obj);
+            editor.LoadEditor((StateMachine)obj);
         }
         return false;
     }
@@ -20,10 +20,10 @@ public static class OpenAssetHandler {
     private static bool LoadBossStateEditor(int instanceID, int line)
     {
         Object obj = EditorUtility.InstanceIDToObject(instanceID);
-        if (EditorUtility.InstanceIDToObject(instanceID).GetType() == typeof(BossState))
+        if (EditorUtility.InstanceIDToObject(instanceID).GetType() == typeof(State))
         {
             BossEditor editor = EditorWindow.GetWindow<BossEditor>(desiredDockNextTo: typeof(SceneView));
-            editor.LoadEditor((BossState)obj);
+            editor.LoadEditor((State)obj);
         }
         return false;
     }

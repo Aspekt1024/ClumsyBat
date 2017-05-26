@@ -10,9 +10,9 @@ public class BossEditorContextMenus : BaseContextMenus {
 
     public override void ShowMenu()
     {
-        if (editor.StateMachine.IsType<BossStateMachine>())
+        if (editor.BehaviourSet.IsType<StateMachine>())
             ShowStateMachineMenu();
-        else if (editor.StateMachine.IsType<BossState>())
+        else if (editor.BehaviourSet.IsType<State>())
             ShowStateMenu();
     }
 

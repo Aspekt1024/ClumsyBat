@@ -27,9 +27,9 @@ public class PlayerEventAction : BaseAction {
         }
     }
 
-    public override void GameSetup(StateMachine owningContainer, BossData behaviour, GameObject bossReference)
+    public override void GameSetup(BehaviourSet behaviourSet, BossData bossData, GameObject bossReference)
     {
-        base.GameSetup(owningContainer, behaviour, bossReference);
+        base.GameSetup(behaviourSet, bossData, bossReference);
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 }

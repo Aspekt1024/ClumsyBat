@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BossData : MonoBehaviour {
 
-    public BossStateMachine BossStateMachine;
+    public StateMachine BossStateMachine;
 
     private GameObject bossObject;
     private Boss bossScripts;

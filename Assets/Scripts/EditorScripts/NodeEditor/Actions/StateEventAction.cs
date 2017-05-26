@@ -11,7 +11,7 @@ public class StateEventAction : BaseAction {
 
     public override void ActivateBehaviour()
     {
-        ((BossState)ParentStateMachine).ActivateEvent(StateEventID);
+        ((State)behaviourSet).ActivateEvent(StateEventID);
     }
 
 }

@@ -10,20 +10,20 @@ public class BossStateEditor : BaseEditor {
     {
         BossStateEditor editor = GetWindow<BossStateEditor>();
         editor.SetEditorTheme();
-        editor.StateMachine = null;
+        editor.BehaviourSet = null;
     }
 
-    public override void LoadEditor(StateMachine obj)
+    public override void LoadEditor(BehaviourSet obj)
     {
-        StateMachine = obj;
+        BehaviourSet = obj;
         base.LoadEditor(obj);
     }
 
     protected override void SetEditorTheme()
     {
-        if (StateMachine != null)
+        if (BehaviourSet != null)
         {
-            EditorLabel = string.Format("{0} - {1}", StateMachine.BossName, ((BossState)StateMachine).StateName);
+            EditorLabel = string.Format("{0} - {1}", BehaviourSet.BossName, ((State)BehaviourSet).StateName);
         }
 
         titleContent.image = (Texture)Resources.Load("LevelButtons/Boss1Available");

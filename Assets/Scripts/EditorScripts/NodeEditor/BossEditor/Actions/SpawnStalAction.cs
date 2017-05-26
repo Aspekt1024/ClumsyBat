@@ -34,10 +34,10 @@ public class SpawnStalAction : BaseAction {
 
     private SpawnStalactites spawnAbility;
     
-    public override void GameSetup(StateMachine owningContainer, BossData behaviour, GameObject bossReference)
+    public override void GameSetup(BehaviourSet behaviourSet, BossData bossData, GameObject bossReference)
     {
-        base.GameSetup(owningContainer, behaviour, bossReference);
-        spawnAbility = bossData.GetAbility<SpawnStalactites>();
+        base.GameSetup(behaviourSet, bossData, bossReference);
+        spawnAbility = base.bossData.GetAbility<SpawnStalactites>();
         spawnPhase = StalAction == StalActions.AltSpawnFirst;
         awaitingDelay = false;
     }

@@ -11,7 +11,7 @@ public class StateAction : BaseAction {
 
     public string StateName;
 
-    [XmlIgnore] public BossState State;
+    [XmlIgnore] public State State;
     
     public override void ActivateBehaviour()
     {
@@ -20,17 +20,17 @@ public class StateAction : BaseAction {
         State.BeginState();
     }
 
-    public override void GameSetup(StateMachine parentMachine, BossData bossData, GameObject bossReference)
+    public override void GameSetup(BehaviourSet behaviourSet, BossData bossData, GameObject bossReference)
     {
-        base.GameSetup(parentMachine, bossData, bossReference);
+        base.GameSetup(behaviourSet, bossData, bossReference);
 
         string dataFolder = "NPCs/Bosses/BossBehaviours/Data";
-        string bossFolder = parentMachine.BossName.Replace(" ", "");
+        string bossFolder = behaviourSet.BossName.Replace(" ", "");
         string stateFolder = StateName.Replace(" ", "");
         string assetName = stateFolder;
         string resourcePath = string.Format("{0}/{1}/{2}/{3}", dataFolder, bossFolder, stateFolder, assetName);
         
-        State = Resources.Load<BossState>(resourcePath);
+        State = Resources.Load<State>(resourcePath);
         if (State == null) return;
         
         State.SetupActions(bossData, bossReference);

@@ -25,7 +25,7 @@ public class NodeRuntimeBorders {
 
     private void FindActiveNode()
     {
-        foreach (var action in editor.StateMachine.Actions)
+        foreach (var action in editor.BehaviourSet.Actions)
         {
             foreach (var node in editor.Nodes)
             {

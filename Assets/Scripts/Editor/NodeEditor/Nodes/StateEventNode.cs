@@ -22,8 +22,7 @@ public class StateEventNode : BaseNode
 
     public override void Draw()
     {
-        Debug.Log(this + " " + StateEventID);
-        BossState parentState = (BossState)ParentEditor.StateMachine;
+        State parentState = (State)ParentEditor.BehaviourSet;
         int stateEventIndex = parentState.GetStateEventIndex(StateEventID);
         if (stateEventIndex < 0) return;
 
@@ -41,15 +40,15 @@ public class StateEventNode : BaseNode
         DrawInterfaces();
     }
 
-    public override void SetupNode(StateMachine stateMachine)
+    public override void SetupNode(BehaviourSet behaviour)
     {
-        base.SetupNode(stateMachine);
-        StateEventID = ((BossState)stateMachine).AddNewStateEvent();
+        base.SetupNode(behaviour);
+        StateEventID = ((State)behaviour).AddNewStateEvent();
     }
 
     public override void DeleteNode()
     {
-        ((BossState)ParentEditor.StateMachine).RemoveStateEvent(StateEventID);
+        ((State)ParentEditor.BehaviourSet).RemoveStateEvent(StateEventID);
         base.DeleteNode();
     }
 

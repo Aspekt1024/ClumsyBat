@@ -5,14 +5,14 @@ using System.Collections.Generic;
 /// State Machine for the Boss
 /// </summary>
 [CreateAssetMenu(fileName = "BossData", menuName = "Custom/Boss", order = 1)]
-public class BossStateMachine : StateMachine
+public class StateMachine : BehaviourSet
 {
     public GameObject BossPrefab; 
     public int Health;
     public bool SpawnMoths;    // TODO make into selectable list, per state
     public bool ShakeScreenOnLanding;
     
-    public List<BossState> ActiveStates = new List<BossState>();
+    public List<State> ActiveStates = new List<State>();
     
     private GameObject bossObject;
 
@@ -33,7 +33,7 @@ public class BossStateMachine : StateMachine
         StartingAction.Activate();
     }
 
-    public void ActivateNewState(BossState state)
+    public void ActivateNewState(State state)
     {
         ActiveStates.Add(state);
         state.bEnabled = true;

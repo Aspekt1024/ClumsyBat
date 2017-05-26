@@ -14,7 +14,7 @@ public static class NodeEditorSaveHandler {
     public static void Load(BaseEditor editor)
     {
         string filePath = GetStateMachineEditorDataPath(editor);
-        if (editor.StateMachine.IsType<BossState>())
+        if (editor.BehaviourSet.IsType<State>())
             filePath = GetStateEditorDataPath(editor);
 
         XmlSerializer serializer = new XmlSerializer(typeof(NodeDataContainer), GetNodeTypes());
@@ -138,7 +138,7 @@ public static class NodeEditorSaveHandler {
     private static string GetEditorDataPath(BaseEditor editor)
     {
         string dataPath = GetStateMachineEditorDataPath(editor);
-        if (editor.StateMachine.IsType<BossState>())
+        if (editor.BehaviourSet.IsType<State>())
             dataPath = GetStateEditorDataPath(editor);
 
         return dataPath;
@@ -147,18 +147,18 @@ public static class NodeEditorSaveHandler {
 
     private static string GetStateMachineEditorDataPath(BaseEditor editor)
     {
-        string stateMachineName = editor.StateMachine.name;
+        string stateMachineName = editor.BehaviourSet.name;
         CreateFolderIfNotExists(DataFolder, stateMachineName);
         return string.Format("{0}/{1}/StateMachineEditorData.xml", DataFolder, stateMachineName);
     }
 
     private static string GetStateEditorDataPath(BaseEditor editor)
     {
-        string bossFolder = editor.StateMachine.BossName.Replace(" ", "");
+        string bossFolder = editor.BehaviourSet.BossName.Replace(" ", "");
         CreateFolderIfNotExists(DataFolder, bossFolder);
 
         string bossDataPath = string.Format("{0}/{1}", DataFolder, bossFolder);
-        string stateName = editor.StateMachine.name.Replace(" ", "");
+        string stateName = editor.BehaviourSet.name.Replace(" ", "");
         CreateFolderIfNotExists(bossDataPath, stateName);
         
         return string.Format("{0}/{1}/EditorData.xml", bossDataPath, stateName, stateName);
@@ -172,10 +172,10 @@ public static class NodeEditorSaveHandler {
         AssetDatabase.CreateFolder(path, folderName);
     }
 
-    private static BossState GetStateFromName(string stateName)
+    private static State GetStateFromName(string stateName)
     {
         stateName = stateName.Replace(" ", "");
-        BossState[] allStates = Resources.LoadAll<BossState>("NPCs/Bosses/BossBehaviours");
+        State[] allStates = Resources.LoadAll<State>("NPCs/Bosses/BossBehaviours");
         if (allStates.Length == 0) return null;
 
         foreach (var state in allStates)
@@ -189,7 +189,7 @@ public static class NodeEditorSaveHandler {
     private static string GetRuntimeDataPath(BaseEditor editor)
     {
         string dataPath = GetStateMachineRuntimeDataPath(editor);
-        if (editor.StateMachine.IsType<BossState>())
+        if (editor.BehaviourSet.IsType<State>())
             dataPath = GetStateRuntimeDataPath(editor);
 
         return dataPath;
@@ -197,7 +197,7 @@ public static class NodeEditorSaveHandler {
 
     private static string GetStateMachineRuntimeDataPath(BaseEditor editor)
     {
-        string stateMachineName = editor.StateMachine.name;
+        string stateMachineName = editor.BehaviourSet.name;
         CreateFolderIfNotExists(DataFolder, stateMachineName);
         
         return string.Format("{0}/{1}/StateMachineRuntimeData.xml", DataFolder, stateMachineName);
@@ -205,11 +205,11 @@ public static class NodeEditorSaveHandler {
 
     private static string GetStateRuntimeDataPath(BaseEditor editor)
     {
-        string bossFolder = editor.StateMachine.BossName.Replace(" ", "");
+        string bossFolder = editor.BehaviourSet.BossName.Replace(" ", "");
         CreateFolderIfNotExists(DataFolder, bossFolder);
 
         string bossDataPath = string.Format("{0}/{1}", DataFolder, bossFolder);
-        string stateName = editor.StateMachine.name.Replace(" ", "");
+        string stateName = editor.BehaviourSet.name.Replace(" ", "");
         CreateFolderIfNotExists(bossDataPath, stateName);
 
         return string.Format("{0}/{1}/RuntimeData.xml", bossDataPath, stateName, stateName);

@@ -9,7 +9,7 @@ public abstract class BaseEditor : EditorWindow {
     public Vector2 CanvasOffset;
     public Vector2 CanvasDrag;
     public NodeInterface DraggedInterface;
-    public StateMachine StateMachine;
+    public BehaviourSet BehaviourSet;
     public string EditorLabel;
 
     protected ColourThemes colourTheme;
@@ -29,13 +29,13 @@ public abstract class BaseEditor : EditorWindow {
     
     protected abstract void SetEditorTheme();
     
-    public virtual void LoadEditor(StateMachine machine)
+    public virtual void LoadEditor(BehaviourSet behaviourSet)
     {
         if (nodeMenu == null) nodeMenu = new NodeEditorMenu(this);
         
         nodeMenu.SaveCurrentMenuState();
 
-        StateMachine = machine;
+        BehaviourSet = behaviourSet;
         SetEditorTheme();
 
         SetRootContainerToSelf();
@@ -63,17 +63,17 @@ public abstract class BaseEditor : EditorWindow {
     
     private void SetRootContainerToSelf()
     {
-        if (StateMachine.RootStateMachine == null)
-            StateMachine.RootStateMachine = StateMachine;
+        if (BehaviourSet.RootStateMachine == null)
+            BehaviourSet.RootStateMachine = BehaviourSet;
     }
     
     protected virtual void OnEnable()
     {
         if (_mouseInput == null) _mouseInput = new BaseEditorMouseInput(this);
         
-        if (StateMachine != null)
+        if (BehaviourSet != null)
         {
-            LoadEditor(StateMachine);
+            LoadEditor(BehaviourSet);
         }
     }
 
@@ -108,7 +108,7 @@ public abstract class BaseEditor : EditorWindow {
     
     private void OnGUI()
     {
-        if (StateMachine == null) return;
+        if (BehaviourSet == null) return;
         
         // Last to be called is drawn on top
         DrawBackground();
@@ -245,7 +245,7 @@ public abstract class BaseEditor : EditorWindow {
     public virtual void AddNode(BaseNode newNode)
     {
         newNode.InitialiseNode(_mousePos - CanvasOffset, this);
-        newNode.SetupNode(StateMachine);
+        newNode.SetupNode(BehaviourSet);
         newNode.ID = Nodes.Count;
         Nodes.Add(newNode);
     }

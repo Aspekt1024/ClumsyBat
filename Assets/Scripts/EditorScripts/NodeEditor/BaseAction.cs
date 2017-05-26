@@ -10,7 +10,7 @@ public abstract class BaseAction
     [XmlIgnore] public bool Active;
     [XmlIgnore] public bool NewActivation;
 
-    protected StateMachine ParentStateMachine;
+    protected BehaviourSet behaviourSet;
     protected BossData bossData;
     protected GameObject boss;
     
@@ -18,7 +18,7 @@ public abstract class BaseAction
     {
         Active = true;
         NewActivation = true;
-        ParentStateMachine.CurrentAction = this;
+        behaviourSet.CurrentAction = this;
         ActivateBehaviour();
     }
 
@@ -65,9 +65,9 @@ public abstract class BaseAction
 
     public virtual GameObject GetObject(int id) { return null; }
 
-    public virtual void GameSetup(StateMachine parentMachine, BossData bossData, GameObject bossReference)
+    public virtual void GameSetup(BehaviourSet behaviourSet, BossData bossData, GameObject bossReference)
     {
-        ParentStateMachine = parentMachine;
+        this.behaviourSet = behaviourSet;
         this.bossData = bossData;
         boss = bossReference;
     }

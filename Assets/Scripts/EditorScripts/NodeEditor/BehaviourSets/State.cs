@@ -5,9 +5,9 @@ using System.Xml.Serialization;
 
 
 /// <summary>
-/// A state within the machine for the Boss
+/// A state within a State Machine or Behaviour Tree
 /// </summary>
-public class BossState : StateMachine {
+public class State : BehaviourSet {
     
     public string StateName = "State";
     public List<StateEvent> StateEvents = new List<StateEvent>();
@@ -128,12 +128,12 @@ public class StateEvent
     public int ID;
     public string EventName = "New Event";
     public bool CancelsState;
-    [XmlIgnore] public BossState ParentState;       // Allows access for the editor GUI
+    [XmlIgnore] public State ParentState;       // Allows access for the editor GUI
     public StateAction ParentAction;    // TODO Holds the runtime interface
 
     public StateEvent() { }
 
-    public StateEvent(int id, BossState state, string name, bool cancels)
+    public StateEvent(int id, State state, string name, bool cancels)
     {
         ID = id;
         ParentState = state;

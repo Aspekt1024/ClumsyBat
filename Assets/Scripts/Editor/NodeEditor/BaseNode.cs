@@ -23,7 +23,7 @@ public abstract class BaseNode {
     public abstract BaseAction GetAction();
     protected abstract void AddInterfaces();
 
-    public virtual void SetupNode(StateMachine stateMachine)
+    public virtual void SetupNode(BehaviourSet behaviour)
     {
         AddInterfaces();
     }

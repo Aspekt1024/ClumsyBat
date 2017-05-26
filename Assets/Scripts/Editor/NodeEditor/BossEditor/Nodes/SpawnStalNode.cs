@@ -74,9 +74,9 @@ public class SpawnStalNode : BaseNode {
         };
     }
 
-    public override void SetupNode(StateMachine dataContainer)
+    public override void SetupNode(BehaviourSet behaviour)
     {
-        base.SetupNode(dataContainer);
+        base.SetupNode(behaviour);
         AddNewStalSpawn();
     }
 
