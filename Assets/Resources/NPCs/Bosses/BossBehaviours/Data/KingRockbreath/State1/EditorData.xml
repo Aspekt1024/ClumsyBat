@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <NodeDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <EditorOffset>
-    <x>1386</x>
-    <y>1191</y>
+    <x>1368</x>
+    <y>1245</y>
   </EditorOffset>
   <Nodes>
     <BaseNode xsi:type="StartNode">
@@ -18,8 +18,8 @@
           <Label />
           <Type>Event</Type>
           <Direction>Output</Direction>
-          <ConnectedNodeID>3</ConnectedNodeID>
-          <ConnectedIfaceID>0</ConnectedIfaceID>
+          <ConnectedNodeID>-1</ConnectedNodeID>
+          <ConnectedIfaceID>-1</ConnectedIfaceID>
         </NodeInterface>
       </interfaces>
       <WindowRect>
@@ -53,8 +53,8 @@
         <yMax>-950</yMax>
       </WindowRect>
     </BaseNode>
-    <BaseNode xsi:type="LoopNode">
-      <WindowTitle>Loop to Start</WindowTitle>
+    <BaseNode xsi:type="StateEventNode">
+      <WindowTitle>New Event</WindowTitle>
       <ID>1</ID>
       <interfaces>
         <NodeInterface>
@@ -66,186 +66,41 @@
           <Label />
           <Type>Event</Type>
           <Direction>Input</Direction>
-          <ConnectedNodeID>2</ConnectedNodeID>
-          <ConnectedIfaceID>1</ConnectedIfaceID>
-        </NodeInterface>
-      </interfaces>
-      <WindowRect>
-        <x>-880</x>
-        <y>-850</y>
-        <position>
-          <x>-880</x>
-          <y>-850</y>
-        </position>
-        <center>
-          <x>-820</x>
-          <y>-825</y>
-        </center>
-        <min>
-          <x>-880</x>
-          <y>-850</y>
-        </min>
-        <max>
-          <x>-760</x>
-          <y>-800</y>
-        </max>
-        <width>120</width>
-        <height>50</height>
-        <size>
-          <x>120</x>
-          <y>50</y>
-        </size>
-        <xMin>-880</xMin>
-        <yMin>-850</yMin>
-        <xMax>-760</xMax>
-        <yMax>-800</yMax>
-      </WindowRect>
-    </BaseNode>
-    <BaseNode xsi:type="WaitNode">
-      <WindowTitle>Wait</WindowTitle>
-      <ID>2</ID>
-      <interfaces>
-        <NodeInterface>
-          <Position>
-            <x>7</x>
-            <y>35</y>
-          </Position>
-          <ID>0</ID>
-          <Label />
-          <Type>Event</Type>
-          <Direction>Input</Direction>
-          <ConnectedNodeID>3</ConnectedNodeID>
-          <ConnectedIfaceID>3</ConnectedIfaceID>
-        </NodeInterface>
-        <NodeInterface>
-          <Position>
-            <x>63</x>
-            <y>35</y>
-          </Position>
-          <ID>1</ID>
-          <Label />
-          <Type>Event</Type>
-          <Direction>Output</Direction>
-          <ConnectedNodeID>1</ConnectedNodeID>
-          <ConnectedIfaceID>0</ConnectedIfaceID>
-        </NodeInterface>
-      </interfaces>
-      <WindowRect>
-        <x>-870</x>
-        <y>-960</y>
-        <position>
-          <x>-870</x>
-          <y>-960</y>
-        </position>
-        <center>
-          <x>-835</x>
-          <y>-930</y>
-        </center>
-        <min>
-          <x>-870</x>
-          <y>-960</y>
-        </min>
-        <max>
-          <x>-800</x>
-          <y>-900</y>
-        </max>
-        <width>70</width>
-        <height>60</height>
-        <size>
-          <x>70</x>
-          <y>60</y>
-        </size>
-        <xMin>-870</xMin>
-        <yMin>-960</yMin>
-        <xMax>-800</xMax>
-        <yMax>-900</yMax>
-      </WindowRect>
-      <WaitTime>2.1</WaitTime>
-    </BaseNode>
-    <BaseNode xsi:type="JumpNode">
-      <WindowTitle>Jump</WindowTitle>
-      <ID>3</ID>
-      <interfaces>
-        <NodeInterface>
-          <Position>
-            <x>7</x>
-            <y>35</y>
-          </Position>
-          <ID>0</ID>
-          <Label />
-          <Type>Event</Type>
-          <Direction>Input</Direction>
-          <ConnectedNodeID>0</ConnectedNodeID>
-          <ConnectedIfaceID>0</ConnectedIfaceID>
-        </NodeInterface>
-        <NodeInterface>
-          <Position>
-            <x>143</x>
-            <y>35</y>
-          </Position>
-          <ID>1</ID>
-          <Label>next</Label>
-          <Type>Event</Type>
-          <Direction>Output</Direction>
           <ConnectedNodeID>-1</ConnectedNodeID>
           <ConnectedIfaceID>-1</ConnectedIfaceID>
         </NodeInterface>
-        <NodeInterface>
-          <Position>
-            <x>143</x>
-            <y>55</y>
-          </Position>
-          <ID>2</ID>
-          <Label>Top</Label>
-          <Type>Event</Type>
-          <Direction>Output</Direction>
-          <ConnectedNodeID>-1</ConnectedNodeID>
-          <ConnectedIfaceID>-1</ConnectedIfaceID>
-        </NodeInterface>
-        <NodeInterface>
-          <Position>
-            <x>143</x>
-            <y>75</y>
-          </Position>
-          <ID>3</ID>
-          <Label>Landed</Label>
-          <Type>Event</Type>
-          <Direction>Output</Direction>
-          <ConnectedNodeID>2</ConnectedNodeID>
-          <ConnectedIfaceID>0</ConnectedIfaceID>
-        </NodeInterface>
       </interfaces>
       <WindowRect>
-        <x>-1090</x>
+        <x>-1010</x>
         <y>-1000</y>
         <position>
-          <x>-1090</x>
+          <x>-1010</x>
           <y>-1000</y>
         </position>
         <center>
-          <x>-1015</x>
-          <y>-950</y>
+          <x>-935</x>
+          <y>-960</y>
         </center>
         <min>
-          <x>-1090</x>
+          <x>-1010</x>
           <y>-1000</y>
         </min>
         <max>
-          <x>-940</x>
-          <y>-900</y>
+          <x>-860</x>
+          <y>-920</y>
         </max>
         <width>150</width>
-        <height>100</height>
+        <height>80</height>
         <size>
           <x>150</x>
-          <y>100</y>
+          <y>80</y>
         </size>
-        <xMin>-1090</xMin>
+        <xMin>-1010</xMin>
         <yMin>-1000</yMin>
-        <xMax>-940</xMax>
-        <yMax>-900</yMax>
+        <xMax>-860</xMax>
+        <yMax>-920</yMax>
       </WindowRect>
-      <JumpForce>650</JumpForce>
+      <StateEventID>1</StateEventID>
     </BaseNode>
   </Nodes>
 </NodeDataCollection>

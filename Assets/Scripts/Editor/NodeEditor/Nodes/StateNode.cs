@@ -57,6 +57,10 @@ public class StateNode : BaseNode {
     
     private void DisplayStateInfo()
     {
+        foreach (var stateEvent in State.StateEvents)
+        {
+            NodeGUI.LabelLayout(stateEvent.EventName);
+        }
         //State.StateChange = (StateChangeTypes)NodeGUI.EnumPopupLayout("Change state on:", State.StateChange, 0.5f);
         //GetStateChangeData();
 

@@ -10,9 +10,8 @@ public class StateAction : BaseAction {
     }
 
     public string StateName;
-    [XmlIgnore] public BossState State;
 
-    //public List<BossDamageObjects> damageObjects = new List<BossDamageObjects>(); // TODO could use this here instead
+    [XmlIgnore] public BossState State;
     
     public override void ActivateBehaviour()
     {
@@ -43,5 +42,4 @@ public class StateAction : BaseAction {
         if (State == null || !State.bEnabled) return;
         State.Tick(deltaTime);
     }
-
 }

@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using System.Collections;
 using System.Collections.Generic;
-using System.Xml.Serialization;
 
 public abstract class BaseEditor : EditorWindow {
     
@@ -192,7 +190,7 @@ public abstract class BaseEditor : EditorWindow {
                 bgColour = new Color(0.1f, 0.2f, 0.1f);
                 break;
             case ColourThemes.Black:
-                bgColour = new Color(0.1f, 0.1f, 0.1f);
+                bgColour = new Color(0.17f, 0.17f, 0.17f);
                 break;
         }
         return bgColour;

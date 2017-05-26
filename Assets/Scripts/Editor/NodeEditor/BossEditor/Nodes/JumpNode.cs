@@ -10,7 +10,7 @@ using Ifaces = JumpAction.Ifaces;
 
 public class JumpNode : BaseNode {
 
-    public float JumpForce = 300f;   // TODO because of this, we should be using the DataContractSerializer
+    public float JumpForce = 300f;   // TODO because of this, we should be using the DataContractSerializer (should be kept private)
 
     private const float minJumpForce = 300f;
     private const float maxJumpForce = 1200f;
@@ -56,7 +56,5 @@ public class JumpNode : BaseNode {
         {
             JumpForce = JumpForce
         };
-        //Action = new JumpAction();
-        //((JumpAction)Action).JumpForce = jumpForce;
     }
 }

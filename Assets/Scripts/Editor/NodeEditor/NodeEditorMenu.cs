@@ -47,6 +47,7 @@ public class NodeEditorMenu {
         }
         else
         {
+            Debug.Log("fix this being called when state is opened instead of state machine");
             int id = GetNewID();
             StoreSystem(id);
             GetMainSystem();

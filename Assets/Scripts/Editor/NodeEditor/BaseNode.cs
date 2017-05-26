@@ -12,7 +12,7 @@ public abstract class BaseNode {
     public int ID;
     public List<NodeInterface> interfaces = new List<NodeInterface>();
     public Rect WindowRect;
-
+    
     [XmlIgnore] public NodeTransform Transform;
     [XmlIgnore] public BaseEditor ParentEditor;
     [XmlIgnore] public float SelectedBorderAlpha;
