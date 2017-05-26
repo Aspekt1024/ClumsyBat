@@ -12,7 +12,7 @@ public class StateEventNode : BaseNode
     
     protected override void AddInterfaces()
     {
-        AddInterface(IODirection.Input, (int)Ifaces.Input);
+        AddInput((int)Ifaces.Input);
     }
     
     private void SetInterfacePositions()
@@ -44,11 +44,13 @@ public class StateEventNode : BaseNode
     {
         base.SetupNode(behaviour);
         StateEventID = ((State)behaviour).AddNewStateEvent();
+        ((BossEditor)ParentEditor).AddEventToStateNode(StateEventID);
     }
 
     public override void DeleteNode()
     {
         ((State)ParentEditor.BehaviourSet).RemoveStateEvent(StateEventID);
+        //ParentEditor.ActiveStateNode.RemoveStateEvent(StateEventID);
         base.DeleteNode();
     }
 

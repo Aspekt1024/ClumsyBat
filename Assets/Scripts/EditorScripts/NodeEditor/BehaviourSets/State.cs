@@ -10,9 +10,7 @@ using System.Xml.Serialization;
 public class State : BehaviourSet {
     
     public List<StateEvent> StateEvents = new List<StateEvent>();
-
-    private StateAction action;
-
+    
     public enum StateChangeTypes
     {
         Never, Health, NumLoops, Time
@@ -40,7 +38,7 @@ public class State : BehaviourSet {
     public void BeginState()
     {
         numLoops = 0;
-        bEnabled = true;
+        IsEnabled = true;
         StartingAction.Activate();
     }
 
@@ -49,7 +47,7 @@ public class State : BehaviourSet {
         numLoops++;
         if (StateChange == StateChangeTypes.NumLoops && numLoops > MoveOnLoops)
         {
-            bEnabled = false;
+            IsEnabled = false;
             StartingAction.Activate();
         }
         else
@@ -66,13 +64,6 @@ public class State : BehaviourSet {
         }
     }
     
-    public void ActivateEvent(int stateEventID)
-    {
-        Debug.Log("event activated: " + stateEventID);
-        // TODO cycle through all events
-        // Call the output interface on the interface ID holding this event
-    }
-
     public void RemoveStateEvent(int stateEventID)
     {
         // TODO remove connection from connections list in action
@@ -127,8 +118,7 @@ public class StateEvent
     public int ID;
     public string EventName = "New Event";
     public bool CancelsState;
-    [XmlIgnore] public State ParentState;       // Allows access for the editor GUI
-    public StateAction ParentAction;    // TODO Holds the runtime interface
+    [XmlIgnore] public State ParentState;
 
     public StateEvent() { }
 

@@ -24,7 +24,7 @@ public class WaitAction : BaseAction {
         timeWaited += deltaTime;
         if (timeWaited > WaitTime)
         {
-            Active = false;
+            IsActive = false;
             bWaitActive = false;
             CallNext((int)Ifaces.Output);
         }

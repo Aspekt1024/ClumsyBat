@@ -24,7 +24,7 @@ public class StateAction : BaseAction {
     {
         base.GameSetup(behaviourSet, bossData, bossReference);
 
-        string dataFolder = "NPCs/Bosses/BossBehaviours/Data";
+        string dataFolder = BossActionLoadHandler.ResourcesDataFolder;
         string bossFolder = behaviourSet.Name.Replace(" ", "");
         string stateFolder = StateName.Replace(" ", "");
         string assetName = stateFolder;
@@ -34,12 +34,12 @@ public class StateAction : BaseAction {
         if (State == null) return;
         
         State.SetupActions(bossData, bossReference);
-        State.bEnabled = false;
+        State.IsEnabled = false;
     }
 
     public override void Tick(float deltaTime)
     {
-        if (State == null || !State.bEnabled) return;
+        if (State == null || !State.IsEnabled) return;
         State.Tick(deltaTime);
     }
 }

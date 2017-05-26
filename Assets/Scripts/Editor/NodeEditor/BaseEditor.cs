@@ -11,6 +11,7 @@ public abstract class BaseEditor : EditorWindow {
     public NodeInterface DraggedInterface;
     public BehaviourSet BehaviourSet;
     public string EditorLabel;
+    public int ActiveStateNodeID;
 
     protected ColourThemes colourTheme;
     
@@ -18,14 +19,14 @@ public abstract class BaseEditor : EditorWindow {
     {
         Blue, Green, Black
     }
-
-    protected BaseNode _currentNode;
-
+    
     private Texture2D _bg;
     private BaseEditorMouseInput _mouseInput;
     private Vector2 _mousePos;
     private NodeRuntimeBorders runtimeBorders;
+
     protected NodeEditorMenu nodeMenu;
+    protected BaseNode _currentNode;
     
     protected abstract void SetEditorTheme();
     
@@ -34,7 +35,7 @@ public abstract class BaseEditor : EditorWindow {
         if (nodeMenu == null) nodeMenu = new NodeEditorMenu(this);
         
         nodeMenu.SaveCurrentMenuState();
-
+        
         BehaviourSet = behaviourSet;
         SetEditorTheme();
 

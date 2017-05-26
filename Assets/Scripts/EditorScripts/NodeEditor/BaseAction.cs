@@ -7,8 +7,8 @@ public abstract class BaseAction
     public int ID;
     public List<ActionConnection> connections = new List<ActionConnection>();
 
-    [XmlIgnore] public bool Active;
-    [XmlIgnore] public bool NewActivation;
+    [XmlIgnore] public bool IsActive;
+    [XmlIgnore] public bool IsNewActivation;
 
     protected BehaviourSet behaviourSet;
     protected BossData bossData;
@@ -16,9 +16,8 @@ public abstract class BaseAction
     
     public void Activate()
     {
-        Active = true;
-        NewActivation = true;
-        behaviourSet.CurrentAction = this;
+        IsActive = true;
+        IsNewActivation = true;
         ActivateBehaviour();
     }
 

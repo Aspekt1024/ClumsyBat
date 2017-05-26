@@ -8,9 +8,6 @@ using UnityEngine;
 using UnityEditor;
 
 public static class NodeEditorSaveHandler {
-
-    public const string BossBehavioursFolder = "NPCs/Bosses/BossBehaviours";
-    public const string DataFolder = "Assets/Resources/NPCs/Bosses/BossBehaviours/Data";
     
     public static void Load(BaseEditor editor)
     {
@@ -141,24 +138,23 @@ public static class NodeEditorSaveHandler {
         string dataPath = GetStateMachineEditorDataPath(editor);
         if (editor.BehaviourSet.IsType<State>())
             dataPath = GetStateEditorDataPath(editor);
-
+        
         return dataPath;
     }
-
-
+    
     private static string GetStateMachineEditorDataPath(BaseEditor editor)
     {
         string stateMachineName = GetBossName(editor);
-        CreateFolderIfNotExists(DataFolder, stateMachineName);
-        return string.Format("{0}/{1}/StateMachineEditorData.xml", DataFolder, stateMachineName);
+        CreateFolderIfNotExists(BossActionLoadHandler.DataFolder, stateMachineName);
+        return string.Format("{0}/{1}/StateMachineEditorData.xml", BossActionLoadHandler.DataFolder, stateMachineName);
     }
 
     private static string GetStateEditorDataPath(BaseEditor editor)
     {
         string bossFolder = GetBossName(editor);
-        CreateFolderIfNotExists(DataFolder, bossFolder);
+        CreateFolderIfNotExists(BossActionLoadHandler.DataFolder, bossFolder);
 
-        string bossDataPath = string.Format("{0}/{1}", DataFolder, bossFolder);
+        string bossDataPath = string.Format("{0}/{1}", BossActionLoadHandler.DataFolder, bossFolder);
         string stateName = editor.BehaviourSet.name.Replace(" ", "");
         CreateFolderIfNotExists(bossDataPath, stateName);
         
@@ -176,7 +172,7 @@ public static class NodeEditorSaveHandler {
     private static State GetStateFromName(string stateName)
     {
         stateName = stateName.Replace(" ", "");
-        State[] allStates = Resources.LoadAll<State>(BossBehavioursFolder);
+        State[] allStates = Resources.LoadAll<State>(BossActionLoadHandler.ResourcesDataFolder);
         if (allStates.Length == 0) return null;
 
         foreach (var state in allStates)
@@ -187,9 +183,9 @@ public static class NodeEditorSaveHandler {
         return null;
     }
 
-    private static string GetBossName(BaseEditor editor)
+    public static string GetBossName(BaseEditor editor)
     {
-        return editor.BehaviourSet.ParentMachine.name.Replace(" ", "");
+        return editor.BehaviourSet.ParentMachine.name;
     }
 
     private static string GetRuntimeDataPath(BaseEditor editor)
@@ -199,23 +195,22 @@ public static class NodeEditorSaveHandler {
             dataPath = GetStateRuntimeDataPath(editor);
 
         return dataPath;
-
     }
 
     private static string GetStateMachineRuntimeDataPath(BaseEditor editor)
     {
         string stateMachineName = editor.BehaviourSet.name;
-        CreateFolderIfNotExists(DataFolder, stateMachineName);
+        CreateFolderIfNotExists(BossActionLoadHandler.DataFolder, stateMachineName);
         
-        return string.Format("{0}/{1}/StateMachineRuntimeData.xml", DataFolder, stateMachineName);
+        return string.Format("{0}/{1}/StateMachineRuntimeData.xml", BossActionLoadHandler.DataFolder, stateMachineName);
     }
 
     private static string GetStateRuntimeDataPath(BaseEditor editor)
     {
         string bossFolder = GetBossName(editor);
-        CreateFolderIfNotExists(DataFolder, bossFolder);
+        CreateFolderIfNotExists(BossActionLoadHandler.DataFolder, bossFolder);
 
-        string bossDataPath = string.Format("{0}/{1}", DataFolder, bossFolder);
+        string bossDataPath = string.Format("{0}/{1}", BossActionLoadHandler.DataFolder, bossFolder);
         string stateName = editor.BehaviourSet.name.Replace(" ", "");
         CreateFolderIfNotExists(bossDataPath, stateName);
 

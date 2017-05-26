@@ -29,7 +29,7 @@ public class NodeRuntimeBorders {
         {
             foreach (var node in editor.Nodes)
             {
-                if (node.ID != action.ID || !(action.NewActivation || action.Active)) continue;
+                if (node.ID != action.ID || !(action.IsNewActivation || action.IsActive)) continue;
                 ActivateBorder(node, action);
             }
         }
@@ -65,9 +65,9 @@ public class NodeActiveBorder
 
     public void Update()
     {
-        if (action.Active || action.NewActivation)
+        if (action.IsActive || action.IsNewActivation)
         {
-            action.NewActivation = false;
+            action.IsNewActivation = false;
             animTimer = 0f;
             Node.SelectedBorderAlpha = 1f;
             return;

@@ -27,21 +27,19 @@ public class StateNode : BaseNode {
     
     protected override void AddInterfaces()
     {
-        AddInterface(ActionConnection.IODirection.Input, 0);
-        AddInterface(ActionConnection.IODirection.Output, 1);
+        AddInput(0);
     }
 
     private void SetInterfacePositions()
     {
         SetInterface(0, 1);
-        SetInterface(1, 1);
     }
 
     public override void Draw()
     {
         Transform.Width = 250;
         Transform.Height = 150;
-        WindowTitle = State == null ? "New State" : State.Name;
+        WindowTitle = State == null ? "New State" : StateName;
 
         if (State != null)
         {
@@ -54,13 +52,33 @@ public class StateNode : BaseNode {
             DisplayStateSelect();
         }
     }
+
+    public void AddNewStateEvent(int id)
+    {
+        AddOutput(id);  // TODO: id will be > 0. If we're adding a new interface to the state node, we must change this as id could be 1
+    }
+
+    public void RemoveStateEvent(int id)
+    {
+        interfaces.Remove(interfaces[id]);
+    }
     
     private void DisplayStateInfo()
     {
         foreach (var stateEvent in State.StateEvents)
         {
-            NodeGUI.LabelLayout(stateEvent.EventName);
+            for (int i = 0; i < interfaces.Count; i++)
+            {
+                if (stateEvent.ID == interfaces[i].ID)
+                {
+                    SetInterface(interfaces[i].ID, i);
+                    interfaces[i].Label = stateEvent.EventName;
+                    break;
+                }
+            } 
         }
+
+
         //State.StateChange = (StateChangeTypes)NodeGUI.EnumPopupLayout("Change state on:", State.StateChange, 0.5f);
         //GetStateChangeData();
 
@@ -115,10 +133,9 @@ public class StateNode : BaseNode {
         State newState = ScriptableObject.CreateInstance<State>();
         newState.Name = StateName;
         newState.ParentMachine = ParentEditor.BehaviourSet.ParentMachine;
-        newState.Name = newState.ParentMachine.Name;
 
-        string dataFolder = NodeEditorSaveHandler.DataFolder;
-        string bossFolder = newState.Name.Replace(" ", "");
+        string dataFolder = BossActionLoadHandler.DataFolder;
+        string bossFolder = newState.ParentMachine.name;
         NodeEditorSaveHandler.CreateFolderIfNotExists(dataFolder, bossFolder);
         string bossDataPath = string.Format("{0}/{1}", dataFolder, bossFolder);
         

@@ -24,6 +24,7 @@ public class ChargeAction : BaseAction {
 
     public void Recovered()
     {
+        IsActive = false;
         CallNext((int)Ifaces.Recovered);
     }
 

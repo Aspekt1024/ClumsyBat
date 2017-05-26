@@ -9,12 +9,23 @@ public class NodeEditorMenu {
     private List<NodeSystem> systems;
     private NodeSystem mainSystem;
     private int activeSystemID;
-
+    
     public NodeEditorMenu(BaseEditor editorRef)
     {
         editor = editorRef;
         systems = new List<NodeSystem>();
         activeSystemID = -1;
+    }
+
+    public void AddEventToStateNode(int stateEventID)
+    {
+        for (int i = 0; i < mainSystem.Nodes.Count; i++)
+        {
+            if (mainSystem.Nodes[i].ID == activeSystemID)
+            {
+                ((StateNode)mainSystem.Nodes[i]).AddNewStateEvent(stateEventID);
+            }
+        }
     }
 
     public void SaveCurrentMenuState()

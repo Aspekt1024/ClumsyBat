@@ -56,7 +56,7 @@ public class NodeGUI {
 
     public static string TextField(Rect rect, string value, string label, float xSplitPercent = 0.4f)
     {
-        FieldLabel(rect, value, xSplitPercent);
+        FieldLabel(rect, label, xSplitPercent);
         return EditorGUI.TextField(FieldRect(rect, xSplitPercent), value);
     }
 

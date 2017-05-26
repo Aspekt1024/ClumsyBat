@@ -27,7 +27,13 @@ public class BossEditor : BaseEditor
 
     public void EditState()
     {
+        ActiveStateNodeID = _currentNode.ID;
         State state = ((StateNode)_currentNode).State;
         LoadEditor(state);
+    }
+
+    public void AddEventToStateNode(int StateEventID)
+    {
+        nodeMenu.AddEventToStateNode(StateEventID);
     }
 }

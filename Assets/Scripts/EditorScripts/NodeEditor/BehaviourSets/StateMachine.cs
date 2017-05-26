@@ -16,7 +16,7 @@ public class StateMachine : BehaviourSet
     
     public void StateMachineSetup(BossData bossData, GameObject boss)
     {
-        Name = boss.name.Replace(" ", "");
+        Name = name.Replace(" ", "");
         BossActionLoadHandler.Load(this);
 
         foreach(var action in Actions)
@@ -27,14 +27,14 @@ public class StateMachine : BehaviourSet
 
     public void AwakenBoss()
     {
-        bEnabled = true;
+        IsEnabled = true;
         StartingAction.Activate();
     }
 
     public void ActivateNewState(State state)
     {
         ActiveStates.Add(state);
-        state.bEnabled = true;
+        state.IsEnabled = true;
     }
 
     public override void RequestLoopToStart()

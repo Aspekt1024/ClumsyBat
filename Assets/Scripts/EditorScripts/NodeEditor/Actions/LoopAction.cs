@@ -4,7 +4,7 @@ public class LoopAction : BaseAction {
     
     public override void ActivateBehaviour()
     {
-        Active = false;
+        IsActive = false;
         behaviourSet.RequestLoopToStart();
     }
 }

@@ -9,7 +9,8 @@ using System.Xml.Serialization;
 
 public static class BossActionLoadHandler {
 
-    private const string DataFolder = "NPCs/Bosses/BossBehaviours/Data";
+    public const string ResourcesDataFolder = "NPCs/Bosses/BossBehaviours/Data";
+    public const string DataFolder = "Assets/Resources/NPCs/Bosses/BossBehaviours/Data";
 
     public static void Load (BehaviourSet behaviourSet) {
 
@@ -64,23 +65,25 @@ public static class BossActionLoadHandler {
     
     private static string GetDataResourcePath(BehaviourSet behaviourSet)
     {
-        string dataPath = GetStateMachineDataPath((StateMachine)behaviourSet);
+        string dataPath;
         if (behaviourSet.IsType<State>())
             dataPath = GetStateDataPath((State)behaviourSet);
+        else
+            dataPath = GetStateMachineDataPath((StateMachine)behaviourSet);
 
         return dataPath;
     }
     private static string GetStateMachineDataPath(StateMachine machine)
     {
-        string stateMachineName = machine.name;
-        return string.Format("{0}/{1}/StateMachineRuntimeData", DataFolder, stateMachineName);
+        string stateMachineName = machine.Name;
+        return string.Format("{0}/{1}/StateMachineRuntimeData", ResourcesDataFolder, stateMachineName);
     }
     
     private static string GetStateDataPath(State state)
     {
-        string bossFolder = state.Name.Replace(" ", "");
+        string bossFolder = state.ParentMachine.Name;
 
-        string bossDataPath = string.Format("{0}/{1}", DataFolder, bossFolder);
+        string bossDataPath = string.Format("{0}/{1}", ResourcesDataFolder, bossFolder);
         string stateFolder = state.Name.Replace(" ", "");
         
         return string.Format("{0}/{1}/RuntimeData", bossDataPath, stateFolder);

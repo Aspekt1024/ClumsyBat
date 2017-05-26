@@ -11,9 +11,7 @@ public abstract class BehaviourSet : ScriptableObject {
 
     public StartAction StartingAction;
     public List<BaseAction> Actions = new List<BaseAction>();
-    public bool bEnabled;
-
-    public BaseAction CurrentAction;
+    public bool IsEnabled;
 
     public bool IsType<T>() where T : BehaviourSet
     {
@@ -22,7 +20,8 @@ public abstract class BehaviourSet : ScriptableObject {
 
     public void Stop()
     {
-        bEnabled = false;
+        IsEnabled = false;
+        Actions = new List<BaseAction>();
     }
 
     public abstract void RequestLoopToStart();
