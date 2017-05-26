@@ -17,7 +17,7 @@ public class BossEditor : BaseEditor
     {
         if (BehaviourSet != null)
         {
-            EditorLabel = "State machine : " + BehaviourSet.BossName;
+            EditorLabel = "State machine : " + BehaviourSet.Name;
         }
 
         titleContent.image = (Texture)Resources.Load("LevelButtons/Boss1AvailableClicked");

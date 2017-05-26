@@ -22,14 +22,7 @@ public class BaseEditorMouseInput {
     public BaseEditorMouseInput(BaseEditor editorRef)
     {
         editor = editorRef;
-        if (editor.GetType().Equals(typeof(BossStateEditor)))
-        {
-            contextMenus = new BossStateEditorContextMenus(editor);
-        }
-        else if (editor.GetType().Equals(typeof(BossEditor)))
-        {
-            contextMenus = new BossEditorContextMenus(editor);
-        }
+        contextMenus = new BossEditorContextMenus(editor);
     }
 
     public void ProcessMouseEvents(Event e)

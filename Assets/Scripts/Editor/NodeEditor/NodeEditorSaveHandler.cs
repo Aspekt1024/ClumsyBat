@@ -8,7 +8,8 @@ using UnityEngine;
 using UnityEditor;
 
 public static class NodeEditorSaveHandler {
-    
+
+    public const string BossBehavioursFolder = "NPCs/Bosses/BossBehaviours";
     public const string DataFolder = "Assets/Resources/NPCs/Bosses/BossBehaviours/Data";
     
     public static void Load(BaseEditor editor)
@@ -147,14 +148,14 @@ public static class NodeEditorSaveHandler {
 
     private static string GetStateMachineEditorDataPath(BaseEditor editor)
     {
-        string stateMachineName = editor.BehaviourSet.name;
+        string stateMachineName = GetBossName(editor);
         CreateFolderIfNotExists(DataFolder, stateMachineName);
         return string.Format("{0}/{1}/StateMachineEditorData.xml", DataFolder, stateMachineName);
     }
 
     private static string GetStateEditorDataPath(BaseEditor editor)
     {
-        string bossFolder = editor.BehaviourSet.BossName.Replace(" ", "");
+        string bossFolder = GetBossName(editor);
         CreateFolderIfNotExists(DataFolder, bossFolder);
 
         string bossDataPath = string.Format("{0}/{1}", DataFolder, bossFolder);
@@ -175,7 +176,7 @@ public static class NodeEditorSaveHandler {
     private static State GetStateFromName(string stateName)
     {
         stateName = stateName.Replace(" ", "");
-        State[] allStates = Resources.LoadAll<State>("NPCs/Bosses/BossBehaviours");
+        State[] allStates = Resources.LoadAll<State>(BossBehavioursFolder);
         if (allStates.Length == 0) return null;
 
         foreach (var state in allStates)
@@ -186,6 +187,11 @@ public static class NodeEditorSaveHandler {
         return null;
     }
 
+    private static string GetBossName(BaseEditor editor)
+    {
+        return editor.BehaviourSet.ParentMachine.name.Replace(" ", "");
+    }
+
     private static string GetRuntimeDataPath(BaseEditor editor)
     {
         string dataPath = GetStateMachineRuntimeDataPath(editor);
@@ -193,6 +199,7 @@ public static class NodeEditorSaveHandler {
             dataPath = GetStateRuntimeDataPath(editor);
 
         return dataPath;
+
     }
 
     private static string GetStateMachineRuntimeDataPath(BaseEditor editor)
@@ -205,7 +212,7 @@ public static class NodeEditorSaveHandler {
 
     private static string GetStateRuntimeDataPath(BaseEditor editor)
     {
-        string bossFolder = editor.BehaviourSet.BossName.Replace(" ", "");
+        string bossFolder = GetBossName(editor);
         CreateFolderIfNotExists(DataFolder, bossFolder);
 
         string bossDataPath = string.Format("{0}/{1}", DataFolder, bossFolder);

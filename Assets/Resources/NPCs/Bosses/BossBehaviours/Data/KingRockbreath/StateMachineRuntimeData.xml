@@ -7,24 +7,13 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Output</Direction>
-          <OtherActionID>2</OtherActionID>
+          <OtherActionID>1</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
     </BaseAction>
-    <BaseAction xsi:type="LoopAction">
-      <ID>1</ID>
-      <connections>
-        <ActionConnection>
-          <ID>0</ID>
-          <Direction>Input</Direction>
-          <OtherActionID>2</OtherActionID>
-          <OtherConnID>1</OtherConnID>
-        </ActionConnection>
-      </connections>
-    </BaseAction>
     <BaseAction xsi:type="StateAction">
-      <ID>2</ID>
+      <ID>1</ID>
       <connections>
         <ActionConnection>
           <ID>0</ID>
@@ -35,11 +24,22 @@
         <ActionConnection>
           <ID>1</ID>
           <Direction>Output</Direction>
-          <OtherActionID>1</OtherActionID>
+          <OtherActionID>2</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
-      <StateName>State1</StateName>
+      <StateName>First State</StateName>
+    </BaseAction>
+    <BaseAction xsi:type="LoopAction">
+      <ID>2</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>1</OtherActionID>
+          <OtherConnID>1</OtherConnID>
+        </ActionConnection>
+      </connections>
     </BaseAction>
   </Actions>
 </ActionDataCollection>

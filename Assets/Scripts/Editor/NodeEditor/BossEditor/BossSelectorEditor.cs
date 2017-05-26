@@ -23,10 +23,10 @@ public class BossSelectorEditor : Editor {
 
     private void DisplayBossName()
     {
-        if (creatorObj.BossName == null || creatorObj.BossName == string.Empty)
-            creatorObj.BossName = BossSelectorHelpers.AddSpacesToName(creatorObj.name);
+        if (creatorObj.Name == null || creatorObj.Name == string.Empty)
+            creatorObj.Name = BossSelectorHelpers.AddSpacesToName(creatorObj.name);
         
-        creatorObj.BossName = EditorGUILayout.TextField("Boss Name", creatorObj.BossName);
+        creatorObj.Name = EditorGUILayout.TextField("Boss Name", creatorObj.Name);
     }
 
     private void DisplayBossObjectDropdown()

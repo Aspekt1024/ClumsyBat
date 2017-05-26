@@ -63,8 +63,8 @@ public abstract class BaseEditor : EditorWindow {
     
     private void SetRootContainerToSelf()
     {
-        if (BehaviourSet.RootStateMachine == null)
-            BehaviourSet.RootStateMachine = BehaviourSet;
+        if (BehaviourSet.ParentMachine == null && BehaviourSet.IsType<StateMachine>())
+            BehaviourSet.ParentMachine = (StateMachine)BehaviourSet;
     }
     
     protected virtual void OnEnable()

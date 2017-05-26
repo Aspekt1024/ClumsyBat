@@ -25,7 +25,7 @@ public class StateAction : BaseAction {
         base.GameSetup(behaviourSet, bossData, bossReference);
 
         string dataFolder = "NPCs/Bosses/BossBehaviours/Data";
-        string bossFolder = behaviourSet.BossName.Replace(" ", "");
+        string bossFolder = behaviourSet.Name.Replace(" ", "");
         string stateFolder = StateName.Replace(" ", "");
         string assetName = stateFolder;
         string resourcePath = string.Format("{0}/{1}/{2}/{3}", dataFolder, bossFolder, stateFolder, assetName);

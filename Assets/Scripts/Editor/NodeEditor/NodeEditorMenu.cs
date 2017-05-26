@@ -204,7 +204,7 @@ public class NodeEditorMenu {
 
     private void GetMainSystem()
     {
-        editor.LoadEditor(editor.BehaviourSet.RootStateMachine);
+        editor.LoadEditor(editor.BehaviourSet.ParentMachine);
         SetMainSystem();
     }
 

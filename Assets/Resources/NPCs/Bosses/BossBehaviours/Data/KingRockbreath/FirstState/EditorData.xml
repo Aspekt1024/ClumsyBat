@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <NodeDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <EditorOffset>
-    <x>0</x>
-    <y>0</y>
+    <x>-116</x>
+    <y>40</y>
   </EditorOffset>
   <Nodes>
     <BaseNode xsi:type="StartNode">
@@ -18,27 +18,27 @@
           <Label />
           <Type>Event</Type>
           <Direction>Output</Direction>
-          <ConnectedNodeID>1</ConnectedNodeID>
+          <ConnectedNodeID>2</ConnectedNodeID>
           <ConnectedIfaceID>0</ConnectedIfaceID>
         </NodeInterface>
       </interfaces>
       <WindowRect>
-        <x>160</x>
+        <x>230</x>
         <y>160</y>
         <position>
-          <x>160</x>
+          <x>230</x>
           <y>160</y>
         </position>
         <center>
-          <x>200</x>
+          <x>270</x>
           <y>185</y>
         </center>
         <min>
-          <x>160</x>
+          <x>230</x>
           <y>160</y>
         </min>
         <max>
-          <x>240</x>
+          <x>310</x>
           <y>210</y>
         </max>
         <width>80</width>
@@ -47,15 +47,64 @@
           <x>80</x>
           <y>50</y>
         </size>
-        <xMin>160</xMin>
+        <xMin>230</xMin>
         <yMin>160</yMin>
-        <xMax>240</xMax>
+        <xMax>310</xMax>
         <yMax>210</yMax>
       </WindowRect>
     </BaseNode>
-    <BaseNode xsi:type="StateNode">
-      <WindowTitle>King Rockbreath</WindowTitle>
+    <BaseNode xsi:type="StateEventNode">
+      <WindowTitle>Success</WindowTitle>
       <ID>1</ID>
+      <interfaces>
+        <NodeInterface>
+          <Position>
+            <x>7</x>
+            <y>35</y>
+          </Position>
+          <ID>0</ID>
+          <Label />
+          <Type>Event</Type>
+          <Direction>Input</Direction>
+          <ConnectedNodeID>2</ConnectedNodeID>
+          <ConnectedIfaceID>1</ConnectedIfaceID>
+        </NodeInterface>
+      </interfaces>
+      <WindowRect>
+        <x>510</x>
+        <y>110</y>
+        <position>
+          <x>510</x>
+          <y>110</y>
+        </position>
+        <center>
+          <x>585</x>
+          <y>150</y>
+        </center>
+        <min>
+          <x>510</x>
+          <y>110</y>
+        </min>
+        <max>
+          <x>660</x>
+          <y>190</y>
+        </max>
+        <width>150</width>
+        <height>80</height>
+        <size>
+          <x>150</x>
+          <y>80</y>
+        </size>
+        <xMin>510</xMin>
+        <yMin>110</yMin>
+        <xMax>660</xMax>
+        <yMax>190</yMax>
+      </WindowRect>
+      <StateEventID>1</StateEventID>
+    </BaseNode>
+    <BaseNode xsi:type="WaitNode">
+      <WindowTitle>Wait</WindowTitle>
+      <ID>2</ID>
       <interfaces>
         <NodeInterface>
           <Position>
@@ -71,96 +120,48 @@
         </NodeInterface>
         <NodeInterface>
           <Position>
-            <x>243</x>
+            <x>63</x>
             <y>35</y>
           </Position>
           <ID>1</ID>
           <Label />
           <Type>Event</Type>
           <Direction>Output</Direction>
-          <ConnectedNodeID>2</ConnectedNodeID>
+          <ConnectedNodeID>1</ConnectedNodeID>
           <ConnectedIfaceID>0</ConnectedIfaceID>
         </NodeInterface>
       </interfaces>
       <WindowRect>
-        <x>310</x>
-        <y>230</y>
+        <x>380</x>
+        <y>180</y>
         <position>
-          <x>310</x>
-          <y>230</y>
+          <x>380</x>
+          <y>180</y>
         </position>
         <center>
-          <x>435</x>
-          <y>305</y>
-        </center>
-        <min>
-          <x>310</x>
-          <y>230</y>
-        </min>
-        <max>
-          <x>560</x>
-          <y>380</y>
-        </max>
-        <width>250</width>
-        <height>150</height>
-        <size>
-          <x>250</x>
-          <y>150</y>
-        </size>
-        <xMin>310</xMin>
-        <yMin>230</yMin>
-        <xMax>560</xMax>
-        <yMax>380</yMax>
-      </WindowRect>
-      <StateName>First State</StateName>
-    </BaseNode>
-    <BaseNode xsi:type="LoopNode">
-      <WindowTitle>Loop to Start</WindowTitle>
-      <ID>2</ID>
-      <interfaces>
-        <NodeInterface>
-          <Position>
-            <x>7</x>
-            <y>35</y>
-          </Position>
-          <ID>0</ID>
-          <Label />
-          <Type>Event</Type>
-          <Direction>Input</Direction>
-          <ConnectedNodeID>1</ConnectedNodeID>
-          <ConnectedIfaceID>1</ConnectedIfaceID>
-        </NodeInterface>
-      </interfaces>
-      <WindowRect>
-        <x>660</x>
-        <y>160</y>
-        <position>
-          <x>660</x>
-          <y>160</y>
-        </position>
-        <center>
-          <x>720</x>
-          <y>185</y>
-        </center>
-        <min>
-          <x>660</x>
-          <y>160</y>
-        </min>
-        <max>
-          <x>780</x>
+          <x>415</x>
           <y>210</y>
+        </center>
+        <min>
+          <x>380</x>
+          <y>180</y>
+        </min>
+        <max>
+          <x>450</x>
+          <y>240</y>
         </max>
-        <width>120</width>
-        <height>50</height>
+        <width>70</width>
+        <height>60</height>
         <size>
-          <x>120</x>
-          <y>50</y>
+          <x>70</x>
+          <y>60</y>
         </size>
-        <xMin>660</xMin>
-        <yMin>160</yMin>
-        <xMax>780</xMax>
-        <yMax>210</yMax>
+        <xMin>380</xMin>
+        <yMin>180</yMin>
+        <xMax>450</xMax>
+        <yMax>240</yMax>
       </WindowRect>
+      <WaitTime>1</WaitTime>
     </BaseNode>
   </Nodes>
 </NodeDataCollection>

@@ -41,7 +41,7 @@ public class StateNode : BaseNode {
     {
         Transform.Width = 250;
         Transform.Height = 150;
-        WindowTitle = State == null ? "New State" : State.StateName;
+        WindowTitle = State == null ? "New State" : State.Name;
 
         if (State != null)
         {
@@ -113,12 +113,12 @@ public class StateNode : BaseNode {
     private void CreateNewState()
     {
         State newState = ScriptableObject.CreateInstance<State>();
-        newState.StateName = StateName;
-        newState.RootStateMachine = ParentEditor.BehaviourSet.RootStateMachine;
-        newState.BossName = newState.RootStateMachine.BossName;
+        newState.Name = StateName;
+        newState.ParentMachine = ParentEditor.BehaviourSet.ParentMachine;
+        newState.Name = newState.ParentMachine.Name;
 
         string dataFolder = NodeEditorSaveHandler.DataFolder;
-        string bossFolder = newState.BossName.Replace(" ", "");
+        string bossFolder = newState.Name.Replace(" ", "");
         NodeEditorSaveHandler.CreateFolderIfNotExists(dataFolder, bossFolder);
         string bossDataPath = string.Format("{0}/{1}", dataFolder, bossFolder);
         

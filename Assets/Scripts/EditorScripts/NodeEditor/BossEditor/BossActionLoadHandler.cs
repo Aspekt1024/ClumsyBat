@@ -64,24 +64,24 @@ public static class BossActionLoadHandler {
     
     private static string GetDataResourcePath(BehaviourSet behaviourSet)
     {
-        string dataPath = GetStateMachineDataPath(behaviourSet);
+        string dataPath = GetStateMachineDataPath((StateMachine)behaviourSet);
         if (behaviourSet.IsType<State>())
-            dataPath = GetStateDataPath(behaviourSet);
+            dataPath = GetStateDataPath((State)behaviourSet);
 
         return dataPath;
     }
-    private static string GetStateMachineDataPath(BehaviourSet behaviourSet)
+    private static string GetStateMachineDataPath(StateMachine machine)
     {
-        string stateMachineName = behaviourSet.name;
+        string stateMachineName = machine.name;
         return string.Format("{0}/{1}/StateMachineRuntimeData", DataFolder, stateMachineName);
     }
     
-    private static string GetStateDataPath(BehaviourSet behaviourSet)
+    private static string GetStateDataPath(State state)
     {
-        string bossFolder = behaviourSet.BossName.Replace(" ", "");
+        string bossFolder = state.Name.Replace(" ", "");
 
         string bossDataPath = string.Format("{0}/{1}", DataFolder, bossFolder);
-        string stateFolder = ((State)behaviourSet).StateName.Replace(" ", "");
+        string stateFolder = state.Name.Replace(" ", "");
         
         return string.Format("{0}/{1}/RuntimeData", bossDataPath, stateFolder);
     }

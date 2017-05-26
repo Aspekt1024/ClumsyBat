@@ -6,8 +6,8 @@ using UnityEngine;
 /// </summary>
 public abstract class BehaviourSet : ScriptableObject {
 
-    public string BossName;
-    public BehaviourSet RootStateMachine;
+    public string Name;
+    public StateMachine ParentMachine;
 
     public StartAction StartingAction;
     public List<BaseAction> Actions = new List<BaseAction>();

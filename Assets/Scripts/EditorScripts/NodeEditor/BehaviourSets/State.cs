@@ -9,7 +9,6 @@ using System.Xml.Serialization;
 /// </summary>
 public class State : BehaviourSet {
     
-    public string StateName = "State";
     public List<StateEvent> StateEvents = new List<StateEvent>();
 
     private StateAction action;

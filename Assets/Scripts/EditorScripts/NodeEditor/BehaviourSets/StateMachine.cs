@@ -14,11 +14,9 @@ public class StateMachine : BehaviourSet
     
     public List<State> ActiveStates = new List<State>();
     
-    private GameObject bossObject;
-
     public void StateMachineSetup(BossData bossData, GameObject boss)
     {
-        bossObject = boss;
+        Name = boss.name.Replace(" ", "");
         BossActionLoadHandler.Load(this);
 
         foreach(var action in Actions)
