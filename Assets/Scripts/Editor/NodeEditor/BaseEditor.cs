@@ -37,9 +37,8 @@ public abstract class BaseEditor : EditorWindow {
         nodeMenu.SaveCurrentMenuState();
         
         BehaviourSet = behaviourSet;
-        SetEditorTheme();
-
         SetParentMachine();
+        SetEditorTheme();
         
         try
         {

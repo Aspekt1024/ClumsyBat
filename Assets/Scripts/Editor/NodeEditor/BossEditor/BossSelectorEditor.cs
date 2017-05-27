@@ -23,7 +23,7 @@ public class BossSelectorEditor : Editor {
 
     private void DisplayBossName()
     {
-        if (machine.BossName == null || machine.name == string.Empty)
+        if (machine.BossName == null || machine.BossName == string.Empty)
             machine.BossName = BossSelectorHelpers.AddSpacesToName(machine.name);
         
         machine.BossName = EditorGUILayout.TextField("Boss Name", machine.BossName);

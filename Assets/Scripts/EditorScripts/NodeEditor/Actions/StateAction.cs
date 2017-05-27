@@ -33,11 +33,9 @@ public class StateAction : BaseAction {
         string stateFolder = StateName;
         string assetName = stateFolder;
         string resourcePath = string.Format("{0}/{1}/{2}/{3}", dataFolder, bossFolder, stateFolder, assetName);
-
-        Debug.Log("loading state at " + resourcePath);
+        
         State = Resources.Load<State>(resourcePath);
         if (State == null) return;
-        Debug.Log("loaded successfully");
 
         State.SetupActions(bossData, bossReference);
         State.IsEnabled = false;
