@@ -11,12 +11,12 @@ public class CompareAction : BaseAction {
         OutputTrue, OutputFalse
     }
 
-    public enum Operation
+    public enum Operations
     {
         Greater, Lesser, Equal, InRange, NotInRange
     }
 
-    public Operation OperationType;
+    public Operations OperationType;
 
     public float Input1 = 0f;
     public float Input2 = 0f;   // Input 2 and 3 used for range operation
@@ -24,10 +24,26 @@ public class CompareAction : BaseAction {
 
     private int In1ConnIndex = -1;
     private int In2ConnIndex = -1;
+    private int In3ConnIndex = -1;
+
+    private bool waitedOneTick;
 
     public override void ActivateBehaviour()
     {
-        if (In1ConnIndex < 0 || In2ConnIndex < 0)
+        waitedOneTick = false;
+    }
+
+    public override void Tick(float deltaTime)
+    {
+        if (!IsActive) return;
+        if (!behaviourSet.IsEnabled) return;
+        if (!waitedOneTick) // prevents infinite loops
+        {
+            waitedOneTick = true;
+            return;
+        }
+
+        if (In1ConnIndex < 0 || In2ConnIndex < 0 || In3ConnIndex < 0)
             GetInputConnIDs();
 
         GetInputs();
@@ -35,17 +51,20 @@ public class CompareAction : BaseAction {
         bool result = false;
         switch (OperationType)
         {
-            case Operation.Lesser:
+            case Operations.Lesser:
                 result = Input1 < Input2;
                 break;
-            case Operation.Greater:
+            case Operations.Greater:
                 result = Input1 > Input2;
                 break;
-            case Operation.Equal:
+            case Operations.Equal:
                 result = (int)Input1 == (int)Input2;
                 break;
-            case Operation.InRange:
-                result = Input2 < Input1 && Input1 < Input3;
+            case Operations.InRange:
+                result = Input2 <= Input1 && Input1 <= Input3;
+                break;
+            case Operations.NotInRange:
+                result = Input2 >= Input1 && Input1 >= Input3;
                 break;
         }
 
@@ -61,16 +80,11 @@ public class CompareAction : BaseAction {
     {
         ActionConnection conn1 = connections[In1ConnIndex];
         ActionConnection conn2 = connections[In2ConnIndex];
+        ActionConnection conn3 = connections[In3ConnIndex];
 
-        if (conn1.IsConnected())
-        {
-            Input1 = conn1.ConnectedInterface.Action.GetFloat(conn1.OtherConnID);
-        }
-
-        if (conn2.IsConnected())
-        {
-            Input2 = conn2.ConnectedInterface.Action.GetFloat(conn2.OtherConnID);
-        }
+        if (conn1.IsConnected()) Input1 = conn1.ConnectedInterface.Action.GetFloat(conn1.OtherConnID);
+        if (conn2.IsConnected()) Input2 = conn2.ConnectedInterface.Action.GetFloat(conn2.OtherConnID);
+        if (conn3.IsConnected()) Input3 = conn3.ConnectedInterface.Action.GetFloat(conn3.OtherConnID);
     }
 
     private void GetInputConnIDs()
@@ -81,6 +95,8 @@ public class CompareAction : BaseAction {
                 In1ConnIndex = i;
             else if (connections[i].ID == (int)Ifaces.In2)
                 In2ConnIndex = i;
+            else if (connections[i].ID == (int)Ifaces.In3)
+                In3ConnIndex = i;
         }
     }
 }

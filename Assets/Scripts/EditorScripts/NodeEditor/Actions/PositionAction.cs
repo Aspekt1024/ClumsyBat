@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LocationAction : BaseAction {
+public class PositionAction : BaseAction {
 
     public enum Ifaces
     {
