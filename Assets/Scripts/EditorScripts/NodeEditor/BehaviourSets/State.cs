@@ -42,7 +42,7 @@ public class State : BehaviourSet {
         StartingAction.Activate();
     }
 
-    public override void RequestLoopToStart()
+    public override void LoopToStart()
     {
         numLoops++;
         if (StateChange == StateChangeTypes.NumLoops && numLoops > MoveOnLoops)
