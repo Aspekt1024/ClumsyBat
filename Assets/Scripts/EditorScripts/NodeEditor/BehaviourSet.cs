@@ -23,7 +23,7 @@ public abstract class BehaviourSet : ScriptableObject {
         Actions = new List<BaseAction>();
     }
 
-    public abstract void RequestLoopToStart();
+    public abstract void LoopToStart();
     public virtual void Tick(float deltaTime) { }
     public virtual void AddToTickList(BaseAction action) { }
     public virtual void RemoveFromTickList(BaseAction action) { }
