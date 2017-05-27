@@ -200,12 +200,8 @@ public static class NodeEditorSaveHandler {
     {
         string bossFolder = GetBossName(editor);
         CreateFolderIfNotExists(BossActionLoadHandler.DataFolder, bossFolder);
-        string bossDataPath = string.Format("{0}/{1}", BossActionLoadHandler.DataFolder, bossFolder);
 
-        string stateMachineName = editor.BehaviourSet.name;
-        CreateFolderIfNotExists(bossDataPath, stateMachineName);
-        
-        return string.Format("{0}/{1}/StateMachineRuntimeData.xml", bossDataPath, stateMachineName);
+        return string.Format("{0}/{1}/StateMachineRuntimeData.xml", BossActionLoadHandler.DataFolder, bossFolder);
     }
 
     private static string GetStateRuntimeDataPath(BaseEditor editor)
