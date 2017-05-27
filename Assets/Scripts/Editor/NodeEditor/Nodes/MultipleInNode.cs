@@ -9,6 +9,8 @@ public class MultipleInNode : BaseNode {
     protected override void AddInterfaces()
     {
         AddOutput(0);
+        AddInput(1);
+        AddInput(2);
     }
 
     private void SetInterfacePositions()
@@ -51,7 +53,7 @@ public class MultipleInNode : BaseNode {
     {
         while (interfaces.Count - 1 < NumInputs)
         {
-            AddOutput(interfaces.Count);
+            AddInput(interfaces.Count);
         }
         while (interfaces.Count - 1 > NumInputs)
         {
