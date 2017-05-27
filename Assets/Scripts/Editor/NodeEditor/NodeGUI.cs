@@ -5,6 +5,7 @@ using UnityEditor;
 public class NodeGUI {
 
     public const float GridSpacing = 10f;
+    public const float RowHeight = 20f;
     private const float hPadding = 15f;
     private const float vPadding = 30f;
     
@@ -174,14 +175,14 @@ public class NodeGUI {
         return new Rect(GetPosition(), GetSize());
     }
 
-    private static Vector2 GetPosition()
+    public static Vector2 GetPosition()
     {
-        return new Vector2(hPadding, vPadding + Instance.item * 20f);
+        return new Vector2(hPadding, vPadding + Instance.item * RowHeight);
     }
 
     private static Vector2 GetSize()
     {
-        return new Vector2(Instance.winSize.x - hPadding * 2f, 20f);
+        return new Vector2(Instance.winSize.x - hPadding * 2f, RowHeight);
     }
     #endregion
 

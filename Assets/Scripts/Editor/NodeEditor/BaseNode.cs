@@ -155,6 +155,16 @@ public abstract class BaseNode {
         }
     }
 
+    protected void HideInterface(int id)
+    {
+        GetInterface(id).IsHidden = true;
+    }
+
+    protected void ShowInterface(int id)
+    {
+        GetInterface(id).IsHidden = false;
+    }
+
     public virtual void DeleteNode()
     {
         foreach (var iface in interfaces)

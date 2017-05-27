@@ -56,9 +56,14 @@ public class StateEventNode : BaseNode
 
     public override BaseAction GetAction()
     {
+        State parentState = (State)ParentEditor.BehaviourSet;
+        int stateEventIndex = parentState.GetStateEventIndex(StateEventID);
+        StateEvent stateEvent = parentState.StateEvents[stateEventIndex];
+
         return new StateEventAction()
         {
-            StateEventID = StateEventID
+            StateEventID = StateEventID,
+            StopsState = stateEvent.CancelsState
         };
     }
 }

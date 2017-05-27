@@ -17,7 +17,8 @@ public class NodeInterface {
     public IODirection Direction;
     public int ConnectedNodeID;
     public int ConnectedIfaceID;
-    
+
+    [XmlIgnore] public bool IsHidden;
     [XmlIgnore] public BaseNode Node;
     [XmlIgnore] public NodeInterface ConnectedInterface;
     [XmlIgnore] public bool IsDragged;
@@ -115,6 +116,8 @@ public class NodeInterface {
 
     public void Draw()
     {
+        if (IsHidden) return;
+
         Vector3 position = new Vector3(Node.WindowRect.width - 7f, Position.y, 0f);
         if (Direction == IODirection.Input)
             position.x = 7f;

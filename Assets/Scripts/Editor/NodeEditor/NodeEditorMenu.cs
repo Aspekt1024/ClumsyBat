@@ -21,7 +21,7 @@ public class NodeEditorMenu {
     {
         for (int i = 0; i < mainSystem.Nodes.Count; i++)
         {
-            if (mainSystem.Nodes[i].ID == activeSystemID)
+            if (mainSystem.Nodes[i].ID == editor.ActiveStateNodeID)
             {
                 ((StateNode)mainSystem.Nodes[i]).AddNewStateEvent(stateEventID);
             }
@@ -32,7 +32,7 @@ public class NodeEditorMenu {
     {
         for (int i = 0; i < mainSystem.Nodes.Count; i++)
         {
-            if (mainSystem.Nodes[i].ID == activeSystemID)
+            if (mainSystem.Nodes[i].ID == editor.ActiveStateNodeID)
             {
                 ((StateNode)mainSystem.Nodes[i]).RemoveStateEvent(stateEventID);
             }
@@ -199,11 +199,8 @@ public class NodeEditorMenu {
         foreach(var system in systems)
         {
             if (system.BehaviourSet == editor.BehaviourSet)
-            {
                 return;
-            }
         }
-
         NodeSystem newSystem = new NodeSystem(id, editor.BehaviourSet.name, editor.Nodes, editor.CanvasOffset, editor.BehaviourSet);
         systems.Add(newSystem);
     }

@@ -60,8 +60,7 @@ public class MultipleInNode : BaseNode {
             interfaces.Remove(interfaces[interfaces.Count - 1]);
         }
     }
-
-
+    
     public override BaseAction GetAction()
     {
         return new MultipleInAction();
