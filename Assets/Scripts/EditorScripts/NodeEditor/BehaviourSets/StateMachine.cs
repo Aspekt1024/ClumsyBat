@@ -7,6 +7,7 @@ using System.Collections.Generic;
 [CreateAssetMenu(fileName = "BossData", menuName = "Custom/Boss", order = 1)]
 public class StateMachine : BehaviourSet
 {
+    public string BossName;
     public GameObject BossPrefab; 
     public int Health;
     public bool SpawnMoths;    // TODO make into selectable list, per state
@@ -16,7 +17,6 @@ public class StateMachine : BehaviourSet
     
     public void StateMachineSetup(BossData bossData, GameObject boss)
     {
-        Name = name.Replace(" ", "");
         BossActionLoadHandler.Load(this);
 
         foreach(var action in Actions)

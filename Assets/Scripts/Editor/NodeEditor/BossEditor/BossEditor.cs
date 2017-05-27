@@ -17,7 +17,7 @@ public class BossEditor : BaseEditor
     {
         if (BehaviourSet != null)
         {
-            EditorLabel = "State machine : " + BehaviourSet.Name;
+            EditorLabel = "State machine : " + BehaviourSet.ParentMachine.BossName;
         }
 
         titleContent.image = (Texture)Resources.Load("LevelButtons/Boss1AvailableClicked");
@@ -32,8 +32,13 @@ public class BossEditor : BaseEditor
         LoadEditor(state);
     }
 
-    public void AddEventToStateNode(int StateEventID)
+    public void AddEventToStateNode(int stateEventID)
     {
-        nodeMenu.AddEventToStateNode(StateEventID);
+        nodeMenu.AddEventToStateNode(stateEventID);
+    }
+
+    public void RemoveEventFromStateNode(int stateEventID)
+    {
+        nodeMenu.RemoveEventFromStateNode(stateEventID);
     }
 }

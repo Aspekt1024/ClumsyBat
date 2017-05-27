@@ -155,7 +155,7 @@ public static class NodeEditorSaveHandler {
         CreateFolderIfNotExists(BossActionLoadHandler.DataFolder, bossFolder);
 
         string bossDataPath = string.Format("{0}/{1}", BossActionLoadHandler.DataFolder, bossFolder);
-        string stateName = editor.BehaviourSet.name.Replace(" ", "");
+        string stateName = editor.BehaviourSet.name;
         CreateFolderIfNotExists(bossDataPath, stateName);
         
         return string.Format("{0}/{1}/EditorData.xml", bossDataPath, stateName, stateName);
@@ -171,7 +171,6 @@ public static class NodeEditorSaveHandler {
 
     private static State GetStateFromName(string stateName)
     {
-        stateName = stateName.Replace(" ", "");
         State[] allStates = Resources.LoadAll<State>(BossActionLoadHandler.ResourcesDataFolder);
         if (allStates.Length == 0) return null;
 
@@ -211,7 +210,7 @@ public static class NodeEditorSaveHandler {
         CreateFolderIfNotExists(BossActionLoadHandler.DataFolder, bossFolder);
 
         string bossDataPath = string.Format("{0}/{1}", BossActionLoadHandler.DataFolder, bossFolder);
-        string stateName = editor.BehaviourSet.name.Replace(" ", "");
+        string stateName = editor.BehaviourSet.name;
         CreateFolderIfNotExists(bossDataPath, stateName);
 
         return string.Format("{0}/{1}/RuntimeData.xml", bossDataPath, stateName, stateName);

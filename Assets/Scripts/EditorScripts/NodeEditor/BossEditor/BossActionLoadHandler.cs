@@ -75,16 +75,16 @@ public static class BossActionLoadHandler {
     }
     private static string GetStateMachineDataPath(StateMachine machine)
     {
-        string stateMachineName = machine.Name;
+        string stateMachineName = machine.name;
         return string.Format("{0}/{1}/StateMachineRuntimeData", ResourcesDataFolder, stateMachineName);
     }
     
     private static string GetStateDataPath(State state)
     {
-        string bossFolder = state.ParentMachine.Name;
+        string bossFolder = state.ParentMachine.name;
 
         string bossDataPath = string.Format("{0}/{1}", ResourcesDataFolder, bossFolder);
-        string stateFolder = state.Name.Replace(" ", "");
+        string stateFolder = state.name;
         
         return string.Format("{0}/{1}/RuntimeData", bossDataPath, stateFolder);
     }

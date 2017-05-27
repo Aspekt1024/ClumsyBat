@@ -80,26 +80,10 @@ public class StateNode : BaseNode {
         }
     }
 
-    private void GetStateChangeData()
-    {
-        switch (State.StateChange)
-        {
-            case StateChangeTypes.Health:
-                State.MoveOnHP = EditorGUILayout.IntField("Move when HP =", State.MoveOnHP);
-                break;
-            case StateChangeTypes.NumLoops:
-                State.MoveOnLoops = EditorGUILayout.IntField("Move on x loops:", State.MoveOnLoops);
-                break;
-            case StateChangeTypes.Time:
-                State.MoveAfterSeconds = EditorGUILayout.FloatField("Move after seconds:", State.MoveAfterSeconds);
-                break;
-        }
-    }
-
     private void DisplayStateSelect()
     {
         Transform.Width = 250;
-        Transform.Height = 150;
+        Transform.Height = 80;
 
         StateName = NodeGUI.TextFieldLayout(StateName, "State Name:");
         NodeGUI.Space(0.2f);
@@ -112,6 +96,7 @@ public class StateNode : BaseNode {
         State[] allStates = Resources.LoadAll<State>("NPCs/Bosses/BossBehaviours");
         if (allStates.Length == 0) return;
 
+        Transform.Height = 150;
         var statesStringArray = BossSelectorHelpers.ObjectArrayToStringArray(allStates);
         selectedStateIndex = NodeGUI.PopupLayout("Existing State:", selectedStateIndex, statesStringArray);
 
@@ -125,7 +110,7 @@ public class StateNode : BaseNode {
     private void CreateNewState()
     {
         State newState = ScriptableObject.CreateInstance<State>();
-        newState.Name = StateName;
+        newState.name = StateName;
         newState.ParentMachine = ParentEditor.BehaviourSet.ParentMachine;
 
         string dataFolder = BossActionLoadHandler.DataFolder;
@@ -133,7 +118,7 @@ public class StateNode : BaseNode {
         NodeEditorSaveHandler.CreateFolderIfNotExists(dataFolder, bossFolder);
         string bossDataPath = string.Format("{0}/{1}", dataFolder, bossFolder);
         
-        string stateFolder = StateName.Replace(" ", "");
+        string stateFolder = StateName;
         NodeEditorSaveHandler.CreateFolderIfNotExists(bossDataPath, stateFolder);
 
         string assetName = stateFolder + ".asset";

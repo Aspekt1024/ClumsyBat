@@ -39,7 +39,7 @@ public abstract class BaseEditor : EditorWindow {
         BehaviourSet = behaviourSet;
         SetEditorTheme();
 
-        SetRootContainerToSelf();
+        SetParentMachine();
         
         try
         {
@@ -62,7 +62,7 @@ public abstract class BaseEditor : EditorWindow {
         Repaint();
     }
     
-    private void SetRootContainerToSelf()
+    private void SetParentMachine()
     {
         if (BehaviourSet.ParentMachine == null && BehaviourSet.IsType<StateMachine>())
             BehaviourSet.ParentMachine = (StateMachine)BehaviourSet;

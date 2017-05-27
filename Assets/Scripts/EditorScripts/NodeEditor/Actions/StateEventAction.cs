@@ -16,7 +16,7 @@ public class StateEventAction : BaseAction {
         {
             if (!action.IsType<StateAction>()) continue;
 
-            if (((StateAction)action).StateName == ((State)behaviourSet).Name)
+            if (((StateAction)action).StateName == behaviourSet.name)
             {
                 foreach(var conn in action.connections)
                 {

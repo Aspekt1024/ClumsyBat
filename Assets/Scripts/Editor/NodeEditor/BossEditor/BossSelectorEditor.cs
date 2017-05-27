@@ -6,13 +6,13 @@ using UnityEditor;
 [CustomEditor(typeof(StateMachine))]
 public class BossSelectorEditor : Editor {
 
-    private StateMachine creatorObj;
+    private StateMachine machine;
     
     private bool bAttributesClicked;
 
     public override void OnInspectorGUI()
     {
-        creatorObj = (StateMachine)target;
+        machine = (StateMachine)target;
 
         DisplayBossName();
         DisplayBossObjectDropdown();
@@ -23,34 +23,34 @@ public class BossSelectorEditor : Editor {
 
     private void DisplayBossName()
     {
-        if (creatorObj.Name == null || creatorObj.Name == string.Empty)
-            creatorObj.Name = BossSelectorHelpers.AddSpacesToName(creatorObj.name);
+        if (machine.BossName == null || machine.name == string.Empty)
+            machine.BossName = BossSelectorHelpers.AddSpacesToName(machine.name);
         
-        creatorObj.Name = EditorGUILayout.TextField("Boss Name", creatorObj.Name);
+        machine.BossName = EditorGUILayout.TextField("Boss Name", machine.BossName);
     }
 
     private void DisplayBossObjectDropdown()
     {
         var bosses = Resources.LoadAll<GameObject>("NPCs/Bosses");
 
-        if (creatorObj.BossPrefab == null)
-            creatorObj.BossPrefab = bosses[0];
+        if (machine.BossPrefab == null)
+            machine.BossPrefab = bosses[0];
 
-        var bossInspectorIndex = BossSelectorHelpers.GetIndexFromObject(bosses, creatorObj.BossPrefab);
+        var bossInspectorIndex = BossSelectorHelpers.GetIndexFromObject(bosses, machine.BossPrefab);
         var bossArray = BossSelectorHelpers.ObjectArrayToStringArray(bosses);
 
         EditorGUILayout.Space();
         int bossIndex = EditorGUILayout.Popup("Boss Prefab", bossInspectorIndex, bossArray);
-        creatorObj.BossPrefab = bosses[bossIndex];
+        machine.BossPrefab = bosses[bossIndex];
     }
 
     private void DisplayBossAttributes()
     {
         EditorGUILayout.Space();
         bAttributesClicked = EditorGUILayout.Foldout(bAttributesClicked, "Boss Attributes", true);
-        creatorObj.Health = EditorGUILayout.IntField("Boss Health:", creatorObj.Health);
-        creatorObj.SpawnMoths = EditorGUILayout.Toggle("Spawns moths?", creatorObj.SpawnMoths); // TODO Add dropdown for spawn type
-        creatorObj.ShakeScreenOnLanding = EditorGUILayout.Toggle("Shake on landing?", creatorObj.ShakeScreenOnLanding);
+        machine.Health = EditorGUILayout.IntField("Boss Health:", machine.Health);
+        machine.SpawnMoths = EditorGUILayout.Toggle("Spawns moths?", machine.SpawnMoths); // TODO Add dropdown for spawn type
+        machine.ShakeScreenOnLanding = EditorGUILayout.Toggle("Shake on landing?", machine.ShakeScreenOnLanding);
     }
 
 }

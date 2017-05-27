@@ -50,7 +50,7 @@ public class StateEventNode : BaseNode
     public override void DeleteNode()
     {
         ((State)ParentEditor.BehaviourSet).RemoveStateEvent(StateEventID);
-        //ParentEditor.ActiveStateNode.RemoveStateEvent(StateEventID);
+        ((BossEditor)ParentEditor).RemoveEventFromStateNode(StateEventID);
         base.DeleteNode();
     }
 

@@ -28,6 +28,17 @@ public class NodeEditorMenu {
         }
     }
 
+    public void RemoveEventFromStateNode(int stateEventID)
+    {
+        for (int i = 0; i < mainSystem.Nodes.Count; i++)
+        {
+            if (mainSystem.Nodes[i].ID == activeSystemID)
+            {
+                ((StateNode)mainSystem.Nodes[i]).RemoveStateEvent(stateEventID);
+            }
+        }
+    }
+
     public void SaveCurrentMenuState()
     {
         if (activeSystemID < 0) return;
@@ -51,7 +62,15 @@ public class NodeEditorMenu {
 
     public void UpdateSystemModel()
     {
-        Debug.Log("TODO This should only run on LoadEditor, not on EditState"); // TODO
+        foreach (var system in systems)
+        {
+            if (system.Name == editor.BehaviourSet.name)
+            {
+                ActivateSystem(system);
+                return;
+            }
+        }
+        
         if (editor.BehaviourSet.IsType<StateMachine>())
         {
             SetMainSystem();
@@ -185,7 +204,7 @@ public class NodeEditorMenu {
             }
         }
 
-        NodeSystem newSystem = new NodeSystem(id, editor.Nodes, editor.CanvasOffset, editor.BehaviourSet);
+        NodeSystem newSystem = new NodeSystem(id, editor.BehaviourSet.name, editor.Nodes, editor.CanvasOffset, editor.BehaviourSet);
         systems.Add(newSystem);
     }
 
@@ -221,20 +240,22 @@ public class NodeEditorMenu {
 
     private void SetMainSystem()
     {
-        mainSystem = new NodeSystem(0, editor.Nodes, editor.CanvasOffset, editor.BehaviourSet);
+        mainSystem = new NodeSystem(0, editor.BehaviourSet.name, editor.Nodes, editor.CanvasOffset, editor.BehaviourSet);
     }
 }
 
 public class NodeSystem
 {
     public int ID;
+    public string Name;
     public List<BaseNode> Nodes;
     public Vector2 CanvasOffset;
     public BehaviourSet BehaviourSet;
 
-    public NodeSystem(int id, List<BaseNode> nodes, Vector2 offset, BehaviourSet behaviour)
+    public NodeSystem(int id, string sysName, List<BaseNode> nodes, Vector2 offset, BehaviourSet behaviour)
     {
         ID = id;
+        Name = sysName;
         Nodes = nodes;
         CanvasOffset = offset;
         BehaviourSet = behaviour;

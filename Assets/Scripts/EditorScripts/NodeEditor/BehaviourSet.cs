@@ -5,8 +5,7 @@ using UnityEngine;
 /// Base class for holding editor/runtime State Machine data
 /// </summary>
 public abstract class BehaviourSet : ScriptableObject {
-
-    public string Name;
+    
     public StateMachine ParentMachine;
 
     public StartAction StartingAction;

@@ -63,10 +63,17 @@ public class State : BehaviourSet {
             action.Tick(deltaTime);
         }
     }
-    
+
+    public int AddNewStateEvent()
+    {
+        int id = GetUniqueEventID();
+        StateEvent newEvent = new StateEvent(id, this, "New Event", false);
+        StateEvents.Add(newEvent);
+        return id;
+    }
+
     public void RemoveStateEvent(int stateEventID)
     {
-        // TODO remove connection from connections list in action
         for (int i = 0; i < StateEvents.Count; i++)
         {
             if (StateEvents[i].ID == stateEventID)
@@ -82,19 +89,9 @@ public class State : BehaviourSet {
         for (int i = 0; i < StateEvents.Count; i++)
         {
             if (StateEvents[i].ID == eventID)
-            {
                 return i;
-            }
         }
         return -1;
-    }
-
-    public int AddNewStateEvent()
-    {
-        int id = GetUniqueEventID();
-        StateEvent newEvent = new StateEvent(id, this, "New Event", false);
-        StateEvents.Add(newEvent);
-        return id;
     }
 
     private int GetUniqueEventID()
