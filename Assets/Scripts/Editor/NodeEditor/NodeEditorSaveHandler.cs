@@ -47,6 +47,20 @@ public static class NodeEditorSaveHandler {
         }
     }
 
+    public static List<BaseNode> LoadStateMachineNodes(StateMachine state)
+    {
+        string filePath = GetStateMachineEditorDataPath(state);
+        XmlSerializer serializer = new XmlSerializer(typeof(NodeDataContainer), GetNodeTypes());
+
+        NodeDataContainer data;
+        using (var stream = new FileStream(filePath, FileMode.Open))
+        {
+            data = (NodeDataContainer)serializer.Deserialize(stream);
+        }
+
+        return data.Nodes;
+    }
+
     private static NodeInterface GetInterface(List<BaseNode> allNodes, int nodeID, int ifaceID)
     {
         foreach (var node in allNodes)
@@ -142,6 +156,13 @@ public static class NodeEditorSaveHandler {
         return dataPath;
     }
     
+    private static string GetStateMachineEditorDataPath(StateMachine machine)
+    {
+        string stateMachineName = machine.name;
+        CreateFolderIfNotExists(BossActionLoadHandler.DataFolder, stateMachineName);
+        return string.Format("{0}/{1}/StateMachineEditorData.xml", BossActionLoadHandler.DataFolder, stateMachineName);
+    }
+
     private static string GetStateMachineEditorDataPath(BaseEditor editor)
     {
         string stateMachineName = GetBossName(editor);
