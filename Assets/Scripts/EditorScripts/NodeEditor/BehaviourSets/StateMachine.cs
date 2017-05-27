@@ -37,7 +37,7 @@ public class StateMachine : BehaviourSet
         state.IsEnabled = true;
     }
 
-    public override void RequestLoopToStart()
+    public override void LoopToStart()
     {
         StartingAction.Activate();
     }
