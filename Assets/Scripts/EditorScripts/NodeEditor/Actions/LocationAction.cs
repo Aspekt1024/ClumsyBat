@@ -20,7 +20,7 @@ public class LocationAction : BaseAction {
 
     public override float GetFloat(int connID)
     {
-        if (Pos1ConnIndex < 0 && Pos2ConnIndex < 0)
+        if (Pos1ConnIndex < 0 || Pos2ConnIndex < 0)
             GetPositionConnIDs();
 
         GetPositions();
@@ -41,11 +41,11 @@ public class LocationAction : BaseAction {
                 break;
 
             case (int)Ifaces.OutDX:
-                output = Pos2.x - Pos1.x;
+                output = Mathf.Abs(Pos2.x - Pos1.x);
                 break;
 
             case (int)Ifaces.OutDY:
-                output = Pos2.y - Pos1.y;
+                output = Mathf.Abs(Pos2.y - Pos1.y);
                 break;
         }
         return output;
