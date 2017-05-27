@@ -88,20 +88,20 @@ public class NodeGUI {
         return value;
     }
 
-    public static float FloatFieldLayout(float value)
+    public static float FloatFieldLayout(float val)
     {
-        return FloatFieldLayout(value, "", 0f);
+        return FloatFieldLayout(val, "", 0f);
     }
 
-    public static float FloatFieldLayout(float value, string label, float xSplitPercent = 0.4f)
+    public static float FloatFieldLayout(float val, string label, float xSplitPercent = 0.4f)
     {
-        return FloatField(NextLayoutRect(), value, label, xSplitPercent);
+        return FloatField(NextLayoutRect(), val, label, xSplitPercent);
     }
 
-    public static float FloatField(Rect rect, float value, string label, float xSplitPercent = 0.4f)
+    public static float FloatField(Rect rect, float val, string label, float xSplitPercent = 0.4f)
     {
         FieldLabel(rect, label, xSplitPercent);
-        return EditorGUI.FloatField(FieldRect(rect, xSplitPercent), value);
+        return EditorGUI.FloatField(FieldRect(rect, xSplitPercent), val);
     }
     
     public static int PopupLayout(string label, int selectedIndex, string[] selections, float xSplitPercent = 0.4f)
@@ -126,26 +126,26 @@ public class NodeGUI {
         return EditorGUI.EnumPopup(FieldRect(rect, xSplitPercent), selected);
     }
 
-    public static int IntFieldLayout(string label, int value, float xSplitPercent = 0.4f)
+    public static int IntFieldLayout(string label, int val, float xSplitPercent = 0.4f)
     {
-        return IntField(NextLayoutRect(), label, value, xSplitPercent);
+        return IntField(NextLayoutRect(), label, val, xSplitPercent);
     }
 
-    public static int IntField(Rect rect, string label, int value, float xSplitPercent = 0.4f)
+    public static int IntField(Rect rect, string label, int val, float xSplitPercent = 0.4f)
     {
         FieldLabel(rect, label, xSplitPercent);
-        return EditorGUI.IntField(FieldRect(rect, xSplitPercent), label, value);
+        return EditorGUI.IntField(FieldRect(rect, xSplitPercent), val);
     }
 
-    public static bool ToggleLayout(string label, bool value, float xSplitPercent = 0.7f)
+    public static bool ToggleLayout(string label, bool val, float xSplitPercent = 0.7f)
     {
-        return Toggle(NextLayoutRect(), label, value);
+        return Toggle(NextLayoutRect(), label, val);
     }
 
-    public static bool Toggle(Rect rect, string label, bool value, float xSplitPercent = 0.7f)
+    public static bool Toggle(Rect rect, string label, bool val, float xSplitPercent = 0.7f)
     {
         FieldLabel(rect, label, xSplitPercent);
-        return EditorGUI.Toggle(FieldRect(rect, xSplitPercent), value);
+        return EditorGUI.Toggle(FieldRect(rect, xSplitPercent), val);
     }
 
     #region layout
