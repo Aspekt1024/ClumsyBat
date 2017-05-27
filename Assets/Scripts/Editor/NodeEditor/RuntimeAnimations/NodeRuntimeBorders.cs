@@ -23,6 +23,9 @@ public class NodeRuntimeBorders {
         if (action == null) FindActionID();
         if (action == null) return;
 
+        if (action.IsType<StateAction>())
+            CheckIfStateActive();
+
         if (action.IsActive || action.IsNewActivation)
         {
             action.IsNewActivation = false;
@@ -49,6 +52,20 @@ public class NodeRuntimeBorders {
             action = editor.BehaviourSet.Actions[i];
             return;
         }
+    }
+
+    private void CheckIfStateActive()
+    {
+        bool stillActive = false;
+        foreach (var a in ((StateAction)action).State.Actions)
+        {
+            if (a.IsActive)
+            {
+                stillActive = true;
+                break;
+            }
+        }
+        action.IsActive = stillActive;
     }
 }
 
