@@ -3,6 +3,7 @@
 public class StateEventAction : BaseAction {
     
     public int StateEventID;
+    public bool StopsState;
 
     public enum Ifaces
     {
@@ -22,7 +23,11 @@ public class StateEventAction : BaseAction {
                 {
                     if (conn.ID == StateEventID)
                     {
-                        // TODO if stops state
+                        if (StopsState)
+                        {
+                            ((StateAction)action).State.IsEnabled = false;
+                        }
+                        
                         conn.CallNext();
                         IsActive = false;
                         action.IsActive = false;

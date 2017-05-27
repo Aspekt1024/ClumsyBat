@@ -16,6 +16,9 @@ public abstract class BaseAction
     
     public void Activate()
     {
+        if (behaviourSet.IsType<State>() && !((State)behaviourSet).IsEnabled) return;
+        if (IsType<StateAction>()) ((StateAction)this).State.IsEnabled = true;
+
         IsActive = true;
         IsNewActivation = true;
         ActivateBehaviour();
@@ -63,6 +66,8 @@ public abstract class BaseAction
     }
 
     public virtual GameObject GetObject(int id) { return null; }
+    public virtual Vector2 GetPosition(int id) { return Vector2.zero; }
+    public virtual float GetFloat(int id) { return 0f; }
 
     public virtual void GameSetup(BehaviourSet behaviourSet, BossData bossData, GameObject bossReference)
     {
