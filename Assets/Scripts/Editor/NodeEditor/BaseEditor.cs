@@ -23,7 +23,6 @@ public abstract class BaseEditor : EditorWindow {
     private Texture2D _bg;
     private BaseEditorMouseInput _mouseInput;
     private Vector2 _mousePos;
-    private NodeRuntimeBorders runtimeBorders;
 
     protected NodeEditorMenu nodeMenu;
     protected BaseNode _currentNode;
@@ -80,11 +79,6 @@ public abstract class BaseEditor : EditorWindow {
     private void OnLostFocus()
     {
         if (Nodes == null || Nodes.Count == 0) return;
-        Save();
-    }
-
-    private void Save()
-    {
         NodeEditorSaveHandler.Save(this);
     }
 
@@ -113,20 +107,9 @@ public abstract class BaseEditor : EditorWindow {
         // Last to be called is drawn on top
         DrawBackground();
         DrawNodeWindows();
-        ShowRuntimeBorders();
         nodeMenu.Draw();
 
         ProcessEvents();
-    }
-
-    private void ShowRuntimeBorders()
-    {
-        if (!Application.isPlaying) return;
-
-        if (runtimeBorders == null)
-            runtimeBorders = new NodeRuntimeBorders(this);
-
-        runtimeBorders.Update();
     }
 
     private void ProcessEvents()

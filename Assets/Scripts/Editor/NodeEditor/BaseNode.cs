@@ -19,6 +19,7 @@ public abstract class BaseNode {
     
     private Rect NodeRect;
     private Vector2 selectedOutputPos;
+    private NodeRuntimeBorders runtimeBorder;
 
     public abstract BaseAction GetAction();
     protected abstract void AddInterfaces();
@@ -39,6 +40,9 @@ public abstract class BaseNode {
     
     public void DrawNodeWindow(Vector2 canvasOffset)
     {
+        if (runtimeBorder == null) runtimeBorder = new NodeRuntimeBorders(this);
+        runtimeBorder.Update();
+
         NodeRect = Transform.GetWindow(canvasOffset);
         
         if (Transform.IsSelected)
@@ -47,7 +51,7 @@ public abstract class BaseNode {
             GUI.skin = (GUISkin)EditorGUIUtility.Load("NodeNormalSkin.guiskin");
         
         GUI.Box(NodeRect, WindowTitle);
-
+        
         if (SelectedBorderAlpha > 0 && Application.isPlaying)
             DrawOutline(new Color(0.9f, 0.6f, 0.6f), SelectedBorderAlpha);
         else if (Transform.IsSelected)
