@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using System.Linq;
 
 using StateChangeTypes = State.StateChangeTypes;
 
@@ -130,7 +131,27 @@ public class StateNode : BaseNode {
 
     private void UseExistingState(State existingState)
     {
+        // TODO copy states
+        Debug.Log("TODO copying states");
+        return;
+
+
+
         State = existingState;
+        List<BaseNode> stateNodes = NodeEditorSaveHandler.LoadStateMachineNodes(State.ParentMachine);
+
+        foreach (var node in stateNodes)
+        {
+            if (node.IsType<StateNode>() && ((StateNode)node).StateName == State.name)
+            {
+                StateName = ((StateNode)node).StateName;
+                foreach (var iface in node.interfaces.Where(iface => iface.Direction == ActionConnection.IODirection.Output))
+                {
+                    AddOutput(iface.ID);
+                }
+                break;
+            }
+        }
     }
 
     public override BaseAction GetAction()
