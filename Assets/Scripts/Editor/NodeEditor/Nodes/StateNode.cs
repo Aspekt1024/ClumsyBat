@@ -37,8 +37,6 @@ public class StateNode : BaseNode {
 
     public override void Draw()
     {
-        Transform.Width = 250;
-        Transform.Height = 150;
         WindowTitle = State == null ? "New State" : StateName;
 
         if (State != null)
@@ -65,6 +63,9 @@ public class StateNode : BaseNode {
     
     private void DisplayStateInfo()
     {
+        Transform.Width = 150f;
+        Transform.Height = Mathf.Max(30f + 20f * (interfaces.Count - 1), 50f);
+
         foreach (var stateEvent in State.StateEvents)
         {
             for (int i = 0; i < interfaces.Count; i++)
@@ -77,15 +78,6 @@ public class StateNode : BaseNode {
                 }
             } 
         }
-
-
-        //State.StateChange = (StateChangeTypes)NodeGUI.EnumPopupLayout("Change state on:", State.StateChange, 0.5f);
-        //GetStateChangeData();
-
-        // TODO absorb these as events in the State machine
-        //State.DamagedByHypersonic = EditorGUILayout.Toggle("Damaged by Hypersonic?", State.DamagedByHypersonic);    // TODO dropdown with add button - should be a list. this is messy.
-        //State.DamagedByStalactites = EditorGUILayout.Toggle("Damaged by Stalactites?", State.DamagedByStalactites);
-        //State.DamagedByPlayer = EditorGUILayout.Toggle("Damaged by Player?", State.DamagedByPlayer);
     }
 
     private void GetStateChangeData()
@@ -106,6 +98,8 @@ public class StateNode : BaseNode {
 
     private void DisplayStateSelect()
     {
+        Transform.Width = 250;
+        Transform.Height = 150;
 
         StateName = NodeGUI.TextFieldLayout(StateName, "State Name:");
         NodeGUI.Space(0.2f);
