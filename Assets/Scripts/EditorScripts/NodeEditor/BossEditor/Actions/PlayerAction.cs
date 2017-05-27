@@ -13,4 +13,9 @@ public class PlayerAction : BaseAction {
     {
         return GameObject.FindGameObjectWithTag("Player");
     }
+
+    public override Vector2 GetPosition(int id)
+    {
+        return GameObject.FindGameObjectWithTag("Player").transform.position;
+    }
 }

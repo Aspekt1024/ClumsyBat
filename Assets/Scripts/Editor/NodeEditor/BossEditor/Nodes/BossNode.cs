@@ -20,7 +20,7 @@ public class BossNode : BaseNode {
     public override void Draw()
     {
         Transform.Width = 80;
-        Transform.Height = 40;
+        Transform.Height = 50;
         WindowTitle = "Boss";
 
         SetInterfacePositions();
