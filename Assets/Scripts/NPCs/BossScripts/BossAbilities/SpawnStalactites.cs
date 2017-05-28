@@ -31,11 +31,17 @@ public class SpawnStalactites : BossAbility {
         
         float startY = stalTf.position.y;
         float endY = 5f;
+        GameObject pf = new GameObject();
         if (direction == SpawnStalAction.StalSpawnDirection.FromBottom)
         {
             startY = -10f;
             endY = -5f;
             stalTf.Rotate(Vector3.forward, 180f);
+        }
+        else
+        {
+            pf = Instantiate(Resources.Load<GameObject>("Obstacles/Stalactite/FormingRockEffect"));
+            pf.transform.position = new Vector2(stalTf.position.x, endY);
         }
 
         const float animDuration = 1.2f;
@@ -52,6 +58,7 @@ public class SpawnStalactites : BossAbility {
             }
             yield return null;
         }
+        Destroy(pf);
         _stals[index].SetState(Stalactite.StalStates.Normal);
     }
 
