@@ -10,7 +10,7 @@ public class SpawnStalAction : BaseAction {
         public float delay;
         public float xPosStart;
         public float xPosEnd;
-        public int inputIndex;
+        public int inputID;
     }
     public enum Ifaces
     {
@@ -66,7 +66,7 @@ public class SpawnStalAction : BaseAction {
     {
         var spawn = stalSpawns[spawnIndex];
         float spawnPosX = 0;
-        GameObject posObj = GetInputObj(spawn.inputIndex);
+        GameObject posObj = GetInputObj(spawn.inputID);
         if (posObj != null)
         {
             DespawnIfProjectile(posObj);

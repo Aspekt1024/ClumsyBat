@@ -18,42 +18,36 @@ public class SpawnStalNode : BaseNode {
 
     public StalSpawnDirection SpawnDirection;
     public int selectedSpawnDirectionIndex;
-
-    [SerializeField]
-    private int numStals = 1;
-    [SerializeField]
-    private List<StalSpawnType> stalSpawns = new List<StalSpawnType>();
+    
+    // private, made public for XML serialization
+    public int NumStals = 1;
+    public List<StalSpawnType> StalSpawns = new List<StalSpawnType>();
 
     protected override void AddInterfaces()
     {
-        AddInterface(IODirection.Input, (int)Ifaces.Main);
-
-        AddInterface(IODirection.Output, (int)Ifaces.Output);
+        AddInput((int)Ifaces.Main);
+        AddOutput((int)Ifaces.Output);
     }
 
     private void SetInterfacePositions()
     {
-        SetInterface(30, (int)Ifaces.Main);
-        SetInterface(30, (int)Ifaces.Output);
+        SetInterface((int)Ifaces.Main, 1);
+        SetInterface((int)Ifaces.Output, 1);
     }
 
     public override void Draw()
     {
         WindowTitle = "Stalactites";
         Transform.Width = 180;
-        Transform.Height = 102 + stalSpawns.Count * 19;
-        
-        EditorGUILayout.Space();
-        EditorGUILayout.Space();
-        EditorGUILayout.Space();
+        Transform.Height = 130 + NumStals * 20;
 
-        EditorGUIUtility.labelWidth = 70;
-        selectedStalAction = (StalActions)EditorGUILayout.EnumPopup("Stal action:", selectedStalAction);
+        NodeGUI.Space();
+        selectedStalAction = (StalActions)NodeGUI.EnumPopupLayout("Stal action:", selectedStalAction);
 
         if (selectedStalAction != StalActions.Drop)
         {
-            SpawnDirection = (StalSpawnDirection)EditorGUILayout.EnumPopup("Direction:", SpawnDirection);
-            DisplayStalListForEditing();
+            SpawnDirection = (StalSpawnDirection)NodeGUI.EnumPopupLayout("Direction:", SpawnDirection);
+            DisplayStalList();
         }
         else
         {
@@ -70,7 +64,7 @@ public class SpawnStalNode : BaseNode {
         {
             StalAction = selectedStalAction,
             SpawnDirection = SpawnDirection,
-            stalSpawns = stalSpawns
+            stalSpawns = StalSpawns
         };
     }
 
@@ -80,42 +74,52 @@ public class SpawnStalNode : BaseNode {
         AddNewStalSpawn();
     }
 
-    private void DisplayStalListForEditing()
+    private void DisplayStalList()
     {
         CheckForListCountChange();
-        numStals = EditorGUILayout.IntField("Num Stals:", numStals);
+        NumStals = Mathf.Max(1, NodeGUI.IntFieldLayout("Num Stals:", NumStals));
 
-        for (int i = 0; i < stalSpawns.Count; i++)
+        for (int i = 0; i < StalSpawns.Count; i++)
         {
-            Vector2 startPos = new Vector2(15f, 95f + i * 19f);
+            Vector2 startPos = new Vector2(15f, 120f + i * 20f);
 
-            var spawn = stalSpawns[i];
-            if (interfaces[spawn.inputIndex].IsConnected())
+            var spawn = StalSpawns[i];
+            SetInterface(spawn.inputID, i + 6);
+
+            NodeInterface iface = GetInterface(spawn.inputID);
+            if (iface.IsConnected())
             {
-                EditorGUI.LabelField(new Rect(startPos.x, startPos.y, 150f, 15f), "At " + interfaces[spawn.inputIndex].ConnectedInterface.GetNode().WindowTitle);
+                NodeGUI.Label(new Rect(startPos.x, startPos.y, 150f, 20f), "At " + iface.ConnectedInterface.GetNode().WindowTitle);
             }
             else
             {
-                EditorGUI.LabelField(new Rect(startPos.x, startPos.y, 30f, 15f), "rng:");
-                EditorGUI.MinMaxSlider(new Rect(startPos.x + 30, startPos.y, 65f, 15), ref spawn.xPosStart, ref spawn.xPosEnd, -6.2f, 6.2f);
-                SetInterface(spawn.inputIndex, i + 4);
+                NodeGUI.Label(new Rect(startPos.x, startPos.y, 30f, 20f), "rng:");
+                EditorGUI.MinMaxSlider(new Rect(startPos.x + 30, startPos.y + 3f, 65f, 20), ref spawn.xPosStart, ref spawn.xPosEnd, -6.2f, 6.2f);
             }
-            EditorGUI.LabelField(new Rect(startPos.x + 100f, startPos.y, 40f, 15f), "dly:");
-            spawn.delay = EditorGUI.FloatField(new Rect(startPos.x + 125f, startPos.y, 30f, 15f), spawn.delay);
-            stalSpawns[i] = spawn;
+            NodeGUI.Label(new Rect(startPos.x + 100f, startPos.y, 40f, 20f), "dly:");
+            spawn.delay = NodeGUI.FloatField(new Rect(startPos.x + 125f, startPos.y, 27f, 20f), spawn.delay, "", 0.01f);
+            StalSpawns[i] = spawn;
         }
     }
 
-    private void AdjustStalSpawnListCount(int numStals)
+    private void CheckForListCountChange()
     {
-        while (stalSpawns.Count < numStals)
+        if (Event.current.type == EventType.keyDown && NumStals != StalSpawns.Count)
+        {
+            if (Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.KeypadEnter)
+                AdjustStalSpawnListCount();
+        }
+    }
+
+    private void AdjustStalSpawnListCount()
+    {
+        while (StalSpawns.Count < NumStals)
         {
             AddNewStalSpawn();
         }
-        while (stalSpawns.Count > numStals)
+        while (StalSpawns.Count > NumStals)
         {
-            int index = stalSpawns.Count - 1;
-            RemoveStalSpawn(index);
+            RemoveLastStalSpawn();
         }
     }
 
@@ -123,27 +127,31 @@ public class SpawnStalNode : BaseNode {
     {
         var newSpawn = new StalSpawnType()
         {
-            inputIndex = interfaces.Count
+            inputID = GetUniqueIfaceID()
         };
-        stalSpawns.Add(newSpawn);
-        AddInterface(IODirection.Input, interfaces.Count, InterfaceTypes.Object);
+        StalSpawns.Add(newSpawn);
+        AddInput(newSpawn.inputID, InterfaceTypes.Object);
     }
 
-    private void RemoveStalSpawn(int index)
+    private void RemoveLastStalSpawn()
     {
-        interfaces.Remove(interfaces[stalSpawns[index].inputIndex]);
-        stalSpawns.Remove(stalSpawns[index]);
+        interfaces[interfaces.Count].Disconnect();
+        interfaces.Remove(interfaces[interfaces.Count -1]);
+        StalSpawns.Remove(StalSpawns[StalSpawns.Count - 1]);
     }
-
-    private void  CheckForListCountChange()
+    
+    private int GetUniqueIfaceID()
     {
-        if (Event.current.type == EventType.keyDown && numStals != stalSpawns.Count)
+        int id = 2;
+        for (int i = 0; i < interfaces.Count; i++)
         {
-            if (Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.KeypadEnter)
+            if (id == interfaces[i].ID)
             {
-                AdjustStalSpawnListCount(numStals);
+                id++;
+                i = -1;
             }
         }
+        return id;
     }
 
 }

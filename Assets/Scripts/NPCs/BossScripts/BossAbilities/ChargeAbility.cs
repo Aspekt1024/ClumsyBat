@@ -39,14 +39,17 @@ public class ChargeAbility : BossAbility {
     {
         const float chargeSpeed = 17f;
 
+        body.constraints = RigidbodyConstraints2D.FreezeRotation;
         while (chargeEnabled)
         {
             if (!Toolbox.Instance.GamePaused)
-            {
-                transform.position += Vector3.left * Time.deltaTime * chargeSpeed;
-            }
+                body.velocity = Vector3.left * chargeSpeed;
+            else
+                body.velocity = Vector3.zero;
+
             yield return null;
         }
+        body.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
         StartCoroutine(Knockback());
     }
 
@@ -65,6 +68,17 @@ public class ChargeAbility : BossAbility {
             }
             yield return null;
         }
+
+        animTimer = 0f;
+        const float recoveryTime = 0.5f;
+        while (animTimer < recoveryTime)
+        {
+            if (!Toolbox.Instance.GamePaused)
+                animTimer += Time.deltaTime;
+
+            yield return null;
+        }
+
         chargeCaller.Recovered();
     }
     
