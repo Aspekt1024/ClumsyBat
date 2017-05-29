@@ -84,7 +84,7 @@ public static class NodeEditorSaveHandler {
         ActionDataContainer runtimeData = new ActionDataContainer();
         editorData.Nodes = editor.Nodes;
         editorData.EditorOffset = editor.CanvasOffset;
-
+        
         runtimeData.Actions = new List<BaseAction>();
         foreach (var node in editorData.Nodes)
         {
@@ -108,7 +108,7 @@ public static class NodeEditorSaveHandler {
             }
             runtimeData.Actions.Add(newAction);
         }
-
+        
         XmlSerializer serializer = new XmlSerializer(typeof(NodeDataContainer), GetNodeTypes());
         using (var stream = new FileStream(editorDataFilePath, FileMode.Create))
         {

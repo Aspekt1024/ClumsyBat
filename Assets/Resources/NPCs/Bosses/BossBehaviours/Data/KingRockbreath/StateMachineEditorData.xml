@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <NodeDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <EditorOffset>
-    <x>-324</x>
-    <y>-216</y>
+    <x>-255</x>
+    <y>-156</y>
   </EditorOffset>
   <Nodes>
     <BaseNode xsi:type="StartNode">
@@ -374,23 +374,23 @@
         </NodeInterface>
       </interfaces>
       <WindowRect>
-        <x>870</x>
-        <y>450</y>
+        <x>890</x>
+        <y>460</y>
         <position>
-          <x>870</x>
-          <y>450</y>
+          <x>890</x>
+          <y>460</y>
         </position>
         <center>
-          <x>930</x>
-          <y>475</y>
+          <x>950</x>
+          <y>485</y>
         </center>
         <min>
-          <x>870</x>
-          <y>450</y>
+          <x>890</x>
+          <y>460</y>
         </min>
         <max>
-          <x>990</x>
-          <y>500</y>
+          <x>1010</x>
+          <y>510</y>
         </max>
         <width>120</width>
         <height>50</height>
@@ -398,10 +398,10 @@
           <x>120</x>
           <y>50</y>
         </size>
-        <xMin>870</xMin>
-        <yMin>450</yMin>
-        <xMax>990</xMax>
-        <yMax>500</yMax>
+        <xMin>890</xMin>
+        <yMin>460</yMin>
+        <xMax>1010</xMax>
+        <yMax>510</yMax>
       </WindowRect>
     </BaseNode>
     <BaseNode xsi:type="StateNode">
@@ -434,23 +434,23 @@
         </NodeInterface>
       </interfaces>
       <WindowRect>
-        <x>720</x>
-        <y>570</y>
+        <x>730</x>
+        <y>550</y>
         <position>
-          <x>720</x>
-          <y>570</y>
+          <x>730</x>
+          <y>550</y>
         </position>
         <center>
-          <x>795</x>
-          <y>595</y>
+          <x>805</x>
+          <y>575</y>
         </center>
         <min>
-          <x>720</x>
-          <y>570</y>
+          <x>730</x>
+          <y>550</y>
         </min>
         <max>
-          <x>870</x>
-          <y>620</y>
+          <x>880</x>
+          <y>600</y>
         </max>
         <width>150</width>
         <height>50</height>
@@ -458,10 +458,10 @@
           <x>150</x>
           <y>50</y>
         </size>
-        <xMin>720</xMin>
-        <yMin>570</yMin>
-        <xMax>870</xMax>
-        <yMax>620</yMax>
+        <xMin>730</xMin>
+        <yMin>550</yMin>
+        <xMax>880</xMax>
+        <yMax>600</yMax>
       </WindowRect>
       <StateName>Spawn Stalactites</StateName>
     </BaseNode>

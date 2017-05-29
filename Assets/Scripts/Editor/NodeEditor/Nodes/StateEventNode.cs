@@ -59,7 +59,7 @@ public class StateEventNode : BaseNode
         State parentState = (State)ParentEditor.BehaviourSet;
         int stateEventIndex = parentState.GetStateEventIndex(StateEventID);
         StateEvent stateEvent = parentState.StateEvents[stateEventIndex];
-
+        
         return new StateEventAction()
         {
             StateEventID = StateEventID,
