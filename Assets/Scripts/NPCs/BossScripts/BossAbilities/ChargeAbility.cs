@@ -5,23 +5,45 @@ using UnityEngine;
 public class ChargeAbility : BossAbility {
 
     private Rigidbody2D body;
+    private Boss bossScript;
 
     private bool chargeEnabled;
-    private ChargeAction chargeCaller;
+    private ChargeAction caller;
+
+    private float chargeSpeed;
 
 	void Start () {
         body = GetComponent<Rigidbody2D>();
+        bossScript = GetComponent<Boss>();
 	}
 	
 	void Update () {
 		
 	}
 
-    public void Activate(ChargeAction caller)
+    public void Activate(ChargeAction actionRef)
     {
         chargeEnabled = true;
-        chargeCaller = caller;
-        StartCoroutine(Charge());
+        caller = actionRef;
+
+        int chargeDir = 1;
+        switch (caller.ChargeDirection)
+        {
+            case ChargeAction.Directions.Left:
+                chargeDir = -1;
+                break;
+
+            case ChargeAction.Directions.Right:
+                chargeDir = 1;
+                break;
+
+            case ChargeAction.Directions.Other:
+                chargeDir = caller.GetInputXPosition() > transform.position.x ? 1 : -1;
+                break;
+        }
+
+        chargeSpeed = caller.ChargeSpeed * chargeDir;
+        StartCoroutine(Windup());
     }
 
 
@@ -30,20 +52,35 @@ public class ChargeAbility : BossAbility {
         if (collision.collider.tag == "CaveWall" && chargeEnabled)
         {
             chargeEnabled = false;
-            chargeCaller.HitWall();
-            CameraEventListener.CameraShake(0.4f);
+            caller.HitWall();
+
+            if (Mathf.Abs(chargeSpeed) > 10f)
+                CameraEventListener.CameraShake(0.4f);  // TODO shake time relative to speed
         }
+    }
+
+    private IEnumerator Windup()
+    {
+        if (chargeSpeed > 0)
+            GetComponent<Boss>().FaceDirection(Boss.Direction.Right);
+        else
+            GetComponent<Boss>().FaceDirection(Boss.Direction.Left);
+        
+        body.AddForce(Vector2.up * 500f);
+
+        const float windupTime = 1f;
+        yield return StartCoroutine(Wait(windupTime));
+        // TODO stamp
+        StartCoroutine(Charge());
     }
 
     private IEnumerator Charge()
     {
-        const float chargeSpeed = 17f;
-
         body.constraints = RigidbodyConstraints2D.FreezeRotation;
         while (chargeEnabled)
         {
             if (!Toolbox.Instance.GamePaused)
-                body.velocity = Vector3.left * chargeSpeed;
+                body.velocity = Vector3.right * chargeSpeed;
             else
                 body.velocity = Vector3.zero;
 
@@ -64,22 +101,27 @@ public class ChargeAbility : BossAbility {
             if (!Toolbox.Instance.GamePaused)
             {
                 animTimer += Time.deltaTime;
-                transform.position += Vector3.right * Time.deltaTime * 4f;
+                transform.position += Vector3.left * Time.deltaTime * 4f * chargeSpeed / 17f;
             }
             yield return null;
         }
 
         animTimer = 0f;
         const float recoveryTime = 0.5f;
-        while (animTimer < recoveryTime)
+        yield return StartCoroutine(Wait(recoveryTime));
+
+        caller.Recovered();
+    }
+    
+    private IEnumerator Wait(float waitTime)
+    {
+        float timer = 0f;
+        while (timer < waitTime)
         {
             if (!Toolbox.Instance.GamePaused)
-                animTimer += Time.deltaTime;
+                timer += Time.deltaTime;
 
             yield return null;
         }
-
-        chargeCaller.Recovered();
     }
-    
 }

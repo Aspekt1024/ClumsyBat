@@ -4,12 +4,28 @@ using UnityEngine;
 
 public class ChargeAction : BaseAction {
 
+    public float ChargeSpeed;
+    public Directions ChargeDirection;
+
     public enum Ifaces
     {
-        Input, Charging, HitWall, Recovered
+        Input, Direction,
+        Charging, HitWall, Recovered
+    }
+
+    public enum Directions
+    {
+        Left, Right, Other
     }
 
     private ChargeAbility charge;
+
+    public float GetInputXPosition()
+    {
+        ActionConnection conn = GetInterface((int)Ifaces.Direction);
+        Vector2 pos = conn.ConnectedInterface.Action.GetPosition(conn.OtherConnID);
+        return pos.x;
+    }
 
     public override void ActivateBehaviour()
     {

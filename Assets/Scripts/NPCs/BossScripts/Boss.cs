@@ -9,6 +9,12 @@ using BossDamageObjects = StateAction.BossDamageObjects;
 /// </summary>
 public class Boss : MonoBehaviour {
     
+    // TODO put this in a helper class
+    public enum Direction
+    {
+        Left, Right, Switch
+    }
+
     protected bool _bPaused;
     protected int health;
     protected SpriteRenderer bossRenderer;
@@ -115,6 +121,31 @@ public class Boss : MonoBehaviour {
                 other.transform.Rotate(Vector3.forward, 5f);
             }
         }
+    }
+
+    public void FaceDirection(Direction dir)
+    {
+        // This assumes the boss is facing to the left when scale.x is positive
+        Transform bossParent = GetComponentInParent<Transform>();
+        bool switchDir = false;
+        switch(dir)
+        {
+            case Direction.Left:
+                if (bossParent.localScale.x < 0) switchDir = true;
+
+                break;
+
+            case Direction.Right:
+                if (bossParent.localScale.x > 0) switchDir = true;
+                break;
+            case Direction.Switch:
+                switchDir = true;
+                break;
+        }
+
+        Vector3 scale = bossParent.localScale;
+        if (switchDir)
+            bossParent.localScale = new Vector3(-scale.x, scale.y, scale.z);
     }
 
     protected void TakeDamage(int damage = 1)
