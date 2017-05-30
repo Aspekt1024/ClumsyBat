@@ -70,7 +70,7 @@ public class ChargeAbility : BossAbility {
 
         const float windupTime = 1f;
         yield return StartCoroutine(Wait(windupTime));
-        // TODO stamp
+        bossScript.Walk();
         StartCoroutine(Charge());
     }
 
@@ -92,6 +92,8 @@ public class ChargeAbility : BossAbility {
 
     private IEnumerator Knockback()
     {
+        bossScript.EndWalk();
+
         float animTimer = 0f;
         const float animDuration = 0.3f;
         body.AddForce(Vector2.up * 400);
