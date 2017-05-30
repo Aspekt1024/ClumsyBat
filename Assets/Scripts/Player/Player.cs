@@ -243,7 +243,7 @@ public class Player : MonoBehaviour {
             {
                 if (_state == PlayerState.Normal) { Die(); }
                 _state = PlayerState.Dead;
-                StartCoroutine("GameOverSequence");
+                StartCoroutine(GameOverSequence());
             }
         }
     }
@@ -263,11 +263,9 @@ public class Player : MonoBehaviour {
         _playerRigidBody.gravityScale = GravityScale;
         _playerRigidBody.velocity = new Vector2(1, 0);
         _rush.GamePaused(true);
-
         Lantern.Drop();
-
+        
         StartCoroutine(PauseForDeath());
-
     }
 
     private IEnumerator PauseForDeath()

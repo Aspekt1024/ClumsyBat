@@ -9,7 +9,7 @@ public class Stalactite : Spawnable {
     
     public enum StalStates
     {
-        Normal, Falling, Exploding, Forming
+        Normal, Falling, Exploding, Forming, Broken
     }
     private StalStates state;
 
@@ -18,12 +18,17 @@ public class Stalactite : Spawnable {
     private Rigidbody2D body;
     private StalAnimationHandler anim;
     private StalDropComponent dropControl;
-    private PhysicsStal breakComponent;
     private bool isExploding;
     
+    private const string BrokenStalPath = "Obstacles/Stalactite/BrokenStal";
+    private const string UnbrokenStalPath = "Obstacles/Stalactite/UnbrokenStal";
+    private GameObject StalPrefabUnbroken;
+    private GameObject StalPrefabBroken;
+
     private void Awake ()
     {
         GetStalComponents();
+        stalRenderer.enabled = false;
         IsActive = false;
         anim.enabled = true;
     }
@@ -34,18 +39,35 @@ public class Stalactite : Spawnable {
         MoveLeft(Time.deltaTime);
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!IsBreakable() || state == StalStates.Broken) return;
+
+        if (other.tag == "Boss")
+        {
+            Break();
+        }
+    }
+
     private void GetStalComponents()
     {
-        body = GetComponent<Rigidbody2D>();
+        StalPrefabUnbroken = Instantiate(Resources.Load<GameObject>(UnbrokenStalPath), transform);
+        StalPrefabBroken = Instantiate(Resources.Load<GameObject>(BrokenStalPath), transform);
+        StalPrefabUnbroken.SetActive(true);
+        StalPrefabBroken.SetActive(false);
+
         stalCollider = GetComponent<PolygonCollider2D>();
         stalRenderer = GetComponent<SpriteRenderer>();
-        anim = gameObject.AddComponent<StalAnimationHandler>();
+        body = GetComponent<Rigidbody2D>();
         dropControl = gameObject.AddComponent<StalDropComponent>();
-        breakComponent = gameObject.AddComponent<PhysicsStal>();
+        anim = gameObject.AddComponent<StalAnimationHandler>();
     }
 
     public void Activate(StalPool.StalType stalProps, float xOffset = 0)
     {
+        StalPrefabUnbroken.SetActive(true);
+        StalPrefabBroken.SetActive(false);
+
         transform.localPosition = stalProps.SpawnTransform.Pos + Vector2.right * xOffset;
         transform.localScale = stalProps.SpawnTransform.Scale;
         transform.rotation = stalProps.SpawnTransform.Rotation;
@@ -57,7 +79,6 @@ public class Stalactite : Spawnable {
         isExploding = false;
         IsActive = true;
         stalCollider.enabled = true;
-        stalRenderer.enabled = true;
         DropEnabled = stalProps.DropEnabled;
     }
     
@@ -74,7 +95,7 @@ public class Stalactite : Spawnable {
         {
             isExploding = true;
             stalCollider.enabled = false;
-            StartCoroutine("CrumbleAnim");
+            StartCoroutine(CrumbleAnim());
         }
     }
 
@@ -84,12 +105,40 @@ public class Stalactite : Spawnable {
         yield return new WaitForSeconds(0.67f);
         SendToInactivePool();
     }
+    
+    private void Break()
+    {
+        state = StalStates.Broken;
+
+        StalPrefabUnbroken.SetActive(false);
+        StalPrefabBroken.SetActive(true);
+        gameObject.GetComponent<Rigidbody2D>().Sleep();
+        StartCoroutine(DissolveBrokenStalactite());
+    }
+    
+    private IEnumerator DissolveBrokenStalactite()
+    {
+        float timer = 0;
+        const float timeBeforeDestroy = 4f;
+
+        while (timer < timeBeforeDestroy)
+        {
+            if (!Toolbox.Instance.GamePaused)
+                timer += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = Toolbox.Instance.HoldingArea;
+        Destroy(StalPrefabBroken);
+        StalPrefabBroken = Instantiate(Resources.Load<GameObject>(BrokenStalPath), transform);
+    }
 
     public void Crack()
     {
-        StartCoroutine("Impact");
+        anim.CrackOnImpact();
+        StartCoroutine(Impact());
     }
-
+    
     private IEnumerator Impact()
     {
         float impactTime = 0;
@@ -97,11 +146,10 @@ public class Stalactite : Spawnable {
         const float impactIntensity = 0.07f;
         const float period = 0.04f;
         bool bForward = true;
-        
-        anim.CrackOnImpact();
+
         while (impactTime < impactDuration)
         {
-            if (!bPaused)
+            if (!Toolbox.Instance.GamePaused)
             {
                 body.transform.position += new Vector3(bForward ? impactIntensity : -impactIntensity, 0f, 0f);
                 bForward = !bForward;
