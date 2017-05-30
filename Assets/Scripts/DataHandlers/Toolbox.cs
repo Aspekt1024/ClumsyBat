@@ -23,6 +23,28 @@ public class Toolbox : Singleton<Toolbox>
     public bool[] TooltipCompletion = new bool[Enum.GetNames(typeof(TooltipHandler.DialogueId)).Length];
     public Dictionary<string, float> ZLayers = new Dictionary<string, float>();
     public Dictionary<Levels, string> LevelNames = new Dictionary<Levels, string>();
+
+    private static Player playerScript;
+
+    public static Player Player
+    {
+        get
+        {
+            if (playerScript == null)
+            {
+                GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
+                foreach (GameObject playerObj in playerObjects)
+                {
+                    if (playerObj.name == "Player")
+                    {
+                        playerScript = playerObj.GetComponent<Player>();
+                        break;
+                    }
+                }
+            }
+            return playerScript;
+        }
+    }
     
     public enum MenuSelector
     {
