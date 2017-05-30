@@ -19,9 +19,9 @@ public class VillageSequencer : MonoBehaviour
 
     private void Start()
     {
-        _player.Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        _player.Player = Toolbox.Player;
         _player.Controller = _player.Player.GetComponent<PlayerController>();
-        _player.Body = _player.Player.GetComponent<Rigidbody2D>();
+        _player.Body = _player.Player.GetBody();
         _gameHandler = GameObject.FindGameObjectWithTag("Scripts").GetComponent<GameHandler>();
     }
 

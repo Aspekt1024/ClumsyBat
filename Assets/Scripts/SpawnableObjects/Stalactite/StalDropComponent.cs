@@ -143,10 +143,9 @@ public class StalDropComponent : MonoBehaviour {
 
     private void GetComponentList()
     {
-        GameObject thePlayer = GameObject.FindGameObjectWithTag("Player");
-        if (thePlayer != null)
+        Transform playerTf = Toolbox.Player.transform;
+        if (playerTf != null)
         {
-            playerTf = GameObject.FindGameObjectWithTag("Player").transform;
             _playerControl = playerTf.GetComponent<PlayerController>();
         }
         

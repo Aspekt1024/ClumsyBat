@@ -47,7 +47,7 @@ public class FogEffect : MonoBehaviour {
     private void Start()
     {
         _lantern = GameObject.Find("Lantern").GetComponent<Transform>();
-        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        _player = Toolbox.Player;
         
         _echolocateActivatedTime = Time.time;
         Material.SetVector("_PlayerPos", _lantern.position);

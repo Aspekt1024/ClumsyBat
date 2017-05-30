@@ -11,11 +11,11 @@ public class PlayerAction : BaseAction {
 
     public override GameObject GetObject(int id)
     {
-        return GameObject.FindGameObjectWithTag("Player");
+        return Toolbox.Player.gameObject;
     }
 
     public override Vector2 GetPosition(int id)
     {
-        return GameObject.FindGameObjectWithTag("Player").transform.position;
+        return Toolbox.Player.transform.position;
     }
 }

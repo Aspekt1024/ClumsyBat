@@ -39,7 +39,7 @@ public class BossData : MonoBehaviour {
     private void Start ()
     {
         _state = BossStates.Disabled;
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        player = Toolbox.Player;
         bossObject = Instantiate(BossStateMachine.BossPrefab, transform.position, new Quaternion(), transform);
         bossScripts = bossObject.GetComponent<Boss>();
         if (bossScripts == null)

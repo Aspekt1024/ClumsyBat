@@ -26,7 +26,7 @@ public class PerchComponent : MonoBehaviour
 
 	private void Start ()
 	{
-	    _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+	    _player = Toolbox.Player;
 	    _body = _player.GetComponent<Rigidbody2D>();
 	    _gameHandler = FindObjectOfType<GameHandler>();
         _lantern = _player.Lantern.transform;
@@ -142,7 +142,7 @@ public class PerchComponent : MonoBehaviour
         float startAngle = _lantern.localRotation.z;
         Vector3 startPosition = _lantern.position;
         Vector3 endPosition = bToPlayer ? _player.transform.position : _player.transform.position + Vector3.left * 0.5f;
-        RaycastHit2D hit = Physics2D.Raycast(endPosition, Vector3.up, 2f, ~(1 << LayerMask.NameToLayer("Clumsy")));
+        RaycastHit2D hit = Physics2D.Raycast(endPosition, Vector3.up, 2f, ~(1 << LayerMask.NameToLayer("Player")));
         if (hit.collider != null)
             // 0.2f is a magic number i trial-and-errored to offset from the lanter's center
             endPosition += Vector3.up * (hit.distance - 0.2f);

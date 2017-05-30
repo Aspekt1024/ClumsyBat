@@ -10,15 +10,13 @@ public class PlayerEventAction : BaseAction {
     }
     [SerializeField]
     public PlayerEvents PlayerEvent;
-
-    private Player player;
-
+    
     public override void ActivateBehaviour()
     {
         switch(PlayerEvent)
         {
             case PlayerEvents.Stun:
-                player.Stun(1.3f);
+                Toolbox.Player.Stun(1.3f);
                 break;
             case PlayerEvents.Damage:
                 break;
@@ -30,6 +28,5 @@ public class PlayerEventAction : BaseAction {
     public override void GameSetup(BehaviourSet behaviourSet, BossData bossData, GameObject bossReference)
     {
         base.GameSetup(behaviourSet, bossData, bossReference);
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 }
