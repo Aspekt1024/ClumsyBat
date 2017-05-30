@@ -50,14 +50,14 @@ public class ClumsyAnimator : MonoBehaviour {
 
     private void Start()
     {
-        playerBody = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
+        playerBody = Toolbox.Player.GetBody();
+        anim = GetComponentInChildren<Animator>();
         anim.enabled = true;
         currentAnimation = flap;
         currentScaleModifier = 1f;
         PopulateAnimDict();
     }
-
+    
     private void Update()
     {
         if (currentAnimType == ClumsyAnimations.Flap || currentAnimType == ClumsyAnimations.FlapBlink)
@@ -108,7 +108,7 @@ public class ClumsyAnimator : MonoBehaviour {
     {
         if (newScale == currentScaleModifier) return;
         transform.localScale *= newScale / currentScaleModifier;
-        GetComponent<CircleCollider2D>().radius /= newScale / currentScaleModifier;
+        ((CircleCollider2D)Toolbox.Player.GetCollider()).radius /= newScale / currentScaleModifier;
         currentScaleModifier = newScale;
     }
 

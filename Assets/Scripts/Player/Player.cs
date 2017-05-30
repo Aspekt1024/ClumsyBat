@@ -7,11 +7,9 @@ using PlayerSounds = ClumsyAudioControl.PlayerSounds;
 using ClumsyAnimations = ClumsyAnimator.ClumsyAnimations;
 
 public class Player : MonoBehaviour {
-
-
+    
     #region Public GameObjects
-    [HideInInspector]
-    public Lantern Lantern;
+    [HideInInspector] public Lantern Lantern;
     public FogEffect Fog;
     #endregion
 
@@ -30,6 +28,7 @@ public class Player : MonoBehaviour {
     private JumpClearance _clearance;
     private ClumsyAudioControl _audioControl;
     private PlayerController _playerController;
+    private Collider2D _playerCollider;
     #endregion
 
     #region Clumsy Properties
@@ -61,22 +60,7 @@ public class Player : MonoBehaviour {
 
     private void Awake()
     {
-        _data = GameData.Instance.Data;
-        _playerSpeed = 1f;
-        _playerRigidBody = GetComponent<Rigidbody2D>();
-        _playerRigidBody.isKinematic = true;
-        _playerRigidBody.gravityScale = GravityScale;
-        Anim = gameObject.AddComponent<ClumsyAnimator>();
-        _audioControl = gameObject.AddComponent<ClumsyAudioControl>();
-        _gameHandler = FindObjectOfType<GameHandler>();
-        _lanternBody = GameObject.Find("Lantern").GetComponent<Rigidbody2D>();
-        _playerController = GetComponent<PlayerController>();
-        Lantern = _lanternBody.GetComponent<Lantern>();
-        GameObject clearanceGameObj = GameObject.Find("JumpClearance");
-        if (clearanceGameObj)
-        {
-            _clearance = clearanceGameObj.GetComponent<JumpClearance>();
-        }
+        GetPlayerComponents();
     }
 
     private void Start ()
@@ -115,6 +99,7 @@ public class Player : MonoBehaviour {
     private void SetupAbilities()
     {
         GameObject abilityScripts = new GameObject("Ability Scripts");
+        abilityScripts.transform.SetParent(Toolbox.Player.transform);
         _rush = abilityScripts.AddComponent<RushAbility>();
         _shield = abilityScripts.AddComponent<Shield>();
         _hypersonic = FindObjectOfType<Hypersonic>();
@@ -134,8 +119,7 @@ public class Player : MonoBehaviour {
 
     public void ExitAutoFlightReached()
     {
-        CircleCollider2D clumsyCollider = GetComponent<CircleCollider2D>();
-        clumsyCollider.enabled = false;
+        _playerCollider.enabled = false;
         _playerRigidBody.isKinematic = true;
         _state = PlayerState.EndOfLevel;
         StartCoroutine("CaveExitAnimation");
@@ -235,6 +219,20 @@ public class Player : MonoBehaviour {
     {
         _playerSpeed = speed;
     }
+    
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        _flap.CancelIfMoving();
+        if (other.gameObject.name.Contains("Cave") || other.gameObject.name.Contains("Entrance") || other.gameObject.name.Contains("Exit"))
+        {
+            if (_shield.IsInUse() || _playerController.InputPaused() || _state != PlayerState.Normal) { return; }
+            _perch.Perch(other.gameObject.name, _playerController.TouchHeld());
+        }
+        else
+        {
+            _gameHandler.Collision(other);
+        }
+    }
 
     private void CheckIfOffscreen()
     {
@@ -245,55 +243,46 @@ public class Player : MonoBehaviour {
             {
                 if (_state == PlayerState.Normal) { Die(); }
                 _state = PlayerState.Dead;
-                transform.position = _playerHoldingArea;
                 StartCoroutine("GameOverSequence");
             }
-        }
-    }
-    
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        _flap.CancelIfMoving();
-        if (other.gameObject.name.Contains("Cave") || other.gameObject.name.Contains("Entrance") || other.gameObject.name.Contains("Exit"))
-        {
-            if(_shield.IsInUse() || _playerController.InputPaused() || _state != PlayerState.Normal) { return; }
-            _perch.Perch(other.gameObject.name, _playerController.TouchHeld());
-        }
-        else
-        {
-            _gameHandler.Collision(other);
         }
     }
 
     public void Die()
     {
-        _perch.Unperch();
+        if (_state == PlayerState.Dying || _state == PlayerState.Dead) return;
+
+        _state = PlayerState.Dying;
+
         EventListener.Death();
         DisablePlayerController();
         _data.Stats.Deaths += 1;
-        GetComponent<CircleCollider2D>().enabled = false;
+        
+        _perch.Unperch();
+        _playerCollider.enabled = false;
         _playerRigidBody.gravityScale = GravityScale;
         _playerRigidBody.velocity = new Vector2(1, 0);
         _rush.GamePaused(true);
+
         Lantern.Drop();
 
         StartCoroutine(PauseForDeath());
+
     }
 
     private IEnumerator PauseForDeath()
     {
         // TODO play sound
+        yield return null;
         _gameHandler.PauseGame(showMenu: false);
         yield return new WaitForSeconds(0.47f);
         _gameHandler.ResumeGame(immediate:true);
-        _state = PlayerState.Dying;
         _playerRigidBody.velocity = new Vector2(-3f, 1f);
         Anim.PlayAnimation(ClumsyAnimations.Die);
     }
 
     private IEnumerator GameOverSequence()
     {
-        transform.position = _playerHoldingArea;
         _gameHandler.UpdateGameSpeed(0);
         if (!_data.StoryData.EventCompleted(StoryEventID.FirstDeath))
         {
@@ -407,16 +396,6 @@ public class Player : MonoBehaviour {
             yield return null;
         }
     }
-
-    public void FaceOtherDirection()
-    {
-        Vector3 currentPos = transform.position;
-        Vector3 lanternPos = _lanternBody.position;
-        transform.parent.localScale = new Vector3(-transform.parent.localScale.x, transform.parent.localScale.y, transform.parent.localScale.z);
-        transform.position = currentPos;
-        _lanternBody.position = lanternPos;
-        // TODO lantern hinge constraints
-    }
     
     // TODO can call directly into the coroutine
     public void Stun(float duration)
@@ -462,4 +441,42 @@ public class Player : MonoBehaviour {
     public void SwitchPerchState() { _state = _state == PlayerState.Perched ? PlayerState.Normal : PlayerState.Perched; }
     public bool GameHasStarted() { return _state != PlayerState.Startup; }
     public void SetMovementMode(FlapComponent.MovementMode moveMode) { _flap.Mode = moveMode; }
+    public Rigidbody2D GetBody() { return _playerRigidBody; }
+    public Collider2D GetCollider() { return _playerCollider; }
+
+    private void GetPlayerComponents()
+    {
+        _data = GameData.Instance.Data;
+        _gameHandler = FindObjectOfType<GameHandler>();
+        _playerSpeed = 1f;
+
+        _playerController = GetComponent<PlayerController>();
+        Anim = gameObject.AddComponent<ClumsyAnimator>();
+        _audioControl = gameObject.AddComponent<ClumsyAudioControl>();
+
+        _playerRigidBody = GetComponent<Rigidbody2D>();
+        _playerRigidBody.isKinematic = true;
+        _playerRigidBody.gravityScale = GravityScale;
+        GetChildrenComponents();
+    }
+
+    private void GetChildrenComponents()
+    {
+        foreach(Transform tf in transform)
+        {
+            if (tf.name == "Clumsy")
+            {
+                _playerCollider = tf.GetComponent<Collider2D>();
+            }
+            else if (tf.name == "Lantern")
+            {
+                _lanternBody = tf.GetComponent<Rigidbody2D>();
+                Lantern = _lanternBody.GetComponent<Lantern>();
+            }
+            else if (tf.name == "JumpClearance")
+            {
+                _clearance = tf.GetComponent<JumpClearance>();
+            }
+        }
+    }
 }

@@ -23,6 +23,7 @@ public class Lantern : MonoBehaviour {
     private bool _paused;
     private bool _bDropped;
     private bool _bColourChanging;
+    private float _storedAngularVelocity;
     private Vector2 _storedVelocity;
     private Vector2 _lightScale;     // Flicker and change colour will be centered around the initial scale
 
@@ -88,6 +89,8 @@ public class Lantern : MonoBehaviour {
 
     public void Drop()
     {
+        Transform newObj = new GameObject("FreeLantern").transform;
+        transform.parent = newObj;
         _bDropped = true;
         gameObject.GetComponent<PolygonCollider2D>().enabled = true;
         _lanternHinge.enabled = false;
@@ -116,6 +119,7 @@ public class Lantern : MonoBehaviour {
         if (_paused)
         {
             _storedVelocity = _lanternBody.velocity;
+            _storedAngularVelocity = _lanternBody.angularVelocity;
             _lanternBody.angularVelocity = 0f;
             _lanternBody.velocity = Vector2.zero;
             _lanternBody.isKinematic = true;
@@ -124,6 +128,7 @@ public class Lantern : MonoBehaviour {
         {
             _lanternBody.isKinematic = false;
             _lanternBody.velocity = _storedVelocity;
+            _lanternBody.angularVelocity = _storedAngularVelocity;
         }
         _lanternHinge.enabled = (!_bDropped && !bPaused);
     }

@@ -52,6 +52,7 @@ public class BossGameHandler : GameHandler {
         const float manualCaveScale = 0.8558578f;
         float distToTravel = Toolbox.TileSizeX * manualCaveScale + 1f;
         if (ThePlayer.IsPerched()) return;
+
         float dist = time * ThePlayer.GetPlayerSpeed();
         if (_distTravelled + dist > distToTravel)
         {
@@ -59,10 +60,10 @@ public class BossGameHandler : GameHandler {
             ThePlayer.SetMovementMode(FlapComponent.MovementMode.HorizontalEnabled);
             StartCoroutine("BossEntrance");
         }
+
         _distTravelled += dist;
         ThePlayer.transform.position += Vector3.right * dist;
         _playerCam.transform.position += Vector3.right * dist;
-        ThePlayer.Lantern.transform.position += Vector3.right * dist;
     }
     
     private IEnumerator LoadSequence()

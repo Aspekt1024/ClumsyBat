@@ -29,8 +29,8 @@ public class FlapComponent : MonoBehaviour {
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        playerBody = player.gameObject.GetComponent<Rigidbody2D>();
+        player = Toolbox.Player;
+        playerBody = player.GetBody();
     }
 
     private void Update()
@@ -66,11 +66,44 @@ public class FlapComponent : MonoBehaviour {
     private void SetHorizontalState(InputManager.TapDirection tapDir)
     {
         if (tapDir == InputManager.TapDirection.Left)
+        {
             horizontalState = HorizMoveState.MoveLeft;
+            Faceleft();
+        }
         else if (tapDir == InputManager.TapDirection.Right)
+        {
             horizontalState = HorizMoveState.MoveRight;
+            FaceRight();
+        }
         else
             horizontalState = HorizMoveState.None;
+    }
+    
+    private void Faceleft()
+    {
+        Vector3 scale = Toolbox.Player.transform.localScale;
+        if (scale.x > 0)
+        {
+            Toolbox.Player.transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
+            Toolbox.Player.Lantern.GetComponent<HingeJoint2D>().limits = new JointAngleLimits2D()
+            {
+                min = -260f, max = -220f
+            };
+        }
+
+    }
+
+    private void FaceRight()
+    {
+        Vector3 scale = Toolbox.Player.transform.localScale;
+        if (scale.x < 0)
+        {
+            Toolbox.Player.transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
+            Toolbox.Player.Lantern.GetComponent<HingeJoint2D>().limits = new JointAngleLimits2D()
+            {
+                min = -20f, max = 40f
+            };
+        }
     }
 
     public void CancelIfMoving()
