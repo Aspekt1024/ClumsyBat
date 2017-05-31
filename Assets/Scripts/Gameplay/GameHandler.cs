@@ -60,9 +60,6 @@ public abstract class GameHandler : MonoBehaviour {
             case "Boss":
                 ThePlayer.Die();
                 break;
-            default:
-                Debug.Log(other.name + " has unknown trigger tag: " + other.tag);
-                break;
         }
     }
 
