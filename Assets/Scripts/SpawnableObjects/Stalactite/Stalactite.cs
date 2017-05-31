@@ -131,8 +131,7 @@ public class Stalactite : Spawnable {
             yield return null;
         }
 
-        transform.position = Toolbox.Instance.HoldingArea;
-        IsActive = false;
+        SendToInactivePool();
     }
 
     public void Crack()
