@@ -44,7 +44,7 @@ public class TrainingGameHandler : GameHandler
     public override void PauseGame(bool showMenu)
     {
         _bPaused = true;
-        ThePlayer.PauseGame(true);
+        ThePlayer.PauseGame();
         _gameHud.GamePaused(true);
         if (showMenu)
         {
@@ -84,7 +84,7 @@ public class TrainingGameHandler : GameHandler
     private void ResumeGameplay()
     {
         _bPaused = false;
-        ThePlayer.PauseGame(false);
+        ThePlayer.ResumeGame();
         _gameHud.HideResumeTimer();
         _gameHud.GamePaused(false);
         PlayerController.ResumeGameplay();

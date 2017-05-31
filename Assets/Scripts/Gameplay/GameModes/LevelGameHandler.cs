@@ -94,7 +94,7 @@ public class LevelGameHandler : GameHandler
         GameState = GameStates.Paused;
         Toolbox.Instance.GamePaused = true;
         Level.PauseGame(showMenu);
-        ThePlayer.PauseGame(true);
+        ThePlayer.PauseGame();
         GameData.Instance.Data.SaveData();
     }
 
@@ -132,7 +132,7 @@ public class LevelGameHandler : GameHandler
         Toolbox.Instance.GamePaused = false;
         EventListener.ResumeGame();
         PlayerController.ResumeGameplay();
-        ThePlayer.PauseGame(false);
+        ThePlayer.ResumeGame();
         Level.GameHud.HideResumeTimer();
         Level.ResumeGame();
     }

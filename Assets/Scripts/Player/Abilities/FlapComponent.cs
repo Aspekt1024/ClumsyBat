@@ -35,7 +35,7 @@ public class FlapComponent : MonoBehaviour {
 
     private void Update()
     {
-        if (horizontalState == HorizMoveState.None) return;
+        if (horizontalState == HorizMoveState.None || Toolbox.Instance.GamePaused) return;
         moveTimer += Time.deltaTime;
         if (moveTimer > moveDuration)
         {

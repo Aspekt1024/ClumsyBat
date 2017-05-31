@@ -41,7 +41,7 @@ public class GameUI : MonoBehaviour {
 	private void Start ()
 	{
 	    _stats = GameData.Instance.Data.Stats;
-        SetupUi();
+        SetupUI();
 	}
 	
 	void Update ()
@@ -50,7 +50,7 @@ public class GameUI : MonoBehaviour {
         _scoreText.text = ((int)_stats.Distance) + "m";
     }
 
-    private void SetupUi()
+    private void SetupUI()
     {
         _currencyText.text = _stats.Currency.ToString();
         EnablePauseButton(false);

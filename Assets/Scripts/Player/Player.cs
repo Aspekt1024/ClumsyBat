@@ -309,24 +309,25 @@ public class Player : MonoBehaviour {
         _playerRigidBody.velocity = _nudgeVelocity;
     }
 
-    // TODO clean code practices suggests PauseGame() and ResumeGame() are separate functions.
-    public void PauseGame(bool gamePaused)
+    public void PauseGame()
     {
-        _bPaused = gamePaused;
-        if (_bPaused)
-        {
-            _savedVelocity = _playerRigidBody.velocity;
-            _playerRigidBody.Sleep();
-            Fog.Pause();
-        }
-        else
-        {
-            _playerRigidBody.WakeUp();
-            _playerRigidBody.velocity = _savedVelocity;
-            Fog.Resume();
-        }
-        Lantern.GamePaused(gamePaused);
-        AbilitiesPaused(gamePaused);
+        _bPaused = true;
+        _savedVelocity = _playerRigidBody.velocity;
+        _playerRigidBody.isKinematic = true;
+        _playerRigidBody.velocity = Vector2.zero;
+        Fog.Pause();
+        Lantern.GamePaused(true);
+        AbilitiesPaused(true);
+    }
+
+    public void ResumeGame()
+    {
+        _bPaused = false;
+        _playerRigidBody.isKinematic = false;
+        _playerRigidBody.velocity = _savedVelocity;
+        Fog.Resume();
+        Lantern.GamePaused(false);
+        AbilitiesPaused(false);
     }
 
     private void AbilitiesPaused(bool bPauseAbility)

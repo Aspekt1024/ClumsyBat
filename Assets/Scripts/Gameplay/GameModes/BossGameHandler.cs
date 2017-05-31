@@ -105,7 +105,7 @@ public class BossGameHandler : GameHandler {
         EventListener.PauseGame();
         Toolbox.Instance.GamePaused = true;
         GameState = GameStates.Paused;
-        ThePlayer.PauseGame(true);
+        ThePlayer.PauseGame();
         _gameHud.GamePaused(true);
         if (showMenu) { _gameMenu.PauseGame(); }
     }
@@ -145,7 +145,7 @@ public class BossGameHandler : GameHandler {
         EventListener.ResumeGame();
         Toolbox.Instance.GamePaused = false;
         GameState = GameStates.Normal;
-        ThePlayer.PauseGame(false);
+        ThePlayer.ResumeGame();
         _gameHud.HideResumeTimer();
         _gameHud.GamePaused(false);
         PlayerController.ResumeGameplay();
