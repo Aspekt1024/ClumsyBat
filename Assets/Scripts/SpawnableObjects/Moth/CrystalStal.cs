@@ -102,7 +102,7 @@ public class CrystalStal : MonoBehaviour {
 
     private void SpawnMoth()
     {
-        Vector2 spawnLoc = new Vector2(Random.Range(-7f, 6f), Random.Range(-3f, 3f));
+        Vector2 spawnLoc = new Vector2(Random.Range(-6f, 6f), Random.Range(-3f, 3f));
         spawnLoc += new Vector2(GameObject.FindGameObjectWithTag("MainCamera").transform.position.x, 0f);
         mothPool.ActivateMothFromEssence(moth.transform.position, spawnLoc, color, 5f);
     }

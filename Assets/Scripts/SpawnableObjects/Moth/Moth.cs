@@ -199,7 +199,7 @@ public class Moth : Spawnable {
             if (!Toolbox.Instance.GamePaused)
                 timer += Time.deltaTime;
 
-            float ratio = timer / animTime;
+            float ratio = Mathf.Pow(timer / animTime, 4);
             transform.position = sPos - (sPos - ePos) * ratio;
             yield return null;
         }
