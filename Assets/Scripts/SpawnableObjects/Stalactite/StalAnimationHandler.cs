@@ -26,7 +26,7 @@ public class StalAnimationHandler : MonoBehaviour
 
     void Update()
     {
-        if (!_stal.Active()) { return; }
+        if (!_stal.IsActive) { return; }
         if (_anim.GetCurrentAnimatorStateInfo(0).IsName("Crack") && _anim.enabled)
         {
             _normCrackTime = _anim.GetCurrentAnimatorStateInfo(0).normalizedTime;

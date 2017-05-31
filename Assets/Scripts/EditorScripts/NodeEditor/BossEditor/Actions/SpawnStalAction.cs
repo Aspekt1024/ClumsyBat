@@ -14,9 +14,7 @@ public class SpawnStalAction : BaseAction {
     }
     public enum Ifaces
     {
-        Main, PositionObj,
-
-        Output
+        Input, Output
     }
     
     public enum StalActions { Spawn, Drop, AltDropFirst, AltSpawnFirst }
@@ -46,6 +44,7 @@ public class SpawnStalAction : BaseAction {
     {
         if (stalSpawns.Count == 0)
         {
+            IsActive = false;
             CallNext((int)Ifaces.Output);
         }
         else
@@ -102,6 +101,7 @@ public class SpawnStalAction : BaseAction {
 
     private void SpawnsComplete()
     {
+        IsActive = false;
         spawnPhase = !spawnPhase;
         CallNext((int)Ifaces.Output);
     }
@@ -122,7 +122,7 @@ public class SpawnStalAction : BaseAction {
         GameObject obj = null;
         foreach(var conn in connections)
         {
-            if (conn.ID == connID)
+            if (conn.ID == connID && conn.IsConnected())
             {
                 obj = conn.ConnectedInterface.Action.GetObject(conn.ConnectedInterface.ID);
                 break;

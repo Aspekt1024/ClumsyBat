@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <NodeDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <EditorOffset>
-    <x>63</x>
-    <y>-86</y>
+    <x>66</x>
+    <y>-69</y>
   </EditorOffset>
   <Nodes>
     <BaseNode xsi:type="StartNode">
@@ -102,8 +102,8 @@
           <Label>Hit Wall</Label>
           <Type>Event</Type>
           <Direction>Output</Direction>
-          <ConnectedNodeID>-1</ConnectedNodeID>
-          <ConnectedIfaceID>-1</ConnectedIfaceID>
+          <ConnectedNodeID>4</ConnectedNodeID>
+          <ConnectedIfaceID>0</ConnectedIfaceID>
         </NodeInterface>
         <NodeInterface>
           <Position>
@@ -148,7 +148,7 @@
         <xMax>340</xMax>
         <yMax>440</yMax>
       </WindowRect>
-      <ChargeSpeed>17</ChargeSpeed>
+      <ChargeSpeed>12</ChargeSpeed>
       <ChargeDirection>Other</ChargeDirection>
     </BaseNode>
     <BaseNode xsi:type="PlayerNode">
@@ -199,8 +199,8 @@
         <yMax>460</yMax>
       </WindowRect>
     </BaseNode>
-    <BaseNode xsi:type="WaitNode">
-      <WindowTitle>Wait</WindowTitle>
+    <BaseNode xsi:type="StateEventNode">
+      <WindowTitle>Recovered</WindowTitle>
       <ID>3</ID>
       <interfaces>
         <NodeInterface>
@@ -215,53 +215,41 @@
           <ConnectedNodeID>1</ConnectedNodeID>
           <ConnectedIfaceID>4</ConnectedIfaceID>
         </NodeInterface>
-        <NodeInterface>
-          <Position>
-            <x>63</x>
-            <y>35</y>
-          </Position>
-          <ID>1</ID>
-          <Label />
-          <Type>Event</Type>
-          <Direction>Output</Direction>
-          <ConnectedNodeID>4</ConnectedNodeID>
-          <ConnectedIfaceID>0</ConnectedIfaceID>
-        </NodeInterface>
       </interfaces>
       <WindowRect>
-        <x>410</x>
-        <y>350</y>
+        <x>450</x>
+        <y>360</y>
         <position>
-          <x>410</x>
-          <y>350</y>
+          <x>450</x>
+          <y>360</y>
         </position>
         <center>
-          <x>445</x>
-          <y>380</y>
+          <x>525</x>
+          <y>400</y>
         </center>
         <min>
-          <x>410</x>
-          <y>350</y>
+          <x>450</x>
+          <y>360</y>
         </min>
         <max>
-          <x>480</x>
-          <y>410</y>
+          <x>600</x>
+          <y>440</y>
         </max>
-        <width>70</width>
-        <height>60</height>
+        <width>150</width>
+        <height>80</height>
         <size>
-          <x>70</x>
-          <y>60</y>
+          <x>150</x>
+          <y>80</y>
         </size>
-        <xMin>410</xMin>
-        <yMin>350</yMin>
-        <xMax>480</xMax>
-        <yMax>410</yMax>
+        <xMin>450</xMin>
+        <yMin>360</yMin>
+        <xMax>600</xMax>
+        <yMax>440</yMax>
       </WindowRect>
-      <WaitTime>0.5</WaitTime>
+      <StateEventID>1</StateEventID>
     </BaseNode>
     <BaseNode xsi:type="StateEventNode">
-      <WindowTitle>success</WindowTitle>
+      <WindowTitle>Hit Wall</WindowTitle>
       <ID>4</ID>
       <interfaces>
         <NodeInterface>
@@ -273,28 +261,28 @@
           <Label />
           <Type>Event</Type>
           <Direction>Input</Direction>
-          <ConnectedNodeID>3</ConnectedNodeID>
-          <ConnectedIfaceID>1</ConnectedIfaceID>
+          <ConnectedNodeID>1</ConnectedNodeID>
+          <ConnectedIfaceID>3</ConnectedIfaceID>
         </NodeInterface>
       </interfaces>
       <WindowRect>
-        <x>540</x>
-        <y>360</y>
+        <x>440</x>
+        <y>250</y>
         <position>
-          <x>540</x>
-          <y>360</y>
+          <x>440</x>
+          <y>250</y>
         </position>
         <center>
-          <x>615</x>
-          <y>400</y>
+          <x>515</x>
+          <y>290</y>
         </center>
         <min>
-          <x>540</x>
-          <y>360</y>
+          <x>440</x>
+          <y>250</y>
         </min>
         <max>
-          <x>690</x>
-          <y>440</y>
+          <x>590</x>
+          <y>330</y>
         </max>
         <width>150</width>
         <height>80</height>
@@ -302,12 +290,12 @@
           <x>150</x>
           <y>80</y>
         </size>
-        <xMin>540</xMin>
-        <yMin>360</yMin>
-        <xMax>690</xMax>
-        <yMax>440</yMax>
+        <xMin>440</xMin>
+        <yMin>250</yMin>
+        <xMax>590</xMax>
+        <yMax>330</yMax>
       </WindowRect>
-      <StateEventID>1</StateEventID>
+      <StateEventID>2</StateEventID>
     </BaseNode>
   </Nodes>
 </NodeDataCollection>

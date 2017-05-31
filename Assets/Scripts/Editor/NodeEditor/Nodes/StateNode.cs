@@ -6,8 +6,6 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using System.Linq;
 
-using StateChangeTypes = State.StateChangeTypes;
-
 /// <summary>
 /// A node representing a state in the state machine.
 /// It provides a window into the State by pairing the
@@ -65,7 +63,7 @@ public class StateNode : BaseNode {
     private void DisplayStateInfo()
     {
         Transform.Width = 150f;
-        Transform.Height = Mathf.Max(30f + 20f * (interfaces.Count - 1), 50f);
+        Transform.Height = Mathf.Max(30f + 20f * State.StateEvents.Count, 50f);
 
         foreach (var stateEvent in State.StateEvents)
         {

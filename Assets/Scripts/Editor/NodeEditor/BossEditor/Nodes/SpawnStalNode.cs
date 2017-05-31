@@ -25,13 +25,13 @@ public class SpawnStalNode : BaseNode {
 
     protected override void AddInterfaces()
     {
-        AddInput((int)Ifaces.Main);
+        AddInput((int)Ifaces.Input);
         AddOutput((int)Ifaces.Output);
     }
 
     private void SetInterfacePositions()
     {
-        SetInterface((int)Ifaces.Main, 1);
+        SetInterface((int)Ifaces.Input, 1);
         SetInterface((int)Ifaces.Output, 1);
     }
 

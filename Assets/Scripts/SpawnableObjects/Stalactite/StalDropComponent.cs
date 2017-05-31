@@ -6,18 +6,18 @@ public class StalDropComponent : MonoBehaviour {
     [HideInInspector]
     public SpriteRenderer TriggerSprite;
     private Stalactite stal;
-    private StalAnimationHandler _anim;
-    private Rigidbody2D _stalBody;
+    private StalAnimationHandler anim;
+    private Rigidbody2D stalBody;
     private Transform playerTf;
-    private PlayerController _playerControl;
+    private PlayerController playerControl;
 
     [HideInInspector]
     public const float FallDuration = 1.2f;
     [HideInInspector]
     public const float FallDistance = 20f;
 
-    private bool _paused;
-    private Vector2 _storedVelocity = Vector2.zero;
+    private bool isPaused;
+    private Vector2 storedVelocity = Vector2.zero;
     private bool storedKinematicState;
     private const float shakeThresholdX = 6f;
 
@@ -36,7 +36,7 @@ public class StalDropComponent : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        if (!stal.DropEnabled || !stal.Active() || _paused || _state == DropStates.Falling || !_playerControl.ThePlayer.IsAlive()) return;
+        if (!stal.DropEnabled || !stal.IsActive || isPaused || _state == DropStates.Falling || !playerControl.ThePlayer.IsAlive()) return;
         
         if (playerTf.transform.position.x > transform.position.x - stal.TriggerPosX)
         {
@@ -53,8 +53,8 @@ public class StalDropComponent : MonoBehaviour {
 
     private void Update()
     {
-        if (_playerControl == null) return;
-        if (!_playerControl.ThePlayer.IsAlive() && _state == DropStates.Shaking)
+        if (playerControl == null) return;
+        if (!playerControl.ThePlayer.IsAlive() && _state == DropStates.Shaking)
         {
             _state = DropStates.None;
         }
@@ -79,20 +79,20 @@ public class StalDropComponent : MonoBehaviour {
     
     private IEnumerator DropSequence()
     {
-        _anim.CrackAndFall();
-        while (!_anim.ReadyToFall() || _paused)
+        anim.CrackAndFall();
+        while (!anim.ReadyToFall() || isPaused)
         {
             yield return null;
         }
         float fallTime = 0f;
-        float startingYPos = _stalBody.transform.position.y;
+        float startingYPos = stalBody.transform.position.y;
         while (fallTime < FallDuration)
         {
-            if (!_paused)
+            if (!isPaused)
             {
                 fallTime += Time.deltaTime;
                 float yPos = startingYPos - FallDistance * Mathf.Pow((fallTime / FallDuration), 2);
-                _stalBody.transform.position = new Vector3(_stalBody.transform.position.x, yPos, _stalBody.transform.position.z);
+                stalBody.transform.position = new Vector3(stalBody.transform.position.x, yPos, stalBody.transform.position.z);
                 yield return new WaitForSeconds(0.01f);
             }
             else
@@ -111,32 +111,32 @@ public class StalDropComponent : MonoBehaviour {
         bool bRotateForward = true;
         while (_state == DropStates.Shaking)
         {
-            if (!_paused)
+            if (!isPaused)
             {
-                _stalBody.transform.Rotate(new Vector3(0, 0, (bRotateForward ? shakeIntensity : -shakeIntensity)));
+                stalBody.transform.Rotate(new Vector3(0, 0, (bRotateForward ? shakeIntensity : -shakeIntensity)));
                 bRotateForward = !bRotateForward;
             }
             yield return new WaitForSeconds(shakeInterval);
         }
-        _stalBody.transform.Rotate(Vector3.zero);   // Prevents rotating once we exit the while loop
+        //stalBody.transform.Rotate(Vector3.zero);
     }
 
     public void SetPaused(bool bPaused)
     {
-        _paused = bPaused;
+        isPaused = bPaused;
         if (_state == DropStates.Falling)
         {
-            if (_paused)
+            if (isPaused)
             {
-                _storedVelocity = _stalBody.velocity;
-                _stalBody.velocity = Vector2.zero;
-                storedKinematicState = _stalBody.isKinematic;
-                _stalBody.isKinematic = true;
+                storedVelocity = stalBody.velocity;
+                stalBody.velocity = Vector2.zero;
+                storedKinematicState = stalBody.isKinematic;
+                stalBody.isKinematic = true;
             }
             else
             {
-                _stalBody.isKinematic = storedKinematicState;
-                _stalBody.velocity = _storedVelocity;
+                stalBody.isKinematic = storedKinematicState;
+                stalBody.velocity = storedVelocity;
             }
         }
     }
@@ -146,12 +146,12 @@ public class StalDropComponent : MonoBehaviour {
         Transform playerTf = Toolbox.Player.transform;
         if (playerTf != null)
         {
-            _playerControl = playerTf.GetComponent<PlayerController>();
+            playerControl = playerTf.GetComponent<PlayerController>();
         }
         
         TriggerSprite = GetComponent<SpriteRenderer>();
         stal = GetComponent<Stalactite>();
-        _anim =GetComponent<StalAnimationHandler>();
-        _stalBody = transform.GetComponent<Rigidbody2D>();
+        anim =GetComponent<StalAnimationHandler>();
+        stalBody = transform.GetComponent<Rigidbody2D>();
     }
 }

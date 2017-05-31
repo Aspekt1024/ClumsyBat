@@ -62,26 +62,7 @@ public class Boss : MonoBehaviour {
         machine = stateMachine;
         health = stateMachine.Health;
     }
-
-    public void SetPropsFromState(State state)
-    {
-        damageObjects = new List<BossDamageObjects>();
-        gameObject.layer = LayerMask.NameToLayer("Boss");
-        if (state.DamagedByHypersonic)
-        {
-            damageObjects.Add(BossDamageObjects.Hypersonic);
-        }
-        if (state.DamagedByPlayer)
-        {
-            damageObjects.Add(BossDamageObjects.Player);
-        }
-        if (state.DamagedByStalactites)
-        {
-            damageObjects.Add(BossDamageObjects.Stalactite);
-            bossCollider.gameObject.layer = LayerMask.NameToLayer("BossStalactite");
-        }
-    }
-
+    
     protected virtual void PauseGame()
     {
         _bPaused = true;

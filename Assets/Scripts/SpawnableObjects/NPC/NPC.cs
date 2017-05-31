@@ -18,7 +18,7 @@ public class NPC : Spawnable {
 
     private void FixedUpdate()
     {
-        if (!IsActive || bPaused) { return; }
+        if (!IsActive || IsPaused) { return; }
         MoveLeft(Time.deltaTime);
     }
 

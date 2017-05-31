@@ -66,7 +66,7 @@ public class SpiderClass : Spawnable {
 
         while (shakeTime < shakeDuration)
         {
-            if (!bPaused)
+            if (!IsPaused)
             {
                 if (bRotateForward)
                 {
@@ -89,7 +89,7 @@ public class SpiderClass : Spawnable {
         _spiderState = SpiderStates.Falling;
         while (transform.position.y > -20)
         {
-            if (!bPaused)
+            if (!IsPaused)
             {
                 transform.position -= new Vector3(0f, 0.05f, 0f);
             }

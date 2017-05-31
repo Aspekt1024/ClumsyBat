@@ -56,7 +56,7 @@ public class Mushroom : Spawnable {
 
         while (animationTimer < animationDuration)
         {
-            if (!bPaused)
+            if (!IsPaused)
             {
                 animationTimer += Time.deltaTime;
                 if (animationTimer > animationDuration - releaseSporesTime && !bReleaseSporeAnimationTriggered)
@@ -82,7 +82,7 @@ public class Mushroom : Spawnable {
         float animationTimer = 0f;
         while (animationTimer < animationDuration)
         {
-            if (!bPaused)
+            if (!IsPaused)
             {
                 animationTimer += Time.deltaTime;
                 if (animationTimer <= sporeRiseTime)

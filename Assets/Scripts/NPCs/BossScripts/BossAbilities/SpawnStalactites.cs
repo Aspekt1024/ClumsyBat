@@ -19,7 +19,7 @@ public class SpawnStalactites : BossAbility {
 
     public void Drop()
     {
-        StartCoroutine("DropStalactites");
+        StartCoroutine(DropStalactites());
     }
 
     private IEnumerator SpawnStal(float spawnPosX, SpawnStalAction.StalSpawnDirection direction)
@@ -31,7 +31,6 @@ public class SpawnStalactites : BossAbility {
         
         float startY = stalTf.position.y;
         float endY = 5f;
-        GameObject pf = new GameObject();
         if (direction == SpawnStalAction.StalSpawnDirection.FromBottom)
         {
             startY = -10f;
@@ -40,9 +39,9 @@ public class SpawnStalactites : BossAbility {
         }
         else
         {
-            pf = Instantiate(Resources.Load<GameObject>("Obstacles/Stalactite/FormingRockEffect"));
-            pf.transform.position = new Vector3(stalTf.position.x, endY, stalTf.position.z - 0.1f);
-            Destroy(pf, 5f);
+            GameObject rubbleEffect = Instantiate(Resources.Load<GameObject>("Obstacles/Stalactite/FormingRockEffect"));
+            rubbleEffect.transform.position = new Vector3(stalTf.position.x, endY, stalTf.position.z - 0.1f);
+            Destroy(rubbleEffect, 5f);
         }
 
         const float animDuration = 1.5f;
@@ -66,7 +65,7 @@ public class SpawnStalactites : BossAbility {
     {
         foreach(var stal in _stals)
         {
-            if (stal.Active() && !stal.IsForming())
+            if (stal.IsActive && !stal.IsForming())
             {
                 stal.Drop();
                 yield return new WaitForSeconds(0.2f);
@@ -97,7 +96,7 @@ public class SpawnStalactites : BossAbility {
         int i = 0;
         for (i = 0; i < _stals.Count - 1; i++)
         {
-            if (!_stals[i].Active())
+            if (!_stals[i].IsActive)
                 break;
         }
         return i;

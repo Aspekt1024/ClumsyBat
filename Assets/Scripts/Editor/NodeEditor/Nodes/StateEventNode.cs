@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 using Ifaces = StateEventAction.Ifaces;
 using IODirection = ActionConnection.IODirection;
@@ -45,6 +46,8 @@ public class StateEventNode : BaseNode
         base.SetupNode(behaviour);
         StateEventID = ((State)behaviour).AddNewStateEvent();
         ((BossEditor)ParentEditor).AddEventToStateNode(StateEventID);
+
+        SaveStateAsset((State)ParentEditor.BehaviourSet);
     }
 
     public override void DeleteNode()
@@ -52,6 +55,14 @@ public class StateEventNode : BaseNode
         ((State)ParentEditor.BehaviourSet).RemoveStateEvent(StateEventID);
         ((BossEditor)ParentEditor).RemoveEventFromStateNode(StateEventID);
         base.DeleteNode();
+
+        SaveStateAsset((State)ParentEditor.BehaviourSet);
+    }
+    
+    private void SaveStateAsset(State state)
+    {
+        AssetDatabase.SaveAssets();
+        AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(state));
     }
 
     public override BaseAction GetAction()

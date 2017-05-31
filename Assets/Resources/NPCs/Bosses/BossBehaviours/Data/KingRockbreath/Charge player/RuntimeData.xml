@@ -36,8 +36,8 @@
         <ActionConnection>
           <ID>3</ID>
           <Direction>Output</Direction>
-          <OtherActionID>-1</OtherActionID>
-          <OtherConnID>-1</OtherConnID>
+          <OtherActionID>4</OtherActionID>
+          <OtherConnID>0</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>4</ID>
@@ -46,7 +46,7 @@
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
-      <ChargeSpeed>17</ChargeSpeed>
+      <ChargeSpeed>12</ChargeSpeed>
       <ChargeDirection>Other</ChargeDirection>
     </BaseAction>
     <BaseAction xsi:type="PlayerAction">
@@ -60,7 +60,7 @@
         </ActionConnection>
       </connections>
     </BaseAction>
-    <BaseAction xsi:type="WaitAction">
+    <BaseAction xsi:type="StateEventAction">
       <ID>3</ID>
       <connections>
         <ActionConnection>
@@ -69,14 +69,9 @@
           <OtherActionID>1</OtherActionID>
           <OtherConnID>4</OtherConnID>
         </ActionConnection>
-        <ActionConnection>
-          <ID>1</ID>
-          <Direction>Output</Direction>
-          <OtherActionID>4</OtherActionID>
-          <OtherConnID>0</OtherConnID>
-        </ActionConnection>
       </connections>
-      <WaitTime>0.5</WaitTime>
+      <StateEventID>1</StateEventID>
+      <StopsState>false</StopsState>
     </BaseAction>
     <BaseAction xsi:type="StateEventAction">
       <ID>4</ID>
@@ -84,11 +79,11 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>3</OtherActionID>
-          <OtherConnID>1</OtherConnID>
+          <OtherActionID>1</OtherActionID>
+          <OtherConnID>3</OtherConnID>
         </ActionConnection>
       </connections>
-      <StateEventID>1</StateEventID>
+      <StateEventID>2</StateEventID>
       <StopsState>false</StopsState>
     </BaseAction>
   </Actions>

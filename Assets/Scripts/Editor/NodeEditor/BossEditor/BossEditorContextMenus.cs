@@ -29,6 +29,10 @@ public class BossEditorContextMenus : BaseContextMenus {
         else
             menu.AddItem(new GUIContent("Add Start"), false, ContextCallback, typeof(StartNode));
         menu.AddItem(new GUIContent("Add Loop"), false, ContextCallback, typeof(LoopNode));
+
+        menu.AddSeparator("");
+        menu.AddItem(new GUIContent("Operator/Multiple Out"), false, ContextCallback, typeof(MultipleOutNode));
+        menu.AddItem(new GUIContent("Operator/Multiple In"), false, ContextCallback, typeof(MultipleInNode));
         menu.ShowAsContext();
     }
 

@@ -42,7 +42,7 @@
         <ActionConnection>
           <ID>6</ID>
           <Direction>Output</Direction>
-          <OtherActionID>7</OtherActionID>
+          <OtherActionID>8</OtherActionID>
           <OtherConnID>1</OtherConnID>
         </ActionConnection>
         <ActionConnection>
@@ -125,13 +125,13 @@
         <ActionConnection>
           <ID>5</ID>
           <Direction>Output</Direction>
-          <OtherActionID>7</OtherActionID>
+          <OtherActionID>8</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
       <OperationType>Lesser</OperationType>
       <Input1>0</Input1>
-      <Input2>8</Input2>
+      <Input2>6</Input2>
       <Input3>0</Input3>
     </BaseAction>
     <BaseAction xsi:type="StateEventAction">
@@ -153,15 +153,28 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>7</OtherActionID>
+          <OtherActionID>8</OtherActionID>
           <OtherConnID>5</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <StateEventID>3</StateEventID>
+      <StopsState>false</StopsState>
+    </BaseAction>
+    <BaseAction xsi:type="StateEventAction">
+      <ID>7</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>8</OtherActionID>
+          <OtherConnID>4</OtherConnID>
         </ActionConnection>
       </connections>
       <StateEventID>2</StateEventID>
       <StopsState>false</StopsState>
     </BaseAction>
     <BaseAction xsi:type="CompareAction">
-      <ID>7</ID>
+      <ID>8</ID>
       <connections>
         <ActionConnection>
           <ID>0</ID>
@@ -190,7 +203,7 @@
         <ActionConnection>
           <ID>4</ID>
           <Direction>Output</Direction>
-          <OtherActionID>8</OtherActionID>
+          <OtherActionID>7</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
         <ActionConnection>
@@ -202,21 +215,8 @@
       </connections>
       <OperationType>Lesser</OperationType>
       <Input1>0</Input1>
-      <Input2>2</Input2>
+      <Input2>1.5</Input2>
       <Input3>0</Input3>
-    </BaseAction>
-    <BaseAction xsi:type="StateEventAction">
-      <ID>8</ID>
-      <connections>
-        <ActionConnection>
-          <ID>0</ID>
-          <Direction>Input</Direction>
-          <OtherActionID>7</OtherActionID>
-          <OtherConnID>4</OtherConnID>
-        </ActionConnection>
-      </connections>
-      <StateEventID>3</StateEventID>
-      <StopsState>false</StopsState>
     </BaseAction>
   </Actions>
 </ActionDataCollection>

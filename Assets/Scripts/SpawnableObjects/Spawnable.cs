@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
 public abstract class Spawnable : MonoBehaviour {
-    protected bool bPaused;
-    protected bool IsActive;
+    public bool IsPaused;
+    public bool IsActive;
     protected float Speed;
     
     public struct SpawnType
@@ -13,7 +13,7 @@ public abstract class Spawnable : MonoBehaviour {
     }
 
     public void SetSpeed(float speed){ Speed = speed; }
-    public virtual void PauseGame(bool gamePaused) { bPaused = gamePaused; }
+    public virtual void PauseGame(bool gamePaused) { IsPaused = gamePaused; }
     
     public virtual void SendToInactivePool()
     {

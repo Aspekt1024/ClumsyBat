@@ -35,7 +35,7 @@ public class Stalactite : Spawnable {
 
     private void FixedUpdate()
     {
-        if (!IsActive || bPaused) { return; }
+        if (!IsActive || IsPaused) { return; }
         MoveLeft(Time.deltaTime);
     }
 
@@ -52,9 +52,7 @@ public class Stalactite : Spawnable {
     private void GetStalComponents()
     {
         StalPrefabUnbroken = Instantiate(Resources.Load<GameObject>(UnbrokenStalPath), transform);
-        StalPrefabBroken = Instantiate(Resources.Load<GameObject>(BrokenStalPath), transform);
         StalPrefabUnbroken.SetActive(true);
-        StalPrefabBroken.SetActive(false);
 
         stalCollider = GetComponent<PolygonCollider2D>();
         stalRenderer = GetComponent<SpriteRenderer>();
@@ -65,8 +63,10 @@ public class Stalactite : Spawnable {
 
     public void Activate(StalPool.StalType stalProps, float xOffset = 0)
     {
+        if (StalPrefabBroken != null) Destroy(StalPrefabBroken);
+
         StalPrefabUnbroken.SetActive(true);
-        StalPrefabBroken.SetActive(false);
+        StalPrefabUnbroken.transform.position = transform.position;
 
         transform.localPosition = stalProps.SpawnTransform.Pos + Vector2.right * xOffset;
         transform.localScale = stalProps.SpawnTransform.Scale;
@@ -91,12 +91,12 @@ public class Stalactite : Spawnable {
 
     public void DestroyStalactite()
     {
-        if (!isExploding && state != StalStates.Forming)
-        {
-            isExploding = true;
-            stalCollider.enabled = false;
-            StartCoroutine(CrumbleAnim());
-        }
+        if (isExploding || state == StalStates.Forming) return;
+
+        isExploding = true;
+        stalCollider.enabled = false;
+        StartCoroutine(CrumbleAnim());
+        IsActive = false;
     }
 
     private IEnumerator CrumbleAnim()
@@ -109,6 +109,9 @@ public class Stalactite : Spawnable {
     private void Break()
     {
         state = StalStates.Broken;
+
+        if (StalPrefabBroken == null)
+            StalPrefabBroken = Instantiate(Resources.Load<GameObject>(BrokenStalPath), transform);
 
         StalPrefabUnbroken.SetActive(false);
         StalPrefabBroken.SetActive(true);
@@ -129,8 +132,7 @@ public class Stalactite : Spawnable {
         }
 
         transform.position = Toolbox.Instance.HoldingArea;
-        Destroy(StalPrefabBroken);
-        StalPrefabBroken = Instantiate(Resources.Load<GameObject>(BrokenStalPath), transform);
+        IsActive = false;
     }
 
     public void Crack()
@@ -164,9 +166,7 @@ public class Stalactite : Spawnable {
     {
         dropControl.Drop();
     }
-
-    public bool IsPaused() { return bPaused; }
-    public bool Active() { return IsActive; }
+    
     public bool IsForming() { return state == StalStates.Forming; }
     public bool IsFalling() { return state == StalStates.Falling; }
     public bool IsBreakable() { return state == StalStates.Falling || state == StalStates.Normal; }

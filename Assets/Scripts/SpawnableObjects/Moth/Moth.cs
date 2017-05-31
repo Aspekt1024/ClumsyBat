@@ -34,7 +34,7 @@ public class Moth : Spawnable {
 	
 	private void FixedUpdate ()
     {
-        if (!IsActive || bPaused) { return; }
+        if (!IsActive || IsPaused) { return; }
         _pathHandler.MoveAlongPath(Time.deltaTime);
 
         if (_mothState == MothStates.ConsumeFollow) { return; }
@@ -76,7 +76,7 @@ public class Moth : Spawnable {
 
         while (animTimer < animDuration)
         {
-            if (!bPaused)
+            if (!IsPaused)
             {
                 animTimer += Time.deltaTime;
                 if (animTimer > animDuration - lantenFollowTime)
@@ -184,7 +184,7 @@ public class Moth : Spawnable {
         float timer = 0f;
         while (timer < secs)
         {
-            if (!bPaused)
+            if (!IsPaused)
                 timer += Time.deltaTime;
             yield return null;
         }

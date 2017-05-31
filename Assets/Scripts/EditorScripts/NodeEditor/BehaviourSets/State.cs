@@ -11,19 +11,6 @@ public class State : BehaviourSet {
     
     public List<StateEvent> StateEvents = new List<StateEvent>();
     
-    public enum StateChangeTypes
-    {
-        Never, Health, NumLoops, Time
-    }
-    public StateChangeTypes StateChange;
-    public int MoveOnHP;
-    public float MoveAfterSeconds;
-    public int MoveOnLoops;
-    
-    public bool DamagedByHypersonic;    // TODO remove these and use events
-    public bool DamagedByStalactites;
-    public bool DamagedByPlayer;
-    
     private int numLoops;
 
     public void SetupActions(BossData bossData, GameObject bossReference)
@@ -44,16 +31,7 @@ public class State : BehaviourSet {
 
     public override void LoopToStart()
     {
-        numLoops++;
-        if (StateChange == StateChangeTypes.NumLoops && numLoops > MoveOnLoops)
-        {
-            IsEnabled = false;
-            StartingAction.Activate();
-        }
-        else
-        {
-            StartingAction.Activate();
-        }
+        StartingAction.Activate();
     }
 
     public override void Tick(float deltaTime)
