@@ -14,11 +14,15 @@ public class SpawnStalAction : BaseAction {
     }
     public enum Ifaces
     {
-        Input, Output
+        Input, Output,
+        GreenChance, GoldChance, BlueChance
     }
     
     public enum StalActions { Spawn, Drop, AltDropFirst, AltSpawnFirst }
     public enum StalSpawnDirection { FromTop, FromBottom }
+    public enum StalTypes { Stalactite, Crystal }
+
+    public StalTypes StalType;
     public StalActions StalAction;
     public StalSpawnDirection SpawnDirection;
     public List<StalSpawnType> stalSpawns = new List<StalSpawnType>();

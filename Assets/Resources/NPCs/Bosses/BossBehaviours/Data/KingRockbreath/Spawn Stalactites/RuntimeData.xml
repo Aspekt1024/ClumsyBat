@@ -19,7 +19,7 @@
           <ID>0</ID>
           <Direction>Output</Direction>
           <OtherActionID>2</OtherActionID>
-          <OtherConnID>2</OtherConnID>
+          <OtherConnID>5</OtherConnID>
         </ActionConnection>
       </connections>
     </BaseAction>
@@ -41,8 +41,8 @@
         <ActionConnection>
           <ID>2</ID>
           <Direction>Input</Direction>
-          <OtherActionID>1</OtherActionID>
-          <OtherConnID>0</OtherConnID>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>3</ID>
@@ -56,7 +56,14 @@
           <OtherActionID>-1</OtherActionID>
           <OtherConnID>-1</OtherConnID>
         </ActionConnection>
+        <ActionConnection>
+          <ID>5</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>1</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
       </connections>
+      <StalType>Stalactite</StalType>
       <StalAction>Spawn</StalAction>
       <SpawnDirection>FromTop</SpawnDirection>
       <stalSpawns>
@@ -64,19 +71,7 @@
           <delay>0</delay>
           <xPosStart>0</xPosStart>
           <xPosEnd>0</xPosEnd>
-          <inputID>2</inputID>
-        </StalSpawnType>
-        <StalSpawnType>
-          <delay>0.3</delay>
-          <xPosStart>0</xPosStart>
-          <xPosEnd>2.93090916</xPosEnd>
-          <inputID>3</inputID>
-        </StalSpawnType>
-        <StalSpawnType>
-          <delay>0.5</delay>
-          <xPosStart>-4.058182</xPosStart>
-          <xPosEnd>-0.9018183</xPosEnd>
-          <inputID>4</inputID>
+          <inputID>5</inputID>
         </StalSpawnType>
       </stalSpawns>
     </BaseAction>

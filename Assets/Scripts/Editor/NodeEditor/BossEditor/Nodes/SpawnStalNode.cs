@@ -6,6 +6,7 @@ using UnityEngine;
 using IODirection = ActionConnection.IODirection;
 using InterfaceTypes = NodeInterface.InterfaceTypes;
 
+using StalTypes = SpawnStalAction.StalTypes;
 using StalActions = SpawnStalAction.StalActions;
 using StalSpawnDirection = SpawnStalAction.StalSpawnDirection;
 using Ifaces = SpawnStalAction.Ifaces;
@@ -13,38 +14,75 @@ using StalSpawnType = SpawnStalAction.StalSpawnType;
 
 public class SpawnStalNode : BaseNode {
 
-    public StalActions selectedStalAction;
-    public int selectedStalActionIndex;
+    public StalTypes StalType;
+    public float GreenMothChance;
+    public float BlueMothChance;
+    public float GoldMothChance;
+
+    public StalActions StalAction;
+    public int StalActionIndex;
 
     public StalSpawnDirection SpawnDirection;
-    public int selectedSpawnDirectionIndex;
+    public int SpawnDirectionIndex;
     
     // private, made public for XML serialization
     public int NumStals = 1;
     public List<StalSpawnType> StalSpawns = new List<StalSpawnType>();
 
+    private float verticalShift;
+
     protected override void AddInterfaces()
     {
         AddInput((int)Ifaces.Input);
         AddOutput((int)Ifaces.Output);
+
+        AddInput((int)Ifaces.GreenChance);
+        AddInput((int)Ifaces.GoldChance);
+        AddInput((int)Ifaces.BlueChance);
     }
 
     private void SetInterfacePositions()
     {
         SetInterface((int)Ifaces.Input, 1);
         SetInterface((int)Ifaces.Output, 1);
+
+        SetInterface((int)Ifaces.GreenChance, 3);
+        SetInterface((int)Ifaces.GoldChance, 4);
+        SetInterface((int)Ifaces.BlueChance, 5);
+
+        if (StalType != StalTypes.Crystal)
+        {
+            HideInterface((int)Ifaces.GreenChance);
+            HideInterface((int)Ifaces.GoldChance);
+            HideInterface((int)Ifaces.BlueChance);
+        }
+        else if (StalType == StalTypes.Crystal)
+        {
+            ShowInterface((int)Ifaces.GreenChance);
+            ShowInterface((int)Ifaces.GoldChance);
+            ShowInterface((int)Ifaces.BlueChance);
+        }
     }
 
     public override void Draw()
     {
-        WindowTitle = "Stalactites";
+        if (StalType == StalTypes.Stalactite)
+            WindowTitle = "Stalactites";
+        else if (StalType == StalTypes.Crystal)
+            WindowTitle = "Crystals";
+
         Transform.Width = 180;
-        Transform.Height = 130 + NumStals * 20;
+        Transform.Height = 150 + NumStals * 20;
 
         NodeGUI.Space();
-        selectedStalAction = (StalActions)NodeGUI.EnumPopupLayout("Stal action:", selectedStalAction);
+        StalType = (StalTypes)NodeGUI.EnumPopupLayout("Stal type:", StalType);
+        verticalShift = 0f;
+        if (StalType == StalTypes.Crystal)
+            SelectMothColor();
 
-        if (selectedStalAction != StalActions.Drop)
+        StalAction = (StalActions)NodeGUI.EnumPopupLayout("Stal action:", StalAction);
+
+        if (StalAction != StalActions.Drop)
         {
             SpawnDirection = (StalSpawnDirection)NodeGUI.EnumPopupLayout("Direction:", SpawnDirection);
             DisplayStalList();
@@ -58,11 +96,37 @@ public class SpawnStalNode : BaseNode {
         DrawInterfaces();
     }
 
+    private void SelectMothColor()
+    {
+        verticalShift = 80f;
+        Transform.Height += verticalShift;
+
+        NodeInterface greenIface = GetInterface((int)Ifaces.GreenChance);
+        if (greenIface.IsConnected())
+            NodeGUI.LabelLayout("Green chance: " + greenIface.ConnectedInterface.Node.GetValueString(greenIface.ConnectedIfaceID));
+        else
+            GreenMothChance = NodeGUI.FloatFieldLayout(GreenMothChance, "Green chance:", 0.7f);
+
+        NodeInterface goldIface = GetInterface((int)Ifaces.GoldChance);
+        if (goldIface.IsConnected())
+            NodeGUI.LabelLayout("Gold chance: " + goldIface.ConnectedInterface.Node.GetValueString(goldIface.ConnectedIfaceID));
+        else
+            GoldMothChance = NodeGUI.FloatFieldLayout(GoldMothChance, "Gold chance:", 0.7f);
+
+        NodeInterface blueIface = GetInterface((int)Ifaces.BlueChance);
+        if (blueIface.IsConnected())
+            NodeGUI.LabelLayout("Blue chance: " + blueIface.ConnectedInterface.Node.GetValueString(blueIface.ConnectedIfaceID));
+        else
+            BlueMothChance = NodeGUI.FloatFieldLayout(BlueMothChance, "Blue chance:", 0.7f);
+
+        NodeGUI.Space();
+    }
+
     public override BaseAction GetAction()
     {
         return new SpawnStalAction()
         {
-            StalAction = selectedStalAction,
+            StalAction = StalAction,
             SpawnDirection = SpawnDirection,
             stalSpawns = StalSpawns
         };
@@ -81,10 +145,10 @@ public class SpawnStalNode : BaseNode {
 
         for (int i = 0; i < StalSpawns.Count; i++)
         {
-            Vector2 startPos = new Vector2(15f, 120f + i * 20f);
+            Vector2 startPos = new Vector2(15f, 140f + i * 20f + verticalShift);
 
             var spawn = StalSpawns[i];
-            SetInterface(spawn.inputID, i + 6);
+            SetInterface(spawn.inputID, i + 7 + Mathf.RoundToInt(verticalShift / 20f));
 
             NodeInterface iface = GetInterface(spawn.inputID);
             if (iface.IsConnected())
@@ -135,20 +199,27 @@ public class SpawnStalNode : BaseNode {
 
     private void RemoveLastStalSpawn()
     {
-        interfaces[interfaces.Count].Disconnect();
+        interfaces[interfaces.Count - 1].Disconnect();
         interfaces.Remove(interfaces[interfaces.Count -1]);
         StalSpawns.Remove(StalSpawns[StalSpawns.Count - 1]);
     }
     
     private int GetUniqueIfaceID()
     {
-        int id = 2;
-        for (int i = 0; i < interfaces.Count; i++)
+        int id = 5;
+        bool unique = false;
+
+        while (!unique)
         {
-            if (id == interfaces[i].ID)
+            unique = true;
+            for (int i = 0; i < interfaces.Count; i++)
             {
-                id++;
-                i = -1;
+                if (id == interfaces[i].ID)
+                {
+                    id++;
+                    unique = false;
+                    break;
+                }
             }
         }
         return id;

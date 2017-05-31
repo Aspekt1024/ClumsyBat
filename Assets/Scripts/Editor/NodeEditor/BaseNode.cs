@@ -183,6 +183,8 @@ public abstract class BaseNode {
         return null;
     }
 
+    public virtual string GetValueString(int id) { return ""; }
+
     public bool IsType<T>() where T : BaseNode
     {
         return GetType().Equals(typeof(T));
