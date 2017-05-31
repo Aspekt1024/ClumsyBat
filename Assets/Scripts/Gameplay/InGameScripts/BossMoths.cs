@@ -31,6 +31,7 @@ public class BossMoths : MonoBehaviour
 	
 	private void Update ()
     {
+        return;
 		if (_bPaused) { return; }
         _timeSinceLastMoth += Time.deltaTime;
         if (_timeSinceLastMoth > MothInterval && bEnabled)
@@ -40,11 +41,16 @@ public class BossMoths : MonoBehaviour
         }
     }
 
+    public void SpawnInMoth(Moth.MothColour color, Vector2 fromLocation, Vector2 toLocation)
+    {
+        _moths.ActivateMothFromEssence(fromLocation, toLocation, color, despawnTimer: 4.2f);
+    }
+
     private void SpawnMothFromEssence()
     {
         Vector2 spawnLoc = new Vector2(Random.Range(-7f, 6f), Random.Range(-3f, 3f));
         var mothColour = GetRandomMothColour();
-        _moths.ActivateMothFromEssence(spawnLoc, mothColour, despawnTimer: 4.2f);
+        _moths.ActivateMothFromEssence(spawnLoc, spawnLoc, mothColour, despawnTimer: 4.2f);
     }
 
     private void SpawnMothFromRight()
@@ -69,6 +75,11 @@ public class BossMoths : MonoBehaviour
             mothColour = Moth.MothColour.Gold;
         }
         return mothColour;
+    }
+
+    public MothPool GetMothPool()
+    {
+        return _moths;
     }
 
     private void PauseGame()

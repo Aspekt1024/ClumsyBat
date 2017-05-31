@@ -9,10 +9,13 @@ public class CrystalStal : MonoBehaviour {
 
     private GameObject StalPrefabBroken;
     private const string BrokenStalPath = "Obstacles/Stalactite/BrokenStal";
+    private bool isBroken;
 
     private Transform moth;
     private Animator mothAnim;
     private Moth.MothColour color;
+
+    private MothPool mothPool;
     
     private void Awake()
     {
@@ -20,9 +23,20 @@ public class CrystalStal : MonoBehaviour {
         ActivateCrystal(Moth.MothColour.Gold);
     }
 
+    private void Start()
+    {
+        mothPool = GameObject.FindGameObjectWithTag("Scripts").GetComponent<GameHandler>().GetMothPool();
+    }
+
+    private void Update()
+    {
+        if (Toolbox.Instance.GamePaused) return;
+        moth.Rotate(Vector3.back, 64 * Time.deltaTime);
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "Player" && !isBroken)
         {
             BreakCrystal();
             SpawnMoth();
@@ -47,7 +61,7 @@ public class CrystalStal : MonoBehaviour {
     private void ActivateCrystal(Moth.MothColour mothColor)
     {
         moth.gameObject.SetActive(true);
-
+        color = mothColor;
 
         string mothAnimationName = "";
         switch (mothColor)
@@ -88,8 +102,8 @@ public class CrystalStal : MonoBehaviour {
 
     private void SpawnMoth()
     {
-        Transform mtf = Instantiate(Resources.Load<GameObject>("Collectibles/Moth"), transform).transform;
-        mtf.position = moth.transform.position;
-        mtf.GetComponent<Moth>().IsActive = false;
+        Vector2 spawnLoc = new Vector2(Random.Range(-7f, 6f), Random.Range(-3f, 3f));
+        spawnLoc += new Vector2(GameObject.FindGameObjectWithTag("MainCamera").transform.position.x, 0f);
+        mothPool.ActivateMothFromEssence(moth.transform.position, spawnLoc, color, 5f);
     }
 }

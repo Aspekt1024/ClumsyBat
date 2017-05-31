@@ -72,7 +72,7 @@ public class Hypersonic : MonoBehaviour {
     {
         if (other.tag == "Stalactite" && _bCanDestroyStals)
         {
-            other.GetComponent<Stalactite>().DestroyStalactite();
+            other.GetComponentInParent<Stalactite>().DestroyStalactite();
         }
         if (other.name == "SpiderObject" && _bCanDestroySpiders)
         {

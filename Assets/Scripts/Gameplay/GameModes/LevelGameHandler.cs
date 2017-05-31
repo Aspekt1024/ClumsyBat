@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
+
 public class LevelGameHandler : GameHandler
 {
     [HideInInspector]
@@ -196,5 +198,11 @@ public class LevelGameHandler : GameHandler
     public override void GameOver()
     {
         Level.ShowGameoverMenu();
+    }
+
+    public override MothPool GetMothPool()
+    {
+        // TODO implement this?
+        return null;
     }
 }

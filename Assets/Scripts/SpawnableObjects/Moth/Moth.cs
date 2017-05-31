@@ -155,28 +155,55 @@ public class Moth : Spawnable {
         PlayNormalAnimation();
     }
 
-    public IEnumerator SpawnFromEssence(float despawnTimer)
+    public IEnumerator SpawnFromEssence(Vector2 endLocation, float despawnTimer)
     {
         _mothCollider.enabled = false;
+
         PlayExplosionAnim();
-        yield return StartCoroutine("WaitSeconds", 0.9f);
+        yield return StartCoroutine(MoveToLocation(endLocation, 0.9f));
+
         PlayNormalAnimation();
-        yield return StartCoroutine("WaitSeconds", 0.2f);
-        _mothCollider.enabled = true;
-
-        if (Mathf.Abs(despawnTimer) > 0.001)
+        yield return StartCoroutine(WaitSeconds(0.2f));
+        
+        if (despawnTimer <= 0)
         {
-            yield return StartCoroutine("WaitSeconds", despawnTimer);
-
-            if (IsActive)
-            {
-                _mothCollider.enabled = false;
-                PlayExplosionAnim();
-                yield return StartCoroutine("WaitSeconds", 0.9f);
-                base.SendToInactivePool();
-                MothSprite.transform.position = transform.position;
-            }
+            StartCoroutine(DespawnFromEssence());
+            yield break;
         }
+
+        _mothCollider.enabled = true;
+        yield return StartCoroutine(WaitSeconds(despawnTimer));
+
+    }
+
+    private IEnumerator DespawnFromEssence()
+    {
+        if (IsActive)
+        {
+            _mothCollider.enabled = false;
+            PlayExplosionAnim();
+            yield return StartCoroutine(WaitSeconds(0.9f));
+
+            base.SendToInactivePool();
+            MothSprite.transform.position = transform.position;
+        }
+    }
+
+    private IEnumerator MoveToLocation(Vector2 endPos, float animTime)
+    {
+        Vector3 sPos = transform.position;
+        Vector3 ePos = new Vector3(endPos.x, endPos.y, sPos.z);
+        float timer = 0f;
+        while (timer < animTime)
+        {
+            if (!Toolbox.Instance.GamePaused)
+                timer += Time.deltaTime;
+
+            float ratio = timer / animTime;
+            transform.position = sPos - (sPos - ePos) * ratio;
+            yield return null;
+        }
+        transform.position = ePos;
     }
 
     private IEnumerator WaitSeconds(float secs)

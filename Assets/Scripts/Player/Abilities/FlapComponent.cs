@@ -85,6 +85,7 @@ public class FlapComponent : MonoBehaviour {
         if (scale.x > 0)
         {
             Toolbox.Player.transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
+            Toolbox.Player.transform.position += Vector3.right * .5f;
             Toolbox.Player.Lantern.GetComponent<HingeJoint2D>().limits = new JointAngleLimits2D()
             {
                 min = -260f, max = -220f
@@ -99,6 +100,7 @@ public class FlapComponent : MonoBehaviour {
         if (scale.x < 0)
         {
             Toolbox.Player.transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
+            Toolbox.Player.transform.position += Vector3.left * .5f;
             Toolbox.Player.Lantern.GetComponent<HingeJoint2D>().limits = new JointAngleLimits2D()
             {
                 min = -20f, max = 40f

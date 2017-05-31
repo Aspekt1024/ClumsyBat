@@ -178,4 +178,15 @@ public class BossGameHandler : GameHandler {
         _gameHud.GameOver();
         _gameMenu.GameOver();
     }
+
+    public override MothPool GetMothPool()
+    {
+        BossMoths bossMoths = GetComponent<BossMoths>();
+        if (bossMoths == null)
+        {
+            bossMoths = gameObject.AddComponent<BossMoths>();
+        }
+
+        return bossMoths.GetMothPool();
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class TrainingGameHandler : GameHandler
 {
@@ -118,5 +119,10 @@ public class TrainingGameHandler : GameHandler
         //switch (other.name)
         {
         }
+    }
+
+    public override MothPool GetMothPool()
+    {
+        return null;
     }
 }
