@@ -4,11 +4,6 @@ using System.Xml.Serialization;
 
 public class StateAction : BaseAction {
     
-    public enum BossDamageObjects
-    {
-        Hypersonic, Stalactite, Player
-    }
-
     public string StateName;
 
     [XmlIgnore] public State State;

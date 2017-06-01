@@ -19,6 +19,7 @@ public class BossEditorContextMenus : BaseContextMenus {
     private void ShowStateMachineMenu()
     {
         GenericMenu menu = new GenericMenu();
+        menu.AddItem(new GUIContent("Events/Damaged"), false, ContextCallback, typeof(DamageNode));
         menu.AddItem(new GUIContent("Set Health"), false, ContextCallback, typeof(HealthNode));
         menu.AddItem(new GUIContent("Add Wait"), false, ContextCallback, typeof(WaitNode));
         menu.AddSeparator("");

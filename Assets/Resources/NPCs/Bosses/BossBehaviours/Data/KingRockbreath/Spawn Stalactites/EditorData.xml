@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <NodeDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <EditorOffset>
-    <x>-54</x>
-    <y>-79</y>
+    <x>-118</x>
+    <y>-88</y>
   </EditorOffset>
   <Nodes>
     <BaseNode xsi:type="StartNode">
@@ -209,9 +209,9 @@
         <yMax>540</yMax>
       </WindowRect>
       <StalType>Crystal</StalType>
-      <GreenMothChance>1</GreenMothChance>
+      <GreenMothChance>0.3</GreenMothChance>
       <BlueMothChance>0</BlueMothChance>
-      <GoldMothChance>0</GoldMothChance>
+      <GoldMothChance>0.7</GoldMothChance>
       <StalAction>Spawn</StalAction>
       <StalActionIndex>0</StalActionIndex>
       <SpawnDirection>FromTop</SpawnDirection>

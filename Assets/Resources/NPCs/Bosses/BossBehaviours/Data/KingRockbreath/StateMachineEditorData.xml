@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <NodeDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <EditorOffset>
-    <x>-91</x>
-    <y>-106</y>
+    <x>-77</x>
+    <y>-45</y>
   </EditorOffset>
   <Nodes>
     <BaseNode xsi:type="StartNode">
@@ -75,7 +75,7 @@
             <y>35</y>
           </Position>
           <ID>1</ID>
-          <Label>Near Player</Label>
+          <Label>Proximity</Label>
           <Type>Event</Type>
           <Direction>Output</Direction>
           <ConnectedNodeID>2</ConnectedNodeID>
@@ -87,7 +87,7 @@
             <y>55</y>
           </Position>
           <ID>2</ID>
-          <Label>Can Charge</Label>
+          <Label>Horiz</Label>
           <Type>Event</Type>
           <Direction>Output</Direction>
           <ConnectedNodeID>3</ConnectedNodeID>
@@ -99,7 +99,7 @@
             <y>75</y>
           </Position>
           <ID>3</ID>
-          <Label>Too Far</Label>
+          <Label>Not close</Label>
           <Type>Event</Type>
           <Direction>Output</Direction>
           <ConnectedNodeID>6</ConnectedNodeID>
@@ -221,7 +221,7 @@
             <y>35</y>
           </Position>
           <ID>1</ID>
-          <Label>Recovered</Label>
+          <Label>Success</Label>
           <Type>Event</Type>
           <Direction>Output</Direction>
           <ConnectedNodeID>6</ConnectedNodeID>
@@ -249,7 +249,7 @@
         </position>
         <center>
           <x>535</x>
-          <y>535</y>
+          <y>525</y>
         </center>
         <min>
           <x>460</x>
@@ -257,18 +257,18 @@
         </min>
         <max>
           <x>610</x>
-          <y>570</y>
+          <y>550</y>
         </max>
         <width>150</width>
-        <height>70</height>
+        <height>50</height>
         <size>
           <x>150</x>
-          <y>70</y>
+          <y>50</y>
         </size>
         <xMin>460</xMin>
         <yMin>500</yMin>
         <xMax>610</xMax>
-        <yMax>570</yMax>
+        <yMax>550</yMax>
       </WindowRect>
       <StateName>Charge player</StateName>
     </BaseNode>
@@ -453,6 +453,116 @@
         <yMax>470</yMax>
       </WindowRect>
       <NumInputs>3</NumInputs>
+    </BaseNode>
+    <BaseNode xsi:type="DamageNode">
+      <WindowTitle>Damaged</WindowTitle>
+      <ID>7</ID>
+      <interfaces>
+        <NodeInterface>
+          <Position>
+            <x>193</x>
+            <y>35</y>
+          </Position>
+          <ID>0</ID>
+          <Label />
+          <Type>Event</Type>
+          <Direction>Output</Direction>
+          <ConnectedNodeID>8</ConnectedNodeID>
+          <ConnectedIfaceID>0</ConnectedIfaceID>
+        </NodeInterface>
+        <NodeInterface>
+          <Position>
+            <x>193</x>
+            <y>55</y>
+          </Position>
+          <ID>1</ID>
+          <Label>Other</Label>
+          <Type>Object</Type>
+          <Direction>Output</Direction>
+          <ConnectedNodeID>-1</ConnectedNodeID>
+          <ConnectedIfaceID>-1</ConnectedIfaceID>
+        </NodeInterface>
+      </interfaces>
+      <WindowRect>
+        <x>220</x>
+        <y>90</y>
+        <position>
+          <x>220</x>
+          <y>90</y>
+        </position>
+        <center>
+          <x>320</x>
+          <y>125</y>
+        </center>
+        <min>
+          <x>220</x>
+          <y>90</y>
+        </min>
+        <max>
+          <x>420</x>
+          <y>160</y>
+        </max>
+        <width>200</width>
+        <height>70</height>
+        <size>
+          <x>200</x>
+          <y>70</y>
+        </size>
+        <xMin>220</xMin>
+        <yMin>90</yMin>
+        <xMax>420</xMax>
+        <yMax>160</yMax>
+      </WindowRect>
+      <DamageType>Hypersonic</DamageType>
+    </BaseNode>
+    <BaseNode xsi:type="StateNode">
+      <WindowTitle>TakeDamage</WindowTitle>
+      <ID>8</ID>
+      <interfaces>
+        <NodeInterface>
+          <Position>
+            <x>7</x>
+            <y>35</y>
+          </Position>
+          <ID>0</ID>
+          <Label />
+          <Type>Event</Type>
+          <Direction>Input</Direction>
+          <ConnectedNodeID>7</ConnectedNodeID>
+          <ConnectedIfaceID>0</ConnectedIfaceID>
+        </NodeInterface>
+      </interfaces>
+      <WindowRect>
+        <x>510</x>
+        <y>90</y>
+        <position>
+          <x>510</x>
+          <y>90</y>
+        </position>
+        <center>
+          <x>585</x>
+          <y>115</y>
+        </center>
+        <min>
+          <x>510</x>
+          <y>90</y>
+        </min>
+        <max>
+          <x>660</x>
+          <y>140</y>
+        </max>
+        <width>150</width>
+        <height>50</height>
+        <size>
+          <x>150</x>
+          <y>50</y>
+        </size>
+        <xMin>510</xMin>
+        <yMin>90</yMin>
+        <xMax>660</xMax>
+        <yMax>140</yMax>
+      </WindowRect>
+      <StateName>TakeDamage</StateName>
     </BaseNode>
   </Nodes>
 </NodeDataCollection>

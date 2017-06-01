@@ -8,12 +8,14 @@ using System.Collections.Generic;
 public class StateMachine : BehaviourSet
 {
     public string BossName;
-    public GameObject BossPrefab; 
+    public GameObject BossPrefab;
     public int Health;
     public bool SpawnMoths;    // TODO make into selectable list, per state
     public bool ShakeScreenOnLanding;
     
     public List<State> ActiveStates = new List<State>();
+
+    private List<DamageAction> damageActions = new List<DamageAction>();
     
     public void StateMachineSetup(BossData bossData, GameObject boss)
     {
@@ -22,6 +24,8 @@ public class StateMachine : BehaviourSet
         foreach(var action in Actions)
         {
             action.GameSetup(this, bossData, boss);
+            if (action.IsType<DamageAction>())
+                damageActions.Add((DamageAction)action);
         }
     }
 
@@ -40,6 +44,16 @@ public class StateMachine : BehaviourSet
     public override void LoopToStart()
     {
         StartingAction.Activate();
+    }
+
+    public void Damaged(DamageAction.DamageTypes dmgType, Collider2D other)
+    {
+        foreach (DamageAction action in damageActions)
+        {
+            action.SetReceivedDamageType(dmgType);
+            action.SetOther(other);
+            action.Activate();
+        }
     }
 
     public void HealthChanged(int health)

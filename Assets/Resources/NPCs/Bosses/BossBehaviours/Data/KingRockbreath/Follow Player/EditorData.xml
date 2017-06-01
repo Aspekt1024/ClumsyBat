@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <NodeDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <EditorOffset>
-    <x>-233</x>
-    <y>-223</y>
+    <x>-187</x>
+    <y>-228</y>
   </EditorOffset>
   <Nodes>
     <BaseNode xsi:type="StartNode">
@@ -388,7 +388,7 @@
       <Input3>0</Input3>
     </BaseNode>
     <BaseNode xsi:type="StateEventNode">
-      <WindowTitle>Near Player</WindowTitle>
+      <WindowTitle>Proximity</WindowTitle>
       <ID>5</ID>
       <interfaces>
         <NodeInterface>
@@ -437,7 +437,7 @@
       <StateEventID>1</StateEventID>
     </BaseNode>
     <BaseNode xsi:type="StateEventNode">
-      <WindowTitle>Too Far</WindowTitle>
+      <WindowTitle>Not close</WindowTitle>
       <ID>6</ID>
       <interfaces>
         <NodeInterface>
@@ -486,7 +486,7 @@
       <StateEventID>3</StateEventID>
     </BaseNode>
     <BaseNode xsi:type="StateEventNode">
-      <WindowTitle>Can Charge</WindowTitle>
+      <WindowTitle>Horiz</WindowTitle>
       <ID>7</ID>
       <interfaces>
         <NodeInterface>

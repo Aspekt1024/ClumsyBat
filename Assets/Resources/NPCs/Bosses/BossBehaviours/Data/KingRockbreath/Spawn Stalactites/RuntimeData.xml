@@ -74,6 +74,9 @@
           <inputID>5</inputID>
         </StalSpawnType>
       </stalSpawns>
+      <GreenChance>0.3</GreenChance>
+      <GoldChance>0.7</GoldChance>
+      <BlueChance>0</BlueChance>
     </BaseAction>
   </Actions>
 </ActionDataCollection>

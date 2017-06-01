@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 
-using BossDamageObjects = StateAction.BossDamageObjects;
-
 /// <summary>
 /// Base class for describing specific boss behaviour
 /// </summary>
@@ -27,8 +25,6 @@ public class Boss : MonoBehaviour {
     private Vector2 storedVelocity;
     private float damageCooldownTimer;
     
-    private List<BossDamageObjects> damageObjects = new List<BossDamageObjects>();
-
     private void OnEnable()
     {
         SetEvents();
@@ -81,26 +77,28 @@ public class Boss : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (damageCooldownTimer > 0) return;
-        if (other.name == "HypersonicMask" && InDamageObjects(BossDamageObjects.Hypersonic))
+        if (other.name == "HypersonicMask")
         {
-            TakeDamage();
+            machine.Damaged(DamageAction.DamageTypes.Hypersonic, other);
             damageCooldownTimer = 1f;
         }
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.collider.tag == "Stalactite" && other.collider.gameObject.GetComponent<Stalactite>().IsFalling())
+        if (other.collider.tag == "Stalactite")
         {
-            if (InDamageObjects(BossDamageObjects.Stalactite))
-            {
-                TakeDamage();
-            }
+            if (other.collider.gameObject.GetComponent<Stalactite>().IsFalling())
+                machine.Damaged(DamageAction.DamageTypes.FallingStalactite, other.collider);
             else
-            {
-                other.transform.GetComponent<Rigidbody2D>().velocity = Vector3.up;
-                other.transform.Rotate(Vector3.forward, 5f);
-            }
+                machine.Damaged(DamageAction.DamageTypes.StaticStalactite, other.collider);
+        }
+        else if (other.collider.tag == "Player")
+        {
+            if (Toolbox.Player.IsRushing())
+                machine.Damaged(DamageAction.DamageTypes.Dash, other.collider);
+            else
+                machine.Damaged(DamageAction.DamageTypes.Player, other.collider);
         }
     }
 
@@ -113,12 +111,12 @@ public class Boss : MonoBehaviour {
         {
             case Direction.Left:
                 if (bossParent.localScale.x < 0) switchDir = true;
-
                 break;
 
             case Direction.Right:
                 if (bossParent.localScale.x > 0) switchDir = true;
                 break;
+
             case Direction.Switch:
                 switchDir = true;
                 break;
@@ -127,21 +125,6 @@ public class Boss : MonoBehaviour {
         Vector3 scale = bossParent.localScale;
         if (switchDir)
             bossParent.localScale = new Vector3(-scale.x, scale.y, scale.z);
-    }
-
-    protected void TakeDamage(int damage = 1)
-    {
-        health -= damage;
-        if (health <= 0)
-        {
-            Die();
-        }
-        else
-        {
-            StartCoroutine("Damaged");
-        }
-        machine.HealthChanged(health);
-        HealthUpdate();
     }
 
     protected virtual void HealthUpdate() { }
@@ -200,17 +183,6 @@ public class Boss : MonoBehaviour {
     public virtual void EndWalk() { }
     public virtual void Jump() { }
     public virtual void EndJump() { }
-
-    private bool InDamageObjects(BossDamageObjects obj)
-    {
-        bool isInList = false;
-        foreach(var damageObj in damageObjects)
-        {
-            if (damageObj == obj)
-                isInList = true;
-        }
-        return isInList;
-    }
     
     public void FaceDirection(bool bFaceLeft)
     {

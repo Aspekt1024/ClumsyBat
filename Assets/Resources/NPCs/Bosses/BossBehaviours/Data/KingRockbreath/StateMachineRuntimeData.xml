@@ -136,5 +136,35 @@
         </ActionConnection>
       </connections>
     </BaseAction>
+    <BaseAction xsi:type="DamageAction">
+      <ID>7</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>8</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <DamageType>Hypersonic</DamageType>
+    </BaseAction>
+    <BaseAction xsi:type="StateAction">
+      <ID>8</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>7</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <StateName>TakeDamage</StateName>
+    </BaseAction>
   </Actions>
 </ActionDataCollection>

@@ -442,6 +442,7 @@ public class Player : MonoBehaviour {
     public void SetMovementMode(FlapComponent.MovementMode moveMode) { _flap.Mode = moveMode; }
     public Rigidbody2D GetBody() { return _playerRigidBody; }
     public Collider2D GetCollider() { return _playerCollider; }
+    public bool IsRushing() { return _rush.IsActive(); }
 
     private void GetPlayerComponents()
     {
