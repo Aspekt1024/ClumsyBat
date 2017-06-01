@@ -24,9 +24,14 @@ public class StalAnimationHandler : MonoBehaviour
         NewStalactite();
     }
 
+    public void SetAnimator(Animator anim)
+    {
+        _anim = anim;
+    }
+
     void Update()
     {
-        if (!_stal.IsActive) { return; }
+        if (!_stal.IsActive || _stal.IsBroken()) { return; }
         if (_anim.GetCurrentAnimatorStateInfo(0).IsName("Crack") && _anim.enabled)
         {
             _normCrackTime = _anim.GetCurrentAnimatorStateInfo(0).normalizedTime;

@@ -82,13 +82,16 @@ public class SpawnStalAction : BaseAction {
         }
 
         if (StalAction == StalActions.Spawn)
-            spawnAbility.Spawn(spawnPosX, SpawnDirection);
+        {
+            Debug.Log("spawning staltype " + StalType);
+            spawnAbility.Spawn(spawnPosX, SpawnDirection, StalType);
+        }
         else if (StalAction == StalActions.Drop)
             spawnAbility.Drop();
         else
         {
             if (spawnPhase)
-                spawnAbility.Spawn(spawnPosX, SpawnDirection);
+                spawnAbility.Spawn(spawnPosX, SpawnDirection, StalType);
             else
                 spawnAbility.Drop();
         }

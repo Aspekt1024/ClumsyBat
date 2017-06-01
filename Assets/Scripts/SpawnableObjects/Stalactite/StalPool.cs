@@ -17,6 +17,7 @@ public sealed class StalPool : SpawnPool<Stalactite> {
         public Spawnable.SpawnType SpawnTransform;
         public float TriggerPosX;
         public bool DropEnabled;
+        public SpawnStalAction.StalTypes Type;
     }
 
     public void SetupStalactitesInList(StalType[] stalList, float xOffset)

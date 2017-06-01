@@ -12,9 +12,9 @@ public class SpawnStalactites : BossAbility {
         CreateStals();
     }
 
-    public void Spawn(float spawnPosX, SpawnStalAction.StalSpawnDirection direction)
+    public void Spawn(float spawnPosX, SpawnStalAction.StalSpawnDirection direction, SpawnStalAction.StalTypes type)
     {
-        StartCoroutine(SpawnStal(spawnPosX, direction));
+        StartCoroutine(SpawnStal(spawnPosX, direction, type));
     }
 
     public void Drop()
@@ -22,10 +22,10 @@ public class SpawnStalactites : BossAbility {
         StartCoroutine(DropStalactites());
     }
 
-    private IEnumerator SpawnStal(float spawnPosX, SpawnStalAction.StalSpawnDirection direction)
+    private IEnumerator SpawnStal(float spawnPosX, SpawnStalAction.StalSpawnDirection direction, SpawnStalAction.StalTypes type)
     {
         int index = GetUnusedStalIndex();
-        ActivateStal(index, spawnPosX);
+        ActivateStal(index, spawnPosX, type);
         Transform stalTf = _stals[index].transform;
         stalTf.localRotation = new Quaternion();
         
@@ -73,7 +73,7 @@ public class SpawnStalactites : BossAbility {
         }
     }
 
-    private void ActivateStal(int index, float spawnPosX)
+    private void ActivateStal(int index, float spawnPosX, SpawnStalAction.StalTypes type)
     {
         const float startY = 10f;
         Spawnable.SpawnType spawnTf = new Spawnable.SpawnType
@@ -86,7 +86,8 @@ public class SpawnStalactites : BossAbility {
         {
             SpawnTransform = spawnTf,
             DropEnabled = false,
-            TriggerPosX = 0
+            TriggerPosX = 0,
+            Type = type
         };
         _stals[index].Activate(stalProps, 0);
     }

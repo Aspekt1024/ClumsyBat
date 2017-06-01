@@ -63,7 +63,7 @@
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
-      <StalType>Stalactite</StalType>
+      <StalType>Crystal</StalType>
       <StalAction>Spawn</StalAction>
       <SpawnDirection>FromTop</SpawnDirection>
       <stalSpawns>

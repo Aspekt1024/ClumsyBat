@@ -128,7 +128,8 @@ public class SpawnStalNode : BaseNode {
         {
             StalAction = StalAction,
             SpawnDirection = SpawnDirection,
-            stalSpawns = StalSpawns
+            stalSpawns = StalSpawns,
+            StalType = StalType
         };
     }
 
@@ -191,7 +192,8 @@ public class SpawnStalNode : BaseNode {
     {
         var newSpawn = new StalSpawnType()
         {
-            inputID = GetUniqueIfaceID()
+            inputID = GetUniqueIfaceID(),
+            
         };
         StalSpawns.Add(newSpawn);
         AddInput(newSpawn.inputID, InterfaceTypes.Object);

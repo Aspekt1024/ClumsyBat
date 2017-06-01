@@ -72,8 +72,12 @@ public abstract class GameHandler : MonoBehaviour {
                 ThePlayer.Die();
                 break;
             case "Stalactite":
-                ThePlayer.Die();
-                other.collider.GetComponentInParent<Stalactite>().Crack();
+                Stalactite stal = other.collider.GetComponentInParent<Stalactite>();
+                if (stal.Type == SpawnStalAction.StalTypes.Stalactite)
+                {
+                    stal.Crack();
+                    ThePlayer.Die();
+                }
                 break;
         }
     }
