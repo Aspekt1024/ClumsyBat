@@ -12,9 +12,9 @@ public class SpawnStalactites : BossAbility {
         CreateStals();
     }
 
-    public void Spawn(float spawnPosX, SpawnStalAction.StalSpawnDirection direction, SpawnStalAction.StalTypes type)
+    public void Spawn(float spawnPosX, SpawnStalAction.StalSpawnDirection direction, SpawnStalAction.StalTypes type, float greenChance = 1, float goldChance = 0, float blueChance = 0) // TODO wow parameters. fix it.
     {
-        StartCoroutine(SpawnStal(spawnPosX, direction, type));
+        StartCoroutine(SpawnStal(spawnPosX, direction, type, greenChance, goldChance, blueChance));
     }
 
     public void Drop()
@@ -22,10 +22,10 @@ public class SpawnStalactites : BossAbility {
         StartCoroutine(DropStalactites());
     }
 
-    private IEnumerator SpawnStal(float spawnPosX, SpawnStalAction.StalSpawnDirection direction, SpawnStalAction.StalTypes type)
+    private IEnumerator SpawnStal(float spawnPosX, SpawnStalAction.StalSpawnDirection direction, SpawnStalAction.StalTypes type, float greenChance, float goldChance, float blueChance)
     {
         int index = GetUnusedStalIndex();
-        ActivateStal(index, spawnPosX, type);
+        ActivateStal(index, spawnPosX, type, greenChance, goldChance, blueChance);
         Transform stalTf = _stals[index].transform;
         stalTf.localRotation = new Quaternion();
         
@@ -73,7 +73,7 @@ public class SpawnStalactites : BossAbility {
         }
     }
 
-    private void ActivateStal(int index, float spawnPosX, SpawnStalAction.StalTypes type)
+    private void ActivateStal(int index, float spawnPosX, SpawnStalAction.StalTypes type, float greenChance, float goldChance, float blueChance)
     {
         const float startY = 10f;
         Spawnable.SpawnType spawnTf = new Spawnable.SpawnType
@@ -87,7 +87,10 @@ public class SpawnStalactites : BossAbility {
             SpawnTransform = spawnTf,
             DropEnabled = false,
             TriggerPosX = 0,
-            Type = type
+            Type = type,
+            GreenMothChance = greenChance,
+            GoldMothChance = goldChance,
+            BlueMothChance = blueChance
         };
         _stals[index].Activate(stalProps, 0);
     }

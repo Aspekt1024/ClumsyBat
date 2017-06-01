@@ -4,11 +4,12 @@ using System.Collections;
 
 public class Stalactite : Spawnable {
 
-    public SpawnStalAction.StalTypes Type;
     public bool DropEnabled;
     [Range(2.5f, 7.5f)]
     public float TriggerPosX;
-    
+
+    public SpawnStalAction.StalTypes Type;
+
     public enum StalStates
     {
         Normal, Falling, Exploding, Forming, Broken
@@ -31,6 +32,9 @@ public class Stalactite : Spawnable {
     private Animator mothAnim;
     private MothPool mothPool;
     private Moth.MothColour color;
+    private float greenMothChance;
+    private float goldMothChance;
+    private float blueMothChance;
 
     private void Awake ()
     {
@@ -111,7 +115,10 @@ public class Stalactite : Spawnable {
         stalCollider.enabled = true;
         DropEnabled = stalProps.DropEnabled;
         Type = stalProps.Type;
-        
+        greenMothChance = stalProps.GreenMothChance;
+        goldMothChance = stalProps.GoldMothChance;
+        blueMothChance = stalProps.BlueMothChance;
+
         if (Type == SpawnStalAction.StalTypes.Crystal)
         {
             ActivateCrystal();
@@ -124,9 +131,10 @@ public class Stalactite : Spawnable {
 
     private void ActivateCrystal()
     {
+        color = DetermineMothColor();
         moth.gameObject.SetActive(true);
         stalPrefabUnbroken.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.7f);
-
+        
         string mothAnimationName = "";
         switch (color)
         {
@@ -239,7 +247,26 @@ public class Stalactite : Spawnable {
         }
         if (DropEnabled) { dropControl.Drop(); }
     }
-    
+
+    private Moth.MothColour DetermineMothColor()
+    {
+        float colorTotals = greenMothChance + goldMothChance + blueMothChance;
+        if (colorTotals <= 0) return Moth.MothColour.Green;
+
+        float weightedGreen = greenMothChance / colorTotals;
+        float weightedGold = goldMothChance / colorTotals;
+        float weightedBlue = blueMothChance / colorTotals;
+
+        float randomVal = Random.Range(0f, 1f);
+
+        if (randomVal < weightedGreen)
+            return Moth.MothColour.Green;
+        else if (randomVal < weightedGreen + weightedGold)
+            return Moth.MothColour.Gold;
+        else
+            return Moth.MothColour.Blue;
+    }
+
     private void SpawnMoth()
     {
         Vector2 spawnLoc = new Vector2(Random.Range(-6f, 6f), Random.Range(-3f, 3f));

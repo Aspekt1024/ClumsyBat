@@ -27,6 +27,10 @@ public class SpawnStalAction : BaseAction {
     public StalSpawnDirection SpawnDirection;
     public List<StalSpawnType> stalSpawns = new List<StalSpawnType>();
 
+    public float GreenChance;
+    public float GoldChance;
+    public float BlueChance;
+
     private bool spawnPhase; // TODO To ensure we don't drop before it's spawned...
 
     private int spawnIndex;
@@ -83,15 +87,14 @@ public class SpawnStalAction : BaseAction {
 
         if (StalAction == StalActions.Spawn)
         {
-            Debug.Log("spawning staltype " + StalType);
-            spawnAbility.Spawn(spawnPosX, SpawnDirection, StalType);
+            spawnAbility.Spawn(spawnPosX, SpawnDirection, StalType, GreenChance, GoldChance, BlueChance);
         }
         else if (StalAction == StalActions.Drop)
             spawnAbility.Drop();
         else
         {
             if (spawnPhase)
-                spawnAbility.Spawn(spawnPosX, SpawnDirection, StalType);
+                spawnAbility.Spawn(spawnPosX, SpawnDirection, StalType, GreenChance, GoldChance, BlueChance);
             else
                 spawnAbility.Drop();
         }

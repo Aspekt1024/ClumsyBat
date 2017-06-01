@@ -129,7 +129,10 @@ public class SpawnStalNode : BaseNode {
             StalAction = StalAction,
             SpawnDirection = SpawnDirection,
             stalSpawns = StalSpawns,
-            StalType = StalType
+            StalType = StalType,
+            GreenChance = GreenMothChance,
+            GoldChance = GoldMothChance,
+            BlueChance = BlueMothChance
         };
     }
 

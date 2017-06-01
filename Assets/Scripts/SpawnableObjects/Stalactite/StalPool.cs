@@ -18,6 +18,9 @@ public sealed class StalPool : SpawnPool<Stalactite> {
         public float TriggerPosX;
         public bool DropEnabled;
         public SpawnStalAction.StalTypes Type;
+        public float GreenMothChance;
+        public float GoldMothChance;
+        public float BlueMothChance;
     }
 
     public void SetupStalactitesInList(StalType[] stalList, float xOffset)
