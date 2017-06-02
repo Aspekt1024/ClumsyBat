@@ -95,7 +95,7 @@ public class StateNode : BaseNode {
         State[] allStates = Resources.LoadAll<State>("NPCs/Bosses/BossBehaviours");
         if (allStates.Length == 0) return;
 
-        Transform.Height = 150;
+        Transform.Height = 170;
         var statesStringArray = BossSelectorHelpers.ObjectArrayToStringArray(allStates);
         selectedStateIndex = NodeGUI.PopupLayout("Existing State:", selectedStateIndex, statesStringArray);
 
@@ -103,6 +103,13 @@ public class StateNode : BaseNode {
         if (NodeGUI.ButtonLayout("Use existing State"))
         {
             UseExistingState(allStates[selectedStateIndex]);
+        }
+
+        // TODO implement this
+        return;
+        if (NodeGUI.ButtonLayout("New from existing"))
+        {
+            NewFromExisting(allStates[selectedStateIndex]);
         }
     }
 
@@ -129,26 +136,27 @@ public class StateNode : BaseNode {
 
     private void UseExistingState(State existingState)
     {
-        // TODO copy states
-        Debug.Log("TODO copying states");
-        return;
-
-
-
         State = existingState;
-        List<BaseNode> stateNodes = NodeEditorSaveHandler.LoadStateMachineNodes(State.ParentMachine);
+        StateName = State.name;
 
-        foreach (var node in stateNodes)
+        foreach(var e in State.StateEvents)
         {
-            if (node.IsType<StateNode>() && ((StateNode)node).StateName == State.name)
-            {
-                StateName = ((StateNode)node).StateName;
-                foreach (var iface in node.interfaces.Where(iface => iface.Direction == ActionConnection.IODirection.Output))
-                {
-                    AddOutput(iface.ID);
-                }
-                break;
-            }
+            AddOutput(e.ID);
+        }
+    }
+
+    private void NewFromExisting(State existingState)
+    {
+        CreateNewState();
+        State.Actions = existingState.Actions;
+        State.StartingAction = existingState.StartingAction;
+        State.StateEvents = existingState.StateEvents;
+        State.name = StateName;
+        NodeEditorSaveHandler.CopyStateData(existingState, State);
+
+        foreach (var e in State.StateEvents)
+        {
+            AddOutput(e.ID);
         }
     }
 

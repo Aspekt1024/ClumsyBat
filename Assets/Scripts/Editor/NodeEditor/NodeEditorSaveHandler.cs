@@ -47,20 +47,6 @@ public static class NodeEditorSaveHandler {
         }
     }
 
-    public static List<BaseNode> LoadStateMachineNodes(StateMachine state)
-    {
-        string filePath = GetStateMachineEditorDataPath(state);
-        XmlSerializer serializer = new XmlSerializer(typeof(NodeDataContainer), GetNodeTypes());
-
-        NodeDataContainer data;
-        using (var stream = new FileStream(filePath, FileMode.Open))
-        {
-            data = (NodeDataContainer)serializer.Deserialize(stream);
-        }
-
-        return data.Nodes;
-    }
-
     private static NodeInterface GetInterface(List<BaseNode> allNodes, int nodeID, int ifaceID)
     {
         foreach (var node in allNodes)
@@ -125,6 +111,38 @@ public static class NodeEditorSaveHandler {
         AssetDatabase.ImportAsset(runtimeDataFilePath);
     }
 
+    public static void CopyStateData(State fromState, State toState)
+    {
+        string fromEditorPath = GetStateEditorDataPath(fromState);
+        string fromRuntimePath = GetStateRuntimeDataPath(fromState);
+        string toEditorPath = GetStateEditorDataPath(toState);
+        string toRuntimePath = GetStateRuntimeDataPath(toState);
+
+        XmlSerializer editorDataSerializer = new XmlSerializer(typeof(NodeDataContainer), GetNodeTypes());
+        XmlSerializer runtimeDataSerializer = new XmlSerializer(typeof(ActionDataContainer), BossActionLoadHandler.GetActionTypes());
+
+        NodeDataContainer editorData = new NodeDataContainer();
+        ActionDataContainer runtimeData = new ActionDataContainer();
+
+        using (var stream = new FileStream(fromEditorPath, FileMode.Open))
+        {
+            editorData = (NodeDataContainer)editorDataSerializer.Deserialize(stream);
+        }
+        using (var stream = new FileStream(fromRuntimePath, FileMode.Open))
+        {
+            runtimeData = (ActionDataContainer)runtimeDataSerializer.Deserialize(stream);
+        }
+
+        using (var stream = new FileStream(toEditorPath, FileMode.Create))
+        {
+            editorDataSerializer.Serialize(stream, editorData);
+        }
+        using (var stream = new FileStream(toRuntimePath, FileMode.Create))
+        {
+            runtimeDataSerializer.Serialize(stream, runtimeData);
+        }
+    }
+    
     private static ActionConnection ConvertInterfaceToAction(NodeInterface iface)
     {
         ActionConnection conn = new ActionConnection()
@@ -170,16 +188,28 @@ public static class NodeEditorSaveHandler {
         return string.Format("{0}/{1}/StateMachineEditorData.xml", BossActionLoadHandler.DataFolder, stateMachineName);
     }
 
+    private static string GetStateEditorDataPath(State state)
+    {
+        string bossFolder = state.ParentMachine.name;
+        string stateName = state.name;
+        return GetStateEditorDataPath(bossFolder, stateName);
+    }
+
     private static string GetStateEditorDataPath(BaseEditor editor)
     {
         string bossFolder = GetBossName(editor);
+        string stateName = editor.BehaviourSet.name;
+        return GetStateEditorDataPath(bossFolder, stateName);
+    }
+
+    private static string GetStateEditorDataPath(string bossFolder, string stateName)
+    {
         CreateFolderIfNotExists(BossActionLoadHandler.DataFolder, bossFolder);
 
         string bossDataPath = string.Format("{0}/{1}", BossActionLoadHandler.DataFolder, bossFolder);
-        string stateName = editor.BehaviourSet.name;
         CreateFolderIfNotExists(bossDataPath, stateName);
-        
-        return string.Format("{0}/{1}/EditorData.xml", bossDataPath, stateName, stateName);
+
+        return string.Format("{0}/{1}/EditorData.xml", bossDataPath, stateName);
     }
     
     public static void CreateFolderIfNotExists(string path, string folderName)
@@ -225,16 +255,27 @@ public static class NodeEditorSaveHandler {
         return string.Format("{0}/{1}/StateMachineRuntimeData.xml", BossActionLoadHandler.DataFolder, bossFolder);
     }
 
+    private static string GetStateRuntimeDataPath(State state)
+    {
+        string bossFolder = state.ParentMachine.name;
+        return GetStateRuntimeDataPath(bossFolder, state.name);
+    }
+
     private static string GetStateRuntimeDataPath(BaseEditor editor)
     {
         string bossFolder = GetBossName(editor);
+        string stateName = editor.BehaviourSet.name;
+        return GetStateRuntimeDataPath(bossFolder, stateName);
+    }
+
+    private static string GetStateRuntimeDataPath(string bossFolder, string stateName)
+    {
         CreateFolderIfNotExists(BossActionLoadHandler.DataFolder, bossFolder);
 
         string bossDataPath = string.Format("{0}/{1}", BossActionLoadHandler.DataFolder, bossFolder);
-        string stateName = editor.BehaviourSet.name;
         CreateFolderIfNotExists(bossDataPath, stateName);
 
-        return string.Format("{0}/{1}/RuntimeData.xml", bossDataPath, stateName, stateName);
+        return string.Format("{0}/{1}/RuntimeData.xml", bossDataPath, stateName);
     }
 }
 

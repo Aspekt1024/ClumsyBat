@@ -11,8 +11,6 @@ public class State : BehaviourSet {
     
     public List<StateEvent> StateEvents = new List<StateEvent>();
     
-    private int numLoops;
-
     public void SetupActions(BossData bossData, GameObject bossReference)
     {
         BossActionLoadHandler.Load(this);
@@ -24,7 +22,6 @@ public class State : BehaviourSet {
 
     public void BeginState()
     {
-        numLoops = 0;
         IsEnabled = true;
         StartingAction.Activate();
     }
