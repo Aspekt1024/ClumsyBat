@@ -9,7 +9,6 @@ public class BossData : MonoBehaviour {
     private GameObject bossObject;
     private Boss bossScripts;
     private readonly List<BossAbility> _abilities = new List<BossAbility>();
-    private BossMoths moths;
 
     private Player player;
     
@@ -64,19 +63,10 @@ public class BossData : MonoBehaviour {
     {
         _state = BossStates.Active;
         BossStateMachine.AwakenBoss();
-
-        if (moths != null)
-        {
-            moths.Enable();
-        }
     }
 
     private void SetupAbilities()
     {
-        if (BossStateMachine.SpawnMoths)
-        {
-            moths = gameObject.AddComponent<BossMoths>();
-        }
     }
 
     public T GetAbility<T>() where T : BossAbility
@@ -102,7 +92,6 @@ public class BossData : MonoBehaviour {
     private void Die()
     {
         _state = BossStates.Dead;
-        moths.Disable();
 
         BossStateMachine.Stop();
         if (!player.IsAlive()) return;

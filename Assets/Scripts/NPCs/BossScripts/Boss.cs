@@ -79,7 +79,7 @@ public class Boss : MonoBehaviour {
         if (damageCooldownTimer > 0) return;
         if (other.name == "HypersonicMask")
         {
-            machine.Damaged(DamageAction.DamageTypes.Hypersonic, other);
+            machine.Damaged(CollisionAction.CollisionTypes.Hypersonic, other);
             damageCooldownTimer = 1f;
         }
     }
@@ -89,16 +89,16 @@ public class Boss : MonoBehaviour {
         if (other.collider.tag == "Stalactite")
         {
             if (other.collider.gameObject.GetComponent<Stalactite>().IsFalling())
-                machine.Damaged(DamageAction.DamageTypes.FallingStalactite, other.collider);
+                machine.Damaged(CollisionAction.CollisionTypes.FallingStalactite, other.collider);
             else
-                machine.Damaged(DamageAction.DamageTypes.StaticStalactite, other.collider);
+                machine.Damaged(CollisionAction.CollisionTypes.StaticStalactite, other.collider);
         }
         else if (other.collider.tag == "Player")
         {
             if (Toolbox.Player.IsRushing())
-                machine.Damaged(DamageAction.DamageTypes.Dash, other.collider);
+                machine.Damaged(CollisionAction.CollisionTypes.Dash, other.collider);
             else
-                machine.Damaged(DamageAction.DamageTypes.Player, other.collider);
+                machine.Damaged(CollisionAction.CollisionTypes.Player, other.collider);
         }
     }
 
@@ -125,6 +125,21 @@ public class Boss : MonoBehaviour {
         Vector3 scale = bossParent.localScale;
         if (switchDir)
             bossParent.localScale = new Vector3(-scale.x, scale.y, scale.z);
+    }
+    
+    public void TakeDamage(int damage = 1)
+    {
+        health -= damage;
+        if (health < 0)
+        {
+            Die();
+        }
+        else
+        {
+            StartCoroutine(Damaged());
+        }
+        machine.HealthChanged(health);
+        HealthUpdate();
     }
 
     protected virtual void HealthUpdate() { }
@@ -183,7 +198,7 @@ public class Boss : MonoBehaviour {
     public virtual void EndWalk() { }
     public virtual void Jump() { }
     public virtual void EndJump() { }
-    
+
     public void FaceDirection(bool bFaceLeft)
     {
         if (bFaceLeft)

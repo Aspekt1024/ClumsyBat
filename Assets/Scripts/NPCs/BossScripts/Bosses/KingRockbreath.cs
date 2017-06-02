@@ -11,6 +11,7 @@ public class KingRockbreath : Boss
     private Animations currentAnim;
     private Dictionary<Animations, string> spriteDict = new Dictionary<Animations, string>();
     private Animator anim;
+    private Collider2D antlersCollider;
 
     private enum RockbreathSprites
     {
@@ -53,10 +54,13 @@ public class KingRockbreath : Boss
             if (sprite.name == "Antlers")
             {
                 sprites[(int)RockbreathSprites.Antlers] = sprite;
-                bossCollider = sprite.GetComponent<Collider2D>();
+                antlersCollider = sprite.GetComponent<Collider2D>();
             }
             if (sprite.name == "Body")
+            {
                 bossRenderer = sprite;
+                bossCollider = sprite.GetComponent<Collider2D>();
+            }
         }
     }
 
@@ -80,6 +84,7 @@ public class KingRockbreath : Boss
                 break;
             case 1:
                 sprites[(int)RockbreathSprites.Antlers].enabled = false;
+                antlersCollider.enabled = false;
                 break;
         }
     }

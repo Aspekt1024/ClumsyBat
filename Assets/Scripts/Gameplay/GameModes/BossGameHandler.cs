@@ -158,9 +158,9 @@ public class BossGameHandler : GameHandler {
     public override void LevelComplete()
     {
         ThePlayer.EnableHover();
-        ThePlayer.GetComponent<Collider2D>().enabled = false;
+        ThePlayer.GetCollider().enabled = false;
         _gameHud.LevelWon();
-        StartCoroutine("BossFightWon");
+        StartCoroutine(BossFightWon());
     }
 
     private IEnumerator BossFightWon()

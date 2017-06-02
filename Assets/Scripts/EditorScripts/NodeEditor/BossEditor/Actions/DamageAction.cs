@@ -5,48 +5,23 @@ using UnityEngine;
 
 public class DamageAction : BaseAction {
 
-    public DamageTypes DamageType;
+    public int Damage;
 
-    public enum DamageTypes
-    {
-        Hypersonic, Dash, Player, FallingStalactite, StaticStalactite
-    }
+    private Boss bossScript;
 
     public enum Ifaces
     {
-        Output, Other
-    }
-
-    private DamageTypes receivedDamageType;
-    private Collider2D other;
-    
-    public void SetReceivedDamageType(DamageTypes type)
-    {
-        receivedDamageType = type;
-    }
-    
-    public void SetOther(Collider2D o)
-    {
-        other = o;
+        Input
     }
 
     public override void ActivateBehaviour()
     {
-        IsActive = false;
-
-        if (receivedDamageType == DamageType)
-            CallNext((int)Ifaces.Output);
-        else
-            IsNewActivation = false;
+        bossScript.TakeDamage(Damage);
     }
 
-    public override GameObject GetObject(int id)
+    public override void GameSetup(BehaviourSet behaviourSet, BossData bossData, GameObject bossReference)
     {
-        return other.gameObject;
-    }
-
-    public override Vector2 GetPosition(int id)
-    {
-        return other.transform.position;
+        base.GameSetup(behaviourSet, bossData, bossReference);
+        bossScript = bossReference.GetComponent<Boss>();
     }
 }

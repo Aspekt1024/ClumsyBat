@@ -19,21 +19,23 @@ public class BossEditorContextMenus : BaseContextMenus {
     private void ShowStateMachineMenu()
     {
         GenericMenu menu = new GenericMenu();
-        menu.AddItem(new GUIContent("Events/Damaged"), false, ContextCallback, typeof(DamageNode));
-        menu.AddItem(new GUIContent("Set Health"), false, ContextCallback, typeof(HealthNode));
-        menu.AddItem(new GUIContent("Add Wait"), false, ContextCallback, typeof(WaitNode));
+        menu.AddItem(new GUIContent("Events/Collision"), false, ContextCallback, typeof(CollisionNode));
+        menu.AddItem(new GUIContent("Actions/Damage"), false, ContextCallback, typeof(DamageNode));
+        menu.AddItem(new GUIContent("Actions/Set Health"), false, ContextCallback, typeof(HealthNode));
+        menu.AddItem(new GUIContent("Actions/Wait"), false, ContextCallback, typeof(WaitNode));
         menu.AddSeparator("");
         menu.AddItem(new GUIContent("New State"), false, ContextCallback, typeof(StateNode));
+        menu.AddSeparator("");
+        menu.AddItem(new GUIContent("Add Loop"), false, ContextCallback, typeof(LoopNode));
+        menu.AddItem(new GUIContent("Operator/Multiple Out"), false, ContextCallback, typeof(MultipleOutNode));
+        menu.AddItem(new GUIContent("Operator/Multiple In"), false, ContextCallback, typeof(MultipleInNode));
+
         menu.AddSeparator("");
         if (editor.StartExists())
             menu.AddItem(new GUIContent("Find Start"), false, ContextCallback, NodeMenuSelections.FindStart);
         else
             menu.AddItem(new GUIContent("Add Start"), false, ContextCallback, typeof(StartNode));
-        menu.AddItem(new GUIContent("Add Loop"), false, ContextCallback, typeof(LoopNode));
 
-        menu.AddSeparator("");
-        menu.AddItem(new GUIContent("Operator/Multiple Out"), false, ContextCallback, typeof(MultipleOutNode));
-        menu.AddItem(new GUIContent("Operator/Multiple In"), false, ContextCallback, typeof(MultipleInNode));
         menu.ShowAsContext();
     }
 

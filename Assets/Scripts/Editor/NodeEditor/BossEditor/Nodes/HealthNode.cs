@@ -9,8 +9,7 @@ using InterfaceTypes = NodeInterface.InterfaceTypes;
 
 public class HealthNode : BaseNode {
 
-    [SerializeField]
-    private int health;
+    public int Health;
 
     protected override void AddInterfaces()
     {
@@ -34,7 +33,7 @@ public class HealthNode : BaseNode {
         EditorGUILayout.Space();
         EditorGUILayout.Space();
         EditorGUIUtility.labelWidth = 40f;
-        health = EditorGUILayout.IntField("HP:", health);
+        Health = EditorGUILayout.IntField("HP:", Health);
 
         SetInterfacePositions();
         DrawInterfaces();
@@ -44,7 +43,7 @@ public class HealthNode : BaseNode {
     {
         return new HealthAction()
         {
-            Health = health
+            Health = Health
         };
     }
 

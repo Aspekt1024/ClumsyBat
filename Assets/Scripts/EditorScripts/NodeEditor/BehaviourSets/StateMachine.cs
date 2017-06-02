@@ -15,7 +15,7 @@ public class StateMachine : BehaviourSet
     
     public List<State> ActiveStates = new List<State>();
 
-    private List<DamageAction> damageActions = new List<DamageAction>();
+    private List<CollisionAction> damageActions = new List<CollisionAction>();
     
     public void StateMachineSetup(BossData bossData, GameObject boss)
     {
@@ -24,8 +24,8 @@ public class StateMachine : BehaviourSet
         foreach(var action in Actions)
         {
             action.GameSetup(this, bossData, boss);
-            if (action.IsType<DamageAction>())
-                damageActions.Add((DamageAction)action);
+            if (action.IsType<CollisionAction>())
+                damageActions.Add((CollisionAction)action);
         }
     }
 
@@ -46,9 +46,9 @@ public class StateMachine : BehaviourSet
         StartingAction.Activate();
     }
 
-    public void Damaged(DamageAction.DamageTypes dmgType, Collider2D other)
+    public void Damaged(CollisionAction.CollisionTypes dmgType, Collider2D other)
     {
-        foreach (DamageAction action in damageActions)
+        foreach (CollisionAction action in damageActions)
         {
             action.SetReceivedDamageType(dmgType);
             action.SetOther(other);

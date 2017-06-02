@@ -28,18 +28,6 @@ public class BossMoths : MonoBehaviour
     {
 		_moths = new MothPool();
     }
-	
-	private void Update ()
-    {
-        return;
-		if (_bPaused) { return; }
-        _timeSinceLastMoth += Time.deltaTime;
-        if (_timeSinceLastMoth > MothInterval && bEnabled)
-        {
-            _timeSinceLastMoth = 0f + Random.Range(-MothVariance, MothVariance);
-            SpawnMothFromEssence();
-        }
-    }
 
     public void SpawnInMoth(Moth.MothColour color, Vector2 fromLocation, Vector2 toLocation)
     {
