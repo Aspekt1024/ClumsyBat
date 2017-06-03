@@ -20,6 +20,7 @@ public class LoopNode : BaseNode {
         WindowTitle = "Loop to Start";
         Transform.Width = 120;
         Transform.Height = 50;
+        nodeType = NodeTypes.Event;
 
         SetInterfacePositions();
         DrawInterfaces();

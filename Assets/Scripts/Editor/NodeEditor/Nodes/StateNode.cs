@@ -37,6 +37,7 @@ public class StateNode : BaseNode {
     public override void Draw()
     {
         WindowTitle = State == null ? "New State" : StateName;
+        nodeType = NodeTypes.State;
 
         if (State != null)
         {

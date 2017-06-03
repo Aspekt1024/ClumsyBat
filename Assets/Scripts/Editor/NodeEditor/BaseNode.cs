@@ -17,6 +17,12 @@ public abstract class BaseNode {
     [XmlIgnore] public BaseEditor ParentEditor;
     [XmlIgnore] public float SelectedBorderAlpha;
     
+    protected enum NodeTypes
+    {
+        Action, State, Event
+    }
+    protected NodeTypes nodeType;
+
     private Rect NodeRect;
     private Vector2 selectedOutputPos;
     private NodeRuntimeBorders runtimeBorder;
@@ -45,11 +51,9 @@ public abstract class BaseNode {
 
         NodeRect = Transform.GetWindow(canvasOffset);
         
-        if (Transform.IsSelected)
-            GUI.skin = (GUISkin)EditorGUIUtility.Load("NodeWindowSkin.guiskin");
-        else
-            GUI.skin = (GUISkin)EditorGUIUtility.Load("NodeNormalSkin.guiskin");
-        
+        GUI.skin = (GUISkin)EditorGUIUtility.Load("NodeEditorWindowSkin.guiskin");
+        GUI.skin.box.normal.background = GetWindowTexture();
+
         GUI.Box(NodeRect, WindowTitle);
         
         if (SelectedBorderAlpha > 0 && Application.isPlaying)
@@ -61,6 +65,14 @@ public abstract class BaseNode {
         NodeGUI.SetWindow(NodeRect.size);    // TODO completely replace GUI.BeginGroup with NodeGUI... eventually.
         Draw();
         GUI.EndGroup();
+    }
+
+    private Texture2D GetWindowTexture()
+    {
+        string statusType = Transform.IsSelected ? "Selected" : "Normal";
+        string textureName = string.Format("{0}Window{1}.png", nodeType.ToString(), statusType);
+
+        return (Texture2D)EditorGUIUtility.Load(textureName);
     }
 
     public virtual void Draw()  // protected?

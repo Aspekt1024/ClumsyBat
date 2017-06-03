@@ -23,6 +23,8 @@ public class StateEventNode : BaseNode
 
     public override void Draw()
     {
+        nodeType = NodeTypes.State;
+
         State parentState = (State)ParentEditor.BehaviourSet;
         int stateEventIndex = parentState.GetStateEventIndex(StateEventID);
         if (stateEventIndex < 0) return;

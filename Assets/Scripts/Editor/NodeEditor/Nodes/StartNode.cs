@@ -18,6 +18,7 @@ public class StartNode : BaseNode {
         Transform.Width = 80;
         Transform.Height = 50;
         WindowTitle = "Start";
+        nodeType = NodeTypes.Event;
 
         SetInterfacePositions();
         DrawInterfaces();

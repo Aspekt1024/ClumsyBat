@@ -30,6 +30,7 @@ public class CollisionNode : BaseNode {
         Transform.Width = 200;
         Transform.Height = 70;
         WindowTitle = "Collision";
+        nodeType = NodeTypes.Event;
 
         CollisionType = (CollisionTypes)NodeGUI.EnumPopupLayout("Type:", CollisionType, 0.25f);
 

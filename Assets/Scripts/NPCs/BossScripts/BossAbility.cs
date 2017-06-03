@@ -9,7 +9,6 @@ public abstract class BossAbility : MonoBehaviour {
 
     public void Interrupt()
     {
-        Debug.Log("interrupting " + this.name);
         StopAllCoroutines();
     }
 }
