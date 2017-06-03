@@ -25,6 +25,7 @@ public class Toolbox : Singleton<Toolbox>
     public Dictionary<Levels, string> LevelNames = new Dictionary<Levels, string>();
 
     private static Player playerScript;
+    private static MainAudioControl mainAudio;
 
     public static Player Player
     {
@@ -43,6 +44,17 @@ public class Toolbox : Singleton<Toolbox>
                 }
             }
             return playerScript;
+        }
+    }
+
+    public static MainAudioControl MainAudio
+    {
+        get
+        {
+            if (mainAudio == null)
+                mainAudio = GameObject.FindGameObjectWithTag("AudioController").GetComponent<MainAudioControl>();
+
+            return mainAudio;
         }
     }
     
