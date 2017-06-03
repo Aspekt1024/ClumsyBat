@@ -78,7 +78,7 @@
         <ActionConnection>
           <ID>2</ID>
           <Direction>Output</Direction>
-          <OtherActionID>9</OtherActionID>
+          <OtherActionID>11</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
@@ -90,8 +90,8 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>9</OtherActionID>
-          <OtherConnID>1</OtherConnID>
+          <OtherActionID>11</OtherActionID>
+          <OtherConnID>2</OtherConnID>
         </ActionConnection>
       </connections>
       <StateName>Spawn Stalactites</StateName>
@@ -142,7 +142,7 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>11</OtherActionID>
+          <OtherActionID>10</OtherActionID>
           <OtherConnID>2</OtherConnID>
         </ActionConnection>
       </connections>
@@ -154,7 +154,7 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Output</Direction>
-          <OtherActionID>11</OtherActionID>
+          <OtherActionID>10</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
         <ActionConnection>
@@ -166,43 +166,20 @@
       </connections>
       <CollisionType>Hypersonic</CollisionType>
     </BaseAction>
-    <BaseAction xsi:type="AlternatingAction">
+    <BaseAction xsi:type="StateAction">
       <ID>9</ID>
       <connections>
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>3</OtherActionID>
-          <OtherConnID>2</OtherConnID>
-        </ActionConnection>
-        <ActionConnection>
-          <ID>1</ID>
-          <Direction>Output</Direction>
-          <OtherActionID>4</OtherActionID>
-          <OtherConnID>0</OtherConnID>
-        </ActionConnection>
-        <ActionConnection>
-          <ID>2</ID>
-          <Direction>Output</Direction>
-          <OtherActionID>10</OtherActionID>
-          <OtherConnID>0</OtherConnID>
-        </ActionConnection>
-      </connections>
-    </BaseAction>
-    <BaseAction xsi:type="StateAction">
-      <ID>10</ID>
-      <connections>
-        <ActionConnection>
-          <ID>0</ID>
-          <Direction>Input</Direction>
-          <OtherActionID>9</OtherActionID>
-          <OtherConnID>2</OtherConnID>
+          <OtherActionID>11</OtherActionID>
+          <OtherConnID>3</OtherConnID>
         </ActionConnection>
       </connections>
       <StateName>Drop Stalactites</StateName>
     </BaseAction>
     <BaseAction xsi:type="MultipleOutAction">
-      <ID>11</ID>
+      <ID>10</ID>
       <connections>
         <ActionConnection>
           <ID>0</ID>
@@ -213,13 +190,42 @@
         <ActionConnection>
           <ID>1</ID>
           <Direction>Output</Direction>
-          <OtherActionID>-1</OtherActionID>
-          <OtherConnID>-1</OtherConnID>
+          <OtherActionID>11</OtherActionID>
+          <OtherConnID>1</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>2</ID>
           <Direction>Output</Direction>
           <OtherActionID>7</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+      </connections>
+    </BaseAction>
+    <BaseAction xsi:type="AlternatingAction">
+      <ID>11</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>3</OtherActionID>
+          <OtherConnID>2</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>10</OtherActionID>
+          <OtherConnID>1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>4</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>3</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>9</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>

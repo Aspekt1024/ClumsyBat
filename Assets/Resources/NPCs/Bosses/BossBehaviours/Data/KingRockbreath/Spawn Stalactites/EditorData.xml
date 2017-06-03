@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <NodeDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <EditorOffset>
-    <x>-437</x>
-    <y>-314</y>
+    <x>-239</x>
+    <y>-52</y>
   </EditorOffset>
   <Nodes>
     <BaseNode xsi:type="StartNode">
@@ -172,8 +172,8 @@
       <StalSpawns>
         <StalSpawnType>
           <delay>0</delay>
-          <xPosStart>-3.60727262</xPosStart>
-          <xPosEnd>3.83272743</xPosEnd>
+          <xPosStart>-4.96</xPosStart>
+          <xPosEnd>5.072727</xPosEnd>
           <inputID>5</inputID>
         </StalSpawnType>
       </StalSpawns>
@@ -337,7 +337,7 @@
       </WindowRect>
       <Operation>Greater</Operation>
       <Input1>0</Input1>
-      <Input2>0.3</Input2>
+      <Input2>0.7</Input2>
       <Input3>0</Input3>
     </BaseNode>
     <BaseNode xsi:type="SpawnStalNode">
@@ -428,18 +428,6 @@
           <ConnectedNodeID>-1</ConnectedNodeID>
           <ConnectedIfaceID>-1</ConnectedIfaceID>
         </NodeInterface>
-        <NodeInterface>
-          <Position>
-            <x>7</x>
-            <y>195</y>
-          </Position>
-          <ID>7</ID>
-          <Label />
-          <Type>Object</Type>
-          <Direction>Input</Direction>
-          <ConnectedNodeID>-1</ConnectedNodeID>
-          <ConnectedIfaceID>-1</ConnectedIfaceID>
-        </NodeInterface>
       </interfaces>
       <WindowRect>
         <x>540</x>
@@ -450,7 +438,7 @@
         </position>
         <center>
           <x>630</x>
-          <y>275</y>
+          <y>265</y>
         </center>
         <min>
           <x>540</x>
@@ -458,18 +446,18 @@
         </min>
         <max>
           <x>720</x>
-          <y>380</y>
+          <y>360</y>
         </max>
         <width>180</width>
-        <height>210</height>
+        <height>190</height>
         <size>
           <x>180</x>
-          <y>210</y>
+          <y>190</y>
         </size>
         <xMin>540</xMin>
         <yMin>170</yMin>
         <xMax>720</xMax>
-        <yMax>380</yMax>
+        <yMax>360</yMax>
       </WindowRect>
       <StalType>Stalactite</StalType>
       <GreenMothChance>0</GreenMothChance>
@@ -479,25 +467,19 @@
       <StalActionIndex>0</StalActionIndex>
       <SpawnDirection>FromTop</SpawnDirection>
       <SpawnDirectionIndex>0</SpawnDirectionIndex>
-      <NumStals>3</NumStals>
+      <NumStals>2</NumStals>
       <StalSpawns>
         <StalSpawnType>
           <delay>0</delay>
-          <xPosStart>-1.46545458</xPosStart>
-          <xPosEnd>1.23999977</xPosEnd>
+          <xPosStart>-5.29818153</xPosStart>
+          <xPosEnd>-0.5636363</xPosEnd>
           <inputID>5</inputID>
         </StalSpawnType>
         <StalSpawnType>
           <delay>0.2</delay>
-          <xPosStart>3.72000027</xPosStart>
-          <xPosEnd>6.2</xPosEnd>
+          <xPosStart>2.818182</xPosStart>
+          <xPosEnd>5.74909067</xPosEnd>
           <inputID>6</inputID>
-        </StalSpawnType>
-        <StalSpawnType>
-          <delay>0.4</delay>
-          <xPosStart>-6.2</xPosStart>
-          <xPosEnd>-4.39636326</xPosEnd>
-          <inputID>7</inputID>
         </StalSpawnType>
       </StalSpawns>
     </BaseNode>
@@ -577,18 +559,6 @@
           <ConnectedNodeID>-1</ConnectedNodeID>
           <ConnectedIfaceID>-1</ConnectedIfaceID>
         </NodeInterface>
-        <NodeInterface>
-          <Position>
-            <x>7</x>
-            <y>175</y>
-          </Position>
-          <ID>6</ID>
-          <Label />
-          <Type>Object</Type>
-          <Direction>Input</Direction>
-          <ConnectedNodeID>-1</ConnectedNodeID>
-          <ConnectedIfaceID>-1</ConnectedIfaceID>
-        </NodeInterface>
       </interfaces>
       <WindowRect>
         <x>780</x>
@@ -599,7 +569,7 @@
         </position>
         <center>
           <x>870</x>
-          <y>505</y>
+          <y>495</y>
         </center>
         <min>
           <x>780</x>
@@ -607,18 +577,18 @@
         </min>
         <max>
           <x>960</x>
-          <y>600</y>
+          <y>580</y>
         </max>
         <width>180</width>
-        <height>190</height>
+        <height>170</height>
         <size>
           <x>180</x>
-          <y>190</y>
+          <y>170</y>
         </size>
         <xMin>780</xMin>
         <yMin>410</yMin>
         <xMax>960</xMax>
-        <yMax>600</yMax>
+        <yMax>580</yMax>
       </WindowRect>
       <StalType>Stalactite</StalType>
       <GreenMothChance>0</GreenMothChance>
@@ -628,19 +598,13 @@
       <StalActionIndex>0</StalActionIndex>
       <SpawnDirection>FromTop</SpawnDirection>
       <SpawnDirectionIndex>0</SpawnDirectionIndex>
-      <NumStals>2</NumStals>
+      <NumStals>1</NumStals>
       <StalSpawns>
         <StalSpawnType>
           <delay>0.2</delay>
-          <xPosStart>-6.2</xPosStart>
-          <xPosEnd>-2.36727238</xPosEnd>
+          <xPosStart>-5.072727</xPosStart>
+          <xPosEnd>5.072727</xPosEnd>
           <inputID>5</inputID>
-        </StalSpawnType>
-        <StalSpawnType>
-          <delay>0.4</delay>
-          <xPosStart>1.91636336</xPosStart>
-          <xPosEnd>6.2</xPosEnd>
-          <inputID>6</inputID>
         </StalSpawnType>
       </StalSpawns>
     </BaseNode>
