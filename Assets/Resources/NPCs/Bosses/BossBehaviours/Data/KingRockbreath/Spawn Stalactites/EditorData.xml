@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <NodeDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <EditorOffset>
-    <x>-294</x>
-    <y>-308</y>
+    <x>-174</x>
+    <y>-117</y>
   </EditorOffset>
   <Nodes>
     <BaseNode xsi:type="StartNode">
@@ -131,23 +131,23 @@
         </NodeInterface>
       </interfaces>
       <WindowRect>
-        <x>540</x>
-        <y>410</y>
+        <x>570</x>
+        <y>310</y>
         <position>
-          <x>540</x>
-          <y>410</y>
+          <x>570</x>
+          <y>310</y>
         </position>
         <center>
-          <x>630</x>
-          <y>535</y>
+          <x>660</x>
+          <y>435</y>
         </center>
         <min>
-          <x>540</x>
-          <y>410</y>
+          <x>570</x>
+          <y>310</y>
         </min>
         <max>
-          <x>720</x>
-          <y>660</y>
+          <x>750</x>
+          <y>560</y>
         </max>
         <width>180</width>
         <height>250</height>
@@ -155,10 +155,10 @@
           <x>180</x>
           <y>250</y>
         </size>
-        <xMin>540</xMin>
-        <yMin>410</yMin>
-        <xMax>720</xMax>
-        <yMax>660</yMax>
+        <xMin>570</xMin>
+        <yMin>310</yMin>
+        <xMax>750</xMax>
+        <yMax>560</yMax>
       </WindowRect>
       <StalType>Crystal</StalType>
       <GreenMothChance>0.1</GreenMothChance>
@@ -430,23 +430,23 @@
         </NodeInterface>
       </interfaces>
       <WindowRect>
-        <x>540</x>
-        <y>170</y>
+        <x>570</x>
+        <y>100</y>
         <position>
-          <x>540</x>
-          <y>170</y>
+          <x>570</x>
+          <y>100</y>
         </position>
         <center>
-          <x>630</x>
-          <y>265</y>
+          <x>660</x>
+          <y>195</y>
         </center>
         <min>
-          <x>540</x>
-          <y>170</y>
+          <x>570</x>
+          <y>100</y>
         </min>
         <max>
-          <x>720</x>
-          <y>360</y>
+          <x>750</x>
+          <y>290</y>
         </max>
         <width>180</width>
         <height>190</height>
@@ -454,10 +454,10 @@
           <x>180</x>
           <y>190</y>
         </size>
-        <xMin>540</xMin>
-        <yMin>170</yMin>
-        <xMax>720</xMax>
-        <yMax>360</yMax>
+        <xMin>570</xMin>
+        <yMin>100</yMin>
+        <xMax>750</xMax>
+        <yMax>290</yMax>
       </WindowRect>
       <StalType>Stalactite</StalType>
       <GreenMothChance>0</GreenMothChance>
@@ -561,23 +561,23 @@
         </NodeInterface>
       </interfaces>
       <WindowRect>
-        <x>780</x>
-        <y>410</y>
+        <x>800</x>
+        <y>310</y>
         <position>
-          <x>780</x>
-          <y>410</y>
+          <x>800</x>
+          <y>310</y>
         </position>
         <center>
-          <x>870</x>
-          <y>495</y>
+          <x>890</x>
+          <y>395</y>
         </center>
         <min>
-          <x>780</x>
-          <y>410</y>
+          <x>800</x>
+          <y>310</y>
         </min>
         <max>
-          <x>960</x>
-          <y>580</y>
+          <x>980</x>
+          <y>480</y>
         </max>
         <width>180</width>
         <height>170</height>
@@ -585,10 +585,10 @@
           <x>180</x>
           <y>170</y>
         </size>
-        <xMin>780</xMin>
-        <yMin>410</yMin>
-        <xMax>960</xMax>
-        <yMax>580</yMax>
+        <xMin>800</xMin>
+        <yMin>310</yMin>
+        <xMax>980</xMax>
+        <yMax>480</yMax>
       </WindowRect>
       <StalType>Stalactite</StalType>
       <GreenMothChance>0</GreenMothChance>
