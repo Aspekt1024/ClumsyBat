@@ -8,7 +8,6 @@ public class StalDropComponent : MonoBehaviour {
     private Stalactite stal;
     private StalAnimationHandler anim;
     private Rigidbody2D stalBody;
-    private Transform playerTf;
     private PlayerController playerControl;
 
     [HideInInspector]
@@ -38,13 +37,13 @@ public class StalDropComponent : MonoBehaviour {
     {
         if (!stal.DropEnabled || !stal.IsActive || isPaused || _state == DropStates.Falling || !playerControl.ThePlayer.IsAlive()) return;
         
-        if (playerTf.transform.position.x > transform.position.x - stal.TriggerPosX)
+        if (Toolbox.Player.transform.position.x > transform.position.x - stal.TriggerPosX)
         {
             Drop();
         }
         else
         {
-            if (playerTf.transform.position.x > transform.position.x - stal.TriggerPosX - shakeThresholdX && _state == DropStates.None)
+            if (Toolbox.Player.transform.position.x > transform.position.x - stal.TriggerPosX - shakeThresholdX && _state == DropStates.None)
             {
                 StartCoroutine("Shake");
             }

@@ -69,10 +69,10 @@ public abstract class BaseAction
     public virtual Vector2 GetPosition(int id) { return Vector2.zero; }
     public virtual float GetFloat(int id) { return 0f; }
 
-    public virtual void GameSetup(BehaviourSet behaviourSet, BossData bossData, GameObject bossReference)
+    public virtual void GameSetup(BehaviourSet bSet, BossData bData, GameObject bossReference)
     {
-        this.behaviourSet = behaviourSet;
-        this.bossData = bossData;
+        behaviourSet = bSet;
+        bossData = bData;
         boss = bossReference;
     }
 
