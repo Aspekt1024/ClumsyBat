@@ -31,7 +31,7 @@ public class StalAnimationHandler : MonoBehaviour
 
     void Update()
     {
-        if (!_stal.IsActive || _stal.IsBroken()) { return; }
+        if (!_stal.IsActive || _stal.IsBroken() || _anim == null) { return; }
         if (_anim.GetCurrentAnimatorStateInfo(0).IsName("Crack") && _anim.enabled)
         {
             _normCrackTime = _anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
@@ -52,9 +52,11 @@ public class StalAnimationHandler : MonoBehaviour
 
     public void NewStalactite()
     {
+        _behaviour = StalBehaviour.Normal;
+        if (_anim == null) return;
+
         _anim.enabled = true;
         _anim.Play("Static", 0, 0f);
-        _behaviour = StalBehaviour.Normal;
     }
 
     public bool IsUncracked()
@@ -71,6 +73,7 @@ public class StalAnimationHandler : MonoBehaviour
 
     public void CrackAndFall()
     {
+        if (_anim == null) return;
         _anim.enabled = true;
         _behaviour = StalBehaviour.Cracking;
         _anim.Play("Crack", 0, _normCrackTime);
@@ -88,6 +91,7 @@ public class StalAnimationHandler : MonoBehaviour
 
     public void Explode()
     {
+        if (_anim == null) return;
         _anim.enabled = true;
         _behaviour = StalBehaviour.Exploding;
         float normCrumbleTime = 0f;
@@ -109,6 +113,7 @@ public class StalAnimationHandler : MonoBehaviour
 
     public void PauseAnimation(bool paused)
     {
+        if (_anim == null) return;
         _anim.speed = (paused ? 0f : 1f);
     }
 }

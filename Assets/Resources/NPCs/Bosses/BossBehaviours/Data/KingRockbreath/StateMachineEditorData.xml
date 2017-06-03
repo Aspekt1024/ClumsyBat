@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <NodeDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <EditorOffset>
-    <x>-77</x>
-    <y>-45</y>
+    <x>-234</x>
+    <y>-213</y>
   </EditorOffset>
   <Nodes>
     <BaseNode xsi:type="StartNode">
@@ -75,7 +75,7 @@
             <y>35</y>
           </Position>
           <ID>1</ID>
-          <Label>Proximity</Label>
+          <Label>Near player</Label>
           <Type>Event</Type>
           <Direction>Output</Direction>
           <ConnectedNodeID>2</ConnectedNodeID>
@@ -87,7 +87,7 @@
             <y>55</y>
           </Position>
           <ID>2</ID>
-          <Label>Horiz</Label>
+          <Label>horiz</Label>
           <Type>Event</Type>
           <Direction>Output</Direction>
           <ConnectedNodeID>3</ConnectedNodeID>
@@ -99,7 +99,7 @@
             <y>75</y>
           </Position>
           <ID>3</ID>
-          <Label>Not close</Label>
+          <Label>too far</Label>
           <Type>Event</Type>
           <Direction>Output</Direction>
           <ConnectedNodeID>6</ConnectedNodeID>
@@ -168,23 +168,23 @@
         </NodeInterface>
       </interfaces>
       <WindowRect>
-        <x>460</x>
-        <y>260</y>
+        <x>480</x>
+        <y>310</y>
         <position>
-          <x>460</x>
-          <y>260</y>
+          <x>480</x>
+          <y>310</y>
         </position>
         <center>
-          <x>535</x>
-          <y>285</y>
+          <x>555</x>
+          <y>335</y>
         </center>
         <min>
-          <x>460</x>
-          <y>260</y>
+          <x>480</x>
+          <y>310</y>
         </min>
         <max>
-          <x>610</x>
-          <y>310</y>
+          <x>630</x>
+          <y>360</y>
         </max>
         <width>150</width>
         <height>50</height>
@@ -192,10 +192,10 @@
           <x>150</x>
           <y>50</y>
         </size>
-        <xMin>460</xMin>
-        <yMin>260</yMin>
-        <xMax>610</xMax>
-        <yMax>310</yMax>
+        <xMin>480</xMin>
+        <yMin>310</yMin>
+        <xMax>630</xMax>
+        <yMax>360</yMax>
       </WindowRect>
       <StateName>Jump a lot</StateName>
     </BaseNode>
@@ -241,33 +241,33 @@
         </NodeInterface>
       </interfaces>
       <WindowRect>
-        <x>460</x>
-        <y>500</y>
+        <x>480</x>
+        <y>480</y>
         <position>
-          <x>460</x>
-          <y>500</y>
+          <x>480</x>
+          <y>480</y>
         </position>
         <center>
-          <x>535</x>
-          <y>525</y>
+          <x>555</x>
+          <y>515</y>
         </center>
         <min>
-          <x>460</x>
-          <y>500</y>
+          <x>480</x>
+          <y>480</y>
         </min>
         <max>
-          <x>610</x>
+          <x>630</x>
           <y>550</y>
         </max>
         <width>150</width>
-        <height>50</height>
+        <height>70</height>
         <size>
           <x>150</x>
-          <y>50</y>
+          <y>70</y>
         </size>
-        <xMin>460</xMin>
-        <yMin>500</yMin>
-        <xMax>610</xMax>
+        <xMin>480</xMin>
+        <yMin>480</yMin>
+        <xMax>630</xMax>
         <yMax>550</yMax>
       </WindowRect>
       <StateName>Charge player</StateName>
@@ -290,23 +290,23 @@
         </NodeInterface>
       </interfaces>
       <WindowRect>
-        <x>660</x>
-        <y>520</y>
+        <x>670</x>
+        <y>500</y>
         <position>
-          <x>660</x>
-          <y>520</y>
+          <x>670</x>
+          <y>500</y>
         </position>
         <center>
-          <x>735</x>
-          <y>545</y>
+          <x>745</x>
+          <y>525</y>
         </center>
         <min>
-          <x>660</x>
-          <y>520</y>
+          <x>670</x>
+          <y>500</y>
         </min>
         <max>
-          <x>810</x>
-          <y>570</y>
+          <x>820</x>
+          <y>550</y>
         </max>
         <width>150</width>
         <height>50</height>
@@ -314,10 +314,10 @@
           <x>150</x>
           <y>50</y>
         </size>
-        <xMin>660</xMin>
-        <yMin>520</yMin>
-        <xMax>810</xMax>
-        <yMax>570</yMax>
+        <xMin>670</xMin>
+        <yMin>500</yMin>
+        <xMax>820</xMax>
+        <yMax>550</yMax>
       </WindowRect>
       <StateName>Spawn Stalactites</StateName>
     </BaseNode>
@@ -339,22 +339,22 @@
         </NodeInterface>
       </interfaces>
       <WindowRect>
-        <x>820</x>
+        <x>810</x>
         <y>380</y>
         <position>
-          <x>820</x>
+          <x>810</x>
           <y>380</y>
         </position>
         <center>
-          <x>880</x>
+          <x>870</x>
           <y>405</y>
         </center>
         <min>
-          <x>820</x>
+          <x>810</x>
           <y>380</y>
         </min>
         <max>
-          <x>940</x>
+          <x>930</x>
           <y>430</y>
         </max>
         <width>120</width>
@@ -363,9 +363,9 @@
           <x>120</x>
           <y>50</y>
         </size>
-        <xMin>820</xMin>
+        <xMin>810</xMin>
         <yMin>380</yMin>
-        <xMax>940</xMax>
+        <xMax>930</xMax>
         <yMax>430</yMax>
       </WindowRect>
     </BaseNode>
@@ -423,22 +423,22 @@
         </NodeInterface>
       </interfaces>
       <WindowRect>
-        <x>680</x>
+        <x>670</x>
         <y>380</y>
         <position>
-          <x>680</x>
+          <x>670</x>
           <y>380</y>
         </position>
         <center>
-          <x>730</x>
+          <x>720</x>
           <y>425</y>
         </center>
         <min>
-          <x>680</x>
+          <x>670</x>
           <y>380</y>
         </min>
         <max>
-          <x>780</x>
+          <x>770</x>
           <y>470</y>
         </max>
         <width>100</width>
@@ -447,20 +447,20 @@
           <x>100</x>
           <y>90</y>
         </size>
-        <xMin>680</xMin>
+        <xMin>670</xMin>
         <yMin>380</yMin>
-        <xMax>780</xMax>
+        <xMax>770</xMax>
         <yMax>470</yMax>
       </WindowRect>
       <NumInputs>3</NumInputs>
     </BaseNode>
     <BaseNode xsi:type="DamageNode">
-      <WindowTitle>Damaged</WindowTitle>
+      <WindowTitle>Take Damage</WindowTitle>
       <ID>7</ID>
       <interfaces>
         <NodeInterface>
           <Position>
-            <x>193</x>
+            <x>103</x>
             <y>35</y>
           </Position>
           <ID>0</ID>
@@ -491,29 +491,29 @@
           <y>90</y>
         </position>
         <center>
-          <x>320</x>
-          <y>125</y>
+          <x>275</x>
+          <y>120</y>
         </center>
         <min>
           <x>220</x>
           <y>90</y>
         </min>
         <max>
-          <x>420</x>
-          <y>160</y>
+          <x>330</x>
+          <y>150</y>
         </max>
-        <width>200</width>
-        <height>70</height>
+        <width>110</width>
+        <height>60</height>
         <size>
-          <x>200</x>
-          <y>70</y>
+          <x>110</x>
+          <y>60</y>
         </size>
         <xMin>220</xMin>
         <yMin>90</yMin>
-        <xMax>420</xMax>
-        <yMax>160</yMax>
+        <xMax>330</xMax>
+        <yMax>150</yMax>
       </WindowRect>
-      <DamageType>Hypersonic</DamageType>
+      <Damage>1</Damage>
     </BaseNode>
     <BaseNode xsi:type="StateNode">
       <WindowTitle>TakeDamage</WindowTitle>

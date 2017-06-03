@@ -152,7 +152,7 @@
           <OtherConnID>-1</OtherConnID>
         </ActionConnection>
       </connections>
-      <DamageType>Hypersonic</DamageType>
+      <Damage>1</Damage>
     </BaseAction>
     <BaseAction xsi:type="StateAction">
       <ID>8</ID>
