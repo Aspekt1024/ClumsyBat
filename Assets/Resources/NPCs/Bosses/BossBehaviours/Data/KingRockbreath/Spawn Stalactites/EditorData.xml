@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <NodeDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <EditorOffset>
-    <x>-118</x>
-    <y>-88</y>
+    <x>-437</x>
+    <y>-314</y>
   </EditorOffset>
   <Nodes>
     <BaseNode xsi:type="StartNode">
@@ -18,28 +18,28 @@
           <Label />
           <Type>Event</Type>
           <Direction>Output</Direction>
-          <ConnectedNodeID>2</ConnectedNodeID>
+          <ConnectedNodeID>3</ConnectedNodeID>
           <ConnectedIfaceID>0</ConnectedIfaceID>
         </NodeInterface>
       </interfaces>
       <WindowRect>
-        <x>250</x>
-        <y>250</y>
+        <x>200</x>
+        <y>240</y>
         <position>
-          <x>250</x>
-          <y>250</y>
+          <x>200</x>
+          <y>240</y>
         </position>
         <center>
-          <x>290</x>
-          <y>275</y>
+          <x>240</x>
+          <y>265</y>
         </center>
         <min>
-          <x>250</x>
-          <y>250</y>
+          <x>200</x>
+          <y>240</y>
         </min>
         <max>
-          <x>330</x>
-          <y>300</y>
+          <x>280</x>
+          <y>290</y>
         </max>
         <width>80</width>
         <height>50</height>
@@ -47,63 +47,190 @@
           <x>80</x>
           <y>50</y>
         </size>
-        <xMin>250</xMin>
-        <yMin>250</yMin>
-        <xMax>330</xMax>
-        <yMax>300</yMax>
-      </WindowRect>
-    </BaseNode>
-    <BaseNode xsi:type="PlayerNode">
-      <WindowTitle>Player</WindowTitle>
-      <ID>1</ID>
-      <interfaces>
-        <NodeInterface>
-          <Position>
-            <x>73</x>
-            <y>35</y>
-          </Position>
-          <ID>0</ID>
-          <Label>Object</Label>
-          <Type>Object</Type>
-          <Direction>Output</Direction>
-          <ConnectedNodeID>2</ConnectedNodeID>
-          <ConnectedIfaceID>5</ConnectedIfaceID>
-        </NodeInterface>
-      </interfaces>
-      <WindowRect>
-        <x>250</x>
-        <y>450</y>
-        <position>
-          <x>250</x>
-          <y>450</y>
-        </position>
-        <center>
-          <x>290</x>
-          <y>475</y>
-        </center>
-        <min>
-          <x>250</x>
-          <y>450</y>
-        </min>
-        <max>
-          <x>330</x>
-          <y>500</y>
-        </max>
-        <width>80</width>
-        <height>50</height>
-        <size>
-          <x>80</x>
-          <y>50</y>
-        </size>
-        <xMin>250</xMin>
-        <yMin>450</yMin>
-        <xMax>330</xMax>
-        <yMax>500</yMax>
+        <xMin>200</xMin>
+        <yMin>240</yMin>
+        <xMax>280</xMax>
+        <yMax>290</yMax>
       </WindowRect>
     </BaseNode>
     <BaseNode xsi:type="SpawnStalNode">
       <WindowTitle>Crystals</WindowTitle>
+      <ID>1</ID>
+      <interfaces>
+        <NodeInterface>
+          <Position>
+            <x>7</x>
+            <y>35</y>
+          </Position>
+          <ID>0</ID>
+          <Label />
+          <Type>Event</Type>
+          <Direction>Input</Direction>
+          <ConnectedNodeID>3</ConnectedNodeID>
+          <ConnectedIfaceID>5</ConnectedIfaceID>
+        </NodeInterface>
+        <NodeInterface>
+          <Position>
+            <x>173</x>
+            <y>35</y>
+          </Position>
+          <ID>1</ID>
+          <Label />
+          <Type>Event</Type>
+          <Direction>Output</Direction>
+          <ConnectedNodeID>5</ConnectedNodeID>
+          <ConnectedIfaceID>0</ConnectedIfaceID>
+        </NodeInterface>
+        <NodeInterface>
+          <Position>
+            <x>7</x>
+            <y>75</y>
+          </Position>
+          <ID>2</ID>
+          <Label />
+          <Type>Event</Type>
+          <Direction>Input</Direction>
+          <ConnectedNodeID>-1</ConnectedNodeID>
+          <ConnectedIfaceID>-1</ConnectedIfaceID>
+        </NodeInterface>
+        <NodeInterface>
+          <Position>
+            <x>7</x>
+            <y>95</y>
+          </Position>
+          <ID>3</ID>
+          <Label />
+          <Type>Event</Type>
+          <Direction>Input</Direction>
+          <ConnectedNodeID>-1</ConnectedNodeID>
+          <ConnectedIfaceID>-1</ConnectedIfaceID>
+        </NodeInterface>
+        <NodeInterface>
+          <Position>
+            <x>7</x>
+            <y>115</y>
+          </Position>
+          <ID>4</ID>
+          <Label />
+          <Type>Event</Type>
+          <Direction>Input</Direction>
+          <ConnectedNodeID>-1</ConnectedNodeID>
+          <ConnectedIfaceID>-1</ConnectedIfaceID>
+        </NodeInterface>
+        <NodeInterface>
+          <Position>
+            <x>7</x>
+            <y>235</y>
+          </Position>
+          <ID>5</ID>
+          <Label />
+          <Type>Object</Type>
+          <Direction>Input</Direction>
+          <ConnectedNodeID>-1</ConnectedNodeID>
+          <ConnectedIfaceID>-1</ConnectedIfaceID>
+        </NodeInterface>
+      </interfaces>
+      <WindowRect>
+        <x>540</x>
+        <y>410</y>
+        <position>
+          <x>540</x>
+          <y>410</y>
+        </position>
+        <center>
+          <x>630</x>
+          <y>535</y>
+        </center>
+        <min>
+          <x>540</x>
+          <y>410</y>
+        </min>
+        <max>
+          <x>720</x>
+          <y>660</y>
+        </max>
+        <width>180</width>
+        <height>250</height>
+        <size>
+          <x>180</x>
+          <y>250</y>
+        </size>
+        <xMin>540</xMin>
+        <yMin>410</yMin>
+        <xMax>720</xMax>
+        <yMax>660</yMax>
+      </WindowRect>
+      <StalType>Crystal</StalType>
+      <GreenMothChance>0.3</GreenMothChance>
+      <BlueMothChance>0</BlueMothChance>
+      <GoldMothChance>0.7</GoldMothChance>
+      <StalAction>Spawn</StalAction>
+      <StalActionIndex>0</StalActionIndex>
+      <SpawnDirection>FromTop</SpawnDirection>
+      <SpawnDirectionIndex>0</SpawnDirectionIndex>
+      <NumStals>1</NumStals>
+      <StalSpawns>
+        <StalSpawnType>
+          <delay>0</delay>
+          <xPosStart>-3.60727262</xPosStart>
+          <xPosEnd>3.83272743</xPosEnd>
+          <inputID>5</inputID>
+        </StalSpawnType>
+      </StalSpawns>
+    </BaseNode>
+    <BaseNode xsi:type="RandomNode">
+      <WindowTitle>Random</WindowTitle>
       <ID>2</ID>
+      <interfaces>
+        <NodeInterface>
+          <Position>
+            <x>93</x>
+            <y>35</y>
+          </Position>
+          <ID>0</ID>
+          <Label />
+          <Type>Object</Type>
+          <Direction>Output</Direction>
+          <ConnectedNodeID>3</ConnectedNodeID>
+          <ConnectedIfaceID>1</ConnectedIfaceID>
+        </NodeInterface>
+      </interfaces>
+      <WindowRect>
+        <x>200</x>
+        <y>320</y>
+        <position>
+          <x>200</x>
+          <y>320</y>
+        </position>
+        <center>
+          <x>250</x>
+          <y>360</y>
+        </center>
+        <min>
+          <x>200</x>
+          <y>320</y>
+        </min>
+        <max>
+          <x>300</x>
+          <y>400</y>
+        </max>
+        <width>100</width>
+        <height>80</height>
+        <size>
+          <x>100</x>
+          <y>80</y>
+        </size>
+        <xMin>200</xMin>
+        <yMin>320</yMin>
+        <xMax>300</xMax>
+        <yMax>400</yMax>
+      </WindowRect>
+      <MinValue>0</MinValue>
+      <MaxValue>1</MaxValue>
+    </BaseNode>
+    <BaseNode xsi:type="CompareNode">
+      <WindowTitle>Comparison</WindowTitle>
+      <ID>3</ID>
       <interfaces>
         <NodeInterface>
           <Position>
@@ -116,6 +243,118 @@
           <Direction>Input</Direction>
           <ConnectedNodeID>0</ConnectedNodeID>
           <ConnectedIfaceID>0</ConnectedIfaceID>
+        </NodeInterface>
+        <NodeInterface>
+          <Position>
+            <x>7</x>
+            <y>75</y>
+          </Position>
+          <ID>1</ID>
+          <Label />
+          <Type>Object</Type>
+          <Direction>Input</Direction>
+          <ConnectedNodeID>2</ConnectedNodeID>
+          <ConnectedIfaceID>0</ConnectedIfaceID>
+        </NodeInterface>
+        <NodeInterface>
+          <Position>
+            <x>7</x>
+            <y>95</y>
+          </Position>
+          <ID>2</ID>
+          <Label />
+          <Type>Object</Type>
+          <Direction>Input</Direction>
+          <ConnectedNodeID>-1</ConnectedNodeID>
+          <ConnectedIfaceID>-1</ConnectedIfaceID>
+        </NodeInterface>
+        <NodeInterface>
+          <Position>
+            <x>7</x>
+            <y>115</y>
+          </Position>
+          <ID>3</ID>
+          <Label />
+          <Type>Object</Type>
+          <Direction>Input</Direction>
+          <ConnectedNodeID>-1</ConnectedNodeID>
+          <ConnectedIfaceID>-1</ConnectedIfaceID>
+        </NodeInterface>
+        <NodeInterface>
+          <Position>
+            <x>113</x>
+            <y>75</y>
+          </Position>
+          <ID>4</ID>
+          <Label>True</Label>
+          <Type>Event</Type>
+          <Direction>Output</Direction>
+          <ConnectedNodeID>4</ConnectedNodeID>
+          <ConnectedIfaceID>0</ConnectedIfaceID>
+        </NodeInterface>
+        <NodeInterface>
+          <Position>
+            <x>113</x>
+            <y>95</y>
+          </Position>
+          <ID>5</ID>
+          <Label>False</Label>
+          <Type>Event</Type>
+          <Direction>Output</Direction>
+          <ConnectedNodeID>1</ConnectedNodeID>
+          <ConnectedIfaceID>0</ConnectedIfaceID>
+        </NodeInterface>
+      </interfaces>
+      <WindowRect>
+        <x>360</x>
+        <y>250</y>
+        <position>
+          <x>360</x>
+          <y>250</y>
+        </position>
+        <center>
+          <x>420</x>
+          <y>305</y>
+        </center>
+        <min>
+          <x>360</x>
+          <y>250</y>
+        </min>
+        <max>
+          <x>480</x>
+          <y>360</y>
+        </max>
+        <width>120</width>
+        <height>110</height>
+        <size>
+          <x>120</x>
+          <y>110</y>
+        </size>
+        <xMin>360</xMin>
+        <yMin>250</yMin>
+        <xMax>480</xMax>
+        <yMax>360</yMax>
+      </WindowRect>
+      <Operation>Greater</Operation>
+      <Input1>0</Input1>
+      <Input2>0.3</Input2>
+      <Input3>0</Input3>
+    </BaseNode>
+    <BaseNode xsi:type="SpawnStalNode">
+      <WindowTitle>Stalactites</WindowTitle>
+      <ID>4</ID>
+      <interfaces>
+        <NodeInterface>
+          <Position>
+            <x>7</x>
+            <y>35</y>
+          </Position>
+          <ID>0</ID>
+          <Label />
+          <Type>Event</Type>
+          <Direction>Input</Direction>
+          <ConnectedNodeID>3</ConnectedNodeID>
+          <ConnectedIfaceID>4</ConnectedIfaceID>
         </NodeInterface>
         <NodeInterface>
           <Position>
@@ -168,61 +407,240 @@
         <NodeInterface>
           <Position>
             <x>7</x>
-            <y>235</y>
+            <y>155</y>
           </Position>
           <ID>5</ID>
           <Label />
           <Type>Object</Type>
           <Direction>Input</Direction>
-          <ConnectedNodeID>1</ConnectedNodeID>
-          <ConnectedIfaceID>0</ConnectedIfaceID>
+          <ConnectedNodeID>-1</ConnectedNodeID>
+          <ConnectedIfaceID>-1</ConnectedIfaceID>
+        </NodeInterface>
+        <NodeInterface>
+          <Position>
+            <x>7</x>
+            <y>175</y>
+          </Position>
+          <ID>6</ID>
+          <Label />
+          <Type>Object</Type>
+          <Direction>Input</Direction>
+          <ConnectedNodeID>-1</ConnectedNodeID>
+          <ConnectedIfaceID>-1</ConnectedIfaceID>
+        </NodeInterface>
+        <NodeInterface>
+          <Position>
+            <x>7</x>
+            <y>195</y>
+          </Position>
+          <ID>7</ID>
+          <Label />
+          <Type>Object</Type>
+          <Direction>Input</Direction>
+          <ConnectedNodeID>-1</ConnectedNodeID>
+          <ConnectedIfaceID>-1</ConnectedIfaceID>
         </NodeInterface>
       </interfaces>
       <WindowRect>
-        <x>410</x>
-        <y>290</y>
+        <x>540</x>
+        <y>170</y>
         <position>
-          <x>410</x>
-          <y>290</y>
+          <x>540</x>
+          <y>170</y>
         </position>
         <center>
-          <x>500</x>
-          <y>415</y>
+          <x>630</x>
+          <y>275</y>
         </center>
         <min>
-          <x>410</x>
-          <y>290</y>
+          <x>540</x>
+          <y>170</y>
         </min>
         <max>
-          <x>590</x>
-          <y>540</y>
+          <x>720</x>
+          <y>380</y>
         </max>
         <width>180</width>
-        <height>250</height>
+        <height>210</height>
         <size>
           <x>180</x>
-          <y>250</y>
+          <y>210</y>
         </size>
-        <xMin>410</xMin>
-        <yMin>290</yMin>
-        <xMax>590</xMax>
-        <yMax>540</yMax>
+        <xMin>540</xMin>
+        <yMin>170</yMin>
+        <xMax>720</xMax>
+        <yMax>380</yMax>
       </WindowRect>
-      <StalType>Crystal</StalType>
-      <GreenMothChance>0.3</GreenMothChance>
+      <StalType>Stalactite</StalType>
+      <GreenMothChance>0</GreenMothChance>
       <BlueMothChance>0</BlueMothChance>
-      <GoldMothChance>0.7</GoldMothChance>
+      <GoldMothChance>0</GoldMothChance>
       <StalAction>Spawn</StalAction>
       <StalActionIndex>0</StalActionIndex>
       <SpawnDirection>FromTop</SpawnDirection>
       <SpawnDirectionIndex>0</SpawnDirectionIndex>
-      <NumStals>1</NumStals>
+      <NumStals>3</NumStals>
       <StalSpawns>
         <StalSpawnType>
           <delay>0</delay>
-          <xPosStart>0</xPosStart>
-          <xPosEnd>0</xPosEnd>
+          <xPosStart>-1.46545458</xPosStart>
+          <xPosEnd>1.23999977</xPosEnd>
           <inputID>5</inputID>
+        </StalSpawnType>
+        <StalSpawnType>
+          <delay>0.2</delay>
+          <xPosStart>3.72000027</xPosStart>
+          <xPosEnd>6.2</xPosEnd>
+          <inputID>6</inputID>
+        </StalSpawnType>
+        <StalSpawnType>
+          <delay>0.4</delay>
+          <xPosStart>-6.2</xPosStart>
+          <xPosEnd>-4.39636326</xPosEnd>
+          <inputID>7</inputID>
+        </StalSpawnType>
+      </StalSpawns>
+    </BaseNode>
+    <BaseNode xsi:type="SpawnStalNode">
+      <WindowTitle>Stalactites</WindowTitle>
+      <ID>5</ID>
+      <interfaces>
+        <NodeInterface>
+          <Position>
+            <x>7</x>
+            <y>35</y>
+          </Position>
+          <ID>0</ID>
+          <Label />
+          <Type>Event</Type>
+          <Direction>Input</Direction>
+          <ConnectedNodeID>1</ConnectedNodeID>
+          <ConnectedIfaceID>1</ConnectedIfaceID>
+        </NodeInterface>
+        <NodeInterface>
+          <Position>
+            <x>173</x>
+            <y>35</y>
+          </Position>
+          <ID>1</ID>
+          <Label />
+          <Type>Event</Type>
+          <Direction>Output</Direction>
+          <ConnectedNodeID>-1</ConnectedNodeID>
+          <ConnectedIfaceID>-1</ConnectedIfaceID>
+        </NodeInterface>
+        <NodeInterface>
+          <Position>
+            <x>7</x>
+            <y>75</y>
+          </Position>
+          <ID>2</ID>
+          <Label />
+          <Type>Event</Type>
+          <Direction>Input</Direction>
+          <ConnectedNodeID>-1</ConnectedNodeID>
+          <ConnectedIfaceID>-1</ConnectedIfaceID>
+        </NodeInterface>
+        <NodeInterface>
+          <Position>
+            <x>7</x>
+            <y>95</y>
+          </Position>
+          <ID>3</ID>
+          <Label />
+          <Type>Event</Type>
+          <Direction>Input</Direction>
+          <ConnectedNodeID>-1</ConnectedNodeID>
+          <ConnectedIfaceID>-1</ConnectedIfaceID>
+        </NodeInterface>
+        <NodeInterface>
+          <Position>
+            <x>7</x>
+            <y>115</y>
+          </Position>
+          <ID>4</ID>
+          <Label />
+          <Type>Event</Type>
+          <Direction>Input</Direction>
+          <ConnectedNodeID>-1</ConnectedNodeID>
+          <ConnectedIfaceID>-1</ConnectedIfaceID>
+        </NodeInterface>
+        <NodeInterface>
+          <Position>
+            <x>7</x>
+            <y>155</y>
+          </Position>
+          <ID>5</ID>
+          <Label />
+          <Type>Object</Type>
+          <Direction>Input</Direction>
+          <ConnectedNodeID>-1</ConnectedNodeID>
+          <ConnectedIfaceID>-1</ConnectedIfaceID>
+        </NodeInterface>
+        <NodeInterface>
+          <Position>
+            <x>7</x>
+            <y>175</y>
+          </Position>
+          <ID>6</ID>
+          <Label />
+          <Type>Object</Type>
+          <Direction>Input</Direction>
+          <ConnectedNodeID>-1</ConnectedNodeID>
+          <ConnectedIfaceID>-1</ConnectedIfaceID>
+        </NodeInterface>
+      </interfaces>
+      <WindowRect>
+        <x>780</x>
+        <y>410</y>
+        <position>
+          <x>780</x>
+          <y>410</y>
+        </position>
+        <center>
+          <x>870</x>
+          <y>505</y>
+        </center>
+        <min>
+          <x>780</x>
+          <y>410</y>
+        </min>
+        <max>
+          <x>960</x>
+          <y>600</y>
+        </max>
+        <width>180</width>
+        <height>190</height>
+        <size>
+          <x>180</x>
+          <y>190</y>
+        </size>
+        <xMin>780</xMin>
+        <yMin>410</yMin>
+        <xMax>960</xMax>
+        <yMax>600</yMax>
+      </WindowRect>
+      <StalType>Stalactite</StalType>
+      <GreenMothChance>0</GreenMothChance>
+      <BlueMothChance>0</BlueMothChance>
+      <GoldMothChance>0</GoldMothChance>
+      <StalAction>Spawn</StalAction>
+      <StalActionIndex>0</StalActionIndex>
+      <SpawnDirection>FromTop</SpawnDirection>
+      <SpawnDirectionIndex>0</SpawnDirectionIndex>
+      <NumStals>2</NumStals>
+      <StalSpawns>
+        <StalSpawnType>
+          <delay>0.2</delay>
+          <xPosStart>-6.2</xPosStart>
+          <xPosEnd>-2.36727238</xPosEnd>
+          <inputID>5</inputID>
+        </StalSpawnType>
+        <StalSpawnType>
+          <delay>0.4</delay>
+          <xPosStart>1.91636336</xPosStart>
+          <xPosEnd>6.2</xPosEnd>
+          <inputID>6</inputID>
         </StalSpawnType>
       </StalSpawns>
     </BaseNode>

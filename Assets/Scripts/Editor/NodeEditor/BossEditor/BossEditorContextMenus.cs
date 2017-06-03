@@ -29,6 +29,7 @@ public class BossEditorContextMenus : BaseContextMenus {
         menu.AddItem(new GUIContent("Add Loop"), false, ContextCallback, typeof(LoopNode));
         menu.AddItem(new GUIContent("Operator/Multiple Out"), false, ContextCallback, typeof(MultipleOutNode));
         menu.AddItem(new GUIContent("Operator/Multiple In"), false, ContextCallback, typeof(MultipleInNode));
+        menu.AddItem(new GUIContent("Operator/Alternating Output"), false, ContextCallback, typeof(AlternatingNode));
 
         menu.AddSeparator("");
         if (editor.StartExists())
@@ -58,6 +59,7 @@ public class BossEditorContextMenus : BaseContextMenus {
         menu.AddItem(new GUIContent("Operator/Multiple In"), false, ContextCallback, typeof(MultipleInNode));
         menu.AddItem(new GUIContent("Operator/Comparison"), false, ContextCallback, typeof(CompareNode));
         menu.AddItem(new GUIContent("Operator/Position"), false, ContextCallback, typeof(PositionNode));
+        menu.AddItem(new GUIContent("Operator/Random Float"), false, ContextCallback, typeof(RandomNode));
 
         menu.AddSeparator("");
 

@@ -60,6 +60,11 @@ public class StalDropComponent : MonoBehaviour {
         }
     }
 
+    public void SetAnim(StalAnimationHandler animRef)
+    {
+        anim = animRef;
+    }
+
     public void NewStalactite()
     {
         _state = DropStates.None;
@@ -79,11 +84,15 @@ public class StalDropComponent : MonoBehaviour {
     
     private IEnumerator DropSequence()
     {
-        anim.CrackAndFall();
-        while (!anim.ReadyToFall() || isPaused)
+        if (anim != null)
         {
-            yield return null;
+            anim.CrackAndFall();
+            while (!anim.ReadyToFall() || isPaused)
+            {
+                yield return null;
+            }
         }
+
         float fallTime = 0f;
         float startingYPos = stalBody.transform.position.y;
         while (fallTime < FallDuration)
@@ -151,7 +160,6 @@ public class StalDropComponent : MonoBehaviour {
         
         TriggerSprite = GetComponent<SpriteRenderer>();
         stal = GetComponent<Stalactite>();
-        anim =GetComponent<StalAnimationHandler>();
         stalBody = transform.GetComponent<Rigidbody2D>();
     }
 }

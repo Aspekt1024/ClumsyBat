@@ -17,9 +17,9 @@ public abstract class Spawnable : MonoBehaviour {
     
     public virtual void SendToInactivePool()
     {
+        IsActive = false;
         ResetObjectState();
         transform.position = Toolbox.Instance.HoldingArea;
-        IsActive = false;
     }
 
     protected virtual void ResetObjectState()

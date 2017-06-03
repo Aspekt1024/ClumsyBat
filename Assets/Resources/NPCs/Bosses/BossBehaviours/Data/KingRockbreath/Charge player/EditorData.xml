@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <NodeDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <EditorOffset>
-    <x>66</x>
-    <y>-69</y>
+    <x>7</x>
+    <y>-131</y>
   </EditorOffset>
   <Nodes>
     <BaseNode xsi:type="StartNode">
@@ -200,7 +200,7 @@
       </WindowRect>
     </BaseNode>
     <BaseNode xsi:type="StateEventNode">
-      <WindowTitle>Recovered</WindowTitle>
+      <WindowTitle>Success</WindowTitle>
       <ID>3</ID>
       <interfaces>
         <NodeInterface>

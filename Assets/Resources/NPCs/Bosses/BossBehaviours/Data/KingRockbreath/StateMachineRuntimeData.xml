@@ -78,7 +78,7 @@
         <ActionConnection>
           <ID>2</ID>
           <Direction>Output</Direction>
-          <OtherActionID>4</OtherActionID>
+          <OtherActionID>9</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
@@ -90,8 +90,8 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>3</OtherActionID>
-          <OtherConnID>2</OtherConnID>
+          <OtherActionID>9</OtherActionID>
+          <OtherConnID>1</OtherConnID>
         </ActionConnection>
       </connections>
       <StateName>Spawn Stalactites</StateName>
@@ -141,8 +141,20 @@
       <connections>
         <ActionConnection>
           <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>11</OtherActionID>
+          <OtherConnID>2</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <Damage>1</Damage>
+    </BaseAction>
+    <BaseAction xsi:type="CollisionAction">
+      <ID>8</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
           <Direction>Output</Direction>
-          <OtherActionID>8</OtherActionID>
+          <OtherActionID>11</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
         <ActionConnection>
@@ -152,19 +164,65 @@
           <OtherConnID>-1</OtherConnID>
         </ActionConnection>
       </connections>
-      <Damage>1</Damage>
+      <CollisionType>Hypersonic</CollisionType>
     </BaseAction>
-    <BaseAction xsi:type="StateAction">
-      <ID>8</ID>
+    <BaseAction xsi:type="AlternatingAction">
+      <ID>9</ID>
       <connections>
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
+          <OtherActionID>3</OtherActionID>
+          <OtherConnID>2</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>4</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>10</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+      </connections>
+    </BaseAction>
+    <BaseAction xsi:type="StateAction">
+      <ID>10</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>9</OtherActionID>
+          <OtherConnID>2</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <StateName>Drop Stalactites</StateName>
+    </BaseAction>
+    <BaseAction xsi:type="MultipleOutAction">
+      <ID>11</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>8</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
+          <Direction>Output</Direction>
           <OtherActionID>7</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
-      <StateName>TakeDamage</StateName>
     </BaseAction>
   </Actions>
 </ActionDataCollection>

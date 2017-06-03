@@ -89,7 +89,7 @@ public class SpawnStalNode : BaseNode {
         }
         else
         {
-            Transform.Height = 80f;    // TODO this just hides the stal pos input interface set if it exists
+            Transform.Height = 100f;    // TODO this just hides the stal pos input interface set if it exists
         }
 
         SetInterfacePositions();

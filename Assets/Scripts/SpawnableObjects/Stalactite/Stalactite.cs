@@ -2,6 +2,8 @@
 using UnityEngine;
 using System.Collections;
 
+// TODO there are really two different objects described in this and they should be split up.
+// They work fine, but i don't like it. Fix by either creating a base class, or using composition
 public class Stalactite : Spawnable {
 
     public bool DropEnabled;
@@ -102,6 +104,8 @@ public class Stalactite : Spawnable {
     public void Activate(StalPool.StalType stalProps, float xOffset = 0)
     {
         Type = stalProps.Type;
+        isExploding = false;
+        IsActive = true;
 
         if (stalPrefabBroken != null) Destroy(stalPrefabBroken);
         if (stalPrefabUnbroken != null) Destroy(stalPrefabUnbroken);
@@ -117,6 +121,7 @@ public class Stalactite : Spawnable {
             stalPrefabUnbroken = Instantiate(Resources.Load<GameObject>(unbrokenStalPath), transform);
             anim.SetAnimator(stalPrefabUnbroken.GetComponent<Animator>());
             anim.NewStalactite();
+            dropControl.SetAnim(anim);
             stalCollider.enabled = true;
         }
 
@@ -130,8 +135,6 @@ public class Stalactite : Spawnable {
 
         dropControl.NewStalactite();
 
-        isExploding = false;
-        IsActive = true;
         DropEnabled = stalProps.DropEnabled;
         greenMothChance = stalProps.GreenMothChance;
         goldMothChance = stalProps.GoldMothChance;
@@ -140,10 +143,6 @@ public class Stalactite : Spawnable {
         if (Type == SpawnStalAction.StalTypes.Crystal)
         {
             ActivateCrystal();
-        }
-        else
-        {
-            moth.gameObject.SetActive(false);
         }
     }
 
@@ -216,13 +215,13 @@ public class Stalactite : Spawnable {
         float timer = 0;
         const float timeBeforeDestroy = 4f;
 
-        while (timer < timeBeforeDestroy)
+        while (timer < timeBeforeDestroy && IsActive)
         {
             if (!Toolbox.Instance.GamePaused)
                 timer += Time.deltaTime;
             yield return null;
         }
-
+        
         SendToInactivePool();
     }
 
@@ -281,9 +280,17 @@ public class Stalactite : Spawnable {
 
     public void Drop()
     {
-        dropControl.Drop();
+        if (IsActive)
+            dropControl.Drop();
     }
-    
+
+    public override void SendToInactivePool()
+    {
+        base.SendToInactivePool();
+        if (stalPrefabBroken != null) Destroy(stalPrefabBroken);
+        if (stalPrefabUnbroken != null) Destroy(stalPrefabUnbroken);
+    }
+
     public bool IsForming() { return state == StalStates.Forming; }
     public bool IsFalling() { return state == StalStates.Falling; }
     public bool IsBroken () { return state == StalStates.Broken; }
