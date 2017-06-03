@@ -19,6 +19,7 @@ public class ActionConnection {
     [XmlIgnore] public BaseAction Action;
     [XmlIgnore] public ActionConnection ConnectedInterface;
 
+    private bool called;
 
     public bool IsConnected()
     {
@@ -29,7 +30,18 @@ public class ActionConnection {
     {
         if (IsConnected())
         {
+            ConnectedInterface.called = true;
             ConnectedInterface.Action.Activate();
         }
+    }
+
+    public bool WasCalled()
+    {
+        return called;
+    }
+
+    public void UseCall()
+    {
+        called = false;
     }
 }

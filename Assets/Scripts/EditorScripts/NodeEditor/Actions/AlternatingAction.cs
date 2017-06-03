@@ -7,7 +7,7 @@ public class AlternatingAction : BaseAction {
 
     public enum Ifaces
     {
-        Input,
+        Input, Reset,
         Output1, Output2
     }
 
@@ -16,6 +16,13 @@ public class AlternatingAction : BaseAction {
     public override void ActivateBehaviour()
     {
         IsActive = false;
+
+        if (GetInterface((int)Ifaces.Reset).WasCalled())
+        {
+            GetInterface((int)Ifaces.Reset).UseCall();
+            firstOutput = false;
+            return;
+        }
 
         firstOutput = !firstOutput;
         if (firstOutput)
