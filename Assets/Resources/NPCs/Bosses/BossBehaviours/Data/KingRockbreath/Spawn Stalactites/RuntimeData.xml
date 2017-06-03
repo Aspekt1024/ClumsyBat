@@ -63,8 +63,8 @@
           <inputID>5</inputID>
         </StalSpawnType>
       </stalSpawns>
-      <GreenChance>0.3</GreenChance>
-      <GoldChance>0.7</GoldChance>
+      <GreenChance>0.1</GreenChance>
+      <GoldChance>0.9</GoldChance>
       <BlueChance>0</BlueChance>
     </BaseAction>
     <BaseAction xsi:type="RandomAction">
