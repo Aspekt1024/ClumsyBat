@@ -49,7 +49,7 @@ public class Boss : MonoBehaviour {
     protected virtual void GetBossComponents()
     {
         body = GetComponent<Rigidbody2D>();
-        bossCollider = GetComponent<Collider2D>();
+        bossCollider = GetComponentInChildren<Collider2D>();
         bossRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -129,8 +129,10 @@ public class Boss : MonoBehaviour {
     
     public void TakeDamage(int damage = 1)
     {
+        if (this == null) return;
+
         health -= damage;
-        if (health < 0)
+        if (health <= 0)
         {
             Die();
         }
