@@ -179,7 +179,7 @@ public class Stalactite : Spawnable {
 
     public void DestroyStalactite()
     {
-        if (isExploding || state == StalStates.Forming) return;
+        if (isExploding || state == StalStates.Broken) return;
 
         isExploding = true;
         stalCollider.enabled = false;
@@ -201,7 +201,16 @@ public class Stalactite : Spawnable {
         if (stalPrefabBroken != null)
             Destroy(stalPrefabBroken);
 
-        string path = Type == SpawnStalAction.StalTypes.Crystal ? brokenCrystalPath : brokenStalPath;
+        string path = "";
+        if (Type == SpawnStalAction.StalTypes.Crystal)
+        {
+            path = brokenCrystalPath;
+            Toolbox.MainAudio.PlaySound(Toolbox.MainAudio.BreakCrystal);
+        }
+        else
+        {
+            path = brokenStalPath;
+        }
         stalPrefabBroken = Instantiate(Resources.Load<GameObject>(path), transform);
 
         stalPrefabUnbroken.SetActive(false);

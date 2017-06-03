@@ -23,6 +23,7 @@ public class Shield : MonoBehaviour {
     {
         if (_state == ShieldStates.Idle && _shieldCharges > 0)
         {
+            Toolbox.MainAudio.PlaySound(Toolbox.MainAudio.Shield);
             _shieldCharges--;
             StartCoroutine("ShieldUp");
         }
