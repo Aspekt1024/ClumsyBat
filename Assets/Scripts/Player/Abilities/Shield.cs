@@ -35,7 +35,7 @@ public class Shield : MonoBehaviour {
     private IEnumerator ShieldUp()
     {
         _state = ShieldStates.Activated;
-        _thePlayer.GetComponent<SpriteRenderer>().color = new Color(0.6f, 0.6f, 1f);
+        _thePlayer.GetRenderer().color = new Color(0.6f, 0.6f, 1f);
         // TODO animations
         // PlayerAnim.Play("Knockback", 0, 0f);
         yield return StartCoroutine("Knockback");
@@ -44,7 +44,7 @@ public class Shield : MonoBehaviour {
         yield return StartCoroutine("MoveForward");
 
         _state = ShieldStates.Idle;
-        _thePlayer.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f);
+        _thePlayer.GetRenderer().color = new Color(1f, 1f, 1f);
     }
 
     private IEnumerator Knockback()

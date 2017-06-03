@@ -29,6 +29,7 @@ public class Player : MonoBehaviour {
     private ClumsyAudioControl _audioControl;
     private PlayerController _playerController;
     private Collider2D _playerCollider;
+    private SpriteRenderer _playerRenderer;
     #endregion
 
     #region Clumsy Properties
@@ -442,6 +443,7 @@ public class Player : MonoBehaviour {
     public void SetMovementMode(FlapComponent.MovementMode moveMode) { _flap.Mode = moveMode; }
     public Rigidbody2D GetBody() { return _playerRigidBody; }
     public Collider2D GetCollider() { return _playerCollider; }
+    public SpriteRenderer GetRenderer() { return _playerRenderer; }
     public bool IsRushing() { return _rush.IsActive(); }
 
     private void GetPlayerComponents()
@@ -467,6 +469,7 @@ public class Player : MonoBehaviour {
             if (tf.name == "Clumsy")
             {
                 _playerCollider = tf.GetComponent<Collider2D>();
+                _playerRenderer = tf.GetComponent<SpriteRenderer>();
             }
             else if (tf.name == "Lantern")
             {
