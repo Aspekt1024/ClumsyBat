@@ -87,6 +87,7 @@ public class ChargeAbility : BossAbility {
             yield return null;
         }
         body.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
+        
         StartCoroutine(Knockback());
     }
 

@@ -19,8 +19,10 @@ public abstract class BehaviourSet : ScriptableObject {
 
     public void Stop()
     {
-        IsEnabled = false;
-        Actions = new List<BaseAction>();
+        foreach (var action in Actions)
+        {
+            action.Stop();
+        }
     }
 
     public abstract void LoopToStart();

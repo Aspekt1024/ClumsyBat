@@ -49,4 +49,12 @@ public class ChargeAction : BaseAction {
         base.GameSetup(owningContainer, behaviour, bossReference);
         charge = bossData.GetAbility<ChargeAbility>();
     }
+
+    public override void Stop()
+    {
+        if (!IsActive) return;
+
+        IsActive = false;
+        charge.Interrupt();
+    }
 }

@@ -43,4 +43,12 @@ public class JumpAction : BaseAction {
     {
         CallNext((int)Ifaces.Top);
     }
+
+    public override void Stop()
+    {
+        if (!IsActive) return;
+
+        IsActive = false;
+        jumpAbility.StopAllCoroutines();
+    }
 }

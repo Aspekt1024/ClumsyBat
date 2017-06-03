@@ -26,6 +26,7 @@ public abstract class BaseAction
 
     public abstract void ActivateBehaviour();
 
+    public virtual void Stop() { }
     public virtual void Tick(float deltaTime) { }
 
     public void CallNext(int id)

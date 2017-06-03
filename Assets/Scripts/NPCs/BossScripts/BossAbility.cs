@@ -6,4 +6,10 @@ public abstract class BossAbility : MonoBehaviour {
     
     public virtual void Pause() { }
     public virtual void Resume() { }
+
+    public void Interrupt()
+    {
+        Debug.Log("interrupting " + this.name);
+        StopAllCoroutines();
+    }
 }

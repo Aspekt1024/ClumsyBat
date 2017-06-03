@@ -41,4 +41,15 @@ public class StateAction : BaseAction {
         if (State == null || !State.IsEnabled) return;
         State.Tick(deltaTime);
     }
+
+    public override void Stop()
+    {
+        if (!IsActive) return;
+
+        IsActive = false;
+        foreach (var action in State.Actions)
+        {
+            action.Stop();
+        }
+    }
 }

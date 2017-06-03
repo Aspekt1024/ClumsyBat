@@ -131,6 +131,8 @@ public class Boss : MonoBehaviour {
     {
         if (this == null) return;
 
+        machine.Stop();
+
         health -= damage;
         if (health <= 0)
         {
@@ -177,6 +179,7 @@ public class Boss : MonoBehaviour {
             }
         }
         bossRenderer.color = Color.white;
+        machine.StartingAction.Activate();
     }
 
     public bool IsPaused()
