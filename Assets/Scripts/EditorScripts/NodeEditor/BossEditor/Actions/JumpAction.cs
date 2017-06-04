@@ -48,6 +48,7 @@ public class JumpAction : BaseAction {
     {
         if (!IsActive) return;
 
+        boss.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
         IsActive = false;
         jumpAbility.StopAllCoroutines();
     }

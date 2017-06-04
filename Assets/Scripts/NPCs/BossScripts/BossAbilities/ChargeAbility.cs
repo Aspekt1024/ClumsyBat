@@ -76,7 +76,6 @@ public class ChargeAbility : BossAbility {
 
     private IEnumerator Charge()
     {
-        body.constraints = RigidbodyConstraints2D.FreezeRotation;
         while (chargeEnabled)
         {
             if (!Toolbox.Instance.GamePaused)
@@ -86,7 +85,6 @@ public class ChargeAbility : BossAbility {
 
             yield return null;
         }
-        body.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
         
         StartCoroutine(Knockback());
     }

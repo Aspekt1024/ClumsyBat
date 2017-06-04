@@ -37,16 +37,17 @@ public class JumpPound : BossAbility
 
     private IEnumerator JumpAndPound(float jumpForce = 1000f)
     {
-        GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpForce);
+        bossBody.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
+        bossBody.AddForce(Vector2.up * jumpForce);
         yield return null;
         _state = JumpState.Jumping;
 
-        while (GetComponent<Rigidbody2D>().velocity.y >= 0)
+        while (bossBody.velocity.y >= 0)
         {
             yield return null;
         }
 
-        GetComponent<Rigidbody2D>().AddForce(Vector2.down * jumpForce);
+        bossBody.AddForce(Vector2.down * jumpForce);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -56,8 +57,10 @@ public class JumpPound : BossAbility
         {
             _state = JumpState.Idle;
             BossEvents.JumpLanded();
-
-            GetComponent<Rigidbody2D>().velocity = Vector2.up * 0.5f;    // Prevents the boss from falling through the floor // TODO replace collider with floor collider
+            
+            CameraEventListener.CameraShake(0.7f);
+            bossBody.velocity = Vector2.zero;
+            bossBody.constraints = RigidbodyConstraints2D.FreezeRotation;
 
             if (callerAction.GetType().Equals(typeof(JumpAction)))
                 ((JumpAction)callerAction).Landed();
