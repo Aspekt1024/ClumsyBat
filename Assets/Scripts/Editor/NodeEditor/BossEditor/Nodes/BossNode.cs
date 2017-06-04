@@ -22,6 +22,7 @@ public class BossNode : BaseNode {
         Transform.Width = 80;
         Transform.Height = 50;
         WindowTitle = "Boss";
+        nodeType = NodeTypes.Object;
 
         SetInterfacePositions();
         DrawInterfaces();

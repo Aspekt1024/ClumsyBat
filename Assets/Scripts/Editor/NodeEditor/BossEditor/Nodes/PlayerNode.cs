@@ -22,6 +22,7 @@ public class PlayerNode : BaseNode {
         Transform.Width = 80;
         Transform.Height = 50;
         WindowTitle = "Player";
+        nodeType = NodeTypes.Object;
 
         SetInterfacePositions();
         DrawInterfaces();

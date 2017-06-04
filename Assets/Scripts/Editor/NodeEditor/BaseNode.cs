@@ -19,7 +19,7 @@ public abstract class BaseNode {
     
     protected enum NodeTypes
     {
-        Action, State, Event
+        Action, State, Event, Object
     }
     protected NodeTypes nodeType;
 
