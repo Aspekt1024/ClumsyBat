@@ -36,8 +36,8 @@
         <ActionConnection>
           <ID>3</ID>
           <Direction>Output</Direction>
-          <OtherActionID>6</OtherActionID>
-          <OtherConnID>2</OtherConnID>
+          <OtherActionID>12</OtherActionID>
+          <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
       <StateName>Follow Player</StateName>
@@ -125,8 +125,8 @@
         <ActionConnection>
           <ID>2</ID>
           <Direction>Input</Direction>
-          <OtherActionID>1</OtherActionID>
-          <OtherConnID>3</OtherConnID>
+          <OtherActionID>12</OtherActionID>
+          <OtherConnID>1</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>3</ID>
@@ -229,6 +229,24 @@
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
+    </BaseAction>
+    <BaseAction xsi:type="StateAction">
+      <ID>12</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>1</OtherActionID>
+          <OtherConnID>3</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>6</OtherActionID>
+          <OtherConnID>2</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <StateName>Move towards player</StateName>
     </BaseAction>
   </Actions>
 </ActionDataCollection>
