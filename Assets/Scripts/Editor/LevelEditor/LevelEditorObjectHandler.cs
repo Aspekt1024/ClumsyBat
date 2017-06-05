@@ -60,4 +60,19 @@ public class LevelEditorObjectHandler {
         
         return handler.CreateNewObject();
     }
+
+    public GameObject SpawnObject(object type)
+    {
+        BaseObjectHandler handler = null;
+        foreach (var h in ObjHandlers)
+        {
+            if (h.GetType().Equals(type))
+            {
+                handler = h;
+                break;
+            }
+        }
+        if (handler == null) return null;
+        return handler.CreateNewObject();
+    }
 }

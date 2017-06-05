@@ -7,9 +7,11 @@ public class LevelEditorInputHandler
 {
     private LevelEditor editor;
     private LevelEditorActions actions;
+    private LevelEditorContextMenu menu;
 
     private enum InputBindings
     {
+        SpawnObjectMenu,
         SpawnMoth, SpawnStal, SpawnSpider, SpawnNpc, SpawnShroom, SpawnTrigger, SpawnWeb,
         DestroyObject,
         RotateLeft, RotateRight, RandomiseRotation, Flip,
@@ -20,6 +22,8 @@ public class LevelEditorInputHandler
 
     static Dictionary<InputBindings, KeyCode> bindingDict = new Dictionary<InputBindings, KeyCode>()
     {
+        { InputBindings.SpawnObjectMenu, KeyCode.A },
+
         { InputBindings.SpawnMoth, KeyCode.Alpha1 },
         { InputBindings.SpawnStal, KeyCode.Alpha2 },
         { InputBindings.SpawnShroom, KeyCode.Alpha3 },
@@ -47,6 +51,8 @@ public class LevelEditorInputHandler
     {
         editor = editorRef;
         actions = actionsRef;
+        if (menu == null)
+            menu = new LevelEditorContextMenu(editor, actions);
         
         if (Event.current.type == EventType.keyUp)
         {
@@ -96,9 +102,11 @@ public class LevelEditorInputHandler
     private void ProcessFreeKeyUp()
     {
         bool bUnused = false;
-        
+
         if (BindingPressed(InputBindings.LevelEditorInspector))
             actions.LevelEditorInspector();
+        else if (BindingPressed(InputBindings.SpawnObjectMenu))
+            menu.ShowMenu();
         else if (Event.current.shift)
         {
             if (BindingPressed(InputBindings.SpawnMoth))
