@@ -15,8 +15,8 @@
         <TriggerType>
           <SpawnTransform>
             <Pos>
-              <x>-2.09</x>
-              <y>1.63</y>
+              <x>0.79</x>
+              <y>1.39</y>
             </Pos>
             <Scale>
               <x>1</x>
@@ -34,11 +34,53 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <EventType>Dialogue</EventType>
-          <TooltipText />
-          <TooltipDuration>3</TooltipDuration>
+          <EventType>Tooltip</EventType>
+          <TooltipText>Hi! You don't know me, so this might sound crazy...</TooltipText>
+          <TooltipDuration>5</TooltipDuration>
           <EventId>FirstJump</EventId>
           <PausesGame>true</PausesGame>
+        </TriggerType>
+      </Triggers>
+      <Npcs />
+    </Cave>
+    <Cave>
+      <TopIndex>2</TopIndex>
+      <BottomIndex>2</BottomIndex>
+      <bTopSecretPath>false</bTopSecretPath>
+      <bBottomSecretPath>false</bBottomSecretPath>
+      <Shrooms />
+      <Stals />
+      <Moths />
+      <Spiders />
+      <Webs />
+      <Triggers>
+        <TriggerType>
+          <SpawnTransform>
+            <Pos>
+              <x>-1.15999985</x>
+              <y>0.75</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>11.1625166</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <EventType>Tooltip</EventType>
+          <TooltipText>You're carrying the lantern, so maybe you can save us!</TooltipText>
+          <TooltipDuration>5</TooltipDuration>
+          <EventId>FirstMoth</EventId>
+          <PausesGame>false</PausesGame>
         </TriggerType>
       </Triggers>
       <Npcs />
@@ -54,8 +96,8 @@
         <MothType>
           <SpawnTransform>
             <Pos>
-              <x>1.23999977</x>
-              <y>1.07</y>
+              <x>-9.007233</x>
+              <y>-0.8458854</y>
             </Pos>
             <Scale>
               <x>1</x>
@@ -76,6 +118,56 @@
           <Colour>Green</Colour>
           <PathType>Infinity</PathType>
         </MothType>
+        <MothType>
+          <SpawnTransform>
+            <Pos>
+              <x>-0.156776428</x>
+              <y>-0.0395264924</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <Colour>Green</Colour>
+          <PathType>Clover</PathType>
+        </MothType>
+        <MothType>
+          <SpawnTransform>
+            <Pos>
+              <x>6.33438873</x>
+              <y>-0.475640565</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <Colour>Green</Colour>
+          <PathType>Clover</PathType>
+        </MothType>
       </Moths>
       <Spiders />
       <Webs />
@@ -83,12 +175,12 @@
         <TriggerType>
           <SpawnTransform>
             <Pos>
-              <x>-5.02000046</x>
-              <y>0.659869552</y>
+              <x>-5.330002</x>
+              <y>0.13</y>
             </Pos>
             <Scale>
               <x>1</x>
-              <y>11.1625166</y>
+              <y>11.1625195</y>
             </Scale>
             <Rotation>
               <x>0</x>
@@ -103,8 +195,219 @@
             </Rotation>
           </SpawnTransform>
           <EventType>Tooltip</EventType>
-          <TooltipText>Here's a lot of text to read. It's probably quite distracting, but it's here anyway!</TooltipText>
-          <TooltipDuration>3</TooltipDuration>
+          <TooltipText>Moths carry a powerful essence, which only the latnern can hold</TooltipText>
+          <TooltipDuration>5</TooltipDuration>
+          <EventId>FirstMoth</EventId>
+          <PausesGame>false</PausesGame>
+        </TriggerType>
+      </Triggers>
+      <Npcs />
+    </Cave>
+    <Cave>
+      <TopIndex>0</TopIndex>
+      <BottomIndex>0</BottomIndex>
+      <bTopSecretPath>false</bTopSecretPath>
+      <bBottomSecretPath>false</bBottomSecretPath>
+      <Shrooms />
+      <Stals />
+      <Moths>
+        <MothType>
+          <SpawnTransform>
+            <Pos>
+              <x>-2.36899185</x>
+              <y>-1.18941212</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <Colour>Green</Colour>
+          <PathType>Clover</PathType>
+        </MothType>
+        <MothType>
+          <SpawnTransform>
+            <Pos>
+              <x>5.944317</x>
+              <y>-0.811538458</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <Colour>Green</Colour>
+          <PathType>Clover</PathType>
+        </MothType>
+      </Moths>
+      <Spiders />
+      <Webs />
+      <Triggers>
+        <TriggerType>
+          <SpawnTransform>
+            <Pos>
+              <x>0.0399971</x>
+              <y>0.13</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>11.1625195</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <EventType>Tooltip</EventType>
+          <TooltipText>Collect the essence, and save us!</TooltipText>
+          <TooltipDuration>5</TooltipDuration>
+          <EventId>FirstMoth</EventId>
+          <PausesGame>false</PausesGame>
+        </TriggerType>
+      </Triggers>
+      <Npcs />
+    </Cave>
+    <Cave>
+      <TopIndex>0</TopIndex>
+      <BottomIndex>2</BottomIndex>
+      <bTopSecretPath>false</bTopSecretPath>
+      <bBottomSecretPath>false</bBottomSecretPath>
+      <Shrooms />
+      <Stals />
+      <Moths>
+        <MothType>
+          <SpawnTransform>
+            <Pos>
+              <x>-3.80871582</x>
+              <y>-0.0137958527</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <Colour>Green</Colour>
+          <PathType>Clover</PathType>
+        </MothType>
+        <MothType>
+          <SpawnTransform>
+            <Pos>
+              <x>6.72987366</x>
+              <y>-0.3077016</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <Colour>Green</Colour>
+          <PathType>Clover</PathType>
+        </MothType>
+        <MothType>
+          <SpawnTransform>
+            <Pos>
+              <x>1.79982</x>
+              <y>-0.178385079</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <Colour>Green</Colour>
+          <PathType>Clover</PathType>
+        </MothType>
+      </Moths>
+      <Spiders />
+      <Webs />
+      <Triggers>
+        <TriggerType>
+          <SpawnTransform>
+            <Pos>
+              <x>5.38999939</x>
+              <y>0.58</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>11.1625195</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <EventType>Tooltip</EventType>
+          <TooltipText>I would explain how, but this is the end of the level!</TooltipText>
+          <TooltipDuration>5</TooltipDuration>
           <EventId>FirstMoth</EventId>
           <PausesGame>false</PausesGame>
         </TriggerType>
@@ -122,8 +425,8 @@
         <MothType>
           <SpawnTransform>
             <Pos>
-              <x>-8.260002</x>
-              <y>1.44</y>
+              <x>-5.24844742</x>
+              <y>-1.48332548</y>
             </Pos>
             <Scale>
               <x>1</x>

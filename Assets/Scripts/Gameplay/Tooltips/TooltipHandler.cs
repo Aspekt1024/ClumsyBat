@@ -63,6 +63,17 @@ public class TooltipHandler : MonoBehaviour {
         VillageSpeech
     }
 
+    private void OnEnable()
+    {
+        EventListener.OnDeath += RemoveTooltips;
+        EventListener.OnLevelWon += RemoveTooltips;
+    }
+    private void OnDisable()
+    {
+        EventListener.OnDeath -= RemoveTooltips;
+        EventListener.OnLevelWon -= RemoveTooltips;
+    }
+
     private void Awake()
     {
         GameObject toolTipOverlay = (GameObject)Instantiate(Resources.Load("ToolTipOverlay"));
@@ -135,9 +146,12 @@ public class TooltipHandler : MonoBehaviour {
     public void ShowDialogue(string text, float duration)
     {
         if (!_playerControl.ThePlayer.IsAlive()) { return; }
-        StartCoroutine(SetupTooltip(text, duration));
+
+        if (setupTooltipCoroutine != null) StopCoroutine(setupTooltipCoroutine);
+        setupTooltipCoroutine = StartCoroutine(SetupTooltip(text, duration));
     }
 
+    private Coroutine setupTooltipCoroutine;
     private IEnumerator SetupTooltip(string text, float duration)
     {
         _waitType = WaitType.InGameNoPause;
@@ -145,8 +159,9 @@ public class TooltipHandler : MonoBehaviour {
 
         yield return StartCoroutine(_tooltipControl.OpenTooltip());
         StartCoroutine(ShowTooltip(text));
-        yield return StartCoroutine(KeepTooltipOnScreen(duration));
         
+        yield return StartCoroutine(KeepTooltipOnScreen(duration));
+
         _tooltipControl.StartCoroutine("CloseTooltip");
     }
 
@@ -234,5 +249,11 @@ public class TooltipHandler : MonoBehaviour {
                 timeOnScreen += Time.deltaTime;
             yield return null;
         }
+    }
+
+    private void RemoveTooltips()
+    {
+        StopAllCoroutines();
+        _tooltipControl.gameObject.SetActive(false);
     }
 }

@@ -45,6 +45,9 @@ public class TriggerClass : Spawnable {
             case (TriggerHandler.EventType.Tooltip):
                 _tHandler.ShowDialogue(TooltipText, TooltipDuration);
                 break;
+            case TriggerHandler.EventType.OneTimeEvent:
+                //_tHandler.ShowDialogue()
+                break;
         }
         
         DeactivateTrigger();
