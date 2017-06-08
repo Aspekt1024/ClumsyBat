@@ -205,7 +205,7 @@
     </Cave>
     <Cave>
       <TopIndex>0</TopIndex>
-      <BottomIndex>0</BottomIndex>
+      <BottomIndex>4</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
       <Shrooms />
