@@ -228,7 +228,6 @@ public class TooltipHandler : MonoBehaviour {
 
     private IEnumerator WaitForTooltip()
     {
-        Debug.Log("wait");
         const float tooltipPauseDuration = 0.3f;
         yield return new WaitForSeconds(tooltipPauseDuration);
 
@@ -247,7 +246,6 @@ public class TooltipHandler : MonoBehaviour {
             yield return null;
         }
         _tooltipControl.HideResumeImages();
-        Debug.Log("wait complete");
     }
 
     private IEnumerator KeepTooltipOnScreen(float durationOnScreen)

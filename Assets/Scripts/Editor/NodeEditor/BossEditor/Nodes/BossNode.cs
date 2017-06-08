@@ -19,9 +19,8 @@ public class BossNode : BaseNode {
 
     public override void Draw()
     {
-        Transform.Width = 80;
-        Transform.Height = 50;
         WindowTitle = "Boss";
+        WindowRect.size = new Vector2(80f, 50f);
         nodeType = NodeTypes.Object;
 
         SetInterfacePositions();

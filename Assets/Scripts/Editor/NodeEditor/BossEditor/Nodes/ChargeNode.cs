@@ -40,9 +40,8 @@ public class ChargeNode : BaseNode {
 
     public override void Draw()
     {
-        Transform.Width = 140;
-        Transform.Height = 130;
         WindowTitle = "Charge";
+        WindowRect.size = new Vector2(140f, 130f);
 
         NodeGUI.Space(2.85f);
         ChargeSpeed = NodeGUI.FloatFieldLayout(ChargeSpeed, "Speed:");
