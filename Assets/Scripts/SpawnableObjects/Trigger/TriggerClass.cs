@@ -43,7 +43,7 @@ public class TriggerClass : Spawnable {
                 _tHandler.ShowDialogue(EventId, _waitType);
                 break;
             case (TriggerHandler.EventType.Tooltip):
-                _tHandler.ShowDialogue(TooltipText, TooltipDuration);
+                _tHandler.ShowDialogue(TooltipText, TooltipDuration, PausesGame);
                 break;
             case TriggerHandler.EventType.OneTimeEvent:
                 //_tHandler.ShowDialogue()

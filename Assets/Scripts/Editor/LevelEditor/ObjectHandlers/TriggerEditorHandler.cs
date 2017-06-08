@@ -6,6 +6,7 @@ public class TriggerEditorHandler : BaseObjectHandler
 {
     public TriggerEditorHandler(LevelEditorObjectHandler objHandler) : base(objHandler)
     {
+        resourcePath = "Interactables/Trigger";
         parentObj = GetParentTransform("Triggers");
         zLayer = LevelEditorConstants.TriggerZ;
     }

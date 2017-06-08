@@ -143,25 +143,33 @@ public class TooltipHandler : MonoBehaviour {
         StartCoroutine("SetupDialogue", dialogue);
     }
 
-    public void ShowDialogue(string text, float duration)
+    public void ShowDialogue(string text, float duration, bool pauses = false)
     {
         if (!_playerControl.ThePlayer.IsAlive()) { return; }
 
         if (setupTooltipCoroutine != null) StopCoroutine(setupTooltipCoroutine);
-        setupTooltipCoroutine = StartCoroutine(SetupTooltip(text, duration));
+        setupTooltipCoroutine = StartCoroutine(SetupTooltip(text, duration, pauses));
     }
 
     private Coroutine setupTooltipCoroutine;
-    private IEnumerator SetupTooltip(string text, float duration)
+    private IEnumerator SetupTooltip(string text, float duration, bool pauses = false)
     {
-        _waitType = WaitType.InGameNoPause;
+        _waitType = pauses ? WaitType.InGamePause : WaitType.InGameNoPause;
+        if (_waitType == WaitType.InGamePause) { _playerControl.WaitForTooltip(true); }
         _tooltipControl.RestoreOriginalScale();
 
         yield return StartCoroutine(_tooltipControl.OpenTooltip());
-        StartCoroutine(ShowTooltip(text));
+        yield return StartCoroutine(ShowTooltip(text));
         
-        yield return StartCoroutine(KeepTooltipOnScreen(duration));
-
+        if (_waitType == WaitType.InGamePause)
+        {
+            _playerControl.WaitForTooltip(false);
+            _playerControl.TooltipResume();
+        }
+        else
+        {
+            yield return StartCoroutine(KeepTooltipOnScreen(duration));
+        }
         _tooltipControl.StartCoroutine("CloseTooltip");
     }
 
@@ -220,6 +228,7 @@ public class TooltipHandler : MonoBehaviour {
 
     private IEnumerator WaitForTooltip()
     {
+        Debug.Log("wait");
         const float tooltipPauseDuration = 0.3f;
         yield return new WaitForSeconds(tooltipPauseDuration);
 
@@ -238,6 +247,7 @@ public class TooltipHandler : MonoBehaviour {
             yield return null;
         }
         _tooltipControl.HideResumeImages();
+        Debug.Log("wait complete");
     }
 
     private IEnumerator KeepTooltipOnScreen(float durationOnScreen)

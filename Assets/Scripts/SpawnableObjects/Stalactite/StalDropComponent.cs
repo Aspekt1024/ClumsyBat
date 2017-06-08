@@ -35,6 +35,7 @@ public class StalDropComponent : MonoBehaviour {
 
     private void FixedUpdate()
     {
+        if (playerControl == null) return; //editor has no player
         if (!stal.DropEnabled || !stal.IsActive || isPaused || _state == DropStates.Falling || !playerControl.ThePlayer.IsAlive()) return;
         
         if (Toolbox.Player.transform.position.x > transform.position.x - stal.TriggerPosX)
@@ -151,6 +152,7 @@ public class StalDropComponent : MonoBehaviour {
 
     private void GetComponentList()
     {
+        if (Toolbox.Player == null) return; //editor doesnt have player
         Transform playerTf = Toolbox.Player.transform;
         if (playerTf != null)
         {

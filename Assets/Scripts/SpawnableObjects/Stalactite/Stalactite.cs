@@ -51,7 +51,9 @@ public class Stalactite : Spawnable {
 
     private void Start()
     {
-        mothPool = GameObject.FindGameObjectWithTag("Scripts").GetComponent<GameHandler>().GetMothPool();
+        GameHandler gh = GameObject.FindGameObjectWithTag("Scripts").GetComponent<GameHandler>();
+        if (gh == null) return; // Level editor has no game handler
+        mothPool = gh.GetMothPool();
     }
 
     private void FixedUpdate()

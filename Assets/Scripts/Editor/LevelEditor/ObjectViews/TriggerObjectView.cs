@@ -26,5 +26,16 @@ public class TriggerEditorView : Editor {
         }
         trigger.TooltipDuration = EditorGUILayout.FloatField("Duration (s)", trigger.TooltipDuration);
         trigger.PausesGame = EditorGUILayout.Toggle("Pauses Game?", trigger.PausesGame);
+        
+        CopyTriggerClassProperties();
+    }
+
+    private void CopyTriggerClassProperties()
+    {
+        ((TriggerClass)target).EventType = trigger.EventType;
+        ((TriggerClass)target).EventId = trigger.EventId;
+        ((TriggerClass)target).TooltipText = trigger.TooltipText;
+        ((TriggerClass)target).TooltipDuration = trigger.TooltipDuration;
+        ((TriggerClass)target).PausesGame = trigger.PausesGame;
     }
 }
