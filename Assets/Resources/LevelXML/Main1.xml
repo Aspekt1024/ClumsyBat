@@ -195,7 +195,7 @@
             </Rotation>
           </SpawnTransform>
           <EventType>Tooltip</EventType>
-          <TooltipText>Moths carry a powerful essence, which only the latnern can hold</TooltipText>
+          <TooltipText>Moths carry a powerful essence that only the latnern can hold</TooltipText>
           <TooltipDuration>5</TooltipDuration>
           <EventId>FirstMoth</EventId>
           <PausesGame>false</PausesGame>
@@ -288,7 +288,7 @@
             </Rotation>
           </SpawnTransform>
           <EventType>Tooltip</EventType>
-          <TooltipText>Collect the essence, and save us!</TooltipText>
+          <TooltipText>Collect the essence and save us!</TooltipText>
           <TooltipDuration>5</TooltipDuration>
           <EventId>FirstMoth</EventId>
           <PausesGame>false</PausesGame>
@@ -406,7 +406,7 @@
             </Rotation>
           </SpawnTransform>
           <EventType>Tooltip</EventType>
-          <TooltipText>I would explain how, but this is the end of the level!</TooltipText>
+          <TooltipText>I would explain how, but this is the end of the level...</TooltipText>
           <TooltipDuration>5</TooltipDuration>
           <EventId>FirstMoth</EventId>
           <PausesGame>false</PausesGame>
