@@ -6,6 +6,7 @@ public class NpcEditorHandler : BaseObjectHandler
 {
     public NpcEditorHandler(LevelEditorObjectHandler objHandler) : base(objHandler)
     {
+        resourcePath = "NPCs/Nomee";
         parentObj = GetParentTransform("Npcs");
         zLayer = LevelEditorConstants.NpcZ;
     }

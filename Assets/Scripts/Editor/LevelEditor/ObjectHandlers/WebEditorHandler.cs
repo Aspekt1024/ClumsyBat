@@ -6,6 +6,7 @@ public class WebEditorHandler : BaseObjectHandler {
 
     public WebEditorHandler(LevelEditorObjectHandler objHandler) : base(objHandler)
     {
+        resourcePath = "Obstacles/Web";
         parentObj = GetParentTransform("Webs");
         zLayer = LevelEditorConstants.WebZ;
     }

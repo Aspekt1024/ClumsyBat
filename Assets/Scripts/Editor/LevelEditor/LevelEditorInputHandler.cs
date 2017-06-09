@@ -28,9 +28,9 @@ public class LevelEditorInputHandler
         { InputBindings.SpawnStal, KeyCode.Alpha2 },
         { InputBindings.SpawnShroom, KeyCode.Alpha3 },
         { InputBindings.SpawnSpider, KeyCode.Alpha4 },
-        { InputBindings.SpawnNpc, KeyCode.Q },
-        { InputBindings.SpawnTrigger, KeyCode.W },
-        { InputBindings.SpawnWeb, KeyCode.E },
+        { InputBindings.SpawnWeb, KeyCode.Alpha5 },
+        { InputBindings.SpawnTrigger, KeyCode.Alpha6 },
+        { InputBindings.SpawnNpc, KeyCode.Alpha7 },
 
         { InputBindings.DestroyObject, KeyCode.Escape },
 
@@ -115,6 +115,14 @@ public class LevelEditorInputHandler
                 editor.HeldObject = actions.ObjectHandler.SpawnObject<StalEditorHandler>();
             else if (BindingPressed(InputBindings.SpawnShroom))
                 editor.HeldObject = actions.ObjectHandler.SpawnObject<MushroomEditorHandler>();
+            else if (BindingPressed(InputBindings.SpawnSpider))
+                editor.HeldObject = actions.ObjectHandler.SpawnObject<SpiderEditorHandler>();
+            else if (BindingPressed(InputBindings.SpawnWeb))
+                editor.HeldObject = actions.ObjectHandler.SpawnObject<WebEditorHandler>();
+            else if (BindingPressed(InputBindings.SpawnTrigger))
+                editor.HeldObject = actions.ObjectHandler.SpawnObject<TriggerEditorHandler>();
+            else if (BindingPressed(InputBindings.SpawnNpc))
+                editor.HeldObject = actions.ObjectHandler.SpawnObject<NpcEditorHandler>();
             else
                 bUnused = true;
         }

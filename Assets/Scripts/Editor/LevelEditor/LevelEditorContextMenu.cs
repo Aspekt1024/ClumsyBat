@@ -24,6 +24,7 @@ public class LevelEditorContextMenu {
         menu.AddItem(new GUIContent("Spider (shift + 4)"), false, ContextCallback, typeof(SpiderEditorHandler));
         menu.AddItem(new GUIContent("Web (shift + 5)"), false, ContextCallback, typeof(WebEditorHandler));
         menu.AddItem(new GUIContent("Trigger (shift + 6)"), false, ContextCallback, typeof(TriggerEditorHandler));
+        menu.AddItem(new GUIContent("Nomee (shift + 7)"), false, ContextCallback, typeof(TriggerEditorHandler));
         menu.ShowAsContext();
     }
 

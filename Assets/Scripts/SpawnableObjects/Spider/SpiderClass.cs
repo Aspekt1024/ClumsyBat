@@ -33,7 +33,7 @@ public class SpiderClass : Spawnable {
 
     private void Update()
     {
-        if (_spider.SpiderSwings) { return; } // TODO define this
+        if (_spider.SpiderSwings || _player == null) { return; } // TODO define this
         if (!(_player.transform.position.x + 6f > transform.position.x) || _spiderState != SpiderStates.Normal)
             return;
         _spiderState = SpiderStates.PreparingDrop;

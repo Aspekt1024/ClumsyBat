@@ -5,9 +5,6 @@ using UnityEditor;
 
 public class TriggerEditorHandler : BaseObjectHandler
 {
-
-    private Texture2D triggerTexture;
-
     public TriggerEditorHandler(LevelEditorObjectHandler objHandler) : base(objHandler)
     {
         resourcePath = "Interactables/Trigger";

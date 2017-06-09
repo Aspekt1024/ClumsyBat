@@ -6,6 +6,7 @@ public class SpiderEditorHandler : BaseObjectHandler
 {
     public SpiderEditorHandler(LevelEditorObjectHandler objHandler) : base(objHandler)
     {
+        resourcePath = "Obstacles/Spider";
         parentObj = GetParentTransform("Spiders");
         zLayer = LevelEditorConstants.SpiderZ;
     }

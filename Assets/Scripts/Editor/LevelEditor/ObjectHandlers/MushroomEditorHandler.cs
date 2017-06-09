@@ -6,6 +6,7 @@ public class MushroomEditorHandler : BaseObjectHandler
 {
     public MushroomEditorHandler(LevelEditorObjectHandler objHandler) : base(objHandler)
     {
+        resourcePath = "Obstacles/Mushroom";
         parentObj = GetParentTransform("Mushrooms");
         zLayer = LevelEditorConstants.MushroomZ;
     }
