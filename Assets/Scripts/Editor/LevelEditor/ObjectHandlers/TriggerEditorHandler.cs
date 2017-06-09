@@ -1,9 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class TriggerEditorHandler : BaseObjectHandler
 {
+
+    private Texture2D triggerTexture;
+
     public TriggerEditorHandler(LevelEditorObjectHandler objHandler) : base(objHandler)
     {
         resourcePath = "Interactables/Trigger";
@@ -13,7 +17,12 @@ public class TriggerEditorHandler : BaseObjectHandler
 
     protected override void Update()
     {
-
+        foreach (Transform trigger in parentObj)
+        {
+            Vector2 pos = new Vector2(trigger.position.x - trigger.localScale.x / 2, trigger.position.y - trigger.localScale.y / 2);
+            Color c = new Color(0.2f, 1f, 0.2f);
+            Handles.DrawSolidRectangleWithOutline(new Rect(pos, trigger.localScale), new Color(c.r, c.g, c.b, .2f), new Color(c.r, c.g, c.b, 1f));
+        }
     }
 
     public override void StoreObjects(ref LevelContainer levelObj)
@@ -26,17 +35,17 @@ public class TriggerEditorHandler : BaseObjectHandler
         }
 
         int[] TriggerNum = new int[level.Caves.Length];
-        foreach (Transform Trigger in parentObj)
+        foreach (Transform trigger in parentObj)
         {
-            int index = GetObjectCaveIndex(Trigger);
+            int index = GetObjectCaveIndex(trigger);
 
             TriggerHandler.TriggerType newTrigger = level.Caves[index].Triggers[TriggerNum[index]];
-            newTrigger.SpawnTransform = ProduceSpawnTf(Trigger, index);
-            newTrigger.EventId = Trigger.GetComponent<TriggerClass>().EventId;
-            newTrigger.EventType = Trigger.GetComponent<TriggerClass>().EventType;
-            newTrigger.PausesGame = Trigger.GetComponent<TriggerClass>().PausesGame;
-            newTrigger.TooltipText = Trigger.GetComponent<TriggerClass>().TooltipText;
-            newTrigger.TooltipDuration = Trigger.GetComponent<TriggerClass>().TooltipDuration;
+            newTrigger.SpawnTransform = ProduceSpawnTf(trigger, index);
+            newTrigger.EventId = trigger.GetComponent<TriggerClass>().EventId;
+            newTrigger.EventType = trigger.GetComponent<TriggerClass>().EventType;
+            newTrigger.PausesGame = trigger.GetComponent<TriggerClass>().PausesGame;
+            newTrigger.TooltipText = trigger.GetComponent<TriggerClass>().TooltipText;
+            newTrigger.TooltipDuration = trigger.GetComponent<TriggerClass>().TooltipDuration;
             level.Caves[index].Triggers[TriggerNum[index]] = newTrigger;
             TriggerNum[index]++;
         }
