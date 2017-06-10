@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 
 public abstract class Spawnable : MonoBehaviour {
-    public bool IsPaused;
-    public bool IsActive;
+
+    [HideInInspector] public bool IsPaused;
+    [HideInInspector] public bool IsActive;
+
     protected float Speed;
+    protected Rigidbody2D body;
     
     public struct SpawnType
     {

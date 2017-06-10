@@ -20,7 +20,6 @@ public class Stalactite : Spawnable {
 
     private Collider2D stalCollider;
     private SpriteRenderer stalRenderer;
-    private Rigidbody2D body;
     private StalAnimationHandler anim;
     private StalDropComponent dropControl;
     private bool isExploding;

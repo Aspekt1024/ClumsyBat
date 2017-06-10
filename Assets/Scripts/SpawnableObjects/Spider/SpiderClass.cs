@@ -2,7 +2,10 @@
 using System.Collections;
 
 public class SpiderClass : Spawnable {
-    
+
+    public bool SwingingSpider;
+    [HideInInspector] public bool IsFalling;    // used in animator
+
     public struct SpiderType
     {
         public Collider2D Collider;
@@ -10,9 +13,9 @@ public class SpiderClass : Spawnable {
         public Animator Anim;
         public bool SpiderSwings;
     }
-    private SpiderType _spider;
-    public bool SwingingSpider; // For editor
-    private Player _player;
+    private SpiderType spider;
+    private WebString web;
+    private Player player;
 
     private enum SpiderStates { Swinging, Falling, Normal, PreparingDrop }
     private SpiderStates _spiderState = SpiderStates.Normal;
@@ -20,21 +23,24 @@ public class SpiderClass : Spawnable {
     private void Awake()
     {
         GetSpiderComponents();
-        _spider.Anim.Play("Normal", 0, 0f);
-        _spider.Anim.enabled = true;
+        spider.Anim.Play("Normal", 0, 0f);
+        spider.Anim.enabled = true;
         IsActive = false;
+        body.isKinematic = true;
     }
 
     private void FixedUpdate()
     {
+        web.MoveLeft(Time.deltaTime, Speed);
+
         if (!IsActive) { return; }
         MoveLeft(Time.deltaTime);
     }
 
     private void Update()
     {
-        if (_spider.SpiderSwings || _player == null) { return; } // TODO define this
-        if (!(_player.transform.position.x + 6f > transform.position.x) || _spiderState != SpiderStates.Normal)
+        if (spider.SpiderSwings || player == null) { return; } // TODO define this
+        if (!(player.transform.position.x + 6f > transform.position.x) || _spiderState != SpiderStates.Normal)
             return;
         _spiderState = SpiderStates.PreparingDrop;
         StartCoroutine("Drop");
@@ -42,17 +48,20 @@ public class SpiderClass : Spawnable {
 
     private void GetSpiderComponents()
     {
-        _spider.Collider = GetComponent<Collider2D>();
-        _spider.Renderer = GetComponent<SpriteRenderer>();
-        _spider.Anim = GetComponent<Animator>();
-        _player = FindObjectOfType<Player>();
+        body = GetComponent<Rigidbody2D>();
+        spider.Collider = GetComponent<Collider2D>();
+        spider.Renderer = GetComponent<SpriteRenderer>();
+        spider.Anim = GetComponent<Animator>();
+        player = FindObjectOfType<Player>();
+        web = new WebString(transform);
     }
 
     public void Activate(SpawnType spawnTf, bool spiderSwings)
     {
         base.Activate(transform, spawnTf);
-        _spider.SpiderSwings = spiderSwings;
+        spider.SpiderSwings = spiderSwings;
         _spiderState = SpiderStates.Normal;
+        web.Activate();
     }
     
     public bool Active() { return IsActive; }
@@ -81,25 +90,41 @@ public class SpiderClass : Spawnable {
             yield return new WaitForSeconds(0.09f);
             shakeTime += 0.09f;
         }
-        StartCoroutine("Falling");
+        StartCoroutine(Falling());
     }
 
     private IEnumerator Falling()
     {
         _spiderState = SpiderStates.Falling;
-        while (transform.position.y > -20)
+        bool gravitySet = false;
+        while (transform.position.y > -5)
         {
-            if (!IsPaused)
+            if (!IsPaused && IsFalling)
             {
-                transform.position -= new Vector3(0f, 0.05f, 0f);
+                if (!gravitySet)
+                {
+                    gravitySet = true;
+                    body.isKinematic = false;
+                    body.AddForce(Vector2.down * 10f);
+                    web.Disengage();
+                }
+                web.Update();
+            }
+            else
+            {
+                gravitySet = false;
+                body.velocity = Vector2.zero;
+                web.Engage();
             }
             yield return null;
         }
+        web.Disable();
+        SendToInactivePool();
     }
 
     private IEnumerator KillIt()
     {
-        _spider.Anim.enabled = true;
+        spider.Anim.enabled = true;
         //Spider.Anim.Play("Crumble", 0, 0f);   // TODO anim
         yield return new WaitForSeconds(0.67f);
         SendToInactivePool();
