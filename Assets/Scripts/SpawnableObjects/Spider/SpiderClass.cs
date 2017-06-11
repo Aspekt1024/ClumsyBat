@@ -4,6 +4,7 @@ using System.Collections;
 public class SpiderClass : Spawnable {
 
     public bool SwingingSpider;
+    public Vector2 WebAnchorPoint;
     [HideInInspector] public bool IsFalling;    // used in animator
 
     public struct SpiderType
@@ -12,6 +13,7 @@ public class SpiderClass : Spawnable {
         public Renderer Renderer;
         public Animator Anim;
         public bool SpiderSwings;
+        public Vector2 AnchorPoint;
     }
     private SpiderType spider;
     private WebString web;
@@ -31,16 +33,17 @@ public class SpiderClass : Spawnable {
 
     private void FixedUpdate()
     {
-        web.MoveLeft(Time.deltaTime, Speed);
-
         if (!IsActive) { return; }
         MoveLeft(Time.deltaTime);
     }
 
     private void Update()
     {
-        if (spider.SpiderSwings || player == null) { return; } // TODO define this
-        if (!(player.transform.position.x + 6f > transform.position.x) || _spiderState != SpiderStates.Normal)
+        web.MoveLeft(Time.deltaTime, Speed);
+        web.UpdateWebSprites();
+
+        if (player == null) { return; }
+        if (!(player.transform.position.x + 7f > transform.position.x + (spider.SpiderSwings ? spider.AnchorPoint.x : 0f)) || _spiderState != SpiderStates.Normal)
             return;
         _spiderState = SpiderStates.PreparingDrop;
         StartCoroutine("Drop");
@@ -56,12 +59,13 @@ public class SpiderClass : Spawnable {
         web = new WebString(transform);
     }
 
-    public void Activate(SpawnType spawnTf, bool spiderSwings)
+    public void Activate(SpawnType spawnTf, bool spiderSwings, Vector2 anchorPoint)
     {
         base.Activate(transform, spawnTf);
         spider.SpiderSwings = spiderSwings;
+        spider.AnchorPoint = anchorPoint;
         _spiderState = SpiderStates.Normal;
-        web.Activate();
+        web.Activate(spiderSwings, anchorPoint);
     }
     
     public bool Active() { return IsActive; }
@@ -90,7 +94,16 @@ public class SpiderClass : Spawnable {
             yield return new WaitForSeconds(0.09f);
             shakeTime += 0.09f;
         }
-        StartCoroutine(Falling());
+
+        if (spider.SpiderSwings)
+        {
+            body.isKinematic = false;
+            body.AddForce(new Vector2(-700, -1000));
+        }
+        else
+        {
+            StartCoroutine(Falling());
+        }
     }
 
     private IEnumerator Falling()
@@ -108,7 +121,7 @@ public class SpiderClass : Spawnable {
                     body.AddForce(Vector2.down * 10f);
                     web.Disengage();
                 }
-                web.Update();
+                web.UpdateDrop();
             }
             else
             {
@@ -118,7 +131,7 @@ public class SpiderClass : Spawnable {
             }
             yield return null;
         }
-        web.Disable();
+        web.Disengage();
         SendToInactivePool();
     }
 

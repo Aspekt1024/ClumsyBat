@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class SpiderEditorHandler : BaseObjectHandler
 {
@@ -13,7 +14,27 @@ public class SpiderEditorHandler : BaseObjectHandler
 
     protected override void Update()
     {
+        foreach (Transform t in parentObj)
+        {
+            SpiderClass s = t.GetComponent<SpiderClass>();
+            if (!s.SwingingSpider) continue;
 
+            Vector2 anchorPos = new Vector2(s.WebAnchorPoint.x + s.transform.position.x, s.WebAnchorPoint.y + s.transform.position.y);
+
+            RaycastHit2D hit = Physics2D.Raycast(new Vector2(anchorPos.x, 0f), Vector2.up, 20f, 1 << LayerMask.NameToLayer("Caves"));
+            if (hit.collider != null)
+            {
+                anchorPos = new Vector2(anchorPos.x, hit.point.y);
+            }
+
+            const float anchorRadius = 0.3f;
+            Rect r = new Rect(anchorPos - Vector2.one * anchorRadius/2, Vector2.one * anchorRadius);
+
+            Handles.DrawSolidRectangleWithOutline(r, Color.white, Color.white);
+            Handles.DrawLine(anchorPos, s.transform.position);
+
+            s.WebAnchorPoint = new Vector2(anchorPos.x - s.transform.position.x, anchorPos.y - s.transform.position.y);
+        }
     }
 
     public override void StoreObjects(ref LevelContainer levelObj)
@@ -33,6 +54,7 @@ public class SpiderEditorHandler : BaseObjectHandler
             SpiderPool.SpiderType newSpider = level.Caves[index].Spiders[SpiderNum[index]];
             newSpider.SpawnTransform = ProduceSpawnTf(Spider, index);
             newSpider.SpiderSwings = Spider.GetComponent<SpiderClass>().SwingingSpider;
+            newSpider.AnchorPoint = Spider.GetComponent<SpiderClass>().WebAnchorPoint;
             level.Caves[index].Spiders[SpiderNum[index]] = newSpider;
             SpiderNum[index]++;
         }
@@ -50,6 +72,7 @@ public class SpiderEditorHandler : BaseObjectHandler
                 spawnTf.Pos += new Vector2(i * LevelEditorConstants.TileSizeX, 0f);
                 newSpider.GetComponent<SpiderClass>().SetTransform(newSpider.transform, spawnTf);
                 newSpider.GetComponent<SpiderClass>().SwingingSpider = Spider.SpiderSwings;
+                newSpider.GetComponent<SpiderClass>().WebAnchorPoint = Spider.AnchorPoint;
             }
         }
     }

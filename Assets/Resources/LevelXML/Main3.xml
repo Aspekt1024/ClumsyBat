@@ -13,8 +13,8 @@
         <SpiderType>
           <SpawnTransform>
             <Pos>
-              <x>7.822489</x>
-              <y>4.39682531</y>
+              <x>7.51</x>
+              <y>4.31</y>
             </Pos>
             <Scale>
               <x>0.7609469</x>
@@ -32,7 +32,11 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <SpiderSwings>false</SpiderSwings>
+          <SpiderSwings>true</SpiderSwings>
+          <AnchorPoint>
+            <x>-3.4</x>
+            <y>0.448571682</y>
+          </AnchorPoint>
         </SpiderType>
       </Spiders>
       <Webs />
@@ -956,6 +960,10 @@
             </Rotation>
           </SpawnTransform>
           <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
         </SpiderType>
         <SpiderType>
           <SpawnTransform>
@@ -980,6 +988,10 @@
             </Rotation>
           </SpawnTransform>
           <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
         </SpiderType>
       </Spiders>
       <Webs />

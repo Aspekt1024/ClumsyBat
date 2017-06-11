@@ -16,6 +16,7 @@ public sealed class SpiderPool : SpawnPool<SpiderClass> {
     {
         public Spawnable.SpawnType SpawnTransform;
         public bool SpiderSwings;
+        public Vector2 AnchorPoint;
     }
 
     public void SetupSpidersInList(SpiderType[] spiderList, float xOffset)
@@ -25,7 +26,7 @@ public sealed class SpiderPool : SpawnPool<SpiderClass> {
             SpiderClass newSpider = GetNextObject();
             Spawnable.SpawnType spawnTf = spider.SpawnTransform;
             spawnTf.Pos += new Vector2(xOffset, 0f);
-            newSpider.Activate(spawnTf, spider.SpiderSwings);
+            newSpider.Activate(spawnTf, spider.SpiderSwings, spider.AnchorPoint);
         }
     }
 }
