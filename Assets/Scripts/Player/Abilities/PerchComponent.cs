@@ -8,6 +8,7 @@ public class PerchComponent : MonoBehaviour
     private GameHandler _gameHandler;
     private Transform _lantern;
     private Rigidbody2D _lanternBody;
+    private GameObject rubble;
 
     public bool bJumpOnTouchRelease;
 
@@ -31,6 +32,7 @@ public class PerchComponent : MonoBehaviour
 	    _gameHandler = FindObjectOfType<GameHandler>();
         _lantern = _player.Lantern.transform;
         _lanternBody = _lantern.GetComponent<Rigidbody2D>();
+        rubble = Resources.Load<GameObject>("Effects/SmallRubbleEffect");
     }
 
     private void Update()
@@ -90,12 +92,15 @@ public class PerchComponent : MonoBehaviour
         bJumpOnTouchRelease = false;
         _player.GetComponent<Rigidbody2D>().isKinematic = false;
 
+        RaycastHit2D hit = new RaycastHit2D();
+
         if (_state == PerchState.PerchedTop)
         {
             _state = PerchState.Transitioning;
             _player.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Unperch);
             StartCoroutine(Drop(0.1f));
             StartCoroutine("MoveLantern", true);
+            hit = Physics2D.Raycast(_player.transform.position, Vector2.up, 5f, 1 << LayerMask.NameToLayer("Caves"));
         }
         else
         {
@@ -104,6 +109,13 @@ public class PerchComponent : MonoBehaviour
             _player.SwitchPerchState();
             _player.UnperchBottom();
             _gameHandler.UpdateGameSpeed(1);
+            hit = Physics2D.Raycast(_player.transform.position, Vector2.down, 5f, 1 << LayerMask.NameToLayer("Caves"));
+        }
+
+        if (hit.collider != null)
+        {
+            GameObject rCopy = Instantiate(rubble, hit.point, Quaternion.identity, hit.collider.transform);
+            Destroy(rCopy, 0.5f);
         }
 
     }
