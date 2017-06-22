@@ -7,12 +7,13 @@ public class WebString {
     private Transform webAnchor;
     private Transform spiderTf;
     private HingeJoint2D spiderHinge;
-    private const int numSections = 30;
+    private SpiderClass spiderScript;
+    private const int numSections = 90;
     private int activeSections;
     private float zLayer;
-    private bool isSwinging;
+    private bool hasCollided;
 
-    private const float sectionSize = 0.3f;
+    private const float sectionSize = 0.5f;
 
     WebSection[] sections;
     Transform[] links;
@@ -23,26 +24,36 @@ public class WebString {
         public Rigidbody2D body;
         public HingeJoint2D hinge;
     }
-
-	
+    
     public WebString(Transform parentTf)
     {
         spiderTf = parentTf;
         spiderHinge = spiderTf.GetComponent<HingeJoint2D>();
+        spiderScript = spiderTf.GetComponent<SpiderClass>();
         GenerateSections();
         zLayer = Toolbox.Instance.ZLayers["Spider"] + 0.01f;
     }
 
+    public void Collision()
+    {
+        hasCollided = true;
+        Engage();
+    }
+
     public void UpdateWebSprites()
     {
-        if (!isSwinging) return;
+        if (activeSections < 1) return;
 
         for (int i = 0; i < activeSections - 1; i++)
         {
             PositionLink(i, sections[i].tf.position, sections[i + 1].tf.position);
         }
-        PositionLink(activeSections - 1, sections[activeSections - 1].tf.position, spiderTf.position);
         PositionLink(activeSections, sections[0].tf.position, webAnchor.position);
+
+        if (spiderScript.IsActive)
+        {
+            PositionLink(activeSections - 1, sections[activeSections - 1].tf.position, spiderTf.position);
+        }
     }
 
     private void PositionLink(int i, Vector2 node1, Vector2 node2)
@@ -55,7 +66,7 @@ public class WebString {
 
         links[i].eulerAngles = new Vector3(0f, 0f, angle);
         links[i].position = new Vector3(midPoint.x, midPoint.y, zLayer + 0.04f);
-        links[i].localScale = new Vector2(0.5f, dist / sectionSize);
+        links[i].localScale = new Vector2(0.5f, dist / 0.32f);
     }
 
     public void UpdateDrop()
@@ -70,7 +81,6 @@ public class WebString {
     public void Engage()
     {
         spiderHinge.enabled = true;
-        spiderTf.GetComponent<Rigidbody2D>().AddForce(new Vector2(200f, Random.Range(-1000, 1000f)));
     }
 
     public void Disengage()
@@ -91,8 +101,7 @@ public class WebString {
             section.body.isKinematic = true;
             section.body.transform.position = Toolbox.Instance.HoldingArea;
         }
-
-        isSwinging = IsSwinging;
+        
         if (IsSwinging)
         {
             SetupSwingingWeb(anchorPoint);
@@ -120,6 +129,7 @@ public class WebString {
         for (int i = 0; i < numSections; i++)
         {
             GameObject newSection = new GameObject("WebPiece", typeof(Rigidbody2D), typeof(HingeJoint2D));
+
             newSection.transform.SetParent(webAnchor);
             newSection.transform.position = Toolbox.Instance.HoldingArea;
 
@@ -156,12 +166,15 @@ public class WebString {
             if (sNum == 0)
             {
                 sections[sNum].hinge.connectedBody = webAnchor.GetComponent<Rigidbody2D>();
+                sections[sNum].hinge.limits = SetHingeLimits(sections[sNum].hinge.limits, 50);
             }
             else
             {
                 sections[sNum].hinge.connectedBody = sections[sNum - 1].body;
+                sections[sNum].hinge.limits = SetHingeLimits(sections[sNum].hinge.limits, 15);
             }
 
+            sections[sNum].hinge.useLimits = true;
             sections[sNum].hinge.autoConfigureConnectedAnchor = false;
             sections[sNum].hinge.anchor = new Vector2(0f, sectionSize / 2);
             sections[sNum].hinge.connectedAnchor = new Vector2(0f, -sectionSize / 2);
@@ -172,7 +185,17 @@ public class WebString {
         }
 
         spiderHinge.connectedBody = sections[activeSections - 1].body;
-        spiderHinge.anchor = new Vector2(0f, .7f);
+        spiderHinge.anchor = new Vector2(0f, .3f);
+        spiderHinge.autoConfigureConnectedAnchor = false;
+        spiderHinge.connectedAnchor = new Vector2(0f, -sectionSize / 2);
+        spiderHinge.useLimits = false;
+    }
+
+    private JointAngleLimits2D SetHingeLimits(JointAngleLimits2D limits, float minMax = 5f)
+    {
+        limits.min = -minMax;
+        limits.max = minMax;
+        return limits;
     }
 
     private void SetFirstSection()
@@ -210,6 +233,7 @@ public class WebString {
         spiderHinge.anchor = new Vector2(0f, 0.2f);
         spiderHinge.autoConfigureConnectedAnchor = false;
         spiderHinge.connectedAnchor = new Vector2(0f, -sectionSize / 2);
+        spiderHinge.useLimits = false;
     }
 
     private Transform GetWebsGroupObject()

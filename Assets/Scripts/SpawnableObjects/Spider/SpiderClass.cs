@@ -46,7 +46,7 @@ public class SpiderClass : Spawnable {
         if (!(player.transform.position.x + 7f > transform.position.x + (spider.SpiderSwings ? spider.AnchorPoint.x : 0f)) || _spiderState != SpiderStates.Normal)
             return;
         _spiderState = SpiderStates.PreparingDrop;
-        StartCoroutine("Drop");
+        StartCoroutine(Drop());
     }
 
     private void GetSpiderComponents()
@@ -69,7 +69,13 @@ public class SpiderClass : Spawnable {
     }
     
     public bool Active() { return IsActive; }
-    public void DestroySpider() { StartCoroutine("KillIt"); }
+    public void DestroySpider() { if (IsActive) StartCoroutine(KillIt()); }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        StopAllCoroutines();
+        web.Collision();
+    }
 
     private IEnumerator Drop()
     {
@@ -127,7 +133,6 @@ public class SpiderClass : Spawnable {
             {
                 gravitySet = false;
                 body.velocity = Vector2.zero;
-                web.Engage();
             }
             yield return null;
         }
@@ -138,8 +143,10 @@ public class SpiderClass : Spawnable {
     private IEnumerator KillIt()
     {
         spider.Anim.enabled = true;
+        web.Disengage();
+        body.isKinematic = false;
         //Spider.Anim.Play("Crumble", 0, 0f);   // TODO anim
-        yield return new WaitForSeconds(0.67f);
+        yield return new WaitForSeconds(1f);
         SendToInactivePool();
     }
 }
