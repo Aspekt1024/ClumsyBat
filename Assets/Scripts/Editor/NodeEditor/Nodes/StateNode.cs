@@ -107,11 +107,10 @@ public class StateNode : BaseNode {
         }
 
         // TODO implement this
-        return;
-        if (NodeGUI.ButtonLayout("New from existing"))
-        {
-            NewFromExisting(allStates[selectedStateIndex]);
-        }
+        //if (NodeGUI.ButtonLayout("New from existing"))
+        //{
+        //    NewFromExisting(allStates[selectedStateIndex]);
+        //}
     }
 
     private void CreateNewState()
