@@ -60,12 +60,12 @@ public class Walk : BossAbility {
         if (_direction == WalkDirection.Left && transform.position.x < -3.5f + camPosX)
         {
             _direction = WalkDirection.Right;
-            GetComponent<Boss>().FaceDirection(bFaceLeft: false);
+            GetComponent<Boss>().FaceDirection(Boss.Direction.Right);
         }
         else if (_direction == WalkDirection.Right && transform.position.x > 4f + camPosX)
         {
             _direction = WalkDirection.Left;
-            GetComponent<Boss>().FaceDirection(bFaceLeft: true);
+            GetComponent<Boss>().FaceDirection(Boss.Direction.Left);
         }
     }
 }

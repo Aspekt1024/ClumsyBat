@@ -13,10 +13,11 @@ public class Boss : MonoBehaviour {
         Left, Right, Switch
     }
 
+    public Rigidbody2D Body;
+
     protected bool _bPaused;
     protected int health;
     protected SpriteRenderer bossRenderer;
-    protected Rigidbody2D body;
     protected Collider2D bossCollider;
 
     private StateMachine machine;
@@ -48,7 +49,7 @@ public class Boss : MonoBehaviour {
 
     protected virtual void GetBossComponents()
     {
-        body = GetComponent<Rigidbody2D>();
+        Body = GetRigidBody();
         bossCollider = GetComponentInChildren<Collider2D>();
         bossRenderer = GetComponent<SpriteRenderer>();
     }
@@ -58,20 +59,25 @@ public class Boss : MonoBehaviour {
         machine = stateMachine;
         health = stateMachine.Health;
     }
-    
+
+    protected virtual Rigidbody2D GetRigidBody()
+    {
+        return GetComponent<Rigidbody2D>();
+    }
+
     protected virtual void PauseGame()
     {
         _bPaused = true;
-        storedVelocity = body.velocity;
-        body.velocity = Vector2.zero;
-        body.isKinematic = true;
+        storedVelocity = Body.velocity;
+        Body.velocity = Vector2.zero;
+        Body.isKinematic = true;
     }
 
     protected virtual void ResumeGame()
     {
         _bPaused = false;
-        body.velocity = storedVelocity;
-        body.isKinematic = false;
+        Body.velocity = storedVelocity;
+        Body.isKinematic = false;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -102,7 +108,7 @@ public class Boss : MonoBehaviour {
         }
     }
 
-    public void FaceDirection(Direction dir)
+    public virtual void FaceDirection(Direction dir)
     {
         // This assumes the boss is facing to the left when scale.x is positive
         Transform bossParent = GetComponentInParent<Transform>();
@@ -151,7 +157,7 @@ public class Boss : MonoBehaviour {
     protected virtual void Die()
     {
         bossCollider.enabled = false;
-        body.velocity = new Vector2(3f, 5f);
+        Body.velocity = new Vector2(3f, 5f);
         //_anim.Play("Die");
         BossEvents.BossDeath();
     }
@@ -203,14 +209,6 @@ public class Boss : MonoBehaviour {
     public virtual void EndWalk() { }
     public virtual void Jump() { }
     public virtual void EndJump() { }
-
-    public void FaceDirection(bool bFaceLeft)
-    {
-        if (bFaceLeft)
-            transform.localScale = new Vector2(originalScale.x, originalScale.y);
-        else
-            transform.localScale = new Vector2(-originalScale.x, originalScale.y);
-    }
 
     public void SetHealth(int newHealth)
     {

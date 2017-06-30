@@ -7,4 +7,9 @@ public class EvilClumsy : Boss
     {
         Debug.Log("Evil clumsy goes 'Ow!'");
     }
+
+    protected override Rigidbody2D GetRigidBody()
+    {
+        return GetComponent<Rigidbody2D>();
+    }
 }

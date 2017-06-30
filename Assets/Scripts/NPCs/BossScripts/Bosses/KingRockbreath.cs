@@ -34,9 +34,14 @@ public class KingRockbreath : Boss
         spriteDict.Add(Animations.Jump, "RockbreathJump");
     }
 
+    protected override Rigidbody2D GetRigidBody()
+    {
+        return GetComponent<Rigidbody2D>();
+    }
+
     protected override void GetBossComponents()
     {
-        body = GetComponent<Rigidbody2D>();
+        Body = GetComponent<Rigidbody2D>();
     }
 
     private void GetSprites()
