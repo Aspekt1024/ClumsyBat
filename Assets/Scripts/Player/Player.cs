@@ -254,12 +254,12 @@ public class Player : MonoBehaviour {
         if (_state == PlayerState.Dying || _state == PlayerState.Dead) return;
 
         _state = PlayerState.Dying;
+        _perch.Unperch();
 
         EventListener.Death();
         DisablePlayerController();
         _data.Stats.Deaths += 1;
         
-        _perch.Unperch();
         _playerCollider.enabled = false;
         _playerRigidBody.gravityScale = GravityScale;
         _playerRigidBody.velocity = new Vector2(1, 0);
@@ -271,7 +271,7 @@ public class Player : MonoBehaviour {
 
     private IEnumerator PauseForDeath()
     {
-        // TODO play sound
+        _audioControl.PlaySound(PlayerSounds.Collision);    // TODO replace with something... better? like an "ow!"
         yield return null;
         _gameHandler.PauseGame(showMenu: false);
         yield return new WaitForSeconds(0.47f);
