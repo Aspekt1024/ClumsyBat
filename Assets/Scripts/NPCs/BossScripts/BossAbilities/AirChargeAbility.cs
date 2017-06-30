@@ -16,10 +16,6 @@ public class AirChargeAbility : BossAbility {
         bossScript = GetComponent<Boss>();
         body = bossScript.Body;
     }
-	
-	void Update () {
-		
-	}
 
     public void Activate(AirChargeAction actionRef)
     {
@@ -45,8 +41,7 @@ public class AirChargeAbility : BossAbility {
         chargeSpeed = caller.ChargeSpeed * chargeDir;
         StartCoroutine(Windup());
     }
-
-
+    
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.tag == "CaveWall" && chargeEnabled)
@@ -62,13 +57,7 @@ public class AirChargeAbility : BossAbility {
 
     private IEnumerator Windup()
     {
-        //body.velocity = Vector2.left * Mathf.Clamp(chargeSpeed, -2f, 2f);
-
-        const float windupTime = 1f;
-        //yield return StartCoroutine(Wait(windupTime));
         bossScript.Walk();
-
-        // TODO replace this with separate node - air loop
 
         float airLoopTimer = 0f;
         const float airLoopDuration = .9f;
@@ -84,7 +73,6 @@ public class AirChargeAbility : BossAbility {
             yield return null;
         }
         body.rotation = 0f;
-        
 
         StartCoroutine(Charge());
     }
