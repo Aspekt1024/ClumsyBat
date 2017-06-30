@@ -75,7 +75,7 @@
             <y>35</y>
           </Position>
           <ID>1</ID>
-          <Label>Near Player</Label>
+          <Label>Near player</Label>
           <Type>Event</Type>
           <Direction>Output</Direction>
           <ConnectedNodeID>2</ConnectedNodeID>
@@ -87,7 +87,7 @@
             <y>55</y>
           </Position>
           <ID>2</ID>
-          <Label>LoS</Label>
+          <Label>horiz</Label>
           <Type>Event</Type>
           <Direction>Output</Direction>
           <ConnectedNodeID>3</ConnectedNodeID>
@@ -99,7 +99,7 @@
             <y>75</y>
           </Position>
           <ID>3</ID>
-          <Label>Too Far</Label>
+          <Label>too far</Label>
           <Type>Event</Type>
           <Direction>Output</Direction>
           <ConnectedNodeID>12</ConnectedNodeID>
@@ -221,7 +221,7 @@
             <y>35</y>
           </Position>
           <ID>1</ID>
-          <Label>Recovered</Label>
+          <Label>Success</Label>
           <Type>Event</Type>
           <Direction>Output</Direction>
           <ConnectedNodeID>6</ConnectedNodeID>
