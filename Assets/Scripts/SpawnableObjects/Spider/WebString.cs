@@ -11,7 +11,6 @@ public class WebString {
     private const int numSections = 90;
     private int activeSections;
     private float zLayer;
-    private bool hasCollided;
 
     private const float sectionSize = 0.5f;
 
@@ -36,7 +35,6 @@ public class WebString {
 
     public void Collision()
     {
-        hasCollided = true;
         Engage();
     }
 
