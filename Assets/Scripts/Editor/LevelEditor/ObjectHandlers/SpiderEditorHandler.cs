@@ -67,7 +67,7 @@ public class SpiderEditorHandler : BaseObjectHandler
             if (level.Caves[i].Spiders == null || level.Caves[i].Spiders.Length == 0) continue;
             foreach (SpiderPool.SpiderType Spider in level.Caves[i].Spiders)
             {
-                GameObject newSpider = (GameObject)Object.Instantiate(Resources.Load("Collectibles/Spider"), parentObj);
+                GameObject newSpider = (GameObject)Object.Instantiate(Resources.Load("Obstacles/Spider"), parentObj);
                 Spawnable.SpawnType spawnTf = Spider.SpawnTransform;
                 spawnTf.Pos += new Vector2(i * LevelEditorConstants.TileSizeX, 0f);
                 newSpider.GetComponent<SpiderClass>().SetTransform(newSpider.transform, spawnTf);

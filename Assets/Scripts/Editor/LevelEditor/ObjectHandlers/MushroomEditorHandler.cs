@@ -45,7 +45,7 @@ public class MushroomEditorHandler : BaseObjectHandler
             if (level.Caves[i].Shrooms == null || level.Caves[i].Shrooms.Length == 0) continue;
             foreach (ShroomPool.ShroomType Mushroom in level.Caves[i].Shrooms)
             {
-                GameObject newMushroom = (GameObject)Object.Instantiate(Resources.Load("Collectibles/Mushroom"), parentObj);
+                GameObject newMushroom = (GameObject)Object.Instantiate(Resources.Load("Obstacles/Mushroom"), parentObj);
                 Spawnable.SpawnType spawnTf = Mushroom.SpawnTransform;
                 spawnTf.Pos += new Vector2(i * LevelEditorConstants.TileSizeX, 0f);
                 newMushroom.GetComponent<Mushroom>().SetTransform(newMushroom.transform, spawnTf);
