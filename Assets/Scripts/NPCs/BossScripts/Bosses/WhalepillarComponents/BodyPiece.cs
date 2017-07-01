@@ -43,15 +43,22 @@ public class BodyPiece : MonoBehaviour {
     
     private void MovePointsTogether()
     {
+        bool isFlipped = thisBody.GetComponent<SpriteRenderer>().flipX;
+        if (OtherBody.GetComponent<SpriteRenderer>().flipX != isFlipped)
+        {
+            isFlipped = OtherBody.GetComponent<SpriteRenderer>().flipX;
+            thisBody.GetComponent<SpriteRenderer>().flipX = isFlipped;
+            PointOnOther = new Vector2(-PointOnOther.x, PointOnOther.y);
+        }
+
         Vector2 otherPointInWorldSpace = OtherBody.position + V3ToV2(OtherBody.transform.right * PointOnOther.x + OtherBody.transform.up * PointOnOther.y);
         Vector2 distCentreToPoint = otherPointInWorldSpace - V3ToV2(transform.position);
 
-        Vector2 thisPointInWorldSpace = thisBody.position + V3ToV2(thisBody.transform.right * PointOnThis.x + thisBody.transform.up * PointOnThis.y);
+        Vector2 thisPointInWorldSpace = thisBody.position + V3ToV2((isFlipped ? -1 : 1) * thisBody.transform.right * PointOnThis.x + thisBody.transform.up * PointOnThis.y);
         Vector2 pointsDist = otherPointInWorldSpace - thisPointInWorldSpace;
 
         if (pointsDist.magnitude < desiredDistance)
         {
-
             if (pointsDist.magnitude < 0.05f)
             {
                     OscillateRotation();
@@ -61,7 +68,6 @@ public class BodyPiece : MonoBehaviour {
                 float additionalRotation = Mathf.Clamp(OtherBody.rotation - thisBody.rotation, -360 * Time.deltaTime, 360 * Time.deltaTime);
                 transform.Rotate(Vector3.forward, additionalRotation);
             }
-
         }
         else
         {
@@ -84,10 +90,13 @@ public class BodyPiece : MonoBehaviour {
             thisBody.rotation += additionalRotation;
         }
 
-        thisPointInWorldSpace = thisBody.position + V3ToV2(thisBody.transform.right * PointOnThis.x + thisBody.transform.up * PointOnThis.y);
+        if (isFlipped)
+            thisPointInWorldSpace = thisBody.position + V3ToV2(-thisBody.transform.right * PointOnThis.x + thisBody.transform.up * PointOnThis.y);
+        else
+            thisPointInWorldSpace = thisBody.position + V3ToV2(thisBody.transform.right * PointOnThis.x + thisBody.transform.up * PointOnThis.y);
+
         pointsDist = otherPointInWorldSpace - thisPointInWorldSpace;
         thisBody.velocity = pointsDist * 14;
-        
     }
 
     private void OscillateRotation()

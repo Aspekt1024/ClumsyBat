@@ -13,6 +13,8 @@ public class Whalepillar : Boss
     private Animator anim;
     private Collider2D antlersCollider;
 
+    private SpriteRenderer bodySprite;
+
     private enum RockbreathSprites
     {
         Tooth1 = 0, Tooth2, Tooth3, Antlers
@@ -21,7 +23,14 @@ public class Whalepillar : Boss
 
     public override void FaceDirection(Direction dir)
     {
-        base.FaceDirection(dir);
+        if (dir == Direction.Left && bodySprite.flipX)
+        {
+            bodySprite.flipX = false;
+        }
+        else if (dir == Direction.Right && !bodySprite.flipX)
+        {
+            bodySprite.flipX = true;
+        }
     }
 
     private void Start()
@@ -46,6 +55,7 @@ public class Whalepillar : Boss
 
     private void GetSprites()
     {
+        bodySprite = GetComponent<SpriteRenderer>();
     }
 
     protected override void HealthUpdate()

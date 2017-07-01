@@ -38,6 +38,7 @@ public class AirChargeAbility : BossAbility {
                 break;
         }
 
+        bossScript.FaceDirection(chargeDir > 0 ? Boss.Direction.Right : Boss.Direction.Left);
         chargeSpeed = caller.ChargeSpeed * chargeDir;
         StartCoroutine(Windup());
     }
