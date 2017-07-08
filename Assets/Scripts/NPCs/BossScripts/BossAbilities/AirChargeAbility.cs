@@ -68,8 +68,8 @@ public class AirChargeAbility : BossAbility {
             if (!Toolbox.Instance.GamePaused)
             {
                 airLoopTimer += Time.deltaTime;
-                body.rotation = -360f * airLoopTimer / airLoopDuration;
-                body.velocity = -body.transform.right.normalized * 7f;
+                body.rotation = (chargeSpeed < 0 ? -1 : 1) * 360f * airLoopTimer / airLoopDuration;
+                body.velocity = (chargeSpeed < 0 ? -1 : 1) * body.transform.right.normalized * 7f;
             }
             yield return null;
         }
