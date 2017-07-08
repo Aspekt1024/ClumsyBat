@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class DropdownInGameMenu : MonoBehaviour {
@@ -20,6 +21,9 @@ public class DropdownInGameMenu : MonoBehaviour {
     }
     private TextType _menuHeader;
     private TextType _subText;
+
+    private MothStar[] stars;
+    private int firstInactiveStarIndex;
     
     private void Start ()
     {
@@ -53,7 +57,55 @@ public class DropdownInGameMenu : MonoBehaviour {
 
         _menuHeader.Text.text = "LEVEL COMPLETE!";
         _subText.Text.text = levelText;
-        _menu.StartCoroutine("PanelDropAnim", true);
+        StartCoroutine(LevelCompleteRoutine());
+    }
+
+    private IEnumerator LevelCompleteRoutine()
+    {
+        AddStars();
+        yield return _menu.StartCoroutine(_menu.PanelDropAnim(true));
+        StartCoroutine(ShowStars());
+    }
+
+    private void AddStars()
+    {
+        GameObject mothStar = Resources.Load<GameObject>("UIElements/MothStar");
+
+        int newStars = GameData.Instance.NewStars;
+        int activeStars = GameData.Instance.TotalStars - newStars;
+        int setStars = 0;
+
+        stars = new MothStar[3];
+        
+        for (int i = 0; i < 3; i++)
+        {
+            stars[i] = Instantiate(mothStar).GetComponent<MothStar>();
+            stars[i].transform.SetParent(transform);
+            stars[i].transform.position = _subText.RectTransform.transform.position + Vector3.right * (2 + i);
+            if (setStars < activeStars)
+            {
+                stars[i].SetActive();
+                setStars++;
+                firstInactiveStarIndex = i + 1;
+            }
+            else
+            {
+                stars[i].SetInactive();
+            }
+        }
+    }
+
+    private IEnumerator ShowStars()
+    {
+        yield return new WaitForSeconds(0.5f);
+        int newStars = GameData.Instance.NewStars;
+        while (newStars > 0)
+        {
+            // TODO play sound
+            yield return stars[firstInactiveStarIndex].StartCoroutine(stars[firstInactiveStarIndex].AnimateToActive());
+            newStars--;
+            firstInactiveStarIndex++;
+        }
     }
 
     public void PauseMenu()

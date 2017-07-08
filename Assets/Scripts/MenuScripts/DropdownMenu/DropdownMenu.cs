@@ -111,7 +111,7 @@ public class DropdownMenu : MonoBehaviour {
         if (_statsPanel) { StatsMenu = _statsPanel.GetComponent<DropdownStatsMenu>(); }
     }
 
-    private IEnumerator PanelDropAnim(bool bEnteringScreen)
+    public IEnumerator PanelDropAnim(bool bEnteringScreen)
     {
         if (!bEnteringScreen)
         {
@@ -141,8 +141,6 @@ public class DropdownMenu : MonoBehaviour {
         if (bEnteringScreen)
         {
             StartCoroutine("Bounce", -1);
-            yield return new WaitForSeconds(BounceDuration);
-            StartCoroutine("Bounce", 0.3);
             yield return new WaitForSeconds(BounceDuration);
         }
         _menuPanel.position = new Vector3(_menuPanel.position.x, endPos, _menuPanel.position.z);

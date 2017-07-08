@@ -13,7 +13,7 @@ public class LevelGameHandler : GameHandler
     private CaveHandler _caveHandler;
     private bool _caveGnomeEndSequenceStarted;
     private VillageSequencer _villageSequencer;
-
+    
     private void Start ()
     {
         Level = FindObjectOfType<LevelScript>();
@@ -156,7 +156,8 @@ public class LevelGameHandler : GameHandler
         if (other.collider.name == "StalObject") { other.collider.GetComponent<Stalactite>().Crack(); }
 
         if (ThePlayer.ActivateShield())
-        { 
+        {
+            GameData.Instance.IsUntouched = false;
             ThePlayer.PlaySound(ClumsyAudioControl.PlayerSounds.Collision); // TODO sounds
         }
         else

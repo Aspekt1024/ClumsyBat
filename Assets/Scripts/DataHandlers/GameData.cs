@@ -12,8 +12,13 @@ public class GameData : Singleton<GameData>
         Secret2
     }
 
-    private LevelDataContainer.LevelType _levelCompletion;
+    public int NumMoths;
+    public bool IsUntouched = true;
+    public int NewStars;
+    public int TotalStars;
     public LevelProgressionHandler.Levels Level;
+
+    private LevelDataContainer.LevelType _levelCompletion;
 
     public LevelDataContainer.LevelType GetLevelCompletion()
     {

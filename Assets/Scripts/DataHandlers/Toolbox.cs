@@ -6,7 +6,7 @@ using Levels = LevelProgressionHandler.Levels;
 
 public class Toolbox : Singleton<Toolbox>
 {
-    protected Toolbox() { } // guarantee this will be always a singleton only - can't use the constructor!
+    protected Toolbox() { }
 
     public Language Language = new Language();
 
@@ -124,8 +124,8 @@ public class Toolbox : Singleton<Toolbox>
         LevelNames.Add(Levels.Main14, "Spaceship");
         LevelNames.Add(Levels.Main15, "Hit");
 
-        LevelNames.Add(Levels.Boss1, "Evil Clumsy");
-        LevelNames.Add(Levels.Boss2, "King Rockbreath");
+        LevelNames.Add(Levels.Boss1, "King Rockbreath");
+        LevelNames.Add(Levels.Boss2, "Whalepillar");
         LevelNames.Add(Levels.Training1, "Rocky");
     }
 

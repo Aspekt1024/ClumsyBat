@@ -121,6 +121,9 @@ public class GameUI : MonoBehaviour {
                     break;
             }
         }
+        // TODO remove these if not needed
+        _collectedCurrencyRt.gameObject.SetActive(false);
+        _currencyRt.gameObject.SetActive(false);
     }
 
     public void SetResumeTimer(float timeRemaining)
@@ -185,7 +188,6 @@ public class GameUI : MonoBehaviour {
     public void GameOver()
     {
         EnablePauseButton(false);
-        StartCoroutine("ProcessCurrency", false);
     }
 
     private void EnablePauseButton(bool bEnabled)
@@ -197,7 +199,6 @@ public class GameUI : MonoBehaviour {
     public void LevelWon()
     {
         EnablePauseButton(false);
-        StartCoroutine("ProcessCurrency", true);
     }
 
     public void SetCooldown(float ratio)
@@ -205,7 +206,7 @@ public class GameUI : MonoBehaviour {
         _cooldownBar.localScale = new Vector2(ratio, _cooldownBar.localScale.y);
         if (Math.Abs(ratio - 1f) < 0.01f && !_bCooldownReady)
         {
-            StartCoroutine("PulseObject", _cooldownBar);
+            StartCoroutine(PulseObject(_cooldownBar));
             _bCooldownReady = true;
             _cooldownImage.color = new Color(212 / 255f, 195 / 255f, 126 / 255f);
         }
@@ -220,54 +221,7 @@ public class GameUI : MonoBehaviour {
     {
         _cooldownImage.enabled = bShow;
     }
-
-    private IEnumerator ProcessCurrency(bool bCollect)
-    {
-        // Note: Currency has already been processed elsewhere
-        // This is just an animation
-        float animTimer = 0f;
-        const float animDuration = 1f;
-        float fromCurrency = _collectedCurrency;
-        float toCurrency = _currency + _collectedCurrency;
-        
-        _currencyScale = _currencyRt.localScale;
-        _collectedCurrencyScale = _collectedCurrencyRt.localScale;
-        
-        while (animTimer < animDuration)
-        {
-            animTimer += Time.deltaTime;
-            float delta = animTimer / animDuration;
-            
-            if (bCollect)
-            {
-                int oldCurrency = _currency;
-                _currency = (int)(toCurrency - (int)((1 - delta) * fromCurrency));
-                if (oldCurrency != _currency)
-                {
-                    _currencyRt.localScale = _currencyScale;
-                    StartCoroutine("PulseObject", _currencyRt);
-                }
-            }
-
-            int oldCollectedCurrency = _collectedCurrency;
-            _collectedCurrency = (int)((1 - delta) * fromCurrency);
-            if (_collectedCurrency != oldCollectedCurrency)
-            {
-                _collectedCurrencyRt.localScale = _collectedCurrencyScale;
-                StartCoroutine("PulseObject", _collectedCurrencyRt);
-            }
-            
-            while (_bPulseAnimating && _collectedCurrency == 0)
-            {
-                animTimer += Time.deltaTime;
-                yield return null;
-            }
-
-            SetCurrencyText();
-            yield return null;
-        }
-    }
-
+    
     private IEnumerator PulseObject(RectTransform textObject)
     {
         float animTimer = 0f;

@@ -51,6 +51,7 @@ public class LevelObjectHandler : MonoBehaviour {
         LoadLevel();
         Debug.Log("Level " + GameData.Instance.Level + " loaded.");
         SetupObjectPools();
+        GameData.Instance.NumMoths = GetNumMoths();
     }
 
     private void Update()
@@ -111,7 +112,6 @@ public class LevelObjectHandler : MonoBehaviour {
 
     public void SetPaused(bool pauseGame)
     {
-        // Caves?
         _cave.PauseGame(pauseGame);
         _shrooms.PauseGame(pauseGame);
         _stals.PauseGame(pauseGame);
@@ -143,5 +143,15 @@ public class LevelObjectHandler : MonoBehaviour {
     public void SetMode(bool bIsEndless)
     {
         _bEndlessMode = bIsEndless;
+    }
+
+    private int GetNumMoths()
+    {
+        int numMoths = 0;
+        foreach (var cave in _level.Caves)
+        {
+            numMoths += cave.Moths.Length;
+        }
+        return numMoths;
     }
 }

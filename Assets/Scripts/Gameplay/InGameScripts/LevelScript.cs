@@ -145,10 +145,10 @@ public class LevelScript : MonoBehaviour {
 
     public void LevelWon()
     {
+        EventListener.LevelWon();
+        GameData.Instance.SetLevelCompletion(GameData.LevelCompletePaths.MainPath);
         GameHud.LevelWon();
         GameMenu.WinGame();
-        GameData.Instance.SetLevelCompletion(GameData.LevelCompletePaths.MainPath);
-        EventListener.LevelWon();
         Toolbox.Player.GetComponent<PlayerController>().PauseGame(showMenu: false);
 
         // TODO add sound to sound controller script
