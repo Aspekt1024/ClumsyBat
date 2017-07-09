@@ -133,7 +133,9 @@ public class LevelDataControl : MonoBehaviour {
     public bool IsCompleted(int level) { return _levelCompletion[level].LevelCompleted; }
     public bool SecretPath1Completed(int level) { return _levelCompletion[level].SecretPath1; }
     public bool SecretPath2Completed(int level) { return _levelCompletion[level].SecretPath2; }
-    public bool AllMothsGathered(int level) { return _levelCompletion[level].Achievement1; }
+    public bool LevelCompletedAchievement(int level) { return _levelCompletion[level].Achievement1; }
+    public bool AllMothsGathered(int level) { return _levelCompletion[level].Achievement2; }
+    public bool NoDamageTaken(int level) { return _levelCompletion[level].Achievement3; }
 }
 
 [Serializable]

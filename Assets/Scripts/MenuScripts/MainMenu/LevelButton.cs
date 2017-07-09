@@ -4,6 +4,9 @@ using UnityEngine.UI;
 public class LevelButton : MonoBehaviour
 {
     public LevelProgressionHandler.Levels Level;
+    public bool Star1Complete;
+    public bool Star2Complete;
+    public bool Star3Complete;
 
     private Sprite _availableImage;
     private Sprite _completedImage;
@@ -56,6 +59,7 @@ public class LevelButton : MonoBehaviour
         _levelName.enabled = false;
         _namePanel.GetComponent<Image>().enabled = false;
         _state = BtnState.Unclicked;
+        SetStarCompletion();
     }
 
     private void GetLevelImages()
@@ -130,6 +134,19 @@ public class LevelButton : MonoBehaviour
             case LevelStates.Completed:
                 _levelImage.sprite = _state == BtnState.Clicked ? _completedClickedImage : _completedImage;
                 break;
+        }
+    }
+
+    private void SetStarCompletion()
+    {
+        if (stars[0] != null) {
+            if (Star1Complete) stars[0].SetActive(); else stars[0].SetInactive();
+        }
+        if (stars[0] != null) {
+            if (Star2Complete) stars[1].SetActive(); else stars[1].SetInactive();
+        }
+        if (stars[0] != null) {
+            if (Star3Complete) stars[2].SetActive(); else stars[2].SetInactive();
         }
     }
 }
