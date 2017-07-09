@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <NodeDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <EditorOffset>
-    <x>-296</x>
-    <y>-177</y>
+    <x>-167</x>
+    <y>-159</y>
   </EditorOffset>
   <Nodes>
     <BaseNode xsi:type="StartNode">
@@ -18,7 +18,7 @@
           <Label />
           <Type>Event</Type>
           <Direction>Output</Direction>
-          <ConnectedNodeID>3</ConnectedNodeID>
+          <ConnectedNodeID>4</ConnectedNodeID>
           <ConnectedIfaceID>0</ConnectedIfaceID>
         </NodeInterface>
       </interfaces>
@@ -66,7 +66,7 @@
           <Label />
           <Type>Event</Type>
           <Direction>Output</Direction>
-          <ConnectedNodeID>5</ConnectedNodeID>
+          <ConnectedNodeID>3</ConnectedNodeID>
           <ConnectedIfaceID>3</ConnectedIfaceID>
         </NodeInterface>
         <NodeInterface>
@@ -127,7 +127,7 @@
           <Label />
           <Type>Event</Type>
           <Direction>Input</Direction>
-          <ConnectedNodeID>5</ConnectedNodeID>
+          <ConnectedNodeID>3</ConnectedNodeID>
           <ConnectedIfaceID>0</ConnectedIfaceID>
         </NodeInterface>
       </interfaces>
@@ -162,143 +162,9 @@
         <yMax>440</yMax>
       </WindowRect>
     </BaseNode>
-    <BaseNode xsi:type="StateNode">
-      <WindowTitle>DetectPlayer</WindowTitle>
-      <ID>3</ID>
-      <interfaces>
-        <NodeInterface>
-          <Position>
-            <x>7</x>
-            <y>35</y>
-          </Position>
-          <ID>0</ID>
-          <Label />
-          <Type>Event</Type>
-          <Direction>Input</Direction>
-          <ConnectedNodeID>0</ConnectedNodeID>
-          <ConnectedIfaceID>0</ConnectedIfaceID>
-        </NodeInterface>
-        <NodeInterface>
-          <Position>
-            <x>143</x>
-            <y>35</y>
-          </Position>
-          <ID>1</ID>
-          <Label>CanCharge</Label>
-          <Type>Event</Type>
-          <Direction>Output</Direction>
-          <ConnectedNodeID>4</ConnectedNodeID>
-          <ConnectedIfaceID>0</ConnectedIfaceID>
-        </NodeInterface>
-        <NodeInterface>
-          <Position>
-            <x>143</x>
-            <y>55</y>
-          </Position>
-          <ID>2</ID>
-          <Label>NoDetection</Label>
-          <Type>Event</Type>
-          <Direction>Output</Direction>
-          <ConnectedNodeID>5</ConnectedNodeID>
-          <ConnectedIfaceID>2</ConnectedIfaceID>
-        </NodeInterface>
-      </interfaces>
-      <WindowRect>
-        <x>320</x>
-        <y>390</y>
-        <position>
-          <x>320</x>
-          <y>390</y>
-        </position>
-        <center>
-          <x>395</x>
-          <y>415</y>
-        </center>
-        <min>
-          <x>320</x>
-          <y>390</y>
-        </min>
-        <max>
-          <x>470</x>
-          <y>440</y>
-        </max>
-        <width>150</width>
-        <height>50</height>
-        <size>
-          <x>150</x>
-          <y>50</y>
-        </size>
-        <xMin>320</xMin>
-        <yMin>390</yMin>
-        <xMax>470</xMax>
-        <yMax>440</yMax>
-      </WindowRect>
-      <StateName>DetectPlayer</StateName>
-    </BaseNode>
-    <BaseNode xsi:type="StateNode">
-      <WindowTitle>FloatyCharge</WindowTitle>
-      <ID>4</ID>
-      <interfaces>
-        <NodeInterface>
-          <Position>
-            <x>7</x>
-            <y>35</y>
-          </Position>
-          <ID>0</ID>
-          <Label />
-          <Type>Event</Type>
-          <Direction>Input</Direction>
-          <ConnectedNodeID>3</ConnectedNodeID>
-          <ConnectedIfaceID>1</ConnectedIfaceID>
-        </NodeInterface>
-        <NodeInterface>
-          <Position>
-            <x>143</x>
-            <y>35</y>
-          </Position>
-          <ID>1</ID>
-          <Label>Charged</Label>
-          <Type>Event</Type>
-          <Direction>Output</Direction>
-          <ConnectedNodeID>5</ConnectedNodeID>
-          <ConnectedIfaceID>1</ConnectedIfaceID>
-        </NodeInterface>
-      </interfaces>
-      <WindowRect>
-        <x>530</x>
-        <y>370</y>
-        <position>
-          <x>530</x>
-          <y>370</y>
-        </position>
-        <center>
-          <x>605</x>
-          <y>395</y>
-        </center>
-        <min>
-          <x>530</x>
-          <y>370</y>
-        </min>
-        <max>
-          <x>680</x>
-          <y>420</y>
-        </max>
-        <width>150</width>
-        <height>50</height>
-        <size>
-          <x>150</x>
-          <y>50</y>
-        </size>
-        <xMin>530</xMin>
-        <yMin>370</yMin>
-        <xMax>680</xMax>
-        <yMax>420</yMax>
-      </WindowRect>
-      <StateName>FloatyCharge</StateName>
-    </BaseNode>
     <BaseNode xsi:type="MultipleInNode">
       <WindowTitle>M-In</WindowTitle>
-      <ID>5</ID>
+      <ID>3</ID>
       <interfaces>
         <NodeInterface>
           <Position>
@@ -333,8 +199,8 @@
           <Label />
           <Type>Event</Type>
           <Direction>Input</Direction>
-          <ConnectedNodeID>3</ConnectedNodeID>
-          <ConnectedIfaceID>2</ConnectedIfaceID>
+          <ConnectedNodeID>-1</ConnectedNodeID>
+          <ConnectedIfaceID>-1</ConnectedIfaceID>
         </NodeInterface>
         <NodeInterface>
           <Position>
@@ -380,6 +246,67 @@
         <yMax>480</yMax>
       </WindowRect>
       <NumInputs>3</NumInputs>
+    </BaseNode>
+    <BaseNode xsi:type="StateNode">
+      <WindowTitle>Follow Player 2</WindowTitle>
+      <ID>4</ID>
+      <interfaces>
+        <NodeInterface>
+          <Position>
+            <x>7</x>
+            <y>35</y>
+          </Position>
+          <ID>0</ID>
+          <Label />
+          <Type>Event</Type>
+          <Direction>Input</Direction>
+          <ConnectedNodeID>0</ConnectedNodeID>
+          <ConnectedIfaceID>0</ConnectedIfaceID>
+        </NodeInterface>
+        <NodeInterface>
+          <Position>
+            <x>143</x>
+            <y>35</y>
+          </Position>
+          <ID>1</ID>
+          <Label>Next</Label>
+          <Type>Event</Type>
+          <Direction>Output</Direction>
+          <ConnectedNodeID>3</ConnectedNodeID>
+          <ConnectedIfaceID>1</ConnectedIfaceID>
+        </NodeInterface>
+      </interfaces>
+      <WindowRect>
+        <x>360</x>
+        <y>330</y>
+        <position>
+          <x>360</x>
+          <y>330</y>
+        </position>
+        <center>
+          <x>435</x>
+          <y>355</y>
+        </center>
+        <min>
+          <x>360</x>
+          <y>330</y>
+        </min>
+        <max>
+          <x>510</x>
+          <y>380</y>
+        </max>
+        <width>150</width>
+        <height>50</height>
+        <size>
+          <x>150</x>
+          <y>50</y>
+        </size>
+        <xMin>360</xMin>
+        <yMin>330</yMin>
+        <xMax>510</xMax>
+        <yMax>380</yMax>
+      </WindowRect>
+      <StateName>Follow Player 2</StateName>
     </BaseNode>
   </Nodes>
 </NodeDataCollection>

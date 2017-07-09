@@ -114,8 +114,8 @@
           <Label />
           <Type>Event</Type>
           <Direction>Input</Direction>
-          <ConnectedNodeID>3</ConnectedNodeID>
-          <ConnectedIfaceID>4</ConnectedIfaceID>
+          <ConnectedNodeID>4</ConnectedNodeID>
+          <ConnectedIfaceID>1</ConnectedIfaceID>
         </NodeInterface>
       </interfaces>
       <WindowRect>
@@ -211,7 +211,7 @@
           <Label>Recovered</Label>
           <Type>Event</Type>
           <Direction>Output</Direction>
-          <ConnectedNodeID>2</ConnectedNodeID>
+          <ConnectedNodeID>4</ConnectedNodeID>
           <ConnectedIfaceID>0</ConnectedIfaceID>
         </NodeInterface>
       </interfaces>
@@ -247,6 +247,67 @@
       </WindowRect>
       <ChargeSpeed>20</ChargeSpeed>
       <ChargeDirection>Other</ChargeDirection>
+    </BaseNode>
+    <BaseNode xsi:type="WaitNode">
+      <WindowTitle>Wait</WindowTitle>
+      <ID>4</ID>
+      <interfaces>
+        <NodeInterface>
+          <Position>
+            <x>7</x>
+            <y>35</y>
+          </Position>
+          <ID>0</ID>
+          <Label />
+          <Type>Event</Type>
+          <Direction>Input</Direction>
+          <ConnectedNodeID>3</ConnectedNodeID>
+          <ConnectedIfaceID>4</ConnectedIfaceID>
+        </NodeInterface>
+        <NodeInterface>
+          <Position>
+            <x>63</x>
+            <y>35</y>
+          </Position>
+          <ID>1</ID>
+          <Label />
+          <Type>Event</Type>
+          <Direction>Output</Direction>
+          <ConnectedNodeID>2</ConnectedNodeID>
+          <ConnectedIfaceID>0</ConnectedIfaceID>
+        </NodeInterface>
+      </interfaces>
+      <WindowRect>
+        <x>560</x>
+        <y>270</y>
+        <position>
+          <x>560</x>
+          <y>270</y>
+        </position>
+        <center>
+          <x>595</x>
+          <y>300</y>
+        </center>
+        <min>
+          <x>560</x>
+          <y>270</y>
+        </min>
+        <max>
+          <x>630</x>
+          <y>330</y>
+        </max>
+        <width>70</width>
+        <height>60</height>
+        <size>
+          <x>70</x>
+          <y>60</y>
+        </size>
+        <xMin>560</xMin>
+        <yMin>270</yMin>
+        <xMax>630</xMax>
+        <yMax>330</yMax>
+      </WindowRect>
+      <WaitTime>0.1</WaitTime>
     </BaseNode>
   </Nodes>
 </NodeDataCollection>

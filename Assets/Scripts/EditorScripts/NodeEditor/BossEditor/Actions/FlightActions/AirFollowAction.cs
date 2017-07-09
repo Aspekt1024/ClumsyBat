@@ -17,6 +17,7 @@ public class AirFollowAction : BaseAction {
         
     private GameObject followingObject;
     private Rigidbody2D bossBody;
+    private SpriteRenderer bossRenderer;
     
     public override void ActivateBehaviour()
     {
@@ -27,14 +28,14 @@ public class AirFollowAction : BaseAction {
 
     private void Follow()
     {
-        bool isFlipped = bossBody.GetComponent<SpriteRenderer>().flipX;
+        bool isFlipped = bossRenderer.flipX;
         float rotation = GetAdditionalRotation(Time.deltaTime);
         bossBody.rotation += rotation;
 
         if (Mathf.Abs(bossBody.rotation) > 95f)
         {
             bossBody.rotation -= Mathf.Clamp(bossBody.rotation, -1, 1) * 180f;
-            bossBody.GetComponent<SpriteRenderer>().flipX = !isFlipped;
+            bossRenderer.flipX = !isFlipped;
         }
 
         bossBody.velocity = new Vector2(bossBody.transform.right.x, bossBody.transform.right.y) * FollowSpeed * (bossBody.GetComponent<SpriteRenderer>().flipX ? 1 : -1);
@@ -48,6 +49,7 @@ public class AirFollowAction : BaseAction {
         followingObject = conn.ConnectedInterface.Action.GetObject(conn.OtherConnID);
 
         bossBody = boss.GetComponent<Boss>().Body;
+        bossRenderer = bossBody.GetComponent<SpriteRenderer>();
     }
 
     public override void Stop()
@@ -66,7 +68,7 @@ public class AirFollowAction : BaseAction {
         else if (dist.x > 0 && dist.y > 0) targetRotation = targetRotation - 180;
         else if (dist.x > 0 && dist.y < 0) targetRotation = 180 - targetRotation;
 
-        if (bossBody.GetComponent<SpriteRenderer>().flipX)
+        if (bossRenderer.flipX)
             targetRotation -= 180;
 
         float requiredRotation = targetRotation - boss.transform.eulerAngles.z;

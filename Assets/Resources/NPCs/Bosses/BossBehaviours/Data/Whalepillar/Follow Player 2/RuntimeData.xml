@@ -7,71 +7,13 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Output</Direction>
-          <OtherActionID>4</OtherActionID>
-          <OtherConnID>0</OtherConnID>
-        </ActionConnection>
-      </connections>
-    </BaseAction>
-    <BaseAction xsi:type="CollisionAction">
-      <ID>1</ID>
-      <connections>
-        <ActionConnection>
-          <ID>0</ID>
-          <Direction>Output</Direction>
-          <OtherActionID>3</OtherActionID>
-          <OtherConnID>3</OtherConnID>
-        </ActionConnection>
-        <ActionConnection>
-          <ID>1</ID>
-          <Direction>Output</Direction>
-          <OtherActionID>-1</OtherActionID>
-          <OtherConnID>-1</OtherConnID>
-        </ActionConnection>
-      </connections>
-      <CollisionType>Hypersonic</CollisionType>
-    </BaseAction>
-    <BaseAction xsi:type="LoopAction">
-      <ID>2</ID>
-      <connections>
-        <ActionConnection>
-          <ID>0</ID>
-          <Direction>Input</Direction>
-          <OtherActionID>3</OtherActionID>
-          <OtherConnID>0</OtherConnID>
-        </ActionConnection>
-      </connections>
-    </BaseAction>
-    <BaseAction xsi:type="MultipleInAction">
-      <ID>3</ID>
-      <connections>
-        <ActionConnection>
-          <ID>0</ID>
-          <Direction>Output</Direction>
-          <OtherActionID>2</OtherActionID>
-          <OtherConnID>0</OtherConnID>
-        </ActionConnection>
-        <ActionConnection>
-          <ID>1</ID>
-          <Direction>Input</Direction>
-          <OtherActionID>4</OtherActionID>
-          <OtherConnID>1</OtherConnID>
-        </ActionConnection>
-        <ActionConnection>
-          <ID>2</ID>
-          <Direction>Input</Direction>
-          <OtherActionID>-1</OtherActionID>
-          <OtherConnID>-1</OtherConnID>
-        </ActionConnection>
-        <ActionConnection>
-          <ID>3</ID>
-          <Direction>Input</Direction>
           <OtherActionID>1</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
     </BaseAction>
-    <BaseAction xsi:type="StateAction">
-      <ID>4</ID>
+    <BaseAction xsi:type="AirFollowAction">
+      <ID>1</ID>
       <connections>
         <ActionConnection>
           <ID>0</ID>
@@ -81,12 +23,60 @@
         </ActionConnection>
         <ActionConnection>
           <ID>1</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>2</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
           <Direction>Output</Direction>
-          <OtherActionID>3</OtherActionID>
+          <OtherActionID>4</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <FollowSpeed>2</FollowSpeed>
+    </BaseAction>
+    <BaseAction xsi:type="PlayerAction">
+      <ID>2</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>1</OtherActionID>
           <OtherConnID>1</OtherConnID>
         </ActionConnection>
       </connections>
-      <StateName>Follow Player 2</StateName>
+    </BaseAction>
+    <BaseAction xsi:type="StateEventAction">
+      <ID>3</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>4</OtherActionID>
+          <OtherConnID>1</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <StateEventID>1</StateEventID>
+      <StopsState>false</StopsState>
+    </BaseAction>
+    <BaseAction xsi:type="WaitAction">
+      <ID>4</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>1</OtherActionID>
+          <OtherConnID>2</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>3</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <WaitTime>0</WaitTime>
     </BaseAction>
   </Actions>
 </ActionDataCollection>

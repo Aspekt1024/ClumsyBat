@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <NodeDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <EditorOffset>
-    <x>-24</x>
-    <y>-217</y>
+    <x>-165</x>
+    <y>-187</y>
   </EditorOffset>
   <Nodes>
     <BaseNode xsi:type="StartNode">
@@ -388,7 +388,7 @@
       </WindowRect>
     </BaseNode>
     <BaseNode xsi:type="StateEventNode">
-      <WindowTitle>CanCharge</WindowTitle>
+      <WindowTitle>1</WindowTitle>
       <ID>5</ID>
       <interfaces>
         <NodeInterface>
@@ -437,7 +437,7 @@
       <StateEventID>1</StateEventID>
     </BaseNode>
     <BaseNode xsi:type="StateEventNode">
-      <WindowTitle>NoDetection</WindowTitle>
+      <WindowTitle>2</WindowTitle>
       <ID>6</ID>
       <interfaces>
         <NodeInterface>
