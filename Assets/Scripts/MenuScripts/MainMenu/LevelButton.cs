@@ -14,9 +14,9 @@ public class LevelButton : MonoBehaviour
     private Image _levelImage;
     private RectTransform _namePanel;
     private Text _levelName;
-    
-    private float _buttonAnimationTimer;
 
+    private MothStar[] stars = new MothStar[3];
+    
     private enum BtnState
     {
         Unclicked, Clicked, LoadLevel
@@ -38,6 +38,12 @@ public class LevelButton : MonoBehaviour
         {
             if (rt.name == "NamePanel")
                 _namePanel = rt.GetComponent<RectTransform>();
+            else if (rt.name == "Star1")
+                stars[0] = rt.GetComponent<MothStar>();
+            else if (rt.name == "Star2")
+                stars[1] = rt.GetComponent<MothStar>();
+            else if (rt.name == "Star3")
+                stars[2] = rt.GetComponent<MothStar>();
         }
         _levelName = _namePanel.GetComponentInChildren<Text>();
         _levelImage = GetComponent<Image>();
@@ -52,13 +58,6 @@ public class LevelButton : MonoBehaviour
         _state = BtnState.Unclicked;
     }
 
-    private void Update()
-    {
-        // TODO decide if we want any animation for the buttons... else remove this function
-        if (_state != BtnState.Clicked || (_levelState != LevelStates.Enabled && _levelState != LevelStates.Completed)) { return; }
-        _buttonAnimationTimer += Time.deltaTime;
-    }
-
     private void GetLevelImages()
     {
         _availableImage = Resources.Load<Sprite>("LevelButtons/" + Level + "Available");
@@ -68,11 +67,11 @@ public class LevelButton : MonoBehaviour
         _unavailableImage = Resources.Load<Sprite>("LevelButtons/LevelUnavailable");
 
         if (_availableImage == null) { _availableImage = Resources.Load<Sprite>("LevelButtons/LevelAvailableNotFound"); }
-        if (_availableClickedImage == null) { _availableClickedImage = _availableImage; }
+        if (_availableClickedImage == null) { _availableClickedImage = Resources.Load<Sprite>("LevelButtons/LevelAvailableClickedNotFound"); }
         if (_completedImage == null) { _completedImage = Resources.Load<Sprite>("LevelButtons/LevelCompleteNotFound"); }
-        if (_completedClickedImage == null) { _completedClickedImage = _completedImage; }
+        if (_completedClickedImage == null) { _completedClickedImage = Resources.Load<Sprite>("LevelButtons/LevelCompleteClickedNotFound"); }
     }
-
+    
     public void Click(LevelProgressionHandler.Levels levelId)
     {
         if (levelId == Level)
@@ -81,8 +80,8 @@ public class LevelButton : MonoBehaviour
             {
                 _namePanel.GetComponent<Image>().enabled = true;
                 _levelName.enabled = true;
-                SetLevelImage();
                 _state = BtnState.Clicked;
+                SetLevelImage();
             }
             else if (_state == BtnState.Clicked)
             {
@@ -93,8 +92,8 @@ public class LevelButton : MonoBehaviour
         {
             _levelName.enabled = false;
             _namePanel.GetComponent<Image>().enabled = false;
-            SetLevelImage();
             _state = BtnState.Unclicked;
+            SetLevelImage();
         }
     }
 
@@ -104,7 +103,6 @@ public class LevelButton : MonoBehaviour
         return _state == BtnState.LoadLevel;
     }
     
-
     public bool LevelAvailable()
     {
         return _levelState == LevelStates.Completed || _levelState == LevelStates.Enabled;
