@@ -41,12 +41,8 @@ public class LevelButton : MonoBehaviour
         {
             if (rt.name == "NamePanel")
                 _namePanel = rt.GetComponent<RectTransform>();
-            else if (rt.name == "Star1")
-                stars[0] = rt.GetComponent<MothStar>();
-            else if (rt.name == "Star2")
-                stars[1] = rt.GetComponent<MothStar>();
-            else if (rt.name == "Star3")
-                stars[2] = rt.GetComponent<MothStar>();
+            else if (rt.name == "Stars")
+                GetStarComponents(rt);
         }
         _levelName = _namePanel.GetComponentInChildren<Text>();
         _levelImage = GetComponent<Image>();
@@ -134,6 +130,19 @@ public class LevelButton : MonoBehaviour
             case LevelStates.Completed:
                 _levelImage.sprite = _state == BtnState.Clicked ? _completedClickedImage : _completedImage;
                 break;
+        }
+    }
+
+    private void GetStarComponents(RectTransform starsRt)
+    {
+        foreach(RectTransform rt in starsRt)
+        {
+            if (rt.name == "Star1")
+                stars[0] = rt.GetComponent<MothStar>();
+            else if (rt.name == "Star2")
+                stars[1] = rt.GetComponent<MothStar>();
+            else if (rt.name == "Star3")
+                stars[2] = rt.GetComponent<MothStar>();
         }
     }
 

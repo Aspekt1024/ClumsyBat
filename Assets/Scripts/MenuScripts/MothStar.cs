@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MothStar : MonoBehaviour {
     
-    private SpriteRenderer ActiveSprite;
-    private SpriteRenderer InactiveSprite;
+    private Image ActiveImage;
+    private Image InactiveImage;
 
 	private void Awake ()
     {
@@ -18,31 +19,31 @@ public class MothStar : MonoBehaviour {
         {
             if (tf.name == "Active")
             {
-                ActiveSprite = tf.GetComponent<SpriteRenderer>();
+                ActiveImage = tf.GetComponent<Image>();
             }
             else if (tf.name == "Inactive")
             {
-                InactiveSprite = tf.GetComponent<SpriteRenderer>();
+                InactiveImage = tf.GetComponent<Image>();
             }
         }
     }
 
     public void SetActive()
     {
-        InactiveSprite.enabled = false;
-        ActiveSprite.enabled = true;
+        if (InactiveImage != null) InactiveImage.enabled = false;
+        if (ActiveImage != null) ActiveImage.enabled = true;
     }
 
     public void SetInactive()
     {
-        InactiveSprite.enabled = true;
-        ActiveSprite.enabled = false;
+        if (InactiveImage != null) InactiveImage.enabled = true;
+        if (ActiveImage != null) ActiveImage.enabled = false;
     }
 
     public IEnumerator AnimateToActive()
     {
         SetActive();
-        yield return StartCoroutine(PulseObject(ActiveSprite.GetComponent<RectTransform>()));
+        yield return StartCoroutine(PulseObject(ActiveImage.GetComponent<RectTransform>()));
     }
 
     private IEnumerator PulseObject(RectTransform rtObj)

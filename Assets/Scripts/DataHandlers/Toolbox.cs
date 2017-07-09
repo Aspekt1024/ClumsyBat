@@ -123,10 +123,13 @@ public class Toolbox : Singleton<Toolbox>
         LevelNames.Add(Levels.Main13, "Luck");
         LevelNames.Add(Levels.Main14, "Spaceship");
         LevelNames.Add(Levels.Main15, "Hit");
+        LevelNames.Add(Levels.Main16, "Hit");
 
         LevelNames.Add(Levels.Boss1, "King Rockbreath");
         LevelNames.Add(Levels.Boss2, "Whalepillar");
-        LevelNames.Add(Levels.Training1, "Rocky");
+        LevelNames.Add(Levels.Boss3, "boss3");
+        LevelNames.Add(Levels.Boss4, "boss4");
+        LevelNames.Add(Levels.Boss5, "boss5");
     }
 
     // The below functions relate to session level tooltips
