@@ -283,10 +283,11 @@ public class Player : MonoBehaviour {
     private IEnumerator GameOverSequence()
     {
         _gameHandler.UpdateGameSpeed(0);
-        if (!_data.StoryData.EventCompleted(StoryEventID.FirstDeath))
-        {
-            yield return _data.StoryData.StartCoroutine("TriggerEventCoroutine", StoryEventID.FirstDeath);
-        }
+        // TODO decide if we want the game to show a tooltip the first time the player dies
+        //if (!_data.StoryData.EventCompleted(StoryEventID.FirstDeath))
+        //{
+        //    yield return _data.StoryData.StartCoroutine("TriggerEventCoroutine", StoryEventID.FirstDeath);
+        //}
         yield return new WaitForSeconds(1f);
         _gameHandler.GameOver();
     }

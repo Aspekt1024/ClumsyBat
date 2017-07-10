@@ -61,6 +61,7 @@ public class MainMenu : MonoBehaviour {
                     lvlButton.GetComponent<LevelButton>().Star1Complete = GameData.Instance.Data.LevelData.LevelCompletedAchievement(level);
                     lvlButton.GetComponent<LevelButton>().Star2Complete = GameData.Instance.Data.LevelData.AllMothsGathered(level);
                     lvlButton.GetComponent<LevelButton>().Star3Complete = GameData.Instance.Data.LevelData.NoDamageTaken(level);
+                    lvlButton.GetComponent<LevelButton>().StarsSet = true;
                 }
             }
         }
@@ -157,7 +158,6 @@ public class MainMenu : MonoBehaviour {
             levelLoader = SceneManager.LoadSceneAsync("Boss");
         else
             levelLoader = SceneManager.LoadSceneAsync("Levels");
-        // TODO training
 
         LoadingOverlay.GetComponent<LoadScreen>().ShowLoadScreen();
 

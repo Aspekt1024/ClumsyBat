@@ -145,8 +145,8 @@ public class LevelScript : MonoBehaviour {
 
     public void LevelWon()
     {
-        EventListener.LevelWon();
         GameData.Instance.SetLevelCompletion(GameData.LevelCompletePaths.MainPath);
+        EventListener.LevelWon();
         GameHud.LevelWon();
         GameMenu.WinGame();
         Toolbox.Player.GetComponent<PlayerController>().PauseGame(showMenu: false);

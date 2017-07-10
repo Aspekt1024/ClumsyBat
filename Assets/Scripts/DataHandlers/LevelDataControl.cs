@@ -74,6 +74,8 @@ public class LevelDataControl : MonoBehaviour {
         file.Close();
         Load();
         Debug.Log("Level Data Cleared");
+
+        Debug.Log(blankGameData.Data.LevelData[(int)LevelProgressionHandler.Levels.Main1].Achievement1);
     }
 
     public void ClearLevelProgress()

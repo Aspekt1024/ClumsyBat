@@ -7,6 +7,8 @@ public class LevelButton : MonoBehaviour
     public bool Star1Complete;
     public bool Star2Complete;
     public bool Star3Complete;
+    public bool StarsSet;
+    private bool starImagesSet;
 
     private Sprite _availableImage;
     private Sprite _completedImage;
@@ -18,6 +20,7 @@ public class LevelButton : MonoBehaviour
     private RectTransform _namePanel;
     private Text _levelName;
 
+    private RectTransform starsRt;
     private MothStar[] stars = new MothStar[3];
     
     private enum BtnState
@@ -51,11 +54,17 @@ public class LevelButton : MonoBehaviour
 
 	private void Start ()
     {
+        starsRt.gameObject.SetActive(false);
         _levelName.text = Toolbox.Instance.LevelNames[Level];
         _levelName.enabled = false;
         _namePanel.GetComponent<Image>().enabled = false;
         _state = BtnState.Unclicked;
-        SetStarCompletion();
+    }
+
+    private void Update()
+    {
+        if (!starImagesSet && StarsSet)
+            SetStarCompletion();
     }
 
     private void GetLevelImages()
@@ -133,9 +142,10 @@ public class LevelButton : MonoBehaviour
         }
     }
 
-    private void GetStarComponents(RectTransform starsRt)
+    private void GetStarComponents(RectTransform starsRectTransform)
     {
-        foreach(RectTransform rt in starsRt)
+        starsRt = starsRectTransform;
+        foreach (RectTransform rt in starsRectTransform)
         {
             if (rt.name == "Star1")
                 stars[0] = rt.GetComponent<MothStar>();
@@ -148,6 +158,9 @@ public class LevelButton : MonoBehaviour
 
     private void SetStarCompletion()
     {
+        starsRt.gameObject.SetActive(true);
+
+        starImagesSet = true;
         if (stars[0] != null) {
             if (Star1Complete) stars[0].SetActive(); else stars[0].SetInactive();
         }
