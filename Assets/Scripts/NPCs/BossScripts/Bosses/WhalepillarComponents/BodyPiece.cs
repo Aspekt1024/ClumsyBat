@@ -23,7 +23,6 @@ public class BodyPiece : MonoBehaviour {
     private float oscRotation;
 
     private float distToOther;
-    private Vector2 dest;
     private bool hasDest;
 
     public void Detach()
@@ -60,32 +59,24 @@ public class BodyPiece : MonoBehaviour {
             PointOnOther = new Vector2(-PointOnOther.x, PointOnOther.y);
         }
         
-        if (!hasDest)
-        {
-            hasDest = true;
-            Vector2 otherPointInWorldSpace = OtherBody.position + V3ToV2(OtherBody.transform.right * PointOnOther.x + OtherBody.transform.up * PointOnOther.y);
-            dest = otherPointInWorldSpace;
-        }
+        Vector2 otherPointInWorldSpace = OtherBody.position + V3ToV2(OtherBody.transform.right * PointOnOther.x + OtherBody.transform.up * PointOnOther.y);
 
-        if (hasDest && Vector2.Distance(thisPointInWorldSpace, dest) < desiredDistance)
-        {
-            //OscillateRotation();
-            hasDest = false;
-        }
-
-        if (Vector2.Distance(thisPointInWorldSpace, dest) > desiredDistance)
+        if (Vector2.Distance(thisPointInWorldSpace, otherPointInWorldSpace) > desiredDistance)
         {
             thisBody.velocity = Vector2.zero;
-            transform.Rotate(Vector3.forward * GetAdditionalRotation(Time.deltaTime, dest));
+            transform.Rotate(Vector3.forward * GetAdditionalRotation(Time.deltaTime, otherPointInWorldSpace));
             thisPointInWorldSpace = thisBody.position + V3ToV2((isFlipped ? -1 : 1) * thisBody.transform.right * PointOnThis.x + thisBody.transform.up * PointOnThis.y);
-            Vector2 distToAdd = Vector2.Lerp(thisPointInWorldSpace, dest, Vector2.Distance(thisPointInWorldSpace, dest) / (Vector2.Distance(thisPointInWorldSpace, dest) - desiredDistance)) - thisPointInWorldSpace;
+            Vector2 distToAdd = Vector2.Lerp(thisPointInWorldSpace, otherPointInWorldSpace, Vector2.Distance(thisPointInWorldSpace, otherPointInWorldSpace) / (Vector2.Distance(thisPointInWorldSpace, otherPointInWorldSpace) - desiredDistance)) - thisPointInWorldSpace;
             thisBody.position += distToAdd;
         }
         else
         {
-            transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(transform.eulerAngles.z, OtherBody.transform.eulerAngles.z, Time.deltaTime / 180f));
+            // TODO get angle and position to settle properly
+            transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(transform.eulerAngles.z, OtherBody.transform.eulerAngles.z, Time.deltaTime / 10f));
             thisPointInWorldSpace = thisBody.position + V3ToV2((isFlipped ? -1 : 1) * thisBody.transform.right * PointOnThis.x + thisBody.transform.up * PointOnThis.y);
-            Vector2 distToAdd = Vector2.Lerp(thisPointInWorldSpace, dest, Time.deltaTime * followSpeed) - thisPointInWorldSpace;
+            Vector2 dist = OtherBody.position - thisBody.position;
+            Vector2 distToAdd = Vector2.Lerp(thisPointInWorldSpace, otherPointInWorldSpace, Time.deltaTime * followSpeed) - thisPointInWorldSpace;
+            
             thisBody.position += distToAdd;
         }
     }
@@ -117,9 +108,9 @@ public class BodyPiece : MonoBehaviour {
         return new Vector2(v3.x, v3.y);
     }
 
-    private float GetAdditionalRotation(float deltaTime, Vector2 destination)
+    private float GetAdditionalRotation(float deltaTime, Vector2 dest)
     {
-        Vector2 dist = destination - V3ToV2(transform.position);
+        Vector2 dist = dest - V3ToV2(transform.position);
 
         float radToDeg = 57.295779513f;
         float targetRotation = Mathf.Atan(Mathf.Abs(dist.y / dist.x)) * radToDeg;

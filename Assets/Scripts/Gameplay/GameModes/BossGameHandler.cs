@@ -28,11 +28,11 @@ public class BossGameHandler : GameHandler {
         {
             GameData.Instance.Level = Level;
         }
-        LoadBoss();
         _loadScreen = FindObjectOfType<LoadScreen>();
         _gameHud = FindObjectOfType<GameUI>();
         _gameMenu = FindObjectOfType<GameMenuOverlay>();
         _playerCam = FindObjectOfType<Camera>();
+        LoadBoss();
 
         _gameMenu.Hide();
         ThePlayer.Fog.Disable();
@@ -218,5 +218,6 @@ public class BossGameHandler : GameHandler {
         }
 
         bossDataScript.LoadBoss();
+        _gameHud.SetLevelText(GameData.Instance.Level);
     }
 }
