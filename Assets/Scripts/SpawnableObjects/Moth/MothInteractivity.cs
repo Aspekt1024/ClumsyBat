@@ -46,7 +46,6 @@ public class MothInteractivity : MonoBehaviour
                 break;
             case Moth.MothColour.Gold:
                 _thePlayer.Lantern.ChangeColour(Lantern.LanternColour.Gold);
-                _data.StoryData.TriggerEvent(StoryEventID.FirstGoldMoth);
                 _thePlayer.ActivateHypersonic();
                 _thePlayer.Fog.Echolocate();
                 break;

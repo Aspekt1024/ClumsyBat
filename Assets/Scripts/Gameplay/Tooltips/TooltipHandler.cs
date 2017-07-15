@@ -49,8 +49,6 @@ public class TooltipHandler : MonoBehaviour {
         NoMoreStals,
         ActuallyMoreStals,
         ThatGotReal,
-        FirstGoldMoth1,
-        FirstGoldMoth2,
         HypersonicVillagePt1,
         HypersonicVillagePt2T1,
         HypersonicVillagePt2T2,
@@ -120,8 +118,6 @@ public class TooltipHandler : MonoBehaviour {
         dialogueDict.Add(TooltipId.NoMoreStals, "Whew, we got through it! Wasn't that easy!?");
         dialogueDict.Add(TooltipId.ActuallyMoreStals, "... I was wrong. I think it's going to get a lot harder.");
         dialogueDict.Add(TooltipId.ThatGotReal, "Well that got real! Keep going, we're not far away.");
-        dialogueDict.Add(TooltipId.FirstGoldMoth1, "Oh wow! A gold moth!");
-        dialogueDict.Add(TooltipId.FirstGoldMoth2, "Rumor has it that these possess incredible power");
         dialogueDict.Add(TooltipId.HypersonicVillagePt1 , "You made it! Here's a thing.");
         dialogueDict.Add(TooltipId.HypersonicVillagePt2T1, "Gold moths will now activate hypersonic");
         dialogueDict.Add(TooltipId.HypersonicVillagePt2T2, "By the way, we're being attacked by an evil bat. Make him go away.");

@@ -35,7 +35,7 @@ public class BossData : MonoBehaviour {
         BossEvents.OnBossDeath -= Die;
     }
     
-    private void Start ()
+    public void LoadBoss()
     {
         _state = BossStates.Disabled;
         player = Toolbox.Player;

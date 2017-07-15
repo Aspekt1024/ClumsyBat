@@ -28,6 +28,7 @@ public class BossGameHandler : GameHandler {
         {
             GameData.Instance.Level = Level;
         }
+        LoadBoss();
         _loadScreen = FindObjectOfType<LoadScreen>();
         _gameHud = FindObjectOfType<GameUI>();
         _gameMenu = FindObjectOfType<GameMenuOverlay>();
@@ -188,5 +189,34 @@ public class BossGameHandler : GameHandler {
         }
 
         return bossMoths.GetMothPool();
+    }
+
+    private void LoadBoss()
+    {
+        BossData bossDataScript = FindObjectOfType<BossData>();
+
+        switch (GameData.Instance.Level)
+        {
+            case LevelProgressionHandler.Levels.Boss1:
+                bossDataScript.BossStateMachine = Resources.Load<StateMachine>("NPCs/Bosses/BossBehaviours/KingRockbreath");
+                break;
+            case LevelProgressionHandler.Levels.Boss2:
+                bossDataScript.BossStateMachine = Resources.Load<StateMachine>("NPCs/Bosses/BossBehaviours/Whalepillar");
+                break;
+            case LevelProgressionHandler.Levels.Boss3:
+                bossDataScript.BossStateMachine = Resources.Load<StateMachine>("NPCs/Bosses/BossBehaviours/KingRockbreath");
+                break;
+            case LevelProgressionHandler.Levels.Boss4:
+                bossDataScript.BossStateMachine = Resources.Load<StateMachine>("NPCs/Bosses/BossBehaviours/KingRockbreath");
+                break;
+            case LevelProgressionHandler.Levels.Boss5:
+                bossDataScript.BossStateMachine = Resources.Load<StateMachine>("NPCs/Bosses/BossBehaviours/KingRockbreath");
+                break;
+            default:
+                bossDataScript.BossStateMachine = Resources.Load<StateMachine>("NPCs/Bosses/BossBehaviours/KingRockbreath");
+                break;
+        }
+
+        bossDataScript.LoadBoss();
     }
 }

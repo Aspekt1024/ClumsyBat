@@ -10,7 +10,6 @@ public class StoryEventControl : MonoBehaviour {
     public enum StoryEvents
     {
         FirstDeath,
-        FirstGoldMoth
     }
     public bool[] StoryData = new bool[Enum.GetNames(typeof(StoryEvents)).Length];
     public Dictionary<StoryEvents, TooltipHandler.TooltipId[]> TooltipSet = new Dictionary<StoryEvents, TooltipHandler.TooltipId[]>();
@@ -98,7 +97,6 @@ public class StoryEventControl : MonoBehaviour {
     
     private void SetupTooltipDict()
     {
-        TooltipSet.Add(StoryEvents.FirstGoldMoth, new[] { TooltipHandler.TooltipId.FirstGoldMoth1, TooltipHandler.TooltipId.FirstGoldMoth2 });
         TooltipSet.Add(StoryEvents.FirstDeath, new[] { TooltipHandler.TooltipId.FirstDeath });
         //TooltipSet.Add(StoryEvents, new ToolID[] { ToolID });
     }
