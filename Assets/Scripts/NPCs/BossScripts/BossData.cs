@@ -42,7 +42,7 @@ public class BossData : MonoBehaviour {
         bossObject = Instantiate(BossStateMachine.BossPrefab, transform.position, new Quaternion(), transform);
         bossScripts = bossObject.GetComponent<Boss>();
         if (bossScripts == null)
-            bossScripts = bossObject.AddComponent<Boss>();
+            Debug.LogError("Error: no boss script found on boss object");
 
         bossScripts.SetBaseProperties(BossStateMachine);
         SetupAbilities();
@@ -83,7 +83,7 @@ public class BossData : MonoBehaviour {
 
         if (ability == null)
         {
-            ability = (BossAbility)bossObject.AddComponent(typeof(T));
+            ability = (BossAbility)bossScripts.Body.gameObject.AddComponent(typeof(T));
             _abilities.Add(ability);
         }
         return (T)ability;

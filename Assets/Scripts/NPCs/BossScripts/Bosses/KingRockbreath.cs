@@ -42,6 +42,8 @@ public class KingRockbreath : Boss
     protected override void GetBossComponents()
     {
         Body = GetComponent<Rigidbody2D>();
+        bossCollider = GetComponentInChildren<Collider2D>();
+        bossRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void GetSprites()

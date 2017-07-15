@@ -10,8 +10,9 @@ public class BodyPiece : MonoBehaviour {
     public Vector2 PointOnThis;
     public bool LeadingPiece;
 
-    private float desiredDistance = 5f;
-    private float maxDegreesPerSecond = 180f;
+    private float desiredDistance = 0.01f;
+    private float maxDegreesPerSecond = 1800f;
+    private float followSpeed = 5f;
 
     private Rigidbody2D thisBody;
     private bool isAttached;
@@ -20,7 +21,11 @@ public class BodyPiece : MonoBehaviour {
     private bool oscillatingUp;
     private const float oscDuration = 1.6f;
     private float oscRotation;
-    
+
+    private float distToOther;
+    private Vector2 dest;
+    private bool hasDest;
+
     public void Detach()
     {
         isAttached = false;
@@ -32,71 +37,57 @@ public class BodyPiece : MonoBehaviour {
         thisBody = GetComponent<Rigidbody2D>();
         isAttached = true;
         oscRotation = 7;
+
+        distToOther = Vector2.Distance(thisBody.position, OtherBody.position);
 	}
 
     private void FixedUpdate()
     {
         if (OtherBody == null || !isAttached || Toolbox.Instance.GamePaused) return;
         
-        MovePointsTogether();
+        FollowOther();
     }
-    
-    private void MovePointsTogether()
+
+    private void FollowOther()
     {
         bool isFlipped = thisBody.GetComponent<SpriteRenderer>().flipX;
+        Vector2 thisPointInWorldSpace = thisBody.position + V3ToV2((isFlipped ? -1 : 1) * thisBody.transform.right * PointOnThis.x + thisBody.transform.up * PointOnThis.y);
+
         if (OtherBody.GetComponent<SpriteRenderer>().flipX != isFlipped)
         {
             isFlipped = OtherBody.GetComponent<SpriteRenderer>().flipX;
             thisBody.GetComponent<SpriteRenderer>().flipX = isFlipped;
             PointOnOther = new Vector2(-PointOnOther.x, PointOnOther.y);
         }
-
-        Vector2 otherPointInWorldSpace = OtherBody.position + V3ToV2(OtherBody.transform.right * PointOnOther.x + OtherBody.transform.up * PointOnOther.y);
-        Vector2 distCentreToPoint = otherPointInWorldSpace - V3ToV2(transform.position);
-
-        Vector2 thisPointInWorldSpace = thisBody.position + V3ToV2((isFlipped ? -1 : 1) * thisBody.transform.right * PointOnThis.x + thisBody.transform.up * PointOnThis.y);
-        Vector2 pointsDist = otherPointInWorldSpace - thisPointInWorldSpace;
-
-        if (pointsDist.magnitude < desiredDistance)
+        
+        if (!hasDest)
         {
-            if (pointsDist.magnitude < 0.05f)
-            {
-                    OscillateRotation();
-            }
-            else
-            {
-                float additionalRotation = Mathf.Clamp(OtherBody.rotation - thisBody.rotation, -360 * Time.deltaTime, 360 * Time.deltaTime);
-                transform.Rotate(Vector3.forward, additionalRotation);
-            }
+            hasDest = true;
+            Vector2 otherPointInWorldSpace = OtherBody.position + V3ToV2(OtherBody.transform.right * PointOnOther.x + OtherBody.transform.up * PointOnOther.y);
+            dest = otherPointInWorldSpace;
+        }
+
+        if (hasDest && Vector2.Distance(thisPointInWorldSpace, dest) < desiredDistance)
+        {
+            //OscillateRotation();
+            hasDest = false;
+        }
+
+        if (Vector2.Distance(thisPointInWorldSpace, dest) > desiredDistance)
+        {
+            thisBody.velocity = Vector2.zero;
+            transform.Rotate(Vector3.forward * GetAdditionalRotation(Time.deltaTime, dest));
+            thisPointInWorldSpace = thisBody.position + V3ToV2((isFlipped ? -1 : 1) * thisBody.transform.right * PointOnThis.x + thisBody.transform.up * PointOnThis.y);
+            Vector2 distToAdd = Vector2.Lerp(thisPointInWorldSpace, dest, Vector2.Distance(thisPointInWorldSpace, dest) / (Vector2.Distance(thisPointInWorldSpace, dest) - desiredDistance)) - thisPointInWorldSpace;
+            thisBody.position += distToAdd;
         }
         else
         {
-            float radToDeg = 57.295779513f;
-            float targetRotation = Mathf.Atan(distCentreToPoint.y / distCentreToPoint.x) * radToDeg;
-
-            if (distCentreToPoint.x < 0)
-                targetRotation = 180 + targetRotation;
-            else if (distCentreToPoint.y < 0)
-                targetRotation = 360 + targetRotation;
-
-            targetRotation += 180;
-
-            float requiredRotation = targetRotation - thisBody.rotation;
-
-            if (requiredRotation > 180)
-                requiredRotation -= 360f;
-
-            float additionalRotation = Mathf.Clamp(requiredRotation, -maxDegreesPerSecond * Time.deltaTime, maxDegreesPerSecond * Time.deltaTime);
-            thisBody.rotation += additionalRotation;
+            transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(transform.eulerAngles.z, OtherBody.transform.eulerAngles.z, Time.deltaTime / 180f));
+            thisPointInWorldSpace = thisBody.position + V3ToV2((isFlipped ? -1 : 1) * thisBody.transform.right * PointOnThis.x + thisBody.transform.up * PointOnThis.y);
+            Vector2 distToAdd = Vector2.Lerp(thisPointInWorldSpace, dest, Time.deltaTime * followSpeed) - thisPointInWorldSpace;
+            thisBody.position += distToAdd;
         }
-
-        if (isFlipped)
-            thisPointInWorldSpace = thisBody.position + V3ToV2(-thisBody.transform.right * PointOnThis.x + thisBody.transform.up * PointOnThis.y);
-        else
-            thisPointInWorldSpace = thisBody.position + V3ToV2(thisBody.transform.right * PointOnThis.x + thisBody.transform.up * PointOnThis.y);
-
-        pointsDist = otherPointInWorldSpace - thisPointInWorldSpace;
-        thisBody.velocity = pointsDist * 14;
     }
 
     private void OscillateRotation()
@@ -117,12 +108,34 @@ public class BodyPiece : MonoBehaviour {
     {
         if (other.collider.tag == "Player")
         {
-            Detach();
+            //Detach();
         }
     }
 
     private Vector2 V3ToV2(Vector3 v3)
     {
         return new Vector2(v3.x, v3.y);
+    }
+
+    private float GetAdditionalRotation(float deltaTime, Vector2 destination)
+    {
+        Vector2 dist = destination - V3ToV2(transform.position);
+
+        float radToDeg = 57.295779513f;
+        float targetRotation = Mathf.Atan(Mathf.Abs(dist.y / dist.x)) * radToDeg;
+
+        if (dist.x < 0 && dist.y > 0) targetRotation = -targetRotation;
+        else if (dist.x > 0 && dist.y > 0) targetRotation = targetRotation - 180;
+        else if (dist.x > 0 && dist.y < 0) targetRotation = 180 - targetRotation;
+
+        if (GetComponent<SpriteRenderer>().flipX)
+            targetRotation -= 180;
+
+        float requiredRotation = targetRotation - transform.eulerAngles.z;
+
+        while (requiredRotation > 180) requiredRotation -= 360;
+        while (requiredRotation < -180) requiredRotation += 360;
+
+        return Mathf.Clamp(requiredRotation, -maxDegreesPerSecond * deltaTime, maxDegreesPerSecond * deltaTime);
     }
 }

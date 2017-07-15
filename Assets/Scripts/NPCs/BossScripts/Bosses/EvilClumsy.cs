@@ -12,4 +12,11 @@ public class EvilClumsy : Boss
     {
         return GetComponent<Rigidbody2D>();
     }
+
+    protected override void GetBossComponents()
+    {
+        Body = GetRigidBody();
+        bossCollider = GetComponentInChildren<Collider2D>();
+        bossRenderer = GetComponent<SpriteRenderer>();
+    }
 }

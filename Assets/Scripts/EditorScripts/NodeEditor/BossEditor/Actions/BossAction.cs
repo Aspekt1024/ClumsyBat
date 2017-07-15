@@ -16,6 +16,6 @@ public class BossAction : BaseAction {
 
     public override Vector2 GetPosition(int id)
     {
-        return GameObject.FindGameObjectWithTag("Boss").transform.position;
+        return GameObject.FindGameObjectWithTag("Boss").GetComponent<Boss>().Body.position;
     }
 }

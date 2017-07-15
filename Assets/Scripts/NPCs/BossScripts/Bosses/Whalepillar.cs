@@ -14,6 +14,7 @@ public class Whalepillar : Boss
     private Collider2D antlersCollider;
 
     private SpriteRenderer bodySprite;
+    private HeadPiece head;
 
     private enum RockbreathSprites
     {
@@ -36,7 +37,6 @@ public class Whalepillar : Boss
     private void Start()
     {
         PopulateSpriteDict();
-        GetSprites();
         anim = GetComponentInChildren<Animator>();
         //anim.Play(spriteDict[Animations.Idle], 0, 0f);
     }
@@ -50,12 +50,22 @@ public class Whalepillar : Boss
 
     protected override void GetBossComponents()
     {
-        Body = GetRigidBody();
-    }
-
-    private void GetSprites()
-    {
-        bodySprite = GetComponent<SpriteRenderer>();
+        foreach (Transform tf in transform)
+        {
+            if (tf.name == "Body")
+            {
+                foreach (Transform t in tf)
+                {
+                    if (t.name == "Head")
+                    {
+                        head = t.GetComponent<HeadPiece>();
+                        Body = t.GetComponent<Rigidbody2D>();
+                        bodySprite = t.GetComponent<SpriteRenderer>();
+                        head.SetBossScript(this);
+                    }
+                }
+            }
+        }
     }
 
     protected override void HealthUpdate()
@@ -82,7 +92,7 @@ public class Whalepillar : Boss
                 break;
         }
     }
-
+    
     public override void Walk()
     {
         //anim.Play(spriteDict[Animations.Walk], 0, 0f);

@@ -14,6 +14,10 @@ public class AirChargeAbility : BossAbility {
 
 	void Start () {
         bossScript = GetComponent<Boss>();
+        if (bossScript == null)
+        {
+            bossScript = GetComponentInParent<Boss>();
+        }
         body = bossScript.Body;
     }
 
@@ -97,9 +101,21 @@ public class AirChargeAbility : BossAbility {
 
     private IEnumerator Knockback()
     {
-        body.velocity = Vector3.left * chargeSpeed / 2;
-        yield return Wait(0.2f);
-        body.velocity = Vector3.zero;
+        float knockbackTimer = 0f;
+        const float knockbackDuration = 0.5f;
+        while (knockbackDuration > knockbackTimer)
+        {
+            if (Toolbox.Instance.GamePaused)
+            {
+                body.velocity = Vector2.zero;
+            }
+            else
+            {
+                knockbackTimer += Time.deltaTime;
+                body.velocity = new Vector2(Mathf.Lerp(-chargeSpeed / 2f, 0, knockbackTimer / knockbackDuration), 0f);
+            }
+            yield return null;
+        }
         caller.Recovered();
     }
     

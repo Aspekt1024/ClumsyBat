@@ -5,7 +5,7 @@ using System.Collections.Generic;
 /// <summary>
 /// Base class for describing specific boss behaviour
 /// </summary>
-public class Boss : MonoBehaviour {
+public abstract class Boss : MonoBehaviour {
     
     // TODO put this in a helper class
     public enum Direction
@@ -47,12 +47,7 @@ public class Boss : MonoBehaviour {
         damageCooldownTimer -= Time.deltaTime;
     }
 
-    protected virtual void GetBossComponents()
-    {
-        Body = GetRigidBody();
-        bossCollider = GetComponentInChildren<Collider2D>();
-        bossRenderer = GetComponent<SpriteRenderer>();
-    }
+    protected abstract void GetBossComponents();
 
     public void SetBaseProperties(StateMachine stateMachine)
     {
@@ -78,6 +73,15 @@ public class Boss : MonoBehaviour {
         _bPaused = false;
         Body.velocity = storedVelocity;
         Body.isKinematic = false;
+    }
+
+    public void TriggerEnter(Collider2D other)
+    {
+        OnTriggerEnter2D(other);
+    }
+    public void CollisionEnter(Collision2D other)
+    {
+        OnCollisionEnter2D(other);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

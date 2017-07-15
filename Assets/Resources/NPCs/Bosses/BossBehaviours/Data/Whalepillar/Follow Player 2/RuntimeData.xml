@@ -7,7 +7,7 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Output</Direction>
-          <OtherActionID>1</OtherActionID>
+          <OtherActionID>5</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
@@ -18,8 +18,8 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>0</OtherActionID>
-          <OtherConnID>0</OtherConnID>
+          <OtherActionID>5</OtherActionID>
+          <OtherConnID>5</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>1</ID>
@@ -30,11 +30,11 @@
         <ActionConnection>
           <ID>2</ID>
           <Direction>Output</Direction>
-          <OtherActionID>4</OtherActionID>
-          <OtherConnID>0</OtherConnID>
+          <OtherActionID>11</OtherActionID>
+          <OtherConnID>2</OtherConnID>
         </ActionConnection>
       </connections>
-      <FollowSpeed>2</FollowSpeed>
+      <FollowSpeed>5</FollowSpeed>
     </BaseAction>
     <BaseAction xsi:type="PlayerAction">
       <ID>2</ID>
@@ -66,8 +66,8 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>1</OtherActionID>
-          <OtherConnID>2</OtherConnID>
+          <OtherActionID>11</OtherActionID>
+          <OtherConnID>0</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>1</ID>
@@ -77,6 +77,199 @@
         </ActionConnection>
       </connections>
       <WaitTime>0</WaitTime>
+    </BaseAction>
+    <BaseAction xsi:type="CompareAction">
+      <ID>5</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>0</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>8</OtherActionID>
+          <OtherConnID>4</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>3</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>4</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>9</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>5</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>1</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <OperationType>Lesser</OperationType>
+      <Input1>0</Input1>
+      <Input2>2</Input2>
+      <Input3>0</Input3>
+    </BaseAction>
+    <BaseAction xsi:type="BossAction">
+      <ID>6</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>8</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+      </connections>
+    </BaseAction>
+    <BaseAction xsi:type="PlayerAction">
+      <ID>7</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>8</OtherActionID>
+          <OtherConnID>1</OtherConnID>
+        </ActionConnection>
+      </connections>
+    </BaseAction>
+    <BaseAction xsi:type="PositionAction">
+      <ID>8</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>6</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>7</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>4</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>5</OtherActionID>
+          <OtherConnID>1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>5</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>6</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>3</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <Pos1>
+        <x>0</x>
+        <y>0</y>
+      </Pos1>
+      <Pos2>
+        <x>0</x>
+        <y>0</y>
+      </Pos2>
+    </BaseAction>
+    <BaseAction xsi:type="AirChargeAction">
+      <ID>9</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>5</OtherActionID>
+          <OtherConnID>4</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>10</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>3</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>4</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>11</OtherActionID>
+          <OtherConnID>1</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <ChargeSpeed>12</ChargeSpeed>
+      <ChargeDirection>Other</ChargeDirection>
+    </BaseAction>
+    <BaseAction xsi:type="PlayerAction">
+      <ID>10</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>9</OtherActionID>
+          <OtherConnID>1</OtherConnID>
+        </ActionConnection>
+      </connections>
+    </BaseAction>
+    <BaseAction xsi:type="MultipleInAction">
+      <ID>11</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>4</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>9</OtherActionID>
+          <OtherConnID>4</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>1</OtherActionID>
+          <OtherConnID>2</OtherConnID>
+        </ActionConnection>
+      </connections>
     </BaseAction>
   </Actions>
 </ActionDataCollection>

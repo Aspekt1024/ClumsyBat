@@ -13,7 +13,7 @@ public class AirFollowAction : BaseAction {
         Next
     }
 
-    private const float maxDegreesPerSecond = 120f;
+    private const float maxDegreesPerSecond = 360f;
         
     private GameObject followingObject;
     private Rigidbody2D bossBody;
@@ -28,8 +28,12 @@ public class AirFollowAction : BaseAction {
 
     private void Follow()
     {
+        Vector2 followPos = followingObject.transform.position;
+        if (!Toolbox.Player.IsAlive())
+            followPos = Vector2.zero;
+
         bool isFlipped = bossRenderer.flipX;
-        float rotation = GetAdditionalRotation(Time.deltaTime);
+        float rotation = GetAdditionalRotation(Time.deltaTime, followPos);
         bossBody.rotation += rotation;
 
         if (Mathf.Abs(bossBody.rotation) > 95f)
@@ -57,9 +61,9 @@ public class AirFollowAction : BaseAction {
         IsActive = false;
     }
 
-    private float GetAdditionalRotation(float deltaTime)
+    private float GetAdditionalRotation(float deltaTime, Vector3 followPos)
     {
-        Vector2 dist = followingObject.transform.position - boss.transform.position;
+        Vector2 dist = followPos - bossBody.transform.position;
 
         float radToDeg = 57.295779513f;
         float targetRotation = Mathf.Atan(Mathf.Abs(dist.y / dist.x)) * radToDeg;
@@ -71,7 +75,7 @@ public class AirFollowAction : BaseAction {
         if (bossRenderer.flipX)
             targetRotation -= 180;
 
-        float requiredRotation = targetRotation - boss.transform.eulerAngles.z;
+        float requiredRotation = targetRotation - bossBody.transform.eulerAngles.z;
         
         while (requiredRotation > 180) requiredRotation -= 360;
         while (requiredRotation < -180) requiredRotation += 360;
