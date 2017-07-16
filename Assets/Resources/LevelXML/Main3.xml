@@ -848,9 +848,9 @@
     </Cave>
     <Cave>
       <TopIndex>1</TopIndex>
-      <BottomIndex>4</BottomIndex>
+      <BottomIndex>0</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
-      <bBottomSecretPath>false</bBottomSecretPath>
+      <bBottomSecretPath>true</bBottomSecretPath>
       <Shrooms />
       <Stals />
       <Moths />

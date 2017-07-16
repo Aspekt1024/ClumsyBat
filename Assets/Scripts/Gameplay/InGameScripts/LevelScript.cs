@@ -145,7 +145,14 @@ public class LevelScript : MonoBehaviour {
 
     public void LevelWon()
     {
-        GameData.Instance.SetLevelCompletion(GameData.LevelCompletePaths.MainPath);
+        if (Toolbox.Player.ExitViaSecretPath)
+        {
+            GameData.Instance.SetLevelCompletion(GameData.LevelCompletePaths.Secret1);
+        }
+        else
+        {
+            GameData.Instance.SetLevelCompletion(GameData.LevelCompletePaths.MainPath);
+        }
         EventListener.LevelWon();
         GameHud.LevelWon();
         GameMenu.WinGame();

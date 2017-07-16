@@ -8,8 +8,8 @@ public static class LevelProgressionHandler
     {
         Unassigned,
         Main1 = 1, Main2, Main3, Boss1,
-        Main4, Main5, Main6, Main7, Boss2,
-        Main8, Main9, Main10, Main11, Boss3,
+        Main4, Main5, Main6, Boss2,
+        Main7, Main8, Main9, Main10, Main11, Boss3,
         Main12, Main13, Main14, Main15, Boss4,
         Main16, Boss5,
         AltA1, AltA2, AltA3,

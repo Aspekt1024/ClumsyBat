@@ -43,6 +43,8 @@ public class Player : MonoBehaviour {
     private bool _bPaused;
     private bool _bCaveEndReached;
 
+    public bool ExitViaSecretPath;
+
     private enum PlayerState
     {
         Startup,
@@ -238,6 +240,7 @@ public class Player : MonoBehaviour {
     private void CheckIfOffscreen()
     {
         Vector2 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
+        
         if (screenPosition.y > Screen.height || screenPosition.y < 0 || screenPosition.x < -1f)
         {
             if (_state == PlayerState.Normal || _state == PlayerState.Dying)
@@ -283,23 +286,39 @@ public class Player : MonoBehaviour {
     private IEnumerator GameOverSequence()
     {
         _gameHandler.UpdateGameSpeed(0);
-        // TODO decide if we want the game to show a tooltip the first time the player dies
-        //if (!_data.StoryData.EventCompleted(StoryEventID.FirstDeath))
-        //{
-        //    yield return _data.StoryData.StartCoroutine("TriggerEventCoroutine", StoryEventID.FirstDeath);
-        //}
         yield return new WaitForSeconds(1f);
         _gameHandler.GameOver();
     }
-    
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        _gameHandler.TriggerEntered(other);
+        if (other.tag == "SecretExitTrigger")
+        {
+            SecretPathWinSequence(other.gameObject);
+        }
+        else
+        {
+            _gameHandler.TriggerEntered(other);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         _gameHandler.TriggerExited(other);
+    }
+
+    private void SecretPathWinSequence(GameObject secretPathTrigger)
+    {
+        SecretPath path = secretPathTrigger.transform.parent.GetComponentInChildren<SecretPath>();
+        _state = PlayerState.EndOfLevel;
+
+        // TODO animation
+        transform.position = _playerHoldingArea;
+        //_lanternBody.transform.position += new Vector3(.3f, 0f, 0f);
+
+        ExitViaSecretPath = true;
+        _gameHandler.LevelComplete();
+        Fog.EndOfLevel();
     }
 
     public void StartGame()

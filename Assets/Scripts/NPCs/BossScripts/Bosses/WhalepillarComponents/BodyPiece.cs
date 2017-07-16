@@ -10,7 +10,7 @@ public class BodyPiece : MonoBehaviour {
     public Vector2 PointOnThis;
     public bool LeadingPiece;
 
-    private float desiredDistance = 0.01f;
+    private float desiredDistance = 0.05f;
     private float maxDegreesPerSecond = 1800f;
     private float followSpeed = 5f;
 
@@ -55,6 +55,7 @@ public class BodyPiece : MonoBehaviour {
         if (OtherBody.GetComponent<SpriteRenderer>().flipX != isFlipped)
         {
             isFlipped = OtherBody.GetComponent<SpriteRenderer>().flipX;
+            // TODO flip this properly, don't make pieces jump, it looks really bad.
             thisBody.GetComponent<SpriteRenderer>().flipX = isFlipped;
             PointOnOther = new Vector2(-PointOnOther.x, PointOnOther.y);
         }
@@ -74,9 +75,8 @@ public class BodyPiece : MonoBehaviour {
             // TODO get angle and position to settle properly
             transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(transform.eulerAngles.z, OtherBody.transform.eulerAngles.z, Time.deltaTime / 10f));
             thisPointInWorldSpace = thisBody.position + V3ToV2((isFlipped ? -1 : 1) * thisBody.transform.right * PointOnThis.x + thisBody.transform.up * PointOnThis.y);
-            Vector2 dist = OtherBody.position - thisBody.position;
-            Vector2 distToAdd = Vector2.Lerp(thisPointInWorldSpace, otherPointInWorldSpace, Time.deltaTime * followSpeed) - thisPointInWorldSpace;
             
+            Vector2 distToAdd = Vector2.Lerp(thisPointInWorldSpace, otherPointInWorldSpace, Time.deltaTime * followSpeed) - thisPointInWorldSpace;
             thisBody.position += distToAdd;
         }
     }

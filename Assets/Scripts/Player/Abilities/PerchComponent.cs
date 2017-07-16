@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class PerchComponent : MonoBehaviour
 {
+    public bool bJumpOnTouchRelease;
+
     private Player _player;
     private Rigidbody2D _body;
     private GameHandler _gameHandler;
@@ -10,7 +12,6 @@ public class PerchComponent : MonoBehaviour
     private Rigidbody2D _lanternBody;
     private GameObject rubble;
 
-    public bool bJumpOnTouchRelease;
 
     private const float PerchSwitchTime = 0.38f;    // Once unperched from bottom, can't re-perch immediately
     private float _timeSinceUnperch;
