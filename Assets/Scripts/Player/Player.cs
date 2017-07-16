@@ -42,6 +42,7 @@ public class Player : MonoBehaviour {
 
     private bool _bPaused;
     private bool _bCaveEndReached;
+    private bool inSecretExit;
 
     public bool ExitViaSecretPath;
 
@@ -240,8 +241,13 @@ public class Player : MonoBehaviour {
     private void CheckIfOffscreen()
     {
         Vector2 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
-        
-        if (screenPosition.y > Screen.height || screenPosition.y < 0 || screenPosition.x < -1f)
+
+        if (inSecretExit)
+        {
+            if ((_state == PlayerState.Normal || _state == PlayerState.Perched) && (screenPosition.y > Screen.height + 50f || screenPosition.y < -50f))
+                SecretPathWinSequence();
+        }
+        else if (screenPosition.y > Screen.height || screenPosition.y < 0 || screenPosition.x < -1f)
         {
             if (_state == PlayerState.Normal || _state == PlayerState.Dying)
             {
@@ -292,9 +298,9 @@ public class Player : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "SecretExitTrigger")
+        if (other.tag == "SecretExit")
         {
-            SecretPathWinSequence(other.gameObject);
+            inSecretExit = true;
         }
         else
         {
@@ -304,12 +310,17 @@ public class Player : MonoBehaviour {
 
     private void OnTriggerExit2D(Collider2D other)
     {
+        Vector2 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
+        if (other.tag == "SecretExit" && screenPosition.y > 0 && screenPosition.y < Screen.height)
+        {
+            Debug.Log("leaving");
+            inSecretExit = false;
+        }
         _gameHandler.TriggerExited(other);
     }
 
-    private void SecretPathWinSequence(GameObject secretPathTrigger)
+    private void SecretPathWinSequence()
     {
-        SecretPath path = secretPathTrigger.transform.parent.GetComponentInChildren<SecretPath>();
         _state = PlayerState.EndOfLevel;
 
         // TODO animation

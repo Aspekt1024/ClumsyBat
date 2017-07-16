@@ -210,9 +210,10 @@ public class MenuScroller : MonoBehaviour {
 
     private float GetButtonPosX()
     {
-        RectTransform LvlButton = GameObject.Find("Lv" + CurrentLevel).GetComponent<RectTransform>();
-        if (!LvlButton) { return 0; }
-        float ButtonPosX = LvlButton.position.x - LevelContentRect.position.x;
+        GameObject lvlButton = GameObject.Find("Lv" + CurrentLevel);
+        if (!lvlButton) { return 0; }
+        RectTransform lvlButtonRt = lvlButton.GetComponent<RectTransform>();
+        float ButtonPosX = lvlButtonRt.position.x - LevelContentRect.position.x;
         return ButtonPosX;
     }
 

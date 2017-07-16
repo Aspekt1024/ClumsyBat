@@ -130,6 +130,11 @@ public class Toolbox : Singleton<Toolbox>
         LevelNames.Add(Levels.Boss3, "boss3");
         LevelNames.Add(Levels.Boss4, "boss4");
         LevelNames.Add(Levels.Boss5, "boss5");
+
+        LevelNames.Add(Levels.Village1, "Village 1");
+        LevelNames.Add(Levels.Village2, "Village 2");
+        LevelNames.Add(Levels.Village3, "Village 3");
+        LevelNames.Add(Levels.Village4, "Village 4");
     }
 
     // The below functions relate to session level tooltips

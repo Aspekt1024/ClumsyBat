@@ -12,22 +12,18 @@ public static class LevelProgressionHandler
         Main7, Main8, Main9, Main10, Main11, Boss3,
         Main12, Main13, Main14, Main15, Boss4,
         Main16, Boss5,
-        AltA1, AltA2, AltA3,
+        Village1, Village2, Village3, Village4,
         AltB1, AltB2,
         AltC1,
         AltD1, AltD2, AltD3, AltD4,
         Training1, Training2,
-        Endless
+        Endless 
     }
 
     // Get the next level based on the current path
     public static Levels GetNextLevel(Levels level)
     {
-        if (level < Levels.Boss4 
-            || level.ToString().Contains("AltA") && level < Levels.AltA3
-            || level.ToString().Contains("AltB") && level < Levels.AltB2
-            || level.ToString().Contains("AltC") && level < Levels.AltC1
-            || level.ToString().Contains("AltD") && level < Levels.AltD4)
+        if (level < Levels.Boss5)
         {
             level++;
         }
@@ -40,7 +36,7 @@ public static class LevelProgressionHandler
         switch (level)
         {
             case Levels.Main3:
-                secretLevel = Levels.AltA1;
+                secretLevel = Levels.Village1;
                 break;
             default:
                 Debug.Log("Warning: Secret path 1 not set for level " + level);

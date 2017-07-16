@@ -41,7 +41,7 @@ public class VillageSequencer : MonoBehaviour
     private IEnumerator VillageSpeech()
     {
         TooltipHandler tth = FindObjectOfType<TooltipHandler>();
-        if (GameData.Instance.Level == LevelProgressionHandler.Levels.Main2)
+        if (GameData.Instance.Level == LevelProgressionHandler.Levels.Village1)
         {
             TooltipHandler.DialogueId eventId = TooltipHandler.DialogueId.HypersonicVillagePt1;
             _bPausedForSpeech = true;

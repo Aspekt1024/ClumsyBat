@@ -11,7 +11,36 @@
       <Moths />
       <Spiders />
       <Webs />
-      <Triggers />
+      <Triggers>
+        <TriggerType>
+          <SpawnTransform>
+            <Pos>
+              <x>2.45807076</x>
+              <y>0.9837832</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>9.312517</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <EventType>Tooltip</EventType>
+          <TooltipText>There's a hidden path to our village in this area of the cave</TooltipText>
+          <TooltipDuration>3</TooltipDuration>
+          <EventId>FirstDeath</EventId>
+          <PausesGame>false</PausesGame>
+        </TriggerType>
+      </Triggers>
       <Npcs />
     </Cave>
     <Cave>
@@ -225,7 +254,33 @@
           <BlueMothChance>0</BlueMothChance>
         </StalType>
       </Stals>
-      <Moths />
+      <Moths>
+        <MothType>
+          <SpawnTransform>
+            <Pos>
+              <x>-1.43458557</x>
+              <y>-0.2484827</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <Colour>Green</Colour>
+          <PathType>Clover</PathType>
+        </MothType>
+      </Moths>
       <Spiders />
       <Webs />
       <Triggers />
@@ -448,6 +503,31 @@
             <Pos>
               <x>3.405655</x>
               <y>0.483630419</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <Colour>Green</Colour>
+          <PathType>Clover</PathType>
+        </MothType>
+        <MothType>
+          <SpawnTransform>
+            <Pos>
+              <x>-6.625763</x>
+              <y>2.994301</y>
             </Pos>
             <Scale>
               <x>1</x>
@@ -840,10 +920,65 @@
       <bBottomSecretPath>false</bBottomSecretPath>
       <Shrooms />
       <Stals />
-      <Moths />
+      <Moths>
+        <MothType>
+          <SpawnTransform>
+            <Pos>
+              <x>0.8268585</x>
+              <y>-2.323863</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <Colour>Green</Colour>
+          <PathType>Clover</PathType>
+        </MothType>
+      </Moths>
       <Spiders />
       <Webs />
-      <Triggers />
+      <Triggers>
+        <TriggerType>
+          <SpawnTransform>
+            <Pos>
+              <x>-5.53000641</x>
+              <y>0.08</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>11.0625105</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <EventType>Tooltip</EventType>
+          <TooltipText>The hidden entrance is on the ground here somewhere</TooltipText>
+          <TooltipDuration>3</TooltipDuration>
+          <EventId>FirstDeath</EventId>
+          <PausesGame>false</PausesGame>
+        </TriggerType>
+      </Triggers>
       <Npcs />
     </Cave>
     <Cave>
@@ -853,7 +988,33 @@
       <bBottomSecretPath>true</bBottomSecretPath>
       <Shrooms />
       <Stals />
-      <Moths />
+      <Moths>
+        <MothType>
+          <SpawnTransform>
+            <Pos>
+              <x>1.27812576</x>
+              <y>-1.15646124</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <Colour>Green</Colour>
+          <PathType>Clover</PathType>
+        </MothType>
+      </Moths>
       <Spiders />
       <Webs />
       <Triggers />
@@ -866,7 +1027,33 @@
       <bBottomSecretPath>false</bBottomSecretPath>
       <Shrooms />
       <Stals />
-      <Moths />
+      <Moths>
+        <MothType>
+          <SpawnTransform>
+            <Pos>
+              <x>-2.87560272</x>
+              <y>3.96713471</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <Colour>Green</Colour>
+          <PathType>Clover</PathType>
+        </MothType>
+      </Moths>
       <Spiders />
       <Webs />
       <Triggers />
@@ -879,7 +1066,33 @@
       <bBottomSecretPath>false</bBottomSecretPath>
       <Shrooms />
       <Stals />
-      <Moths />
+      <Moths>
+        <MothType>
+          <SpawnTransform>
+            <Pos>
+              <x>-8.585636</x>
+              <y>-1.28617382</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <Colour>Green</Colour>
+          <PathType>Clover</PathType>
+        </MothType>
+      </Moths>
       <Spiders />
       <Webs />
       <Triggers />
