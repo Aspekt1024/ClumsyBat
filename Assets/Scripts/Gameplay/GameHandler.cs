@@ -19,6 +19,7 @@ public abstract class GameHandler : MonoBehaviour {
 
     private void Awake()
     {
+        Toolbox.Instance.GamePaused = false;
         GameData.Instance.Data.LoadDataObjects();
         PlayerController = FindObjectOfType<PlayerController>();
         ThePlayer = FindObjectOfType<Player>();
