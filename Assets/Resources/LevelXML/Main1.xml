@@ -35,7 +35,7 @@
             </Rotation>
           </SpawnTransform>
           <EventType>Tooltip</EventType>
-          <TooltipText>Hi! You don't know me, so this might sound crazy...</TooltipText>
+          <TooltipText>Hi! I'm Nomee. I can tell you how to get through these caves.</TooltipText>
           <TooltipDuration>5</TooltipDuration>
           <EventId>FirstJump</EventId>
           <PausesGame>true</PausesGame>
@@ -57,7 +57,7 @@
         <TriggerType>
           <SpawnTransform>
             <Pos>
-              <x>-1.15999985</x>
+              <x>5.25</x>
               <y>0.75</y>
             </Pos>
             <Scale>
@@ -77,7 +77,7 @@
             </Rotation>
           </SpawnTransform>
           <EventType>Tooltip</EventType>
-          <TooltipText>You're carrying the lantern, so maybe you can save us!</TooltipText>
+          <TooltipText>The lantern will collect essence from moths when you get close to them</TooltipText>
           <TooltipDuration>5</TooltipDuration>
           <EventId>FirstMoth</EventId>
           <PausesGame>false</PausesGame>
@@ -171,36 +171,7 @@
       </Moths>
       <Spiders />
       <Webs />
-      <Triggers>
-        <TriggerType>
-          <SpawnTransform>
-            <Pos>
-              <x>-5.330002</x>
-              <y>0.13</y>
-            </Pos>
-            <Scale>
-              <x>1</x>
-              <y>11.1625195</y>
-            </Scale>
-            <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
-              <w>1</w>
-              <eulerAngles>
-                <x>0</x>
-                <y>0</y>
-                <z>0</z>
-              </eulerAngles>
-            </Rotation>
-          </SpawnTransform>
-          <EventType>Tooltip</EventType>
-          <TooltipText>Moths carry a powerful essence that only the latnern can hold</TooltipText>
-          <TooltipDuration>5</TooltipDuration>
-          <EventId>FirstMoth</EventId>
-          <PausesGame>false</PausesGame>
-        </TriggerType>
-      </Triggers>
+      <Triggers />
       <Npcs />
     </Cave>
     <Cave>
@@ -268,7 +239,7 @@
         <TriggerType>
           <SpawnTransform>
             <Pos>
-              <x>0.0399971</x>
+              <x>-1.31000137</x>
               <y>0.13</y>
             </Pos>
             <Scale>
@@ -382,36 +353,7 @@
       </Moths>
       <Spiders />
       <Webs />
-      <Triggers>
-        <TriggerType>
-          <SpawnTransform>
-            <Pos>
-              <x>5.38999939</x>
-              <y>0.58</y>
-            </Pos>
-            <Scale>
-              <x>1</x>
-              <y>11.1625195</y>
-            </Scale>
-            <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
-              <w>1</w>
-              <eulerAngles>
-                <x>0</x>
-                <y>0</y>
-                <z>0</z>
-              </eulerAngles>
-            </Rotation>
-          </SpawnTransform>
-          <EventType>Tooltip</EventType>
-          <TooltipText>I would explain how, but this is the end of the level...</TooltipText>
-          <TooltipDuration>5</TooltipDuration>
-          <EventId>FirstMoth</EventId>
-          <PausesGame>false</PausesGame>
-        </TriggerType>
-      </Triggers>
+      <Triggers />
       <Npcs />
     </Cave>
     <Cave>
