@@ -92,7 +92,7 @@ public class Toolbox : Singleton<Toolbox>
     
     private void Awake()
     {
-        HoldingArea = new Vector2(100, 0);
+        HoldingArea = new Vector2(1000, 0);
         LevelSpeed = 5f;
         GravityScale = 4f;
         MenuScreen = MenuSelector.MainMenu;

@@ -35,8 +35,8 @@ public class TriggerClass : Spawnable {
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!GameData.Instance.Data.Stats.Settings.Tooltips) return;
-
+        if (!GameData.Instance.Data.Stats.Settings.Tooltips || !IsActive) return;
+        IsActive = false;
         switch (EventType)
         {
             case (TriggerHandler.EventType.Dialogue):

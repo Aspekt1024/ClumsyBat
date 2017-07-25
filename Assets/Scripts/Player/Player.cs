@@ -132,23 +132,21 @@ public class Player : MonoBehaviour {
         _playerCollider.enabled = false;
         _playerRigidBody.isKinematic = true;
         _state = PlayerState.EndOfLevel;
-        StartCoroutine("CaveExitAnimation");
+        StartCoroutine(CaveExitAnimation());
     }
 
     private IEnumerator CaveExitAnimation()
     {
         float animTimer = 0f;
         const float animDuration = 0.9f;
-        Vector2 targetExitPoint = new Vector2(Toolbox.TileSizeX / 2f, 0f);
+        Vector2 targetExitPoint = new Vector2(transform.position.x + Toolbox.TileSizeX / 2f, -0.5f);
         Vector2 originalPos = transform.position;
 
         while (animTimer < animDuration)
         {
             animTimer += Time.deltaTime;
             float animRatio = animTimer / animDuration;
-            float xPos = originalPos.x - (originalPos.x - targetExitPoint.x) * animRatio;
-            float yPos = originalPos.y - (originalPos.y - targetExitPoint.y) * Mathf.Sqrt(animRatio);
-            transform.position = new Vector3(xPos, yPos, transform.position.z);
+            transform.position = Vector3.Lerp(originalPos, targetExitPoint, animRatio);
             yield return null;
         }
         transform.position = _playerHoldingArea;
@@ -323,6 +321,7 @@ public class Player : MonoBehaviour {
         //_lanternBody.transform.position += new Vector3(.3f, 0f, 0f);
 
         ExitViaSecretPath = true;
+        Debug.Log("player declaring level complete through secret path win sequence");
         _gameHandler.LevelComplete();
         Fog.EndOfLevel();
     }

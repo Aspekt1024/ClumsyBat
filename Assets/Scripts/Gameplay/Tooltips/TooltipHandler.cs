@@ -142,7 +142,6 @@ public class TooltipHandler : MonoBehaviour {
     public void ShowDialogue(string text, float duration, bool pauses = false)
     {
         if (!_playerControl.ThePlayer.IsAlive()) { return; }
-
         if (setupTooltipCoroutine != null) StopCoroutine(setupTooltipCoroutine);
         setupTooltipCoroutine = StartCoroutine(SetupTooltip(text, duration, pauses));
     }
@@ -153,7 +152,7 @@ public class TooltipHandler : MonoBehaviour {
         _waitType = pauses ? WaitType.InGamePause : WaitType.InGameNoPause;
         if (_waitType == WaitType.InGamePause) { _playerControl.WaitForTooltip(true); }
         _tooltipControl.RestoreOriginalScale();
-
+        
         yield return StartCoroutine(_tooltipControl.OpenTooltip());
         yield return StartCoroutine(ShowTooltip(text));
         

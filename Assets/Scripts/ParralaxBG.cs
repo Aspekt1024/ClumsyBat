@@ -53,8 +53,6 @@ public class ParralaxBG : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        if (Toolbox.Instance.GamePaused) return;
-
         float dist = ObjectToTrack.position.x - prevXPosition;
         prevXPosition = ObjectToTrack.position.x;
 

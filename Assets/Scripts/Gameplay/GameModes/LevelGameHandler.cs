@@ -13,6 +13,7 @@ public class LevelGameHandler : GameHandler
     private CaveHandler _caveHandler;
     private bool _caveGnomeEndSequenceStarted;
     private VillageSequencer _villageSequencer;
+    private bool caveExitAutoFlightTriggered;
     
     private void Start ()
     {
@@ -145,7 +146,11 @@ public class LevelGameHandler : GameHandler
                 other.GetComponentInParent<Moth>().ConsumeMoth();
                 break;
             case "ExitTrigger":
-                ThePlayer.ExitAutoFlightReached();
+                if (!caveExitAutoFlightTriggered)
+                {
+                    caveExitAutoFlightTriggered = true;
+                    ThePlayer.ExitAutoFlightReached();
+                }
                 break;
             case "Spore":
                 ThePlayer.Fog.Minimise();

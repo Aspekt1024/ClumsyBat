@@ -59,6 +59,12 @@ public class FogEffect : MonoBehaviour {
         _echoScale = -3f;
     }
 
+    private void FixedUpdate()
+    {
+        transform.position = new Vector3(Toolbox.PlayerCam.transform.position.x, 0f, transform.position.z);
+        Material.SetVector("_PlayerPos", _lantern.position);
+    }
+
     private void Update()
     {
         if (_state == FogStates.Disabled || _state == FogStates.ExpandingToRemove) { return; }
@@ -82,8 +88,6 @@ public class FogEffect : MonoBehaviour {
             _echoScale += GetLightPulse();
             Material.SetFloat("_LightDist", _echoScale);
         }
-        Vector4 pos = _lantern.position;
-        Material.SetVector("_PlayerPos", pos);
     }
 
     private float GetLightPulse()

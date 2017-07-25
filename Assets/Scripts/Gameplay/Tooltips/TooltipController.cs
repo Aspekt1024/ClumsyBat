@@ -65,7 +65,7 @@ public class TooltipController : MonoBehaviour {
     public IEnumerator PopOutObject(RectTransform rt)
     {
         Vector2 originalScale = rt.localScale;
-
+        
         float animTimer = 0f;
         float startScale = 0f;
         float endScale = 1.1f;

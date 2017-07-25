@@ -13,7 +13,6 @@ public class Moth : Spawnable {
     public Transform MothSprite;
     private Animator _mothAnimator;
     private Collider2D _mothCollider;
-    private AudioSource _mothAudio;
     private MothStates _mothState = MothStates.Normal;
     private Transform _lantern;
     private MothInteractivity _mothInteractor;
@@ -54,23 +53,23 @@ public class Moth : Spawnable {
 
     public void ConsumeMoth()
     {
-        const float animDuration = 1f;
-        _mothInteractor.StartCoroutine("ConsumeMoth", animDuration);
 
         if (!_bConsumption)
         {
             _bConsumption = true;
             _mothCollider.enabled = false;
-            StartCoroutine("ConsumeAnim", animDuration);
+            StartCoroutine(ConsumeAnim());
         }
     }
 
-    private IEnumerator ConsumeAnim(float animDuration)
+    private IEnumerator ConsumeAnim()
     {
         PlayExplosionAnim();
 
-        float lantenFollowTime = animDuration / 2f;
         float animTimer = 0f;
+        const float animDuration = 1f;
+
+        float lantenFollowTime = animDuration / 2f;
         Vector3 startPos = new Vector3();
         bool bStartPosSet = false;
 
@@ -98,6 +97,14 @@ public class Moth : Spawnable {
         _mothInteractor.ActivateAbility(Colour);
         SendToInactivePool();
         _bConsumption = false;
+
+        DataHandler data = GameData.Instance.Data;
+        data.Stats.MothsEaten++;
+        if (data.Stats.MothsEaten > data.Stats.MostMoths)
+        {
+            data.Stats.MostMoths++;
+        }
+        data.Stats.TotalMoths++;
     }
 
     private void PlayNormalAnimation()
@@ -137,7 +144,7 @@ public class Moth : Spawnable {
     {
         base.SendToInactivePool();
         MothSprite.transform.position = transform.position;
-        _mothAudio.PlayOneShot(_mothAudioDict[MothAudioNames.Consume]);
+        Toolbox.MainAudio.PlaySound(_mothAudioDict[MothAudioNames.Consume]);
     }
 
     public void Activate(SpawnType spawnTf, MothColour colour, MothPathHandler.MothPathTypes pathType = MothPathHandler.MothPathTypes.Spiral)
@@ -219,7 +226,6 @@ public class Moth : Spawnable {
 
     private void GetMothComponents()
     {
-        _mothAudio = gameObject.AddComponent<AudioSource>();
         _mothInteractor = gameObject.AddComponent<MothInteractivity>();
         _pathHandler = new MothPathHandler(this);
         foreach (Transform tf in transform)
@@ -242,10 +248,5 @@ public class Moth : Spawnable {
         GameObject lanternObj = GameObject.Find("Lantern");
         if (lanternObj) { _lantern = lanternObj.GetComponent<Transform>(); }
     }
-
-    public void PauseAnimation()
-    {
-        // This was written so we could switch on the moth animation in Awake to avoid load times upon activation
-        _mothAnimator.enabled = false;
-    }
+    
 }

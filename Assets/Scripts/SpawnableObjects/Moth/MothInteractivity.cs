@@ -17,25 +17,6 @@ public class MothInteractivity : MonoBehaviour
         _thePlayer = FindObjectOfType<Player>();
     }
     
-    public IEnumerator ConsumeMoth(float animationWaitTime)
-    {
-        if (_data.Stats.MothsEaten > _data.Stats.MostMoths)
-        {
-            _data.Stats.MostMoths++;
-        }
-        _data.Stats.TotalMoths++;
-        float animTimer = 0f;
-        while (animTimer < animationWaitTime)
-        {
-            if (_gameHandler.GetGameState() != GameStates.Paused)
-            {
-                animTimer += Time.deltaTime;
-            }
-            yield return null;
-        }
-        _data.Stats.MothsEaten++;
-    }
-
     public void ActivateAbility(Moth.MothColour colour)
     {
         switch (colour)
