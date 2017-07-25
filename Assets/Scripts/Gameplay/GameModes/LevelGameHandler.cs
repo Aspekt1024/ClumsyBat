@@ -22,17 +22,10 @@ public class LevelGameHandler : GameHandler
         _villageSequencer = GameObject.FindGameObjectWithTag("Scripts").AddComponent<VillageSequencer>();
         StartCoroutine("LoadSequence");
     }
-	
-	private void Update ()
+
+    protected override void SetCameraEndPoint()
     {
-        if (ThePlayer.IsAlive() && !Level.AtCaveEnd())
-        {
-            AddDistanceFromTime(Time.deltaTime);
-        }
-        if (PlayerController.State == GameStates.Normal && Level.AtCaveEnd())
-        {
-            ThePlayer.CaveEndReached();
-        }
+        Toolbox.PlayerCam.SetEndPoint(_caveHandler.GetEndCave().transform.position.x);
     }
 
     private IEnumerator LoadSequence()
@@ -40,33 +33,7 @@ public class LevelGameHandler : GameHandler
         yield return new WaitForSeconds(1f);
         StartCoroutine("LevelStartAnimation");
         GameMusic.PlaySound(GameMusicControl.GameTrack.Twinkly);
-    }
-
-    public override void MovePlayerAtCaveEnd(float dist)
-    {
-        if (_caveGnomeEndSequenceStarted) return;
-        if (_caveHandler.IsGnomeEnding())
-        {
-            _caveGnomeEndSequenceStarted = true;
-            GameMusic.PlaySound(GameMusicControl.GameTrack.Village);
-            _villageSequencer.StartCoroutine("StartSequence");
-        }
-        else
-        {
-            base.MovePlayerAtCaveEnd(dist);
-        }
-    }
-
-    private void AddDistanceFromTime(double time)
-    {
-        float addDist = (float)time * Level.GetGameSpeed() * Toolbox.Instance.LevelSpeed;
-        AddDistance(addDist);
-    }
-
-    protected override void AddDistance(float dist)
-    {
-        if (_caveHandler.IsGnomeEnding() && Level.AtCaveEnd() || !ThePlayer.GameHasStarted()) return;
-        base.AddDistance(dist);
+        SetCameraEndPoint();
     }
 
     private IEnumerator LevelStartAnimation()
@@ -137,11 +104,6 @@ public class LevelGameHandler : GameHandler
         ThePlayer.ResumeGame();
         Level.GameHud.HideResumeTimer();
         Level.ResumeGame();
-    }
-
-    public override void UpdateGameSpeed(float speed)
-    {
-        Level.UpdateGameSpeed(speed);
     }
 
     protected override void OnDeath()

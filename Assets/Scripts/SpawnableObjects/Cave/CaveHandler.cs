@@ -9,6 +9,7 @@ public class CaveHandler : MonoBehaviour {
     private Rigidbody2D _caveBody;
     private int _numCavePieces;
     private int _cavePieceCounter;
+    private GameObject caveEnd;
     
     private bool _bEndlessMode;
     private bool _bGnomeEnd;
@@ -45,35 +46,33 @@ public class CaveHandler : MonoBehaviour {
         {
             _numCavePieces = _levelCaveList.Length;
             GeneratePresetLevelCave();
-            SetStartingObstacles();
+            SetObstacles();
         }
-        _cavePieceCounter = 0;
     }
     
 	private void Update ()
     {
-        var caveX = _caveBody.position.x;
-        if (caveX < -_tileSizeX * _cavePieceCounter)
+        if (Toolbox.Player.transform.position.x >= (_numCavePieces - 1f) * _tileSizeX)
         {
-            _cavePieceCounter++;
-            if (_cavePieceCounter > 1 && _cavePieceCounter < _numCavePieces) { _objectHandler.SetCaveObstacles(_cavePieceCounter); }
+            Toolbox.PlayerCam.StopFollowing();
         }
-        if (_cavePieceCounter < _numCavePieces) { return; }
-        SetVelocity(0);
-        State = CaveStates.Final;
     }
 
     public LevelObjectHandler.CaveListType GetRandomisedObstacleList()
     {
         return _endlessCave.RandomiseObstacleList(); // TODO more here.
     }
-
-    public bool AtCaveEnd() { return State == CaveStates.Final; }
+    
     public bool IsGnomeEnding() { return _bGnomeEnd; }
 
     public void PauseGame(bool paused)
     {
         bPaused = paused;
+    }
+
+    public GameObject GetEndCave()
+    {
+        return caveEnd;
     }
 
     public void SetVelocity(float speed)
@@ -107,6 +106,7 @@ public class CaveHandler : MonoBehaviour {
             {
                 caveTop = (GameObject)Instantiate(Resources.Load("Caves/CaveExit"), caveParent.transform);
                 caveTop.name = "CaveExit";
+                caveEnd = caveTop;
             }
             else if (cave.TopIndex == Toolbox.CaveGnomeEndIndex)
             {
@@ -128,9 +128,11 @@ public class CaveHandler : MonoBehaviour {
         }
     }
 
-    private void SetStartingObstacles()
+    private void SetObstacles()
     {
-        _objectHandler.SetCaveObstacles(0);
-        _objectHandler.SetCaveObstacles(1);
+        for (int i = 0; i < _numCavePieces; i++)
+        {
+            _objectHandler.SetCaveObstacles(i);
+        }
     }
 }

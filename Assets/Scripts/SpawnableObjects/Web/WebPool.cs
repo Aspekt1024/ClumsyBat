@@ -6,10 +6,8 @@ public sealed class WebPool : SpawnPool<WebClass> {
     {
         ParentName = "Webs";
         ParentZ = Toolbox.Instance.ZLayers["Web"];
-        NumObjectsInPool = 4;
         ResourcePath = "Obstacles/Web";
         ObjTag = "Web";
-        SetupPool();
     }
     
     public struct WebType
@@ -22,7 +20,7 @@ public sealed class WebPool : SpawnPool<WebClass> {
     {
         foreach (WebType web in webList)
         {
-            WebClass newWeb = GetNextObject();
+            WebClass newWeb = GetNewObject();
             Spawnable.SpawnType spawnTf = web.SpawnTransform;
             spawnTf.Pos += new Vector2(xOffset, 0f);
             newWeb.Activate(spawnTf, web.SpecialWeb);

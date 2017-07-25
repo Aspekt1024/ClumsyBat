@@ -2,6 +2,10 @@
 
 public class ParralaxBG : MonoBehaviour {
 
+    public Transform ObjectToTrack;
+
+    private float prevXPosition;
+
     private enum DepthIndex
     {
         Front, Mid, Rear
@@ -10,9 +14,9 @@ public class ParralaxBG : MonoBehaviour {
     private float _scrollSpeed;
     public float ZLayer;
     public float TileSizeX = 19.2f;
-    public const float FrontBgSpeed = 0.3f;
-    public const float MidBgSpeed = 0.1f;
-    public const float RearBgSpeed = 0.00f;
+    public const float FrontBgSpeed = 0.7f;
+    public const float MidBgSpeed = 0.9f;
+    public const float RearBgSpeed = 1f;
 
     private struct BgImgType
     {
@@ -44,29 +48,34 @@ public class ParralaxBG : MonoBehaviour {
         GetBgPieces();
         GetBgSprites();
         LoadStartingSprites();
+        prevXPosition = ObjectToTrack.position.x;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        UpdateBgPos(_frontBgPieces, FrontBgSpeed*Time.deltaTime);
-        UpdateBgPos(_midBgPieces, MidBgSpeed*Time.deltaTime);
-        UpdateBgPos(_rearBgPieces, RearBgSpeed*Time.deltaTime);
+        if (Toolbox.Instance.GamePaused) return;
+
+        float dist = ObjectToTrack.position.x - prevXPosition;
+        prevXPosition = ObjectToTrack.position.x;
+
+        UpdateBgPos(_frontBgPieces, FrontBgSpeed * dist);
+        UpdateBgPos(_midBgPieces, MidBgSpeed * dist);
+        UpdateBgPos(_rearBgPieces, RearBgSpeed * dist);
     }
 
     private void UpdateBgPos(Rigidbody2D[] bgList, float bgShift)
     {
-        if (Toolbox.Instance.GamePaused) return;
         foreach (Rigidbody2D bg in bgList)
         {
-            float newXPos = bg.transform.position.x - _scrollSpeed * bgShift;
-            if (newXPos <= -TileSizeX)
+            bg.transform.position += Vector3.right * bgShift;
+            if (bg.transform.position.x <= ObjectToTrack.position.x - TileSizeX * 1.01f)
             {
-                bg.transform.position = new Vector3(newXPos + 2 * TileSizeX, 0, bg.transform.position.z);
+                bg.transform.position += Vector3.right * 2 * TileSizeX;
                 SelectNewTexture(bg);
             }
-            else
+            else if (bg.transform.position.x >= ObjectToTrack.position.x + TileSizeX * 1.01f)
             {
-                bg.transform.position = new Vector3(newXPos, 0, bg.transform.position.z);
+                bg.transform.position += Vector3.left * 2 * TileSizeX;
             }
         }
     }

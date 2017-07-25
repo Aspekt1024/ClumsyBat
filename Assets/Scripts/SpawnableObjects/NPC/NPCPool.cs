@@ -6,10 +6,8 @@ public sealed class NpcPool : SpawnPool<NPC> {
     {
         ParentName = "NPCs";
         ParentZ = Toolbox.Instance.ZLayers["NPC"];
-        NumObjectsInPool = 1;
         ResourcePath = "NPCs/Nomee";
         ObjTag = "NPC";
-        SetupPool();
     }
 
     public struct NpcType
@@ -22,7 +20,7 @@ public sealed class NpcPool : SpawnPool<NPC> {
     {
         foreach (NpcType npc in npcList)
         {
-            NPC newNpc = GetNextObject();
+            NPC newNpc = GetNewObject();
             Spawnable.SpawnType spawnTf = npc.SpawnTransform;
             spawnTf.Pos += new Vector2(xOffset, 0f);
             newNpc.Activate(spawnTf, npc.Type);

@@ -6,30 +6,20 @@ public abstract class SpawnPool<T> where T : Spawnable
     protected Transform ParentObject;
     protected string ParentName;
     protected float ParentZ;
-    protected int NumObjectsInPool;
     protected string ResourcePath;
     public string ObjTag;
 
     protected readonly List<T> ObjPool = new List<T>();
     private int _index;
+    private int numObjects;
 
-    protected T GetNextObject()
+    protected T GetNewObject()
     {
-        _index++;
-        if (_index == NumObjectsInPool)
-        {
-            _index = 0;
-        }
-        return ObjPool[_index];
-    }
-    
-    protected virtual void SetupPool()
-    {
-        CreateParent();
-        for (int i = 0; i < NumObjectsInPool; i++)
-        {
-            CreateObject(i);
-        }
+        if (ParentObject == null)
+            CreateParent();
+
+        numObjects++;
+        return CreateObject(numObjects);
     }
 
     protected void CreateParent()
@@ -53,14 +43,6 @@ public abstract class SpawnPool<T> where T : Spawnable
         foreach (var obj in ObjPool)
         {
             obj.PauseGame(paused);
-        }
-    }
-
-    public virtual void SetSpeedX(float speedX)
-    {
-        foreach (T obj in ObjPool)
-        {
-            obj.SetSpeed(speedX);
         }
     }
 }

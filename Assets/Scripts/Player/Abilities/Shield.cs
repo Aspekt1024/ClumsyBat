@@ -71,7 +71,7 @@ public class Shield : MonoBehaviour {
                     {
                         _playerBody.position -= new Vector2(displacementX, 0f);
                     }
-                    _gameHandler.UpdateGameSpeed(displacementX * 1.6f);
+                    _playerBody.GetComponent<Player>().SetPlayerSpeed(-4f);     // TODO set knockback speed;
                 }
                 knockbackTimer += Time.deltaTime;
             }
@@ -85,8 +85,6 @@ public class Shield : MonoBehaviour {
         const float moveForwardDuration = 0.4f;
         float playerStartX = _playerBody.position.x;
         float playerEndX = _thePlayer.GetHomePositionX();
-        const float gameSpeedStart = 0f;
-        const float gameSpeedEnd = 1f;
 
         while (moveForwardTimer < moveForwardDuration && !_thePlayer.AtCaveEnd())
         {
@@ -94,11 +92,9 @@ public class Shield : MonoBehaviour {
             {
                 moveForwardTimer += Time.deltaTime;
                 _playerBody.position = new Vector2(playerStartX - (playerStartX - playerEndX) * (moveForwardTimer / moveForwardDuration), _playerBody.position.y);
-                _gameHandler.UpdateGameSpeed(gameSpeedStart - (gameSpeedStart - gameSpeedEnd) * (moveForwardTimer / moveForwardDuration));
             }
             yield return null;
         }
-        _gameHandler.UpdateGameSpeed(1f);
     }
 
     public void Setup(Player playerRef, Lantern lanternRef)

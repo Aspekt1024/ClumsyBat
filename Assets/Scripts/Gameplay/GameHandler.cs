@@ -39,13 +39,14 @@ public abstract class GameHandler : MonoBehaviour {
     public abstract MothPool GetMothPool();
     public abstract void PauseGame(bool showMenu);
     public abstract void ResumeGame(bool immediate = false);
-
-    public abstract void UpdateGameSpeed(float speed);
+    
     public abstract void LevelComplete();
     
     public virtual void GameOver() { }
     public virtual void TriggerExited(Collider2D other) { }
     protected virtual void OnDeath() { }
+
+    protected abstract void SetCameraEndPoint();
 
     public virtual void TriggerEntered(Collider2D other)
     {
@@ -80,26 +81,6 @@ public abstract class GameHandler : MonoBehaviour {
                     ThePlayer.Die();
                 }
                 break;
-        }
-    }
-    
-    /// <summary>
-    /// Handles the player movement throughout the scene, based
-    /// on the distance given by the Player class
-    /// </summary>
-    public virtual void MovePlayerAtCaveEnd(float dist)
-    {
-        ThePlayer.transform.position += new Vector3(dist, 0f, 0f);
-        AddDistance(dist);
-    }
-    
-    protected virtual void AddDistance(float dist)
-    {
-        Stats.Distance += dist;
-        Stats.TotalDistance += dist;
-        if (Stats.Distance > Stats.BestDistance)
-        {
-            Stats.BestDistance = Stats.Distance;
         }
     }
 

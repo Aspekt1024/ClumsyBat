@@ -25,6 +25,7 @@ public class Toolbox : Singleton<Toolbox>
     public Dictionary<Levels, string> LevelNames = new Dictionary<Levels, string>();
 
     private static Player playerScript;
+    private CameraFollowObject playerCamScript;
     private static MainAudioControl mainAudio;
 
     public static Player Player
@@ -44,6 +45,26 @@ public class Toolbox : Singleton<Toolbox>
                 }
             }
             return playerScript;
+        }
+    }
+
+    public static CameraFollowObject PlayerCam
+    {
+        get
+        {
+            if (Instance.playerCamScript == null)
+            {
+                GameObject[] camObjects = GameObject.FindGameObjectsWithTag("MainCamera");
+                foreach (GameObject camObj in camObjects)
+                {
+                    if (camObj.GetComponent<CameraFollowObject>() != null)
+                    {
+                        Instance.playerCamScript = camObj.GetComponent<CameraFollowObject>();
+                        break;
+                    }
+                }
+            }
+            return Instance.playerCamScript;
         }
     }
 

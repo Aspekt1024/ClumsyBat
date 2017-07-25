@@ -6,10 +6,8 @@ public sealed class SpiderPool : SpawnPool<SpiderClass> {
     {
         ParentName = "Spiders";
         ParentZ = Toolbox.Instance.ZLayers["Spider"];
-        NumObjectsInPool = 5;
         ResourcePath = "Obstacles/Spider";
         ObjTag = "Spider";
-        SetupPool();
     }
 
     public struct SpiderType
@@ -23,7 +21,7 @@ public sealed class SpiderPool : SpawnPool<SpiderClass> {
     {
         foreach (SpiderType spider in spiderList)
         {
-            SpiderClass newSpider = GetNextObject();
+            SpiderClass newSpider = GetNewObject();
             Spawnable.SpawnType spawnTf = spider.SpawnTransform;
             spawnTf.Pos += new Vector2(xOffset, 0f);
             newSpider.Activate(spawnTf, spider.SpiderSwings, spider.AnchorPoint);

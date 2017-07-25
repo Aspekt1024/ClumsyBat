@@ -150,13 +150,11 @@ public class RushAbility : MonoBehaviour {
         if (_bPaused) yield break;
         _thePlayer.SetPlayerSpeed(RushSpeed);
         _thePlayer.SetVelocity(Vector2.zero);
-        _gameHandler.UpdateGameSpeed(RushSpeed);
     }
 
     private IEnumerator RushEndAnimation()
     {
         _thePlayer.SetPlayerSpeed(NormalSpeed);
-        _gameHandler.UpdateGameSpeed(NormalSpeed);
         _bIsRushing = false;
         _thePlayer.SetGravity(-1f);  // -1 resets to default gravity defined by PlayerController
 

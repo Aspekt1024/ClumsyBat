@@ -6,10 +6,8 @@ public sealed class ShroomPool : SpawnPool<Mushroom> {
     {
         ParentName = "Mushrooms";
         ParentZ = Toolbox.Instance.ZLayers["Mushroom"];
-        NumObjectsInPool = 5;
         ResourcePath = "Obstacles/Mushroom";
         ObjTag = "Mushroom";
-        SetupPool();
     }
     
     public struct ShroomType
@@ -24,7 +22,7 @@ public sealed class ShroomPool : SpawnPool<Mushroom> {
         {
             Spawnable.SpawnType spawnTf = shroom.SpawnTransform;
             spawnTf.Pos += new Vector2(xOffset, 0f);
-            Mushroom mushroom = GetNextObject();
+            Mushroom mushroom = GetNewObject();
             mushroom.Activate(spawnTf);
         }
     }

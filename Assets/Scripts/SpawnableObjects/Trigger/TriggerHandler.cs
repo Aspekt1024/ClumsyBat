@@ -6,10 +6,8 @@ public sealed class TriggerHandler : SpawnPool<TriggerClass> {
     {
         ParentName = "Triggers";
         ParentZ = Toolbox.Instance.ZLayers["Trigger"];
-        NumObjectsInPool = 4;
         ResourcePath = "Interactables/Trigger";
         ObjTag = "Trigger";
-        SetupPool();
     }
 
     public enum EventType { Dialogue, OneTimeEvent, Tooltip }
@@ -27,7 +25,7 @@ public sealed class TriggerHandler : SpawnPool<TriggerClass> {
     {
         foreach (TriggerType trigger in triggerList)
         {
-            TriggerClass newTrigger = GetNextObject();
+            TriggerClass newTrigger = GetNewObject();
             Spawnable.SpawnType spawnTf = trigger.SpawnTransform;
             spawnTf.Pos += new Vector2(xOffset, 0f);
             newTrigger.Activate(trigger, spawnTf);

@@ -68,7 +68,6 @@ public class PerchComponent : MonoBehaviour
         _player.SwitchPerchState();
         _body.velocity = Vector2.zero;
         _body.isKinematic = true;
-        _gameHandler.UpdateGameSpeed(0f);
 
         SetPerchGraphics();
     }
@@ -109,7 +108,6 @@ public class PerchComponent : MonoBehaviour
             _player.transform.position += Vector3.up * 0.2f;
             _player.SwitchPerchState();
             _player.UnperchBottom();
-            _gameHandler.UpdateGameSpeed(1);
             hit = Physics2D.Raycast(_player.transform.position, Vector2.down, 5f, 1 << LayerMask.NameToLayer("Caves"));
         }
 
@@ -142,7 +140,6 @@ public class PerchComponent : MonoBehaviour
         {
             _state = PerchState.Unperched;
             _player.SwitchPerchState();
-            _gameHandler.UpdateGameSpeed(1);
         }
     }
 

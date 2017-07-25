@@ -6,10 +6,8 @@ public sealed class MothPool : SpawnPool<Moth>
     {
         ParentName = "Moths";
         ParentZ = Toolbox.Instance.ZLayers["Moth"];
-        NumObjectsInPool = 8;
         ResourcePath = "Collectibles/Moth";
         ObjTag = "Moth";
-        SetupPool();
     }
 
     public struct MothType
@@ -19,21 +17,11 @@ public sealed class MothPool : SpawnPool<Moth>
         public MothPathHandler.MothPathTypes PathType;
     }
     
-    protected override void SetupPool()
-    {
-        CreateParent();
-        for (int i = 0; i < NumObjectsInPool; i++)
-        {
-            Moth moth = CreateObject(i);
-            moth.PauseAnimation();
-        }
-    }
-    
     public void SetupMothsInList(MothType[] mothList, float xOffset)
     {
         foreach (MothType moth in mothList)
         {
-            Moth newMoth = GetNextObject();
+            Moth newMoth = GetNewObject();
             Spawnable.SpawnType spawnTf = moth.SpawnTransform;
             spawnTf.Pos += new Vector2(xOffset, 0f);
             newMoth.Activate(spawnTf, moth.Colour, moth.PathType);
@@ -46,7 +34,7 @@ public sealed class MothPool : SpawnPool<Moth>
     public void ActivateMothInRange(float minY, float maxY, Moth.MothColour colour)
     {
         Debug.Log("Activating moth in range");
-        Moth newMoth = GetNextObject();
+        Moth newMoth = GetNewObject();
         float xPos = 10f + GameObject.FindGameObjectWithTag("MainCamera").transform.position.x;
         var spawnTf = new Spawnable.SpawnType
         {
@@ -59,7 +47,7 @@ public sealed class MothPool : SpawnPool<Moth>
 
     public void ActivateMothFromEssence(Vector2 spawnLoc, Vector2 appearanceLoc, Moth.MothColour colour, float despawnTimer)
     {
-        Moth newMoth = GetNextObject();
+        Moth newMoth = GetNewObject();
         var spawnTf = new Spawnable.SpawnType
         {
             Pos = spawnLoc,

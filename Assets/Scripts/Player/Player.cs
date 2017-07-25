@@ -38,7 +38,7 @@ public class Player : MonoBehaviour {
     private const float ClumsyX = -5f;
     private const float GravityScale = 3f;
     private Vector2 _savedVelocity = Vector2.zero;
-    private float _playerSpeed;
+    private float playerSpeed;
 
     private bool _bPaused;
     private bool _bCaveEndReached;
@@ -72,7 +72,7 @@ public class Player : MonoBehaviour {
         SetupAbilities();
     }
 
-    private void Update ()
+    private void FixedUpdate ()
     {
         if (_state == PlayerState.Normal)
         {
@@ -80,25 +80,31 @@ public class Player : MonoBehaviour {
 
             if (!_shield.IsInUse())
             {
-                if (transform.position.x < ClumsyX)
+                if (!Toolbox.Instance.GamePaused)
                 {
-                    _gameHandler.UpdateGameSpeed(0);
-                    transform.position += Vector3.right * 0.03f;
+                    float dist = playerSpeed * Time.deltaTime;
+                    _playerRigidBody.position += Vector2.right * dist;
+                    GameData.Instance.Data.Stats.Distance += dist;              // TODO set to zero at level start
+                    GameData.Instance.Data.Stats.BestDistance += dist;
                 }
-                else if (!_bPaused)
-                {
-                    _gameHandler.UpdateGameSpeed(1f);
-                }
-            }
-
-            if (_bCaveEndReached)
-            {
-                float distance = Time.deltaTime * _playerSpeed * Toolbox.Instance.LevelSpeed;
-                _gameHandler.MovePlayerAtCaveEnd(distance);
             }
         }
         CheckIfOffscreen();
     }
+
+    public void SetPlayerSpeed(float speed)
+    {
+        playerSpeed = speed;
+    }
+
+        // TODO implement this
+        //    if (_caveGnomeEndSequenceStarted) return;
+        //if (_caveHandler.IsGnomeEnding())
+        //{
+        //    _caveGnomeEndSequenceStarted = true;
+        //    GameMusic.PlaySound(GameMusicControl.GameTrack.Village);
+        //    _villageSequencer.StartCoroutine("StartSequence");
+        //}
 
     private void SetupAbilities()
     {
@@ -173,13 +179,7 @@ public class Player : MonoBehaviour {
         _playerRigidBody.velocity = new Vector2(0, 3f);
         _state = PlayerState.Normal;
     }
-
-    public void CaveEndReached()
-    {
-        _rush.CaveEndReached();
-        _bCaveEndReached = true;
-    }
-
+    
     public void ActivateRush() { _rush.Activate(); }
     public void DeactivateRush() { _rush.Deactivate(); }
     public void ActivateHypersonic() { _hypersonic.ActivateHypersonic(); }
@@ -218,10 +218,6 @@ public class Player : MonoBehaviour {
     public void SetVelocity(Vector2 velocity)
     {
         _playerRigidBody.velocity = velocity;
-    }
-    public void SetPlayerSpeed(float speed)
-    {
-        _playerSpeed = speed;
     }
     
     private void OnCollisionEnter2D(Collision2D other)
@@ -291,7 +287,6 @@ public class Player : MonoBehaviour {
 
     private IEnumerator GameOverSequence()
     {
-        _gameHandler.UpdateGameSpeed(0);
         yield return new WaitForSeconds(1f);
         _gameHandler.GameOver();
     }
@@ -462,7 +457,6 @@ public class Player : MonoBehaviour {
     public void PlaySound(PlayerSounds soundId) { _audioControl.PlaySound(soundId); }
     private void DisablePlayerController() { FindObjectOfType<PlayerController>().PauseInput(true); }
     public float GetHomePositionX() { return ClumsyX; }
-    public float GetPlayerSpeed() { return _playerSpeed; }
     public bool AtCaveEnd() { return _bCaveEndReached; }
     public bool IsPerched() { return _state == PlayerState.Perched; }
     public bool IsPerchedOnTop() { return _perch.IsPerchedOnTop(); }
@@ -481,7 +475,6 @@ public class Player : MonoBehaviour {
     {
         _data = GameData.Instance.Data;
         _gameHandler = FindObjectOfType<GameHandler>();
-        _playerSpeed = 1f;
 
         _playerController = GetComponent<PlayerController>();
         Anim = gameObject.AddComponent<ClumsyAnimator>();

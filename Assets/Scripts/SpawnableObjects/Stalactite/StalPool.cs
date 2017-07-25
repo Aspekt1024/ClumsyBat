@@ -6,10 +6,8 @@ public sealed class StalPool : SpawnPool<Stalactite> {
     {
         ParentName = "Stalactites";
         ParentZ = Toolbox.Instance.ZLayers["Stalactite"];
-        NumObjectsInPool = 25;
         ResourcePath = "Obstacles/Stalactite";
         ObjTag = "Stalactite";
-        SetupPool();
     }
 
     public struct StalType
@@ -27,7 +25,7 @@ public sealed class StalPool : SpawnPool<Stalactite> {
     {
         foreach (StalType stal in stalList)
         {
-            Stalactite newStal = GetNextObject();
+            Stalactite newStal = GetNewObject();
             newStal.Activate(stal, xOffset);
         }
     }

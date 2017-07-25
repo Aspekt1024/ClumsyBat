@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class BossGameHandler : GameHandler {
 
@@ -12,8 +13,8 @@ public class BossGameHandler : GameHandler {
     private const float ResumeTimerDuration = 3f;
     private float _resumeTimerStart;
 
-    private float _distTravelled;
-
+    private const float manualCaveScale = 0.8558578f;
+    
     private enum BossGameState
     {
         Startup,
@@ -36,35 +37,23 @@ public class BossGameHandler : GameHandler {
 
         _gameMenu.Hide();
         ThePlayer.Fog.Disable();
+        SetCameraEndPoint();
         StartCoroutine("LoadSequence");
     }
 
 	private void Update ()
 	{
         if (GameState != GameStates.Normal) return;
-        if (_state == BossGameState.MovingTowardsBoss)
+        if (Toolbox.Player.transform.position.x > Toolbox.TileSizeX * manualCaveScale)
         {
-            MoveClumsy(Time.deltaTime);
+            Toolbox.PlayerCam.StopFollowing();
+            _state = BossGameState.MovingTowardsBoss;
         }
 	}
 
-    private void MoveClumsy(float time)
+    protected override void SetCameraEndPoint()
     {
-        const float manualCaveScale = 0.8558578f;
-        float distToTravel = Toolbox.TileSizeX * manualCaveScale + 1f;
-        if (ThePlayer.IsPerched()) return;
-
-        float dist = time * ThePlayer.GetPlayerSpeed();
-        if (_distTravelled + dist > distToTravel)
-        {
-            dist = distToTravel - _distTravelled;
-            ThePlayer.SetMovementMode(FlapComponent.MovementMode.HorizontalEnabled);
-            StartCoroutine("BossEntrance");
-        }
-
-        _distTravelled += dist;
-        ThePlayer.transform.position += Vector3.right * dist;
-        _playerCam.transform.position += Vector3.right * dist;
+        Toolbox.PlayerCam.SetEndPoint(Toolbox.TileSizeX * manualCaveScale + 1f);
     }
     
     private IEnumerator LoadSequence()
@@ -76,7 +65,6 @@ public class BossGameHandler : GameHandler {
         // TODO put this into a function that says "boss level begin" or something
         GameState = GameStates.Normal;
         _state = BossGameState.MovingTowardsBoss;
-        ThePlayer.SetPlayerSpeed(Toolbox.Instance.LevelSpeed);
         PlayerController.EnterGamePlay();
     }
 
@@ -150,10 +138,6 @@ public class BossGameHandler : GameHandler {
         _gameHud.HideResumeTimer();
         _gameHud.GamePaused(false);
         PlayerController.ResumeGameplay();
-    }
-
-    public override void UpdateGameSpeed(float speed)
-    {
     }
 
     public override void LevelComplete()

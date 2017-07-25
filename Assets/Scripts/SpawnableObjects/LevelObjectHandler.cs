@@ -54,16 +54,6 @@ public class LevelObjectHandler : MonoBehaviour {
         GameData.Instance.NumMoths = GetNumMoths();
     }
 
-    private void Update()
-    {
-        if (AtCaveEnd()) { SetVelocity(0); }
-    }
-
-    public bool AtCaveEnd()
-    {
-        return _cave.AtCaveEnd();
-    }
-
     private void SetupObjectPools()
     {
         _cave.Setup(_level.Caves, _bEndlessMode, this);
@@ -71,7 +61,7 @@ public class LevelObjectHandler : MonoBehaviour {
 
     public void SetCaveObstacles(int index)
     {
-        var xOffset = (index == 0 ? 0f : Toolbox.TileSizeX);
+        var xOffset = index * Toolbox.TileSizeX;
         var objectList = _bEndlessMode ? _cave.GetRandomisedObstacleList() : GetCaveObjectList(index);
         
         if (objectList.MushroomList != null) { _shrooms.SetupMushroomsInList(objectList.MushroomList, xOffset); }
@@ -95,24 +85,9 @@ public class LevelObjectHandler : MonoBehaviour {
         objectList.NpcList = _level.Caves[index].Npcs;
         return objectList;
     }
-
-    public void SetVelocity(float speed)
-    {
-        if (AtCaveEnd())
-        {
-            _cave.SetVelocity(0);
-            UpdateObjectSpeed(0);
-        }
-        else
-        {
-            _cave.SetVelocity(speed);
-            UpdateObjectSpeed(speed);
-        }
-    }
-
+    
     public void SetPaused(bool pauseGame)
     {
-        _cave.PauseGame(pauseGame);
         _shrooms.PauseGame(pauseGame);
         _stals.PauseGame(pauseGame);
         _moths.PauseGame(pauseGame);
@@ -121,18 +96,7 @@ public class LevelObjectHandler : MonoBehaviour {
         _triggers.PauseGame(pauseGame);
         _npcs.PauseGame(pauseGame);
     }
-
-    private void UpdateObjectSpeed(float speed)
-    {
-        _shrooms.SetSpeedX(speed);
-        _stals.SetSpeedX(speed);
-        _moths.SetSpeedX(speed);
-        _spiders.SetSpeedX(speed);
-        _webs.SetSpeedX(speed);
-        _triggers.SetSpeedX(speed);
-        _npcs.SetSpeedX(speed);
-    }
-
+    
     private void LoadLevel()
     {
         if (_bEndlessMode) { return; }

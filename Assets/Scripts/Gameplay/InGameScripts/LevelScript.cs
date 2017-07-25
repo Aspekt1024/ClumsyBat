@@ -3,7 +3,7 @@
 public class LevelScript : MonoBehaviour {
 
     // These attributes can be set in the inspector
-    public float LevelScrollSpeed = 5f;    // first initialisation of LevelSpeed
+    public float ClumsyBaseSpeed = 5f;    // TODO should this really belong with player?
     public LevelProgressionHandler.Levels DefaultLevel = LevelProgressionHandler.Levels.Main1;
     
     // These attributes must be set in the inspector (remnants of the early days)
@@ -21,8 +21,6 @@ public class LevelScript : MonoBehaviour {
     private bool _bGameStarted;
     private bool _bGamePaused;
     private bool _bAtEnd;
-    private float _gameSpeed = 1f;
-    private float _prevGameSpeed;
 
     private void Awake()
     {
@@ -35,7 +33,7 @@ public class LevelScript : MonoBehaviour {
     {
         CreateGameObjects();
         GameMenu.Hide();
-        Toolbox.Instance.LevelSpeed = LevelScrollSpeed;
+        Toolbox.Player.SetPlayerSpeed(ClumsyBaseSpeed);
         SetLevel();
     }
 
@@ -44,22 +42,7 @@ public class LevelScript : MonoBehaviour {
         GameData.Instance.Data.Stats.TotalTime += Time.deltaTime;
         if (!_bGameStarted || _bGamePaused) { GameData.Instance.Data.Stats.IdleTime += Time.deltaTime; return; }
         GameData.Instance.Data.Stats.PlayTime += Time.deltaTime;
-
-        if (_levelObjects.AtCaveEnd())
-        {
-            SetMovementForExit();
-        }
-    }
-
-    private void SetMovementForExit()
-    {
-        _bAtEnd = true;
-        Background.SetVelocity(0);
-    }
-
-    public bool AtCaveEnd()
-    {
-        return _bAtEnd;
+        
     }
 
     private void SetLevel()
@@ -79,26 +62,10 @@ public class LevelScript : MonoBehaviour {
     {
         _levelObjects = _levelScripts.AddComponent<LevelObjectHandler>();
     }
-
-    public void UpdateGameSpeed(float gameSpeed)
-    {
-        _gameSpeed = gameSpeed;
-        float speed = _gameSpeed * LevelScrollSpeed;
-        
-        Background.SetVelocity(speed);
-        _levelObjects.SetVelocity(speed);
-    }
-
-    public float GetGameSpeed() { return _gameSpeed; }
-
+    
     public void HorribleDeath()
     {
-        _gameSpeed = 0f;
-        float speed = _gameSpeed * LevelScrollSpeed;
-
-        Background.SetVelocity(speed);
-        _levelObjects.SetVelocity(speed);
-
+        
         GetComponent<AudioSource>().Stop();
     }
 
@@ -106,17 +73,13 @@ public class LevelScript : MonoBehaviour {
     {
         _bGameStarted = true;
         GameHud.StartGame();
-        UpdateGameSpeed(1);
         _levelObjects.SetPaused(false);
-        _levelObjects.SetVelocity(LevelScrollSpeed);
     }
 
     public void PauseGame(bool showMenu = true)
     {
         // TODO Play pause sound
         _bGamePaused = true;
-        _prevGameSpeed = _gameSpeed;
-        UpdateGameSpeed(0);
         _levelObjects.SetPaused(true);
         GameHud.GamePaused(true);
 
@@ -131,7 +94,6 @@ public class LevelScript : MonoBehaviour {
     {
         // Play resume sound
         _bGamePaused = false;
-        UpdateGameSpeed(_prevGameSpeed);
         _levelObjects.SetPaused(false);
         GameHud.GamePaused(false);
     }
