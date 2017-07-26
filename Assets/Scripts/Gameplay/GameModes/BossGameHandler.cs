@@ -4,6 +4,8 @@ using System;
 
 public class BossGameHandler : GameHandler {
 
+    public float ClumsySpeed = 6f;
+
     private LoadScreen _loadScreen;
     private GameMenuOverlay _gameMenu;
     private GameUI _gameHud;
@@ -42,12 +44,12 @@ public class BossGameHandler : GameHandler {
     }
 
 	private void Update ()
-	{
-        if (GameState != GameStates.Normal) return;
-        if (Toolbox.Player.transform.position.x > Toolbox.TileSizeX * manualCaveScale)
+    {
+        if (GameState != GameStates.Normal || _state == BossGameState.InBossRoom) return;
+        if (Toolbox.Player.transform.position.x > Toolbox.TileSizeX * manualCaveScale - 3f)
         {
-            Toolbox.PlayerCam.StopFollowing();
-            _state = BossGameState.MovingTowardsBoss;
+            _state = BossGameState.InBossRoom;
+            StartCoroutine(BossEntrance());
         }
 	}
 
@@ -60,17 +62,17 @@ public class BossGameHandler : GameHandler {
     {
         yield return new WaitForSeconds(1f);
         StartGame();
-        yield return ThePlayer.StartCoroutine("CaveEntranceAnimation");
+        yield return ThePlayer.StartCoroutine(ThePlayer.CaveEntranceAnimation());
 
         // TODO put this into a function that says "boss level begin" or something
         GameState = GameStates.Normal;
         _state = BossGameState.MovingTowardsBoss;
+        ThePlayer.SetPlayerSpeed(ClumsySpeed);
         PlayerController.EnterGamePlay();
     }
 
     private IEnumerator BossEntrance()
     {
-        _state = BossGameState.InBossRoom;
         ThePlayer.EnableHover();
 
         FindObjectOfType<SlidingDoors>().Close();
@@ -78,6 +80,8 @@ public class BossGameHandler : GameHandler {
         // TODO boss entrance sequence
         yield return new WaitForSeconds(2f);
         ThePlayer.DisableHover();
+        ThePlayer.SetPlayerSpeed(0);
+        ThePlayer.SetMovementMode(FlapComponent.MovementMode.HorizontalEnabled);
         BossEvents.BossFightStart();
     }
 

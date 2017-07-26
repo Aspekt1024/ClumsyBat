@@ -59,6 +59,7 @@ public class GameUI : MonoBehaviour {
 
     public void SetCurrencyText(string text)
     {
+        if (_currencyText == null) return;
         if (_currencyText.text == text) return;
         
         _currencyText.gameObject.SetActive(true);
