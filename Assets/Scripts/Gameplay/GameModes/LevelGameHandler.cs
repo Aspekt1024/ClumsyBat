@@ -116,7 +116,7 @@ public class LevelGameHandler : GameHandler
     {
         ThePlayer.DeactivateRush();
 
-        if (other.collider.name == "StalObject") { other.collider.GetComponent<Stalactite>().Crack(); }
+        if (other.collider.tag == "Stalactite") { other.collider.GetComponentInParent<Stalactite>().Crack(); }
 
         if (ThePlayer.ActivateShield())
         {
@@ -125,7 +125,7 @@ public class LevelGameHandler : GameHandler
         }
         else
         {
-            if (other.collider.name == "StalObject")
+            if (other.collider.tag == "Stalactite")
             {
                 GameData.Instance.Data.Stats.ToothDeaths++;
             }

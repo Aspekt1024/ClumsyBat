@@ -223,7 +223,7 @@ public class Player : MonoBehaviour {
         _flap.CancelIfMoving();
         if (other.gameObject.name.Contains("Cave") || other.gameObject.name.Contains("Entrance") || other.gameObject.name.Contains("Exit"))
         {
-            if (_shield.IsInUse() || _playerController.InputPaused() || _state != PlayerState.Normal) { return; }
+            if (_shield.IsInUse() || _playerController.InputPaused() || (_state != PlayerState.Normal && _state != PlayerState.Perched)) { return; }
             _perch.Perch(other.gameObject.name, _playerController.TouchHeld());
         }
         else
@@ -306,7 +306,6 @@ public class Player : MonoBehaviour {
         Vector2 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
         if (other.tag == "SecretExit" && screenPosition.y > 0 && screenPosition.y < Screen.height)
         {
-            Debug.Log("leaving");
             inSecretExit = false;
         }
         _gameHandler.TriggerExited(other);
@@ -321,7 +320,6 @@ public class Player : MonoBehaviour {
         //_lanternBody.transform.position += new Vector3(.3f, 0f, 0f);
 
         ExitViaSecretPath = true;
-        Debug.Log("player declaring level complete through secret path win sequence");
         _gameHandler.LevelComplete();
         Fog.EndOfLevel();
     }
@@ -360,7 +358,6 @@ public class Player : MonoBehaviour {
     {
         _rush.GamePaused(_state == PlayerState.Dead || bPauseAbility);
         _hypersonic.GamePaused(bPauseAbility);
-        _shield.GamePaused(bPauseAbility);
     }
 
     private void BounceIfBottomCave(string objName)

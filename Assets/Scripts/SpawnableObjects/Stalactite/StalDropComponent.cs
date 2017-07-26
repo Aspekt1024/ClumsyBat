@@ -132,6 +132,8 @@ public class StalDropComponent : MonoBehaviour {
 
     public void SetPaused(bool bPaused)
     {
+        if (stalBody == null) return;
+
         isPaused = bPaused;
         if (_state == DropStates.Falling)
         {
