@@ -5,10 +5,20 @@ public class StatsHandler {
 
     // Stat keeping (active in-game only)
     public int Score;
-    public int MothsEaten;
     public int CollectedCurrency;
     public float Distance;
 
+    private int mothsEaten;
+    public int MothsEaten
+    {
+        get { return mothsEaten; }
+        set
+        {
+            mothsEaten = value;
+            gameHud.SetCurrencyText(mothsEaten + "/" + GameData.Instance.NumMoths);
+        }
+    }
+    
     // Stat data (persistent)
     public float TotalDistance;
     public float BestDistance;
@@ -28,7 +38,17 @@ public class StatsHandler {
     public int LevelsCompleted;
     public int Currency;
     public int TotalCurrency;
-    
+
+    private GameUI _gh;
+    private GameUI gameHud
+    {
+        get
+        {
+            if (_gh == null)
+                _gh = GameObject.Find("UI_Overlay").GetComponent<GameUI>();
+            return _gh;
+        }
+    }
 
     public struct UserSettings
     {

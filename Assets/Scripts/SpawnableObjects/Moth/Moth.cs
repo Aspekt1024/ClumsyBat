@@ -100,6 +100,7 @@ public class Moth : Spawnable {
 
         DataHandler data = GameData.Instance.Data;
         data.Stats.MothsEaten++;
+
         if (data.Stats.MothsEaten > data.Stats.MostMoths)
         {
             data.Stats.MostMoths++;

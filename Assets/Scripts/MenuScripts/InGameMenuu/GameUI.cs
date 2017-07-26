@@ -54,33 +54,18 @@ public class GameUI : MonoBehaviour {
     {
         _currencyText.text = _stats.Currency.ToString();
         EnablePauseButton(false);
-        UpdateCurrency(pulse: false);
+        _collectedCurrencyText.text = string.Empty;
     }
 
-    public void UpdateCurrency(bool pulse)
+    public void SetCurrencyText(string text)
     {
-        _currency = _stats.Currency;
-        _collectedCurrency = _stats.CollectedCurrency;
-        if (pulse)
-        {
-            StartCoroutine("PulseObject", _collectedCurrencyRt);
-        }
-        SetCurrencyText();
+        if (_currencyText.text == text) return;
+        
+        _currencyText.gameObject.SetActive(true);
+        StartCoroutine(PulseObject(_currencyRt));
+        _currencyText.text = text;
     }
-
-    private void SetCurrencyText()
-    {
-        if (_collectedCurrency > 0)
-        {
-            _collectedCurrencyText.text = "+ " + _collectedCurrency;
-        }
-        else
-        {
-            _collectedCurrencyText.text = string.Empty;
-        }
-        _currencyText.text = _currency.ToString();
-    }
-
+    
     private void GetTextObjects()
     {
         foreach (RectTransform rt in GetComponent<RectTransform>())

@@ -13,7 +13,7 @@ public class GameData : Singleton<GameData>
     }
 
     public int NumMoths;
-    public bool IsUntouched = true;
+    public bool IsUntouched;
     public int NewStars;
     public int TotalStars;
     public LevelProgressionHandler.Levels Level;

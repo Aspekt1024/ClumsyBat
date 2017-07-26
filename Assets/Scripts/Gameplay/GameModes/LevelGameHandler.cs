@@ -22,19 +22,20 @@ public class LevelGameHandler : GameHandler
         StartCoroutine("LoadSequence");
     }
 
-    protected override void SetCameraEndPoint()
-    {
-        Toolbox.PlayerCam.SetEndPoint(CaveHandler.GetEndCave().transform.position.x);
-    }
-
     private IEnumerator LoadSequence()
     {
         yield return new WaitForSeconds(1f);
         StartCoroutine("LevelStartAnimation");
         GameMusic.PlaySound(GameMusicControl.GameTrack.Twinkly);
         SetCameraEndPoint();
+        Level.GameHud.SetCurrencyText("0/" + GameData.Instance.NumMoths);
     }
 
+    protected override void SetCameraEndPoint()
+    {
+        Toolbox.PlayerCam.SetEndPoint(CaveHandler.GetEndCave().transform.position.x);
+    }
+    
     private IEnumerator LevelStartAnimation()
     {
         yield return new WaitForSeconds(LevelStartupTime);

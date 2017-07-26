@@ -29,6 +29,10 @@ public abstract class GameHandler : MonoBehaviour {
         GameMusic = scriptsObj.AddComponent<GameMusicControl>();
 
         Stats = GameData.Instance.Data.Stats;
+
+        Stats.MothsEaten = 0;
+        GameData.Instance.IsUntouched = true;
+
         EventListener.OnDeath += OnDeath;
     }
 
