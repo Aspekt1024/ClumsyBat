@@ -31,7 +31,7 @@ public class StalactiteEditor
     private void ProcessTriggerView()
     {
         const float AnimTime = 0.2845f; // impirical calculation
-        const float ClumsySpeed = 5f;
+        const float ClumsySpeed = 6f;
         float Dist = stalScript.TriggerPosX - stalTf.localScale.x * 2 / 5f;
         float TimeToReachDest = (Dist / ClumsySpeed) - AnimTime;
         float DistanceToFall = StalDropComponent.FallDistance * Mathf.Pow((TimeToReachDest / StalDropComponent.FallDuration), 2);   // TODO put this formula somewhere else.. static? should reference the same code the in-game control does

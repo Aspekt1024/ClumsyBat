@@ -63,8 +63,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -92,8 +92,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -121,8 +121,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.166574046</z>
-              <w>0.986028969</w>
+              <z>0.166573927</z>
+              <w>-0.986028969</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -150,8 +150,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -237,8 +237,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -275,7 +275,7 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>5.08</TriggerPosX>
+          <TriggerPosX>6.2</TriggerPosX>
           <DropEnabled>true</DropEnabled>
           <Type>Stalactite</Type>
           <GreenMothChance>0</GreenMothChance>
@@ -567,7 +567,7 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>0.09430499</z>
+              <z>0.0943049937</z>
               <w>0.995543361</w>
               <eulerAngles>
                 <x>0</x>
@@ -654,8 +654,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -683,8 +683,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -752,8 +752,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -810,8 +810,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -848,7 +848,7 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>5.63</TriggerPosX>
+          <TriggerPosX>6.18</TriggerPosX>
           <DropEnabled>true</DropEnabled>
           <Type>Stalactite</Type>
           <GreenMothChance>0</GreenMothChance>
@@ -897,8 +897,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -955,8 +955,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -984,8 +984,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1071,8 +1071,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1129,8 +1129,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1198,8 +1198,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.983535767</z>
-              <w>0.180713519</w>
+              <z>0.983535767</z>
+              <w>-0.18071349</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1236,7 +1236,7 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>5.22</TriggerPosX>
+          <TriggerPosX>5.9</TriggerPosX>
           <DropEnabled>true</DropEnabled>
           <Type>Stalactite</Type>
           <GreenMothChance>0</GreenMothChance>
@@ -1265,7 +1265,7 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>5.22</TriggerPosX>
+          <TriggerPosX>5.9</TriggerPosX>
           <DropEnabled>true</DropEnabled>
           <Type>Stalactite</Type>
           <GreenMothChance>0</GreenMothChance>
@@ -1294,7 +1294,7 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>5.22</TriggerPosX>
+          <TriggerPosX>5.9</TriggerPosX>
           <DropEnabled>true</DropEnabled>
           <Type>Stalactite</Type>
           <GreenMothChance>0</GreenMothChance>
@@ -1323,7 +1323,7 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>5.22</TriggerPosX>
+          <TriggerPosX>5.9</TriggerPosX>
           <DropEnabled>true</DropEnabled>
           <Type>Stalactite</Type>
           <GreenMothChance>0</GreenMothChance>
@@ -1352,7 +1352,7 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>5.22</TriggerPosX>
+          <TriggerPosX>5.9</TriggerPosX>
           <DropEnabled>true</DropEnabled>
           <Type>Stalactite</Type>
           <GreenMothChance>0</GreenMothChance>
@@ -1373,7 +1373,7 @@
               <x>0</x>
               <y>0</y>
               <z>0.999974251</z>
-              <w>-0.00717879133</w>
+              <w>-0.00717876526</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1402,7 +1402,7 @@
               <x>0</x>
               <y>0</y>
               <z>0.995543361</z>
-              <w>-0.0943050161</w>
+              <w>-0.0943050459</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1431,7 +1431,7 @@
               <x>0</x>
               <y>0</y>
               <z>0.9967947</z>
-              <w>0.08000206</w>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1459,8 +1459,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.986028969</z>
-              <w>-0.166574046</w>
+              <z>0.986028969</z>
+              <w>0.166573972</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1488,8 +1488,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.999974251</z>
-              <w>0.00717879133</w>
+              <z>0.999974251</z>
+              <w>-0.00717876526</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1517,8 +1517,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1546,8 +1546,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.983535767</z>
-              <w>0.180713519</w>
+              <z>0.983535767</z>
+              <w>-0.18071349</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1575,8 +1575,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1604,8 +1604,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9640429</z>
-              <w>0.265746683</w>
+              <z>0.964042962</z>
+              <w>-0.265746623</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1633,8 +1633,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1662,8 +1662,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1721,7 +1721,7 @@
         <StalType>
           <SpawnTransform>
             <Pos>
-              <x>-9.291195</x>
+              <x>-9.291203</x>
               <y>5.6288</y>
             </Pos>
             <Scale>
@@ -1750,7 +1750,7 @@
         <StalType>
           <SpawnTransform>
             <Pos>
-              <x>-8.30743</x>
+              <x>-8.307438</x>
               <y>4.930643</y>
             </Pos>
             <Scale>
@@ -1760,8 +1760,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1779,7 +1779,7 @@
         <StalType>
           <SpawnTransform>
             <Pos>
-              <x>-7.45060349</x>
+              <x>-7.450611</x>
               <y>4.962377</y>
             </Pos>
             <Scale>
@@ -1798,7 +1798,7 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>5.26</TriggerPosX>
+          <TriggerPosX>5.97</TriggerPosX>
           <DropEnabled>true</DropEnabled>
           <Type>Stalactite</Type>
           <GreenMothChance>0</GreenMothChance>
@@ -1810,7 +1810,7 @@
         <MothType>
           <SpawnTransform>
             <Pos>
-              <x>7.07939529</x>
+              <x>7.07938766</x>
               <y>4.24116039</y>
             </Pos>
             <Scale>
@@ -1945,8 +1945,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1974,8 +1974,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2032,8 +2032,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2061,8 +2061,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.999974251</z>
-              <w>0.00717879133</w>
+              <z>0.999974251</z>
+              <w>-0.00717876526</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2090,8 +2090,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2119,8 +2119,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.999974251</z>
-              <w>0.00717879133</w>
+              <z>0.999974251</z>
+              <w>-0.00717876526</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2148,8 +2148,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.942123652</z>
-              <w>-0.3352656</w>
+              <z>0.942123652</z>
+              <w>0.335265666</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2177,8 +2177,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2206,8 +2206,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.995543361</z>
-              <w>0.0943050161</w>
+              <z>0.995543361</z>
+              <w>-0.0943050459</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2235,8 +2235,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2322,8 +2322,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2372,8 +2372,8 @@
         <MothType>
           <SpawnTransform>
             <Pos>
-              <x>5.715721</x>
-              <y>-0.172575235</y>
+              <x>5.31221</x>
+              <y>2.10176039</y>
             </Pos>
             <Scale>
               <x>1</x>
