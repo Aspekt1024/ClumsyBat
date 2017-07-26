@@ -2,10 +2,11 @@
 
 public abstract class GameHandler : MonoBehaviour {
 
+    public GameMusicControl GameMusic;
+    
     protected PlayerController PlayerController;
     protected Player ThePlayer;
     protected StatsHandler Stats;
-    protected GameMusicControl GameMusic;
 
     public enum GameStates
     {

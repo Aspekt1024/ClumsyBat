@@ -24,7 +24,7 @@ public class Shield : MonoBehaviour {
         {
             Toolbox.MainAudio.PlaySound(Toolbox.MainAudio.Shield);
             _shieldCharges--;
-            StartCoroutine("ShieldUp");
+            StartCoroutine(ShieldUp());
         }
         else if (_playerBody.position.y < 0f)
         {
@@ -38,7 +38,7 @@ public class Shield : MonoBehaviour {
         _thePlayer.GetRenderer().color = new Color(0.6f, 0.6f, 1f);
         // TODO animations
         // PlayerAnim.Play("Knockback", 0, 0f);
-        yield return StartCoroutine("Knockback");
+        yield return StartCoroutine(Knockback());
 
         _thePlayer.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Hover);
 
@@ -49,7 +49,7 @@ public class Shield : MonoBehaviour {
     private IEnumerator Knockback()
     {
         float knockbackTimer = 0f;
-        const float knockbackDuration = 0.4f;
+        const float knockbackDuration = 0.7f;
         
         while (knockbackTimer < knockbackDuration)
         {

@@ -10,7 +10,9 @@ public class VillageSequencer : MonoBehaviour
         public Rigidbody2D Body;
     }
     private PlayerProps _player;
-    private GameHandler _gameHandler;
+    private LevelGameHandler _gameHandler;
+    private bool _caveGnomeEndSequenceStarted;
+    private float endPiecePosX;
 
     private bool _bPausedForSpeech;
 
@@ -22,7 +24,24 @@ public class VillageSequencer : MonoBehaviour
         _player.Player = Toolbox.Player;
         _player.Controller = _player.Player.GetComponent<PlayerController>();
         _player.Body = _player.Player.GetBody();
-        _gameHandler = GameObject.FindGameObjectWithTag("Scripts").GetComponent<GameHandler>();
+        _gameHandler = GameObject.FindGameObjectWithTag("Scripts").GetComponent<LevelGameHandler>();
+    }
+
+    private void Update()
+    {
+        if (_caveGnomeEndSequenceStarted || !_gameHandler.CaveHandler.IsGnomeEnding()) return;
+
+        if (endPiecePosX < 1f)
+        {
+            endPiecePosX = _gameHandler.CaveHandler.GetEndCave().transform.position.x;
+        }
+
+        if (_player.Player.transform.position.x > endPiecePosX - 4f)
+        {
+            _caveGnomeEndSequenceStarted = true;
+            _gameHandler.GameMusic.PlaySound(GameMusicControl.GameTrack.Village);
+            StartCoroutine(StartSequence());
+        }
     }
 
     public IEnumerator StartSequence()
@@ -32,8 +51,8 @@ public class VillageSequencer : MonoBehaviour
         _player.Body.velocity = Vector2.zero;
         _player.Player.Fog.ExpandToRemove();
         
-        yield return StartCoroutine("MoveToPedestal");
-        yield return StartCoroutine("VillageSpeech");
+        yield return StartCoroutine(MoveToPedestal());
+        yield return StartCoroutine(VillageSpeech());
         yield return new WaitForSeconds(1.5f);
         _gameHandler.LevelComplete();
     }
@@ -85,14 +104,14 @@ public class VillageSequencer : MonoBehaviour
         const float animDuration = 0.7f;
 
         var startPos = _player.Body.position;
-        var endPos = new Vector2(-3f, -0.7f);
+        var endPos = new Vector2(endPiecePosX - 3f, -0.7f);
 
         while (animTimer < animDuration)
         {
             animTimer += Time.deltaTime;
-            _player.Body.position = startPos - (startPos - endPos) * (animTimer / animDuration);
+            _player.Body.position = Vector3.Lerp(startPos, endPos, animTimer / animDuration);
             yield return null;
         }
-        // TODO perch (after clumsy has an animator controller
+        _player.Player.SwitchPerchState();
     }
 }

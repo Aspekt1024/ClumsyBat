@@ -113,6 +113,7 @@ public class CaveHandler : MonoBehaviour {
                 _bGnomeEnd = true;
                 caveTop = (GameObject) Instantiate(Resources.Load("Caves/CaveGnomeEnd"), caveParent.transform);
                 caveTop.name = "CaveGnomeEnd";
+                caveEnd = caveTop;
             }
             else
             {

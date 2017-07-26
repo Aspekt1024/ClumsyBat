@@ -96,16 +96,7 @@ public class Player : MonoBehaviour {
     {
         playerSpeed = speed;
     }
-
-        // TODO implement this
-        //    if (_caveGnomeEndSequenceStarted) return;
-        //if (_caveHandler.IsGnomeEnding())
-        //{
-        //    _caveGnomeEndSequenceStarted = true;
-        //    GameMusic.PlaySound(GameMusicControl.GameTrack.Village);
-        //    _villageSequencer.StartCoroutine("StartSequence");
-        //}
-
+    
     private void SetupAbilities()
     {
         GameObject abilityScripts = new GameObject("Ability Scripts");

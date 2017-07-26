@@ -4,14 +4,12 @@ using System;
 
 public class LevelGameHandler : GameHandler
 {
-    [HideInInspector]
-    public LevelScript Level;
-    
+    [HideInInspector] public LevelScript Level;
+    [HideInInspector] public CaveHandler CaveHandler;
+
     private float _resumeTimerStart;
     private const float ResumeTimer = 3f;
     private const float LevelStartupTime = 1f;
-    private CaveHandler _caveHandler;
-    private bool _caveGnomeEndSequenceStarted;
     private VillageSequencer _villageSequencer;
     private bool caveExitAutoFlightTriggered;
     
@@ -19,14 +17,14 @@ public class LevelGameHandler : GameHandler
     {
         Level = FindObjectOfType<LevelScript>();
         ThePlayer.transform.position = new Vector3(-Toolbox.TileSizeX / 2f, 0f, ThePlayer.transform.position.z);
-        _caveHandler = FindObjectOfType<CaveHandler>();
+        CaveHandler = FindObjectOfType<CaveHandler>();
         _villageSequencer = GameObject.FindGameObjectWithTag("Scripts").AddComponent<VillageSequencer>();
         StartCoroutine("LoadSequence");
     }
 
     protected override void SetCameraEndPoint()
     {
-        Toolbox.PlayerCam.SetEndPoint(_caveHandler.GetEndCave().transform.position.x);
+        Toolbox.PlayerCam.SetEndPoint(CaveHandler.GetEndCave().transform.position.x);
     }
 
     private IEnumerator LoadSequence()
