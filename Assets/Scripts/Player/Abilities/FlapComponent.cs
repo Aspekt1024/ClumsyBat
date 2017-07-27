@@ -108,6 +108,11 @@ public class FlapComponent : MonoBehaviour {
         }
     }
 
+    public bool IsFacingRight()
+    {
+        return Toolbox.Player.transform.localScale.x > 0;
+    }
+
     public void CancelIfMoving()
     {
         horizontalState = HorizMoveState.None;

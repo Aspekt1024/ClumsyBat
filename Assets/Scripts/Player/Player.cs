@@ -457,6 +457,7 @@ public class Player : MonoBehaviour {
     public Collider2D GetCollider() { return _playerCollider; }
     public SpriteRenderer GetRenderer() { return _playerRenderer; }
     public bool IsRushing() { return _rush.IsActive(); }
+    public bool IsFacingRight() { return _flap.IsFacingRight(); }
 
     private void GetPlayerComponents()
     {

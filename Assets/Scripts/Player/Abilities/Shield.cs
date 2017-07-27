@@ -50,13 +50,15 @@ public class Shield : MonoBehaviour {
     {
         float knockbackTimer = 0f;
         const float knockbackDuration = 0.7f;
-        
+
+        float directionModifier = _thePlayer.IsFacingRight() ? -1f : 1f;
+
         while (knockbackTimer < knockbackDuration)
         {
             if (!Toolbox.Instance.GamePaused)
             {
                 knockbackTimer += Time.deltaTime;
-                _playerBody.velocity = new Vector2(Mathf.Lerp(-7f, 0f, knockbackTimer/knockbackDuration), _playerBody.velocity.y);
+                _playerBody.velocity = new Vector2(Mathf.Lerp(directionModifier * 7f, 0f, knockbackTimer/knockbackDuration), _playerBody.velocity.y);
             }
             yield return null;
         }
