@@ -28,8 +28,13 @@ public class Stalactite : Spawnable {
     private const string brokenStalPath = "Obstacles/Stalactite/BrokenStal";
     private const string unbrokenCrystalPath = "Obstacles/Stalactite/UnbrokenCrystal";
     private const string brokenCrystalPath = "Obstacles/Stalactite/BrokenCrystal";
+    private GameObject stalUnbroken;
+    private GameObject stalBroken;
+
     private GameObject stalPrefabUnbroken;
     private GameObject stalPrefabBroken;
+    private GameObject crystalPrefabBroken;
+    private GameObject crystalPrefabUnbroken;
     
     private Transform moth;
     private Animator mothAnim;
@@ -50,7 +55,6 @@ public class Stalactite : Spawnable {
 
     private void Start()
     {
-        // TODO setup MothPool again.
         GameHandler gh = GameObject.FindGameObjectWithTag("Scripts").GetComponent<GameHandler>();
         if (gh == null) return; // Level editor has no game handler
         mothPool = gh.GetMothPool();
@@ -83,6 +87,11 @@ public class Stalactite : Spawnable {
 
     private void GetStalComponents()
     {
+        crystalPrefabUnbroken = Resources.Load<GameObject>(unbrokenCrystalPath);
+        crystalPrefabBroken = Resources.Load<GameObject>(brokenCrystalPath);
+        stalPrefabUnbroken = Resources.Load<GameObject>(unbrokenStalPath);
+        stalPrefabBroken = Resources.Load<GameObject>(brokenStalPath);
+        
         stalCollider = GetComponent<PolygonCollider2D>();
         stalRenderer = GetComponent<SpriteRenderer>();
         body = GetComponent<Rigidbody2D>();
@@ -92,7 +101,7 @@ public class Stalactite : Spawnable {
 
     private void GetMothComponents()
     {
-        foreach (Transform tf in stalPrefabUnbroken.transform)
+        foreach (Transform tf in stalUnbroken.transform)
         {
             if (tf.name == "Moth")
             {
@@ -109,26 +118,26 @@ public class Stalactite : Spawnable {
         isExploding = false;
         IsActive = true;
 
-        if (stalPrefabBroken != null) Destroy(stalPrefabBroken);
-        if (stalPrefabUnbroken != null) Destroy(stalPrefabUnbroken);
+        if (stalBroken != null) Destroy(stalBroken);
+        if (stalUnbroken != null) Destroy(stalUnbroken);
 
         if (Type == SpawnStalAction.StalTypes.Crystal)
         {
-            stalPrefabUnbroken = Instantiate(Resources.Load<GameObject>(unbrokenCrystalPath), transform);
+            stalUnbroken = Instantiate(crystalPrefabUnbroken, transform);
             GetMothComponents();
             stalCollider.enabled = false;
         }
         else
         {
-            stalPrefabUnbroken = Instantiate(Resources.Load<GameObject>(unbrokenStalPath), transform);
-            anim.SetAnimator(stalPrefabUnbroken.GetComponent<Animator>());
+            stalUnbroken = Instantiate(stalPrefabUnbroken, transform);
+            anim.SetAnimator(stalUnbroken.GetComponent<Animator>());
             anim.NewStalactite();
             dropControl.SetAnim(anim);
             stalCollider.enabled = true;
         }
 
-        stalPrefabUnbroken.SetActive(true);
-        stalPrefabUnbroken.transform.position = transform.position;
+        stalUnbroken.SetActive(true);
+        stalUnbroken.transform.position = transform.position;
 
         transform.localPosition = stalProps.SpawnTransform.Pos + Vector2.right * xOffset;
         transform.localScale = stalProps.SpawnTransform.Scale;
@@ -151,7 +160,7 @@ public class Stalactite : Spawnable {
     private void ActivateCrystal()
     {
         color = DetermineMothColor();
-        stalPrefabUnbroken.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.7f);
+        stalUnbroken.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.7f);
         
         string mothAnimationName = "";
         switch (color)
@@ -200,23 +209,21 @@ public class Stalactite : Spawnable {
     {
         state = StalStates.Broken;
 
-        if (stalPrefabBroken != null)
-            Destroy(stalPrefabBroken);
-
-        string path = "";
+        if (stalBroken != null)
+            Destroy(stalBroken);
+        
         if (Type == SpawnStalAction.StalTypes.Crystal)
         {
-            path = brokenCrystalPath;
+            stalBroken = Instantiate(crystalPrefabBroken, transform);
             Toolbox.MainAudio.PlaySound(Toolbox.MainAudio.BreakCrystal);
         }
         else
         {
-            path = brokenStalPath;
+            stalBroken = Instantiate(stalPrefabBroken, transform);
         }
-        stalPrefabBroken = Instantiate(Resources.Load<GameObject>(path), transform);
-
-        stalPrefabUnbroken.SetActive(false);
-        stalPrefabBroken.SetActive(true);
+        
+        stalUnbroken.SetActive(false);
+        stalBroken.SetActive(true);
         gameObject.GetComponent<Rigidbody2D>().Sleep();
         StartCoroutine(DissolveBrokenStalactite());
     }
@@ -285,7 +292,7 @@ public class Stalactite : Spawnable {
     private void SpawnMoth()
     {
         Vector2 spawnLoc = new Vector2(Random.Range(-6f, 6f), Random.Range(-3f, 3f));
-        spawnLoc += new Vector2(GameObject.FindGameObjectWithTag("MainCamera").transform.position.x, 0f);
+        spawnLoc += new Vector2(Toolbox.PlayerCam.transform.position.x, 0f);
         mothPool.ActivateMothFromEssence(moth.transform.position, spawnLoc, color, 5f);
     }
 
@@ -298,8 +305,8 @@ public class Stalactite : Spawnable {
     public override void SendToInactivePool()
     {
         base.SendToInactivePool();
-        if (stalPrefabBroken != null) Destroy(stalPrefabBroken);
-        if (stalPrefabUnbroken != null) Destroy(stalPrefabUnbroken);
+        if (stalBroken != null) Destroy(stalBroken);
+        if (stalUnbroken != null) Destroy(stalUnbroken);
     }
 
     public bool IsForming() { return state == StalStates.Forming; }
