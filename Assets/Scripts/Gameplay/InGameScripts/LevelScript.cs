@@ -63,12 +63,6 @@ public class LevelScript : MonoBehaviour {
         _levelObjects = _levelScripts.AddComponent<LevelObjectHandler>();
     }
     
-    public void HorribleDeath()
-    {
-        
-        GetComponent<AudioSource>().Stop();
-    }
-
     public void StartGame()
     {
         _bGameStarted = true;

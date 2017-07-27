@@ -55,7 +55,7 @@ public class BossGameHandler : GameHandler {
 
     protected override void SetCameraEndPoint()
     {
-        Toolbox.PlayerCam.SetEndPoint(Toolbox.TileSizeX * manualCaveScale + 1f);
+        Toolbox.PlayerCam.SetEndPoint(Toolbox.TileSizeX * manualCaveScale + 0.8f);
     }
     
     private IEnumerator LoadSequence()

@@ -4,6 +4,17 @@ public sealed class StalPool : SpawnPool<Stalactite> {
 
     public StalPool()
     {
+        SetBaseStalParameters();
+    }
+
+    public StalPool(int objCount)
+    {
+        SetBaseStalParameters();
+        SetupPool(objCount);
+    }
+
+    private void SetBaseStalParameters()
+    {
         ParentName = "Stalactites";
         ParentZ = Toolbox.Instance.ZLayers["Stalactite"];
         ResourcePath = "Obstacles/Stalactite";

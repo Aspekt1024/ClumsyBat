@@ -3,14 +3,16 @@ using System.Collections.Generic;
 
 public abstract class SpawnPool<T> where T : Spawnable
 {
+    public string ObjTag;
+
     protected Transform ParentObject;
     protected string ParentName;
     protected float ParentZ;
     protected string ResourcePath;
-    public string ObjTag;
-
+    protected int numObjectsInPool;
+    
     protected readonly List<T> ObjPool = new List<T>();
-    private int _index;
+    private int index;
     private int numObjects;
 
     protected T GetNewObject()
@@ -26,6 +28,23 @@ public abstract class SpawnPool<T> where T : Spawnable
     {
         ParentObject = new GameObject(ParentName).transform;
         ParentObject.position = new Vector3(0f, 0f, ParentZ);
+    }
+
+    protected void SetupPool(int objCount)
+    {
+        for (int i = 0; i < objCount; i++)
+        {
+            CreateObject(i);
+        }
+    }
+
+    protected T GetNextObj()
+    {
+        while(ObjPool[index].IsActive)
+        {
+            index++;
+        }
+        return ObjPool[index];
     }
 
     protected T CreateObject(int objNum)

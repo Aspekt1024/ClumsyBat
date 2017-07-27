@@ -108,33 +108,7 @@ public class LevelGameHandler : GameHandler
 
     protected override void OnDeath()
     {
-        Level.HorribleDeath();
-    }
-
-    public override void Collision(Collision2D other)
-    {
-        ThePlayer.DeactivateRush();
-
-        if (other.collider.tag == "Stalactite") { other.collider.GetComponentInParent<Stalactite>().Crack(); }
-
-        if (ThePlayer.ActivateShield())
-        {
-            GameData.Instance.IsUntouched = false;
-            ThePlayer.PlaySound(ClumsyAudioControl.PlayerSounds.Collision); // TODO sounds
-        }
-        else
-        {
-            if (other.collider.tag == "Stalactite")
-            {
-                GameData.Instance.Data.Stats.ToothDeaths++;
-            }
-            else
-            {
-                //Level.Stats.RockDeaths++; // TODO check for other objects
-            }
-            ThePlayer.PlaySound(ClumsyAudioControl.PlayerSounds.Collision);
-            ThePlayer.Die();
-        }
+        GetComponent<AudioSource>().Stop();
     }
 
     public override void TriggerEntered(Collider2D other)

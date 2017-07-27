@@ -23,7 +23,6 @@ public abstract class Spawnable : MonoBehaviour {
         IsActive = false;
         ResetObjectState();
         transform.position = Toolbox.Instance.HoldingArea;
-        Destroy(gameObject);
     }
 
     protected virtual void ResetObjectState()

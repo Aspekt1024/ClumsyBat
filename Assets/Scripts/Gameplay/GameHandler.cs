@@ -73,19 +73,44 @@ public abstract class GameHandler : MonoBehaviour {
 
     public virtual void Collision(Collision2D other)
     {
+        ThePlayer.DeactivateRush();
+
         switch (other.collider.tag)
         {
             case "Boss":
-                ThePlayer.Die();
+                DamagePlayer(other.collider.tag);
                 break;
             case "Stalactite":
                 Stalactite stal = other.collider.GetComponentInParent<Stalactite>();
                 if (stal.Type == SpawnStalAction.StalTypes.Stalactite)
                 {
                     stal.Crack();
-                    ThePlayer.Die();
+                    DamagePlayer(other.collider.tag);
                 }
                 break;
+        }
+    }
+
+    private void DamagePlayer(string tag)
+    {
+        ThePlayer.PlaySound(ClumsyAudioControl.PlayerSounds.Collision); // TODO sounds
+        if (ThePlayer.ActivateShield())
+        {
+            GameData.Instance.IsUntouched = false;
+        }
+        else
+        {
+            switch (tag)
+            {
+                case "Stalactite":
+                    GameData.Instance.Data.Stats.ToothDeaths++;
+                    break;
+                case "Boss":
+                    //TODO Gamedata.Instance.Data.Stats.BossDeaths++;
+                    break;
+            }
+            
+            ThePlayer.Die();
         }
     }
 
