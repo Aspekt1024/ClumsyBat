@@ -108,9 +108,19 @@ public class LevelDataControl : MonoBehaviour {
         _levelCompletion[level].LevelCompleted |= lvlCompletion.LevelCompleted;
         _levelCompletion[level].SecretPath1 |= lvlCompletion.SecretPath1;
         _levelCompletion[level].SecretPath2 |= lvlCompletion.SecretPath2;
-        _levelCompletion[level].Achievement1 |= _levelCompletion[level].LevelCompleted;
-        _levelCompletion[level].Achievement2 |= GameData.Instance.Data.Stats.MothsEaten == GameData.Instance.NumMoths;
-        _levelCompletion[level].Achievement3 |= GameData.Instance.IsUntouched;
+
+        if (levelId.ToString().Contains("Boss"))
+        {
+            _levelCompletion[level].Achievement1 |= _levelCompletion[level].LevelCompleted;
+            _levelCompletion[level].Achievement2 |= _levelCompletion[level].LevelCompleted;
+            _levelCompletion[level].Achievement3 |= GameData.Instance.IsUntouched;
+        }
+        else
+        {
+            _levelCompletion[level].Achievement1 |= _levelCompletion[level].LevelCompleted;
+            _levelCompletion[level].Achievement2 |= GameData.Instance.Data.Stats.MothsEaten == GameData.Instance.NumMoths;
+            _levelCompletion[level].Achievement3 |= GameData.Instance.IsUntouched;
+        }
 
         GameData.Instance.TotalStars = 0;
         if (_levelCompletion[level].Achievement1) GameData.Instance.TotalStars++;
