@@ -63,8 +63,7 @@ public class StateEventNode : BaseNode
     
     private void SaveStateAsset(State state)
     {
-        AssetDatabase.SaveAssets();
-        AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(state));
+        EditorUtility.SetDirty(state);
     }
 
     public override BaseAction GetAction()
