@@ -58,7 +58,13 @@ public class StateNode : BaseNode {
 
     public void RemoveStateEvent(int id)
     {
-        interfaces.Remove(interfaces[id]);
+        for (int i = 0; i < interfaces.Count; i++)
+        {
+            if (interfaces[i].ID == id)
+            {
+                interfaces.Remove(interfaces[id]);
+            }
+        }
     }
     
     private void DisplayStateInfo()
