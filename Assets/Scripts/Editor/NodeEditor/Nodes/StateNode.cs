@@ -62,7 +62,8 @@ public class StateNode : BaseNode {
         {
             if (interfaces[i].ID == id)
             {
-                interfaces.Remove(interfaces[id]);
+                interfaces.Remove(interfaces[i]);
+                break;
             }
         }
     }
