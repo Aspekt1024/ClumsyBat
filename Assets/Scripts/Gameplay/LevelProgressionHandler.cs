@@ -7,8 +7,8 @@ public static class LevelProgressionHandler
     public enum Levels
     {
         Unassigned,
-        Main1 = 1, Main2, Main3, Boss2,
-        Main4, Main5, Main6, Boss3,
+        Main1 = 1, Main2, Main3, Main4, Boss2,
+        Main5, Main6, Boss3,
         Main7, Main8, Main9, Main10, Main11, Boss4,
         Main12, Main13, Main14, Main15, Boss5,
         Main16, Boss6,
@@ -36,8 +36,8 @@ public static class LevelProgressionHandler
         Levels secretLevel;
         switch (level)
         {
-            case Levels.Main3:
-                secretLevel = Levels.Village1;
+            case Levels.Main4:
+                secretLevel = Levels.Boss1;
                 break;
             default:
                 Debug.Log("Warning: Secret path 1 not set for level " + level);
