@@ -130,8 +130,8 @@ public class Player : MonoBehaviour {
     {
         float animTimer = 0f;
         const float animDuration = 0.9f;
-        Vector2 targetExitPoint = new Vector2(transform.position.x + Toolbox.TileSizeX / 2f, -0.5f);
-        Vector2 originalPos = transform.position;
+        Vector3 originalPos = transform.position;
+        Vector3 targetExitPoint = new Vector3(transform.position.x + Toolbox.TileSizeX / 2f, -0.5f, originalPos.z);
 
         while (animTimer < animDuration)
         {
@@ -458,7 +458,9 @@ public class Player : MonoBehaviour {
     public SpriteRenderer GetRenderer() { return _playerRenderer; }
     public bool IsRushing() { return _rush.IsActive(); }
     public bool IsFacingRight() { return _flap.IsFacingRight(); }
-
+    public void FaceRight() { _flap.FaceRight(); }
+    public void FaceLeft() { _flap.Faceleft(); }
+    
     private void GetPlayerComponents()
     {
         _data = GameData.Instance.Data;

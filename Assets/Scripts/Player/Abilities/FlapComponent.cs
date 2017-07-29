@@ -79,7 +79,7 @@ public class FlapComponent : MonoBehaviour {
             horizontalState = HorizMoveState.None;
     }
     
-    private void Faceleft()
+    public void Faceleft()
     {
         Vector3 scale = Toolbox.Player.transform.localScale;
         if (scale.x > 0)
@@ -94,7 +94,7 @@ public class FlapComponent : MonoBehaviour {
 
     }
 
-    private void FaceRight()
+    public void FaceRight()
     {
         Vector3 scale = Toolbox.Player.transform.localScale;
         if (scale.x < 0)

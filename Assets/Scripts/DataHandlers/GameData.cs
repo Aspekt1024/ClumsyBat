@@ -27,6 +27,7 @@ public class GameData : Singleton<GameData>
     
     public void SetLevelCompletion(LevelCompletePaths path)
     {
+        _levelCompletion = new LevelDataContainer.LevelType();
         switch (path)
         {
             case LevelCompletePaths.MainPath:

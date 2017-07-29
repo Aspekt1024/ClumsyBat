@@ -54,7 +54,16 @@ public class HypersonicEventBoss : Boss {
         }
         else
         {
-            // TODO count all active
+            int numActive = 0;
+            foreach(var crystal in crystals)
+            {
+                if (crystal.IsActive)
+                    numActive++;
+            }
+            if (numActive == crystals.Count)
+            {
+                HypersonicEventBossWinSequence();
+            }
         }
     }
     
@@ -97,5 +106,53 @@ public class HypersonicEventBoss : Boss {
             StartCoroutine(crystal.CrystalFloat());
         }
         EventStarted = true;
+    }
+
+    private void HypersonicEventBossWinSequence()
+    {
+        foreach(var crystal in crystals)
+        {
+            crystal.Explode();
+            Toolbox.Player.EnableHover();
+            StartCoroutine(MovePlayerToCenterAndEndScene());
+        }
+    }
+
+    private IEnumerator MovePlayerToCenterAndEndScene()
+    {
+        float timer = 0f;
+        const float duration = 7f;
+
+        if (Toolbox.Player.transform.position.x > Toolbox.PlayerCam.transform.position.x)
+            Toolbox.Player.FaceLeft();
+        else
+            Toolbox.Player.FaceRight();
+
+        CameraEventListener.CameraShake(duration - 1f);
+        while (timer < duration)
+        {
+            Vector2 pos = Vector2.Lerp(Toolbox.Player.transform.position, Toolbox.PlayerCam.transform.position, Time.deltaTime / 2);
+            Toolbox.Player.transform.position = new Vector3(pos.x, pos.y, Toolbox.Player.transform.position.z);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        var hypersonic = GameData.Instance.Data.AbilityData.GetHypersonicStats();
+        hypersonic.AbilityUnlocked = true;
+        hypersonic.AbilityAvailable = true;
+        hypersonic.AbilityLevel = 1;
+        hypersonic.AbilityEvolution = 1;
+        GameData.Instance.Data.AbilityData.SaveHypersonicStats(hypersonic);
+
+        timer = 0f;
+        Toolbox.Player.ForceHypersonic();
+        // TODO tooltip
+
+        while (timer < 2f)
+        {
+            timer += Time.deltaTime;
+        }
+
+        Toolbox.Player.GetGameHandler().LevelComplete();
     }
 }

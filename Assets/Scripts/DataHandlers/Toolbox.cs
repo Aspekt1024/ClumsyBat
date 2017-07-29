@@ -146,10 +146,10 @@ public class Toolbox : Singleton<Toolbox>
         LevelNames.Add(Levels.Main15, "Hit");
         LevelNames.Add(Levels.Main16, "Hit");
 
-        LevelNames.Add(Levels.Boss1, "King Rockbreath");
-        LevelNames.Add(Levels.Boss2, "Whalepillar");
-        LevelNames.Add(Levels.Boss3, "boss3");
-        LevelNames.Add(Levels.Boss4, "boss4");
+        LevelNames.Add(Levels.Boss1, "A New Hope");
+        LevelNames.Add(Levels.Boss2, "King Rockbreath");
+        LevelNames.Add(Levels.Boss3, "Whalepillar");
+        LevelNames.Add(Levels.Boss4, "Boss4");
         LevelNames.Add(Levels.Boss5, "boss5");
 
         LevelNames.Add(Levels.Village1, "Village 1");

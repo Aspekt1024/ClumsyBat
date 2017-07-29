@@ -86,6 +86,9 @@ public class Hypersonic : MonoBehaviour {
 
     private IEnumerator HypersonicAbilityGo()
     {
+        CameraEventListener.CameraShake(1f);
+        // TODO play sound
+
         _hypersonicCollider.enabled = true;
         _hypersonicSprite.enabled = true;
 
@@ -117,6 +120,7 @@ public class Hypersonic : MonoBehaviour {
                 animTimer += Time.deltaTime;
                 _hypersonicBody.position = new Vector3(_lantern.transform.position.x, _lantern.transform.position.y, Toolbox.Instance.ZLayers["Hypersonic"]);
                 _hypersonicCollider.radius = colliderMinScale - (colliderMinScale - colliderMaxScale) * (animTimer / animationDuration);
+                _hypersonicSprite.color = new Color(1, 1, 1, 1 - (animTimer / animationDuration));
             }
             yield return null;
         }
