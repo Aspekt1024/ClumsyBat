@@ -70,7 +70,7 @@ public class Whalepillar : Boss
 
     protected override void HealthUpdate()
     {
-        // TODO using hard coding for now, but could update this so that damage levels are set in the editor. Depends what Scott wants to implement graphically
+        // TODO using hard coding for now, but could update this so that damage levels are set in the editor
         switch (health)
         {
             case 5:
