@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class TooltipHandler : MonoBehaviour {
 
+    public bool IsPausedForTooltip;
+
     private PlayerController _playerControl;
     private InputManager _inputManager;
     private TooltipController _tooltipControl;
@@ -150,7 +152,10 @@ public class TooltipHandler : MonoBehaviour {
     private IEnumerator SetupTooltip(string text, float duration, bool pauses = false)
     {
         _waitType = pauses ? WaitType.InGamePause : WaitType.InGameNoPause;
-        if (_waitType == WaitType.InGamePause) { _playerControl.WaitForTooltip(true); }
+        if (_waitType == WaitType.InGamePause) {
+            _playerControl.WaitForTooltip(true);
+            IsPausedForTooltip = true;
+        }
         _tooltipControl.RestoreOriginalScale();
         
         yield return StartCoroutine(_tooltipControl.OpenTooltip());
@@ -158,6 +163,7 @@ public class TooltipHandler : MonoBehaviour {
         
         if (_waitType == WaitType.InGamePause)
         {
+            IsPausedForTooltip = false;
             _playerControl.WaitForTooltip(false);
             _playerControl.TooltipResume();
         }

@@ -63,6 +63,7 @@ public abstract class Boss : MonoBehaviour {
     protected virtual void PauseGame()
     {
         _bPaused = true;
+        if (Body == null) return;   // Not all bosses need a body (e.g. Hypersonic event boss)
         storedVelocity = Body.velocity;
         Body.velocity = Vector2.zero;
         Body.isKinematic = true;
@@ -71,6 +72,7 @@ public abstract class Boss : MonoBehaviour {
     protected virtual void ResumeGame()
     {
         _bPaused = false;
+        if (Body == null) return;
         Body.velocity = storedVelocity;
         Body.isKinematic = false;
     }

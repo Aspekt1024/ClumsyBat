@@ -144,13 +144,25 @@ public class HypersonicEventBoss : Boss {
         hypersonic.AbilityEvolution = 1;
         GameData.Instance.Data.AbilityData.SaveHypersonicStats(hypersonic);
 
-        timer = 0f;
         Toolbox.Player.ForceHypersonic();
-        // TODO tooltip
-
+        timer = 0f;
         while (timer < 2f)
         {
             timer += Time.deltaTime;
+            yield return null;
+        }
+
+        Toolbox.Tooltips.ShowDialogue("It worked! Any time you collect a gold moths, you will activate Hypersonic!", 2f, true);
+        while (Toolbox.Tooltips.IsPausedForTooltip)
+        {
+            yield return null;
+        }
+
+        timer = 0f;
+        while (timer < 1f)
+        {
+            timer += Time.deltaTime;
+            yield return null;
         }
 
         Toolbox.Player.GetGameHandler().LevelComplete();

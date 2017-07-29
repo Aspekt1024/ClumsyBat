@@ -25,8 +25,19 @@ public class Toolbox : Singleton<Toolbox>
     public Dictionary<Levels, string> LevelNames = new Dictionary<Levels, string>();
 
     private static Player playerScript;
-    private CameraFollowObject playerCamScript;
     private static MainAudioControl mainAudio;
+    private CameraFollowObject playerCamScript;
+    private TooltipHandler tooltipHandler;
+
+    public static TooltipHandler Tooltips
+    {
+        get
+        {
+            if (Instance.tooltipHandler == null)
+                Instance.tooltipHandler = GameObject.FindGameObjectWithTag("Scripts").GetComponent<TooltipHandler>();
+            return Instance.tooltipHandler;
+        }
+    }
 
     public static Player Player
     {

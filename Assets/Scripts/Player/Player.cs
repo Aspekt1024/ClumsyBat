@@ -44,6 +44,8 @@ public class Player : MonoBehaviour {
     private bool _bCaveEndReached;
     private bool inSecretExit;
 
+    private Coroutine hoverRoutine;
+
     public bool ExitViaSecretPath;
 
     private enum PlayerState
@@ -368,8 +370,7 @@ public class Player : MonoBehaviour {
             _playerRigidBody.velocity = _nudgeVelocity;
         }
     }
-
-
+    
     public void EnableHover()
     {
         _state = PlayerState.Hovering;
@@ -379,7 +380,9 @@ public class Player : MonoBehaviour {
         _flap.CancelIfMoving();
         Anim.PlayAnimation(ClumsyAnimations.Hover);
 
-        StartCoroutine("Hover", transform.position.y);
+        if (hoverRoutine != null)
+            StopCoroutine(hoverRoutine);
+        hoverRoutine = StartCoroutine(Hover(transform.position.y));
     }
 
     public void DisableHover()
@@ -387,7 +390,7 @@ public class Player : MonoBehaviour {
         _state = PlayerState.Normal;
         _playerRigidBody.isKinematic = false;
         _playerController.PauseInput(false);
-        StopCoroutine("Hover");
+        StopCoroutine(hoverRoutine);
     }
 
     private IEnumerator Hover(float startY)

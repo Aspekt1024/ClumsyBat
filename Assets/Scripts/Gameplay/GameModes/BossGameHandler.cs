@@ -15,6 +15,8 @@ public class BossGameHandler : GameHandler {
     private const float ResumeTimerDuration = 3f;
     private float _resumeTimerStart;
 
+    private bool startingDialoagueComplete;
+
     private const float manualCaveScale = 0.8558578f;
     
     private enum BossGameState
@@ -40,11 +42,20 @@ public class BossGameHandler : GameHandler {
         _gameMenu.Hide();
         ThePlayer.Fog.Disable();
         SetCameraEndPoint();
-        StartCoroutine("LoadSequence");
+        StartCoroutine(LoadSequence());
     }
 
 	private void Update ()
     {
+        if (!startingDialoagueComplete)
+        {
+            if (Toolbox.Player.transform.position.x > 2f)
+            {
+                startingDialoagueComplete = true;
+                BossEntranceDialogue();
+            }
+        }
+
         if (GameState != GameStates.Normal || _state == BossGameState.InBossRoom) return;
         if (Toolbox.Player.transform.position.x > Toolbox.TileSizeX * manualCaveScale - 3f)
         {
@@ -207,5 +218,26 @@ public class BossGameHandler : GameHandler {
 
         bossDataScript.LoadBoss();
         _gameHud.SetLevelText(GameData.Instance.Level);
+    }
+
+    // TODO set this up in the boss script instead
+    private void BossEntranceDialogue()
+    {
+        switch (GameData.Instance.Level)
+        {
+            case LevelProgressionHandler.Levels.Boss1:
+                Toolbox.Tooltips.ShowDialogue("You found the hidden shrine! The key to defeating King Rockbreath can be found here.", 4f);
+                break;
+            case LevelProgressionHandler.Levels.Boss2:
+                if (!GameData.Instance.Data.AbilityData.GetHypersonicStats().AbilityAvailable)
+                {
+                    Toolbox.Tooltips.ShowDialogue("Without visiting the hidden shrine, you don't stand a chance here! Turn back!", 4f);
+                }
+                else
+                {
+                    Toolbox.Tooltips.ShowDialogue("Now that you have unlocked the power of hypersonic, we can defeat King Rockbreath!", 4f);
+                }
+                break;
+        }
     }
 }
