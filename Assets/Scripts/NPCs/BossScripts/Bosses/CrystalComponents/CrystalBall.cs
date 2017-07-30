@@ -22,8 +22,8 @@ public class CrystalBall : MonoBehaviour {
 
     private const int numMoths = 20;
     private Animator[] moths;
-
     private BrokenCrystalBall brokenCrystal;
+    private bool isOrderedMode;
     
     private void Start ()
     {
@@ -56,12 +56,12 @@ public class CrystalBall : MonoBehaviour {
     }
 	
 	private void Update () {
-        if (!Toolbox.Instance.GamePaused && IsActive)
+        if (!Toolbox.Instance.GamePaused && IsActive && !isOrderedMode)
         {
             activeTimer += Time.deltaTime;
             if (activeTimer > ActiveDuration)
             {
-                StartCoroutine(Deactivate());
+                Deactivate();
             }
         }
 
@@ -70,25 +70,35 @@ public class CrystalBall : MonoBehaviour {
 
 	}
 
+    public void SetOrderedMode()
+    {
+        isOrderedMode = true;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
         {
-            if (Parent.EventStarted && (!IsActive || isDeactivating))
+            if (Parent.EventStarted && (!IsActive || isDeactivating) && !isOrderedMode)
             {
-                StartCoroutine(Activate());
+                Activate();
             }
 
-            Parent.CrystalTriggered(ID);
+            if (!IsActive)
+                Parent.CrystalTriggered(ID);
         }
         else if (other.tag == "Hypersonic")
         {
             Shatter();
         }
-
     }
 
-    private IEnumerator Activate()
+    public void Activate()
+    {
+        StartCoroutine(ActivateRoutine());
+    }
+
+    private IEnumerator ActivateRoutine()
     {
         isDeactivating = false;
         IsActive = true;
@@ -103,7 +113,12 @@ public class CrystalBall : MonoBehaviour {
         StartCoroutine(PulseLight());
     }
 
-    private IEnumerator Deactivate()
+    public void Deactivate()
+    {
+        StartCoroutine(DeactivateRoutine());
+    }
+
+    private IEnumerator DeactivateRoutine()
     {
         const float animDuration = 0.4f;
         float animTimer = 0f;
@@ -129,6 +144,49 @@ public class CrystalBall : MonoBehaviour {
         isDeactivating = false;
         mothAnim.Play("MothGoldCaptured", 0, 0f);
         mothAnim.speed = 0;
+    }
+
+    public void Pulse()
+    {
+        StartCoroutine(PulseRoutine());
+    }
+
+    private IEnumerator PulseRoutine()
+    {
+        crystalLight.enabled = true;
+        crystalLight.color = Color.white;
+        // TODO play sound
+
+        float timer = 0f;
+        float duration = 0.1f;
+        const float minScale = 0.1f;
+        const float maxScale = 0.7f;
+        
+        while (timer < duration)
+        {
+            if (!Toolbox.Instance.GamePaused)
+            {
+                timer += Time.deltaTime;
+                float scale = Mathf.Lerp(minScale, maxScale, timer / duration);
+                crystalLight.transform.localScale = new Vector3(scale, scale, 1f);
+            }
+            yield return null;
+        }
+
+        timer = 0f;
+        duration = 0.4f;
+        while (timer < duration)
+        {
+            if (!Toolbox.Instance.GamePaused)
+            {
+                timer += Time.deltaTime;
+                float scale = Mathf.Lerp(maxScale, minScale, timer / duration);
+                crystalLight.transform.localScale = new Vector3(scale, scale, 1f);
+            }
+            yield return null;
+        }
+
+        crystalLight.enabled = false;
     }
 
     private IEnumerator PulseLight()

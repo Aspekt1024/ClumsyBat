@@ -5,15 +5,27 @@ using UnityEngine;
 
 public class HypersonicEventBoss : Boss {
 
-    public bool IsActivated;
-    public bool EventStarted;
+    public enum CrystalModes
+    {
+        Timed, Order
+    }
+    public CrystalModes Mode;
+    public int[] Order = new int[5];
+
+    [HideInInspector] public bool IsActivated;
+    [HideInInspector] public bool EventStarted;
 
     private List<CrystalBall> crystals = new List<CrystalBall>();
     private List<Vector2> scatterPositions = new List<Vector2>();
     
 	private void Start ()
     {
-		
+        if (Mode != CrystalModes.Order) return;
+
+        foreach (CrystalBall crystal in crystals)
+        {
+            crystal.SetOrderedMode();
+        }
 	}
 	
 	private void Update ()
@@ -45,25 +57,73 @@ public class HypersonicEventBoss : Boss {
         }
     }
     
-    public void CrystalTriggered(int ID)
+    public void CrystalTriggered(int id)
     {
         if (!IsActivated)
         {
             IsActivated = true;
             StartCoroutine(StartEvent());
         }
-        else
+        else if (EventStarted)
         {
-            int numActive = 0;
-            foreach(var crystal in crystals)
+            if (Mode == CrystalModes.Order)
             {
-                if (crystal.IsActive)
-                    numActive++;
+                TriggerOrderedCrystal(id);
             }
-            if (numActive == crystals.Count)
+            else
             {
-                HypersonicEventBossWinSequence();
+                int numActive = 0;
+                foreach (var crystal in crystals)
+                {
+                    if (crystal.IsActive)
+                        numActive++;
+                }
+                if (numActive == crystals.Count)
+                {
+                    HypersonicEventBossWinSequence();
+                }
             }
+        }
+    }
+
+    private void TriggerOrderedCrystal(int id)
+    {
+        int numActive = 0;
+        int index = GetCrystalIndexFromID(Order[numActive]);
+
+        while (crystals[index].IsActive)
+        {
+            numActive++;
+            index = GetCrystalIndexFromID(Order[numActive]);
+        }
+        
+        if (numActive == crystals.Count - 1) {
+            HypersonicEventBossWinSequence();
+        }
+        else if (crystals[index].ID == id) {
+            crystals[index].Activate();
+        }
+        else {
+            ResetCrystals(numActive);
+            crystals[GetCrystalIndexFromID(id)].Pulse();
+        }
+    }
+
+    private int GetCrystalIndexFromID(int id)
+    {
+        for (int i = 0; i < crystals.Count; i++)
+        {
+            if (crystals[i].ID == id)
+                return i;
+        }
+        return -1;
+    }
+
+    private void ResetCrystals(int numActive)
+    {
+        for (int i = 0; i < crystals.Count; i++)
+        {
+            crystals[i].Deactivate();
         }
     }
     
