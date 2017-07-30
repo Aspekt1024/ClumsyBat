@@ -6,10 +6,12 @@ public class SpawnStalactites : BossAbility {
 
     private const int NumStals = 20;
     private readonly List<Stalactite> _stals = new List<Stalactite>();
+    private GameObject rubblePrefab;
     
     private void Start()
     {
         CreateStals();
+        rubblePrefab = Resources.Load<GameObject>("Obstacles/Stalactite/FormingRockEffect");
     }
 
     public void Spawn(float spawnPosX, SpawnStalAction.StalSpawnDirection direction, SpawnStalAction.StalTypes type, float greenChance = 1, float goldChance = 0, float blueChance = 0) // TODO wow parameters. fix it.
@@ -39,7 +41,7 @@ public class SpawnStalactites : BossAbility {
         }
         else
         {
-            GameObject rubbleEffect = Instantiate(Resources.Load<GameObject>("Obstacles/Stalactite/FormingRockEffect"));
+            GameObject rubbleEffect = Instantiate(rubblePrefab);
             rubbleEffect.transform.position = new Vector3(stalTf.position.x, endY, stalTf.position.z - 0.1f);
             Destroy(rubbleEffect, 5f);
         }

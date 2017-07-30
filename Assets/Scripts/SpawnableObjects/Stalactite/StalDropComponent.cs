@@ -19,6 +19,8 @@ public class StalDropComponent : MonoBehaviour {
     private Vector2 storedVelocity = Vector2.zero;
     private bool storedKinematicState;
     private const float shakeThresholdX = 6f;
+    private GameObject rubblePrefab;
+    private ParticleSystem rubbleEffect;
 
     private enum DropStates
     {
@@ -31,6 +33,7 @@ public class StalDropComponent : MonoBehaviour {
     private void Awake()
     {
         GetComponentList();
+        rubblePrefab = Resources.Load<GameObject>("Obstacles/Stalactite/RubbleEffect");
     }
 
     private void FixedUpdate()
@@ -46,7 +49,7 @@ public class StalDropComponent : MonoBehaviour {
         {
             if (Toolbox.Player.transform.position.x > transform.position.x - stal.TriggerPosX - shakeThresholdX && _state == DropStates.None)
             {
-                StartCoroutine("Shake");
+                StartCoroutine(Shake());
             }
         }
     }
@@ -78,7 +81,7 @@ public class StalDropComponent : MonoBehaviour {
         {
             _state = DropStates.Falling;
             stal.SetState(Stalactite.StalStates.Falling);
-            StartCoroutine("DropSequence");
+            StartCoroutine(DropSequence());
         }
     }
     
@@ -92,7 +95,9 @@ public class StalDropComponent : MonoBehaviour {
                 yield return null;
             }
         }
-
+        
+        rubbleEffect.Stop();
+        Destroy(rubbleEffect, 2f);
         float fallTime = 0f;
         float startingYPos = stalBody.transform.position.y;
         while (fallTime < FallDuration)
@@ -114,6 +119,9 @@ public class StalDropComponent : MonoBehaviour {
     
     IEnumerator Shake()
     {
+        rubbleEffect = Instantiate(rubblePrefab).GetComponent<ParticleSystem>();
+        rubbleEffect.transform.position = new Vector3(transform.position.x, 5f, transform.position.z - 0.1f);
+        
         _state = DropStates.Shaking;
         const float shakeInterval = 0.07f;
         const float shakeIntensity = 1.8f;
