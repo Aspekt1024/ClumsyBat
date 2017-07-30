@@ -87,6 +87,11 @@ public class StalDropComponent : MonoBehaviour {
     
     private IEnumerator DropSequence()
     {
+        if (rubbleEffect == null)
+        {
+            // this is required for boss fights where the boss causes the stalactite to fall
+            CreateRubbleEffect();
+        }
         if (anim != null)
         {
             anim.CrackAndFall();
@@ -119,8 +124,7 @@ public class StalDropComponent : MonoBehaviour {
     
     IEnumerator Shake()
     {
-        rubbleEffect = Instantiate(rubblePrefab).GetComponent<ParticleSystem>();
-        rubbleEffect.transform.position = new Vector3(transform.position.x, 5f, transform.position.z - 0.1f);
+        CreateRubbleEffect();
         
         _state = DropStates.Shaking;
         const float shakeInterval = 0.07f;
@@ -136,6 +140,12 @@ public class StalDropComponent : MonoBehaviour {
             yield return new WaitForSeconds(shakeInterval);
         }
         //stalBody.transform.Rotate(Vector3.zero);
+    }
+
+    private void CreateRubbleEffect()
+    {
+        rubbleEffect = Instantiate(rubblePrefab).GetComponent<ParticleSystem>();
+        rubbleEffect.transform.position = new Vector3(transform.position.x, 5f, transform.position.z - 0.1f);
     }
 
     public void SetPaused(bool bPaused)
