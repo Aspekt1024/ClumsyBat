@@ -11,9 +11,13 @@ public class ParralaxBG : MonoBehaviour {
         Front, Mid, Rear
     }
 
+    private enum BackgroundColour
+    {
+        Red, Blue, Green
+    }
+
     private float _scrollSpeed;
     public float ZLayer;
-    public float TileSizeX = 19.2f;
     public const float FrontBgSpeed = 0.7f;
     public const float MidBgSpeed = 0.9f;
     public const float RearBgSpeed = 1f;
@@ -23,10 +27,14 @@ public class ParralaxBG : MonoBehaviour {
         public SpriteRenderer Rendr;
         public DepthIndex Depth;
     }
+    
+    private BackgroundColour bgColour;
 
     private const int NumFrontTextures = 3;
     private const int NumMidTextures = 1;
     private const int NumRearTextures = 1;
+
+    private const float backgroundTileSize = 19.185f;
 
     private readonly BgImgType[] _bgImage = new BgImgType[6];
     private readonly Sprite[] _frontSprites = new Sprite[NumFrontTextures];
@@ -44,6 +52,7 @@ public class ParralaxBG : MonoBehaviour {
 
     private void Start()
     {
+        ChooseColourFromLevel();
         transform.position = new Vector3(0, 0, ZLayer);
         GetBgPieces();
         GetBgSprites();
@@ -66,14 +75,14 @@ public class ParralaxBG : MonoBehaviour {
         foreach (Rigidbody2D bg in bgList)
         {
             bg.transform.position += Vector3.right * bgShift;
-            if (bg.transform.position.x <= ObjectToTrack.position.x - TileSizeX * 1.01f)
+            if (bg.transform.position.x <= ObjectToTrack.position.x - backgroundTileSize * 1.01f)
             {
-                bg.transform.position += Vector3.right * 2 * TileSizeX;
+                bg.transform.position += Vector3.right * 2 * backgroundTileSize;
                 SelectNewTexture(bg);
             }
-            else if (bg.transform.position.x >= ObjectToTrack.position.x + TileSizeX * 1.01f)
+            else if (bg.transform.position.x >= ObjectToTrack.position.x + backgroundTileSize * 1.01f)
             {
-                bg.transform.position += Vector3.left * 2 * TileSizeX;
+                bg.transform.position += Vector3.left * 2 * backgroundTileSize;
             }
         }
     }
@@ -129,6 +138,15 @@ public class ParralaxBG : MonoBehaviour {
         for (int index = 0; index < numSprites; index++)
         {
             string spritePath = "Backgrounds\\" + bgDepth + "BG_" + (index + 1).ToString();
+            switch (bgColour)
+            {
+                case BackgroundColour.Green:
+                    spritePath += "_green";
+                    break;
+                case BackgroundColour.Blue:
+                    spritePath += "_blue";
+                    break;
+            }
             bgSprites[index] = (Sprite)Resources.Load(spritePath, typeof(Sprite));
         }
     }
@@ -145,19 +163,19 @@ public class ParralaxBG : MonoBehaviour {
                 case "F":
                     _bgImage[frontIndex] = SetBGImg(bgPiece.GetComponent<SpriteRenderer>(), DepthIndex.Front);
                     _frontBgPieces[frontIndex] = bgPiece.GetComponent<Rigidbody2D>();
-                    _frontBgPieces[frontIndex].transform.position = new Vector3(TileSizeX * frontIndex, 0, transform.position.z + 0);
+                    _frontBgPieces[frontIndex].transform.position = new Vector3(backgroundTileSize * frontIndex, 0, transform.position.z + 0);
                     frontIndex++;
                     break;
                 case "M":
                     _bgImage[midIndex + 2] = SetBGImg(bgPiece.GetComponent<SpriteRenderer>(), DepthIndex.Mid);
                     _midBgPieces[midIndex] = bgPiece.GetComponent<Rigidbody2D>();
-                    _midBgPieces[midIndex].transform.position = new Vector3(TileSizeX * midIndex, 0, transform.position.z + 1);
+                    _midBgPieces[midIndex].transform.position = new Vector3(backgroundTileSize * midIndex, 0, transform.position.z + 1);
                     midIndex++;
                     break;
                 case "R":
                     _bgImage[rearIndex + 4] = SetBGImg(bgPiece.GetComponent<SpriteRenderer>(), DepthIndex.Rear);
                     _rearBgPieces[rearIndex] = bgPiece.GetComponent<Rigidbody2D>();
-                    _rearBgPieces[rearIndex].transform.position = new Vector3(TileSizeX * rearIndex, 0, transform.position.z + 2);
+                    _rearBgPieces[rearIndex].transform.position = new Vector3(backgroundTileSize * rearIndex, 0, transform.position.z + 2);
                     rearIndex++;
                     break;
             }
@@ -174,4 +192,20 @@ public class ParralaxBG : MonoBehaviour {
         return bgImg;
     }
 
+    private void ChooseColourFromLevel()
+    {
+        LevelProgressionHandler.Levels level = GameData.Instance.Level;
+        if (level == LevelProgressionHandler.Levels.Main1)
+        {
+            bgColour = BackgroundColour.Red;
+        }
+        else if (level == LevelProgressionHandler.Levels.Main2)
+        {
+            bgColour = BackgroundColour.Blue;
+        }
+        else
+        {
+            bgColour = BackgroundColour.Green;
+        }
+    }
 }
