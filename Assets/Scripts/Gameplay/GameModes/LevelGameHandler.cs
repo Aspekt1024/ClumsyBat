@@ -10,7 +10,6 @@ public class LevelGameHandler : GameHandler
     private float _resumeTimerStart;
     private const float ResumeTimer = 3f;
     private const float LevelStartupTime = 1f;
-    private VillageSequencer _villageSequencer;
     private bool caveExitAutoFlightTriggered;
     
     private void Start ()
@@ -18,8 +17,8 @@ public class LevelGameHandler : GameHandler
         Level = FindObjectOfType<LevelScript>();
         ThePlayer.transform.position = new Vector3(-Toolbox.TileSizeX / 2f, 0f, ThePlayer.transform.position.z);
         CaveHandler = FindObjectOfType<CaveHandler>();
-        _villageSequencer = GameObject.FindGameObjectWithTag("Scripts").AddComponent<VillageSequencer>();
-        StartCoroutine("LoadSequence");
+        GameObject.FindGameObjectWithTag("Scripts").AddComponent<VillageSequencer>();
+        StartCoroutine(LoadSequence());
     }
 
     private IEnumerator LoadSequence()

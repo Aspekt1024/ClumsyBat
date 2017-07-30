@@ -7,7 +7,6 @@ public class PerchComponent : MonoBehaviour
 
     private Player _player;
     private Rigidbody2D _body;
-    private GameHandler _gameHandler;
     private Transform _lantern;
     private Rigidbody2D _lanternBody;
     private GameObject rubble;
@@ -29,7 +28,6 @@ public class PerchComponent : MonoBehaviour
 	{
 	    _player = Toolbox.Player;
 	    _body = _player.GetComponent<Rigidbody2D>();
-	    _gameHandler = FindObjectOfType<GameHandler>();
         _lantern = _player.Lantern.transform;
         _lanternBody = _lantern.GetComponent<Rigidbody2D>();
         rubble = Resources.Load<GameObject>("Effects/SmallRubbleEffect");

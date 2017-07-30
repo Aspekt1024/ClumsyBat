@@ -8,7 +8,6 @@ public class Shield : MonoBehaviour {
 
     private Player _thePlayer;
     private Rigidbody2D _playerBody;
-    private GameHandler _gameHandler;
     private Lantern lantern;
     //private StatsHandler Stats;
 
@@ -73,7 +72,6 @@ public class Shield : MonoBehaviour {
 
         _thePlayer = playerRef;
         _playerBody = _thePlayer.GetComponent<Rigidbody2D>();
-        _gameHandler = _thePlayer.GetGameHandler();
         lantern = lanternRef;
 
         lantern.SetColourFromShieldCharges(_shieldCharges);

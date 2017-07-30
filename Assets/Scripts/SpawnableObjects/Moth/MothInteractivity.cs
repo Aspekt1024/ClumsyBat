@@ -6,14 +6,10 @@ using StoryEventID = StoryEventControl.StoryEvents;
 
 public class MothInteractivity : MonoBehaviour
 {
-    private GameHandler _gameHandler;
     private Player _thePlayer;
-    private DataHandler _data;
 
     private void Awake()
     {
-        _data = GameData.Instance.Data;
-        _gameHandler = FindObjectOfType<GameHandler>();
         _thePlayer = FindObjectOfType<Player>();
     }
     
@@ -27,7 +23,7 @@ public class MothInteractivity : MonoBehaviour
                 _thePlayer.ActivateHypersonic();
                 break;
             case Moth.MothColour.Blue:
-                // TODO some colour
+                // TODO some function
                 break;
         }
 

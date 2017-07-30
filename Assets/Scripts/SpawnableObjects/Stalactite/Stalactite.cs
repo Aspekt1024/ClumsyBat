@@ -277,7 +277,7 @@ public class Stalactite : Spawnable {
 
         float weightedGreen = greenMothChance / colorTotals;
         float weightedGold = goldMothChance / colorTotals;
-        float weightedBlue = blueMothChance / colorTotals;
+        //float weightedBlue = blueMothChance / colorTotals;
 
         float randomVal = Random.Range(0f, 1f);
 

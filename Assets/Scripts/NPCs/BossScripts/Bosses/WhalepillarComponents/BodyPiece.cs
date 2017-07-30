@@ -21,8 +21,7 @@ public class BodyPiece : MonoBehaviour {
     private bool oscillatingUp;
     private const float oscDuration = 1.6f;
     private float oscRotation;
-
-    private float distToOther;
+    
     private bool hasDest;
 
     public void Detach()
@@ -36,8 +35,6 @@ public class BodyPiece : MonoBehaviour {
         thisBody = GetComponent<Rigidbody2D>();
         isAttached = true;
         oscRotation = 7;
-
-        distToOther = Vector2.Distance(thisBody.position, OtherBody.position);
 	}
 
     private void FixedUpdate()

@@ -11,7 +11,6 @@ public class Whalepillar : Boss
     private Animations currentAnim;
     private Dictionary<Animations, string> spriteDict = new Dictionary<Animations, string>();
     private Animator anim;
-    private Collider2D antlersCollider;
 
     private SpriteRenderer bodySprite;
     private HeadPiece head;
@@ -74,21 +73,6 @@ public class Whalepillar : Boss
         switch (health)
         {
             case 5:
-                foreach (SpriteRenderer sprite in sprites)
-                    sprite.enabled = true;
-                break;
-            case 4:
-                sprites[(int)RockbreathSprites.Tooth1].enabled = false;
-                break;
-            case 3:
-                sprites[(int)RockbreathSprites.Tooth2].enabled = false;
-                break;
-            case 2:
-                sprites[(int)RockbreathSprites.Tooth3].enabled = false;
-                break;
-            case 1:
-                sprites[(int)RockbreathSprites.Antlers].enabled = false;
-                antlersCollider.enabled = false;
                 break;
         }
     }

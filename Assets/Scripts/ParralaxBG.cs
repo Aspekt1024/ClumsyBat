@@ -15,8 +15,7 @@ public class ParralaxBG : MonoBehaviour {
     {
         Red, Blue, Green
     }
-
-    private float _scrollSpeed;
+    
     public float ZLayer;
     public const float FrontBgSpeed = 0.7f;
     public const float MidBgSpeed = 0.9f;
@@ -119,11 +118,6 @@ public class ParralaxBG : MonoBehaviour {
         _bgImage[3].Rendr.sprite = _midSprites[Random.Range(0, NumMidTextures)];
         _bgImage[4].Rendr.sprite = _rearSprites[Random.Range(0, NumRearTextures)];
         _bgImage[5].Rendr.sprite = _rearSprites[Random.Range(0, NumRearTextures)];
-    }
-
-    public void SetVelocity(float speed)
-    {
-        _scrollSpeed = speed;
     }
 
     private void GetBgSprites()

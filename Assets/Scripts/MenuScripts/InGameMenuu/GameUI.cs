@@ -18,8 +18,7 @@ public class GameUI : MonoBehaviour {
     // We're keeping these to isolate the values from the stats when we do the level won currency collect animation
     private int _currency;
     private int _collectedCurrency;
-
-    private bool _bPulseAnimating;
+    
     private Vector3 _currencyScale;
     private Vector3 _collectedCurrencyScale;
     private RectTransform _currencyRt;
@@ -215,8 +214,7 @@ public class GameUI : MonoBehaviour {
         const float scaleMax = 0.25f;
 
         Vector3 startScale = textObject.localScale;
-
-        _bPulseAnimating = true;
+        
         while (animTimer < animDuration)
         {
             float scale;
@@ -232,6 +230,5 @@ public class GameUI : MonoBehaviour {
             animTimer += Time.deltaTime;
             yield return null;
         }
-        _bPulseAnimating = false;
     }
 }

@@ -8,7 +8,6 @@ public class RushAbility : MonoBehaviour {
     private Rigidbody2D _playerBody;
     private Lantern _lantern;
     private GameUI _gameHud;
-    private GameHandler _gameHandler;
 
     private int _numMothsToRecharge;
     private bool _epicDashEnabled;
@@ -37,7 +36,6 @@ public class RushAbility : MonoBehaviour {
         _lantern = lanternRef;
         _playerBody = _thePlayer.GetComponent<Rigidbody2D>();
         _gameHud = FindObjectOfType<GameUI>();
-        _gameHandler = FindObjectOfType<GameHandler>();
 
         SetAbilityAttributes();
         SetupHudBar();

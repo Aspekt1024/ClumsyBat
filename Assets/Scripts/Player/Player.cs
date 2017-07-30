@@ -41,7 +41,6 @@ public class Player : MonoBehaviour {
     private float playerSpeed;
 
     private bool _bPaused;
-    private bool _bCaveEndReached;
     private bool inSecretExit;
 
     private Coroutine hoverRoutine;
@@ -456,7 +455,6 @@ public class Player : MonoBehaviour {
     public void PlaySound(PlayerSounds soundId) { _audioControl.PlaySound(soundId); }
     private void DisablePlayerController() { FindObjectOfType<PlayerController>().PauseInput(true); }
     public float GetHomePositionX() { return ClumsyX; }
-    public bool AtCaveEnd() { return _bCaveEndReached; }
     public bool IsPerched() { return _state == PlayerState.Perched; }
     public bool IsPerchedOnTop() { return _perch.IsPerchedOnTop(); }
     public bool TouchReleasedOnBottom() { return _perch.bJumpOnTouchRelease && _perch.IsPerchedOnBottom(); }

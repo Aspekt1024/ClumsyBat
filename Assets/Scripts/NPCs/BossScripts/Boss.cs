@@ -21,8 +21,7 @@ public abstract class Boss : MonoBehaviour {
     protected Collider2D bossCollider;
 
     private StateMachine machine;
-
-    private Vector2 originalScale;  // Used for facing the boss left/right
+    
     private Vector2 storedVelocity;
     private float damageCooldownTimer;
     
@@ -38,7 +37,6 @@ public abstract class Boss : MonoBehaviour {
     private void Awake()
     {
         GetBossComponents();
-        originalScale = transform.localScale;   // Boss should be facing left first
     }
 
     private void Update()
