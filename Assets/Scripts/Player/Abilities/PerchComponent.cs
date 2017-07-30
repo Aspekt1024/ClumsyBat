@@ -14,6 +14,7 @@ public class PerchComponent : MonoBehaviour
     
     private const float PerchSwitchTime = 0.38f;    // Once unperched from bottom, can't re-perch immediately
     private float _timeSinceUnperch;
+    private float normalRotation;
 
     private enum PerchState
     {
@@ -23,8 +24,7 @@ public class PerchComponent : MonoBehaviour
         PerchedBottom
     }
     private PerchState _state;
-
-
+    
 	private void Start ()
 	{
 	    _player = Toolbox.Player;
@@ -33,6 +33,7 @@ public class PerchComponent : MonoBehaviour
         _lantern = _player.Lantern.transform;
         _lanternBody = _lantern.GetComponent<Rigidbody2D>();
         rubble = Resources.Load<GameObject>("Effects/SmallRubbleEffect");
+        normalRotation = _player.GetRenderer().transform.eulerAngles.z;
     }
 
     private void Update()
@@ -75,7 +76,12 @@ public class PerchComponent : MonoBehaviour
     {
         if (_state == PerchState.PerchedTop)
         {
-            StartCoroutine("MoveLantern", false);
+            normalRotation = _player.GetRenderer().transform.eulerAngles.z;
+            StartCoroutine(MoveLantern(false));
+            if (!_player.IsFacingRight())
+            {
+                _player.GetRenderer().transform.Rotate(Vector3.forward * _player.GetRenderer().transform.eulerAngles.z * 2f);
+            }
             _player.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Perch);
         }
         else
@@ -92,14 +98,18 @@ public class PerchComponent : MonoBehaviour
         _player.GetComponent<Rigidbody2D>().isKinematic = false;
 
         RaycastHit2D hit = new RaycastHit2D();
-
+        
         if (_state == PerchState.PerchedTop)
         {
+            if (!_player.IsFacingRight())
+            {
+                  _player.GetRenderer().transform.Rotate(Vector3.back * normalRotation * 2f);
+            }
             _state = PerchState.Transitioning;
             _player.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Unperch);
             StartCoroutine(Drop(0.1f));
-            StartCoroutine("MoveLantern", true);
-            hit = Physics2D.Raycast(_player.transform.position, Vector2.up, 5f, 1 << LayerMask.NameToLayer("Caves"));
+            StartCoroutine(MoveLantern(true));
+            hit = Physics2D.Raycast(_player.transform.position, Vector2.up, 5f, 1 << LayerMask.NameToLayer("Caves") | 1 << LayerMask.NameToLayer("CaveTop"));
         }
         else
         {
@@ -112,7 +122,7 @@ public class PerchComponent : MonoBehaviour
 
         if (hit.collider != null)
         {
-            GameObject rCopy = Instantiate(rubble, hit.point, Quaternion.identity, hit.collider.transform);
+            GameObject rCopy = Instantiate(rubble, new Vector3(hit.point.x, hit.point.y, _player.transform.position.z), Quaternion.identity, hit.collider.transform);
             Destroy(rCopy, 0.5f);
         }
 
