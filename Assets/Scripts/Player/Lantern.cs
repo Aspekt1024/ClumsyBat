@@ -133,6 +133,22 @@ public class Lantern : MonoBehaviour {
         _lanternHinge.enabled = (!_bDropped && !bPaused);
     }
 
+    public void SetColourFromShieldCharges(int charges)
+    {
+        switch (charges)
+        {
+            case 0:
+                ChangeColour(LanternColour.Green);
+                break;
+            case 1:
+                ChangeColour(LanternColour.Gold);
+                break;
+            case 2:
+                ChangeColour(LanternColour.Blue);
+                break;
+        }
+    }
+
     public void ChangeColour(LanternColour lColour)
     {
         if (_colour == lColour)
@@ -140,7 +156,7 @@ public class Lantern : MonoBehaviour {
             return;
         }
         _colour = lColour;
-        StartCoroutine("ColourChange");
+        StartCoroutine(ColourChange());
     }
 
     private IEnumerator ColourChange()

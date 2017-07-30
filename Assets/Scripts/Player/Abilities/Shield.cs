@@ -4,11 +4,12 @@ using System.Collections;
 public class Shield : MonoBehaviour {
 
     private int _shieldCharges;
-    private const int MaxCharges = 1;
+    private const int MaxCharges = 2;
 
     private Player _thePlayer;
     private Rigidbody2D _playerBody;
     private GameHandler _gameHandler;
+    private Lantern lantern;
     //private StatsHandler Stats;
 
     private enum ShieldStates
@@ -24,6 +25,7 @@ public class Shield : MonoBehaviour {
         {
             Toolbox.MainAudio.PlaySound(Toolbox.MainAudio.Shield);
             _shieldCharges--;
+            lantern.SetColourFromShieldCharges(_shieldCharges);
             StartCoroutine(ShieldUp());
         }
         else if (_playerBody.position.y < 0f)
@@ -72,10 +74,21 @@ public class Shield : MonoBehaviour {
         _thePlayer = playerRef;
         _playerBody = _thePlayer.GetComponent<Rigidbody2D>();
         _gameHandler = _thePlayer.GetGameHandler();
+        lantern = lanternRef;
 
+        lantern.SetColourFromShieldCharges(_shieldCharges);
     }
+
+    public void AddCharge()
+    {
+        if (_shieldCharges < MaxCharges)
+        {
+            _shieldCharges++;
+            lantern.SetColourFromShieldCharges(_shieldCharges);
+        }
+    }
+
     public bool IsAvailable() { return (_shieldCharges > 0 || _state == ShieldStates.Activated); }
-    public void AddCharge() { if (_shieldCharges < MaxCharges) { _shieldCharges++; } }
     public bool IsInUse() { return _state == ShieldStates.Activated; }
 
 }

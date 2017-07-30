@@ -22,20 +22,16 @@ public class MothInteractivity : MonoBehaviour
         switch (colour)
         {
             case Moth.MothColour.Green:
-                _thePlayer.Lantern.ChangeColour(Lantern.LanternColour.Green);
-                _thePlayer.Fog.Echolocate();
                 break;
             case Moth.MothColour.Gold:
-                _thePlayer.Lantern.ChangeColour(Lantern.LanternColour.Gold);
                 _thePlayer.ActivateHypersonic();
-                _thePlayer.Fog.Echolocate();
                 break;
             case Moth.MothColour.Blue:
-                _thePlayer.Lantern.ChangeColour(Lantern.LanternColour.Blue);
-                _thePlayer.Fog.Echolocate();
+                // TODO some colour
                 break;
         }
 
         _thePlayer.AddShieldCharge();
+        _thePlayer.Fog.Echolocate();
     }
 }
