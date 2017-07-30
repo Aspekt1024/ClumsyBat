@@ -17,6 +17,7 @@ public class GameData : Singleton<GameData>
     public int NewStars;
     public int TotalStars;
     public LevelProgressionHandler.Levels Level;
+    public bool BossLeftRightTapTutorialSeen;
 
     private LevelDataContainer.LevelType _levelCompletion;
 

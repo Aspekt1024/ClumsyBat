@@ -121,6 +121,11 @@ public class BossGameHandler : GameHandler {
 
     private IEnumerator ShowMovementTutorial()
     {
+        if (GameData.Instance.Data.LevelData.LevelCompletedAchievement((int)LevelProgressionHandler.Levels.Boss1)
+            || GameData.Instance.BossLeftRightTapTutorialSeen)
+            yield break;
+
+        GameData.Instance.BossLeftRightTapTutorialSeen = true;
         leftRightOverlay.enabled = true;
         _gameHud.GetComponent<Canvas>().enabled = false;
 
