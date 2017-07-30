@@ -218,6 +218,10 @@ public class Player : MonoBehaviour {
         {
             if (_shield.IsInUse() || _playerController.InputPaused() || (_state != PlayerState.Normal && _state != PlayerState.Perched)) { return; }
             _perch.Perch(other.gameObject.name, _playerController.TouchHeld());
+            if (!IsPerched())
+            {
+                playerSpeed = 0;
+            }
         }
         else
         {
@@ -339,9 +343,12 @@ public class Player : MonoBehaviour {
 
     public void ResumeGame()
     {
+        if (!IsPerched())
+        {
+            _playerRigidBody.isKinematic = false;
+            _playerRigidBody.velocity = _savedVelocity;
+        }
         _bPaused = false;
-        _playerRigidBody.isKinematic = false;
-        _playerRigidBody.velocity = _savedVelocity;
         Fog.Resume();
         Lantern.GamePaused(false);
         AbilitiesPaused(false);

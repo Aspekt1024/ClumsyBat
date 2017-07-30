@@ -59,7 +59,7 @@ public class RushAbility : MonoBehaviour {
 
         if (_bIsRushing)
         {
-            GameData.Instance.Data.Stats.DashDistance += Time.deltaTime * RushSpeed * Toolbox.Instance.LevelSpeed;
+            GameData.Instance.Data.Stats.DashDistance += Time.deltaTime * RushSpeed * Toolbox.Instance.PlayerSpeed;
             if (_rushTimeRemaining <= 0f)
             {
                 StartCoroutine("RushEndAnimation");

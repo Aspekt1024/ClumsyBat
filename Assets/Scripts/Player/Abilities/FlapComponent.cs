@@ -58,6 +58,8 @@ public class FlapComponent : MonoBehaviour {
         var velocity = new Vector2(0f, verticalVelocity);
         player.SetVelocity(velocity);
 
+        player.SetPlayerSpeed(Toolbox.Instance.PlayerSpeed);
+
         GameData.Instance.Data.Stats.TotalJumps++;
         player.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Flap);
         player.PlaySound(ClumsyAudioControl.PlayerSounds.Flap);

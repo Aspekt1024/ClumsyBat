@@ -85,7 +85,6 @@ public class PlayerController : MonoBehaviour
     public void PauseGame(bool showMenu)
     {
         State = GameState.Paused;
-        ThePlayer.PauseGame();
         _gameHandler.PauseGame(showMenu);
     }
 
@@ -100,7 +99,6 @@ public class PlayerController : MonoBehaviour
     {
         State = GameState.Normal;
         _inputManager.ClearInput();
-        ThePlayer.ResumeGame();
     }
 
     public void WaitForTooltip(bool bWait)

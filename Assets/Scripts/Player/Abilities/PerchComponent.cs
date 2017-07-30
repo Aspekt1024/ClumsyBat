@@ -11,8 +11,7 @@ public class PerchComponent : MonoBehaviour
     private Transform _lantern;
     private Rigidbody2D _lanternBody;
     private GameObject rubble;
-
-
+    
     private const float PerchSwitchTime = 0.38f;    // Once unperched from bottom, can't re-perch immediately
     private float _timeSinceUnperch;
 

@@ -11,7 +11,7 @@ public class Toolbox : Singleton<Toolbox>
     public Language Language = new Language();
 
     public Vector3 HoldingArea { get; set; }
-    public float LevelSpeed { get; set; }
+    public float PlayerSpeed { get; set; }
     public float GravityScale { get; set; }
     public const float TileSizeX = 19.2f;
     public const float PlayerStartX = -5.5f;
@@ -104,7 +104,7 @@ public class Toolbox : Singleton<Toolbox>
     private void Awake()
     {
         HoldingArea = new Vector2(0, 100);
-        LevelSpeed = 5f;
+        PlayerSpeed = 5f;
         GravityScale = 4f;
         MenuScreen = MenuSelector.MainMenu;
         
