@@ -470,6 +470,7 @@ public class Player : MonoBehaviour {
     public bool IsFacingRight() { return _flap.IsFacingRight(); }
     public void FaceRight() { _flap.FaceRight(); }
     public void FaceLeft() { _flap.Faceleft(); }
+    public PlayerController GetPlayerController() { return _playerController; }
     
     private void GetPlayerComponents()
     {

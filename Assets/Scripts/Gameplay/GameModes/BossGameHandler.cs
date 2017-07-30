@@ -9,6 +9,7 @@ public class BossGameHandler : GameHandler {
     private LoadScreen _loadScreen;
     private GameMenuOverlay _gameMenu;
     private GameUI _gameHud;
+    private Canvas leftRightOverlay;
     
     public LevelProgressionHandler.Levels Level = LevelProgressionHandler.Levels.Boss1;
     private const float ResumeTimerDuration = 3f;
@@ -35,6 +36,17 @@ public class BossGameHandler : GameHandler {
         _loadScreen = FindObjectOfType<LoadScreen>();
         _gameHud = FindObjectOfType<GameUI>();
         _gameMenu = FindObjectOfType<GameMenuOverlay>();
+        
+        foreach (Transform tf in Toolbox.PlayerCam.transform)
+        {
+            if (tf.name == "LeftRightOverlay")
+            {
+                leftRightOverlay = tf.GetComponent<Canvas>();
+                leftRightOverlay.enabled = false;
+                break;
+            }
+        }
+
         LoadBoss();
 
         _gameMenu.Hide();
@@ -96,10 +108,32 @@ public class BossGameHandler : GameHandler {
             yield return null;
         }
 
+        if (GameData.Instance.Level == LevelProgressionHandler.Levels.Boss1)
+        {
+            yield return StartCoroutine(ShowMovementTutorial());
+        }
+
         ThePlayer.DisableHover();
         ThePlayer.SetPlayerSpeed(0);
         ThePlayer.SetMovementMode(FlapComponent.MovementMode.HorizontalEnabled);
         BossEvents.BossFightStart();
+    }
+
+    private IEnumerator ShowMovementTutorial()
+    {
+        leftRightOverlay.enabled = true;
+        _gameHud.GetComponent<Canvas>().enabled = false;
+
+        yield return new WaitForSeconds(1f);
+
+        Toolbox.Player.GetPlayerController().PauseInput(false);
+        Toolbox.Player.GetPlayerController().WaitForInput();
+        while (Toolbox.Player.GetPlayerController().WaitingForInput())
+        {
+            yield return null;
+        }
+        leftRightOverlay.enabled = false;
+        _gameHud.GetComponent<Canvas>().enabled = true;
     }
 
     private void StartGame()

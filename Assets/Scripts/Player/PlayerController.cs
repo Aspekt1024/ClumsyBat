@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     private bool _bTouchInputEnabled = true;
     private bool _bTouchHeld;
 
+    private bool isAwaitingInput;
+
     private void Awake()
     {
         State = GameState.Starting;
@@ -52,13 +54,15 @@ public class PlayerController : MonoBehaviour
         }
         if (_inputManager.TapRegistered())
         {
-
             ProcessTap();
         }
     }
 
     private void ProcessTap()
     {
+        if (isAwaitingInput)
+            isAwaitingInput = false;
+        
         InputManager.TapDirection tapDir = _inputManager.GetTapDir();
         ThePlayer.ActivateJump(tapDir);
     }
@@ -130,6 +134,17 @@ public class PlayerController : MonoBehaviour
         // This is currently only used by the Gameover sequence and is reset upon loading the scene
         _inputManager.ClearInput();
         _bTouchInputEnabled = !bPaused;
+    }
+
+    public void WaitForInput()
+    {
+        isAwaitingInput = true;
+        _inputManager.ClearInput();
+    }
+
+    public bool WaitingForInput()
+    {
+        return isAwaitingInput;
     }
 
     public bool GameStarted() { return State != GameState.Starting; }
