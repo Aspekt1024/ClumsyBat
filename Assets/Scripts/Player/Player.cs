@@ -276,7 +276,7 @@ public class Player : MonoBehaviour {
         _gameHandler.PauseGame(showMenu: false);
         yield return new WaitForSeconds(0.47f);
         _gameHandler.ResumeGame(immediate:true);
-        _playerRigidBody.velocity = new Vector2(-3f, 1f);
+        _playerRigidBody.velocity = new Vector2(IsFacingRight() ? -3f : 3f, 1f);
         Anim.PlayAnimation(ClumsyAnimations.Die);
     }
 
@@ -343,7 +343,7 @@ public class Player : MonoBehaviour {
 
     public void ResumeGame()
     {
-        if (!IsPerched() && !IsHovering())
+        if (!IsPerched() && _state != PlayerState.Hovering)
         {
             _playerRigidBody.isKinematic = false;
             _playerRigidBody.velocity = _savedVelocity;
@@ -368,7 +368,7 @@ public class Player : MonoBehaviour {
 
     public void JumpIfClear()
     {
-        if (IsHovering()) return;
+        if (_state == PlayerState.Hovering) return;
 
         if (_clearance.IsEmpty())
         {
@@ -472,7 +472,6 @@ public class Player : MonoBehaviour {
     public bool IsFacingRight() { return _flap.IsFacingRight(); }
     public void FaceRight() { _flap.FaceRight(); }
     public void FaceLeft() { _flap.Faceleft(); }
-    public bool IsHovering() { return hoverRoutine != null; }
     
     private void GetPlayerComponents()
     {

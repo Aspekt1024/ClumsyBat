@@ -87,9 +87,17 @@ public class BossGameHandler : GameHandler {
         ThePlayer.EnableHover();
 
         FindObjectOfType<SlidingDoors>().Close();
-        
+
         // TODO boss entrance sequence
-        yield return new WaitForSeconds(2f);
+        float timer = 0f;
+        const float duration = 2f;
+        while (timer < duration)
+        {
+            if (!Toolbox.Instance.GamePaused)
+                timer += Time.deltaTime;
+            yield return null;
+        }
+
         ThePlayer.DisableHover();
         ThePlayer.SetPlayerSpeed(0);
         ThePlayer.SetMovementMode(FlapComponent.MovementMode.HorizontalEnabled);

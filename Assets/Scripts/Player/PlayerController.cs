@@ -122,8 +122,7 @@ public class PlayerController : MonoBehaviour
     {
         _gameHandler.ResumeGame(immediate: true);
         ResumeGameplay();
-        if (!ThePlayer.IsHovering())
-            ThePlayer.JumpIfClear();
+        ThePlayer.JumpIfClear();
     }
     
     public void PauseInput(bool bPaused)
