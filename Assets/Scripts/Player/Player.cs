@@ -343,7 +343,7 @@ public class Player : MonoBehaviour {
 
     public void ResumeGame()
     {
-        if (!IsPerched())
+        if (!IsPerched() && !IsHovering())
         {
             _playerRigidBody.isKinematic = false;
             _playerRigidBody.velocity = _savedVelocity;
@@ -368,6 +368,8 @@ public class Player : MonoBehaviour {
 
     public void JumpIfClear()
     {
+        if (IsHovering()) return;
+
         if (_clearance.IsEmpty())
         {
             ActivateJump();
@@ -470,6 +472,7 @@ public class Player : MonoBehaviour {
     public bool IsFacingRight() { return _flap.IsFacingRight(); }
     public void FaceRight() { _flap.FaceRight(); }
     public void FaceLeft() { _flap.Faceleft(); }
+    public bool IsHovering() { return hoverRoutine != null; }
     
     private void GetPlayerComponents()
     {
