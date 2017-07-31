@@ -11,6 +11,7 @@ public class Lantern : MonoBehaviour {
     private PolygonCollider2D _lanternCollider;
     private SpriteRenderer _globe;
     private SpriteRenderer _light;
+    private ParticleSystem shimmerEffect;
     
     public enum LanternColour
     {
@@ -38,7 +39,19 @@ public class Lantern : MonoBehaviour {
         _lightScale = _light.transform.localScale;
         SetColour();
 
-        StartCoroutine("Flicker");
+        StartCoroutine(Flicker());
+    }
+
+    private void Update()
+    {
+        if (_lanternBody.velocity.magnitude < 0.1f)
+        {
+            shimmerEffect.Stop();
+        }
+        else if (shimmerEffect.isStopped)
+        {
+            shimmerEffect.Play();
+        }
     }
 
     private IEnumerator Flicker()
@@ -83,6 +96,9 @@ public class Lantern : MonoBehaviour {
                 case "LanternLight":
                     _light = childObj.GetComponent<SpriteRenderer>();
                     break;
+                case "LanternShimmer":
+                    shimmerEffect = childObj.GetComponent<ParticleSystem>();
+                    break;
             }
         }
     }
@@ -103,14 +119,16 @@ public class Lantern : MonoBehaviour {
         JointMotor2D lanternMotor = _lanternHinge.motor;
         lanternMotor.motorSpeed = 1000;
         _lanternHinge.motor = lanternMotor;
-        StartCoroutine("EngageMotor");
+        StartCoroutine(EngageMotor());
     }
 
     private IEnumerator EngageMotor()
     {
         _lanternHinge.useMotor = true;
+        shimmerEffect.Play();
         yield return new WaitForSeconds(0.2f);
         _lanternHinge.useMotor = false;
+        shimmerEffect.Stop();
     }
 
     public void GamePaused(bool bPaused)
@@ -197,19 +215,23 @@ public class Lantern : MonoBehaviour {
 
     private void SetColour()
     {
+        ParticleSystem.MainModule particleSettings = shimmerEffect.main;
         switch (_colour)
         {
             case LanternColour.Green:
-                _globe.color = new Color(110 / 255f, 229 / 255f, 119 / 255f);
-                _light.color = new Color(110 / 255f, 229 / 255f, 119 / 255f);
+                _globe.color = Toolbox.MothGreenColor;
+                _light.color = Toolbox.MothGreenColor;
+                particleSettings.startColor = Toolbox.MothGreenColor;
                 break;
             case LanternColour.Gold:
-                _globe.color = new Color(212 / 255f, 195 / 255f, 126 / 255f);
-                _light.color = new Color(212 / 255f, 195 / 255f, 126 / 255f);
+                _globe.color = Toolbox.MothGoldColor;
+                _light.color = Toolbox.MothGoldColor;
+                particleSettings.startColor = Toolbox.MothGoldColor;
                 break;
             case LanternColour.Blue:
-                _globe.color = new Color(151 / 255f, 147 / 255f, 231 / 255f);
-                _light.color = new Color(151 / 255f, 147 / 255f, 231 / 255f);
+                _globe.color = Toolbox.MothBlueColor;
+                _light.color = Toolbox.MothBlueColor;
+                particleSettings.startColor = Toolbox.MothBlueColor;
                 break;
         }
     }

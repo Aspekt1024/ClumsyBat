@@ -118,7 +118,7 @@ public class Toolbox : Singleton<Toolbox>
         ZLayers.Add("MainCamera", -10f);
         ZLayers.Add("UIOverlay", 2);            // Parented to MainCamera (-10)
         ZLayers.Add("GameMenuOverlay", 3f);     // Parented to MainCamera (-10)
-        ZLayers.Add("Moth", -4f);
+        ZLayers.Add("Moth", -5f);
         ZLayers.Add("Fog", -3.5f);
         ZLayers.Add("CaveEndFront", -2f);
         ZLayers.Add("Lantern", -1.1f);
@@ -184,6 +184,10 @@ public class Toolbox : Singleton<Toolbox>
     {
         TooltipCompletion = new bool[Enum.GetNames(typeof(TooltipHandler.DialogueId)).Length];
     }
+
+    public static Color MothGreenColor = new Color(110 / 255f, 229 / 255f, 119 / 255f);
+    public static Color MothGoldColor = new Color(212 / 255f, 195 / 255f, 126 / 255f);
+    public static Color MothBlueColor = new Color(151 / 255f, 147 / 255f, 231 / 255f);
 }
 
 [Serializable]

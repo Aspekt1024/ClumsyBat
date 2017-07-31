@@ -40,7 +40,7 @@ public sealed class MothPool : SpawnPool<Moth>
         {
             Pos = new Vector2(xPos, Random.Range(minY, maxY)),
             Rotation = new Quaternion(),
-            Scale = Vector2.one
+            Scale = Vector3.one
         };
         newMoth.Activate(spawnTf, colour, MothPathHandler.MothPathTypes.Sine);
     }
@@ -52,7 +52,7 @@ public sealed class MothPool : SpawnPool<Moth>
         {
             Pos = spawnLoc,
             Rotation = new Quaternion(),
-            Scale = Vector2.one
+            Scale = Vector3.one
         };
         newMoth.Activate(spawnTf, colour, MothPathHandler.MothPathTypes.Clover);
         newMoth.StartCoroutine(newMoth.SpawnFromEssence(appearanceLoc, despawnTimer));

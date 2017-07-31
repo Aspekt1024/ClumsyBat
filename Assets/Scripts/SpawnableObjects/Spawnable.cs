@@ -39,7 +39,7 @@ public abstract class Spawnable : MonoBehaviour {
     public void SetTransform(Transform objTf, SpawnType spawnTf)
     {
         objTf.localPosition = new Vector3(spawnTf.Pos.x, spawnTf.Pos.y, 0f);
-        objTf.localScale = spawnTf.Scale;
+        objTf.localScale = new Vector3(spawnTf.Scale.x, spawnTf.Scale.y, 1f);
         objTf.rotation = spawnTf.Rotation;
     }
 

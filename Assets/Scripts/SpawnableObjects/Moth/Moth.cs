@@ -19,6 +19,7 @@ public class Moth : Spawnable {
     private MothPathHandler _pathHandler;
     private bool _bConsumption;
     private readonly Dictionary<MothAudioNames, AudioClip> _mothAudioDict = new Dictionary<MothAudioNames, AudioClip>();
+    private ParticleSystem shimmerEffect;
 
     private enum MothAudioNames { Flutter, Morph, Consume }
     private enum MothStates { Normal, ConsumeFollow }
@@ -110,16 +111,20 @@ public class Moth : Spawnable {
 
     private void PlayNormalAnimation()
     {
+        ParticleSystem.MainModule particleSettings = shimmerEffect.main;
         switch (Colour)
         {
             case MothColour.Green:
                 _mothAnimator.Play("MothGreenAnimation", 0, 0f);
+                particleSettings.startColor = Toolbox.MothGreenColor;
                 break;
             case MothColour.Blue:
                 _mothAnimator.Play("MothBlueAnimation", 0, 0f);
+                particleSettings.startColor = Toolbox.MothBlueColor;
                 break;
             case MothColour.Gold:
                 _mothAnimator.Play("MothGoldAnimation", 0, 0f);
+                particleSettings.startColor = Toolbox.MothGoldColor;
                 break;
         }
     }
@@ -127,6 +132,7 @@ public class Moth : Spawnable {
     private void PlayExplosionAnim()
     {
         //_mothAudio.PlayOneShot(Resources.Load<AudioClip>("LanternConsumeMoth"));  // TODO moth morph sound
+        shimmerEffect.Stop();
         switch (Colour)
         {
             case MothColour.Green:
@@ -237,12 +243,12 @@ public class Moth : Spawnable {
                 _mothAnimator = tf.GetComponent<Animator>();
                 _mothAnimator.enabled = true;
                 _mothCollider = tf.GetComponent<Collider2D>();
-            }
-            else if (tf.name == "PathBox")
-            {
-                if (!Toolbox.Instance.Debug)
+                foreach (Transform t in tf)
                 {
-                    Destroy(tf.gameObject);
+                    if (t.name == "ShimmerEffect")
+                    {
+                        shimmerEffect = t.GetComponent<ParticleSystem>();
+                    }
                 }
             }
         }
