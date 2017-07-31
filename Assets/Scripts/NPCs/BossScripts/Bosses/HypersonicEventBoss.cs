@@ -97,7 +97,8 @@ public class HypersonicEventBoss : Boss {
             index = GetCrystalIndexFromID(Order[numActive]);
         }
         
-        if (numActive == crystals.Count - 1) {
+        if (numActive == crystals.Count - 1)
+        {
             HypersonicEventBossWinSequence();
         }
         else if (crystals[index].ID == id) {
@@ -173,9 +174,9 @@ public class HypersonicEventBoss : Boss {
         foreach(var crystal in crystals)
         {
             crystal.Explode();
-            Toolbox.Player.EnableHover();
-            StartCoroutine(MovePlayerToCenterAndEndScene());
         }
+        Toolbox.Player.EnableHover();
+        StartCoroutine(MovePlayerToCenterAndEndScene());
     }
 
     private IEnumerator MovePlayerToCenterAndEndScene()
@@ -211,7 +212,7 @@ public class HypersonicEventBoss : Boss {
             timer += Time.deltaTime;
             yield return null;
         }
-
+        
         Toolbox.Tooltips.ShowDialogue("It worked! Any time you collect a gold moths, you will activate Hypersonic!", 2f, true);
         while (Toolbox.Tooltips.IsPausedForTooltip)
         {

@@ -165,6 +165,7 @@ public class TooltipController : MonoBehaviour {
         StopCoroutine("CloseTooltip");
         ShowTooltipCanvas(false);
 
+        Debug.Log("restoring orig scale " + _originalNomeeScale);
         _tooltipPanel.localScale = Vector2.one * _originalTooltipScale;
         _toolTipTextRt.localScale = Vector2.one * _originalTooltipTextScale;
         _nomee.localScale = new Vector2(_originalNomeeScale, -_originalNomeeScale);
