@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class MothStar : MonoBehaviour {
     
-    private Image ActiveImage;
-    private Image InactiveImage;
+    private Image activeImage;
+    private Image inactiveImage;
+    private Text text;
 
 	private void Awake ()
     {
@@ -19,31 +20,50 @@ public class MothStar : MonoBehaviour {
         {
             if (tf.name == "Active")
             {
-                ActiveImage = tf.GetComponent<Image>();
+                activeImage = tf.GetComponent<Image>();
             }
             else if (tf.name == "Inactive")
             {
-                InactiveImage = tf.GetComponent<Image>();
+                inactiveImage = tf.GetComponent<Image>();
+            }
+            else if (tf.name == "Text")
+            {
+                text = tf.GetComponent<Text>();
             }
         }
     }
 
+    public void HideText()
+    {
+        text.gameObject.SetActive(false);
+    }
+
+    public void ShowText()
+    {
+        text.gameObject.SetActive(true);
+    }
+
+    public void SetText(string txt)
+    {
+        text.text = txt;
+    }
+
     public void SetActive()
     {
-        if (InactiveImage != null) InactiveImage.enabled = false;
-        if (ActiveImage != null) ActiveImage.enabled = true;
+        if (inactiveImage != null) inactiveImage.enabled = false;
+        if (activeImage != null) activeImage.enabled = true;
     }
 
     public void SetInactive()
     {
-        if (InactiveImage != null) InactiveImage.enabled = true;
-        if (ActiveImage != null) ActiveImage.enabled = false;
+        if (inactiveImage != null) inactiveImage.enabled = true;
+        if (activeImage != null) activeImage.enabled = false;
     }
 
     public IEnumerator AnimateToActive()
     {
         SetActive();
-        yield return StartCoroutine(PulseObject(ActiveImage.GetComponent<RectTransform>()));
+        yield return StartCoroutine(PulseObject(activeImage.GetComponent<RectTransform>()));
     }
 
     private IEnumerator PulseObject(RectTransform rtObj)

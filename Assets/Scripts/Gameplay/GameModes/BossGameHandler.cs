@@ -211,9 +211,9 @@ public class BossGameHandler : GameHandler {
     private IEnumerator BossFightWon()
     {
         yield return new WaitForSeconds(2f);
+        EventListener.LevelWon();
         _gameMenu.WinGame();
         GameData.Instance.SetLevelCompletion(GameData.LevelCompletePaths.MainPath);
-        EventListener.LevelWon();
 
         // TODO add sound to sound controller script
     }

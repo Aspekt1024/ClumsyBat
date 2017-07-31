@@ -192,7 +192,7 @@ public class HypersonicEventBoss : Boss {
         CameraEventListener.CameraShake(duration - 1f);
         while (timer < duration)
         {
-            Vector2 pos = Vector2.Lerp(Toolbox.Player.transform.position, Toolbox.PlayerCam.transform.position, Time.deltaTime / 2);
+            Vector2 pos = Vector2.Lerp(Toolbox.Player.transform.position, Toolbox.PlayerCam.transform.position, Time.deltaTime);
             Toolbox.Player.transform.position = new Vector3(pos.x, pos.y, Toolbox.Player.transform.position.z);
             timer += Time.deltaTime;
             yield return null;

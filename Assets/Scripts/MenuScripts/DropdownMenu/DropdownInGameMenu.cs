@@ -6,6 +6,9 @@ public class DropdownInGameMenu : MonoBehaviour {
 
     private DropdownMenu _menu;
 
+    public GameObject StarsContainer;
+    public GameObject ContinueButtonObject;
+
     public GameObject NextBtn;
     public GameObject ShareBtn;
     public GameObject OptionsBtn;
@@ -13,6 +16,8 @@ public class DropdownInGameMenu : MonoBehaviour {
     public GameObject RestartBtn;
     public GameObject ResumeBtn;
     public GameObject LevelSelectBtn;
+
+    private bool continueButtonPressed;
 
     private struct TextType
     {
@@ -38,23 +43,18 @@ public class DropdownInGameMenu : MonoBehaviour {
 
         _subText.RectTransform = GameObject.Find("SubText").GetComponent<RectTransform>();
         _subText.Text = _subText.RectTransform.GetComponent<Text>();
+
+        stars = new MothStar[3];
+        foreach(Transform tf in StarsContainer.transform)
+        {
+            if (tf.name.Contains("1")) stars[0] = tf.GetComponent<MothStar>();
+            if (tf.name.Contains("2")) stars[1] = tf.GetComponent<MothStar>();
+            if (tf.name.Contains("3")) stars[2] = tf.GetComponent<MothStar>();
+        }
     }
 
     public void LevelComplete(string levelText)
     {
-        NextBtn.SetActive(true);
-        ShareBtn.SetActive(true);
-        MainMenuBtn.SetActive(true);
-        RestartBtn.SetActive(true);
-        OptionsBtn.SetActive(false);
-        ResumeBtn.SetActive(false);
-        LevelSelectBtn.SetActive(false);
-
-        PositionMenuBtn(RestartBtn, GetButtonPosX(1, 4));
-        PositionMenuBtn(MainMenuBtn, GetButtonPosX(2, 4));
-        PositionMenuBtn(ShareBtn, GetButtonPosX(3, 4));
-        PositionMenuBtn(NextBtn, GetButtonPosX(4, 4));
-
         _menuHeader.Text.text = "LEVEL COMPLETE!";
         _subText.Text.text = levelText;
         StartCoroutine(LevelCompleteRoutine());
@@ -62,26 +62,58 @@ public class DropdownInGameMenu : MonoBehaviour {
 
     private IEnumerator LevelCompleteRoutine()
     {
-        AddStars();
+        HideAllButtons();
+
+        LoadStars();
         yield return _menu.StartCoroutine(_menu.PanelDropAnim(true));
-        StartCoroutine(ShowStars());
+        StartCoroutine(PopInObject(ContinueButtonObject.GetComponent<RectTransform>()));
+        yield return PopInStars();
+        yield return StartCoroutine(ShowStars());
+
+        continueButtonPressed = false;
+        while (!continueButtonPressed)
+        {
+            yield return null;
+        }
+        StartCoroutine(PopOutObject(ContinueButtonObject.GetComponent<RectTransform>()));
+        yield return StartCoroutine(PopOutStars());
+        
+        PositionMenuBtn(RestartBtn, GetButtonPosX(1, 4));
+        PositionMenuBtn(MainMenuBtn, GetButtonPosX(2, 4));
+        PositionMenuBtn(ShareBtn, GetButtonPosX(3, 4));
+        PositionMenuBtn(NextBtn, GetButtonPosX(4, 4));
+        
+        StartCoroutine(PopInObject(NextBtn.GetComponent<RectTransform>()));
+        StartCoroutine(PopInObject(ShareBtn.GetComponent<RectTransform>()));
+        StartCoroutine(PopInObject(MainMenuBtn.GetComponent<RectTransform>()));
+        StartCoroutine(PopInObject(RestartBtn.GetComponent<RectTransform>()));
     }
 
-    private void AddStars()
+    public void ContinueButton()
     {
-        GameObject mothStar = Resources.Load<GameObject>("UIElements/MothStar");
+        continueButtonPressed = true;
+    }
 
+    private void HideAllButtons()
+    {
+        ContinueButtonObject.SetActive(false);
+        NextBtn.SetActive(false);
+        ShareBtn.SetActive(false);
+        MainMenuBtn.SetActive(false);
+        RestartBtn.SetActive(false);
+        OptionsBtn.SetActive(false);
+        ResumeBtn.SetActive(false);
+        LevelSelectBtn.SetActive(false);
+    }
+
+    private void LoadStars()
+    {
         int newStars = GameData.Instance.NewStars;
         int activeStars = GameData.Instance.TotalStars - newStars;
         int setStars = 0;
-
-        stars = new MothStar[3];
-        
+       
         for (int i = 0; i < 3; i++)
         {
-            stars[i] = Instantiate(mothStar).GetComponent<MothStar>();
-            stars[i].transform.SetParent(transform);
-            stars[i].transform.position = _subText.RectTransform.transform.position + Vector3.right * (2 + i);
             if (setStars < activeStars)
             {
                 stars[i].SetActive();
@@ -92,7 +124,32 @@ public class DropdownInGameMenu : MonoBehaviour {
             {
                 stars[i].SetInactive();
             }
+            stars[i].gameObject.SetActive(false);
         }
+
+        if (GameData.Instance.Level.ToString().Contains("Boss"))
+        {
+            stars[1].SetText("Under 2 Damage");
+            stars[2].SetText("No Damage");
+        }
+    }
+
+    private IEnumerator PopInStars()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            StartCoroutine(PopInObject(stars[i].GetComponent<RectTransform>()));
+            yield return new WaitForSeconds(0.05f);
+        }
+    }
+
+    private IEnumerator PopOutStars()
+    {
+        StartCoroutine(PopOutObject(stars[0].GetComponent<RectTransform>()));
+        yield return new WaitForSeconds(0.05f);
+        StartCoroutine(PopOutObject(stars[1].GetComponent<RectTransform>()));
+        yield return new WaitForSeconds(0.05f);
+        yield return StartCoroutine(PopOutObject(stars[2].GetComponent<RectTransform>()));
     }
 
     private IEnumerator ShowStars()
@@ -191,5 +248,55 @@ public class DropdownInGameMenu : MonoBehaviour {
         }
         
         return buttonPosX + _menuHeader.RectTransform.position.x;
+    }
+
+    private IEnumerator PopInObject(RectTransform rt)
+    {
+        float timer = 0f;
+        float duration = 0.2f;
+
+        Vector3 originalScale = rt.localScale;
+        rt.gameObject.SetActive(true);
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            rt.localScale = Vector3.Lerp(Vector3.one * 0.1f, originalScale * 1.1f, timer / duration);
+            yield return null;
+        }
+
+        timer = 0f;
+        duration = 0.08f;
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            rt.localScale = Vector3.Lerp(originalScale * 1.1f, originalScale, timer / duration);
+            yield return null;
+        }
+        rt.localScale = originalScale;
+    }
+
+    private IEnumerator PopOutObject(RectTransform rt)
+    {
+        float timer = 0f;
+        float duration = 0.08f;
+
+        Vector3 originalScale = rt.localScale;
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            rt.localScale = Vector3.Lerp(originalScale, originalScale * 1.1f, timer / duration);
+            yield return null;
+        }
+
+        timer = 0f;
+        duration = 0.2f;
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            rt.localScale = Vector3.Lerp(originalScale * 1.1f, Vector3.one * 0.1f, timer / duration);
+            yield return null;
+        }
+        rt.gameObject.SetActive(false);
+        rt.localScale = originalScale;
     }
 }
