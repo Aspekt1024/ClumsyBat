@@ -62,8 +62,8 @@ public class PerchComponent : MonoBehaviour
         {
             return;
         }
-
-        _player.SwitchPerchState();
+        
+        _player.SetStateToPerched();
         _body.velocity = Vector2.zero;
         _body.isKinematic = true;
 
@@ -113,7 +113,7 @@ public class PerchComponent : MonoBehaviour
         {
             _state = PerchState.Unperched;
             _player.transform.position += Vector3.up * 0.2f;
-            _player.SwitchPerchState();
+            _player.SetStateToUnperched();
             _player.UnperchBottom();
             hit = Physics2D.Raycast(_player.transform.position, Vector2.down, 5f, 1 << LayerMask.NameToLayer("Caves"));
         }
@@ -146,7 +146,7 @@ public class PerchComponent : MonoBehaviour
         if (_state == PerchState.Transitioning)
         {
             _state = PerchState.Unperched;
-            _player.SwitchPerchState();
+            _player.SetStateToUnperched();
         }
     }
 

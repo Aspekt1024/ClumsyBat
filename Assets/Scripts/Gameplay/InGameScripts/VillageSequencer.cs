@@ -112,6 +112,6 @@ public class VillageSequencer : MonoBehaviour
             _player.Body.position = Vector3.Lerp(startPos, endPos, animTimer / animDuration);
             yield return null;
         }
-        _player.Player.SwitchPerchState();
+        _player.Player.SetStateToPerched();
     }
 }

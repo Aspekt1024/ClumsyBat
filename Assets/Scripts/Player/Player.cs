@@ -460,7 +460,8 @@ public class Player : MonoBehaviour {
     public bool TouchReleasedOnBottom() { return _perch.bJumpOnTouchRelease && _perch.IsPerchedOnBottom(); }
     public bool CanRush() { return _rush.AbilityAvailable(); }
     public GameHandler GetGameHandler() { return _gameHandler; }
-    public void SwitchPerchState() { _state = _state == PlayerState.Perched ? PlayerState.Normal : PlayerState.Perched; }
+    public void SetStateToPerched() { _state = PlayerState.Perched; }
+    public void SetStateToUnperched() { _state = PlayerState.Normal; }
     public bool GameHasStarted() { return _state != PlayerState.Startup; }
     public void SetMovementMode(FlapComponent.MovementMode moveMode) { _flap.Mode = moveMode; }
     public Rigidbody2D GetBody() { return _playerRigidBody; }
