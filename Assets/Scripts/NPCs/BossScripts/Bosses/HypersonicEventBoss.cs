@@ -218,13 +218,6 @@ public class HypersonicEventBoss : Boss {
         {
             yield return null;
         }
-        
-        timer = 0f;
-        while (timer < 0.3f)
-        {
-            timer += Time.deltaTime;
-            yield return null;
-        }
 
         Toolbox.Player.GetGameHandler().LevelComplete();
     }

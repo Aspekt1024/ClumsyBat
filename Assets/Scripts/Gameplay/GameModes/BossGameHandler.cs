@@ -59,7 +59,7 @@ public class BossGameHandler : GameHandler {
     {
         if (!startingDialoagueComplete)
         {
-            if (Toolbox.Player.transform.position.x > 2f)
+            if (Toolbox.Player.transform.position.x > 0f)
             {
                 startingDialoagueComplete = true;
                 BossEntranceDialogue();
@@ -199,21 +199,22 @@ public class BossGameHandler : GameHandler {
         _gameHud.GamePaused(false);
         PlayerController.ResumeGameplay();
     }
-
+    
     public override void LevelComplete()
     {
         ThePlayer.EnableHover();
         ThePlayer.GetCollider().enabled = false;
-        _gameHud.LevelWon();
         StartCoroutine(BossFightWon());
     }
 
     private IEnumerator BossFightWon()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.5f);
+        
+        GameData.Instance.SetLevelCompletion(GameData.LevelCompletePaths.MainPath);
         EventListener.LevelWon();
         _gameMenu.WinGame();
-        GameData.Instance.SetLevelCompletion(GameData.LevelCompletePaths.MainPath);
+        _gameHud.LevelWon();
 
         // TODO add sound to sound controller script
     }

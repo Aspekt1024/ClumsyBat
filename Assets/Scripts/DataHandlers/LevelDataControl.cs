@@ -112,7 +112,7 @@ public class LevelDataControl : MonoBehaviour {
         if (levelId.ToString().Contains("Boss"))
         {
             _levelCompletion[level].Achievement1 |= _levelCompletion[level].LevelCompleted;
-            _levelCompletion[level].Achievement2 |= _levelCompletion[level].LevelCompleted;
+            _levelCompletion[level].Achievement2 |= GameData.Instance.OnlyOneDamageTaken;
             _levelCompletion[level].Achievement3 |= GameData.Instance.IsUntouched;
         }
         else

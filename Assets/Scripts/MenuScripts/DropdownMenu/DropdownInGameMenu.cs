@@ -51,6 +51,8 @@ public class DropdownInGameMenu : MonoBehaviour {
             if (tf.name.Contains("2")) stars[1] = tf.GetComponent<MothStar>();
             if (tf.name.Contains("3")) stars[2] = tf.GetComponent<MothStar>();
         }
+        StarsContainer.SetActive(false);
+        ContinueButtonObject.SetActive(false);
     }
 
     public void LevelComplete(string levelText)
@@ -154,6 +156,8 @@ public class DropdownInGameMenu : MonoBehaviour {
 
     private IEnumerator ShowStars()
     {
+        StarsContainer.SetActive(true);
+        ContinueButtonObject.SetActive(true);
         yield return new WaitForSeconds(0.5f);
         int newStars = GameData.Instance.NewStars;
         while (newStars > 0)

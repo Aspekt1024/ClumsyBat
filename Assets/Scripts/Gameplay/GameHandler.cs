@@ -32,6 +32,7 @@ public abstract class GameHandler : MonoBehaviour {
 
         Stats.MothsEaten = 0;
         GameData.Instance.IsUntouched = true;
+        GameData.Instance.OnlyOneDamageTaken = true;
 
         EventListener.OnDeath += OnDeath;
     }
@@ -96,7 +97,10 @@ public abstract class GameHandler : MonoBehaviour {
         ThePlayer.PlaySound(ClumsyAudioControl.PlayerSounds.Collision); // TODO sounds
         if (ThePlayer.ActivateShield())
         {
-            GameData.Instance.IsUntouched = false;
+            if (GameData.Instance.IsUntouched)
+                GameData.Instance.IsUntouched = false;
+            else
+                GameData.Instance.OnlyOneDamageTaken = false;
         }
         else
         {
