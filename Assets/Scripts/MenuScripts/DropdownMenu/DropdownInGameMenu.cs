@@ -69,7 +69,7 @@ public class DropdownInGameMenu : MonoBehaviour {
         LoadStars();
         yield return _menu.StartCoroutine(_menu.PanelDropAnim(true));
         StartCoroutine(PopInObject(ContinueButtonObject.GetComponent<RectTransform>()));
-        yield return PopInStars();
+        SetStarsActive();
         yield return StartCoroutine(ShowStars());
 
         continueButtonPressed = false;
@@ -136,12 +136,11 @@ public class DropdownInGameMenu : MonoBehaviour {
         }
     }
 
-    private IEnumerator PopInStars()
+    private void SetStarsActive()
     {
         for (int i = 0; i < 3; i++)
         {
-            StartCoroutine(PopInObject(stars[i].GetComponent<RectTransform>()));
-            yield return new WaitForSeconds(0.05f);
+            stars[i].gameObject.SetActive(true);
         }
     }
 
