@@ -203,6 +203,25 @@ public class Moth : Spawnable {
         }
     }
 
+    public IEnumerator CollectFromCrystal()
+    {
+        PlayExplosionAnim();
+        Vector2 pathLoc = Toolbox.Player.transform.position + (Toolbox.Player.IsFacingRight() ? Vector3.right : Vector3.left) * 2f;
+
+        float timer = 0f;
+        const float duration = 0.5f;
+        while (timer < duration)
+        {
+            if (!Toolbox.Instance.GamePaused)
+            {
+                timer += Time.deltaTime;
+                MothSprite.transform.position = Vector2.Lerp(MothSprite.transform.position, pathLoc, 1f - Mathf.Pow(timer / duration, 2));
+            }
+            yield return null;
+        }
+        ConsumeMoth();
+    }
+
     private IEnumerator MoveToLocation(Vector2 endPos, float animTime)
     {
         Vector3 sPos = transform.position;

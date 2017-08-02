@@ -81,7 +81,7 @@ public class Stalactite : Spawnable {
         else if (other.tag == "Player" && Type == SpawnStalAction.StalTypes.Crystal)
         {
             Break();
-            SpawnMoth();
+            mothPool.CollectMothFromCrystal(transform.position, color);
         }
     }
 
@@ -287,13 +287,6 @@ public class Stalactite : Spawnable {
             return Moth.MothColour.Gold;
         else
             return Moth.MothColour.Blue;
-    }
-
-    private void SpawnMoth()
-    {
-        Vector2 spawnLoc = new Vector2(Random.Range(-6f, 6f), Random.Range(-3f, 3f));
-        spawnLoc += new Vector2(Toolbox.PlayerCam.transform.position.x, 0f);
-        mothPool.ActivateMothFromEssence(moth.transform.position, spawnLoc, color, 5f);
     }
 
     public void Drop()
