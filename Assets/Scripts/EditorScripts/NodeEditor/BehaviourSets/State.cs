@@ -28,7 +28,8 @@ public class State : BehaviourSet {
 
     public override void LoopToStart()
     {
-        StartingAction.Activate();
+        if (IsEnabled)
+            StartingAction.Activate();
     }
 
     public override void Tick(float deltaTime)

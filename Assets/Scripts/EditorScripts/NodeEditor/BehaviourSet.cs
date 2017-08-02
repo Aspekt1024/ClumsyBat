@@ -19,6 +19,7 @@ public abstract class BehaviourSet : ScriptableObject {
 
     public void Stop()
     {
+        IsEnabled = false;
         foreach (var action in Actions)
         {
             action.Stop();

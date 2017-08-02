@@ -43,7 +43,8 @@ public class StateMachine : BehaviourSet
 
     public override void LoopToStart()
     {
-        StartingAction.Activate();
+        if (IsEnabled)
+            StartingAction.Activate();
     }
 
     public void Damaged(CollisionAction.CollisionTypes dmgType, Collider2D other)

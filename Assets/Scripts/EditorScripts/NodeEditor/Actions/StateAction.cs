@@ -15,6 +15,9 @@ public class StateAction : BaseAction {
             Debug.LogError("Could not find State in State Action " + StateName);
             return;
         }
+        if (!State.IsEnabled)
+            return;
+
         bossData.BossStateMachine.ActivateNewState(State);
         State.BeginState();
     }
@@ -44,8 +47,6 @@ public class StateAction : BaseAction {
 
     public override void Stop()
     {
-        if (!IsActive) return;
-
         IsActive = false;
         foreach (var action in State.Actions)
         {
