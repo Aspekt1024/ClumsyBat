@@ -9,6 +9,7 @@ public class CameraFollowObject : MonoBehaviour {
     private bool following = true;
     private const float xOffset = 4f;
     private float endPointX;
+    private bool stopFollowingAtEndpoint;
     
     public void SetEndPoint(float endPoint)
     {
@@ -25,8 +26,19 @@ public class CameraFollowObject : MonoBehaviour {
         following = false;
     }
 
-	private void FixedUpdate()
+    public void StopFollowingAtEndPoint()
     {
+        stopFollowingAtEndpoint = true;
+    }
+    
+    private void FixedUpdate()
+    {
+        if (transform.position.x > endPointX && stopFollowingAtEndpoint)
+        {
+            following = false;
+            return;
+        }
+
         if (!following || ObjectToFollow.position.x + xOffset < 0 || transform.position.x > endPointX) return;
         
         float xPos = Mathf.Lerp(transform.position.x, ObjectToFollow.position.x + xOffset, Time.deltaTime * 4f);

@@ -77,6 +77,7 @@ public class BossGameHandler : GameHandler {
     protected override void SetCameraEndPoint()
     {
         Toolbox.PlayerCam.SetEndPoint(Toolbox.TileSizeX * manualCaveScale + 0.8f);
+        Toolbox.PlayerCam.StopFollowingAtEndPoint();
     }
     
     private IEnumerator LoadSequence()
@@ -246,7 +247,7 @@ public class BossGameHandler : GameHandler {
                 bossDataScript.BossStateMachine = Resources.Load<StateMachine>("NPCs/Bosses/BossBehaviours/HypersonicEventBoss");
                 break;
             case LevelProgressionHandler.Levels.Boss2:
-                bossDataScript.BossStateMachine = Resources.Load<StateMachine>("NPCs/Bosses/BossBehaviours/KingRockbreath");
+                bossDataScript.BossStateMachine = Resources.Load<StateMachine>("NPCs/Bosses/BossBehaviours/KingRockbreath1");
                 break;
             case LevelProgressionHandler.Levels.Boss3:
                 bossDataScript.BossStateMachine = Resources.Load<StateMachine>("NPCs/Bosses/BossBehaviours/Whalepillar");
