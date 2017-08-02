@@ -67,6 +67,11 @@ public class Whalepillar : Boss
         }
     }
 
+    protected override void DeathSequence()
+    {
+
+    }
+
     protected override void HealthUpdate()
     {
         // TODO using hard coding for now, but could update this so that damage levels are set in the editor

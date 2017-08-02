@@ -46,6 +46,7 @@ public abstract class Boss : MonoBehaviour {
     }
 
     protected abstract void GetBossComponents();
+    protected abstract void DeathSequence();
 
     public void SetBaseProperties(StateMachine stateMachine)
     {
@@ -160,9 +161,7 @@ public abstract class Boss : MonoBehaviour {
 
     protected virtual void Die()
     {
-        bossCollider.enabled = false;
-        Body.velocity = new Vector2(3f, 5f);
-        //_anim.Play("Die");
+        DeathSequence();
         BossEvents.BossDeath();
     }
 

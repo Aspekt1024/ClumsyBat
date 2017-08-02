@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 using System;
 
 public class KingRockbreath : Boss
@@ -12,6 +13,8 @@ public class KingRockbreath : Boss
     private Dictionary<Animations, string> spriteDict = new Dictionary<Animations, string>();
     private Animator anim;
     private Collider2D antlersCollider;
+
+    private ParticleSystem explosion;
 
     private enum RockbreathSprites
     {
@@ -44,6 +47,8 @@ public class KingRockbreath : Boss
         Body = GetComponent<Rigidbody2D>();
         bossCollider = GetComponentInChildren<Collider2D>();
         bossRenderer = GetComponent<SpriteRenderer>();
+        explosion = GetComponentInChildren<ParticleSystem>();
+        explosion.Stop();
     }
 
     private void GetSprites()
@@ -71,6 +76,16 @@ public class KingRockbreath : Boss
         }
     }
 
+    protected override void DeathSequence()
+    {
+        explosion.Play();
+        foreach (var sprite in sprites)
+        {
+            sprite.enabled = false;
+        }
+        bossRenderer.enabled = false;
+    }
+    
     protected override void HealthUpdate()
     {
         // TODO using hard coding for now, but could update this so that damage levels are set in the editor. Depends what Scott wants to implement graphically

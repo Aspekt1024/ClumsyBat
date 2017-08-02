@@ -19,4 +19,9 @@ public class EvilClumsy : Boss
         bossCollider = GetComponentInChildren<Collider2D>();
         bossRenderer = GetComponent<SpriteRenderer>();
     }
+
+    protected override void DeathSequence()
+    {
+
+    }
 }

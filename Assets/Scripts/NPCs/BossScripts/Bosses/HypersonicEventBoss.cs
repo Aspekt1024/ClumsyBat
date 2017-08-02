@@ -33,6 +33,11 @@ public class HypersonicEventBoss : Boss {
 		
 	}
 
+    protected override void DeathSequence()
+    {
+
+    }
+
     protected override void GetBossComponents()
     {
         foreach (Transform tf in transform)
