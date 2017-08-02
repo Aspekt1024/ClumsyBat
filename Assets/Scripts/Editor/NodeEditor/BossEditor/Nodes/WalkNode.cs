@@ -9,47 +9,45 @@ using InterfaceTypes = NodeInterface.InterfaceTypes;
 using Ifaces = WalkAction.Ifaces;
 
 public class WalkNode : BaseNode {
-
-    [SerializeField]
-    private float walkSpeed;
-    [SerializeField]
-    private float walkDuration;
-    [SerializeField]
-    private WalkAction.WalkOptions walkOption;
+    
+    public float walkSpeed;
+    public float walkDuration;
+    public WalkAction.WalkOptions walkOption;
     private int selectedWalkOptionIndex;
 
     protected override void AddInterfaces()
     {
-        AddInterface(IODirection.Input, (int)Ifaces.Input);
+        AddInput((int)Ifaces.Input);
+        AddInput((int)Ifaces.Direction, InterfaceTypes.Object);
 
-        AddInterface(IODirection.Output, (int)Ifaces.StartWalk);
-        AddInterface(IODirection.Output, (int)Ifaces.EndWalk);
-        AddInterface(IODirection.Output, (int)Ifaces.HitWall);
+        AddOutput((int)Ifaces.StartWalk);
+        AddOutput((int)Ifaces.EndWalk);
+        AddOutput((int)Ifaces.HitWall);
     }
 
     private void SetInterfacePositions()
     {
-        SetInterface(30, (int)Ifaces.Input);
+        SetInterface((int)Ifaces.Input, 1);
+        SetInterface((int)Ifaces.Direction, 6);
 
-        SetInterface(30, (int)Ifaces.StartWalk, "Begin");
-        SetInterface(50, (int)Ifaces.EndWalk, "End");
-        SetInterface(70, (int)Ifaces.HitWall, "Hit Wall");
+        SetInterface((int)Ifaces.StartWalk, 1, "Begin");
+        SetInterface((int)Ifaces.EndWalk, 2, "End");
+        SetInterface((int)Ifaces.HitWall, 3, "Hit Wall");
     }
 
     public override void Draw()
     {
         WindowTitle = "Movement";
         Transform.Width = 170;
-        Transform.Height = 145;
+        Transform.Height = 150;
 
-        AddSpaces(3);
-        EditorGUILayout.Separator();
-
-        EditorGUIUtility.labelWidth = 82f;
-        walkOption = (WalkAction.WalkOptions)EditorGUILayout.EnumPopup("Walk option:", walkOption);
-
-        walkSpeed = EditorGUILayout.FloatField("Speed:", walkSpeed);
-        walkDuration = EditorGUILayout.FloatField("Duration:", walkDuration);
+        NodeGUI.Space(3);
+        walkSpeed = NodeGUI.FloatFieldLayout(walkSpeed, "Speed:");
+        walkDuration = NodeGUI.FloatFieldLayout(walkDuration, "Duration:");
+        if (GetInterface((int)Ifaces.Direction).IsConnected())
+            NodeGUI.LabelLayout("To " + GetInterface((int)Ifaces.Direction).ConnectedInterface.GetNode().WindowTitle);
+        else
+            walkOption = (WalkAction.WalkOptions)NodeGUI.EnumPopupLayout("Direction:", walkOption);
 
         SetInterfacePositions();
         DrawInterfaces();
