@@ -142,7 +142,7 @@ public abstract class Boss : MonoBehaviour {
     {
         if (this == null) return;
 
-        machine.Stop();
+        machine.Restart();
 
         health -= damage;
         if (health <= 0)
@@ -161,6 +161,7 @@ public abstract class Boss : MonoBehaviour {
 
     protected virtual void Die()
     {
+        machine.Stop();
         DeathSequence();
         BossEvents.BossDeath();
     }

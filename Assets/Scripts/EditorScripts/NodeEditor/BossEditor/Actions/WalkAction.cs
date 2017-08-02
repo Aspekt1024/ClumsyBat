@@ -57,4 +57,12 @@ public class WalkAction : BaseAction {
     {
         CallNext((int)Ifaces.HitWall);
     }
+
+    public override void Stop()
+    {
+        if (!IsActive) return;
+
+        IsActive = false;
+        walkAbility.Interrupt();
+    }
 }

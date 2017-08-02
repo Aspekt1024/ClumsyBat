@@ -26,6 +26,14 @@ public abstract class BehaviourSet : ScriptableObject {
         }
     }
 
+    public void Restart()
+    {
+        foreach (var action in Actions)
+        {
+            action.Stop();
+        }
+    }
+
     public abstract void LoopToStart();
     public virtual void Tick(float deltaTime) { }
     public virtual void AddToTickList(BaseAction action) { }

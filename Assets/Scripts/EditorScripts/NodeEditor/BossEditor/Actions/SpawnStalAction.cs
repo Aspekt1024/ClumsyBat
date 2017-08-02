@@ -39,6 +39,7 @@ public class SpawnStalAction : BaseAction {
     private float delayDuration;
 
     private SpawnStalactites spawnAbility;
+    private StalBossHandler bossStals;
     
     public override void GameSetup(BehaviourSet behaviourSet, BossData bossData, GameObject bossReference)
     {
@@ -46,6 +47,14 @@ public class SpawnStalAction : BaseAction {
         spawnAbility = base.bossData.GetAbility<SpawnStalactites>();
         spawnPhase = StalAction == StalActions.AltSpawnFirst;
         awaitingDelay = false;
+        GetBossStals();
+    }
+
+    private void GetBossStals()
+    {
+        bossStals = GameObject.FindObjectOfType<StalBossHandler>();
+        if (bossStals == null)
+            bossStals = GameObject.FindGameObjectWithTag("Scripts").AddComponent<StalBossHandler>();
     }
 
     public override void ActivateBehaviour()
@@ -81,8 +90,9 @@ public class SpawnStalAction : BaseAction {
         }
         else
         {
-            spawnPosX = UnityEngine.Random.Range(spawn.xPosStart, spawn.xPosEnd);
-            spawnPosX += GameObject.FindGameObjectWithTag("MainCamera").transform.position.x;
+            //spawnPosX = UnityEngine.Random.Range(spawn.xPosStart, spawn.xPosEnd);
+            //spawnPosX += GameObject.FindGameObjectWithTag("MainCamera").transform.position.x;
+            spawnPosX = bossStals.GetFreeTopStalXPos();
         }
 
         if (StalAction == StalActions.Spawn)
@@ -90,13 +100,21 @@ public class SpawnStalAction : BaseAction {
             spawnAbility.Spawn(spawnPosX, SpawnDirection, StalType, GreenChance, GoldChance, BlueChance);
         }
         else if (StalAction == StalActions.Drop)
+        {
+            bossStals.ClearTopStals();
             spawnAbility.Drop();
+        }
         else
         {
             if (spawnPhase)
+            {
                 spawnAbility.Spawn(spawnPosX, SpawnDirection, StalType, GreenChance, GoldChance, BlueChance);
+            }
             else
+            {
+                bossStals.ClearTopStals();
                 spawnAbility.Drop();
+            }
         }
         
         if (spawnIndex == stalSpawns.Count - 1)
