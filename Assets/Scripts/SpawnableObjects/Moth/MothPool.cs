@@ -60,7 +60,6 @@ public sealed class MothPool : SpawnPool<Moth>
     
     public void CollectMothFromCrystal(Vector2 spawnLoc, Moth.MothColour colour)
     {
-
         Moth newMoth = GetNewObject();
         var spawnTf = new Spawnable.SpawnType
         {

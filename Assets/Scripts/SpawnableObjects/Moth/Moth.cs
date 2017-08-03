@@ -206,6 +206,7 @@ public class Moth : Spawnable {
     public IEnumerator CollectFromCrystal()
     {
         PlayExplosionAnim();
+        Vector2 startPos = MothSprite.transform.position;
         Vector2 pathLoc = Toolbox.Player.transform.position + (Toolbox.Player.IsFacingRight() ? Vector3.right : Vector3.left) * 2f;
 
         float timer = 0f;
@@ -215,7 +216,7 @@ public class Moth : Spawnable {
             if (!Toolbox.Instance.GamePaused)
             {
                 timer += Time.deltaTime;
-                MothSprite.transform.position = Vector2.Lerp(MothSprite.transform.position, pathLoc, timer / duration);
+                MothSprite.transform.position = Vector2.Lerp(startPos, pathLoc, timer / duration);
             }
             yield return null;
         }

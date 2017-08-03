@@ -81,7 +81,7 @@ public class Stalactite : Spawnable {
         else if (other.tag == "Player" && Type == SpawnStalAction.StalTypes.Crystal)
         {
             Break();
-            mothPool.CollectMothFromCrystal(transform.position, color);
+            mothPool.CollectMothFromCrystal(moth.transform.position, color);
         }
     }
 
