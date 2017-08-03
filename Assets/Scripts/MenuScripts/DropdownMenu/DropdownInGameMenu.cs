@@ -67,9 +67,9 @@ public class DropdownInGameMenu : MonoBehaviour {
         HideAllButtons();
 
         LoadStars();
+        SetStarsActive();
         yield return _menu.StartCoroutine(_menu.PanelDropAnim(true));
         StartCoroutine(PopInObject(ContinueButtonObject.GetComponent<RectTransform>()));
-        SetStarsActive();
         yield return StartCoroutine(ShowStars());
 
         continueButtonPressed = false;
