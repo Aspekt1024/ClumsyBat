@@ -54,8 +54,8 @@
         <ActionConnection>
           <ID>1</ID>
           <Direction>Output</Direction>
-          <OtherActionID>11</OtherActionID>
-          <OtherConnID>1</OtherConnID>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>2</ID>
@@ -94,7 +94,7 @@
         <ActionConnection>
           <ID>1</ID>
           <Direction>Output</Direction>
-          <OtherActionID>11</OtherActionID>
+          <OtherActionID>10</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
@@ -118,7 +118,7 @@
         <ActionConnection>
           <ID>2</ID>
           <Direction>Input</Direction>
-          <OtherActionID>10</OtherActionID>
+          <OtherActionID>12</OtherActionID>
           <OtherConnID>1</OtherConnID>
         </ActionConnection>
       </connections>
@@ -147,7 +147,7 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>11</OtherActionID>
+          <OtherActionID>10</OtherActionID>
           <OtherConnID>2</OtherConnID>
         </ActionConnection>
         <ActionConnection>
@@ -165,7 +165,7 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Output</Direction>
-          <OtherActionID>10</OtherActionID>
+          <OtherActionID>12</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
         <ActionConnection>
@@ -177,13 +177,60 @@
         <ActionConnection>
           <ID>2</ID>
           <Direction>Input</Direction>
-          <OtherActionID>12</OtherActionID>
+          <OtherActionID>11</OtherActionID>
           <OtherConnID>1</OtherConnID>
         </ActionConnection>
       </connections>
     </BaseAction>
-    <BaseAction xsi:type="WaitAction">
+    <BaseAction xsi:type="AlternatingAction">
       <ID>10</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>5</OtherActionID>
+          <OtherConnID>1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>8</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>3</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>11</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+      </connections>
+    </BaseAction>
+    <BaseAction xsi:type="StateAction">
+      <ID>11</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>10</OtherActionID>
+          <OtherConnID>3</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>9</OtherActionID>
+          <OtherConnID>2</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <StateName>Stomp</StateName>
+    </BaseAction>
+    <BaseAction xsi:type="WaitAction">
+      <ID>12</ID>
       <connections>
         <ActionConnection>
           <ID>0</ID>
@@ -198,54 +245,7 @@
           <OtherConnID>2</OtherConnID>
         </ActionConnection>
       </connections>
-      <WaitTime>1</WaitTime>
-    </BaseAction>
-    <BaseAction xsi:type="AlternatingAction">
-      <ID>11</ID>
-      <connections>
-        <ActionConnection>
-          <ID>0</ID>
-          <Direction>Input</Direction>
-          <OtherActionID>5</OtherActionID>
-          <OtherConnID>1</OtherConnID>
-        </ActionConnection>
-        <ActionConnection>
-          <ID>1</ID>
-          <Direction>Input</Direction>
-          <OtherActionID>3</OtherActionID>
-          <OtherConnID>1</OtherConnID>
-        </ActionConnection>
-        <ActionConnection>
-          <ID>2</ID>
-          <Direction>Output</Direction>
-          <OtherActionID>8</OtherActionID>
-          <OtherConnID>0</OtherConnID>
-        </ActionConnection>
-        <ActionConnection>
-          <ID>3</ID>
-          <Direction>Output</Direction>
-          <OtherActionID>12</OtherActionID>
-          <OtherConnID>0</OtherConnID>
-        </ActionConnection>
-      </connections>
-    </BaseAction>
-    <BaseAction xsi:type="StateAction">
-      <ID>12</ID>
-      <connections>
-        <ActionConnection>
-          <ID>0</ID>
-          <Direction>Input</Direction>
-          <OtherActionID>11</OtherActionID>
-          <OtherConnID>3</OtherConnID>
-        </ActionConnection>
-        <ActionConnection>
-          <ID>1</ID>
-          <Direction>Output</Direction>
-          <OtherActionID>9</OtherActionID>
-          <OtherConnID>2</OtherConnID>
-        </ActionConnection>
-      </connections>
-      <StateName>Stomp</StateName>
+      <WaitTime>0.5</WaitTime>
     </BaseAction>
   </Actions>
 </ActionDataCollection>

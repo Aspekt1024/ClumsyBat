@@ -62,6 +62,7 @@ public class BossEditorContextMenus : BaseContextMenus {
         menu.AddItem(new GUIContent("Operator/Comparison"), false, ContextCallback, typeof(CompareNode));
         menu.AddItem(new GUIContent("Operator/Position"), false, ContextCallback, typeof(PositionNode));
         menu.AddItem(new GUIContent("Operator/Random Float"), false, ContextCallback, typeof(RandomNode));
+        menu.AddItem(new GUIContent("Operator/Timer"), false, ContextCallback, typeof(TimerNode));
 
         menu.AddSeparator("");
 

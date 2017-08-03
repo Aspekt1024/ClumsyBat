@@ -210,7 +210,14 @@ public class BossGameHandler : GameHandler {
 
     private IEnumerator BossFightWon()
     {
-        yield return new WaitForSeconds(1.5f);
+        if (GameData.Instance.Level == LevelProgressionHandler.Levels.Boss2)
+        {
+            yield return new WaitForSeconds(2.5f);
+        }
+        else
+        {
+            yield return new WaitForSeconds(1.5f);
+        }
         
         GameData.Instance.SetLevelCompletion(GameData.LevelCompletePaths.MainPath);
         EventListener.LevelWon();

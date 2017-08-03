@@ -7,7 +7,7 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Output</Direction>
-          <OtherActionID>1</OtherActionID>
+          <OtherActionID>4</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
@@ -18,8 +18,8 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>0</OtherActionID>
-          <OtherConnID>0</OtherConnID>
+          <OtherActionID>4</OtherActionID>
+          <OtherConnID>1</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>1</ID>
@@ -40,7 +40,7 @@
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
-      <JumpForce>550</JumpForce>
+      <JumpForce>600</JumpForce>
     </BaseAction>
     <BaseAction xsi:type="SpawnStalAction">
       <ID>2</ID>
@@ -109,6 +109,24 @@
       </connections>
       <StateEventID>1</StateEventID>
       <StopsState>false</StopsState>
+    </BaseAction>
+    <BaseAction xsi:type="WaitAction">
+      <ID>4</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>0</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>1</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <WaitTime>0.7</WaitTime>
     </BaseAction>
   </Actions>
 </ActionDataCollection>
