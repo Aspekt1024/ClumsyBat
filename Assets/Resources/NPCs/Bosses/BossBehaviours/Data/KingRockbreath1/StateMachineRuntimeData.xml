@@ -54,8 +54,8 @@
         <ActionConnection>
           <ID>1</ID>
           <Direction>Output</Direction>
-          <OtherActionID>-1</OtherActionID>
-          <OtherConnID>-1</OtherConnID>
+          <OtherActionID>10</OtherActionID>
+          <OtherConnID>1</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>2</ID>
@@ -194,8 +194,8 @@
         <ActionConnection>
           <ID>1</ID>
           <Direction>Input</Direction>
-          <OtherActionID>-1</OtherActionID>
-          <OtherConnID>-1</OtherConnID>
+          <OtherActionID>3</OtherActionID>
+          <OtherConnID>1</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>2</ID>

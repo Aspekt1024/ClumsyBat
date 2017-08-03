@@ -43,6 +43,7 @@ public class SpawnStalactites : BossAbility {
         {
             GameObject rubbleEffect = Instantiate(rubblePrefab);
             rubbleEffect.transform.position = new Vector3(stalTf.position.x, endY, stalTf.position.z - 0.1f);
+            StartCoroutine(CheckStalExists(index, rubbleEffect));
             Destroy(rubbleEffect, 5f);
         }
 
@@ -61,6 +62,15 @@ public class SpawnStalactites : BossAbility {
             yield return null;
         }
         _stals[index].SetState(Stalactite.StalStates.Normal);
+    }
+
+    private IEnumerator CheckStalExists(int index, GameObject rubbleEffect)
+    {
+        while (_stals[index].IsActive)
+        {
+            yield return null;
+        }
+        Destroy(rubbleEffect);
     }
 
     private IEnumerator DropStalactites()

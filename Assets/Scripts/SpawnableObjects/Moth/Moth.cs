@@ -209,13 +209,13 @@ public class Moth : Spawnable {
         Vector2 pathLoc = Toolbox.Player.transform.position + (Toolbox.Player.IsFacingRight() ? Vector3.right : Vector3.left) * 2f;
 
         float timer = 0f;
-        const float duration = 0.5f;
+        const float duration = 0.8f;
         while (timer < duration)
         {
             if (!Toolbox.Instance.GamePaused)
             {
                 timer += Time.deltaTime;
-                MothSprite.transform.position = Vector2.Lerp(MothSprite.transform.position, pathLoc, 1f - Mathf.Pow(timer / duration, 2));
+                MothSprite.transform.position = Vector2.Lerp(MothSprite.transform.position, pathLoc, timer / duration);
             }
             yield return null;
         }

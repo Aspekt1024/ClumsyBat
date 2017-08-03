@@ -201,6 +201,7 @@ public class Stalactite : Spawnable {
     private IEnumerator CrumbleAnim()
     {
         anim.Explode();
+        dropControl.Exploded();
         yield return new WaitForSeconds(0.67f);
         SendToInactivePool();
     }

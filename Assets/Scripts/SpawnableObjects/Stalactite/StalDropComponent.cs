@@ -74,6 +74,14 @@ public class StalDropComponent : MonoBehaviour {
         StopAllCoroutines();
         TriggerSprite.enabled = Toolbox.Instance.Debug && stal.DropEnabled;
     }
+
+    public void Exploded()
+    {
+        if (rubbleEffect != null)
+        {
+            rubbleEffect.Stop();
+        }
+    }
     
     public void Drop()
     {
