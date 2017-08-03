@@ -48,6 +48,7 @@ public class WalkAction : BaseAction {
 
     public void EndWalk()
     {
+        if (!IsActive) return;
         IsActive = false;
         boss.GetComponent<Boss>().EndWalk();
         CallNext((int)Ifaces.EndWalk);
@@ -63,6 +64,7 @@ public class WalkAction : BaseAction {
         if (!IsActive) return;
 
         IsActive = false;
+        boss.GetComponent<Boss>().EndWalk();
         walkAbility.Interrupt();
     }
 }

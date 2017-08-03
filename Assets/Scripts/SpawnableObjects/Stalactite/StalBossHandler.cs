@@ -10,13 +10,18 @@ public class StalBossHandler : MonoBehaviour {
     private const float startPosition = 12f;
     private const float spacing = 1.178f;
 
-    private bool[] topStals;
-    private bool[] bottomStals;
+    private BossStalPosition[] topStals;
+    private BossStalPosition[] bottomStals;
     
     private void Start()
     {
-        topStals = new bool[NumStals];
-        bottomStals = new bool[NumStals];
+        topStals = new BossStalPosition[NumStals];
+        bottomStals = new BossStalPosition[NumStals];
+        for (int i = 0; i < NumStals; i++)
+        {
+            topStals[i] = new BossStalPosition();
+            bottomStals[i] = new BossStalPosition();
+        }
     }
 
     public float GetFreeTopStalXPos(int startIndex = 0, int endIndex = NumStals - 1, BossStalPosition.StalTypes type = BossStalPosition.StalTypes.Spike)
@@ -24,16 +29,16 @@ public class StalBossHandler : MonoBehaviour {
         if (endIndex >= NumStals) endIndex = NumStals - 1;
 
         List<int> validIndexes = new List<int>();
-        for (int i = startIndex; i < endIndex + 1; i++)
+        for (int i = startIndex; i <= endIndex; i++)
         {
-            if (!topStals[i])
+            if (!topStals[i].IsActive)
                 validIndexes.Add(i);
         }
         if (validIndexes.Count == 0)
             return IsInvalid;
 
-        int index = Random.Range(0, validIndexes.Count);
-        topStals[index] = true;
+        int index = validIndexes[Random.Range(0, validIndexes.Count)];
+        topStals[index].IsActive = true;
         return startPosition + index * spacing;
     }
 
@@ -41,7 +46,7 @@ public class StalBossHandler : MonoBehaviour {
     {
         for (int i = 0; i < NumStals; i++)
         {
-            topStals[i] = false;
+            topStals[i].IsActive = false;
         }
     }
 }
@@ -52,7 +57,7 @@ public class BossStalPosition
     {
         Spike, Crystal
     }
-    
+
     public bool IsActive;
     public StalTypes Type;
 

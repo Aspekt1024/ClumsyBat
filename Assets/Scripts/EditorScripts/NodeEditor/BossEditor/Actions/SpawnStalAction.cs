@@ -80,24 +80,9 @@ public class SpawnStalAction : BaseAction {
 
     private void SpawnStal()
     {
-        var spawn = stalSpawns[spawnIndex];
-        float spawnPosX = 0;
-        GameObject posObj = GetInputObj(spawn.inputID);
-        if (posObj != null)
-        {
-            DespawnIfProjectile(posObj);
-            spawnPosX = posObj.transform.position.x;
-        }
-        else
-        {
-            //spawnPosX = UnityEngine.Random.Range(spawn.xPosStart, spawn.xPosEnd);
-            //spawnPosX += GameObject.FindGameObjectWithTag("MainCamera").transform.position.x;
-            spawnPosX = bossStals.GetFreeTopStalXPos();
-        }
-
         if (StalAction == StalActions.Spawn)
         {
-            spawnAbility.Spawn(spawnPosX, SpawnDirection, StalType, GreenChance, GoldChance, BlueChance);
+            spawnAbility.Spawn(GetSpawnPosition(), SpawnDirection, StalType, GreenChance, GoldChance, BlueChance);
         }
         else if (StalAction == StalActions.Drop)
         {
@@ -108,7 +93,7 @@ public class SpawnStalAction : BaseAction {
         {
             if (spawnPhase)
             {
-                spawnAbility.Spawn(spawnPosX, SpawnDirection, StalType, GreenChance, GoldChance, BlueChance);
+                spawnAbility.Spawn(GetSpawnPosition(), SpawnDirection, StalType, GreenChance, GoldChance, BlueChance);
             }
             else
             {
@@ -124,6 +109,22 @@ public class SpawnStalAction : BaseAction {
         else
         {
             SetupStalSpawn(spawnIndex + 1);
+        }
+    }
+
+    private float GetSpawnPosition()
+    {
+        GameObject posObj = GetInputObj(stalSpawns[spawnIndex].inputID);
+        if (posObj != null)
+        {
+            DespawnIfProjectile(posObj);
+            return posObj.transform.position.x;
+        }
+        else
+        {
+            //spawnPosX = UnityEngine.Random.Range(spawn.xPosStart, spawn.xPosEnd);
+            //spawnPosX += GameObject.FindGameObjectWithTag("MainCamera").transform.position.x;
+            return bossStals.GetFreeTopStalXPos();
         }
     }
 

@@ -24,8 +24,8 @@ public class WaitAction : BaseAction {
         timeWaited += deltaTime;
         if (timeWaited > WaitTime)
         {
-            IsActive = false;
             bWaitActive = false;
+            IsActive = false;
             CallNext((int)Ifaces.Output);
         }
     }
@@ -33,6 +33,13 @@ public class WaitAction : BaseAction {
     public override void GameSetup(BehaviourSet behaviourSet, BossData bossData, GameObject bossReference)
     {
         base.GameSetup(behaviourSet, bossData, bossReference);
+        bWaitActive = false;
+    }
+
+    public override void Stop()
+    {
+        if (!IsActive) return;
+        IsActive = false;
         bWaitActive = false;
     }
 

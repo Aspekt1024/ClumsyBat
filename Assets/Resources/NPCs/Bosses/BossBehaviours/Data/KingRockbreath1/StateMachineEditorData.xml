@@ -306,7 +306,7 @@
             <y>35</y>
           </Position>
           <ID>2</ID>
-          <Label>Movement</Label>
+          <Label>Action</Label>
           <Type>Event</Type>
           <Direction>Output</Direction>
           <ConnectedNodeID>7</ConnectedNodeID>
@@ -318,7 +318,7 @@
             <y>55</y>
           </Position>
           <ID>1</ID>
-          <Label>Action</Label>
+          <Label>Movement</Label>
           <Type>Event</Type>
           <Direction>Output</Direction>
           <ConnectedNodeID>11</ConnectedNodeID>
