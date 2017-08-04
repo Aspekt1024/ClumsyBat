@@ -134,12 +134,10 @@ public abstract class BaseObjectHandler
     
     public void DeleteIfWithinRange(float xMin, float xMax)
     {
-        foreach(Transform tf in parentObj)
+        for (int i = parentObj.childCount - 1; i >= 0; i--)
         {
-            if (tf.position.x > xMin && tf.position.x < xMax)
-            {
-                Object.DestroyImmediate(tf.gameObject);
-            }
+            if (parentObj.GetChild(i).position.x > xMin && parentObj.GetChild(i).position.x < xMax)
+                Object.DestroyImmediate(parentObj.GetChild(i).gameObject);
         }
     }
 }
