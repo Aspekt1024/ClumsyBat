@@ -67,7 +67,6 @@ public class DropdownInGameMenu : MonoBehaviour {
         HideAllButtons();
 
         LoadStars();
-        SetStarsActive();
         yield return _menu.StartCoroutine(_menu.PanelDropAnim(true));
         StartCoroutine(PopInObject(ContinueButtonObject.GetComponent<RectTransform>()));
         yield return StartCoroutine(ShowStars());
@@ -113,7 +112,8 @@ public class DropdownInGameMenu : MonoBehaviour {
         int newStars = GameData.Instance.NewStars;
         int activeStars = GameData.Instance.TotalStars - newStars;
         int setStars = 0;
-       
+
+        StarsContainer.SetActive(true);
         for (int i = 0; i < 3; i++)
         {
             if (setStars < activeStars)
@@ -126,21 +126,13 @@ public class DropdownInGameMenu : MonoBehaviour {
             {
                 stars[i].SetInactive();
             }
-            stars[i].gameObject.SetActive(false);
+            stars[i].gameObject.SetActive(true);
         }
 
         if (GameData.Instance.Level.ToString().Contains("Boss"))
         {
             stars[1].SetText("Under 2 Damage");
             stars[2].SetText("No Damage");
-        }
-    }
-
-    private void SetStarsActive()
-    {
-        for (int i = 0; i < 3; i++)
-        {
-            stars[i].gameObject.SetActive(true);
         }
     }
 

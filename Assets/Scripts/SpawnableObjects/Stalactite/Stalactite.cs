@@ -201,6 +201,8 @@ public class Stalactite : Spawnable {
     private IEnumerator CrumbleAnim()
     {
         anim.Explode();
+        stalCollider.enabled = false;
+        stalUnbroken.GetComponent<PolygonCollider2D>().enabled = false;
         dropControl.Exploded();
         yield return new WaitForSeconds(0.67f);
         SendToInactivePool();

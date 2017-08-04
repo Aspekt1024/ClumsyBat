@@ -31,7 +31,9 @@ public class SpiderEditorHandler : BaseObjectHandler
             Rect r = new Rect(anchorPos - Vector2.one * anchorRadius/2, Vector2.one * anchorRadius);
 
             Handles.DrawSolidRectangleWithOutline(r, Color.white, Color.white);
-            Handles.DrawLine(anchorPos, s.transform.position);
+            Handles.DrawLine(anchorPos, t.position);
+            Handles.color = new Color(1f, 0.5f, 0.7f, 0.1f);
+            Handles.DrawSolidArc(anchorPos, Vector3.back, t.position, 200, Vector2.Distance(anchorPos, t.position));
 
             s.WebAnchorPoint = new Vector2(anchorPos.x - s.transform.position.x, anchorPos.y - s.transform.position.y);
         }
