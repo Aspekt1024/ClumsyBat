@@ -30,7 +30,7 @@ public class LevelEditorActions
     public void Flip() { editor.HeldObject.transform.Rotate(Vector3.forward, 180f); }
     public void RandomRotation()
     {
-        float rotation = Random.Range(-10f, 10f);
+        float rotation = UnityEngine.Random.Range(-10f, 10f);
         editor.HeldObject.transform.Rotate(Vector3.forward, rotation);
     }
 
@@ -38,7 +38,7 @@ public class LevelEditorActions
     public void ScaleDown() { editor.HeldObject.transform.localScale /= 1.1f; }
     public void RandomScale()
     {
-        float scale = Random.Range(1/1.2f, 1.2f);
+        float scale = UnityEngine.Random.Range(1/1.2f, 1.2f);
         editor.HeldObject.transform.localScale *= scale;
     }
 
@@ -61,7 +61,7 @@ public class LevelEditorActions
 
     public void DestroyHeldObject()
     {
-        Object.DestroyImmediate(editor.HeldObject);
+        GameObject.DestroyImmediate(editor.HeldObject);
         editor.HeldObject = null;
     }
 
@@ -90,5 +90,44 @@ public class LevelEditorActions
         float xPos = mousePos.x - editor.PickupOffset.x;
         float yPos = mousePos.y - editor.PickupOffset.y;
         editor.HeldObject.transform.position = new Vector3(xPos, yPos, editor.HeldObject.transform.position.z);
+    }
+
+    public void AddCavePiece()
+    {
+        if (Selection.activeGameObject == null) return;
+        if (!Selection.activeGameObject.name.Contains("Cave")) return;
+
+        float xPos = Selection.activeGameObject.transform.position.x;
+        foreach (var handler in ObjectHandler.ObjHandlers)
+        {
+            handler.ShiftRightIfAfterThreshold(xPos + LevelEditorConstants.TileSizeX / 2f);
+            if (handler.IsType<CaveEditorHandler>())
+            {
+                ((CaveEditorHandler)handler).CreateNewTopCave(xPos + LevelEditorConstants.TileSizeX);
+                ((CaveEditorHandler)handler).CreateNewBottomCave(xPos + LevelEditorConstants.TileSizeX);
+            }
+        }
+    }
+
+    public void RemoveCavePiece()
+    {
+        if (Selection.activeGameObject == null) return;
+        if (!Selection.activeGameObject.name.Contains("Cave")) return;
+        
+        float xPos = Selection.activeGameObject.transform.position.x;
+        foreach (var handler in ObjectHandler.ObjHandlers)
+        {
+            if (handler.IsType<CaveEditorHandler>())
+            {
+                GameObject[] cavePieces = ((CaveEditorHandler)handler).GetCavesAtIndex(xPos);
+                Object.DestroyImmediate(cavePieces[0]);
+                Object.DestroyImmediate(cavePieces[1]);
+            }
+            else
+            {
+                handler.DeleteIfWithinRange(xPos - LevelEditorConstants.TileSizeX / 2f, xPos + LevelEditorConstants.TileSizeX / 2f);
+            }
+            handler.ShiftLeftIfAfterThreshold(xPos - LevelEditorConstants.TileSizeX / 2f);
+        }
     }
 }

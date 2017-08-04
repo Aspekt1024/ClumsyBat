@@ -137,4 +137,39 @@ public class CaveEditorHandler : BaseObjectHandler {
             caveTop.transform.position = new Vector3(LevelEditorConstants.TileSizeX * i, 0f, zLayer);
         }
     }
+
+    public GameObject CreateNewTopCave(float xPos, int index = 1)
+    {
+        string caveTopName = "CaveTop" + index.ToString();
+        GameObject caveTop = (GameObject)Object.Instantiate(Resources.Load("Caves/" + caveTopName), parentObj);
+        caveTop.name = caveTopName;
+        caveTop.transform.position = new Vector3(xPos, 0f, zLayer);
+        return caveTop;
+    }
+
+    public GameObject CreateNewBottomCave(float xPos, int index = 1)
+    {
+        string caveBottomName = "CaveBottom" + index.ToString();
+        GameObject caveBottom = (GameObject)Object.Instantiate(Resources.Load("Caves/" + caveBottomName), parentObj);
+        caveBottom.name = caveBottomName;
+        caveBottom.transform.position = new Vector3(xPos, 0f, zLayer);
+        return caveBottom;
+    }
+
+    public GameObject[] GetCavesAtIndex(float xPos)
+    {
+        GameObject[] caves = new GameObject[2];
+        int caveNum = 0;
+        foreach(Transform cave in parentObj)
+        {
+            if (Mathf.Abs(cave.position.x - xPos) < 0.01f)
+            {
+                caves[caveNum] = cave.gameObject;
+                caveNum++;
+                if (caveNum == 2)
+                    break;
+            }
+        }
+        return caves;
+    }
 }

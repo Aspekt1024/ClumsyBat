@@ -113,4 +113,33 @@ public abstract class BaseObjectHandler
     {
         return GetType().Equals(typeof(T));
     }
+
+    public void ShiftRightIfAfterThreshold(float xThreshold)
+    {
+        foreach (Transform tf in parentObj)
+        {
+            if (tf.position.x > xThreshold)
+                tf.position += Vector3.right * LevelEditorConstants.TileSizeX;
+        }
+    }
+
+    public void ShiftLeftIfAfterThreshold(float xThreshold)
+    {
+        foreach (Transform tf in parentObj)
+        {
+            if (tf.position.x > xThreshold)
+                tf.position += Vector3.left * LevelEditorConstants.TileSizeX;
+        }
+    }
+    
+    public void DeleteIfWithinRange(float xMin, float xMax)
+    {
+        foreach(Transform tf in parentObj)
+        {
+            if (tf.position.x > xMin && tf.position.x < xMax)
+            {
+                Object.DestroyImmediate(tf.gameObject);
+            }
+        }
+    }
 }

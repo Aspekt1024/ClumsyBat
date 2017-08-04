@@ -17,7 +17,8 @@ public class LevelEditorInputHandler
         RotateLeft, RotateRight, RandomiseRotation, Flip,
         RandomiseScale, ScaleUp, ScaleDown,
         ResetRotationAndScale,
-        LevelEditorInspector
+        LevelEditorInspector,
+        AddCavePiece, RemoveCavePiece
     }
 
     static Dictionary<InputBindings, KeyCode> bindingDict = new Dictionary<InputBindings, KeyCode>()
@@ -44,7 +45,10 @@ public class LevelEditorInputHandler
         { InputBindings.RandomiseScale, KeyCode.C },
 
         { InputBindings.ResetRotationAndScale, KeyCode.Space },
-        { InputBindings.LevelEditorInspector, KeyCode.Space }
+        { InputBindings.LevelEditorInspector, KeyCode.Space },
+
+        { InputBindings.AddCavePiece, KeyCode.KeypadPlus },
+        { InputBindings.RemoveCavePiece, KeyCode.KeypadMinus }
     };
 
     public void ProcessInput(LevelEditor editorRef, LevelEditorActions actionsRef)
@@ -107,6 +111,10 @@ public class LevelEditorInputHandler
             actions.LevelEditorInspector();
         else if (BindingPressed(InputBindings.SpawnObjectMenu))
             menu.ShowMenu();
+        else if (BindingPressed(InputBindings.AddCavePiece))
+            actions.AddCavePiece();
+        else if (BindingPressed(InputBindings.RemoveCavePiece))
+            actions.RemoveCavePiece();
         else if (Event.current.shift)
         {
             if (BindingPressed(InputBindings.SpawnMoth))
