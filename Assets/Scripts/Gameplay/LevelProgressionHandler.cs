@@ -7,8 +7,8 @@ public static class LevelProgressionHandler
     public enum Levels
     {
         Unassigned,
-        Main1 = 1, Main2, Main3, Main4, Boss2,
-        Main5, Main6, Boss3,
+        Main1 = 1, Main2, Main3, Main4, Main5, Boss2,
+        Main6, Boss3,
         Main7, Main8, Main9, Main10, Main11, Boss4,
         Main12, Main13, Main14, Main15, Boss5,
         Main16, Boss6,
