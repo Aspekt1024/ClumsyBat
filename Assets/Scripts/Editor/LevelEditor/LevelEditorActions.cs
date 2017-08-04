@@ -95,7 +95,8 @@ public class LevelEditorActions
     public void AddCavePiece()
     {
         if (Selection.activeGameObject == null) return;
-        if (!Selection.activeGameObject.name.Contains("Cave")) return;
+        string caveName = Selection.activeGameObject.name;
+        if (!caveName.Contains("Cave") && !caveName.Contains("Entrance")) return;
 
         float xPos = Selection.activeGameObject.transform.position.x;
         foreach (var handler in ObjectHandler.ObjHandlers)
@@ -112,7 +113,8 @@ public class LevelEditorActions
     public void RemoveCavePiece()
     {
         if (Selection.activeGameObject == null) return;
-        if (!Selection.activeGameObject.name.Contains("Cave")) return;
+        string caveName = Selection.activeGameObject.name;
+        if (!caveName.Contains("Cave") || caveName == "Caves") return;
         
         float xPos = Selection.activeGameObject.transform.position.x;
         foreach (var handler in ObjectHandler.ObjHandlers)
@@ -127,7 +129,36 @@ public class LevelEditorActions
             {
                 handler.DeleteIfWithinRange(xPos - LevelEditorConstants.TileSizeX / 2f, xPos + LevelEditorConstants.TileSizeX / 2f);
             }
-            handler.ShiftLeftIfAfterThreshold(xPos - LevelEditorConstants.TileSizeX / 2f);
+            handler.ShiftLeftIfAfterThreshold(xPos + LevelEditorConstants.TileSizeX / 2f);
         }
+    }
+
+    public void SetCaveType(int caveType)
+    {
+        if (Selection.activeGameObject == null) return;
+        string caveName = Selection.activeGameObject.name;
+
+        float xPos = Selection.activeGameObject.transform.position.x;
+
+        CaveEditorHandler caveHandler = null;
+        foreach (var handler in ObjectHandler.ObjHandlers)
+        {
+            if (handler.IsType<CaveEditorHandler>())
+                caveHandler = ((CaveEditorHandler)handler);
+        }
+
+        if (caveHandler == null) return;
+
+        GameObject newCave = null;
+        if (caveName.Contains("CaveTop"))
+            newCave = caveHandler.CreateNewTopCave(xPos, caveType);
+        else if (caveName.Contains("CaveBottom"))
+            newCave = caveHandler.CreateNewBottomCave(xPos, caveType);
+        else
+            return;
+
+        Object.DestroyImmediate(Selection.activeGameObject);
+        Selection.activeGameObject = newCave;
+
     }
 }

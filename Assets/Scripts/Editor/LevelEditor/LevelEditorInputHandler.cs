@@ -18,7 +18,8 @@ public class LevelEditorInputHandler
         RandomiseScale, ScaleUp, ScaleDown,
         ResetRotationAndScale,
         LevelEditorInspector,
-        AddCavePiece, RemoveCavePiece
+        AddCavePiece, RemoveCavePiece,
+        CaveNum1, CaveNum2, CaveNum3, CaveNum4, CaveNum5
     }
 
     static Dictionary<InputBindings, KeyCode> bindingDict = new Dictionary<InputBindings, KeyCode>()
@@ -48,7 +49,14 @@ public class LevelEditorInputHandler
         { InputBindings.LevelEditorInspector, KeyCode.Space },
 
         { InputBindings.AddCavePiece, KeyCode.KeypadPlus },
-        { InputBindings.RemoveCavePiece, KeyCode.KeypadMinus }
+        { InputBindings.RemoveCavePiece, KeyCode.KeypadMinus },
+
+        { InputBindings.CaveNum1, KeyCode.Keypad1 },
+        { InputBindings.CaveNum2, KeyCode.Keypad2 },
+        { InputBindings.CaveNum3, KeyCode.Keypad3 },
+        { InputBindings.CaveNum4, KeyCode.Keypad4 },
+        { InputBindings.CaveNum5, KeyCode.Keypad5 },
+
     };
 
     public void ProcessInput(LevelEditor editorRef, LevelEditorActions actionsRef)
@@ -115,6 +123,16 @@ public class LevelEditorInputHandler
             actions.AddCavePiece();
         else if (BindingPressed(InputBindings.RemoveCavePiece))
             actions.RemoveCavePiece();
+        else if (BindingPressed(InputBindings.CaveNum1))
+            actions.SetCaveType(1);
+        else if (BindingPressed(InputBindings.CaveNum2))
+            actions.SetCaveType(2);
+        else if (BindingPressed(InputBindings.CaveNum3))
+            actions.SetCaveType(3);
+        else if (BindingPressed(InputBindings.CaveNum4))
+            actions.SetCaveType(4);
+        else if (BindingPressed(InputBindings.CaveNum5))
+            actions.SetCaveType(5);
         else if (Event.current.shift)
         {
             if (BindingPressed(InputBindings.SpawnMoth))
