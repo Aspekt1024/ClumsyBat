@@ -204,7 +204,15 @@ public class Stalactite : Spawnable {
         stalCollider.enabled = false;
         stalUnbroken.GetComponent<PolygonCollider2D>().enabled = false;
         dropControl.Exploded();
-        yield return new WaitForSeconds(0.67f);
+
+        float timer = 0f;
+        float duration = 0.67f;
+        while (timer < duration)
+        {
+            if (!Toolbox.Instance.GamePaused)
+                timer += Time.deltaTime;
+            yield return null;
+        }
         SendToInactivePool();
     }
     

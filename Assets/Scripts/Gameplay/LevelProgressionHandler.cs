@@ -7,11 +7,10 @@ public static class LevelProgressionHandler
     public enum Levels
     {
         Unassigned,
-        Main1 = 1, Main2, Main3, Main4, Main5, Boss2,
-        Main6, Boss3,
-        Main7, Main8, Main9, Main10, Main11, Boss4,
-        Main12, Main13, Main14, Main15, Boss5,
-        Main16, Boss6,
+        Main1 = 1, Main2, Main3, Main4, Main5, Main6, Boss2,
+        Main7, Main8, Main9, Main10, Main11, Boss3,
+        Main12, Main13, Main14, Main15, Boss4,
+        Main16, Boss5,
         Boss1,
         Village1, Village2, Village3, Village4,
         AltB1, AltB2,
@@ -24,7 +23,7 @@ public static class LevelProgressionHandler
     // Get the next level based on the current path
     public static Levels GetNextLevel(Levels level)
     {
-        if (level < Levels.Boss6)
+        if (level < Levels.Boss5)
         {
             level++;
         }
