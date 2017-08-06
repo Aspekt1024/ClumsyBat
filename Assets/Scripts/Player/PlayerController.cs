@@ -11,6 +11,11 @@ public class PlayerController : MonoBehaviour
     public Player ThePlayer;
     public GameState State;
 
+    public enum SwipeDirecitons
+    {
+        Left, Right
+    }
+
     private GameHandler _gameHandler;
     private InputManager _inputManager;
 
@@ -48,14 +53,14 @@ public class PlayerController : MonoBehaviour
     {
         if (!_bTouchInputEnabled || State == GameState.Paused) { return; }
         
+        if (_inputManager.SwipeLeftRegistered() && GameData.Instance.IsBossLevel())
+            ProcessSwipe(SwipeDirecitons.Left);
+
         if (_inputManager.SwipeRightRegistered())
-        {
-            ProcessSwipe();
-        }
+            ProcessSwipe(SwipeDirecitons.Right);
+
         if (_inputManager.TapRegistered())
-        {
             ProcessTap();
-        }
     }
 
     private void ProcessTap()
@@ -67,10 +72,12 @@ public class PlayerController : MonoBehaviour
         ThePlayer.ActivateJump(tapDir);
     }
 
-    private void ProcessSwipe()
+    private void ProcessSwipe(SwipeDirecitons direction)
     {
         if (ThePlayer.CanRush())
-            ThePlayer.ActivateRush();
+        {
+            ThePlayer.ActivateRush(direction);
+        }
         else
             ThePlayer.ActivateJump();
     }

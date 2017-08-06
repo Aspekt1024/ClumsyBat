@@ -28,7 +28,8 @@ public class InputManager : MonoBehaviour
     private const float SwipeTime = 0.4f;       // Player must swipe within this time
 
     private bool _bGestureSet;
-    private bool _bSwipeSet;
+    private bool _bSwipeRightSet;
+    private bool _bSwipeLeftSet;
     private bool _bIsTouching;
 
     private TapDirection _tapDir;
@@ -50,7 +51,8 @@ public class InputManager : MonoBehaviour
                     _touchStartTime = Time.time;
                     _direction = SwipeDirection.None;
                     _bGestureSet = false;
-                    _bSwipeSet = false;
+                    _bSwipeRightSet = false;
+                    _bSwipeLeftSet = false;
                     break;
 
                 case TouchPhase.Stationary:
@@ -64,11 +66,17 @@ public class InputManager : MonoBehaviour
                     break;
 
                 case TouchPhase.Moved:
-                    if (!_bSwipeSet && Time.time < _touchStartTime + SwipeTime && touch.position.x - _touchStartPos > SwipeResistanceX)
+                    if (!_bSwipeRightSet && Time.time < _touchStartTime + SwipeTime && touch.position.x - _touchStartPos > SwipeResistanceX)
                     {
                         _bGestureSet = true;
-                        _bSwipeSet = true;
+                        _bSwipeRightSet = true;
                         _direction = SwipeDirection.Right;
+                    }
+                    else if (!_bSwipeLeftSet && Time.time < _touchStartPos + SwipeTime && touch.position.x - _touchStartPos < -SwipeResistanceX)
+                    {
+                        _bGestureSet = true;
+                        _bSwipeLeftSet = true;
+                        _direction = SwipeDirection.Left;
                     }
                     else if (!_bGestureSet && Time.time > _touchStartTime + StationaryTime)
                     {
@@ -81,8 +89,14 @@ public class InputManager : MonoBehaviour
                     if (_touchStartTime + SwipeTime < Time.time && touch.position.x - _touchStartPos > SwipeResistanceX)
                     {
                         _bGestureSet = true;
-                        _bSwipeSet = true;
+                        _bSwipeRightSet = true;
                         _direction = SwipeDirection.Right;
+                    }
+                    else if (_touchStartTime + SwipeTime < Time.time && touch.position.x - _touchStartPos < -SwipeResistanceX)
+                    {
+                        _bGestureSet = true;
+                        _bSwipeLeftSet = true;
+                        _direction = SwipeDirection.Left;
                     }
                     else if (!_bGestureSet)
                     {
@@ -99,13 +113,19 @@ public class InputManager : MonoBehaviour
             _touchStartTime = Time.time;
             _direction = SwipeDirection.None;
             _bGestureSet = false;
-            _bSwipeSet = false;
+            _bSwipeRightSet = false;
         }
         else if (Input.GetKeyUp("d"))
         {
             _bGestureSet = true;
-            _bSwipeSet = true;
+            _bSwipeRightSet = true;
             _direction = SwipeDirection.Right;
+        }
+        else if (Input.GetKeyUp("a"))
+        {
+            _bGestureSet = true;
+            _bSwipeLeftSet = true;
+            _direction = SwipeDirection.Left;
         }
         else if (Input.GetKey("w"))
         {
@@ -165,6 +185,16 @@ public class InputManager : MonoBehaviour
     public bool SwipeRightRegistered()
     {
         if (_direction == SwipeDirection.Right)
+        {
+            _direction = SwipeDirection.None;
+            return true;
+        }
+        return false;
+    }
+
+    public bool SwipeLeftRegistered()
+    {
+        if (_direction == SwipeDirection.Left)
         {
             _direction = SwipeDirection.None;
             return true;

@@ -43,4 +43,9 @@ public class GameData : Singleton<GameData>
                 break;
         }
     }
+
+    public bool IsBossLevel()
+    {
+        return Level.ToString().Contains("Boss");
+    }
 }

@@ -170,7 +170,7 @@ public class Player : MonoBehaviour {
         _state = PlayerState.Normal;
     }
     
-    public void ActivateRush() { _rush.Activate(); }
+    public void ActivateRush(PlayerController.SwipeDirecitons direction) { _rush.Activate(direction); }
     public void DeactivateRush() { _rush.Deactivate(); }
     public void ActivateHypersonic() { _hypersonic.ActivateHypersonic(); }
     public void ForceHypersonic() { _hypersonic.ForceHypersonic(); }

@@ -5,9 +5,8 @@ public class RushAbility : MonoBehaviour {
 
     private AbilityContainer.AbilityType _rushStats;
     private Player _thePlayer;
-    private Rigidbody2D _playerBody;
-    private Lantern _lantern;
     private GameUI _gameHud;
+    private Coroutine dashRoutine;
 
     private int _numMothsToRecharge;
     private bool _epicDashEnabled;
@@ -20,18 +19,15 @@ public class RushAbility : MonoBehaviour {
 
     private const float RushDuration = 0.33f;
     private const float RushSpeed = 15f;
-    private const float NormalSpeed = 1f;
     private const float CooldownDuration = 1.5f;
 
-    private Coroutine dashRoutine;
+    private PlayerController.SwipeDirecitons direction;
     
     public void Setup(Player playerRef, Lantern lanternRef)
     {
         _rushStats = GameData.Instance.Data.AbilityData.GetDashStats();
 
         _thePlayer = playerRef;
-        _lantern = lanternRef;
-        _playerBody = _thePlayer.GetComponent<Rigidbody2D>();
         _gameHud = FindObjectOfType<GameUI>();
 
         SetAbilityAttributes();
@@ -42,28 +38,36 @@ public class RushAbility : MonoBehaviour {
 
     private void Update ()
     {
-        if (Toolbox.Instance.GamePaused) { return; }
+        if (Toolbox.Instance.GamePaused) return;
 
         _cooldownRemaining -= Time.deltaTime;
         _gameHud.SetCooldown(1f - Mathf.Clamp(_cooldownRemaining / CooldownDuration, 0f, 1f));
-
     }
 
-    public void Activate()
+    public void Activate(PlayerController.SwipeDirecitons dir)
     {
         if (!_rushStats.AbilityAvailable) { return; }
         if (_cooldownRemaining > 0) { return; }
         // TODO charges
         
+        direction = dir;
+
         GameData.Instance.Data.Stats.TimesDashed++;
         _cooldownRemaining = CooldownDuration;
+        if (dashRoutine != null) StopCoroutine(dashRoutine);
         dashRoutine = StartCoroutine(DashSequence());
     }
 
     public void Deactivate()
     {
-        StopCoroutine(dashRoutine);
-        _thePlayer.SetPlayerSpeed(Toolbox.Instance.PlayerSpeed);
+        if (dashRoutine != null)
+            StopCoroutine(dashRoutine);
+
+        if (GameData.Instance.IsBossLevel())
+            _thePlayer.SetPlayerSpeed(0);
+        else
+            _thePlayer.SetPlayerSpeed(Toolbox.Instance.PlayerSpeed);
+
         _thePlayer.SetGravity(Toolbox.Instance.GravityScale);
     }
 
@@ -109,7 +113,9 @@ public class RushAbility : MonoBehaviour {
         _bIsRushing = true;
         _thePlayer.SetGravity(0f);
         _thePlayer.SetVelocity(Vector2.zero);
-        _thePlayer.SetPlayerSpeed(RushSpeed);
+
+        SetDashSpeed();
+
         if (_epicDashEnabled)
         {
             _thePlayer.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Rush);
@@ -133,8 +139,24 @@ public class RushAbility : MonoBehaviour {
             yield return null;
         }
 
-        _thePlayer.SetGravity(Toolbox.Instance.GravityScale);
-        _thePlayer.SetPlayerSpeed(Toolbox.Instance.PlayerSpeed);
+        Deactivate();
+    }
+
+    private void SetDashSpeed()
+    {
+        float speed = RushSpeed;
+        if (GameData.Instance.IsBossLevel())
+        {
+            speed -= Toolbox.Instance.PlayerSpeed;
+            if (_thePlayer.IsFacingRight() && direction == PlayerController.SwipeDirecitons.Left)
+                _thePlayer.FaceLeft();
+            else if (!_thePlayer.IsFacingRight() && direction == PlayerController.SwipeDirecitons.Right)
+                _thePlayer.FaceRight();
+
+            if (direction == PlayerController.SwipeDirecitons.Left)
+                speed = -speed;
+        }
+        _thePlayer.SetPlayerSpeed(speed);
     }
     
     public bool IsActive() { return _bIsRushing; }
