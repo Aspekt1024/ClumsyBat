@@ -8,7 +8,7 @@ public class CrystalBall : MonoBehaviour {
     public Transform EndPosition;
     public float ActiveDuration;
     
-    [HideInInspector] public HypersonicEventBoss Parent;
+    [HideInInspector] public CrystalBoss Parent;
     [HideInInspector] public bool IsActive;
 
     private bool isDeactivating;
@@ -46,7 +46,7 @@ public class CrystalBall : MonoBehaviour {
         effects.transform.position = transform.position;
         effects.Stop();
         crystalLight.enabled = false;
-        mothAnim.Play("MothGoldCaptured");
+        mothAnim.Play("Moth" + Parent.MothColour.ToString() + "Captured");
         mothAnim.speed = 0;
 
         SetupMoths();
@@ -105,7 +105,7 @@ public class CrystalBall : MonoBehaviour {
         activeTimer = 0f;
         crystalLight.enabled = true;
         crystalLight.transform.localScale = Vector3.one;
-        crystalRenderer.color = new Color(212/255f,195/255f,126/255f);
+        crystalRenderer.color = GetMothColour();
         mothAnim.speed = Random.Range(0.5f, 1f);
         effects.Play();
         
@@ -142,7 +142,7 @@ public class CrystalBall : MonoBehaviour {
         crystalLight.enabled = false;
         crystalRenderer.color = Color.white;
         isDeactivating = false;
-        mothAnim.Play("MothGoldCaptured", 0, 0f);
+        mothAnim.Play("Moth" + Parent.MothColour.ToString() + "Captured", 0, 0f);
         mothAnim.speed = 0;
     }
 
@@ -230,9 +230,24 @@ public class CrystalBall : MonoBehaviour {
 
         isDeactivating = false;
         IsActive = false;
-        crystalRenderer.color = new Color(212 / 255f, 195 / 255f, 126 / 255f);
+        crystalRenderer.color = GetMothColour();
 
         mothAnim.GetComponent<SpriteRenderer>().enabled = false;
+    }
+
+    private Color GetMothColour()
+    {
+        switch (Parent.MothColour)
+        {
+            case Moth.MothColour.Gold:
+                return Toolbox.MothGoldColor;
+            case Moth.MothColour.Green:
+                return Toolbox.MothGreenColor;
+            case Moth.MothColour.Blue:
+                return Toolbox.MothBlueColor;
+            default:
+                return Color.white;
+        }
     }
 
     private void SetupMoths()
@@ -254,7 +269,7 @@ public class CrystalBall : MonoBehaviour {
         {
             essencePositions[i] = transform.position + new Vector3(Random.Range(-2f, 2f), Random.Range(-2f, 2f), 0f);
             essenceDelays[i] = Random.Range(0f, 4f);
-            moths[i].Play("MothGoldCaptured", 0, 0f);
+            moths[i].Play("Moth" + Parent.MothColour + "Captured", 0, 0f);
             moths[i].speed = 0f;
             moths[i].transform.position = transform.position;
             moths[i].transform.localScale = new Vector3(0.3f, 0.3f, 1f);
@@ -292,7 +307,18 @@ public class CrystalBall : MonoBehaviour {
                         essenceCollections[i] = true;
                         essenceCollected++;
                         moths[i].GetComponent<SpriteRenderer>().enabled = false;
-                        Toolbox.Player.Lantern.ChangeColour(Lantern.LanternColour.Gold);
+                        switch (Parent.MothColour)
+                        {
+                            case Moth.MothColour.Green:
+                                Toolbox.Player.Lantern.ChangeColour(Lantern.LanternColour.Green);
+                                break;
+                            case Moth.MothColour.Gold:
+                                Toolbox.Player.Lantern.ChangeColour(Lantern.LanternColour.Gold);
+                                break;
+                            case Moth.MothColour.Blue:
+                                Toolbox.Player.Lantern.ChangeColour(Lantern.LanternColour.Blue);
+                                break;
+                        }
                         // TODO play sound
                     }
                 }

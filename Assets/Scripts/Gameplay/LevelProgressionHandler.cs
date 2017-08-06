@@ -8,10 +8,10 @@ public static class LevelProgressionHandler
     {
         Unassigned,
         Main1 = 1, Main2, Main3, Main4, Main5, Main6, Boss2,
-        Main7, Main8, Main9, Main10, Main11, Boss3,
+        Main7, Main8, Main9, Main10, Main11,
         Main12, Main13, Main14, Main15, Boss4,
         Main16, Boss5,
-        Boss1,
+        Boss1, Boss3,
         Village1, Village2, Village3, Village4,
         AltB1, AltB2,
         AltC1,
@@ -37,6 +37,9 @@ public static class LevelProgressionHandler
         {
             case Levels.Main4:
                 secretLevel = Levels.Boss1;
+                break;
+            case Levels.Main7:
+                secretLevel = Levels.Boss3;
                 break;
             default:
                 Debug.Log("Warning: Secret path 1 not set for level " + level);
