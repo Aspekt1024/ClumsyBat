@@ -33,12 +33,12 @@ public class DashCrystalBoss : CrystalBoss {
             yield return null;
         }
 
-        var hypersonic = GameData.Instance.Data.AbilityData.GetHypersonicStats();
-        hypersonic.AbilityUnlocked = true;
-        hypersonic.AbilityAvailable = true;
-        hypersonic.AbilityLevel = 1;
-        hypersonic.AbilityEvolution = 1;
-        GameData.Instance.Data.AbilityData.SaveHypersonicStats(hypersonic);
+        var dash = GameData.Instance.Data.AbilityData.GetDashStats();
+        dash.AbilityUnlocked = true;
+        dash.AbilityAvailable = true;
+        dash.AbilityLevel = 1;
+        dash.AbilityEvolution = 1;
+        GameData.Instance.Data.AbilityData.SaveDashStats(dash);
 
         Toolbox.Player.ForceHypersonic();
         timer = 0f;
@@ -48,7 +48,7 @@ public class DashCrystalBoss : CrystalBoss {
             yield return null;
         }
 
-        Toolbox.Tooltips.ShowDialogue("It worked! Any time you collect a gold moths, you will activate Hypersonic!", 2f, true);
+        Toolbox.Tooltips.ShowDialogue("you can now dash.", 2f, true);
         while (Toolbox.Tooltips.IsPausedForTooltip)
         {
             yield return null;

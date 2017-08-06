@@ -83,8 +83,8 @@ public class AbilityControl : MonoBehaviour {
         Debug.Log("Ability Data Cleared");
     }
 
-    public AbilityContainer.AbilityType GetRushStats() { return _abilities.Rush; }
-    public void SaveRushStats(AbilityContainer.AbilityType rush) { _abilities.Rush = rush; }
+    public AbilityContainer.AbilityType GetDashStats() { return _abilities.Rush; }
+    public void SaveDashStats(AbilityContainer.AbilityType rush) { _abilities.Rush = rush; }
 
     public AbilityContainer.AbilityType GetHypersonicStats() { return _abilities.Hypersonic; }
     public void SaveHypersonicStats(AbilityContainer.AbilityType hyperSonic) { _abilities.Hypersonic = hyperSonic; }

@@ -23,7 +23,7 @@ public class ClumsyAnimator : MonoBehaviour {
     private AnimationData unperch = new AnimationData() { name = "Unperch", scale = 1.1f, rotation = 0f };
     private AnimationData land = new AnimationData() { name = "Land", scale = 1f, rotation = 0f };
     private AnimationData hover = new AnimationData() { name = "Hover", scale = 1f, rotation = 0f };
-    private AnimationData rush = new AnimationData() { name = "Rush", scale = 1f, rotation = 0f };
+    private AnimationData rush = new AnimationData() { name = "Rush", scale = .25f, rotation = 0f };
     private AnimationData wingClose = new AnimationData() { name = "WingClose", scale = 1f, rotation = 0f };
 
     private Dictionary<ClumsyAnimations, AnimationData> animDict = new Dictionary<ClumsyAnimations, AnimationData>();

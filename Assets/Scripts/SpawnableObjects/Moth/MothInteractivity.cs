@@ -28,6 +28,7 @@ public class MothInteractivity : MonoBehaviour
         }
 
         _thePlayer.AddShieldCharge();
+        _thePlayer.AddDashCharge();
         _thePlayer.Fog.Echolocate();
     }
 }

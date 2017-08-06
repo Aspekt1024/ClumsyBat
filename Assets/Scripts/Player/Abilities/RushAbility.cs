@@ -16,21 +16,18 @@ public class RushAbility : MonoBehaviour {
     private int _numCharges;
     private int _numMoths;
     private bool _bIsRushing;
-    private bool _bDisabled;
-    private float _rushTimeRemaining;
     private float _cooldownRemaining;
 
-    private const float RushDuration = 0.26f;
-    private const float RushSpeed = 7f;
+    private const float RushDuration = 0.33f;
+    private const float RushSpeed = 15f;
     private const float NormalSpeed = 1f;
     private const float CooldownDuration = 1.5f;
 
-    private bool _bPaused;
-    private bool _bAtCaveEnd;
+    private Coroutine dashRoutine;
     
     public void Setup(Player playerRef, Lantern lanternRef)
     {
-        _rushStats = GameData.Instance.Data.AbilityData.GetRushStats();
+        _rushStats = GameData.Instance.Data.AbilityData.GetDashStats();
 
         _thePlayer = playerRef;
         _lantern = lanternRef;
@@ -39,30 +36,17 @@ public class RushAbility : MonoBehaviour {
 
         SetAbilityAttributes();
         SetupHudBar();
+
+        Toolbox.Instance.PlayerDashSpeed = RushSpeed;
     }
 
     private void Update ()
     {
-        if (_bPaused) { return; }
+        if (Toolbox.Instance.GamePaused) { return; }
 
         _cooldownRemaining -= Time.deltaTime;
-        _rushTimeRemaining -= Time.deltaTime;
         _gameHud.SetCooldown(1f - Mathf.Clamp(_cooldownRemaining / CooldownDuration, 0f, 1f));
 
-        if (_bDisabled)
-        {
-            _rushTimeRemaining = 0f;
-            _bIsRushing = false;
-        }
-
-        if (_bIsRushing)
-        {
-            GameData.Instance.Data.Stats.DashDistance += Time.deltaTime * RushSpeed * Toolbox.Instance.PlayerSpeed;
-            if (_rushTimeRemaining <= 0f)
-            {
-                StartCoroutine("RushEndAnimation");
-            }
-        }
     }
 
     public void Activate()
@@ -70,39 +54,47 @@ public class RushAbility : MonoBehaviour {
         if (!_rushStats.AbilityAvailable) { return; }
         if (_cooldownRemaining > 0) { return; }
         // TODO charges
-
-        _bDisabled = false;
+        
         GameData.Instance.Data.Stats.TimesDashed++;
         _cooldownRemaining = CooldownDuration;
-        StartCoroutine("RushStartAnimation");
+        dashRoutine = StartCoroutine(DashSequence());
     }
 
     public void Deactivate()
     {
-        _bDisabled = true;   // Sets the flag for the coroutine to deactivate
+        StopCoroutine(dashRoutine);
+        _thePlayer.SetPlayerSpeed(Toolbox.Instance.PlayerSpeed);
+        _thePlayer.SetGravity(Toolbox.Instance.GravityScale);
     }
 
     private void SetAbilityAttributes()
     {
         _numMoths = 0;
-        _numMothsToRecharge = 3;
-        _maxCharges = 1;
+        _numMothsToRecharge = 1;
+        _maxCharges = 2;
         _epicDashEnabled = false;
 
-        if (_rushStats.AbilityLevel >= 2) { _numMothsToRecharge = 2; }
-        if (_rushStats.AbilityLevel >= 3) { _maxCharges = 2; }
-        if (_rushStats.AbilityLevel >= 4) { _numMothsToRecharge = 1; }
-        if (_rushStats.AbilityLevel >= 5) { _maxCharges = 3; }
+        if (_rushStats.AbilityLevel >= 2) { _maxCharges = 3; }
+        if (_rushStats.AbilityLevel >= 3) { _maxCharges = 4; }
+        if (_rushStats.AbilityLevel >= 4) { _maxCharges = 5; }
+        if (_rushStats.AbilityLevel >= 5) { _maxCharges = 6; }
         if (_rushStats.AbilityEvolution == 2) { _epicDashEnabled = true; }
     }
 
-    public void MothConsumed()
+    public void AddCharge()
     {
         _numMoths++;
         if (_numMoths == _numMothsToRecharge)
         {
-            _numCharges = Mathf.Clamp(_numCharges++, 0, _maxCharges);
-            _numMoths = (_numCharges == _maxCharges ? 1 : 0);
+            if (_numCharges < _maxCharges)
+            {
+                _numCharges++;
+                _numMoths = 0;
+            }
+            else
+            {
+                _numMoths = _numMothsToRecharge - 1;
+            }
         }
         _gameHud.SetCooldown((float)_numMoths / _numMothsToRecharge);
     }
@@ -112,17 +104,12 @@ public class RushAbility : MonoBehaviour {
         _gameHud.ShowCooldown(_rushStats.AbilityAvailable);
     }
 
-    public void GamePaused(bool paused)
-    {
-        _bPaused = paused;
-    }
-
-    private IEnumerator RushStartAnimation()
+    private IEnumerator DashSequence()
     {
         _bIsRushing = true;
-        _rushTimeRemaining = RushDuration;
         _thePlayer.SetGravity(0f);
-        _thePlayer.SetVelocity(new Vector2(8f, 0f));
+        _thePlayer.SetVelocity(Vector2.zero);
+        _thePlayer.SetPlayerSpeed(RushSpeed);
         if (_epicDashEnabled)
         {
             _thePlayer.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Rush);
@@ -132,47 +119,24 @@ public class RushAbility : MonoBehaviour {
         {
             _thePlayer.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Rush);
         }
-        _lantern.AddRushForce();
+        //_lantern.AddRushForce();
 
-        const float startupDuration = 0.07f;
-        float animTimer = 0f;
-        while (animTimer < startupDuration && !_bDisabled)
+        float timer = 0f;
+
+        while (timer < RushDuration)
         {
-            if (!_bPaused)
+            if (!Toolbox.Instance.GamePaused)
             {
-                animTimer += Time.deltaTime;
+                timer += Time.deltaTime;
+                GameData.Instance.Data.Stats.DashDistance += Time.deltaTime * RushSpeed;
             }
             yield return null;
         }
 
-        if (_bPaused) yield break;
-        _thePlayer.SetPlayerSpeed(RushSpeed);
-        _thePlayer.SetVelocity(Vector2.zero);
+        _thePlayer.SetGravity(Toolbox.Instance.GravityScale);
+        _thePlayer.SetPlayerSpeed(Toolbox.Instance.PlayerSpeed);
     }
-
-    private IEnumerator RushEndAnimation()
-    {
-        _thePlayer.SetPlayerSpeed(NormalSpeed);
-        _bIsRushing = false;
-        _thePlayer.SetGravity(-1f);  // -1 resets to default gravity defined by PlayerController
-
-        while (_playerBody.position.x > Toolbox.PlayerStartX && !_bAtCaveEnd && !_bDisabled)
-        {
-            if (!_bPaused)
-            {
-                float newSpeed = 3 - (2 * _playerBody.position.x / (_playerBody.position.x + Toolbox.PlayerStartX));
-                _thePlayer.SetVelocity(new Vector2(-newSpeed, _playerBody.velocity.y));
-            }
-            yield return null;
-        }
-        if (!_bDisabled)
-        {
-            _thePlayer.SetVelocity(new Vector2(0, _playerBody.velocity.y));
-            _thePlayer.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Hover);
-        }
-    }
-
-    public void CaveEndReached() { _bAtCaveEnd = true; }
-    public bool IsActive() { return !_bDisabled; }
+    
+    public bool IsActive() { return _bIsRushing; }
     public bool AbilityAvailable() { return _rushStats.AbilityAvailable && _numCharges > 0; }
 }

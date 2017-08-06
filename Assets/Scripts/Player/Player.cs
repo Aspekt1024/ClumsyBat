@@ -175,6 +175,7 @@ public class Player : MonoBehaviour {
     public void ActivateHypersonic() { _hypersonic.ActivateHypersonic(); }
     public void ForceHypersonic() { _hypersonic.ForceHypersonic(); }
     public void AddShieldCharge() { _shield.AddCharge(); }
+    public void AddDashCharge() { _rush.AddCharge(); }
 
     // TODO why is this here and not in shield? Rename if we're doing something else here.
     public bool ActivateShield()
@@ -262,7 +263,6 @@ public class Player : MonoBehaviour {
         _playerCollider.enabled = false;
         _playerRigidBody.gravityScale = GravityScale;
         _playerRigidBody.velocity = new Vector2(1, 0);
-        _rush.GamePaused(true);
         Lantern.Drop();
         
         StartCoroutine(PauseForDeath());
@@ -355,7 +355,6 @@ public class Player : MonoBehaviour {
 
     private void AbilitiesPaused(bool bPauseAbility)
     {
-        _rush.GamePaused(_state == PlayerState.Dead || bPauseAbility);
         _hypersonic.GamePaused(bPauseAbility);
     }
 

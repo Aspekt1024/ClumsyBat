@@ -12,6 +12,7 @@ public class Toolbox : Singleton<Toolbox>
 
     public Vector3 HoldingArea { get; set; }
     public float PlayerSpeed { get; set; }
+    public float PlayerDashSpeed { get; set; }
     public float GravityScale { get; set; }
     public const float TileSizeX = 19.2f;
     public const float PlayerStartX = -5.5f;
@@ -105,7 +106,7 @@ public class Toolbox : Singleton<Toolbox>
     {
         HoldingArea = new Vector2(0, 100);
         PlayerSpeed = 5.5f;
-        GravityScale = 4f;
+        GravityScale = 3f;
         MenuScreen = MenuSelector.MainMenu;
         
         SetupZLayers();
