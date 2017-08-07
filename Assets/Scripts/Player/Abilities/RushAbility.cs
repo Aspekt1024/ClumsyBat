@@ -60,6 +60,7 @@ public class RushAbility : MonoBehaviour {
 
     public void Deactivate()
     {
+        _bIsRushing = false;
         if (dashRoutine != null)
             StopCoroutine(dashRoutine);
 
@@ -147,7 +148,6 @@ public class RushAbility : MonoBehaviour {
         float speed = RushSpeed;
         if (GameData.Instance.IsBossLevel())
         {
-            speed -= Toolbox.Instance.PlayerSpeed;
             if (_thePlayer.IsFacingRight() && direction == PlayerController.SwipeDirecitons.Left)
                 _thePlayer.FaceLeft();
             else if (!_thePlayer.IsFacingRight() && direction == PlayerController.SwipeDirecitons.Right)

@@ -35,7 +35,7 @@ public class FlapComponent : MonoBehaviour {
 
     private void Update()
     {
-        if (horizontalState == HorizMoveState.None || Toolbox.Instance.GamePaused) return;
+        if (horizontalState == HorizMoveState.None || Toolbox.Instance.GamePaused || player.IsRushing()) return;
         moveTimer += Time.deltaTime;
         if (moveTimer > moveDuration)
         {
