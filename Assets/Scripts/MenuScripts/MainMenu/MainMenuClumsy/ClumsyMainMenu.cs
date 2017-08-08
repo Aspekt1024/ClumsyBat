@@ -1,0 +1,179 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ClumsyMainMenu : MonoBehaviour {
+
+    private Vector2 target = new Vector2(0, 0);
+    private Rigidbody2D body;
+    private Camera cam;
+    private Animator anim;
+    private SpriteRenderer sprite;
+    private ClumsyAnimator animControl;
+
+    private bool isPerched;
+    private bool isUnPerching;
+    private bool targetReached;
+    private bool isFollowingUserInput;
+
+    public void SetPosition(Vector2 pos)
+    {
+        isPerched = false;
+        body.isKinematic = false;
+        targetReached = true;
+        transform.position = new Vector3(pos.x, pos.y, transform.position.z);
+    }
+
+    public void Dash()
+    {
+        StartCoroutine(DashRoutine());
+    }
+
+    public void StopFollowingUserInput()
+    {
+        isFollowingUserInput = false;
+    }
+    public void StartFollowingUserInput()
+    {
+        isFollowingUserInput = true;
+    }
+
+    private void Start ()
+    {
+        body = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        sprite = GetComponent<SpriteRenderer>();
+        animControl = GetComponent<ClumsyAnimator>();
+        cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        targetReached = true;
+    }
+
+    private void Update ()
+    {
+        if (!isFollowingUserInput) return;
+
+        if (Input.GetMouseButtonUp(0) || Input.touches[0].phase == TouchPhase.Began)
+        {
+            Camera cam = FindObjectOfType<Camera>();
+            target = cam.ScreenToWorldPoint(Input.mousePosition);
+            targetReached = false;
+            if (Vector2.Distance(target, transform.position) > 0.2f)
+            {
+                Unperch();
+                return;
+            }
+        }
+        
+        if (isPerched || targetReached) return;
+        MoveTowardsTarget();
+    }
+
+    private void MoveTowardsTarget()
+    {
+        float xDist = target.x - transform.position.x;
+        if (Mathf.Abs(xDist) > 0.2f)
+        {
+            MoveHorizontally();
+        }
+        if (transform.position.y < target.y - 0.3f)
+        {
+            MoveVertically();
+        }
+
+        if (Vector2.Distance(transform.position, target) < 0.35f)
+        {
+            targetReached = true;
+        }
+    }
+
+    private void MoveHorizontally()
+    {
+        float xDist = Mathf.Lerp(transform.position.x, target.x, Time.deltaTime * 4f) - transform.position.x;
+        float maxDist = 6f * Time.deltaTime;
+        xDist = Mathf.Clamp(xDist, -maxDist, maxDist);
+
+        sprite.flipX = xDist < 0;
+
+        transform.position += Vector3.right * xDist;
+    }
+
+    private void MoveVertically()
+    {
+        bool falling = body.velocity.y < 0f;
+        body.velocity = new Vector2(body.velocity.x, 5.5f);
+
+        var animState = anim.GetCurrentAnimatorStateInfo(0);
+        if (animState.IsName("Flap") || animState.IsName("FlapBlink"))
+        {
+            if (animState.normalizedTime < .7f && !falling) return;
+        }
+        
+        if (Random.Range(0f, 1f) > 0.3f)
+        {
+            anim.Play("FlapSlower", 0, 0f);
+        }
+        else
+        {
+            animControl.PlayAnimation(ClumsyAnimator.ClumsyAnimations.FlapBlink);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (isPerched) return;
+        if (other.collider.gameObject.layer == LayerMask.NameToLayer("Caves"))
+        {
+            Perch();
+        }
+    }
+
+    private void Perch()
+    {
+        isPerched = true;
+        body.isKinematic = true;
+        body.velocity = Vector2.zero;
+        if (transform.position.y > 0f)
+            animControl.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Perch);
+        else
+            animControl.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Land);
+    }
+
+    private void Unperch()
+    {
+        if (transform.position.y < 0 && target.y > transform.position.y)
+        {
+            isPerched = false;
+            body.isKinematic = false;
+            transform.position += Vector3.up * 0.5f;
+            animControl.PlayAnimation(ClumsyAnimator.ClumsyAnimations.FlapBlink);
+        }
+        else if (transform.position.y > 0 && target.y < transform.position.y)
+        {
+            isPerched = false;
+            body.isKinematic = false;
+            transform.position += Vector3.down * 0.5f;
+            animControl.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Unperch);
+        }
+    }
+
+    private IEnumerator DashRoutine()
+    {
+        float timer = 0f;
+        const float duration = 0.6f;
+        const float speed = 17f;
+
+        body.isKinematic = true;
+        animControl.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Rush);
+        anim.speed = 0.7f;
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            transform.position += Vector3.right * speed * Time.deltaTime;
+            yield return null;
+        }
+        body.isKinematic = false;
+        anim.speed = 1f;
+        animControl.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Hover);
+
+    }
+}

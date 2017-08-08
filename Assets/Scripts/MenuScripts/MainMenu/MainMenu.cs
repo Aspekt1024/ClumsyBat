@@ -10,6 +10,7 @@ public class MainMenu : MonoBehaviour {
 
     private GameObject _runtimeScripts;
     private MenuScroller _scroller;
+    private CamPositioner camPositioner;
     
     private LevelButton[] _btnScripts;
 
@@ -20,6 +21,7 @@ public class MainMenu : MonoBehaviour {
         _runtimeScripts = new GameObject("Runtime Scripts");
         _scroller = _runtimeScripts.AddComponent<MenuScroller>();
         LoadingOverlay = GameObject.Find("LoadScreen");
+        camPositioner = GetComponent<CamPositioner>();
     }
 
     private void Start()
@@ -105,6 +107,7 @@ public class MainMenu : MonoBehaviour {
     public void PlayButtonClicked()
     {
         SaveData();
+        camPositioner.MoveToLevelMenu();
         _scroller.LevelSelect();
     }
 
@@ -125,12 +128,6 @@ public class MainMenu : MonoBehaviour {
         _scroller.StatsScreen();
     }
 
-    public void TrainingButtonClicked()
-    {
-        SaveData();
-        SceneManager.LoadScene("Training");
-    }
-    
     public void LevelClick()
     {
         var levelId = EventSystem.current.currentSelectedGameObject.GetComponent<LevelButton>().Level;

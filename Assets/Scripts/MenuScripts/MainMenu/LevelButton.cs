@@ -17,8 +17,8 @@ public class LevelButton : MonoBehaviour
     private Sprite _unavailableImage;
 
     private Image _levelImage;
-    private RectTransform _namePanel;
-    private Text _levelName;
+    private RectTransform namePanel;
+    private Text levelName;
 
     private RectTransform starsRt;
     private MothStar[] stars = new MothStar[3];
@@ -42,12 +42,11 @@ public class LevelButton : MonoBehaviour
     {
         foreach (RectTransform rt in GetComponent<RectTransform>())
         {
-            if (rt.name == "NamePanel")
-                _namePanel = rt.GetComponent<RectTransform>();
-            else if (rt.name == "Stars")
+            if (rt.name == "Stars")
                 GetStarComponents(rt);
         }
-        _levelName = _namePanel.GetComponentInChildren<Text>();
+        namePanel = GameObject.Find("LevelID").GetComponent<RectTransform>();
+        levelName = namePanel.GetComponentInChildren<Text>();
         _levelImage = GetComponent<Image>();
         GetLevelImages();
     }
@@ -55,9 +54,6 @@ public class LevelButton : MonoBehaviour
 	private void Start ()
     {
         starsRt.gameObject.SetActive(false);
-        _levelName.text = Toolbox.Instance.LevelNames[Level];
-        _levelName.enabled = false;
-        _namePanel.GetComponent<Image>().enabled = false;
         _state = BtnState.Unclicked;
     }
 
@@ -87,8 +83,9 @@ public class LevelButton : MonoBehaviour
         {
             if (_state == BtnState.Unclicked)
             {
-                _namePanel.GetComponent<Image>().enabled = true;
-                _levelName.enabled = true;
+                Debug.Log("yay");
+                levelName.text = Toolbox.Instance.LevelNames[Level];
+                levelName.enabled = true;
                 _state = BtnState.Clicked;
                 SetLevelImage();
             }
@@ -99,8 +96,6 @@ public class LevelButton : MonoBehaviour
         }
         else
         {
-            _levelName.enabled = false;
-            _namePanel.GetComponent<Image>().enabled = false;
             _state = BtnState.Unclicked;
             SetLevelImage();
         }

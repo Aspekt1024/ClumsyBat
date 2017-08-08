@@ -50,7 +50,11 @@ public class ClumsyAnimator : MonoBehaviour {
 
     private void Start()
     {
-        playerBody = Toolbox.Player.GetBody();
+        if (Toolbox.Player != null)
+            playerBody = Toolbox.Player.GetBody();
+        else
+            playerBody = GetComponent<Rigidbody2D>();   // For the main menu
+
         anim = GetComponentInChildren<Animator>();
         anim.enabled = true;
         currentAnimation = flap;
@@ -108,7 +112,10 @@ public class ClumsyAnimator : MonoBehaviour {
     {
         if (newScale == currentScaleModifier) return;
         transform.localScale *= newScale / currentScaleModifier;
-        ((CircleCollider2D)Toolbox.Player.GetCollider()).radius /= newScale / currentScaleModifier;
+        if (Toolbox.Player != null)
+            ((CircleCollider2D)Toolbox.Player.GetCollider()).radius /= newScale / currentScaleModifier;
+        else
+            GetComponent<CircleCollider2D>().radius /= newScale / currentScaleModifier;
         currentScaleModifier = newScale;
     }
 
