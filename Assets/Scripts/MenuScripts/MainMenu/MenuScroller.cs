@@ -9,7 +9,6 @@ public class MenuScroller : MonoBehaviour {
     private RectTransform mainScreen;
     private RectTransform levelScroller;
     private RectTransform levelContentRect;
-    private NavButtonHandler navButtons;
     private ScrollRect levelScrollRect;
     private KeyPointsHandler keyPoints;
 
@@ -24,8 +23,7 @@ public class MenuScroller : MonoBehaviour {
     private const float MainMenuPosX = 0f;
     private const float StatsPosX = -TileSizeX;
     private const float UpgradesPosX = -2f * TileSizeX;
-
-    private bool bLevelCaveStartStored;
+    
     private float LevelCaveStartX;
 
     private float CurrentLevel;
@@ -44,7 +42,6 @@ public class MenuScroller : MonoBehaviour {
     {
         GetUIComponents();
         InitialiseMenu();
-        SetupScreenSizing();
         SetupNavButtonHandler();
         keyPoints = GameObject.FindGameObjectWithTag("Scripts").GetComponent<KeyPointsHandler>();
         levelScroller.position = keyPoints.LevelMapStart.transform.position;
@@ -74,27 +71,20 @@ public class MenuScroller : MonoBehaviour {
         }
     }
 
-    private void SetupScreenSizing()
-    {
-        bLevelCaveStartStored = false;
-    }
-
     private void SetupNavButtonHandler()
     {
         GameObject RuntimeScripts = GameObject.Find("Runtime Scripts");
-        navButtons = RuntimeScripts.AddComponent<NavButtonHandler>();
-        navButtons.SetupNavButtons(MenuState);
     }
 
     private void InitialiseMenu()
     {
+
         if (Toolbox.Instance.MenuScreen == Toolbox.MenuSelector.LevelSelect)
         {
             MenuState = MenuStates.LevelSelect;
         }
 
         LevelScrollInitialPos = levelScroller.position.x;
-        FinaliseMenuPosition();
     }
 
     private void JumpToCurrentLevel()
@@ -135,14 +125,13 @@ public class MenuScroller : MonoBehaviour {
     public float StatsScreen()
     {
         MenuState = MenuStates.StatsScreen;
-        StartCoroutine("MoveMenu");
+        //StartCoroutine("MoveMenu");
         return TransitionDuration;
     }
 
     private IEnumerator MoveMenu(GameObject pointObj)
     {
         bMenuTransition = true;
-        navButtons.SetupNavButtons(MenuState);
 
         float AnimTimer = 0f;
         float StartX = Caves.position.x;
@@ -174,26 +163,10 @@ public class MenuScroller : MonoBehaviour {
             yield return new WaitForSeconds(0.01f);
         }
         bMenuAtFullSpeed = false;
-        FinaliseMenuPosition();
         if (bLevelScrollRequired)
         {
             GotoCurrentLevel();
         }
-    }
-
-    private void FinaliseMenuPosition()
-    {
-        float XOffset = GetXOffset();
-
-        Caves.position = new Vector2(0f - XOffset, 0f);
-        mainScreen.position = new Vector2(MainMenuPosX - XOffset, 0f);
-        levelScroller.position = new Vector2((LevelScrollInitialPos - XOffset), 0f);
-        if (MenuState == MenuStates.LevelSelect && !bLevelCaveStartStored)
-        {
-            bLevelCaveStartStored = true;
-            LevelCaveStartX = levelContentRect.position.x + LevelScrollInitialPos - LevelSelectPosX;
-        }
-        bMenuTransition = false;
     }
 
     private float GetXOffset()

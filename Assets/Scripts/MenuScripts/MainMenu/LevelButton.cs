@@ -79,7 +79,7 @@ public class LevelButton : MonoBehaviour
     {
         if (levelId == Level)
         {
-            if (_state == BtnState.Unclicked) return;
+            if (_state == BtnState.Clicked) return;
             _state = BtnState.Clicked;
             SetLevelImage();
         }
