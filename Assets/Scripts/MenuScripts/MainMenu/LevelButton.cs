@@ -4,10 +4,12 @@ using UnityEngine.UI;
 public class LevelButton : MonoBehaviour
 {
     public LevelProgressionHandler.Levels Level;
-    public bool Star1Complete;
-    public bool Star2Complete;
-    public bool Star3Complete;
-    public bool StarsSet;
+    public RectTransform PreviousLevel;
+    [HideInInspector] public bool Star1Complete;
+    [HideInInspector] public bool Star2Complete;
+    [HideInInspector] public bool Star3Complete;
+    [HideInInspector] public bool StarsSet;
+
     private bool starImagesSet;
 
     private Sprite _availableImage;
@@ -17,15 +19,13 @@ public class LevelButton : MonoBehaviour
     private Sprite _unavailableImage;
 
     private Image _levelImage;
-    private RectTransform namePanel;
-    private Text levelName;
-
+    private LevelButtonHandler handler;
     private RectTransform starsRt;
     private MothStar[] stars = new MothStar[3];
     
     private enum BtnState
     {
-        Unclicked, Clicked, LoadLevel
+        Unclicked, Clicked
     }
     private BtnState _state;
 
@@ -45,8 +45,6 @@ public class LevelButton : MonoBehaviour
             if (rt.name == "Stars")
                 GetStarComponents(rt);
         }
-        namePanel = GameObject.Find("LevelID").GetComponent<RectTransform>();
-        levelName = namePanel.GetComponentInChildren<Text>();
         _levelImage = GetComponent<Image>();
         GetLevelImages();
     }
@@ -81,29 +79,15 @@ public class LevelButton : MonoBehaviour
     {
         if (levelId == Level)
         {
-            if (_state == BtnState.Unclicked)
-            {
-                levelName.text = Toolbox.Instance.LevelNames[Level];
-                levelName.enabled = true;
-                _state = BtnState.Clicked;
-                SetLevelImage();
-            }
-            else if (_state == BtnState.Clicked)
-            {
-                _state = BtnState.LoadLevel;
-            }
+            if (_state == BtnState.Unclicked) return;
+            _state = BtnState.Clicked;
+            SetLevelImage();
         }
         else
         {
             _state = BtnState.Unclicked;
             SetLevelImage();
         }
-    }
-
-    public bool IsDoubleClicked(LevelProgressionHandler.Levels levelId)
-    {
-        if (levelId != Level) return false;
-        return _state == BtnState.LoadLevel;
     }
     
     public bool LevelAvailable()

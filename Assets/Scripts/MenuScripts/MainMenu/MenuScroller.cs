@@ -58,11 +58,11 @@ public class MenuScroller : MonoBehaviour {
 
         return;
 
-        if (MenuState == MenuStates.LevelSelect && !bMenuTransition)
-        {
-            Caves.position = new Vector2(levelContentRect.position.x - LevelCaveStartX - LevelSelectPosX, 0f);
-        }
-        MidBG.position = new Vector3(Caves.position.x * 0.5f, 0f, MidBG.position.z);
+        //if (MenuState == MenuStates.LevelSelect && !bMenuTransition)
+        //{
+        //    Caves.position = new Vector2(levelContentRect.position.x - LevelCaveStartX - LevelSelectPosX, 0f);
+        //}
+        //MidBG.position = new Vector3(Caves.position.x * 0.5f, 0f, MidBG.position.z);
 	}
 
     public void SetCurrentLevel(int Level)
