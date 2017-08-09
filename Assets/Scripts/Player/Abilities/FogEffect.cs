@@ -46,8 +46,15 @@ public class FogEffect : MonoBehaviour {
 
     private void Start()
     {
-        _player = Toolbox.Player;
-        _lantern = _player.Lantern.transform;
+        if (Toolbox.Player != null)
+        {
+            _player = Toolbox.Player;
+            _lantern = _player.Lantern.transform;
+        }
+        else
+        {
+            _lantern = GameObject.Find("Lantern").transform;
+        }
         
         _echolocateActivatedTime = Time.time;
         Material.SetVector("_PlayerPos", _lantern.position);
@@ -74,7 +81,7 @@ public class FogEffect : MonoBehaviour {
         }
         else
         {
-            if (_player.IsPerched())
+            if (_player != null && _player.IsPerched())
                 _echolocateActivatedTime += Time.deltaTime * 2f / 3;
 
             _echoScale = GetEchoScale();

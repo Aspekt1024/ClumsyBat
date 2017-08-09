@@ -83,7 +83,6 @@ public class LevelButton : MonoBehaviour
         {
             if (_state == BtnState.Unclicked)
             {
-                Debug.Log("yay");
                 levelName.text = Toolbox.Instance.LevelNames[Level];
                 levelName.enabled = true;
                 _state = BtnState.Clicked;

@@ -114,15 +114,15 @@ public class MenuScroller : MonoBehaviour {
 
     public void MainMenu()
     {
-        if (MenuState == MenuStates.LevelSelect)
-        {
-            StartCoroutine("LeaveLevelAnim");
-        }
-        else
-        {
-            MenuState = MenuStates.MainMenu;
-            StartCoroutine("MoveMenu");
-        }
+    //    if (MenuState == MenuStates.LevelSelect)
+    //    {
+    //        StartCoroutine("LeaveLevelAnim");
+    //    }
+    //    else
+    //    {
+    //        MenuState = MenuStates.MainMenu;
+    //        StartCoroutine("MoveMenu");
+    //    }
     }
 
     public void LevelSelect()

@@ -108,12 +108,12 @@ public class MainMenu : MonoBehaviour {
     {
         SaveData();
         camPositioner.MoveToLevelMenu();
-        _scroller.LevelSelect();
     }
 
     public void ReturnToMainScreen()
     {
-        _scroller.MainMenu();
+        SaveData();
+        camPositioner.MoveToMainMenu();
     }
 
     public void QuitButtonClicked()

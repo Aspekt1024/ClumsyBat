@@ -10,7 +10,9 @@ public class KeyPointsHandler : MonoBehaviour {
     public GameObject EntryPoint;
     public GameObject EntryLandingPoint;
     public GameObject LevelEntryPoint;
-    
+    public GameObject LevelMenuMidPoint;
+    public GameObject LevelMenuEndPoint;
+
     public GameObject LevelMapStart;
 
 }
