@@ -27,6 +27,7 @@ public class MainMenuDropdownHandler : MonoBehaviour {
 
     public void OptionsBackPressed()
     {
+        mainMenu.ReturnToMainScreen();
         StartCoroutine(HideDropdown(false));
     }
 

@@ -114,8 +114,9 @@ public class CamPositioner : MonoBehaviour {
         state = CamStates.Moving;
 
         Clumsy.MoveToPoint(Vector3.zero);
-        while (Vector2.Distance(Clumsy.transform.position, Vector2.zero) > 0.4f)
+        while (!Clumsy.TargetReached())
         {
+            Clumsy.RemainUnperched();
             yield return null;
         }
         Clumsy.Dash();

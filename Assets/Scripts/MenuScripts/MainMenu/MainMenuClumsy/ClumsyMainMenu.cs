@@ -79,7 +79,7 @@ public class ClumsyMainMenu : MonoBehaviour {
         isFollowingUserInput = true;
     }
 
-    private void Update ()
+    private void FixedUpdate ()
     {
         lanternHinge.transform.position = transform.position;
         if (isFollowingUserInput && (Input.GetMouseButtonUp(0) || (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began)))
