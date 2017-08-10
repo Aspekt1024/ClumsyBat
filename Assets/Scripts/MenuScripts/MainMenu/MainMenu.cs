@@ -2,10 +2,12 @@
 
 public class MainMenu : MonoBehaviour {
     
-    public GameObject MenuButtons;
+    public RectTransform MenuButtons;
 
     private RectTransform playButton;
-    
+    private RectTransform optionsButton;
+    private RectTransform statsButton;
+
     private CamPositioner camPositioner;
     private MainMenuDropdownHandler dropdownHandler;
     
@@ -15,8 +17,8 @@ public class MainMenu : MonoBehaviour {
         camPositioner = GetComponent<CamPositioner>();
         dropdownHandler = FindObjectOfType<MainMenuDropdownHandler>();
 
-        GetMenuButtonTransforms();
-        Toolbox.UIAnimator.PopInObject(playButton);
+        GetMenuButtonRects();
+        ShowMenuButtons();
     }
     
     private void Update()
@@ -26,20 +28,23 @@ public class MainMenu : MonoBehaviour {
     
     public void PlayButtonClicked()
     {
-        Toolbox.UIAnimator.PopOutObject(playButton);
+        if (camPositioner.IsMoving()) return;
+        HideMenuButtons();
         SaveData();
         camPositioner.MoveToLevelMenu();
     }
 
     public void ReturnToMainScreen()
     {
-        Toolbox.UIAnimator.PopInObject(playButton);
+        if (camPositioner.IsMoving()) return;
+        HideMenuButtons();
         SaveData();
         camPositioner.MoveToMainMenu();
     }
 
     public void StatsButtonClicked()
     {
+        if (camPositioner.IsMoving()) return;
         SaveData();
         camPositioner.MoveToDropdownArea();
         dropdownHandler.StatsPressed();
@@ -47,6 +52,7 @@ public class MainMenu : MonoBehaviour {
 
     public void OptionsButtonClicked()
     {
+        if (camPositioner.IsMoving()) return;
         SaveData();
         camPositioner.MoveToDropdownArea();
         dropdownHandler.OptionsPressed();
@@ -62,15 +68,32 @@ public class MainMenu : MonoBehaviour {
         //StartCoroutine(LoadLevel(LevelProgressionHandler.Levels.Endless));
     }
 
-    private void GetMenuButtonTransforms()
+    private void GetMenuButtonRects()
     {
-        foreach (Transform tf in MenuButtons.transform)
+        foreach (RectTransform rt in MenuButtons.GetComponentsInChildren<RectTransform>())
         {
-            if (tf.name == "PlayButton")
-            {
-                playButton = tf.GetComponent<RectTransform>();
-            }
+            if (rt.name == "PlayButton")
+                playButton = rt;
+            else if (rt.name == "OptionsButton")
+                optionsButton = rt;
+            else if (rt.name == "StatsButton")
+                statsButton = rt;
         }
+        Debug.Log(statsButton);
+    }
+
+    private void HideMenuButtons()
+    {
+        Toolbox.UIAnimator.PopOutObject(playButton);
+        Toolbox.UIAnimator.PopOutObject(optionsButton);
+        Toolbox.UIAnimator.PopOutObject(statsButton);
+    }
+
+    private void ShowMenuButtons()
+    {
+        Toolbox.UIAnimator.PopInObject(playButton);
+        Toolbox.UIAnimator.PopInObject(optionsButton);
+        Toolbox.UIAnimator.PopInObject(statsButton);
     }
 
     private void SaveData() { GameData.Instance.Data.SaveData(); }

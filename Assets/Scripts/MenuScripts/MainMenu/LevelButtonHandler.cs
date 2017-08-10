@@ -125,8 +125,7 @@ public class LevelButtonHandler : MonoBehaviour {
 
         return highestLevel;
     }
-
-
+    
     private void SetupLevelSelect()
     {
         int level;
@@ -143,25 +142,20 @@ public class LevelButtonHandler : MonoBehaviour {
     }
 
 
-    private float GetButtonPosX()
+
+    public IEnumerator MoveLevelMapToStart()
     {
-        GameObject lvlButton = GameObject.Find("Lv" + CurrentLevel);
-        if (!lvlButton) { return 0; }
-        RectTransform lvlButtonRt = lvlButton.GetComponent<RectTransform>();
-        float ButtonPosX = lvlButtonRt.position.x - levelContentRect.position.x;
-        return ButtonPosX;
+        while (levelScrollRect.horizontalNormalizedPosition > 0.1f)
+        {
+            levelScrollRect.horizontalNormalizedPosition = Mathf.Lerp(levelScrollRect.horizontalNormalizedPosition, 0, Time.deltaTime * 4);
+            yield return null;
+        }
+        levelScrollRect.horizontalNormalizedPosition = 0;
     }
 
     public void SetCurrentLevel(int Level)
     {
         CurrentLevel = Level;
-        if (Toolbox.Instance.MenuScreen == Toolbox.MenuSelector.LevelSelect)
-        {
-            JumpToCurrentLevel();
-        }
-    }
-    private void JumpToCurrentLevel()
-    {
         GotoCurrentLevel(Instantly: true);
     }
 
@@ -185,26 +179,18 @@ public class LevelButtonHandler : MonoBehaviour {
         }
     }
 
+    private float GetButtonPosX()
+    {
+        GameObject lvlButton = GameObject.Find("Lv" + CurrentLevel);
+        if (!lvlButton) { return 0; }
+        RectTransform lvlButtonRt = lvlButton.GetComponent<RectTransform>();
+        float ButtonPosX = lvlButtonRt.position.x - levelContentRect.position.x;
+        return ButtonPosX;
+    }
+
     private void SetLevelText(string text)
     {
-        const float normalWidth = 621f;
-        const float normalScale = 0.31f;
-        const float extraWidth = 800f;
-        const float extraScale = 0.25f;
-
         Toolbox.UIAnimator.PopInObject(LevelTextRT);
         levelText.text = text;
-
-        return;
-        if (text.Length > 14)
-        {
-            LevelTextRT.sizeDelta = new Vector2(extraWidth, 80f);
-            LevelTextRT.localScale = Vector2.one * extraScale;
-        }
-        else
-        {
-            LevelTextRT.sizeDelta = new Vector2(normalWidth, 80f);
-            LevelTextRT.localScale = Vector2.one * normalScale;
-        }
     }
 }

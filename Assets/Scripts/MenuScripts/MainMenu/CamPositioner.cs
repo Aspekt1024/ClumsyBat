@@ -6,6 +6,7 @@ public class CamPositioner : MonoBehaviour {
 
     public ClumsyMainMenu Clumsy;
     public NavButtonHandler NavButtons;
+    public LevelButtonHandler LevelButtons;
 
     public enum Positions
     {
@@ -27,6 +28,11 @@ public class CamPositioner : MonoBehaviour {
         Idle, Moving
     }
     private CamStates state;
+
+    public bool IsMoving()
+    {
+        return state == CamStates.Moving;
+    }
 
     public void MoveToLevelMenu()
     {
@@ -63,7 +69,9 @@ public class CamPositioner : MonoBehaviour {
 
         if (Toolbox.Instance.MenuScreen == Toolbox.MenuSelector.LevelSelect)
         {
+            NavButtons.SetNavButtons(Positions.LevelSelect);
             SetCamPositionFromPointImmediate(keyPoints.LevelMapStart);
+            LevelButtons.SetCurrentLevel((int)GameData.Instance.Level);
         }
         else
         {
@@ -86,10 +94,12 @@ public class CamPositioner : MonoBehaviour {
 
     private IEnumerator MainMenu()
     {
+        Clumsy.SetPosition(keyPoints.EntryPoint.transform.position);
         state = CamStates.Moving;
         NavButtons.DisableNavButtons();
+        yield return StartCoroutine(LevelButtons.MoveLevelMapToStart());
         SetTargetPosition(keyPoints.MainMenuCamPoint);
-
+        
         while (Mathf.Abs(mainCam.transform.position.x - targetPosition.x) > 0.1f)
         {
             yield return null;
@@ -168,6 +178,7 @@ public class CamPositioner : MonoBehaviour {
 
     private void SetCamPositionFromPointImmediate(GameObject objToMoveTo)
     {
+        SetTargetPosition(objToMoveTo);
         mainCam.transform.position = GetPosFromPoint(objToMoveTo);
     }
     private void SetCamPositionFromPointImmediate(Vector3 pt)
