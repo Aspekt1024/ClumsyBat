@@ -67,10 +67,10 @@ public class ClumsyMainMenu : MonoBehaviour {
             if (Random.Range(0f, 1f) > 0.8f)
             {
                 MoveToPoint(transform.position + Vector3.up * 2f);
-                anim.Play("FlapBlink");
+                anim.Play("FlapBlink", 0, 0f);
             }
             else
-                anim.Play("Tapped");
+                anim.Play("Tapped", 0, 0f);
         }
     }
 
