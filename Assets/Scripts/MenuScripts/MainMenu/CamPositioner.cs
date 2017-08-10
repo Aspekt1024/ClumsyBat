@@ -94,7 +94,11 @@ public class CamPositioner : MonoBehaviour {
 
     private IEnumerator MainMenu()
     {
-        Clumsy.SetPosition(keyPoints.EntryPoint.transform.position);
+        if (Mathf.Abs(Clumsy.transform.position.x - keyPoints.EntryLandingPoint.transform.position.x) > 1f)
+        {
+            Clumsy.SetPosition(keyPoints.EntryPoint.transform.position);
+        }
+
         state = CamStates.Moving;
         NavButtons.DisableNavButtons();
         yield return StartCoroutine(LevelButtons.MoveLevelMapToStart());

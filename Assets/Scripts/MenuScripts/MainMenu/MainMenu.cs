@@ -37,7 +37,7 @@ public class MainMenu : MonoBehaviour {
     public void ReturnToMainScreen()
     {
         if (camPositioner.IsMoving()) return;
-        HideMenuButtons();
+        ShowMenuButtons();
         SaveData();
         camPositioner.MoveToMainMenu();
     }
