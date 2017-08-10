@@ -124,6 +124,14 @@ public class CaveHandler : MonoBehaviour {
                 caveBottom.name = caveBottomName;
                 caveTop.name = caveTopName;
                 caveBottom.transform.position = new Vector3(_tileSizeX * i, 0f, _caveZ);
+
+                SecretPath path = caveBottom.GetComponentInChildren<SecretPath>();
+                if (path == null) path = caveTop.GetComponentInChildren<SecretPath>();
+                if (path != null)
+                {
+                    if (!cave.bSecretPathHasBlock) Destroy(path.gameObject);
+                    path.RequiresBlueMoth = cave.bSecretPathRequiresMoth;
+                }
             }
             caveTop.transform.position = new Vector3(_tileSizeX * i, 0f, _caveZ);
         }

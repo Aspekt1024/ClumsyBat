@@ -11,6 +11,8 @@ public class LevelContainer {
         public int BottomIndex;
         public bool bTopSecretPath;
         public bool bBottomSecretPath;
+        public bool bSecretPathRequiresMoth;
+        public bool bSecretPathHasBlock;
         public ShroomPool.ShroomType[] Shrooms;
         public StalPool.StalType[] Stals;
         public MothPool.MothType[] Moths;

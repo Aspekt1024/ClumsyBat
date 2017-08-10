@@ -6,6 +6,8 @@
       <BottomIndex>1000</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals />
       <Moths />
@@ -19,6 +21,8 @@
       <BottomIndex>1</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms>
         <ShroomType>
           <SpawnTransform>
@@ -57,8 +61,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.173648253</z>
-              <w>0.9848078</w>
+              <z>0.1736483</z>
+              <w>-0.9848077</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -81,12 +85,12 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>0.173648253</z>
-              <w>0.9848078</w>
+              <z>0.173648268</z>
+              <w>0.9848077</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
-                <z>20.0000076</z>
+                <z>20.0000114</z>
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
@@ -156,23 +160,25 @@
       <BottomIndex>0</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>true</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals>
         <StalType>
           <SpawnTransform>
             <Pos>
-              <x>-1.0784874</x>
+              <x>-1.18000031</x>
               <y>-4.157857</y>
             </Pos>
             <Scale>
-              <x>1</x>
-              <y>1</y>
+              <x>1.174787</x>
+              <y>1.17478693</y>
             </Scale>
             <Rotation>
               <x>0</x>
               <y>0</y>
               <z>0.9063077</z>
-              <w>0.422618568</w>
+              <w>0.422618479</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -201,7 +207,7 @@
               <x>0</x>
               <y>0</y>
               <z>0.939692557</z>
-              <w>-0.342020422</w>
+              <w>-0.342020333</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -229,8 +235,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9848077</z>
-              <w>-0.173648283</w>
+              <z>0.9848077</z>
+              <w>0.173648342</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -249,7 +255,7 @@
           <SpawnTransform>
             <Pos>
               <x>4.32753754</x>
-              <y>-4.32755327</y>
+              <y>-3.85</y>
             </Pos>
             <Scale>
               <x>1</x>
@@ -277,22 +283,22 @@
         <StalType>
           <SpawnTransform>
             <Pos>
-              <x>-1.25</x>
-              <y>-5.32</y>
+              <x>-1.23000336</x>
+              <y>-4.95</y>
             </Pos>
             <Scale>
               <x>1.17650282</x>
-              <y>1.17650282</y>
+              <y>1.33603549</y>
             </Scale>
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>0.8191519</z>
-              <w>0.5735767</w>
+              <z>0.790676355</z>
+              <w>0.6122344</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
-                <z>109.999962</z>
+                <z>104.49752</z>
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
@@ -307,7 +313,7 @@
           <SpawnTransform>
             <Pos>
               <x>4.39999771</x>
-              <y>-5.52</y>
+              <y>-5.19</y>
             </Pos>
             <Scale>
               <x>1</x>
@@ -317,7 +323,7 @@
               <x>0</x>
               <y>0</y>
               <z>0.766044259</z>
-              <w>-0.6427879</w>
+              <w>-0.6427878</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -346,7 +352,7 @@
               <x>0</x>
               <y>0</y>
               <z>0.9848077</z>
-              <w>-0.173648313</w>
+              <w>-0.1736483</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -399,6 +405,8 @@
       <BottomIndex>3</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals />
       <Moths />
@@ -412,6 +420,8 @@
       <BottomIndex>4</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals />
       <Moths />
@@ -425,6 +435,8 @@
       <BottomIndex>4</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals />
       <Moths />
@@ -438,6 +450,8 @@
       <BottomIndex>1001</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals />
       <Moths />

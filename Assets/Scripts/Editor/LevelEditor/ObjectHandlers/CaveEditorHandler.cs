@@ -89,6 +89,16 @@ public class CaveEditorHandler : BaseObjectHandler {
                 if (cave.name.Contains("Exit"))
                 {
                     level.Caves[index].bTopSecretPath = true;
+                    SecretPath path = cave.GetComponentInChildren<SecretPath>();
+                    if (path != null)
+                    {
+                        level.Caves[index].bSecretPathRequiresMoth = path.RequiresBlueMoth;
+                        level.Caves[index].bSecretPathHasBlock = path.HasBlock;
+                    }
+                    else
+                    {
+                        level.Caves[index].bSecretPathHasBlock = false;
+                    }
                 }
             }
             else if (cave.name.Contains("Bottom"))
@@ -98,6 +108,16 @@ public class CaveEditorHandler : BaseObjectHandler {
                 if (cave.name.Contains("Exit"))
                 {
                     level.Caves[index].bBottomSecretPath = true;
+                    SecretPath path = cave.GetComponentInChildren<SecretPath>();
+                    if (path != null)
+                    {
+                        level.Caves[index].bSecretPathRequiresMoth = path.RequiresBlueMoth;
+                        level.Caves[index].bSecretPathHasBlock = path.HasBlock;
+                    }
+                    else
+                    {
+                        level.Caves[index].bSecretPathHasBlock = false;
+                    }
                 }
             }
         }
@@ -133,6 +153,14 @@ public class CaveEditorHandler : BaseObjectHandler {
                 caveBottom.name = caveBottomName;
                 caveTop.name = caveTopName;
                 caveBottom.transform.position = new Vector3(LevelEditorConstants.TileSizeX * i, 0f, zLayer);
+
+                if (cave.bBottomSecretPath || cave.bTopSecretPath)
+                {
+                    SecretPath path = caveTop.GetComponentInChildren<SecretPath>();
+                    if (path == null) path = caveBottom.GetComponentInChildren<SecretPath>();
+                    path.RequiresBlueMoth = cave.bSecretPathRequiresMoth;
+                    path.HasBlock = cave.bSecretPathHasBlock;
+                }
             }
             caveTop.transform.position = new Vector3(LevelEditorConstants.TileSizeX * i, 0f, zLayer);
         }

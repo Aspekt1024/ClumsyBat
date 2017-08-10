@@ -6,6 +6,7 @@ public class SecretPath : MonoBehaviour {
 
     public LevelProgressionHandler.Levels LevelToUnlock;
     public bool RequiresBlueMoth;
+    public bool HasBlock;
 
     private bool isActivated;
 
