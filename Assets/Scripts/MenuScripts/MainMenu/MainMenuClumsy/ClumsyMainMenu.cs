@@ -36,6 +36,7 @@ public class ClumsyMainMenu : MonoBehaviour {
         target = pos;
 
         if (isPerched) Unperch();
+        animControl.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Flap);
     }
 
     public void RemainUnperched()

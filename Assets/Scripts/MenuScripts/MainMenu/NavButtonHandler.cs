@@ -43,61 +43,13 @@ public class NavButtonHandler : MonoBehaviour
 
     private void EnableBackButton()
     {
-        StartCoroutine(PopInObject(backButton));
+        Toolbox.UIAnimator.PopInObject(backButton);
     }
 
     private void DisableBackButton()
     {
-        StartCoroutine(PopOutObject(backButton));
+        Toolbox.UIAnimator.PopOutObject(backButton);
     }
 
-    private IEnumerator PopInObject(RectTransform rt)
-    {
-        float timer = 0f;
-        float duration = 0.2f;
 
-        Vector3 originalScale = rt.localScale;
-        rt.gameObject.SetActive(true);
-        while (timer < duration)
-        {
-            timer += Time.deltaTime;
-            rt.localScale = Vector3.Lerp(Vector3.one * 0.1f, originalScale * 1.1f, timer / duration);
-            yield return null;
-        }
-
-        timer = 0f;
-        duration = 0.08f;
-        while (timer < duration)
-        {
-            timer += Time.deltaTime;
-            rt.localScale = Vector3.Lerp(originalScale * 1.1f, originalScale, timer / duration);
-            yield return null;
-        }
-        rt.localScale = originalScale;
-    }
-
-    private IEnumerator PopOutObject(RectTransform rt)
-    {
-        float timer = 0f;
-        float duration = 0.08f;
-
-        Vector3 originalScale = rt.localScale;
-        while (timer < duration)
-        {
-            timer += Time.deltaTime;
-            rt.localScale = Vector3.Lerp(originalScale, originalScale * 1.1f, timer / duration);
-            yield return null;
-        }
-
-        timer = 0f;
-        duration = 0.2f;
-        while (timer < duration)
-        {
-            timer += Time.deltaTime;
-            rt.localScale = Vector3.Lerp(originalScale * 1.1f, Vector3.one * 0.1f, timer / duration);
-            yield return null;
-        }
-        rt.gameObject.SetActive(false);
-        rt.localScale = originalScale;
-    }
 }

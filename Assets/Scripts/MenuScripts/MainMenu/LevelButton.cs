@@ -19,7 +19,6 @@ public class LevelButton : MonoBehaviour
     private Sprite _unavailableImage;
 
     private Image _levelImage;
-    private LevelButtonHandler handler;
     private RectTransform starsRt;
     private MothStar[] stars = new MothStar[3];
     
@@ -37,7 +36,7 @@ public class LevelButton : MonoBehaviour
         Completed
     }
     private LevelStates _levelState = LevelStates.Disabled;
-
+    
     private void Awake ()
     {
         foreach (RectTransform rt in GetComponent<RectTransform>())
@@ -149,4 +148,23 @@ public class LevelButton : MonoBehaviour
             if (Star3Complete) stars[2].SetActive(); else stars[2].SetInactive();
         }
     }
+
+#if UNITY_EDITOR
+    public void OnDrawGizmos()
+    {
+        LevelButton[] buttons = transform.parent.GetComponentsInChildren<LevelButton>();
+
+        foreach (LevelButton button in buttons)
+        {
+            if (button.PreviousLevel != null)
+            {
+                Vector2 prevPos = button.PreviousLevel.position;
+                Vector2 thisPos = button.transform.position;
+                
+                Gizmos.color = new Color(0.4f, 1f, 1f);
+                Gizmos.DrawLine(prevPos, thisPos);
+            }
+        }
+    }
+#endif
 }

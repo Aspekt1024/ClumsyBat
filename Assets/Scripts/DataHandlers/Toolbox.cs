@@ -29,6 +29,7 @@ public class Toolbox : Singleton<Toolbox>
     private static MainAudioControl mainAudio;
     private CameraFollowObject playerCamScript;
     private TooltipHandler tooltipHandler;
+    private UIObjectAnimator objectAnimator;
 
     public static TooltipHandler Tooltips
     {
@@ -37,6 +38,21 @@ public class Toolbox : Singleton<Toolbox>
             if (Instance.tooltipHandler == null)
                 Instance.tooltipHandler = GameObject.FindGameObjectWithTag("Scripts").GetComponent<TooltipHandler>();
             return Instance.tooltipHandler;
+        }
+    }
+
+    public static UIObjectAnimator UIAnimator
+    {
+        get
+        {
+            if (Instance.objectAnimator == null)
+            {
+                GameObject scripts = GameObject.FindGameObjectWithTag("Scripts");
+                Instance.objectAnimator = scripts.GetComponent<UIObjectAnimator>();
+                if (Instance.objectAnimator == null)
+                    Instance.objectAnimator = scripts.AddComponent<UIObjectAnimator>();
+            }
+            return Instance.objectAnimator;
         }
     }
 

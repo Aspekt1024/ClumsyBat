@@ -8,14 +8,15 @@ using UnityEngine.UI;
 public class LevelButtonHandler : MonoBehaviour {
 
     public GameObject LoadingOverlay;
-    public Text LevelText;
+    public RectTransform LevelTextRT;
     public RectTransform LevelPlayButton;
-
+    
     public LevelProgressionHandler.Levels ActiveLevel;
 
     private LevelButton[] buttons;
     private RectTransform levelContentRect;
     private ScrollRect levelScrollRect;
+    private Text levelText;
     private int CurrentLevel;
 
     public LevelButton[] LevelButtons()
@@ -27,6 +28,7 @@ public class LevelButtonHandler : MonoBehaviour {
     {
         levelContentRect = GameObject.Find("Content").GetComponent<RectTransform>();
         levelScrollRect = GameObject.Find("LevelScrollRect").GetComponent<ScrollRect>();
+        levelText = LevelTextRT.GetComponent<Text>();
 
         GetLevelButtons();
         SetupLevelSelect();
@@ -42,12 +44,14 @@ public class LevelButtonHandler : MonoBehaviour {
         for (int index = 1; index < GameData.Instance.Data.LevelData.NumLevels; index++)
         {
             if (buttons[index] == null || !buttons[index].LevelAvailable()) continue;
-
-            buttons[index].Click(ActiveLevel);
-            LevelText.text = Toolbox.Instance.LevelNames[ActiveLevel];
-
+            
             if (!LevelPlayButton.gameObject.activeSelf)
-                LevelPlayButton.gameObject.SetActive(true); // TODO animate
+                Toolbox.UIAnimator.PopInObject(LevelPlayButton);
+            
+            buttons[index].Click(ActiveLevel);
+
+            if (index == (int)ActiveLevel)
+                SetLevelText(Toolbox.Instance.LevelNames[ActiveLevel]);
         }
     }
 
@@ -178,6 +182,29 @@ public class LevelButtonHandler : MonoBehaviour {
             {
                 levelScrollRect.horizontalNormalizedPosition = NormalisedPosition;
             }
+        }
+    }
+
+    private void SetLevelText(string text)
+    {
+        const float normalWidth = 621f;
+        const float normalScale = 0.31f;
+        const float extraWidth = 800f;
+        const float extraScale = 0.25f;
+
+        Toolbox.UIAnimator.PopInObject(LevelTextRT);
+        levelText.text = text;
+
+        return;
+        if (text.Length > 14)
+        {
+            LevelTextRT.sizeDelta = new Vector2(extraWidth, 80f);
+            LevelTextRT.localScale = Vector2.one * extraScale;
+        }
+        else
+        {
+            LevelTextRT.sizeDelta = new Vector2(normalWidth, 80f);
+            LevelTextRT.localScale = Vector2.one * normalScale;
         }
     }
 }

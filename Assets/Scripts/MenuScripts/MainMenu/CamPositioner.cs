@@ -17,6 +17,9 @@ public class CamPositioner : MonoBehaviour {
     private KeyPointsHandler keyPoints;
     private Vector2 targetPosition;
 
+    private RectTransform mainScreen;
+    private RectTransform levelScroller;
+
     private const float maxCamDistPerFrame = 2f;
 
     private enum CamStates
@@ -42,8 +45,7 @@ public class CamPositioner : MonoBehaviour {
         if (state == CamStates.Moving) return;
         StartCoroutine(DropdownArea());
     }
-
-
+    
     private void Awake()
     {
         mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
@@ -54,7 +56,12 @@ public class CamPositioner : MonoBehaviour {
 
 	private void Start ()
     {
-        if(Toolbox.Instance.MenuScreen == Toolbox.MenuSelector.LevelSelect)
+        mainScreen = GameObject.Find("MainScreen").GetComponent<RectTransform>();
+        levelScroller = GameObject.Find("LevelScrollRect").GetComponent<RectTransform>();
+        Vector3 levelScrollPos = keyPoints.LevelMapStart.transform.position;
+        levelScroller.position = new Vector3(levelScrollPos.x, levelScrollPos.y, levelScroller.position.z);
+
+        if (Toolbox.Instance.MenuScreen == Toolbox.MenuSelector.LevelSelect)
         {
             SetCamPositionFromPointImmediate(keyPoints.LevelMapStart);
         }
@@ -70,6 +77,10 @@ public class CamPositioner : MonoBehaviour {
         float xDist = Mathf.Lerp(mainCam.transform.position.x, targetPosition.x, Time.deltaTime * 4) - mainCam.transform.position.x;
         xDist = Mathf.Clamp(xDist, -maxCamDistPerFrame, maxCamDistPerFrame);
         mainCam.transform.position += Vector3.right * xDist;
+
+        float xDiff = keyPoints.MainMenuCamPoint.transform.position.x - mainScreen.position.x;
+        mainScreen.position += Vector3.right * xDiff;
+        levelScroller.position += Vector3.right * xDiff;
     }
     
 
@@ -184,7 +195,6 @@ public class CamPositioner : MonoBehaviour {
 
     private Vector3 GetPosFromPoint(GameObject pointObj)
     {
-
         float xPos = pointObj.transform.position.x;
         float yPos = pointObj.transform.position.y;
         float zPos = mainCam.transform.position.z;

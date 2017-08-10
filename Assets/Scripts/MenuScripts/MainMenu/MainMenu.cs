@@ -4,18 +4,19 @@ public class MainMenu : MonoBehaviour {
     
     public GameObject MenuButtons;
 
-    private GameObject _runtimeScripts;
-    private MenuScroller _scroller;
+    private RectTransform playButton;
+    
     private CamPositioner camPositioner;
     private MainMenuDropdownHandler dropdownHandler;
     
     private void Awake()
     {
         GameData.Instance.Data.LoadDataObjects();
-        _runtimeScripts = new GameObject("Runtime Scripts");
-        _scroller = _runtimeScripts.AddComponent<MenuScroller>();   // TODO required?
         camPositioner = GetComponent<CamPositioner>();
         dropdownHandler = FindObjectOfType<MainMenuDropdownHandler>();
+
+        GetMenuButtonTransforms();
+        Toolbox.UIAnimator.PopInObject(playButton);
     }
     
     private void Update()
@@ -25,12 +26,14 @@ public class MainMenu : MonoBehaviour {
     
     public void PlayButtonClicked()
     {
+        Toolbox.UIAnimator.PopOutObject(playButton);
         SaveData();
         camPositioner.MoveToLevelMenu();
     }
 
     public void ReturnToMainScreen()
     {
+        Toolbox.UIAnimator.PopInObject(playButton);
         SaveData();
         camPositioner.MoveToMainMenu();
     }
@@ -57,6 +60,17 @@ public class MainMenu : MonoBehaviour {
     
     public void LvEndlessButtonClicked() {
         //StartCoroutine(LoadLevel(LevelProgressionHandler.Levels.Endless));
+    }
+
+    private void GetMenuButtonTransforms()
+    {
+        foreach (Transform tf in MenuButtons.transform)
+        {
+            if (tf.name == "PlayButton")
+            {
+                playButton = tf.GetComponent<RectTransform>();
+            }
+        }
     }
 
     private void SaveData() { GameData.Instance.Data.SaveData(); }

@@ -15,5 +15,13 @@ public class KeyPointsHandler : MonoBehaviour {
     public GameObject LevelMenuEndPoint;
 
     public GameObject LevelMapStart;
+    
+    private void Start()
+    {
+        foreach(SpriteRenderer kp in GameObject.Find("KeyPoints").GetComponentsInChildren<SpriteRenderer>())
+        {
+            kp.GetComponent<SpriteRenderer>().enabled = false;
+        }
+    }
 
 }
