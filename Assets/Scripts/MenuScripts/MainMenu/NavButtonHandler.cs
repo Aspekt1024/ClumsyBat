@@ -4,66 +4,100 @@ using UnityEngine.UI;
 
 public class NavButtonHandler : MonoBehaviour
 {
-
-    private GameObject NavButtons;
-    private RectTransform BackButton;
-
+    private RectTransform backButton;
+    
     void Awake()
     {
-        NavButtons = GameObject.Find("NavButtons");
-        foreach (RectTransform RT in NavButtons.GetComponent<RectTransform>())
+        foreach (RectTransform RT in GetComponent<RectTransform>())
         {
-            switch(RT.name)
+            if (RT.name == "BackButton")
             {
-                case "BackButton":
-                    BackButton = RT;
-                    break;
+                backButton = RT;
+                backButton.gameObject.SetActive(false);
             }
         }
     }
-    
-    public void SetupNavButtons(MenuScroller.MenuStates MenuState)
+
+    public void DisableNavButtons()
     {
-        if (!NavButtons) { return; }
-        switch (MenuState)
+        DisableBackButton();
+    }
+    
+    public void SetNavButtons(CamPositioner.Positions camPosition)
+    {
+        switch (camPosition)
         {
-            case MenuScroller.MenuStates.LevelSelect:
-                NavButtons.SetActive(true);
-                StartCoroutine("AnimateBackArrow");
+            case CamPositioner.Positions.LevelSelect:
+                EnableBackButton();
                 break;
-            case MenuScroller.MenuStates.MainMenu:
-                NavButtons.SetActive(false);
+            case CamPositioner.Positions.Main:
+                //EnableBackButton();
                 break;
-            case MenuScroller.MenuStates.StatsScreen:
-                NavButtons.SetActive(false);
+            case CamPositioner.Positions.DropdownArea:
+                //EnableBackButton();
                 break;
             default:
                 break;
         }
     }
 
-    private IEnumerator AnimateBackArrow()
+    private void EnableBackButton()
     {
-        float OverlayScale = GameObject.Find("ScrollOverlay").GetComponent<RectTransform>().localScale.x;
-        float StartPos = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0f)).x;
-        float EndPos = Camera.main.ScreenToWorldPoint(Vector2.zero).x + BackButton.rect.width * OverlayScale;
-        const float AnimDuration = 0.4f;
+        StartCoroutine(PopInObject(backButton));
+    }
 
-        BackButton.GetComponent<Image>().enabled = false;
-        yield return new WaitForSeconds(1.5f);
-        BackButton.position = new Vector3(StartPos, BackButton.position.y, BackButton.position.z);
-        BackButton.GetComponent<Image>().enabled = true;
-        yield return null;
+    private void DisableBackButton()
+    {
+        StartCoroutine(PopOutObject(backButton));
+    }
 
-        float AnimTimer = 0f;
-        while (AnimTimer < AnimDuration)
+    private IEnumerator PopInObject(RectTransform rt)
+    {
+        float timer = 0f;
+        float duration = 0.2f;
+
+        Vector3 originalScale = rt.localScale;
+        rt.gameObject.SetActive(true);
+        while (timer < duration)
         {
-            AnimTimer += Time.deltaTime;
-            float Ratio = Mathf.Clamp(AnimTimer / AnimDuration, 0f, 1f);
-            float XPos = StartPos - (StartPos - EndPos) * Ratio;
-            BackButton.position = new Vector3(XPos, BackButton.position.y, BackButton.position.z);
+            timer += Time.deltaTime;
+            rt.localScale = Vector3.Lerp(Vector3.one * 0.1f, originalScale * 1.1f, timer / duration);
             yield return null;
         }
-        BackButton.position = new Vector3(EndPos, BackButton.position.y, BackButton.position.z);
+
+        timer = 0f;
+        duration = 0.08f;
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            rt.localScale = Vector3.Lerp(originalScale * 1.1f, originalScale, timer / duration);
+            yield return null;
+        }
+        rt.localScale = originalScale;
+    }
+
+    private IEnumerator PopOutObject(RectTransform rt)
+    {
+        float timer = 0f;
+        float duration = 0.08f;
+
+        Vector3 originalScale = rt.localScale;
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            rt.localScale = Vector3.Lerp(originalScale, originalScale * 1.1f, timer / duration);
+            yield return null;
+        }
+
+        timer = 0f;
+        duration = 0.2f;
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            rt.localScale = Vector3.Lerp(originalScale * 1.1f, Vector3.one * 0.1f, timer / duration);
+            yield return null;
+        }
+        rt.gameObject.SetActive(false);
+        rt.localScale = originalScale;
     }
 }

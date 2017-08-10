@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ParralaxBG : MonoBehaviour {
 
     public Transform ObjectToTrack;
+    public BackgroundColour DefaultColour;
 
     private float prevXPosition;
 
@@ -11,12 +13,12 @@ public class ParralaxBG : MonoBehaviour {
         Front, Mid, Rear
     }
 
-    private enum BackgroundColour
+    public enum BackgroundColour
     {
         Red, Blue, Green
     }
     
-    public float ZLayer;
+    [HideInInspector] public float ZLayer;
     public const float FrontBgSpeed = 0.7f;
     public const float MidBgSpeed = 0.9f;
     public const float RearBgSpeed = 1f;
@@ -51,7 +53,11 @@ public class ParralaxBG : MonoBehaviour {
 
     private void Start()
     {
-        ChooseColourFromLevel();
+        if (SceneManager.GetActiveScene().name == "Play")
+            bgColour = DefaultColour;
+        else
+            ChooseColourFromLevel();
+
         transform.position = new Vector3(0, 0, ZLayer);
         GetBgPieces();
         GetBgSprites();
@@ -189,11 +195,11 @@ public class ParralaxBG : MonoBehaviour {
     private void ChooseColourFromLevel()
     {
         LevelProgressionHandler.Levels level = GameData.Instance.Level;
-        if (level == LevelProgressionHandler.Levels.Main1)
+        if (level <= LevelProgressionHandler.Levels.Boss2)
         {
             bgColour = BackgroundColour.Red;
         }
-        else if (level == LevelProgressionHandler.Levels.Main2)
+        else if (level <= LevelProgressionHandler.Levels.Boss4)
         {
             bgColour = BackgroundColour.Blue;
         }

@@ -14,7 +14,10 @@ public class LevelButtonHandler : MonoBehaviour {
     public LevelProgressionHandler.Levels ActiveLevel;
 
     private LevelButton[] buttons;
-    
+    private RectTransform levelContentRect;
+    private ScrollRect levelScrollRect;
+    private int CurrentLevel;
+
     public LevelButton[] LevelButtons()
     {
         return buttons;
@@ -22,6 +25,9 @@ public class LevelButtonHandler : MonoBehaviour {
 
     private void Start ()
     {
+        levelContentRect = GameObject.Find("Content").GetComponent<RectTransform>();
+        levelScrollRect = GameObject.Find("LevelScrollRect").GetComponent<ScrollRect>();
+
         GetLevelButtons();
         SetupLevelSelect();
         LoadingOverlay = GameObject.Find("LoadScreen");
@@ -130,5 +136,48 @@ public class LevelButtonHandler : MonoBehaviour {
         }
         // TODO set the scroller
         //_scroller.SetCurrentLevel(level);
+    }
+
+
+    private float GetButtonPosX()
+    {
+        GameObject lvlButton = GameObject.Find("Lv" + CurrentLevel);
+        if (!lvlButton) { return 0; }
+        RectTransform lvlButtonRt = lvlButton.GetComponent<RectTransform>();
+        float ButtonPosX = lvlButtonRt.position.x - levelContentRect.position.x;
+        return ButtonPosX;
+    }
+
+    public void SetCurrentLevel(int Level)
+    {
+        CurrentLevel = Level;
+        if (Toolbox.Instance.MenuScreen == Toolbox.MenuSelector.LevelSelect)
+        {
+            JumpToCurrentLevel();
+        }
+    }
+    private void JumpToCurrentLevel()
+    {
+        GotoCurrentLevel(Instantly: true);
+    }
+
+    private void GotoCurrentLevel(bool Instantly = false)
+    {
+        const float MaxPosX = 7f;
+        float LvlButtonPosX = GetButtonPosX();
+        if (LvlButtonPosX > MaxPosX)
+        {
+            float XShift = LvlButtonPosX - MaxPosX;
+            float ContentScale = GameObject.Find("ScrollOverlay").GetComponent<RectTransform>().localScale.x;
+            float NormalisedPosition = XShift / levelContentRect.rect.width / ContentScale;
+            if (!Instantly)
+            {
+                StartCoroutine("GotoLevelAnim", NormalisedPosition);
+            }
+            else
+            {
+                levelScrollRect.horizontalNormalizedPosition = NormalisedPosition;
+            }
+        }
     }
 }

@@ -3,59 +3,57 @@ using System.Collections;
 
 public class MainMenuDropdownHandler : MonoBehaviour {
     
-    private DropdownMenu Menu = null;
-    private MenuScroller Scroller = null;
+    private DropdownMenu dropdownMenu ;
+    private MainMenu mainMenu;
 
     void Start ()
     {
-        Menu = FindObjectOfType<DropdownMenu>();
-        Scroller = FindObjectOfType<MenuScroller>();
-        Menu.Hide();
-        Menu.StatsMenu.CreateStats();
+        mainMenu = FindObjectOfType<MainMenu>();
+        dropdownMenu = FindObjectOfType<DropdownMenu>();
+        dropdownMenu.Hide();
+        dropdownMenu.StatsMenu.CreateStats();
     }
 
     public void OptionsPressed()
     {
-        StartCoroutine("ShowOptions");
+        StartCoroutine(ShowOptions());
     }
 
     private IEnumerator ShowOptions()
     {
-        float WaitTime = Scroller.StatsScreen();
-        yield return new WaitForSeconds(WaitTime);
-        Menu.ShowOptions();
+        yield return new WaitForSeconds(1f);
+        dropdownMenu.ShowOptions();
     }
 
     public void OptionsBackPressed()
     {
-        StartCoroutine("HideDropdown", false);
+        StartCoroutine(HideDropdown(false));
     }
 
     private IEnumerator HideDropdown(bool bStatsMenu)
     {
-        float WaitTime = Menu.RaiseMenu();
+        float WaitTime = dropdownMenu.RaiseMenu();
         yield return new WaitForSeconds(WaitTime);
-        Scroller.MainMenu();
         if (bStatsMenu)
         {
-            Menu.StatsMenu.Hide();
+            dropdownMenu.StatsMenu.Hide();
         }
     }
 
     public void StatsPressed()
     {
-        StartCoroutine("ShowStats");
+        StartCoroutine(ShowStats());
     }
 
     private IEnumerator ShowStats()
     {
-        float WaitTime = Scroller.StatsScreen();
-        yield return new WaitForSeconds(WaitTime);
-        Menu.ShowStats();
+        yield return new WaitForSeconds(1f);
+        dropdownMenu.ShowStats();
     }
 
     public void StatsBackPressed()
     {
-        StartCoroutine("HideDropdown", true);
+        mainMenu.ReturnToMainScreen();
+        StartCoroutine(HideDropdown(true));
     }
 }

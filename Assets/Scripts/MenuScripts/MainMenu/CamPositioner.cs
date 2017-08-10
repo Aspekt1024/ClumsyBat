@@ -5,6 +5,12 @@ using UnityEngine;
 public class CamPositioner : MonoBehaviour {
 
     public ClumsyMainMenu Clumsy;
+    public NavButtonHandler NavButtons;
+
+    public enum Positions
+    {
+        Main, DropdownArea, LevelSelect
+    }
 
     private Camera mainCam;
     private CameraFollowObject camFollow;
@@ -24,29 +30,44 @@ public class CamPositioner : MonoBehaviour {
         if (state == CamStates.Moving) return;
         StartCoroutine(LevelMenu());
     }
-
+    
     public void MoveToMainMenu()
     {
         if (state == CamStates.Moving) return;
         StartCoroutine(MainMenu());
     }
-    
+
+    public void MoveToDropdownArea()
+    {
+        if (state == CamStates.Moving) return;
+        StartCoroutine(DropdownArea());
+    }
+
+
     private void Awake()
     {
         mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         keyPoints = GameObject.FindGameObjectWithTag("Scripts").GetComponent<KeyPointsHandler>();
         camFollow = mainCam.GetComponent<CameraFollowObject>();
+        camFollow.StopFollowing();
     }
 
 	private void Start ()
     {
-        SetCamPositionFromPointImmediate(keyPoints.MainMenuCamPoint);
-        StartCoroutine(MainMenu());
+        if(Toolbox.Instance.MenuScreen == Toolbox.MenuSelector.LevelSelect)
+        {
+            SetCamPositionFromPointImmediate(keyPoints.LevelMapStart);
+        }
+        else
+        {
+            SetCamPositionFromPointImmediate(keyPoints.MainMenuCamPoint);
+            StartCoroutine(MainMenu());
+        }
     }
 	
-	private void Update ()
+	private void FixedUpdate ()
     {
-        float xDist = Vector3.Lerp(mainCam.transform.position, targetPosition, Time.deltaTime * 4).x - mainCam.transform.position.x;
+        float xDist = Mathf.Lerp(mainCam.transform.position.x, targetPosition.x, Time.deltaTime * 4) - mainCam.transform.position.x;
         xDist = Mathf.Clamp(xDist, -maxCamDistPerFrame, maxCamDistPerFrame);
         mainCam.transform.position += Vector3.right * xDist;
     }
@@ -55,6 +76,7 @@ public class CamPositioner : MonoBehaviour {
     private IEnumerator MainMenu()
     {
         state = CamStates.Moving;
+        NavButtons.DisableNavButtons();
         SetTargetPosition(keyPoints.MainMenuCamPoint);
 
         while (Mathf.Abs(mainCam.transform.position.x - targetPosition.x) > 0.1f)
@@ -63,13 +85,34 @@ public class CamPositioner : MonoBehaviour {
         }
         state = CamStates.Idle;
 
-        Clumsy.SetPosition(keyPoints.EntryPoint.transform.position);
-        Clumsy.MoveToPoint(keyPoints.EntryLandingPoint.transform.position);
+        if (Mathf.Abs(Clumsy.transform.position.x -keyPoints.EntryLandingPoint.transform.position.x) > 1f)
+        {
+            Clumsy.SetPosition(keyPoints.EntryPoint.transform.position);
+            Clumsy.MoveToPoint(keyPoints.EntryLandingPoint.transform.position);
+        }
+        NavButtons.SetNavButtons(Positions.Main);
+    }
+
+    private IEnumerator DropdownArea()
+    {
+        NavButtons.DisableNavButtons();
+        state = CamStates.Moving;
+
+        SetTargetPosition(keyPoints.DropdownAreaPoint);
+
+        while (Mathf.Abs(mainCam.transform.position.x - targetPosition.x) > 0.1f)
+        {
+            yield return null;
+        }
+        state = CamStates.Idle;
+        NavButtons.SetNavButtons(Positions.DropdownArea);
     }
 
     private IEnumerator LevelMenu()
     {
+        NavButtons.DisableNavButtons();
         state = CamStates.Moving;
+
         Clumsy.MoveToPoint(Vector3.zero);
         while (Vector2.Distance(Clumsy.transform.position, Vector2.zero) > 0.4f)
         {
@@ -90,7 +133,11 @@ public class CamPositioner : MonoBehaviour {
         Clumsy.SetPosition(keyPoints.LevelEntryPoint.transform.position);
         Clumsy.Dash();
         yield return new WaitForSeconds(.5f);
+
         Clumsy.MoveToPoint(keyPoints.LevelMenuEndPoint.transform.position);
+        camFollow.SetEndPoint(keyPoints.LevelMapStart.transform.position.x);
+        camFollow.StartFollowing();
+
         while (!Clumsy.TargetReached())
         {
             Clumsy.RemainUnperched();
@@ -100,8 +147,11 @@ public class CamPositioner : MonoBehaviour {
         {
             yield return null;
         }
+
+        camFollow.StopFollowing();
         SetTargetPosition(keyPoints.LevelMapStart);
         state = CamStates.Idle;
+        NavButtons.SetNavButtons(Positions.LevelSelect);
     }
 
     private void SetCamPositionFromPointImmediate(GameObject objToMoveTo)

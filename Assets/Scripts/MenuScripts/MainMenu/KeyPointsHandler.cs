@@ -6,6 +6,7 @@ public class KeyPointsHandler : MonoBehaviour {
 
     public GameObject MainMenuCamPoint;
     public GameObject LevelCamPoint;
+    public GameObject DropdownAreaPoint;
 
     public GameObject EntryPoint;
     public GameObject EntryLandingPoint;

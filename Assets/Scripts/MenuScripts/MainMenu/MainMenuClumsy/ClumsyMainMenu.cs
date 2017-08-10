@@ -6,7 +6,6 @@ public class ClumsyMainMenu : MonoBehaviour {
 
     private Vector2 target = new Vector2(0, 0);
     private Rigidbody2D body;
-    private Camera cam;
     private Animator anim;
     private SpriteRenderer sprite;
     private ClumsyAnimator animControl;
@@ -75,7 +74,6 @@ public class ClumsyMainMenu : MonoBehaviour {
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         animControl = GetComponent<ClumsyAnimator>();
-        cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         GetLanternComponents();
         targetReached = true;
         isFollowingUserInput = true;
@@ -197,6 +195,7 @@ public class ClumsyMainMenu : MonoBehaviour {
         const float speed = 17f;
 
         body.isKinematic = true;
+        body.velocity = Vector2.zero;
         animControl.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Rush);
         anim.speed = 0.5f;
         while (timer < duration)

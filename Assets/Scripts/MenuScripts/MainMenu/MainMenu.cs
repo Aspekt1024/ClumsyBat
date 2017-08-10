@@ -7,6 +7,7 @@ public class MainMenu : MonoBehaviour {
     private GameObject _runtimeScripts;
     private MenuScroller _scroller;
     private CamPositioner camPositioner;
+    private MainMenuDropdownHandler dropdownHandler;
     
     private void Awake()
     {
@@ -14,11 +15,7 @@ public class MainMenu : MonoBehaviour {
         _runtimeScripts = new GameObject("Runtime Scripts");
         _scroller = _runtimeScripts.AddComponent<MenuScroller>();   // TODO required?
         camPositioner = GetComponent<CamPositioner>();
-    }
-
-    private void Start()
-    {
-        //GetComponent<AudioSource>().Play();
+        dropdownHandler = FindObjectOfType<MainMenuDropdownHandler>();
     }
     
     private void Update()
@@ -26,7 +23,6 @@ public class MainMenu : MonoBehaviour {
         GameData.Instance.Data.Stats.IdleTime += Time.deltaTime;
     }
     
-
     public void PlayButtonClicked()
     {
         SaveData();
@@ -39,19 +35,29 @@ public class MainMenu : MonoBehaviour {
         camPositioner.MoveToMainMenu();
     }
 
+    public void StatsButtonClicked()
+    {
+        SaveData();
+        camPositioner.MoveToDropdownArea();
+        dropdownHandler.StatsPressed();
+    }
+
+    public void OptionsButtonClicked()
+    {
+        SaveData();
+        camPositioner.MoveToDropdownArea();
+        dropdownHandler.OptionsPressed();
+    }
+
     public void QuitButtonClicked()
     {
         SaveData();
         Application.Quit();
     }
-
-    public void StatsButtonClicked()
-    {
-        SaveData();
-        _scroller.StatsScreen();
-    }
     
-    public void LvEndlessButtonClicked() { StartCoroutine("LoadLevel", LevelProgressionHandler.Levels.Endless); }
+    public void LvEndlessButtonClicked() {
+        //StartCoroutine(LoadLevel(LevelProgressionHandler.Levels.Endless));
+    }
 
     private void SaveData() { GameData.Instance.Data.SaveData(); }
 }
