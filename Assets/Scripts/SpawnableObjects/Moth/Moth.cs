@@ -111,22 +111,24 @@ public class Moth : Spawnable {
 
     private void PlayNormalAnimation()
     {
-        ParticleSystem.MainModule particleSettings = shimmerEffect.main;
+        Color color = new Color();
         switch (Colour)
         {
             case MothColour.Green:
                 _mothAnimator.Play("MothGreenAnimation", 0, 0f);
-                particleSettings.startColor = Toolbox.MothGreenColor;
+                color = Toolbox.MothGreenColor;
                 break;
             case MothColour.Blue:
                 _mothAnimator.Play("MothBlueAnimation", 0, 0f);
-                particleSettings.startColor = Toolbox.MothBlueColor;
+                color = Toolbox.MothBlueColor;
                 break;
             case MothColour.Gold:
                 _mothAnimator.Play("MothGoldAnimation", 0, 0f);
-                particleSettings.startColor = Toolbox.MothGoldColor;
+                color = Toolbox.MothGoldColor;
                 break;
         }
+        ParticleSystem.MainModule particleSettings = shimmerEffect.main;
+        particleSettings.startColor = new Color(color.r, color.g, color.b, 0.7f);
     }
 
     private void PlayExplosionAnim()
