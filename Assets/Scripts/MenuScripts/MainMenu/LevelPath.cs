@@ -20,6 +20,7 @@ public class LevelPath : MonoBehaviour {
         {
             if (!button) continue;
             Path newPath = new Path(button, transform);
+            paths.Add(newPath);
         }
     }
 }
@@ -46,8 +47,6 @@ public class Path
     {
         Vector2 prevPos = lvlBtn.PreviousLevel.position;
         Vector2 thisPos = lvlBtn.transform.position;
-
-        Vector2 prevToThis = thisPos - prevPos;
 
         float dist = Vector2.Distance(prevPos, thisPos);
         int numPoints = Mathf.RoundToInt(dist / 0.28f) - 2;

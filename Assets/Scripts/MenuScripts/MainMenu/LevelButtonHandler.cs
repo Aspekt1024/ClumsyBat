@@ -45,13 +45,15 @@ public class LevelButtonHandler : MonoBehaviour {
         {
             if (buttons[index] == null || !buttons[index].LevelAvailable()) continue;
             
-            if (!LevelPlayButton.gameObject.activeSelf)
-                Toolbox.UIAnimator.PopInObject(LevelPlayButton);
             
             buttons[index].Click(ActiveLevel);
 
-            if (index == (int)ActiveLevel)
+            if (index == (int)ActiveLevel && buttons[index].LevelAvailable())
+            {
                 SetLevelText(Toolbox.Instance.LevelNames[ActiveLevel]);
+                if (!LevelPlayButton.gameObject.activeSelf)
+                    Toolbox.UIAnimator.PopInObject(LevelPlayButton);
+            }
         }
     }
 

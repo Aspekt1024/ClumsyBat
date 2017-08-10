@@ -100,11 +100,10 @@ public class LevelDataControl : MonoBehaviour {
         var level = (int)levelId;
         var lvlCompletion = GameData.Instance.GetLevelCompletion();
 
-        int currentStars = 0;
-        if (_levelCompletion[level].Achievement1) currentStars++;
-        if (_levelCompletion[level].Achievement2) currentStars++;
-        if (_levelCompletion[level].Achievement3) currentStars++;
-        
+        GameData.Instance.Achievements[0] = _levelCompletion[level].Achievement1 ? GameData.AchievementStatus.Achieved : GameData.AchievementStatus.Unachieved;
+        GameData.Instance.Achievements[1] = _levelCompletion[level].Achievement2 ? GameData.AchievementStatus.Achieved : GameData.AchievementStatus.Unachieved;
+        GameData.Instance.Achievements[2] = _levelCompletion[level].Achievement3 ? GameData.AchievementStatus.Achieved : GameData.AchievementStatus.Unachieved;
+
         _levelCompletion[level].LevelCompleted |= lvlCompletion.LevelCompleted;
         _levelCompletion[level].SecretPath1 |= lvlCompletion.SecretPath1;
         _levelCompletion[level].SecretPath2 |= lvlCompletion.SecretPath2;
@@ -118,16 +117,13 @@ public class LevelDataControl : MonoBehaviour {
         else
         {
             _levelCompletion[level].Achievement1 |= _levelCompletion[level].LevelCompleted;
-            _levelCompletion[level].Achievement2 |= GameData.Instance.Data.Stats.MothsEaten == GameData.Instance.NumMoths;
-            _levelCompletion[level].Achievement3 |= GameData.Instance.IsUntouched;
+            _levelCompletion[level].Achievement2 |= GameData.Instance.IsUntouched;
+            _levelCompletion[level].Achievement3 |= GameData.Instance.Data.Stats.MothsEaten == GameData.Instance.NumMoths;
         }
 
-        GameData.Instance.TotalStars = 0;
-        if (_levelCompletion[level].Achievement1) GameData.Instance.TotalStars++;
-        if (_levelCompletion[level].Achievement2) GameData.Instance.TotalStars++;
-        if (_levelCompletion[level].Achievement3) GameData.Instance.TotalStars++;
-
-        GameData.Instance.NewStars = GameData.Instance.TotalStars - currentStars;
+        if (_levelCompletion[level].Achievement1 && GameData.Instance.Achievements[0] == GameData.AchievementStatus.Unachieved) GameData.Instance.Achievements[0] = GameData.AchievementStatus.NewAchievement;
+        if (_levelCompletion[level].Achievement2 && GameData.Instance.Achievements[1] == GameData.AchievementStatus.Unachieved) GameData.Instance.Achievements[1] = GameData.AchievementStatus.NewAchievement;
+        if (_levelCompletion[level].Achievement3 && GameData.Instance.Achievements[2] == GameData.AchievementStatus.Unachieved) GameData.Instance.Achievements[2] = GameData.AchievementStatus.NewAchievement;
     }
 
     public void UnlockLevel(LevelProgressionHandler.Levels levelId)

@@ -12,11 +12,15 @@ public class GameData : Singleton<GameData>
         Secret2
     }
 
+    public enum AchievementStatus
+    {
+        Unachieved, Achieved, NewAchievement
+    }
+
     public int NumMoths;
     public bool IsUntouched;
     public bool OnlyOneDamageTaken;
-    public int NewStars;
-    public int TotalStars;
+    public AchievementStatus[] Achievements = new AchievementStatus[3];
     public LevelProgressionHandler.Levels Level;
     public bool BossLeftRightTapTutorialSeen;
 

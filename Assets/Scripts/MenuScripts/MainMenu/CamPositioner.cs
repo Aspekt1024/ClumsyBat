@@ -7,6 +7,7 @@ public class CamPositioner : MonoBehaviour {
     public ClumsyMainMenu Clumsy;
     public NavButtonHandler NavButtons;
     public LevelButtonHandler LevelButtons;
+    public LoadScreen LoadScreen;
 
     public enum Positions
     {
@@ -78,6 +79,7 @@ public class CamPositioner : MonoBehaviour {
             SetCamPositionFromPointImmediate(keyPoints.MainMenuCamPoint);
             StartCoroutine(MainMenu());
         }
+        LoadScreen.HideLoadScreen(0.4f);
     }
 	
 	private void FixedUpdate ()

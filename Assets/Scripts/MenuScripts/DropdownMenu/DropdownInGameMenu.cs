@@ -109,23 +109,16 @@ public class DropdownInGameMenu : MonoBehaviour {
 
     private void LoadStars()
     {
-        int newStars = GameData.Instance.NewStars;
-        int activeStars = GameData.Instance.TotalStars - newStars;
-        int setStars = 0;
+        GameData.AchievementStatus[] starAchievements = GameData.Instance.Achievements;
 
         StarsContainer.SetActive(true);
         for (int i = 0; i < 3; i++)
         {
-            if (setStars < activeStars)
-            {
+            if (starAchievements[i] == GameData.AchievementStatus.Achieved)
                 stars[i].SetActive();
-                setStars++;
-                firstInactiveStarIndex = i + 1;
-            }
             else
-            {
                 stars[i].SetInactive();
-            }
+
             stars[i].gameObject.SetActive(true);
         }
 
@@ -150,13 +143,14 @@ public class DropdownInGameMenu : MonoBehaviour {
         StarsContainer.SetActive(true);
         ContinueButtonObject.SetActive(true);
         yield return new WaitForSeconds(0.5f);
-        int newStars = GameData.Instance.NewStars;
-        while (newStars > 0)
+        GameData.AchievementStatus[] starAchievements = GameData.Instance.Achievements;
+        for (int i = 0; i < 3; i++)
         {
-            // TODO play sound
-            yield return stars[firstInactiveStarIndex].StartCoroutine(stars[firstInactiveStarIndex].AnimateToActive());
-            newStars--;
-            firstInactiveStarIndex++;
+            if (starAchievements[i] == GameData.AchievementStatus.NewAchievement)
+            {
+                yield return StartCoroutine(stars[i].AnimateToActive());
+                // TODO play sound
+            }
         }
     }
 

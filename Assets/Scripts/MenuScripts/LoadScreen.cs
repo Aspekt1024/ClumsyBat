@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class LoadScreen : MonoBehaviour {
 
@@ -23,6 +24,7 @@ public class LoadScreen : MonoBehaviour {
 
     public void ShowLoadScreen()
     {
+        _mothAnimator.Play("MothFlapAnim", 0, 0f);
         _loadingCanvas.alpha = 1f;
         _loadingCanvas.blocksRaycasts = true;
         _loadingCanvas.interactable = true;
@@ -33,5 +35,16 @@ public class LoadScreen : MonoBehaviour {
         _loadingCanvas.alpha = 0f;
         _loadingCanvas.blocksRaycasts = false;
         _loadingCanvas.interactable = false;
+    }
+
+    public void HideLoadScreen(float delay)
+    {
+        StartCoroutine(HideLoadAfterDelay(delay));
+    }
+
+    private IEnumerator HideLoadAfterDelay(float delay)
+    {
+        yield return StartCoroutine(Toolbox.UIAnimator.Wait(delay));
+        HideLoadScreen();
     }
 }

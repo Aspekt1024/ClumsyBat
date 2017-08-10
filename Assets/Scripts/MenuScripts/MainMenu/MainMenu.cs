@@ -79,7 +79,6 @@ public class MainMenu : MonoBehaviour {
             else if (rt.name == "StatsButton")
                 statsButton = rt;
         }
-        Debug.Log(statsButton);
     }
 
     private void HideMenuButtons()

@@ -63,4 +63,14 @@ public class UIObjectAnimator : MonoBehaviour {
         rt.gameObject.SetActive(false);
         rt.localScale = originalScale;
     }
+
+    public IEnumerator Wait(float waitTime)
+    {
+        float timer = 0f;
+        while (timer < waitTime)
+        {
+            timer += Time.deltaTime;
+            yield return null;
+        }
+    }
 }
