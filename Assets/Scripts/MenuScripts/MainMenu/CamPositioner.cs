@@ -7,16 +7,27 @@ public class CamPositioner : MonoBehaviour {
     public ClumsyMainMenu Clumsy;
 
     private Camera mainCam;
-    private KeyPointsHandler keyPoints;
     private CameraFollowObject camFollow;
+    private KeyPointsHandler keyPoints;
+    private Vector2 targetPosition;
+
+    private const float maxCamDistPerFrame = 2f;
+
+    private enum CamStates
+    {
+        Idle, Moving
+    }
+    private CamStates state;
 
     public void MoveToLevelMenu()
     {
+        if (state == CamStates.Moving) return;
         StartCoroutine(LevelMenu());
     }
 
     public void MoveToMainMenu()
     {
+        if (state == CamStates.Moving) return;
         StartCoroutine(MainMenu());
     }
     
@@ -33,21 +44,32 @@ public class CamPositioner : MonoBehaviour {
         StartCoroutine(MainMenu());
     }
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+	private void Update ()
+    {
+        float xDist = Vector3.Lerp(mainCam.transform.position, targetPosition, Time.deltaTime * 4).x - mainCam.transform.position.x;
+        xDist = Mathf.Clamp(xDist, -maxCamDistPerFrame, maxCamDistPerFrame);
+        mainCam.transform.position += Vector3.right * xDist;
+    }
     
 
     private IEnumerator MainMenu()
     {
-        yield return StartCoroutine(MoveCameraPoint(keyPoints.MainMenuCamPoint));
+        state = CamStates.Moving;
+        SetTargetPosition(keyPoints.MainMenuCamPoint);
+
+        while (Mathf.Abs(mainCam.transform.position.x - targetPosition.x) > 0.1f)
+        {
+            yield return null;
+        }
+        state = CamStates.Idle;
+
         Clumsy.SetPosition(keyPoints.EntryPoint.transform.position);
         Clumsy.MoveToPoint(keyPoints.EntryLandingPoint.transform.position);
     }
 
     private IEnumerator LevelMenu()
     {
+        state = CamStates.Moving;
         Clumsy.MoveToPoint(Vector3.zero);
         while (Vector2.Distance(Clumsy.transform.position, Vector2.zero) > 0.4f)
         {
@@ -63,23 +85,23 @@ public class CamPositioner : MonoBehaviour {
             SetCamPositionFromPointImmediate(new Vector3(mainCam.transform.position.x + Time.deltaTime * (timer * 10f + 3f), 0f, 0f));
             yield return null;
         }
-        
-        camFollow.SetEndPoint(keyPoints.LevelMapStart.transform.position.x);
-        camFollow.StartFollowing();
+        SetTargetPosition(keyPoints.LevelMenuMidPoint);
 
         Clumsy.SetPosition(keyPoints.LevelEntryPoint.transform.position);
         Clumsy.Dash();
         yield return new WaitForSeconds(.5f);
-        Clumsy.MoveToPoint(keyPoints.LevelMenuMidPoint.transform.position);
+        Clumsy.MoveToPoint(keyPoints.LevelMenuEndPoint.transform.position);
         while (!Clumsy.TargetReached())
         {
             Clumsy.RemainUnperched();
             yield return null;
         }
-        Clumsy.MoveToPoint(keyPoints.LevelMenuEndPoint.transform.position);
-        yield return new WaitForSeconds(0.5f);
-        camFollow.StopFollowing();
-        StartCoroutine(MoveCameraPoint(keyPoints.LevelMapStart));
+        while (!Clumsy.IsPerched())
+        {
+            yield return null;
+        }
+        SetTargetPosition(keyPoints.LevelMapStart);
+        state = CamStates.Idle;
     }
 
     private void SetCamPositionFromPointImmediate(GameObject objToMoveTo)
@@ -88,7 +110,13 @@ public class CamPositioner : MonoBehaviour {
     }
     private void SetCamPositionFromPointImmediate(Vector3 pt)
     {
+        targetPosition = pt;
         mainCam.transform.position = new Vector3(pt.x, pt.y, mainCam.transform.position.z);
+    }
+
+    private void SetTargetPosition(GameObject targetObj)
+    {
+        targetPosition = GetPosFromPoint(targetObj);
     }
 
     private IEnumerator MoveCameraPoint(GameObject objToMoveTo)

@@ -271,7 +271,6 @@ public class MenuScroller : MonoBehaviour {
     private void GetBackgrounds()
     {
         Caves = GameObject.Find("CavePieces").GetComponent<RectTransform>();
-        MidBG = GameObject.Find("MidBackground").GetComponent<Transform>();
     }
 
     public float GetAnimDuration()

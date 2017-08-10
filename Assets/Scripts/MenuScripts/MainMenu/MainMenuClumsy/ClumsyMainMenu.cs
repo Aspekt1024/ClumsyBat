@@ -18,6 +18,8 @@ public class ClumsyMainMenu : MonoBehaviour {
     private bool targetReached;
     private bool isFollowingUserInput;
 
+    private Coroutine dashRoutine;
+
     public void SetPosition(Vector2 pos)
     {
         isPerched = false;
@@ -47,9 +49,15 @@ public class ClumsyMainMenu : MonoBehaviour {
         return targetReached;
     }
 
+    public bool IsPerched()
+    {
+        return isPerched;
+    }
+
     public void Dash()
     {
-        StartCoroutine(DashRoutine());
+        if (dashRoutine != null) StopCoroutine(dashRoutine);
+        dashRoutine = StartCoroutine(DashRoutine());
     }
 
     public void StopFollowingUserInput()
