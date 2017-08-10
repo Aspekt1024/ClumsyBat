@@ -97,6 +97,7 @@ public abstract class GameHandler : MonoBehaviour {
         ThePlayer.PlaySound(ClumsyAudioControl.PlayerSounds.Collision); // TODO sounds
         if (ThePlayer.ActivateShield())
         {
+            ThePlayer.Unperch();
             if (GameData.Instance.IsUntouched)
                 GameData.Instance.IsUntouched = false;
             else

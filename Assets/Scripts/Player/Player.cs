@@ -198,6 +198,10 @@ public class Player : MonoBehaviour {
         }
     }
 
+    public void Unperch()
+    {
+        _perch.Unperch();
+    }
     public void UnperchBottom()
     {
         _flap.Flap();
@@ -210,33 +214,16 @@ public class Player : MonoBehaviour {
     {
         _playerRigidBody.velocity = velocity;
     }
-    
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        _flap.CancelIfMoving();
-        if (other.gameObject.name.Contains("Cave") || other.gameObject.name.Contains("Entrance") || other.gameObject.name.Contains("Exit"))
-        {
-            if (_shield.IsInUse() || _playerController.InputPaused() || (_state != PlayerState.Normal && _state != PlayerState.Perched)) { return; }
-            _perch.Perch(other.gameObject.name, _playerController.TouchHeld());
-            if (!IsPerched())
-            {
-                playerSpeed = 0;
-            }
-        }
-        else
-        {
-            _gameHandler.Collision(other);
-        }
-    }
 
     private void CheckIfOffscreen()
     {
         Vector2 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
 
-        if (inSecretExit)
+        if (inSecretExit
+            && (_state == PlayerState.Normal || _state == PlayerState.Perched)
+            && (screenPosition.y > Screen.height + 50f || screenPosition.y < -50f))
         {
-            if ((_state == PlayerState.Normal || _state == PlayerState.Perched) && (screenPosition.y > Screen.height + 50f || screenPosition.y < -50f))
-                SecretPathWinSequence();
+            SecretPathWinSequence();
         }
         else if (screenPosition.y > Screen.height || screenPosition.y < 0 || screenPosition.x < -1f)
         {
@@ -253,8 +240,8 @@ public class Player : MonoBehaviour {
     {
         if (_state == PlayerState.Dying || _state == PlayerState.Dead) return;
 
-        _state = PlayerState.Dying;
         _perch.Unperch();
+        _state = PlayerState.Dying;
 
         EventListener.Death();
         DisablePlayerController();
@@ -283,6 +270,24 @@ public class Player : MonoBehaviour {
     {
         yield return new WaitForSeconds(1f);
         _gameHandler.GameOver();
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        _flap.CancelIfMoving();
+        if (other.gameObject.name.Contains("Cave") || other.gameObject.name.Contains("Entrance") || other.gameObject.name.Contains("Exit"))
+        {
+            if (_shield.IsInUse() || _playerController.InputPaused() || (_state != PlayerState.Normal && _state != PlayerState.Perched)) { return; }
+            _perch.Perch(other.gameObject.name, _playerController.TouchHeld());
+            if (!IsPerched())
+            {
+                playerSpeed = 0;
+            }
+        }
+        else
+        {
+            _gameHandler.Collision(other);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)

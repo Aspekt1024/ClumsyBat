@@ -91,8 +91,9 @@ public class Stalactite : Spawnable {
         crystalPrefabBroken = Resources.Load<GameObject>(brokenCrystalPath);
         stalPrefabUnbroken = Resources.Load<GameObject>(unbrokenStalPath);
         stalPrefabBroken = Resources.Load<GameObject>(brokenStalPath);
-        
+
         stalCollider = GetComponent<PolygonCollider2D>();
+        stalCollider = GetComponentInChildren<PolygonCollider2D>();
         stalRenderer = GetComponent<SpriteRenderer>();
         body = GetComponent<Rigidbody2D>();
         dropControl = gameObject.AddComponent<StalDropComponent>();

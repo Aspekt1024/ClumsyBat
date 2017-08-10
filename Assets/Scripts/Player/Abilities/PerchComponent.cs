@@ -65,7 +65,7 @@ public class PerchComponent : MonoBehaviour
         
         _player.SetStateToPerched();
         _body.velocity = Vector2.zero;
-        _body.isKinematic = true;
+        _body.constraints = RigidbodyConstraints2D.FreezeAll;
 
         SetPerchGraphics();
     }
@@ -93,7 +93,7 @@ public class PerchComponent : MonoBehaviour
         if (_state == PerchState.Unperched) return;
         _timeSinceUnperch = 0f;
         bJumpOnTouchRelease = false;
-        _player.GetComponent<Rigidbody2D>().isKinematic = false;
+        _player.GetBody().constraints = RigidbodyConstraints2D.FreezeRotation;
 
         RaycastHit2D hit = new RaycastHit2D();
         
