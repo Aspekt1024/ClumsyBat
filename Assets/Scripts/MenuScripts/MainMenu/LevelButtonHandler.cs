@@ -113,20 +113,6 @@ public class LevelButtonHandler : MonoBehaviour {
             }
         }
     }
-
-    private int GetHighestLevel()
-    {
-        int highestLevel = 1;
-        for (int index = 1; index <= GameData.Instance.Data.LevelData.NumLevels; index++)
-        {
-            if (!buttons[index]) continue;
-            if (!buttons[index].LevelAvailable()) continue;
-            if (index < (int)LevelProgressionHandler.Levels.Boss5 && index > highestLevel)
-                highestLevel = index;
-        }
-
-        return highestLevel;
-    }
     
     private void SetupLevelSelect()
     {
@@ -142,9 +128,21 @@ public class LevelButtonHandler : MonoBehaviour {
         // TODO set the scroller
         //_scroller.SetCurrentLevel(level);
     }
+    
+    private int GetHighestLevel()
+    {
+        int highestLevel = 1;
+        for (int index = 1; index <= GameData.Instance.Data.LevelData.NumLevels; index++)
+        {
+            if (!buttons[index]) continue;
+            if (!buttons[index].LevelAvailable()) continue;
+            if (index < (int)LevelProgressionHandler.Levels.Boss5 && index > highestLevel)
+                highestLevel = index;
+        }
 
-
-
+        return highestLevel;
+    }
+    
     public IEnumerator MoveLevelMapToStart()
     {
         while (levelScrollRect.horizontalNormalizedPosition > 0.1f)

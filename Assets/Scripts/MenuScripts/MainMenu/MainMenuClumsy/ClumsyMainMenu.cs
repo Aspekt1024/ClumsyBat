@@ -60,6 +60,20 @@ public class ClumsyMainMenu : MonoBehaviour {
         dashRoutine = StartCoroutine(DashRoutine());
     }
 
+    public void ClumsyTapped()
+    {
+        if (isPerched)
+        {
+            if (Random.Range(0f, 1f) > 0.8f)
+            {
+                MoveToPoint(transform.position + Vector3.up * 2f);
+                anim.Play("FlapBlink");
+            }
+            else
+                anim.Play("Tapped");
+        }
+    }
+
     public void StopFollowingUserInput()
     {
         isFollowingUserInput = false;

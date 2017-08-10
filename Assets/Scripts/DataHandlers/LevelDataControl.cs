@@ -135,6 +135,21 @@ public class LevelDataControl : MonoBehaviour {
         }
     }
 
+    public LevelProgressionHandler.Levels GetHighestLevel()
+    {
+        // This ignores secret levels (i.e. this is the main path only)
+        LevelProgressionHandler.Levels level = LevelProgressionHandler.Levels.Main1;
+        while (level < LevelProgressionHandler.Levels.Boss5 && (_levelCompletion[(int)level].LevelUnlocked || level == LevelProgressionHandler.Levels.Main1))
+        {
+            LevelProgressionHandler.Levels nextLevel = LevelProgressionHandler.GetNextLevel(level);
+            if (_levelCompletion[(int)nextLevel].LevelUnlocked)
+                level = nextLevel;
+            else
+                break;
+        }
+        return level;
+    }
+
     public bool IsUnlocked(int level) { return _levelCompletion[level].LevelUnlocked; }
     public bool IsCompleted(int level) { return _levelCompletion[level].LevelCompleted; }
     public bool SecretPath1Completed(int level) { return _levelCompletion[level].SecretPath1; }

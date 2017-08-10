@@ -42,7 +42,24 @@ public class CaveEditorHandler : BaseObjectHandler {
                 }
             }
             cave.transform.position = new Vector3(index * LevelEditorConstants.TileSizeX, 0f, zLayer);
+            
+            if ((cave.name.Contains("Top") || cave.name.Contains("Bottom")) && cave.name.Contains("Exit"))
+            {
+                SecretPath path = cave.GetComponentInChildren<SecretPath>();
+                if (path != null)
+                {
+                    if (path.HasBlock)
+                    {
+                        path.GetComponent<SpriteRenderer>().color = Color.white;
+                    }
+                    else
+                    {
+                        path.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.3f);
+                    }
+                }
+            }
         }
+
     }
 
     public int GetNumSections()

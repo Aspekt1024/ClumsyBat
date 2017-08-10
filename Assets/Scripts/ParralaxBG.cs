@@ -49,14 +49,20 @@ public class ParralaxBG : MonoBehaviour {
     private void Awake ()
     {
         ZLayer = Toolbox.Instance.ZLayers["Background"];
+        
     }
 
     private void Start()
     {
         if (SceneManager.GetActiveScene().name == "Play")
-            bgColour = DefaultColour;
+        {
+            var level = GameData.Instance.Data.LevelData.GetHighestLevel();
+            ChooseColourFromLevel(level);
+        }
         else
-            ChooseColourFromLevel();
+        {
+            ChooseColourFromLevel(GameData.Instance.Level);
+        }
 
         transform.position = new Vector3(0, 0, ZLayer);
         GetBgPieces();
@@ -192,9 +198,8 @@ public class ParralaxBG : MonoBehaviour {
         return bgImg;
     }
 
-    private void ChooseColourFromLevel()
+    private void ChooseColourFromLevel(LevelProgressionHandler.Levels level)
     {
-        LevelProgressionHandler.Levels level = GameData.Instance.Level;
         if (level <= LevelProgressionHandler.Levels.Boss2)
         {
             bgColour = BackgroundColour.Red;
