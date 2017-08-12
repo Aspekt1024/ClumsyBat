@@ -123,6 +123,7 @@ public class Player : MonoBehaviour {
     {
         _playerCollider.enabled = false;
         _playerRigidBody.isKinematic = true;
+        _playerRigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
         _state = PlayerState.EndOfLevel;
         StartCoroutine(CaveExitAnimation());
     }
@@ -166,6 +167,7 @@ public class Player : MonoBehaviour {
             yield return null;
         }
 
+        _playerRigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
         _playerRigidBody.velocity = new Vector2(0, 3f);
         _state = PlayerState.Normal;
     }
@@ -219,13 +221,16 @@ public class Player : MonoBehaviour {
     {
         Vector2 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
 
-        if (inSecretExit
-            && (_state == PlayerState.Normal || _state == PlayerState.Perched)
-            && (screenPosition.y > Screen.height + 50f || screenPosition.y < -50f))
+        if (inSecretExit)
         {
-            SecretPathWinSequence();
+            if ((_state == PlayerState.Normal || _state == PlayerState.Perched) && (screenPosition.y > Screen.height + 20f || screenPosition.y < -20f))
+            {
+                StartCoroutine(SecretPathWinSequence());
+                return;
+            }
         }
-        else if (screenPosition.y > Screen.height || screenPosition.y < 0 || screenPosition.x < -1f)
+
+        if (screenPosition.y > Screen.height || screenPosition.y < 0 || screenPosition.x < -1f)
         {
             if (_state == PlayerState.Normal || _state == PlayerState.Dying)
             {
@@ -275,9 +280,12 @@ public class Player : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D other)
     {
         _flap.CancelIfMoving();
+        
         if (other.gameObject.name.Contains("Cave") || other.gameObject.name.Contains("Entrance") || other.gameObject.name.Contains("Exit"))
         {
+            if (Mathf.Abs(other.contacts[0].normal.x) > 0.8f) return;
             if (_shield.IsInUse() || _playerController.InputPaused() || (_state != PlayerState.Normal && _state != PlayerState.Perched)) { return; }
+
             _perch.Perch(other.gameObject.name, _playerController.TouchHeld());
             if (!IsPerched())
             {
@@ -312,17 +320,25 @@ public class Player : MonoBehaviour {
         _gameHandler.TriggerExited(other);
     }
 
-    private void SecretPathWinSequence()
+    private IEnumerator SecretPathWinSequence()
     {
         _state = PlayerState.EndOfLevel;
 
-        // TODO animation
-        transform.position = _playerHoldingArea;
-        //_lanternBody.transform.position += new Vector3(.3f, 0f, 0f);
+        _playerRigidBody.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
+        
+        float timer = 0f;
+        const float duration = 1f;
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            yield return null;
+        }
 
         ExitViaSecretPath = true;
         _gameHandler.LevelComplete();
         Fog.EndOfLevel();
+        transform.position = _playerHoldingArea;
+        //_lanternBody.transform.position += new Vector3(.3f, 0f, 0f);
     }
 
     public void StartGame()
@@ -330,6 +346,7 @@ public class Player : MonoBehaviour {
         _state = PlayerState.Normal;
         _playerRigidBody.WakeUp();
         _playerRigidBody.isKinematic = false;
+        _playerRigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
         Fog.Resume();
         _playerRigidBody.velocity = _nudgeVelocity;
     }
@@ -338,7 +355,7 @@ public class Player : MonoBehaviour {
     {
         _bPaused = true;
         _savedVelocity = _playerRigidBody.velocity;
-        _playerRigidBody.isKinematic = true;
+        _playerRigidBody.constraints = RigidbodyConstraints2D.FreezeAll;
         _playerRigidBody.velocity = Vector2.zero;
         Fog.Pause();
         Lantern.GamePaused(true);
@@ -349,7 +366,7 @@ public class Player : MonoBehaviour {
     {
         if (!IsPerched() && _state != PlayerState.Hovering)
         {
-            _playerRigidBody.isKinematic = false;
+            _playerRigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
             _playerRigidBody.velocity = _savedVelocity;
         }
         _bPaused = false;
@@ -387,7 +404,7 @@ public class Player : MonoBehaviour {
     {
         _state = PlayerState.Hovering;
         _playerRigidBody.velocity = Vector2.zero;
-        _playerRigidBody.isKinematic = true;
+        _playerRigidBody.constraints = RigidbodyConstraints2D.FreezeAll;
         _playerController.PauseInput(true);
         _flap.CancelIfMoving();
         Anim.PlayAnimation(ClumsyAnimations.Hover);
@@ -400,7 +417,7 @@ public class Player : MonoBehaviour {
     public void DisableHover()
     {
         _state = PlayerState.Normal;
-        _playerRigidBody.isKinematic = false;
+        _playerRigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
         _playerController.PauseInput(false);
         StopCoroutine(hoverRoutine);
     }
@@ -487,7 +504,7 @@ public class Player : MonoBehaviour {
         _audioControl = gameObject.AddComponent<ClumsyAudioControl>();
 
         _playerRigidBody = GetComponent<Rigidbody2D>();
-        _playerRigidBody.isKinematic = true;
+        _playerRigidBody.constraints = RigidbodyConstraints2D.FreezeAll;
         _playerRigidBody.gravityScale = GravityScale;
         GetChildrenComponents();
     }
