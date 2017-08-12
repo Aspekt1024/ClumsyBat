@@ -36,6 +36,7 @@ public class ClumsyAnimator : MonoBehaviour {
 
     private Animator anim;
     private Rigidbody2D playerBody;
+    private Transform clumsy;
 
     private void OnEnable()
     {
@@ -51,7 +52,17 @@ public class ClumsyAnimator : MonoBehaviour {
     private void Start()
     {
         if (Toolbox.Player != null)
+        {
             playerBody = Toolbox.Player.GetBody();
+            foreach (Transform tf in GetComponentsInChildren<Transform>())
+            {
+                if (tf.name == "Clumsy")
+                {
+                    clumsy = tf;
+                    break;
+                }
+            }
+        }
         else
             playerBody = GetComponent<Rigidbody2D>();   // For the main menu
 
@@ -111,7 +122,7 @@ public class ClumsyAnimator : MonoBehaviour {
     private void ChangeScale(float newScale)
     {
         if (newScale == currentScaleModifier) return;
-        transform.localScale *= newScale / currentScaleModifier;
+        clumsy.localScale *= newScale / currentScaleModifier;
         if (Toolbox.Player != null)
             ((CircleCollider2D)Toolbox.Player.GetCollider()).radius /= newScale / currentScaleModifier;
         else

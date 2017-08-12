@@ -114,14 +114,6 @@ public class Lantern : MonoBehaviour {
         _lanternBody.AddTorque(Random.Range(100f, 600f));
     }
 
-    public void AddRushForce()
-    {
-        JointMotor2D lanternMotor = _lanternHinge.motor;
-        lanternMotor.motorSpeed = 1000;
-        _lanternHinge.motor = lanternMotor;
-        StartCoroutine(EngageMotor());
-    }
-
     private IEnumerator EngageMotor()
     {
         _lanternHinge.useMotor = true;

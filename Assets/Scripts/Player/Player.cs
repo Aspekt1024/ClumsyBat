@@ -109,7 +109,7 @@ public class Player : MonoBehaviour {
         _flap = abilityScripts.AddComponent<FlapComponent>();
         Fog = FindObjectOfType<FogEffect>();
         
-        _rush.Setup(this, Lantern);
+        _rush.Setup(this);
         _hypersonic.Setup(this, Lantern);
         _shield.Setup(this, Lantern);
     }
@@ -338,7 +338,6 @@ public class Player : MonoBehaviour {
         _gameHandler.LevelComplete();
         Fog.EndOfLevel();
         transform.position = _playerHoldingArea;
-        //_lanternBody.transform.position += new Vector3(.3f, 0f, 0f);
     }
 
     public void StartGame()

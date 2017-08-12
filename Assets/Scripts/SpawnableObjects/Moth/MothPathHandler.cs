@@ -4,7 +4,7 @@ public class MothPathHandler {
 
     public enum MothPathTypes
     {
-        Clover, Infinity, Figure8, Spiral, Sine
+        Clover, Infinity, Figure8, Spiral, Sine, Static
     }
     private MothPathTypes _pathType;
 
@@ -14,6 +14,7 @@ public class MothPathHandler {
     }
     private PathStates _state;
     private bool _bLeft;
+    private bool bRising;
 
     private readonly Moth _hostMoth;
     private const float SectionDuration = 0.89f;
@@ -34,7 +35,9 @@ public class MothPathHandler {
 
     public void MoveAlongPath(float time)
     {
-        if (_pathType == MothPathTypes.Sine)
+        if (_pathType == MothPathTypes.Static)
+            MoveAlongFloatPath(time);
+        else if (_pathType == MothPathTypes.Sine)
             MoveAlongSine(time);
         else
             MoveAlongClover(time);
@@ -83,6 +86,23 @@ public class MothPathHandler {
         var pathParameters = GetPathParameters(time);
         _hostMoth.MothSprite.position += new Vector3(pathParameters.x, pathParameters.y, 0f);
         _hostMoth.MothSprite.localRotation = Quaternion.AngleAxis(pathParameters.z, Vector3.back);
+    }
+
+    private void MoveAlongFloatPath(float time)
+    {
+        const float height = 0.2f;
+        const float duration = 0.7f;
+        _pathTimer += time;
+
+        if (_pathTimer >= duration)
+        {
+            time -= _pathTimer - duration;
+            _pathTimer = 0f;
+            bRising = !bRising;
+        }
+
+        float yDist = height * (bRising ? time : -time);
+        _hostMoth.MothSprite.position += Vector3.up * yDist;
     }
 
     private Vector3 GetPathParameters(float time)

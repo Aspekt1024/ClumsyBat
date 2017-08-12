@@ -23,7 +23,7 @@ public class RushAbility : MonoBehaviour {
 
     private PlayerController.SwipeDirecitons direction;
     
-    public void Setup(Player playerRef, Lantern lanternRef)
+    public void Setup(Player playerRef)
     {
         _rushStats = GameData.Instance.Data.AbilityData.GetDashStats();
 
@@ -126,7 +126,6 @@ public class RushAbility : MonoBehaviour {
         {
             _thePlayer.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Rush);
         }
-        //_lantern.AddRushForce();
 
         float timer = 0f;
 
