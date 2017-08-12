@@ -223,7 +223,7 @@ public class Player : MonoBehaviour {
 
         if (inSecretExit)
         {
-            if ((_state == PlayerState.Normal || _state == PlayerState.Perched) && (screenPosition.y > Screen.height + 20f || screenPosition.y < -20f))
+            if ((_state == PlayerState.Normal || _state == PlayerState.Perched) && (screenPosition.y > Screen.height - 20f || screenPosition.y < 20f))
             {
                 StartCoroutine(SecretPathWinSequence());
                 return;
@@ -323,9 +323,9 @@ public class Player : MonoBehaviour {
     private IEnumerator SecretPathWinSequence()
     {
         _state = PlayerState.EndOfLevel;
-
         _playerRigidBody.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
-        
+        _playerCollider.enabled = false;
+
         float timer = 0f;
         const float duration = 1f;
         while (timer < duration)
