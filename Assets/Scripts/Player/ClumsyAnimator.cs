@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -52,20 +53,11 @@ public class ClumsyAnimator : MonoBehaviour {
     private void Start()
     {
         if (Toolbox.Player != null)
-        {
             playerBody = Toolbox.Player.GetBody();
-            foreach (Transform tf in GetComponentsInChildren<Transform>())
-            {
-                if (tf.name == "Clumsy")
-                {
-                    clumsy = tf;
-                    break;
-                }
-            }
-        }
         else
             playerBody = GetComponent<Rigidbody2D>();   // For the main menu
 
+        GetClumsyObject();
         anim = GetComponentInChildren<Animator>();
         anim.enabled = true;
         currentAnimation = flap;
@@ -135,6 +127,25 @@ public class ClumsyAnimator : MonoBehaviour {
         if (newRotation == currentRotationModifier) return;
         transform.Rotate(Vector3.forward, newRotation - currentRotationModifier);
         currentRotationModifier = newRotation;
+    }
+
+    private void GetClumsyObject()
+    {
+        if (SceneManager.GetActiveScene().name == "Play")
+        {
+            clumsy = transform;
+        }
+        else
+        {
+            foreach (Transform tf in GetComponentsInChildren<Transform>())
+            {
+                if (tf.name == "Clumsy")
+                {
+                    clumsy = tf;
+                    break;
+                }
+            }
+        }
     }
 
     private void PauseGame()
