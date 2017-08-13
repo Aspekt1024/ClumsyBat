@@ -81,7 +81,9 @@ public class TriggerEventSerializer : MonoBehaviour {
         {
             serializer.Serialize(stream, data);
         }
+#if UNITY_EDITOR
         AssetDatabase.ImportAsset(savePath);
+#endif
     }
 
     public void Load()

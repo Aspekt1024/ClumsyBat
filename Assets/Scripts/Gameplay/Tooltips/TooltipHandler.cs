@@ -50,6 +50,7 @@ public class TooltipHandler : MonoBehaviour {
         _inputManager = _playerControl.GetInputManager();
     }
 
+
     public void TooltipButtonPressed()
     {
         if (storedEvent == null) return;

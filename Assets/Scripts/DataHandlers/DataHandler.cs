@@ -31,7 +31,8 @@ public class DataHandler
         LevelData.Save();
         AbilityData.Save();
         Stats.SaveStats();
-        TriggerEventSerializer.Instance.SaveEventProgressionData();
+        if (TriggerEventSerializer.Instance != null)
+            TriggerEventSerializer.Instance.SaveEventProgressionData();
     }
 
     public void ResetStoryData()
