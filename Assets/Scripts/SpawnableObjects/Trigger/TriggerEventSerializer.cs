@@ -12,9 +12,14 @@ using UnityEditor;
 
 public class TriggerEventSerializer : MonoBehaviour {
 
-    public List<TriggerEvent> TriggerEvents;
-
+    private List<TriggerEvent> TriggerEvents;
+    private List<TriggerProgressionData> ProgressionData;
     private static TriggerEventSerializer triggerEventSerializer;
+    
+    private const string resourceLoadPath = "EventData/TriggerEventData";
+    private const string savePath = "Assets/Resources/EventData/TriggerEventData.xml";
+    private const string progressionSavePath = "TriggerEventData.dat";
+
     public static TriggerEventSerializer Instance
     {
         get
@@ -30,10 +35,6 @@ public class TriggerEventSerializer : MonoBehaviour {
             return triggerEventSerializer;
         }
     }
-
-    private const string resourceLoadPath = "EventData/TriggerEventData";
-    private const string savePath = "Assets/Resources/EventData/TriggerEventData.xml";
-    private const string progressionSavePath = "TriggerEventData.dat";
 
     public TriggerEvent CreateNewTriggerEvent()
     {
@@ -69,17 +70,6 @@ public class TriggerEventSerializer : MonoBehaviour {
         Save();
     }
 
-    public void SaveEventProgressionData()
-    {
-        var bf = new BinaryFormatter();
-        var file = File.Open(Application.persistentDataPath + "/" + progressionSavePath, FileMode.OpenOrCreate);
-
-        var data = new TriggerContainer { EventData = TriggerEvents };
-
-        bf.Serialize(file, data);
-        file.Close();
-    }
-
     public void Save()
     {
         TriggerContainer data = new TriggerContainer();
@@ -90,10 +80,7 @@ public class TriggerEventSerializer : MonoBehaviour {
         {
             serializer.Serialize(stream, data);
         }
-
-#if UNITY_EDITOR
         AssetDatabase.ImportAsset(savePath);
-#endif
     }
 
     public void Load()
@@ -118,6 +105,17 @@ public class TriggerEventSerializer : MonoBehaviour {
         }
     }
 
+    public void SaveEventProgressionData()
+    {
+        var bf = new BinaryFormatter();
+        var file = File.Open(Application.persistentDataPath + "/" + progressionSavePath, FileMode.OpenOrCreate);
+
+        var data = new TriggerProgressionContainer { TriggerData = Instance.ProgressionData };
+
+        bf.Serialize(file, data);
+        file.Close();
+    }
+
     public void LoadEventProgressionData()
     {
         if (File.Exists(Application.persistentDataPath + "/" + progressionSavePath))
@@ -125,32 +123,61 @@ public class TriggerEventSerializer : MonoBehaviour {
             BinaryFormatter bf = new BinaryFormatter();
             FileStream file = File.Open(Application.persistentDataPath + "/" + progressionSavePath, FileMode.Open);
 
-            TriggerContainer data;
+            TriggerProgressionContainer data;
             try
             {
-                data = (TriggerContainer)bf.Deserialize(file);
+                data = (TriggerProgressionContainer)bf.Deserialize(file);
             }
             catch
             {
-                data = new TriggerContainer();
-                Debug.Log("Unable to load existing trigger event data set");
+                data = new TriggerProgressionContainer();
+                Debug.Log("Unable to load existing Trigger Event Progression data");
             }
             file.Close();
 
-            TriggerEvents = data.EventData;
+            Instance.ProgressionData = data.TriggerData;
         }
     }
 
     public void ClearEventData()
     {
-        //TriggerEvents = new List<TriggerEvent>();
-        //Save();
+        ProgressionData = new List<TriggerProgressionData>();
+        SaveEventProgressionData();
+    }
+
+    public bool IsEventSeen(int triggerId)
+    {
+        foreach (var trigEvent in Instance.ProgressionData)
+        {
+            if (trigEvent.Id == triggerId)
+                return trigEvent.TooltipSeen;
+        }
+        return false;
+    }
+
+    public void SetEventSeen(int triggerId)
+    {
+        foreach (var te in Instance.ProgressionData)
+        {
+            if (te.Id == triggerId)
+            {
+                te.TooltipSeen = true;
+                SaveEventProgressionData();
+                return;
+            }
+        }
+        TriggerProgressionData trigEvent = new TriggerProgressionData();
+        trigEvent.Id = triggerId;
+        trigEvent.TooltipSeen = true;
+        Instance.ProgressionData.Add(trigEvent);
     }
 
     private void Init()
     {
         TriggerEvents = new List<TriggerEvent>();
+        ProgressionData = new List<TriggerProgressionData>();
         Load();
+        LoadEventProgressionData();
     }
 
     private int GetUniqueId()
@@ -207,5 +234,29 @@ public class TriggerEvent
         ShowOnce = false;
         ShowOnCompletedLevel = false;
         ShowOnRestart = false;
+    }
+}
+
+[Serializable]
+public class TriggerProgressionContainer
+{
+    public List<TriggerProgressionData> TriggerData;
+
+    public TriggerProgressionContainer()
+    {
+        TriggerData = new List<TriggerProgressionData>();
+    }
+}
+
+[Serializable]
+public class TriggerProgressionData
+{
+    public int Id;
+    public bool TooltipSeen;
+
+    public TriggerProgressionData()
+    {
+        Id = 0;
+        TooltipSeen = false;
     }
 }

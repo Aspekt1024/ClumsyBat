@@ -35,9 +35,6 @@ public class TriggerEditorHandler : BaseObjectHandler
         int[] TriggerNum = new int[level.Caves.Length];
         foreach (Transform trigger in parentObj)
         {
-
-            Debug.Log(trigger.GetComponent<TriggerClass>().TriggerEvent.Dialogue[0]);
-
             int index = GetObjectCaveIndex(trigger);
 
             TriggerHandler.TriggerType newTrigger = level.Caves[index].Triggers[TriggerNum[index]];

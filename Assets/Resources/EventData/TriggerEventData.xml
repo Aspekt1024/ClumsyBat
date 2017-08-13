@@ -13,5 +13,89 @@
       <ShowOnCompletedLevel>false</ShowOnCompletedLevel>
       <ShowOnRestart>false</ShowOnRestart>
     </TriggerEvent>
+    <TriggerEvent>
+      <Id>2</Id>
+      <Dialogue />
+      <EventType>Dialogue</EventType>
+      <TooltipDuration>3</TooltipDuration>
+      <PausesGame>false</PausesGame>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>false</ShowOnCompletedLevel>
+      <ShowOnRestart>false</ShowOnRestart>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>3</Id>
+      <Dialogue />
+      <EventType>Dialogue</EventType>
+      <TooltipDuration>3</TooltipDuration>
+      <PausesGame>false</PausesGame>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>false</ShowOnCompletedLevel>
+      <ShowOnRestart>false</ShowOnRestart>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>4</Id>
+      <Dialogue />
+      <EventType>Dialogue</EventType>
+      <TooltipDuration>3</TooltipDuration>
+      <PausesGame>false</PausesGame>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>false</ShowOnCompletedLevel>
+      <ShowOnRestart>false</ShowOnRestart>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>5</Id>
+      <Dialogue />
+      <EventType>Dialogue</EventType>
+      <TooltipDuration>3</TooltipDuration>
+      <PausesGame>false</PausesGame>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>false</ShowOnCompletedLevel>
+      <ShowOnRestart>false</ShowOnRestart>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>6</Id>
+      <Dialogue>
+        <string>test</string>
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <TooltipDuration>3</TooltipDuration>
+      <PausesGame>false</PausesGame>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>false</ShowOnCompletedLevel>
+      <ShowOnRestart>false</ShowOnRestart>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>7</Id>
+      <Dialogue />
+      <EventType>Dialogue</EventType>
+      <TooltipDuration>3</TooltipDuration>
+      <PausesGame>false</PausesGame>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>false</ShowOnCompletedLevel>
+      <ShowOnRestart>false</ShowOnRestart>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>8</Id>
+      <Dialogue />
+      <EventType>Dialogue</EventType>
+      <TooltipDuration>3</TooltipDuration>
+      <PausesGame>false</PausesGame>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>false</ShowOnCompletedLevel>
+      <ShowOnRestart>false</ShowOnRestart>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>9</Id>
+      <Dialogue>
+        <string>working</string>
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <TooltipDuration>3</TooltipDuration>
+      <PausesGame>false</PausesGame>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>false</ShowOnCompletedLevel>
+      <ShowOnRestart>false</ShowOnRestart>
+    </TriggerEvent>
   </EventData>
 </TriggerContainer>

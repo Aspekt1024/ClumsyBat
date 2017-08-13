@@ -41,8 +41,11 @@ public class TriggerClass : Spawnable {
     {
         if (!GameData.Instance.Data.Stats.Settings.Tooltips || !IsActive) return;
         IsActive = false;
-        Debug.Log(TriggerEvent.Dialogue[0]);
-        _tHandler.ShowDialogue(TriggerEvent.Dialogue[0], 3f, false);
+        if (!TriggerEventSerializer.Instance.IsEventSeen(TriggerEvent.Id))
+        {
+            _tHandler.ShowDialogue(TriggerEvent.Dialogue[0], 3f, false);
+            TriggerEventSerializer.Instance.SetEventSeen(TriggerEvent.Id);
+        }
 
         // TODO logic
         switch (TriggerEvent.EventType)

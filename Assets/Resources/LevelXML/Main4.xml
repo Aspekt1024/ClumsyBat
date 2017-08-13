@@ -6,6 +6,8 @@
       <BottomIndex>1000</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals />
       <Moths />
@@ -34,11 +36,18 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <EventType>Tooltip</EventType>
-          <TooltipText>There's a hidden path to our village near the end of this area</TooltipText>
-          <TooltipDuration>3</TooltipDuration>
-          <EventId>FirstDeath</EventId>
-          <PausesGame>false</PausesGame>
+          <TrigEvent>
+            <Id>6</Id>
+            <Dialogue>
+              <string>test</string>
+            </Dialogue>
+            <EventType>Dialogue</EventType>
+            <TooltipDuration>3</TooltipDuration>
+            <PausesGame>false</PausesGame>
+            <ShowOnce>false</ShowOnce>
+            <ShowOnCompletedLevel>false</ShowOnCompletedLevel>
+            <ShowOnRestart>false</ShowOnRestart>
+          </TrigEvent>
         </TriggerType>
       </Triggers>
       <Npcs />
@@ -48,6 +57,8 @@
       <BottomIndex>1</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals>
         <StalType>
@@ -291,6 +302,8 @@
       <BottomIndex>3</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals>
         <StalType>
@@ -704,6 +717,8 @@
       <BottomIndex>2</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals>
         <StalType>
@@ -1063,6 +1078,8 @@
       <BottomIndex>1</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals>
         <StalType>
@@ -1269,36 +1286,7 @@
       </Moths>
       <Spiders />
       <Webs />
-      <Triggers>
-        <TriggerType>
-          <SpawnTransform>
-            <Pos>
-              <x>-5.53000641</x>
-              <y>0.08</y>
-            </Pos>
-            <Scale>
-              <x>1</x>
-              <y>11.0625105</y>
-            </Scale>
-            <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
-              <w>1</w>
-              <eulerAngles>
-                <x>0</x>
-                <y>0</y>
-                <z>0</z>
-              </eulerAngles>
-            </Rotation>
-          </SpawnTransform>
-          <EventType>Tooltip</EventType>
-          <TooltipText>The hidden entrance is on the ground here somewhere</TooltipText>
-          <TooltipDuration>3</TooltipDuration>
-          <EventId>FirstDeath</EventId>
-          <PausesGame>false</PausesGame>
-        </TriggerType>
-      </Triggers>
+      <Triggers />
       <Npcs />
     </Cave>
     <Cave>
@@ -1306,6 +1294,8 @@
       <BottomIndex>0</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>true</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals>
         <StalType>
@@ -1694,6 +1684,8 @@
       <BottomIndex>0</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals>
         <StalType>
@@ -2053,6 +2045,8 @@
       <BottomIndex>1001</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals>
         <StalType>
