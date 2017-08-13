@@ -1,30 +1,34 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
+[ExecuteInEditMode]
 public class TriggerClass : Spawnable {
     
-    public struct TriggerProps
-    {
-        public BoxCollider2D Collider;
-    }
-    
-    [HideInInspector]
-    public TriggerProps Trigger;
+    public TriggerEvent TriggerEvent;
+    [HideInInspector] public BoxCollider2D Collider;
+    [HideInInspector] public int TriggerId; // For serialization/deserialization - not used in-game
+
     private TooltipHandler _tHandler;
-
-    // Editor properties
-    public TriggerHandler.EventType EventType;
-    public TooltipHandler.DialogueId EventId;
-    public string TooltipText;
-    public float TooltipDuration = 3f;
-    public bool PausesGame;
-
-    private TooltipHandler.WaitType _waitType;
 
     private void Awake()
     {
-        Trigger.Collider = GetComponent<BoxCollider2D>();
+        Collider = GetComponent<BoxCollider2D>();
         _tHandler = FindObjectOfType<TooltipHandler>();
-        _waitType = TooltipHandler.WaitType.InGameNoPause;
+
+    }
+    private void Start()
+    {
+        if (TriggerId > 0)
+        {
+            TriggerEvent = TriggerEventSerializer.Instance.GetTriggerEvent(TriggerId);
+        }
+#if UNITY_EDITOR
+        if (TriggerId == 0 && !Application.isPlaying)
+        {
+            TriggerEvent = TriggerEventSerializer.Instance.CreateNewTriggerEvent();
+            TriggerId = TriggerEvent.Id;
+        }
+#endif
     }
 
     private void FixedUpdate()
@@ -37,13 +41,17 @@ public class TriggerClass : Spawnable {
     {
         if (!GameData.Instance.Data.Stats.Settings.Tooltips || !IsActive) return;
         IsActive = false;
-        switch (EventType)
+        Debug.Log(TriggerEvent.Dialogue[0]);
+        _tHandler.ShowDialogue(TriggerEvent.Dialogue[0], 3f, false);
+
+        // TODO logic
+        switch (TriggerEvent.EventType)
         {
             case (TriggerHandler.EventType.Dialogue):
-                _tHandler.ShowDialogue(EventId, _waitType);
+                //_tHandler.ShowDialogue(EventId, _waitType);
                 break;
             case (TriggerHandler.EventType.Tooltip):
-                _tHandler.ShowDialogue(TooltipText, TooltipDuration, PausesGame);
+                //_tHandler.ShowDialogue(TooltipText, TooltipDuration, PausesGame);
                 break;
             case TriggerHandler.EventType.OneTimeEvent:
                 //_tHandler.ShowDialogue()
@@ -56,16 +64,13 @@ public class TriggerClass : Spawnable {
     public void Activate(TriggerHandler.TriggerType triggerProps, SpawnType spawnTf)
     {
         base.Activate(transform, spawnTf);
-        EventType = triggerProps.EventType;
-        EventId = triggerProps.EventId;
-        TooltipText = triggerProps.TooltipText;
-        TooltipDuration = triggerProps.TooltipDuration;
-        PausesGame = triggerProps.PausesGame;
-        Trigger.Collider.enabled = true;
+        Collider.enabled = true;
         gameObject.GetComponent<SpriteRenderer>().enabled = Toolbox.Instance.Debug;
-        _waitType = PausesGame ? TooltipHandler.WaitType.InGamePause : TooltipHandler.WaitType.InGameNoPause;
+        
+        TriggerEvent = TriggerEventSerializer.Instance.GetTriggerEvent(triggerProps.TrigEvent.Id);
     }
     
     public void DeactivateTrigger() { SendToInactivePool(); }
     public bool Active() { return IsActive; }
+    
 }

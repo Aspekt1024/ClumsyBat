@@ -13,7 +13,43 @@
       <Moths />
       <Spiders />
       <Webs />
-      <Triggers />
+      <Triggers>
+        <TriggerType>
+          <SpawnTransform>
+            <Pos>
+              <x>4.71039248</x>
+              <y>1.18232584</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>7.875</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <TrigEvent>
+            <Id>1</Id>
+            <Dialogue>
+              <string>hello!</string>
+            </Dialogue>
+            <EventType>Dialogue</EventType>
+            <TooltipDuration>3</TooltipDuration>
+            <PausesGame>false</PausesGame>
+            <ShowOnce>false</ShowOnce>
+            <ShowOnCompletedLevel>false</ShowOnCompletedLevel>
+            <ShowOnRestart>false</ShowOnRestart>
+          </TrigEvent>
+        </TriggerType>
+      </Triggers>
       <Npcs />
     </Cave>
     <Cave>

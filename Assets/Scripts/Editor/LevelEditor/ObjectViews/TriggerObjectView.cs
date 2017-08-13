@@ -12,30 +12,38 @@ public class TriggerEditorView : Editor {
     public override void OnInspectorGUI()
     {
         trigger = (TriggerClass)target;
+        TriggerEvent trigEvent = trigger.TriggerEvent;
 
-        trigger.EventType = (TriggerHandler.EventType)EditorGUILayout.EnumPopup("Event Type", trigger.EventType);
+        EditorGUILayout.LabelField("Trigger Event Id: " + trigger.TriggerEvent.Id);
 
-        if (trigger.EventType == TriggerHandler.EventType.OneTimeEvent || trigger.EventType == TriggerHandler.EventType.Dialogue)
+        EditorStyles.textField.wordWrap = true;
+        for (int i = 0; i < trigger.TriggerEvent.Dialogue.Count; i++)
         {
-            trigger.EventId = (TooltipHandler.DialogueId)EditorGUILayout.EnumPopup("ID", trigger.EventId);
+            trigger.TriggerEvent.Dialogue[i] = EditorGUILayout.TextField(trigger.TriggerEvent.Dialogue[i]);
         }
-        else
+
+        if (GUILayout.Button("Add new dialogue entry"))
         {
-            EditorStyles.textField.wordWrap = true;
-            trigger.TooltipText = EditorGUILayout.TextArea(trigger.TooltipText);
+            string newDialogue = "";
+            trigger.TriggerEvent.Dialogue.Add(newDialogue);
         }
-        trigger.TooltipDuration = EditorGUILayout.FloatField("Duration (s)", trigger.TooltipDuration);
-        trigger.PausesGame = EditorGUILayout.Toggle("Pauses Game?", trigger.PausesGame);
-        
-        CopyTriggerClassProperties();
+
+        if (GUILayout.Button("Remove dialogue entry"))
+        {
+            trigger.TriggerEvent.Dialogue.Remove(trigger.TriggerEvent.Dialogue[trigger.TriggerEvent.Dialogue.Count - 1]);
+        }
+
+        trigEvent.TooltipDuration = EditorGUILayout.FloatField("Duration (s)", trigEvent.TooltipDuration);
+        trigEvent.PausesGame = EditorGUILayout.Toggle("Pauses Game?", trigEvent.PausesGame);
+        trigEvent.ShowOnce = EditorGUILayout.Toggle("Show Once?", trigEvent.ShowOnce);
+        trigEvent.ShowOnCompletedLevel = EditorGUILayout.Toggle("Show on Completed Level?", trigEvent.ShowOnce);
+        trigEvent.ShowOnRestart = EditorGUILayout.Toggle("Show on Level Restart?", trigEvent.ShowOnce);
     }
 
-    private void CopyTriggerClassProperties()
+    private void OnDestroy()
     {
-        ((TriggerClass)target).EventType = trigger.EventType;
-        ((TriggerClass)target).EventId = trigger.EventId;
-        ((TriggerClass)target).TooltipText = trigger.TooltipText;
-        ((TriggerClass)target).TooltipDuration = trigger.TooltipDuration;
-        ((TriggerClass)target).PausesGame = trigger.PausesGame;
+        if (target != null) return;
+        Debug.Log(trigger.TriggerId);
+        TriggerEventSerializer.Instance.RemoveTriggerEvent(trigger.TriggerId);
     }
 }

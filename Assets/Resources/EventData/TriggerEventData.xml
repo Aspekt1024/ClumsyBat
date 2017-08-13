@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<TriggerContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <EventData>
+    <TriggerEvent>
+      <Id>1</Id>
+      <Dialogue>
+        <string>hello!</string>
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <TooltipDuration>3</TooltipDuration>
+      <PausesGame>false</PausesGame>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>false</ShowOnCompletedLevel>
+      <ShowOnRestart>false</ShowOnRestart>
+    </TriggerEvent>
+  </EventData>
+</TriggerContainer>

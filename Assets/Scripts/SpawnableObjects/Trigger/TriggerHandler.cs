@@ -14,11 +14,7 @@ public sealed class TriggerHandler : SpawnPool<TriggerClass> {
     public struct TriggerType
     {
         public Spawnable.SpawnType SpawnTransform;
-        public EventType EventType;
-        public string TooltipText;
-        public float TooltipDuration;
-        public TooltipHandler.DialogueId EventId;
-        public bool PausesGame;
+        public TriggerEvent TrigEvent;
     }
     
     public void SetupTriggersInList(TriggerType[] triggerList, float xOffset)

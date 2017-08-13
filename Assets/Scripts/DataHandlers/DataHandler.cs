@@ -43,5 +43,6 @@ public class DataHandler
         StoryData.ClearStoryEventData();
         AbilityData.ClearAbilityData();
         Stats.ResetCurrency();
+        TriggerEventSerializer.Instance.ClearEventData();
     }
 }

@@ -24,6 +24,7 @@ public class TriggerEditorHandler : BaseObjectHandler
 
     public override void StoreObjects(ref LevelContainer levelObj)
     {
+        TriggerEventSerializer.Instance.Save();
         level = levelObj;
         var TriggerCounts = GetObjCounts(parentObj);
         for (int i = 0; i < level.Caves.Length; i++)
@@ -34,15 +35,14 @@ public class TriggerEditorHandler : BaseObjectHandler
         int[] TriggerNum = new int[level.Caves.Length];
         foreach (Transform trigger in parentObj)
         {
+
+            Debug.Log(trigger.GetComponent<TriggerClass>().TriggerEvent.Dialogue[0]);
+
             int index = GetObjectCaveIndex(trigger);
 
             TriggerHandler.TriggerType newTrigger = level.Caves[index].Triggers[TriggerNum[index]];
             newTrigger.SpawnTransform = ProduceSpawnTf(trigger, index);
-            newTrigger.EventId = trigger.GetComponent<TriggerClass>().EventId;
-            newTrigger.EventType = trigger.GetComponent<TriggerClass>().EventType;
-            newTrigger.PausesGame = trigger.GetComponent<TriggerClass>().PausesGame;
-            newTrigger.TooltipText = trigger.GetComponent<TriggerClass>().TooltipText;
-            newTrigger.TooltipDuration = trigger.GetComponent<TriggerClass>().TooltipDuration;
+            newTrigger.TrigEvent = trigger.GetComponent<TriggerClass>().TriggerEvent;
             level.Caves[index].Triggers[TriggerNum[index]] = newTrigger;
             TriggerNum[index]++;
         }
@@ -50,6 +50,7 @@ public class TriggerEditorHandler : BaseObjectHandler
 
     protected override void SetObjects(LevelContainer level)
     {
+        TriggerEventSerializer.Instance.Load();
         for (int i = 0; i < level.Caves.Length; i++)
         {
             if (level.Caves[i].Triggers == null || level.Caves[i].Triggers.Length == 0) continue;
@@ -59,11 +60,8 @@ public class TriggerEditorHandler : BaseObjectHandler
                 Spawnable.SpawnType spawnTf = Trigger.SpawnTransform;
                 spawnTf.Pos += new Vector2(i * LevelEditorConstants.TileSizeX, 0f);
                 newTrigger.GetComponent<TriggerClass>().SetTransform(newTrigger.transform, spawnTf);
-                newTrigger.GetComponent<TriggerClass>().EventId = Trigger.EventId;
-                newTrigger.GetComponent<TriggerClass>().EventType = Trigger.EventType;
-                newTrigger.GetComponent<TriggerClass>().PausesGame = Trigger.PausesGame;
-                newTrigger.GetComponent<TriggerClass>().TooltipText = Trigger.TooltipText;
-                newTrigger.GetComponent<TriggerClass>().TooltipDuration = Trigger.TooltipDuration;
+                newTrigger.GetComponent<TriggerClass>().TriggerEvent = Trigger.TrigEvent;
+                newTrigger.GetComponent<TriggerClass>().TriggerEvent = TriggerEventSerializer.Instance.GetTriggerEvent(Trigger.TrigEvent.Id);
             }
         }
     }
