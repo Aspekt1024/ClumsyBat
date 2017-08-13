@@ -18,7 +18,7 @@ public class GameMenuOverlay : MonoBehaviour {
     
     public void MenuButtonPressed()
     {
-        Toolbox.Instance.TooltipCompletionPersist = false;
+        Toolbox.Instance.ResetTooltips();
         Toolbox.Instance.MenuScreen = Toolbox.MenuSelector.MainMenu;
         _loadingOverlay.ShowLoadScreen();
         SaveData();
@@ -27,7 +27,7 @@ public class GameMenuOverlay : MonoBehaviour {
 
     public void RestartButtonPressed()
     {
-        Toolbox.Instance.TooltipCompletionPersist = true;
+        Toolbox.Instance.ResetTooltips();
         _loadingOverlay.ShowLoadScreen();
         SaveData();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -47,7 +47,7 @@ public class GameMenuOverlay : MonoBehaviour {
     public void NextButtonPressed()
     {
 
-        Toolbox.Instance.TooltipCompletionPersist = false;
+        Toolbox.Instance.ResetTooltips();
         Toolbox.Instance.MenuScreen = Toolbox.MenuSelector.LevelSelect;
         _loadingOverlay.ShowLoadScreen();
         SceneManager.LoadScene("Play");

@@ -2,7 +2,6 @@
 using UnityEngine;
 using System.Collections;
 
-using StoryEventID = StoryEventControl.StoryEvents;
 using PlayerSounds = ClumsyAudioControl.PlayerSounds;
 using ClumsyAnimations = ClumsyAnimator.ClumsyAnimations;
 

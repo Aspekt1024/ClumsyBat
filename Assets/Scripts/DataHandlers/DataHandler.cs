@@ -4,7 +4,6 @@ public class DataHandler
 {
     public LevelDataControl LevelData;
     public AbilityControl AbilityData;
-    public StoryEventControl StoryData;
     public StatsHandler Stats;
 
     private bool _bDataLoaded;
@@ -15,11 +14,9 @@ public class DataHandler
         var dataObject = new GameObject("DataObjects");
         LevelData = dataObject.AddComponent<LevelDataControl>();
         AbilityData = dataObject.AddComponent<AbilityControl>();
-        StoryData = dataObject.AddComponent<StoryEventControl>();
         
         LevelData.Load();
         AbilityData.Load();
-        StoryData.Load();
 
         // Load persistent data, if not already loaded
         if (_bDataLoaded) return;
@@ -33,14 +30,13 @@ public class DataHandler
     {
         LevelData.Save();
         AbilityData.Save();
-        StoryData.Save();
         Stats.SaveStats();
+        TriggerEventSerializer.Instance.SaveEventProgressionData();
     }
 
     public void ResetStoryData()
     {
         LevelData.ClearCompletionData();
-        StoryData.ClearStoryEventData();
         AbilityData.ClearAbilityData();
         Stats.ResetCurrency();
         TriggerEventSerializer.Instance.ClearEventData();

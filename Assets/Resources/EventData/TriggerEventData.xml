@@ -4,6 +4,11 @@
     <TriggerEvent>
       <Id>1</Id>
       <Dialogue>
+        <string />
+        <string />
+        <string />
+        <string />
+        <string />
         <string>hello!</string>
       </Dialogue>
       <EventType>Dialogue</EventType>
@@ -15,7 +20,13 @@
     </TriggerEvent>
     <TriggerEvent>
       <Id>2</Id>
-      <Dialogue />
+      <Dialogue>
+        <string />
+        <string />
+        <string />
+        <string />
+        <string />
+      </Dialogue>
       <EventType>Dialogue</EventType>
       <TooltipDuration>3</TooltipDuration>
       <PausesGame>false</PausesGame>
@@ -25,7 +36,13 @@
     </TriggerEvent>
     <TriggerEvent>
       <Id>3</Id>
-      <Dialogue />
+      <Dialogue>
+        <string />
+        <string />
+        <string />
+        <string />
+        <string />
+      </Dialogue>
       <EventType>Dialogue</EventType>
       <TooltipDuration>3</TooltipDuration>
       <PausesGame>false</PausesGame>
@@ -35,7 +52,13 @@
     </TriggerEvent>
     <TriggerEvent>
       <Id>4</Id>
-      <Dialogue />
+      <Dialogue>
+        <string />
+        <string />
+        <string />
+        <string />
+        <string />
+      </Dialogue>
       <EventType>Dialogue</EventType>
       <TooltipDuration>3</TooltipDuration>
       <PausesGame>false</PausesGame>
@@ -45,7 +68,13 @@
     </TriggerEvent>
     <TriggerEvent>
       <Id>5</Id>
-      <Dialogue />
+      <Dialogue>
+        <string />
+        <string />
+        <string />
+        <string />
+        <string />
+      </Dialogue>
       <EventType>Dialogue</EventType>
       <TooltipDuration>3</TooltipDuration>
       <PausesGame>false</PausesGame>
@@ -56,6 +85,11 @@
     <TriggerEvent>
       <Id>6</Id>
       <Dialogue>
+        <string />
+        <string />
+        <string />
+        <string />
+        <string />
         <string>test</string>
       </Dialogue>
       <EventType>Dialogue</EventType>
@@ -67,7 +101,13 @@
     </TriggerEvent>
     <TriggerEvent>
       <Id>7</Id>
-      <Dialogue />
+      <Dialogue>
+        <string />
+        <string />
+        <string />
+        <string />
+        <string />
+      </Dialogue>
       <EventType>Dialogue</EventType>
       <TooltipDuration>3</TooltipDuration>
       <PausesGame>false</PausesGame>
@@ -77,7 +117,13 @@
     </TriggerEvent>
     <TriggerEvent>
       <Id>8</Id>
-      <Dialogue />
+      <Dialogue>
+        <string />
+        <string />
+        <string />
+        <string />
+        <string />
+      </Dialogue>
       <EventType>Dialogue</EventType>
       <TooltipDuration>3</TooltipDuration>
       <PausesGame>false</PausesGame>
@@ -89,6 +135,38 @@
       <Id>9</Id>
       <Dialogue>
         <string>working</string>
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <TooltipDuration>3</TooltipDuration>
+      <PausesGame>false</PausesGame>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>false</ShowOnCompletedLevel>
+      <ShowOnRestart>false</ShowOnRestart>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>10</Id>
+      <Dialogue>
+        <string />
+        <string />
+        <string />
+        <string />
+        <string />
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <TooltipDuration>3</TooltipDuration>
+      <PausesGame>false</PausesGame>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>false</ShowOnCompletedLevel>
+      <ShowOnRestart>false</ShowOnRestart>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>11</Id>
+      <Dialogue>
+        <string />
+        <string />
+        <string />
+        <string />
+        <string />
       </Dialogue>
       <EventType>Dialogue</EventType>
       <TooltipDuration>3</TooltipDuration>

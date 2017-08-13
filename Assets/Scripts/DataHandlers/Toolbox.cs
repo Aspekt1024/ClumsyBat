@@ -18,10 +18,9 @@ public class Toolbox : Singleton<Toolbox>
     public const float PlayerStartX = -5.5f;
     public bool GamePaused;
     public bool Debug;
-    public bool TooltipCompletionPersist;
     public bool ShowLevelTooltips = true;
 
-    public bool[] TooltipCompletion = new bool[Enum.GetNames(typeof(TooltipHandler.DialogueId)).Length];
+    public List<int> TooltipCompletion = new List<int>();
     public Dictionary<string, float> ZLayers = new Dictionary<string, float>();
     public Dictionary<Levels, string> LevelNames = new Dictionary<Levels, string>();
 
@@ -186,20 +185,29 @@ public class Toolbox : Singleton<Toolbox>
         LevelNames.Add(Levels.Village4, "Village 4");
     }
 
+    #region TooltipMemory
     // The below functions relate to session level tooltips
     // Tooltips are shown the first time a level is started, but not on restarting the level
-    public bool TooltipCompleted(TooltipHandler.DialogueId tooltipId)
+    public bool TooltipCompleted(int tooltipId)
     {
-        return TooltipCompletion[(int)tooltipId];
+        foreach(int id in TooltipCompletion)
+        {
+            if (id == tooltipId)
+                return true;
+        }
+        return false;
     }
-    public void SetTooltipComplete(TooltipHandler.DialogueId tooltipId)
+
+    public void SetTooltipComplete(int tooltipId)
     {
-        TooltipCompletion[(int)tooltipId] = true;
+        TooltipCompletion.Add(tooltipId);
     }
+
     public void ResetTooltips()
     {
-        TooltipCompletion = new bool[Enum.GetNames(typeof(TooltipHandler.DialogueId)).Length];
+        TooltipCompletion = new List<int>();
     }
+    #endregion TooltipMemory
 
     public static Color MothGreenColor = new Color(110 / 255f, 229 / 255f, 119 / 255f);
     public static Color MothGoldColor = new Color(212 / 255f, 195 / 255f, 126 / 255f);

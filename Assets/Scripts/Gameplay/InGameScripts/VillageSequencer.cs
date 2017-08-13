@@ -62,9 +62,9 @@ public class VillageSequencer : MonoBehaviour
         TooltipHandler tth = FindObjectOfType<TooltipHandler>();
         if (GameData.Instance.Level == LevelProgressionHandler.Levels.Village1)
         {
-            TooltipHandler.DialogueId eventId = TooltipHandler.DialogueId.HypersonicVillagePt1;
+            //TooltipHandler.DialogueId eventId = TooltipHandler.DialogueId.HypersonicVillagePt1;
             _bPausedForSpeech = true;
-            tth.ShowDialogue(eventId, TooltipHandler.WaitType.VillageSpeech);
+            //tth.ShowDialogue(eventId, TooltipHandler.WaitType.VillageSpeech);
             while (_bPausedForSpeech)
             {
                 yield return null;
@@ -83,13 +83,13 @@ public class VillageSequencer : MonoBehaviour
             _player.Player.ForceHypersonic();
             yield return new WaitForSeconds(1f);
             
-            eventId = TooltipHandler.DialogueId.HypersonicVillagePt2;
+            //eventId = TooltipHandler.DialogueId.HypersonicVillagePt2;
             _bPausedForSpeech = true;
-            tth.ShowDialogue(eventId, TooltipHandler.WaitType.VillageSpeech);
-            while (_bPausedForSpeech)
-            {
-                yield return null;
-            }
+            //tth.ShowDialogue(eventId, TooltipHandler.WaitType.VillageSpeech);
+            //while (_bPausedForSpeech)
+            //{
+            //    yield return null;
+            //}
         }
     }
 

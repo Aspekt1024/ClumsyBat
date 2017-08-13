@@ -41,10 +41,12 @@ public class TriggerClass : Spawnable {
     {
         if (!GameData.Instance.Data.Stats.Settings.Tooltips || !IsActive) return;
         IsActive = false;
-        if (!TriggerEventSerializer.Instance.IsEventSeen(TriggerEvent.Id))
+        if (!TriggerEventSerializer.Instance.IsEventSeen(TriggerEvent.Id) || !TriggerEvent.ShowOnce)
         {
-            _tHandler.ShowDialogue(TriggerEvent.Dialogue[0], 3f, false);
-            TriggerEventSerializer.Instance.SetEventSeen(TriggerEvent.Id);
+            if (TriggerEvent.PausesGame == false)
+                _tHandler.StoreTriggerEvent(TriggerEvent);
+            else
+                _tHandler.ShowDialogue(TriggerEvent);
         }
 
         // TODO logic

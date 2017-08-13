@@ -41,6 +41,7 @@ public class TriggerEventSerializer : MonoBehaviour {
         Load();
         TriggerEvent triggerEvent = new TriggerEvent();
         triggerEvent.Id = GetUniqueId();
+        triggerEvent.Dialogue.Add("");
         TriggerEvents.Add(triggerEvent);
         Save();
         return triggerEvent;

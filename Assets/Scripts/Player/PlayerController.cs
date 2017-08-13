@@ -112,15 +112,11 @@ public class PlayerController : MonoBehaviour
         _inputManager.ClearInput();
     }
 
-    public void WaitForTooltip(bool bWait)
+    public void WaitForTooltip()
     {
         State = GameState.PausedForTooltip;
         _inputManager.ClearInput();
-
-        if (bWait)
-        {
-            PauseGame(showMenu: false);
-        }
+        PauseGame(showMenu: false);
     }
 
     public void WaitForVillageSpeech()

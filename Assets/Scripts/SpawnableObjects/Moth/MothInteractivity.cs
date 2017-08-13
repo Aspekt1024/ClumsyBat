@@ -2,7 +2,6 @@
 using System.Collections;
 
 using GameStates = GameHandler.GameStates;
-using StoryEventID = StoryEventControl.StoryEvents;
 
 public class MothInteractivity : MonoBehaviour
 {

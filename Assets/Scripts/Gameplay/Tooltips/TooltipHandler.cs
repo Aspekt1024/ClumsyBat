@@ -1,68 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class TooltipHandler : MonoBehaviour {
+    
+    public RectTransform TooltipButton;
+    [HideInInspector] public bool IsPausedForTooltip;
 
-    public bool IsPausedForTooltip;
+    private TriggerEvent storedEvent;
+
+    private Canvas tooltipOverlay;
+    private Image tooltipBackground;
+    private RectTransform tooltipScroll;
+    private Animator tooltipScrollAnimator;
+    private Text tooltipText;
+    private RectTransform resumeNextImage;
+    private RectTransform resumePlayImage;
+    private RectTransform nomee;
 
     private PlayerController _playerControl;
     private InputManager _inputManager;
-    private TooltipController _tooltipControl;
+
+    private bool tooltipSetup;
     
-    private readonly Dictionary<DialogueId, TooltipId[]> _dialogueSet = new Dictionary<DialogueId, TooltipId[]>();
-    private readonly Dictionary<TooltipId, string> dialogueDict = new Dictionary<TooltipId, string>();
-
-    private bool _bFirstDialogue;
-    private bool _bLastDialogue;
-    private WaitType _waitType;
-
-    // DialogueID is used for the DialogueSet Dictionary
-    // Referenced in the editor
-    public enum DialogueId
-    {
-        FirstDeath,
-        FirstJump,
-        SecondJump,
-        FirstMoth,
-        AllOnYourOwn,
-        StalLevel,
-        NoMoreStals,
-        ActuallyMoreStals,
-        FirstStalDrop,
-        ThatGotReal,
-        HypersonicVillagePt1,
-        HypersonicVillagePt2,
-    }
-
-    // TooltipID references the individual pieces of dialogue defined in the DialogueSet
-    public enum TooltipId
-    {
-        FirstDeath,
-        FirstJump,
-        SecondJump,
-        FirstMoth,
-        AllOnYourOwn1,
-        AllOnYourOwn2,
-        StalLevel,
-        StalDrop1,
-        StalDrop2,
-        StalDrop3,
-        NoMoreStals,
-        ActuallyMoreStals,
-        ThatGotReal,
-        HypersonicVillagePt1,
-        HypersonicVillagePt2T1,
-        HypersonicVillagePt2T2,
-    }
-
-    public enum WaitType
-    {
-        InGamePause,
-        InGameNoPause,
-        VillageSpeech
-    }
-
     private void OnEnable()
     {
         EventListener.OnDeath += RemoveTooltips;
@@ -76,54 +37,11 @@ public class TooltipHandler : MonoBehaviour {
 
     private void Awake()
     {
-        GameObject toolTipOverlay = (GameObject)Instantiate(Resources.Load("ToolTipOverlay"));
-        _tooltipControl = toolTipOverlay.GetComponent<TooltipController>();
-
-        SetDialogueIDs();
-        SetDialogueText();
-
-        if (!Toolbox.Instance.TooltipCompletionPersist)
-        {
-            Toolbox.Instance.ResetTooltips();
-        }
-    }
-
-    private void SetDialogueIDs()
-    {
-        _dialogueSet.Add(DialogueId.FirstDeath, new [] { TooltipId.FirstDeath });
-        _dialogueSet.Add(DialogueId.FirstJump, new[] { TooltipId.FirstJump });
-        _dialogueSet.Add(DialogueId.SecondJump, new[] { TooltipId.SecondJump });
-        _dialogueSet.Add(DialogueId.FirstMoth, new[] { TooltipId.FirstMoth } );
-        _dialogueSet.Add(DialogueId.AllOnYourOwn, new[] { TooltipId.AllOnYourOwn1, TooltipId.AllOnYourOwn2 } );
-        _dialogueSet.Add(DialogueId.StalLevel, new[] { TooltipId.StalLevel } );
-        _dialogueSet.Add(DialogueId.FirstStalDrop, new[] { TooltipId.StalDrop1, TooltipId.StalDrop2, TooltipId.StalDrop3 } );
-        _dialogueSet.Add(DialogueId.NoMoreStals, new[] { TooltipId.NoMoreStals });
-        _dialogueSet.Add(DialogueId.ActuallyMoreStals, new[] { TooltipId.ActuallyMoreStals });
-        _dialogueSet.Add(DialogueId.ThatGotReal, new[] { TooltipId.ThatGotReal });
-        _dialogueSet.Add(DialogueId.HypersonicVillagePt1, new[] { TooltipId.HypersonicVillagePt1 });
-        _dialogueSet.Add(DialogueId.HypersonicVillagePt2, new[] { TooltipId.HypersonicVillagePt2T1, TooltipId.HypersonicVillagePt2T2,  });
-        //_dialogueSet.Add(DialogueId , new[] { TooltipId });
-    }
-
-    private void SetDialogueText()
-    {
-        dialogueDict.Add(TooltipId.FirstDeath, "Don't worry, we can try again!");
-        dialogueDict.Add(TooltipId.FirstJump, "Tap anywhere to flap!");
-        dialogueDict.Add(TooltipId.SecondJump, "Keep tapping to keep Clumsy in the air.");
-        dialogueDict.Add(TooltipId.FirstMoth, "It's getting dark! Collect moths to fuel the lantern.");
-        dialogueDict.Add(TooltipId.AllOnYourOwn1, "You made it! I mean, of course you made it!");
-        dialogueDict.Add(TooltipId.AllOnYourOwn2, "The path to the village is just through here.");
-        dialogueDict.Add(TooltipId.StalLevel, "This is as far as I've ever been. Be careful!");
-        dialogueDict.Add(TooltipId.StalDrop1, "Did you see that!?");
-        dialogueDict.Add(TooltipId.StalDrop2, "Oh right, you're a bat. Of course you didn't.");
-        dialogueDict.Add(TooltipId.StalDrop3, "Watch for falling objects!" );
-        dialogueDict.Add(TooltipId.NoMoreStals, "Whew, we got through it! Wasn't that easy!?");
-        dialogueDict.Add(TooltipId.ActuallyMoreStals, "... I was wrong. I think it's going to get a lot harder.");
-        dialogueDict.Add(TooltipId.ThatGotReal, "Well that got real! Keep going, we're not far away.");
-        dialogueDict.Add(TooltipId.HypersonicVillagePt1 , "You made it! Here's a thing.");
-        dialogueDict.Add(TooltipId.HypersonicVillagePt2T1, "Gold moths will now activate hypersonic");
-        dialogueDict.Add(TooltipId.HypersonicVillagePt2T2, "By the way, we're being attacked by an evil bat. Make him go away.");
-        //_dialogueDict.Add(TooltipId, "");
+        //tooltipOverlay = Instantiate(Resources.Load<GameObject>("ToolTipOverlay")).GetComponent<Canvas>();
+        tooltipOverlay = GetComponent<Canvas>();
+        GetTooltipComponents();
+        tooltipOverlay.enabled = false;
+        TooltipButton.gameObject.SetActive(false);
     }
 
     private void Start()
@@ -131,138 +49,134 @@ public class TooltipHandler : MonoBehaviour {
         _playerControl = FindObjectOfType<PlayerController>();
         _inputManager = _playerControl.GetInputManager();
     }
-    
-    public void ShowDialogue(DialogueId eventId, WaitType waitType)
+
+    public void TooltipButtonPressed()
     {
-        if (!_playerControl.ThePlayer.IsAlive() || Toolbox.Instance.TooltipCompleted(eventId)) { return; }
-        _waitType = waitType;
-        Toolbox.Instance.SetTooltipComplete(eventId);
-        TooltipId[] dialogue = _dialogueSet[eventId];
-        StartCoroutine("SetupDialogue", dialogue);
+        if (storedEvent == null) return;
+        ShowDialogue(storedEvent);
+        UIObjectAnimator.Instance.PopOutObject(TooltipButton);
     }
 
-    public void ShowDialogue(string text, float duration, bool pauses = false)
+    public void StoreTriggerEvent(TriggerEvent triggerEvent)
+    {
+        storedEvent = triggerEvent;
+        UIObjectAnimator.Instance.PopInObject(TooltipButton);
+    }
+
+    public void ShowDialogue(TriggerEvent triggerEvent)
     {
         if (!_playerControl.ThePlayer.IsAlive()) { return; }
-        if (setupTooltipCoroutine != null) StopCoroutine(setupTooltipCoroutine);
-        setupTooltipCoroutine = StartCoroutine(SetupTooltip(text, duration, pauses));
+        TriggerEventSerializer.Instance.SetEventSeen(triggerEvent.Id);
+        StartCoroutine(ShowDialogueRoutine(triggerEvent));
     }
 
-    private Coroutine setupTooltipCoroutine;
-    private IEnumerator SetupTooltip(string text, float duration, bool pauses = false)
+    public void ShowDialogue(string text, float duration, bool pausesGame = false)
     {
-        _waitType = pauses ? WaitType.InGamePause : WaitType.InGameNoPause;
-        if (_waitType == WaitType.InGamePause) {
-            _playerControl.WaitForTooltip(true);
-            IsPausedForTooltip = true;
-        }
-        _tooltipControl.RestoreOriginalScale();
-        
-        yield return StartCoroutine(_tooltipControl.OpenTooltip());
-        yield return StartCoroutine(ShowTooltip(text));
-        
-        if (_waitType == WaitType.InGamePause)
-        {
-            IsPausedForTooltip = false;
-            _playerControl.WaitForTooltip(false);
-            _playerControl.TooltipResume();
-        }
-        else
-        {
-            yield return StartCoroutine(KeepTooltipOnScreen(duration));
-        }
-        _tooltipControl.StartCoroutine("CloseTooltip");
+        TriggerEvent trigEvent = new TriggerEvent();
+        trigEvent.Dialogue.Add(text);
+        StartCoroutine(ShowDialogueRoutine(trigEvent));
+        // TODO remove duration/pause?
     }
 
-    public IEnumerator SetupDialogue(TooltipId[] dialogue)
+    private IEnumerator ShowDialogueRoutine(TriggerEvent triggerEvent)
     {
-        if (_waitType == WaitType.InGamePause) { _playerControl.WaitForTooltip(true); }
-        if (_waitType == WaitType.VillageSpeech) { _playerControl.WaitForVillageSpeech(); }
-        _bFirstDialogue = true;
-        _bLastDialogue = false;
-        int numItems = dialogue.Length;
-        foreach (TooltipId speech in dialogue)
+        _playerControl.PauseGame(false);
+        _playerControl.WaitForTooltip();
+        IsPausedForTooltip = true;
+
+        if (!tooltipSetup)
+            yield return StartCoroutine(ShowTooltipWindow());
+
+        for (int i = 0; i < triggerEvent.Dialogue.Count; i++)
         {
-            numItems--;
-            if (numItems == 0)
-            {
-                _bLastDialogue = true;
-            }
-            if (_bFirstDialogue)
-            {
-                _tooltipControl.RestoreOriginalScale();
-                yield return _tooltipControl.StartCoroutine("OpenTooltip");
-            }
-            yield return StartCoroutine(ShowTooltip(dialogueDict[speech]));
-            _bFirstDialogue = false;
+            SetTooltipText(triggerEvent.Dialogue[i]);
+            yield return StartCoroutine(WaitForTooltip(i == triggerEvent.Dialogue.Count - 1));
         }
-        if (_waitType == WaitType.InGamePause)
-        {
-            _playerControl.WaitForTooltip(false);
-            _playerControl.TooltipResume();
-        }
-        else if (_waitType == WaitType.VillageSpeech)
-        {
-            _playerControl.WaitForVillageSpeech();  // TODO only need to clear the input
-        }
-        _tooltipControl.StartCoroutine("CloseTooltip");
-        EventListener.TooltipActioned();
+
+        if (tooltipSetup)
+            yield return StartCoroutine(HideTooltipWindow());
+
+        IsPausedForTooltip = false;
+        _playerControl.TooltipResume();
     }
 
-    private IEnumerator ShowTooltip(string text)
+    private IEnumerator ShowTooltipWindow()
     {
-        if (_bFirstDialogue)
-        {
-            _tooltipControl.SetText(text);
-            _tooltipControl.StartCoroutine("ShowText", true);
-        }
-        else
-        {
-            yield return _tooltipControl.StartCoroutine("ShowText", false);
-            _tooltipControl.SetText(text);
-            _tooltipControl.StartCoroutine("ShowText", true);
-        }
-
-        if (_waitType == WaitType.InGamePause || _waitType == WaitType.VillageSpeech)
-            yield return StartCoroutine("WaitForTooltip");
+        tooltipSetup = true;
+        tooltipOverlay.enabled = true;
+        yield return null;
     }
 
-    private IEnumerator WaitForTooltip()
+    private IEnumerator HideTooltipWindow()
+    {
+        tooltipSetup = false;
+        tooltipOverlay.enabled = false;
+        yield return null;
+    }
+
+    private void SetTooltipText(string text)
+    {
+        tooltipText.text = text;
+        UIObjectAnimator.Instance.PopInObject(tooltipText.GetComponent<RectTransform>());
+    }
+    
+    private IEnumerator WaitForTooltip(bool isFinal)
     {
         const float tooltipPauseDuration = 0.3f;
         yield return new WaitForSeconds(tooltipPauseDuration);
 
-        if (_bLastDialogue)
-        {
-            _tooltipControl.ShowTapToPlay();
-        }
+        if (isFinal)
+            UIObjectAnimator.Instance.PopInObject(resumePlayImage);
         else
-        {
-            _tooltipControl.ShowTapToResume();
-        }
+            UIObjectAnimator.Instance.PopInObject(resumeNextImage);
 
         _inputManager.ClearInput();
         while (!_inputManager.TapRegistered())
         {
             yield return null;
         }
-        _tooltipControl.HideResumeImages();
-    }
 
-    private IEnumerator KeepTooltipOnScreen(float durationOnScreen)
-    {
-        float timeOnScreen = 0f;
-        while (timeOnScreen < durationOnScreen)
-        {
-            if (!Toolbox.Instance.GamePaused)
-                timeOnScreen += Time.deltaTime;
-            yield return null;
-        }
+        if (isFinal)
+            UIObjectAnimator.Instance.PopOutObject(resumePlayImage);
+        else
+            UIObjectAnimator.Instance.PopOutObject(resumeNextImage);
     }
 
     private void RemoveTooltips()
     {
         StopAllCoroutines();
-        _tooltipControl.gameObject.SetActive(false);
+        tooltipOverlay.enabled = false;
     }
+
+    private void GetTooltipComponents()
+    {
+        foreach (RectTransform rt in tooltipOverlay.GetComponentsInChildren<RectTransform>())
+        {
+            if (rt.name == "TooltipBackground")
+                tooltipBackground = rt.GetComponent<Image>();
+            else if (rt.name == "TooltipPanel")
+            {
+                tooltipScroll = rt;
+                tooltipScrollAnimator = rt.GetComponent<Animator>();
+                foreach (RectTransform r in rt.GetComponentsInChildren<RectTransform>())
+                {
+                    if (r.name == "ToolTipTextBox")
+                        tooltipText = r.GetComponent<Text>();
+                    else if (r.name == "ResumeNextImage")
+                        resumeNextImage = r;
+                    else if (r.name == "ResumePlayImage")
+                        resumePlayImage = r;
+                    else if (r.name == "NomeeWindow")
+                    {
+                        foreach(RectTransform rect in r.GetComponentsInChildren<RectTransform>())
+                        {
+                            if (rect.name == "Nomee")
+                                nomee = rect;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }

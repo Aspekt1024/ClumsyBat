@@ -4,6 +4,23 @@ using UnityEngine;
 
 public class UIObjectAnimator : MonoBehaviour {
 
+    private static UIObjectAnimator objAnimator;
+    public static UIObjectAnimator Instance
+    {
+        get
+        {
+            if (objAnimator == null)
+            {
+                objAnimator = FindObjectOfType<UIObjectAnimator>();
+                if (objAnimator == null)
+                {
+                    Debug.LogError("Missing UIObjectAnimator in Scene");
+                }
+            }
+            return objAnimator;
+        }
+    }
+
     public void PopInObject(RectTransform rt)
     {
         StartCoroutine(PopInObjectRoutine(rt));

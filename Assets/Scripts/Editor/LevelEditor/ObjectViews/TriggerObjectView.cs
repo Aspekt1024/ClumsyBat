@@ -36,14 +36,13 @@ public class TriggerEditorView : Editor {
         trigEvent.TooltipDuration = EditorGUILayout.FloatField("Duration (s)", trigEvent.TooltipDuration);
         trigEvent.PausesGame = EditorGUILayout.Toggle("Pauses Game?", trigEvent.PausesGame);
         trigEvent.ShowOnce = EditorGUILayout.Toggle("Show Once?", trigEvent.ShowOnce);
-        trigEvent.ShowOnCompletedLevel = EditorGUILayout.Toggle("Show on Completed Level?", trigEvent.ShowOnce);
-        trigEvent.ShowOnRestart = EditorGUILayout.Toggle("Show on Level Restart?", trigEvent.ShowOnce);
+        trigEvent.ShowOnCompletedLevel = EditorGUILayout.Toggle("Show on Completed Level?", trigEvent.ShowOnCompletedLevel);
+        trigEvent.ShowOnRestart = EditorGUILayout.Toggle("Show on Level Restart?", trigEvent.ShowOnRestart);
     }
 
     private void OnDestroy()
     {
         if (target != null) return;
-        Debug.Log(trigger.TriggerId);
         TriggerEventSerializer.Instance.RemoveTriggerEvent(trigger.TriggerId);
     }
 }
