@@ -10,7 +10,12 @@ public sealed class TriggerHandler : SpawnPool<TriggerClass> {
         ObjTag = "Trigger";
     }
 
-    public enum EventType { Dialogue, OneTimeEvent, Tooltip }
+    public enum EventType { Dialogue, Event }
+    public enum ForceOptions { Never, Once, Always }
+
+    public enum EventId { None }
+    public enum DependencyId { None, HasHypersonic }
+
     public struct TriggerType
     {
         public Spawnable.SpawnType SpawnTransform;
@@ -27,5 +32,5 @@ public sealed class TriggerHandler : SpawnPool<TriggerClass> {
             newTrigger.Activate(trigger, spawnTf);
         }
     }
-    
+
 }

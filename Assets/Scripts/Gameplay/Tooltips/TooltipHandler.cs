@@ -117,6 +117,7 @@ public class TooltipHandler : MonoBehaviour {
         tooltipSetup = true;
         tooltipOverlay.enabled = true;
 
+        tooltipScroll.gameObject.SetActive(true);
         tooltipScrollAnimator.Play("TooltipScrollClosed", 0, 0f);
         yield return StartCoroutine(UIObjectAnimator.Instance.PopInObjectRoutine(tooltipScroll));
         tooltipScrollAnimator.Play("TooltipScrollOpen", 0, 0f);

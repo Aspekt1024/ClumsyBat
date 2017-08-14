@@ -52,7 +52,9 @@ public class TriggerEventSerializer : MonoBehaviour {
         foreach(TriggerEvent te in TriggerEvents)
         {
             if (te.Id == id)
+            {
                 return te;
+            }
         }
         return null;
     }
@@ -64,7 +66,8 @@ public class TriggerEventSerializer : MonoBehaviour {
         {
             if (te.Id == id)
             {
-                TriggerEvents.Remove(te);
+                if (TriggerEvents.Contains(te))
+                    TriggerEvents.Remove(te);
                 break;
             }
         }
@@ -221,22 +224,26 @@ public class TriggerEvent
     public int Id;
     public List<string> Dialogue;
     public TriggerHandler.EventType EventType;
-    public float TooltipDuration;
-    public bool PausesGame;
+    public TriggerHandler.EventId EventId;
     public bool ShowOnce;
     public bool ShowOnCompletedLevel;
     public bool ShowOnRestart;
+    public bool HasDependency;
+    public TriggerHandler.DependencyId DependencyId;
+    public TriggerHandler.ForceOptions ForceShow;
 
     public TriggerEvent()
     {
         Id = 0;
         Dialogue = new List<string>();
         EventType = TriggerHandler.EventType.Dialogue;
-        TooltipDuration = 3f;
-        PausesGame = false;
+        EventId = TriggerHandler.EventId.None;
         ShowOnce = false;
-        ShowOnCompletedLevel = false;
-        ShowOnRestart = false;
+        ShowOnCompletedLevel = true;
+        ShowOnRestart = true;
+        HasDependency = false;
+        DependencyId = TriggerHandler.DependencyId.None;
+        ForceShow = TriggerHandler.ForceOptions.Never;
     }
 }
 

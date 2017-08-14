@@ -57,8 +57,7 @@ public class TriggerEditorHandler : BaseObjectHandler
                 Spawnable.SpawnType spawnTf = Trigger.SpawnTransform;
                 spawnTf.Pos += new Vector2(i * LevelEditorConstants.TileSizeX, 0f);
                 newTrigger.GetComponent<TriggerClass>().SetTransform(newTrigger.transform, spawnTf);
-                newTrigger.GetComponent<TriggerClass>().TriggerEvent = Trigger.TrigEvent;
-                newTrigger.GetComponent<TriggerClass>().TriggerEvent = TriggerEventSerializer.Instance.GetTriggerEvent(Trigger.TrigEvent.Id);
+                newTrigger.GetComponent<TriggerClass>().TriggerEvent.Id = Trigger.TrigEvent.Id;
             }
         }
     }

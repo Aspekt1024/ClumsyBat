@@ -14,7 +14,7 @@ public class TriggerEditorView : Editor {
         trigger = (TriggerClass)target;
         TriggerEvent trigEvent = trigger.TriggerEvent;
 
-        EditorGUILayout.LabelField("Trigger Event Id: " + trigger.TriggerEvent.Id);
+        trigEvent.EventType = (TriggerHandler.EventType)EditorGUILayout.EnumPopup("Event Type", trigEvent.EventType);
 
         EditorStyles.textField.wordWrap = true;
         for (int i = 0; i < trigger.TriggerEvent.Dialogue.Count; i++)
@@ -33,16 +33,22 @@ public class TriggerEditorView : Editor {
             trigger.TriggerEvent.Dialogue.Remove(trigger.TriggerEvent.Dialogue[trigger.TriggerEvent.Dialogue.Count - 1]);
         }
 
-        trigEvent.TooltipDuration = EditorGUILayout.FloatField("Duration (s)", trigEvent.TooltipDuration);
-        trigEvent.PausesGame = EditorGUILayout.Toggle("Pauses Game?", trigEvent.PausesGame);
+        EditorGUIUtility.labelWidth = 200f;
+        trigEvent.ForceShow = (TriggerHandler.ForceOptions)EditorGUILayout.EnumPopup("Force Show?", trigEvent.ForceShow);
         trigEvent.ShowOnce = EditorGUILayout.Toggle("Show Once?", trigEvent.ShowOnce);
         trigEvent.ShowOnCompletedLevel = EditorGUILayout.Toggle("Show on Completed Level?", trigEvent.ShowOnCompletedLevel);
         trigEvent.ShowOnRestart = EditorGUILayout.Toggle("Show on Level Restart?", trigEvent.ShowOnRestart);
+        trigEvent.HasDependency = EditorGUILayout.Toggle("Has Dependency?", trigEvent.HasDependency);
+
+        if (trigEvent.HasDependency)
+            trigEvent.DependencyId = (TriggerHandler.DependencyId)EditorGUILayout.EnumPopup("Dependency", trigEvent.DependencyId);
+        
     }
 
     private void OnDestroy()
     {
         if (target != null) return;
+        if (trigger == null) return;
         TriggerEventSerializer.Instance.RemoveTriggerEvent(trigger.TriggerId);
     }
 }

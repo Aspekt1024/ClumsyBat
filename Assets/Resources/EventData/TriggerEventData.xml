@@ -12,11 +12,13 @@
         <string>hello!</string>
       </Dialogue>
       <EventType>Dialogue</EventType>
-      <TooltipDuration>3</TooltipDuration>
-      <PausesGame>false</PausesGame>
+      <EventId>None</EventId>
       <ShowOnce>false</ShowOnce>
       <ShowOnCompletedLevel>false</ShowOnCompletedLevel>
       <ShowOnRestart>false</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Never</ForceShow>
     </TriggerEvent>
     <TriggerEvent>
       <Id>2</Id>
@@ -28,11 +30,13 @@
         <string />
       </Dialogue>
       <EventType>Dialogue</EventType>
-      <TooltipDuration>3</TooltipDuration>
-      <PausesGame>false</PausesGame>
+      <EventId>None</EventId>
       <ShowOnce>false</ShowOnce>
       <ShowOnCompletedLevel>false</ShowOnCompletedLevel>
       <ShowOnRestart>false</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Never</ForceShow>
     </TriggerEvent>
     <TriggerEvent>
       <Id>3</Id>
@@ -44,11 +48,13 @@
         <string />
       </Dialogue>
       <EventType>Dialogue</EventType>
-      <TooltipDuration>3</TooltipDuration>
-      <PausesGame>false</PausesGame>
+      <EventId>None</EventId>
       <ShowOnce>false</ShowOnce>
       <ShowOnCompletedLevel>false</ShowOnCompletedLevel>
       <ShowOnRestart>false</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Never</ForceShow>
     </TriggerEvent>
     <TriggerEvent>
       <Id>4</Id>
@@ -60,11 +66,13 @@
         <string />
       </Dialogue>
       <EventType>Dialogue</EventType>
-      <TooltipDuration>3</TooltipDuration>
-      <PausesGame>false</PausesGame>
+      <EventId>None</EventId>
       <ShowOnce>false</ShowOnce>
       <ShowOnCompletedLevel>false</ShowOnCompletedLevel>
       <ShowOnRestart>false</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Never</ForceShow>
     </TriggerEvent>
     <TriggerEvent>
       <Id>5</Id>
@@ -76,11 +84,13 @@
         <string />
       </Dialogue>
       <EventType>Dialogue</EventType>
-      <TooltipDuration>3</TooltipDuration>
-      <PausesGame>false</PausesGame>
+      <EventId>None</EventId>
       <ShowOnce>false</ShowOnce>
       <ShowOnCompletedLevel>false</ShowOnCompletedLevel>
       <ShowOnRestart>false</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Never</ForceShow>
     </TriggerEvent>
     <TriggerEvent>
       <Id>6</Id>
@@ -93,11 +103,13 @@
         <string>test</string>
       </Dialogue>
       <EventType>Dialogue</EventType>
-      <TooltipDuration>3</TooltipDuration>
-      <PausesGame>false</PausesGame>
+      <EventId>None</EventId>
       <ShowOnce>false</ShowOnce>
       <ShowOnCompletedLevel>false</ShowOnCompletedLevel>
       <ShowOnRestart>false</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Never</ForceShow>
     </TriggerEvent>
     <TriggerEvent>
       <Id>7</Id>
@@ -109,11 +121,13 @@
         <string />
       </Dialogue>
       <EventType>Dialogue</EventType>
-      <TooltipDuration>3</TooltipDuration>
-      <PausesGame>false</PausesGame>
+      <EventId>None</EventId>
       <ShowOnce>false</ShowOnce>
       <ShowOnCompletedLevel>false</ShowOnCompletedLevel>
       <ShowOnRestart>false</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Never</ForceShow>
     </TriggerEvent>
     <TriggerEvent>
       <Id>8</Id>
@@ -125,23 +139,27 @@
         <string />
       </Dialogue>
       <EventType>Dialogue</EventType>
-      <TooltipDuration>3</TooltipDuration>
-      <PausesGame>false</PausesGame>
+      <EventId>None</EventId>
       <ShowOnce>false</ShowOnce>
       <ShowOnCompletedLevel>false</ShowOnCompletedLevel>
       <ShowOnRestart>false</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Never</ForceShow>
     </TriggerEvent>
     <TriggerEvent>
       <Id>9</Id>
       <Dialogue>
-        <string>working</string>
+        <string>Hi, I'm Nomee! This cave is dangerous, so I'll help you through it!</string>
       </Dialogue>
       <EventType>Dialogue</EventType>
-      <TooltipDuration>3</TooltipDuration>
-      <PausesGame>false</PausesGame>
+      <EventId>None</EventId>
       <ShowOnce>false</ShowOnce>
-      <ShowOnCompletedLevel>false</ShowOnCompletedLevel>
-      <ShowOnRestart>false</ShowOnRestart>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>HasHypersonic</DependencyId>
+      <ForceShow>Once</ForceShow>
     </TriggerEvent>
     <TriggerEvent>
       <Id>10</Id>
@@ -153,11 +171,13 @@
         <string />
       </Dialogue>
       <EventType>Dialogue</EventType>
-      <TooltipDuration>3</TooltipDuration>
-      <PausesGame>false</PausesGame>
+      <EventId>None</EventId>
       <ShowOnce>false</ShowOnce>
       <ShowOnCompletedLevel>false</ShowOnCompletedLevel>
       <ShowOnRestart>false</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Never</ForceShow>
     </TriggerEvent>
     <TriggerEvent>
       <Id>11</Id>
@@ -169,11 +189,270 @@
         <string />
       </Dialogue>
       <EventType>Dialogue</EventType>
-      <TooltipDuration>3</TooltipDuration>
-      <PausesGame>false</PausesGame>
+      <EventId>None</EventId>
       <ShowOnce>false</ShowOnce>
       <ShowOnCompletedLevel>false</ShowOnCompletedLevel>
       <ShowOnRestart>false</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Never</ForceShow>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>12</Id>
+      <Dialogue>
+        <string />
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Never</ForceShow>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>13</Id>
+      <Dialogue>
+        <string>test</string>
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Never</ForceShow>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>14</Id>
+      <Dialogue>
+        <string>yes</string>
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Once</ForceShow>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>15</Id>
+      <Dialogue>
+        <string>y</string>
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Never</ForceShow>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>16</Id>
+      <Dialogue>
+        <string />
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Never</ForceShow>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>17</Id>
+      <Dialogue>
+        <string>gsfdgsd</string>
+        <string>hgf</string>
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Never</ForceShow>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>18</Id>
+      <Dialogue>
+        <string />
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Never</ForceShow>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>19</Id>
+      <Dialogue>
+        <string />
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Never</ForceShow>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>20</Id>
+      <Dialogue>
+        <string>fds</string>
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Never</ForceShow>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>21</Id>
+      <Dialogue>
+        <string />
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Never</ForceShow>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>22</Id>
+      <Dialogue>
+        <string />
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Never</ForceShow>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>23</Id>
+      <Dialogue>
+        <string>112341111</string>
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Never</ForceShow>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>24</Id>
+      <Dialogue>
+        <string />
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Never</ForceShow>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>25</Id>
+      <Dialogue>
+        <string>Great work! Now, these moths carry an essence that the lantern can gather.</string>
+        <string>The essence will help you through this cave by providing light.</string>
+        <string>Some moths will even unleash powerful abilities!</string>
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Never</ForceShow>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>26</Id>
+      <Dialogue>
+        <string />
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Never</ForceShow>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>27</Id>
+      <Dialogue>
+        <string />
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Never</ForceShow>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>28</Id>
+      <Dialogue>
+        <string>Hi, I'm Nomee! These caves are dangerous, so I'll help you through!</string>
+        <string>I can talk to you through the lantern you're carrying!</string>
+        <string>Tap the lantern at the top of the screen when it flashes, and I'll be able to talk.</string>
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Once</ForceShow>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>29</Id>
+      <Dialogue>
+        <string>This is the end of this area! Did you gather all the moths?</string>
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Never</ForceShow>
     </TriggerEvent>
   </EventData>
 </TriggerContainer>

@@ -9,6 +9,15 @@ public class TriggerClass : Spawnable {
     [HideInInspector] public int TriggerId; // For serialization/deserialization - not used in-game
 
     private TooltipHandler _tHandler;
+    
+    public void Activate(TriggerHandler.TriggerType triggerProps, SpawnType spawnTf)
+    {
+        base.Activate(transform, spawnTf);
+        Collider.enabled = true;
+        gameObject.GetComponent<SpriteRenderer>().enabled = Toolbox.Instance.Debug;
+
+        TriggerEvent = TriggerEventSerializer.Instance.GetTriggerEvent(triggerProps.TrigEvent.Id);
+    }
 
     private void Awake()
     {
@@ -18,12 +27,12 @@ public class TriggerClass : Spawnable {
     }
     private void Start()
     {
-        if (TriggerId > 0)
+        if (TriggerEvent.Id > 0)
         {
-            TriggerEvent = TriggerEventSerializer.Instance.GetTriggerEvent(TriggerId);
+            TriggerEvent = TriggerEventSerializer.Instance.GetTriggerEvent(TriggerEvent.Id);
         }
 #if UNITY_EDITOR
-        if (TriggerId == 0 && !Application.isPlaying)
+        if (TriggerEvent.Id == 0 && !Application.isPlaying)
         {
             TriggerEvent = TriggerEventSerializer.Instance.CreateNewTriggerEvent();
             TriggerId = TriggerEvent.Id;
@@ -41,41 +50,56 @@ public class TriggerClass : Spawnable {
     {
         if (!GameData.Instance.Data.Stats.Settings.Tooltips || !IsActive) return;
         IsActive = false;
-        if (!TriggerEventSerializer.Instance.IsEventSeen(TriggerEvent.Id) || !TriggerEvent.ShowOnce)
-        {
-            if (TriggerEvent.PausesGame == false)
-                _tHandler.StoreTriggerEvent(TriggerEvent);
-            else
-                _tHandler.ShowDialogue(TriggerEvent);
-        }
-
-        // TODO logic
+        
         switch (TriggerEvent.EventType)
         {
             case (TriggerHandler.EventType.Dialogue):
-                //_tHandler.ShowDialogue(EventId, _waitType);
+                ActionDialogueEvent();
                 break;
-            case (TriggerHandler.EventType.Tooltip):
-                //_tHandler.ShowDialogue(TooltipText, TooltipDuration, PausesGame);
-                break;
-            case TriggerHandler.EventType.OneTimeEvent:
-                //_tHandler.ShowDialogue()
+            case (TriggerHandler.EventType.Event):
+                ActionEvent();
                 break;
         }
-        
-        DeactivateTrigger();
     }
-    
-    public void Activate(TriggerHandler.TriggerType triggerProps, SpawnType spawnTf)
+
+    private void ActionDialogueEvent()
     {
-        base.Activate(transform, spawnTf);
-        Collider.enabled = true;
-        gameObject.GetComponent<SpriteRenderer>().enabled = Toolbox.Instance.Debug;
+        bool isSeen = TriggerEventSerializer.Instance.IsEventSeen(TriggerEvent.Id);
+        if (TriggerEvent.ShowOnce && isSeen) return;
+
+        bool shownBeforeRestart = Toolbox.Instance.TooltipCompleted(TriggerEvent.Id);
+        if (!TriggerEvent.ShowOnRestart && shownBeforeRestart) return;
+
+        bool levelCompleted = GameData.Instance.Data.LevelData.IsCompleted((int)GameData.Instance.Level);
+        if (!TriggerEvent.ShowOnCompletedLevel && levelCompleted) return;
+
+        if (!MeetsDependency()) return;
         
-        TriggerEvent = TriggerEventSerializer.Instance.GetTriggerEvent(triggerProps.TrigEvent.Id);
+        if (TriggerEvent.ForceShow == TriggerHandler.ForceOptions.Always || (TriggerEvent.ForceShow == TriggerHandler.ForceOptions.Once && !isSeen))
+            _tHandler.ShowDialogue(TriggerEvent);
+        else
+            _tHandler.StoreTriggerEvent(TriggerEvent);
     }
-    
-    public void DeactivateTrigger() { SendToInactivePool(); }
-    public bool Active() { return IsActive; }
+
+    private bool MeetsDependency()
+    {
+        if (!TriggerEvent.HasDependency) return true;
+
+        switch (TriggerEvent.DependencyId)
+        {
+            case TriggerHandler.DependencyId.None:
+                return true;
+            case TriggerHandler.DependencyId.HasHypersonic:
+                return GameData.Instance.Data.AbilityData.GetHypersonicStats().AbilityUnlocked;
+            default:
+                return true;
+        }
+        
+    }
+
+    private void ActionEvent()
+    {
+        Debug.Log("Events from triggers not yet implemented");
+    }
     
 }

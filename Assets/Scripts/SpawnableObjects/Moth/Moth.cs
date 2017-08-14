@@ -161,6 +161,7 @@ public class Moth : Spawnable {
         // TODO determine where in the vertical space the moth can spawn ie Raycast (endless mode only)
         //const float Range = 2f;
         //float MothYPos = Range * Random.value - Range / 2;
+        _lantern = Toolbox.Player.Lantern.transform;
         base.Activate(transform, spawnTf);
         _mothState = MothStates.Normal;
         _mothAnimator.enabled = true;
@@ -274,8 +275,6 @@ public class Moth : Spawnable {
                 }
             }
         }
-        GameObject lanternObj = Toolbox.Player.Lantern.gameObject;
-        if (lanternObj) { _lantern = lanternObj.GetComponent<Transform>(); }
     }
     
 }

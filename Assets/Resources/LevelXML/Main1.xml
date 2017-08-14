@@ -17,12 +17,12 @@
         <TriggerType>
           <SpawnTransform>
             <Pos>
-              <x>0.79</x>
-              <y>1.39</y>
+              <x>2.83522129</x>
+              <y>1.40765917</y>
             </Pos>
             <Scale>
               <x>1</x>
-              <y>7.012504</y>
+              <y>8.9125</y>
             </Scale>
             <Rotation>
               <x>0</x>
@@ -37,16 +37,20 @@
             </Rotation>
           </SpawnTransform>
           <TrigEvent>
-            <Id>9</Id>
+            <Id>28</Id>
             <Dialogue>
-              <string>working</string>
+              <string>Hi, I'm Nomee! These caves are dangerous, so I'll help you through!</string>
+              <string>I can talk to you through the lantern you're carrying!</string>
+              <string>Tap the lantern at the top of the screen when it flashes, and I'll be able to talk.</string>
             </Dialogue>
             <EventType>Dialogue</EventType>
-            <TooltipDuration>3</TooltipDuration>
-            <PausesGame>false</PausesGame>
+            <EventId>None</EventId>
             <ShowOnce>false</ShowOnce>
-            <ShowOnCompletedLevel>false</ShowOnCompletedLevel>
-            <ShowOnRestart>false</ShowOnRestart>
+            <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+            <ShowOnRestart>true</ShowOnRestart>
+            <HasDependency>false</HasDependency>
+            <DependencyId>None</DependencyId>
+            <ForceShow>Once</ForceShow>
           </TrigEvent>
         </TriggerType>
       </Triggers>
@@ -64,7 +68,47 @@
       <Moths />
       <Spiders />
       <Webs />
-      <Triggers />
+      <Triggers>
+        <TriggerType>
+          <SpawnTransform>
+            <Pos>
+              <x>-2.1400013</x>
+              <y>0.6537069</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>10.625</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <TrigEvent>
+            <Id>25</Id>
+            <Dialogue>
+              <string>Great work! Now, these moths carry an essence that the lantern can gather.</string>
+              <string>The essence will help you through this cave by providing light.</string>
+              <string>Some moths will even unleash powerful abilities!</string>
+            </Dialogue>
+            <EventType>Dialogue</EventType>
+            <EventId>None</EventId>
+            <ShowOnce>false</ShowOnce>
+            <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+            <ShowOnRestart>true</ShowOnRestart>
+            <HasDependency>false</HasDependency>
+            <DependencyId>None</DependencyId>
+            <ForceShow>Never</ForceShow>
+          </TrigEvent>
+        </TriggerType>
+      </Triggers>
       <Npcs />
     </Cave>
     <Cave>
@@ -80,8 +124,8 @@
         <MothType>
           <SpawnTransform>
             <Pos>
-              <x>-9.007233</x>
-              <y>-0.8458854</y>
+              <x>-9.11004448</x>
+              <y>0.5934696</y>
             </Pos>
             <Scale>
               <x>1</x>
@@ -105,8 +149,8 @@
         <MothType>
           <SpawnTransform>
             <Pos>
-              <x>-0.156776428</x>
-              <y>-0.0395264924</y>
+              <x>-0.430938721</x>
+              <y>1.09139466</y>
             </Pos>
             <Scale>
               <x>1</x>
@@ -130,8 +174,8 @@
         <MothType>
           <SpawnTransform>
             <Pos>
-              <x>6.33438873</x>
-              <y>-0.475640565</y>
+              <x>7.25968933</x>
+              <y>0.9979856</y>
             </Pos>
             <Scale>
               <x>1</x>
@@ -171,8 +215,8 @@
         <MothType>
           <SpawnTransform>
             <Pos>
-              <x>-2.36899185</x>
-              <y>-1.18941212</y>
+              <x>-2.1291008</x>
+              <y>0.352754533</y>
             </Pos>
             <Scale>
               <x>1</x>
@@ -196,8 +240,8 @@
         <MothType>
           <SpawnTransform>
             <Pos>
-              <x>5.944317</x>
-              <y>-0.811538458</y>
+              <x>6.76680374</x>
+              <y>0.696357</y>
             </Pos>
             <Scale>
               <x>1</x>
@@ -237,8 +281,8 @@
         <MothType>
           <SpawnTransform>
             <Pos>
-              <x>-3.80871582</x>
-              <y>-0.0137958527</y>
+              <x>-3.43174744</x>
+              <y>1.21993709</y>
             </Pos>
             <Scale>
               <x>1</x>
@@ -262,8 +306,8 @@
         <MothType>
           <SpawnTransform>
             <Pos>
-              <x>6.72987366</x>
-              <y>-0.3077016</y>
+              <x>8.374855</x>
+              <y>0.9945719</y>
             </Pos>
             <Scale>
               <x>1</x>
@@ -287,8 +331,8 @@
         <MothType>
           <SpawnTransform>
             <Pos>
-              <x>1.79982</x>
-              <y>-0.178385079</y>
+              <x>2.86220551</x>
+              <y>1.32950974</y>
             </Pos>
             <Scale>
               <x>1</x>
@@ -328,8 +372,8 @@
         <MothType>
           <SpawnTransform>
             <Pos>
-              <x>-5.24844742</x>
-              <y>-1.48332548</y>
+              <x>-4.04898453</x>
+              <y>0.367273569</y>
             </Pos>
             <Scale>
               <x>1</x>
@@ -353,7 +397,45 @@
       </Moths>
       <Spiders />
       <Webs />
-      <Triggers />
+      <Triggers>
+        <TriggerType>
+          <SpawnTransform>
+            <Pos>
+              <x>-9.270847</x>
+              <y>1.03068638</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>11.23749</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <TrigEvent>
+            <Id>29</Id>
+            <Dialogue>
+              <string>This is the end of this area! Did you gather all the moths?</string>
+            </Dialogue>
+            <EventType>Dialogue</EventType>
+            <EventId>None</EventId>
+            <ShowOnce>false</ShowOnce>
+            <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+            <ShowOnRestart>true</ShowOnRestart>
+            <HasDependency>false</HasDependency>
+            <DependencyId>None</DependencyId>
+            <ForceShow>Never</ForceShow>
+          </TrigEvent>
+        </TriggerType>
+      </Triggers>
       <Npcs />
     </Cave>
   </CaveList>
