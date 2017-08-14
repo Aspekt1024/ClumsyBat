@@ -53,7 +53,7 @@ public class FogEffect : MonoBehaviour {
         }
         else
         {
-            _lantern = GameObject.Find("Lantern").transform;
+            _lantern = _player.Lantern.transform;
         }
         
         _echolocateActivatedTime = Time.time;

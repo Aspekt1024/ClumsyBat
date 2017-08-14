@@ -21,6 +21,7 @@ public class TooltipHandler : MonoBehaviour {
 
     private PlayerController _playerControl;
     private InputManager _inputManager;
+    private TooltipButtonEffects buttonEffects;
 
     private bool tooltipSetup;
     
@@ -41,13 +42,15 @@ public class TooltipHandler : MonoBehaviour {
         tooltipOverlay = GetComponent<Canvas>();
         GetTooltipComponents();
         tooltipOverlay.enabled = false;
-        TooltipButton.gameObject.SetActive(false);
+        buttonEffects = TooltipButton.GetComponent<TooltipButtonEffects>();
+        //TooltipButton.gameObject.SetActive(false);
     }
 
     private void Start()
     {
         _playerControl = FindObjectOfType<PlayerController>();
         _inputManager = _playerControl.GetInputManager();
+        buttonEffects.DisplayIdle();
     }
 
 
@@ -55,13 +58,15 @@ public class TooltipHandler : MonoBehaviour {
     {
         if (storedEvent == null) return;
         ShowDialogue(storedEvent);
-        UIObjectAnimator.Instance.PopOutObject(TooltipButton);
+        buttonEffects.DisplayIdle();
+        //UIObjectAnimator.Instance.PopOutObject(TooltipButton);
     }
 
     public void StoreTriggerEvent(TriggerEvent triggerEvent)
     {
         storedEvent = triggerEvent;
-        UIObjectAnimator.Instance.PopInObject(TooltipButton);
+        buttonEffects.ShowNewTip();
+        //UIObjectAnimator.Instance.PopInObject(TooltipButton);
     }
 
     public void ShowDialogue(TriggerEvent triggerEvent)

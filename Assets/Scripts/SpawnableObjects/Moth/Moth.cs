@@ -274,7 +274,7 @@ public class Moth : Spawnable {
                 }
             }
         }
-        GameObject lanternObj = GameObject.Find("Lantern");
+        GameObject lanternObj = Toolbox.Player.Lantern.gameObject;
         if (lanternObj) { _lantern = lanternObj.GetComponent<Transform>(); }
     }
     
