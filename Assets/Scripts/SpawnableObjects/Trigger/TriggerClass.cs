@@ -72,7 +72,7 @@ public class TriggerClass : Spawnable {
 
         bool levelCompleted = GameData.Instance.Data.LevelData.IsCompleted((int)GameData.Instance.Level);
         if (!TriggerEvent.ShowOnCompletedLevel && levelCompleted) return;
-
+        
         if (!MeetsDependency()) return;
         
         if (TriggerEvent.ForceShow == TriggerHandler.ForceOptions.Always || (TriggerEvent.ForceShow == TriggerHandler.ForceOptions.Once && !isSeen))

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class TooltipButtonEffects : MonoBehaviour {
 
+    public RectTransform Lantern;
     public RectTransform LanternLight;
     public RectTransform LanternGlobe;
 
@@ -12,6 +13,7 @@ public class TooltipButtonEffects : MonoBehaviour {
 
     private Image lightImage;
     private Image globeImage;
+    private Image lanternImage;
     private ParticleSystem shimmerEffect;
     private bool isPaused;
     private bool animationsPaused;
@@ -21,26 +23,38 @@ public class TooltipButtonEffects : MonoBehaviour {
         lightImage.enabled = false;
         globeImage.enabled = true;
         globeImage.color = new Color(0.4f, 0.4f, 0.4f, 0.4f);
+        IsEnabled = false;
         shimmerEffect.Stop();
     }
 
     public void ShowNewTip()
     {
+        IsEnabled = true;
         DisplayActive();
         StartCoroutine(PulseOn(LanternLight));
     }
 
     public void DisplayActive()
     {
-        lightImage.enabled = true;
+        lanternImage.enabled = true;
         globeImage.enabled = true;
+
+        if (!IsEnabled) return;
+        lightImage.enabled = true;
         globeImage.color = Color.white;
         shimmerEffect.Play();
     }
 
+    public void Hide()
+    {
+        lanternImage.enabled = false;
+        lightImage.enabled = false;
+        globeImage.enabled = false;
+    }
 
     private void Start ()
     {
+        lanternImage = Lantern.GetComponent<Image>();
         lightImage = LanternLight.GetComponent<Image>();
         globeImage = LanternGlobe.GetComponent<Image>();
         shimmerEffect = LanternGlobe.GetComponentInChildren<ParticleSystem>();
@@ -52,11 +66,10 @@ public class TooltipButtonEffects : MonoBehaviour {
     private void Update()
     {
         if (isPaused == Toolbox.Instance.GamePaused) return;
-
         isPaused = Toolbox.Instance.GamePaused;
         if (isPaused)
-            DisplayIdle();
-        else if (IsEnabled)
+            Hide();
+        else
             DisplayActive();
     }
 
