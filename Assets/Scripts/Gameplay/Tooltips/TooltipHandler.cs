@@ -15,6 +15,7 @@ public class TooltipHandler : MonoBehaviour {
     private RectTransform tooltipScroll;
     private Animator tooltipScrollAnimator;
     private Text tooltipText;
+    private RectTransform tooltipTextRt;
     private RectTransform resumeNextImage;
     private RectTransform resumePlayImage;
     private RectTransform nomee;
@@ -38,19 +39,16 @@ public class TooltipHandler : MonoBehaviour {
 
     private void Awake()
     {
-        //tooltipOverlay = Instantiate(Resources.Load<GameObject>("ToolTipOverlay")).GetComponent<Canvas>();
         tooltipOverlay = GetComponent<Canvas>();
         GetTooltipComponents();
         tooltipOverlay.enabled = false;
         buttonEffects = TooltipButton.GetComponent<TooltipButtonEffects>();
-        //TooltipButton.gameObject.SetActive(false);
     }
 
     private void Start()
     {
         _playerControl = FindObjectOfType<PlayerController>();
         _inputManager = _playerControl.GetInputManager();
-        buttonEffects.DisplayIdle();
     }
 
 
@@ -59,14 +57,18 @@ public class TooltipHandler : MonoBehaviour {
         if (storedEvent == null) return;
         ShowDialogue(storedEvent);
         buttonEffects.DisplayIdle();
-        //UIObjectAnimator.Instance.PopOutObject(TooltipButton);
     }
 
     public void StoreTriggerEvent(TriggerEvent triggerEvent)
     {
         storedEvent = triggerEvent;
         buttonEffects.ShowNewTip();
-        //UIObjectAnimator.Instance.PopInObject(TooltipButton);
+    }
+
+    public void ClearStoredTrigger()
+    {
+        storedEvent = null;
+        buttonEffects.DisplayIdle();
     }
 
     public void ShowDialogue(TriggerEvent triggerEvent)
@@ -81,7 +83,6 @@ public class TooltipHandler : MonoBehaviour {
         TriggerEvent trigEvent = new TriggerEvent();
         trigEvent.Dialogue.Add(text);
         StartCoroutine(ShowDialogueRoutine(trigEvent));
-        // TODO remove duration/pause?
     }
 
     private IEnumerator ShowDialogueRoutine(TriggerEvent triggerEvent)
@@ -108,16 +109,30 @@ public class TooltipHandler : MonoBehaviour {
 
     private IEnumerator ShowTooltipWindow()
     {
+        tooltipText.text = "";
+        nomee.gameObject.SetActive(false);
+        resumePlayImage.gameObject.SetActive(false);
+        resumeNextImage.gameObject.SetActive(false);
+
         tooltipSetup = true;
         tooltipOverlay.enabled = true;
-        yield return null;
+
+        tooltipScrollAnimator.Play("TooltipScrollClosed", 0, 0f);
+        yield return StartCoroutine(UIObjectAnimator.Instance.PopInObjectRoutine(tooltipScroll));
+        tooltipScrollAnimator.Play("TooltipScrollOpen", 0, 0f);
+        yield return new WaitForSeconds(0.2f);
+        UIObjectAnimator.Instance.PopInObject(nomee);
     }
 
     private IEnumerator HideTooltipWindow()
     {
+        UIObjectAnimator.Instance.PopOutObject(tooltipText.GetComponent<RectTransform>());
+        yield return StartCoroutine(UIObjectAnimator.Instance.PopOutObjectRoutine(nomee));
+        tooltipScrollAnimator.Play("TooltipScrollClose", 0, 0f);
+        yield return new WaitForSeconds(0.2f);
+        yield return StartCoroutine(UIObjectAnimator.Instance.PopOutObjectRoutine(tooltipScroll));
         tooltipSetup = false;
         tooltipOverlay.enabled = false;
-        yield return null;
     }
 
     private void SetTooltipText(string text)
@@ -167,7 +182,10 @@ public class TooltipHandler : MonoBehaviour {
                 foreach (RectTransform r in rt.GetComponentsInChildren<RectTransform>())
                 {
                     if (r.name == "ToolTipTextBox")
+                    {
+                        tooltipTextRt = r;
                         tooltipText = r.GetComponent<Text>();
+                    }
                     else if (r.name == "ResumeNextImage")
                         resumeNextImage = r;
                     else if (r.name == "ResumePlayImage")

@@ -46,6 +46,7 @@ public class TooltipButtonEffects : MonoBehaviour {
         shimmerEffect = LanternGlobe.GetComponentInChildren<ParticleSystem>();
         StartCoroutine(PulseImage(LanternLight, 1.7f));
         StartCoroutine(FloatImage(LanternGlobe, 0.8f));
+        DisplayIdle();
 	}
 
     private void Update()
