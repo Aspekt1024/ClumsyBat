@@ -300,17 +300,43 @@ public class Player : MonoBehaviour {
         if (other.gameObject.name.Contains("Cave") || other.gameObject.name.Contains("Entrance") || other.gameObject.name.Contains("Exit"))
         {
             if (Mathf.Abs(other.contacts[0].normal.x) > 0.8f) return;
-            if (_shield.IsInUse() || _playerController.InputPaused() || (_state != PlayerState.Normal && _state != PlayerState.Perched)) { return; }
 
-            _perch.Perch(other.gameObject.name, _playerController.TouchHeld());
-            if (!IsPerched())
-            {
-                playerSpeed = 0;
-            }
+            TryPerch(other.gameObject);
         }
         else
         {
             _gameHandler.Collision(other);
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        if (IsPerched()) return;
+        if (other.gameObject.name.Contains("Cave") || other.gameObject.name.Contains("Entrance") || other.gameObject.name.Contains("Exit"))
+        {
+            foreach(ContactPoint2D cp in other.contacts)
+            {
+                if (Mathf.Abs(cp.normal.x) > 0.8f)
+                {
+                    continue;
+                }
+                else
+                {
+                    TryPerch(other.gameObject);
+                    return;
+                }
+            }
+        }
+    }
+
+    private void TryPerch(GameObject other)
+    {
+        if (_shield.IsInUse() || _playerController.InputPaused() || (_state != PlayerState.Normal && _state != PlayerState.Perched)) { return; }
+
+        _perch.Perch(other.name, _playerController.TouchHeld());
+        if (!IsPerched())
+        {
+            playerSpeed = 0;
         }
     }
 
