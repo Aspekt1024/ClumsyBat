@@ -4,14 +4,19 @@ using UnityEngine;
 
 public static class ScoreCalculator {
 
+    private const int distanceMultiplier = 50;
+    private const int mothMultiplier = 200;
+    private const int timeMultiplier = 100;
+    private const int scoreSuggestionOffset = -400;
+
     public static int SuggestScore(float distance, int numMoths)
     {
         float timeToComplete = (distance - 12.55f) / 5.5f;
-        return (int)(distance * 50 + numMoths * 200 - timeToComplete * 100) - 500;
+        return (int)(distance * distanceMultiplier + numMoths * mothMultiplier - timeToComplete * timeMultiplier) + scoreSuggestionOffset;
     }
 
     public static int GetScore(float distance, int numMoths, float timeTaken)
     {
-        return (int)(distance * 50 + numMoths * 200 - timeTaken * 100);
+        return (int)(distance * distanceMultiplier + numMoths * mothMultiplier - timeTaken * timeMultiplier);
     }
 }
