@@ -17,6 +17,8 @@ public class DropdownInGameMenu : MonoBehaviour {
     public GameObject ResumeBtn;
     public GameObject LevelSelectBtn;
 
+    public LevelCompleteStats LevelCompleteStats;
+
     private bool continueButtonPressed;
 
     private struct TextType
@@ -67,6 +69,11 @@ public class DropdownInGameMenu : MonoBehaviour {
         HideAllButtons();
 
         LoadStars();
+        if (GameData.Instance.Level.ToString().Contains("Boss"))
+            LevelCompleteStats.ShowBossLevelStats();
+        else
+            LevelCompleteStats.ShowNormalLevelStats();
+
         yield return _menu.StartCoroutine(_menu.PanelDropAnim(true));
         StartCoroutine(PopInObject(ContinueButtonObject.GetComponent<RectTransform>()));
         yield return StartCoroutine(ShowStars());
@@ -77,6 +84,7 @@ public class DropdownInGameMenu : MonoBehaviour {
             yield return null;
         }
         StartCoroutine(PopOutObject(ContinueButtonObject.GetComponent<RectTransform>()));
+        LevelCompleteStats.PopOutAllObjects();
         yield return StartCoroutine(PopOutStars());
         
         PositionMenuBtn(RestartBtn, GetButtonPosX(1, 4));
@@ -126,13 +134,13 @@ public class DropdownInGameMenu : MonoBehaviour {
         {
             stars[0].SetText("Level Complete");
             stars[1].SetText("Under 2 Damage");
-            stars[2].SetText("No Damage");
+            stars[2].SetText("No Damage Taken");
         }
         else
         {
             stars[0].SetText("All Moths Collected");
-            stars[1].SetText("No Damage");
-            stars[2].SetText(GameData.Instance.ScoreToBeat + "\nPoints");
+            stars[1].SetText("No Damage Taken");
+            stars[2].SetText("Score Over " + GameData.Instance.ScoreToBeat);
         }
     }
 

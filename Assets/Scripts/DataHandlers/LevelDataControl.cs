@@ -157,6 +157,8 @@ public class LevelDataControl : MonoBehaviour {
     public bool LevelCompletedAchievement(int level) { return _levelCompletion[level].Achievement1; }
     public bool AllMothsGathered(int level) { return _levelCompletion[level].Achievement2; }
     public bool NoDamageTaken(int level) { return _levelCompletion[level].Achievement3; }
+    public int GetBestScore(int level) { return _levelCompletion[level].BestScore; }
+    public void SetBestScore(int level, int score) { _levelCompletion[level].BestScore = score; }
 }
 
 [Serializable]
@@ -172,6 +174,7 @@ public class LevelDataContainer
         public bool Achievement1;
         public bool Achievement2;
         public bool Achievement3;
+        public int BestScore;
     }
 
     [Serializable]

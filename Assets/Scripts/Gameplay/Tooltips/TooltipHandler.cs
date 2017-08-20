@@ -25,7 +25,8 @@ public class TooltipHandler : MonoBehaviour {
     private TooltipButtonEffects buttonEffects;
 
     private bool tooltipSetup;
-    
+
+    #region Initialisation
     private void OnEnable()
     {
         EventListener.OnDeath += RemoveTooltips;
@@ -50,7 +51,7 @@ public class TooltipHandler : MonoBehaviour {
         _playerControl = FindObjectOfType<PlayerController>();
         _inputManager = _playerControl.GetInputManager();
     }
-
+    #endregion
 
     public void TooltipButtonPressed()
     {
