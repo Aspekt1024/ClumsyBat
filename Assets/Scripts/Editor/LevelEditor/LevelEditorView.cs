@@ -45,6 +45,7 @@ public class LevelEditorView : Editor {
         EditorGUILayout.Space();
         EditorGUILayout.Space();
         EditorGUILayout.Space();
+        editor.ScoreToBeat = EditorGUILayout.IntField("Score to Beat:", editor.ScoreToBeat);
         ShowLevelStats();
 
     }
@@ -52,12 +53,15 @@ public class LevelEditorView : Editor {
     private void ShowLevelStats()
     {
         int numSections = objectHandler.GetNumSections();
-        float distance = numSections * LevelEditorConstants.TileSizeX;
-        float timeTaken = distance / 5f;    // TODO set level speed somewhere else...... where?
+        int numMoths = objectHandler.GetNumMoths();
+        float distance = numSections * LevelEditorConstants.TileSizeX - 12.55f;
+        float timeTaken = distance / 5.5f;    // TODO set level speed somewhere else...... where?
 
         EditorGUILayout.LabelField("Num sections: " + numSections);
         EditorGUILayout.LabelField("Distance: " + distance);
+        EditorGUILayout.LabelField("Num Moths: " + numMoths);
         EditorGUILayout.LabelField("Time to complete: " + timeTaken + " sec");
+        EditorGUILayout.LabelField("Suggested score: " + ScoreCalculator.SuggestScore(distance, numMoths));
     }
     
     private void LoadLevel()
@@ -69,7 +73,7 @@ public class LevelEditorView : Editor {
     private void SaveLevel()
     {
         SaveLevelHandler saveHandler = new SaveLevelHandler(); 
-        saveHandler.Save(objectHandler, editor.LevelId);
+        saveHandler.Save(objectHandler, editor.LevelId, editor.ScoreToBeat);
         AssetDatabase.Refresh();
     }
 

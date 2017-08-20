@@ -17,6 +17,8 @@ public class LevelScript : MonoBehaviour {
     private LevelObjectHandler _levelObjects;
     private AudioSource _audioControl;
 
+    private int scoreToBeat;
+
     // Gameplay attributes
     private bool _bGameStarted;
     private bool _bGamePaused;

@@ -38,6 +38,7 @@ public class Player : MonoBehaviour {
     private const float GravityScale = 3f;
     private Vector2 _savedVelocity = Vector2.zero;
     private float playerSpeed;
+    private float previousPosX;
 
     private bool _bPaused;
     private bool inSecretExit;
@@ -70,6 +71,8 @@ public class Player : MonoBehaviour {
     private void Start ()
     {
         SetupAbilities();
+        _data.Stats.SetLevelStart();
+        previousPosX = transform.position.x;
     }
 
     private void FixedUpdate ()
@@ -84,12 +87,26 @@ public class Player : MonoBehaviour {
                 {
                     float dist = playerSpeed * Time.deltaTime;
                     _playerRigidBody.position += Vector2.right * dist;
-                    GameData.Instance.Data.Stats.Distance += dist;              // TODO set to zero at level start
-                    GameData.Instance.Data.Stats.BestDistance += dist;
                 }
             }
         }
         CheckIfOffscreen();
+        AddTime(Time.deltaTime);
+        AddDistance();
+    }
+
+    private void AddTime(float time)
+    {
+        if ((_state == PlayerState.Normal || _state == PlayerState.Perched) && !Toolbox.Instance.GamePaused)
+            _data.Stats.TimeTaken += time;
+    }
+
+    private void AddDistance()
+    {
+        if (_state == PlayerState.Normal)
+            _data.Stats.Distance += transform.position.x - previousPosX;
+
+        previousPosX = transform.position.x;
     }
 
     public void SetPlayerSpeed(float speed)

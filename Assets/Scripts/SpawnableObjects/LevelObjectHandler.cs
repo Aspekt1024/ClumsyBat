@@ -52,6 +52,7 @@ public class LevelObjectHandler : MonoBehaviour {
         Debug.Log("Level " + GameData.Instance.Level + " loaded.");
         SetupObjectPools();
         GameData.Instance.NumMoths = GetNumMoths();
+        GameData.Instance.ScoreToBeat = _level.ScoreToBeat;
     }
 
     private void SetupObjectPools()

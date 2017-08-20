@@ -14,7 +14,7 @@ public sealed class TriggerHandler : SpawnPool<TriggerClass> {
     public enum ForceOptions { Never, Once, Always }
 
     public enum EventId { None }
-    public enum DependencyId { None, HasHypersonic }
+    public enum DependencyId { None, HasHypersonic, NoHypersonic, HasDash, NoDash }
 
     public struct TriggerType
     {

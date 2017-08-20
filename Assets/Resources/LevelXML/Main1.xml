@@ -460,4 +460,5 @@
       </eulerAngles>
     </Rotation>
   </Clumsy>
+  <ScoreToBeat>4800</ScoreToBeat>
 </LevelCollection>

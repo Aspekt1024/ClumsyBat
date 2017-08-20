@@ -91,6 +91,12 @@ public class TriggerClass : Spawnable {
                 return true;
             case TriggerHandler.DependencyId.HasHypersonic:
                 return GameData.Instance.Data.AbilityData.GetHypersonicStats().AbilityUnlocked;
+            case TriggerHandler.DependencyId.NoHypersonic:
+                return !GameData.Instance.Data.AbilityData.GetHypersonicStats().AbilityUnlocked;
+            case TriggerHandler.DependencyId.HasDash:
+                return GameData.Instance.Data.AbilityData.GetDashStats().AbilityUnlocked;
+            case TriggerHandler.DependencyId.NoDash:
+                return !GameData.Instance.Data.AbilityData.GetDashStats().AbilityUnlocked;
             default:
                 return true;
         }

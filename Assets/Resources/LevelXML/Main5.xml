@@ -6,6 +6,8 @@
       <BottomIndex>1000</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals>
         <StalType>
@@ -21,8 +23,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -41,7 +43,46 @@
       <Moths />
       <Spiders />
       <Webs />
-      <Triggers />
+      <Triggers>
+        <TriggerType>
+          <SpawnTransform>
+            <Pos>
+              <x>3.57105064</x>
+              <y>1.2067486</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>7.6625</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <TrigEvent>
+            <Id>34</Id>
+            <Dialogue>
+              <string>You should go back and find the hidden shrine!</string>
+              <string>It will help us get through this cave!</string>
+            </Dialogue>
+            <EventType>Dialogue</EventType>
+            <EventId>None</EventId>
+            <ShowOnce>false</ShowOnce>
+            <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+            <ShowOnRestart>true</ShowOnRestart>
+            <HasDependency>true</HasDependency>
+            <DependencyId>NoHypersonic</DependencyId>
+            <ForceShow>Once</ForceShow>
+          </TrigEvent>
+        </TriggerType>
+      </Triggers>
       <Npcs />
     </Cave>
     <Cave>
@@ -49,6 +90,8 @@
       <BottomIndex>2</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals>
         <StalType>
@@ -64,8 +107,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.999974251</z>
-              <w>0.00717879133</w>
+              <z>0.999974251</z>
+              <w>-0.00717876526</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -93,8 +136,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -122,8 +165,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.999974251</z>
-              <w>0.007178799</w>
+              <z>0.999974251</z>
+              <w>-0.00717876526</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -151,8 +194,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.995543361</z>
-              <w>0.0943050161</w>
+              <z>0.995543361</z>
+              <w>-0.0943050459</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -180,8 +223,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -354,7 +397,7 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>0.00717880623</z>
+              <z>0.0071788067</z>
               <w>0.999974251</w>
               <eulerAngles>
                 <x>0</x>
@@ -383,8 +426,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -412,8 +455,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.986028969</z>
-              <w>-0.166574046</w>
+              <z>0.986028969</z>
+              <w>0.166573972</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -491,6 +534,8 @@
       <BottomIndex>4</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals>
         <StalType>
@@ -506,8 +551,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -535,8 +580,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -564,8 +609,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -593,8 +638,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.00717879133</z>
-              <w>-0.999974251</w>
+              <z>0.00717879133</z>
+              <w>0.999974251</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -738,8 +783,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -767,8 +812,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.999974251</z>
-              <w>0.00717879133</w>
+              <z>0.999974251</z>
+              <w>-0.00717876526</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -796,8 +841,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -825,8 +870,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -854,8 +899,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.999974251</z>
-              <w>0.00717879133</w>
+              <z>0.999974251</z>
+              <w>-0.00717876526</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -883,8 +928,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.999974251</z>
-              <w>0.00717879133</w>
+              <z>0.999974251</z>
+              <w>-0.00717876526</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -912,8 +957,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1016,6 +1061,8 @@
       <BottomIndex>0</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals>
         <StalType>
@@ -1031,8 +1078,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.251878321</z>
-              <w>0.9677589</w>
+              <z>0.251878351</z>
+              <w>-0.9677589</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1060,8 +1107,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1089,8 +1136,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.3352656</z>
-              <w>0.942123652</w>
+              <z>0.3352656</z>
+              <w>-0.942123652</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1118,8 +1165,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1147,8 +1194,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.999974251</z>
-              <w>0.00717879133</w>
+              <z>0.999974251</z>
+              <w>-0.00717876526</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1176,8 +1223,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.995543361</z>
-              <w>0.09430502</w>
+              <z>0.995543361</z>
+              <w>-0.0943050459</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1205,8 +1252,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1234,8 +1281,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.942123652</z>
-              <w>-0.3352656</w>
+              <z>0.942123652</z>
+              <w>0.335265666</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1263,8 +1310,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.999974251</z>
-              <w>0.00717879133</w>
+              <z>0.999974251</z>
+              <w>-0.00717876526</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1292,8 +1339,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.942123652</z>
-              <w>-0.3352656</w>
+              <z>0.942123652</z>
+              <w>0.335265666</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1321,8 +1368,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1350,8 +1397,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.416101366</z>
-              <w>0.909318268</w>
+              <z>0.416101545</z>
+              <w>-0.9093182</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1379,8 +1426,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1408,8 +1455,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.335265636</z>
-              <w>0.942123652</w>
+              <z>0.3352656</z>
+              <w>-0.942123652</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1437,8 +1484,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1525,7 +1572,7 @@
               <x>0</x>
               <y>0</y>
               <z>0.983535767</z>
-              <w>-0.180713519</w>
+              <w>-0.18071349</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1554,7 +1601,7 @@
               <x>0</x>
               <y>0</y>
               <z>0.995543361</z>
-              <w>-0.0943050161</w>
+              <w>-0.0943050459</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1582,8 +1629,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.999974251</z>
-              <w>0.00717879133</w>
+              <z>0.999974251</z>
+              <w>-0.00717876526</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1636,6 +1683,8 @@
       <BottomIndex>1</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals>
         <StalType>
@@ -1651,8 +1700,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1680,8 +1729,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.995543361</z>
-              <w>0.0943050161</w>
+              <z>0.995543361</z>
+              <w>-0.0943050459</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1709,8 +1758,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1738,8 +1787,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1767,8 +1816,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.999974251</z>
-              <w>0.00717879133</w>
+              <z>0.999974251</z>
+              <w>-0.00717876526</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1796,8 +1845,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1825,8 +1874,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1912,8 +1961,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1970,8 +2019,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.166574046</z>
-              <w>0.986028969</w>
+              <z>0.166573927</z>
+              <w>-0.986028969</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1999,8 +2048,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2028,8 +2077,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2057,8 +2106,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2165,6 +2214,8 @@
       <BottomIndex>0</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals>
         <StalType>
@@ -2180,8 +2231,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.999974251</z>
-              <w>0.00717879133</w>
+              <z>0.999974251</z>
+              <w>-0.00717876526</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2199,7 +2250,7 @@
         <StalType>
           <SpawnTransform>
             <Pos>
-              <x>-8.5415</x>
+              <x>-8.541508</x>
               <y>-3.50087786</y>
             </Pos>
             <Scale>
@@ -2209,8 +2260,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2228,7 +2279,7 @@
         <StalType>
           <SpawnTransform>
             <Pos>
-              <x>-2.4864006</x>
+              <x>-2.48640823</x>
               <y>4.838707</y>
             </Pos>
             <Scale>
@@ -2257,7 +2308,7 @@
         <StalType>
           <SpawnTransform>
             <Pos>
-              <x>-1.09557724</x>
+              <x>-1.09558487</x>
               <y>5.144851</y>
             </Pos>
             <Scale>
@@ -2296,8 +2347,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2315,7 +2366,7 @@
         <StalType>
           <SpawnTransform>
             <Pos>
-              <x>1.7393074</x>
+              <x>1.73929977</x>
               <y>-3.50087428</y>
             </Pos>
             <Scale>
@@ -2325,8 +2376,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2344,7 +2395,7 @@
         <StalType>
           <SpawnTransform>
             <Pos>
-              <x>2.77682877</x>
+              <x>2.77682114</x>
               <y>-3.92531323</y>
             </Pos>
             <Scale>
@@ -2354,8 +2405,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2383,8 +2434,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.999974251</z>
-              <w>0.00717879133</w>
+              <z>0.999974251</z>
+              <w>-0.00717876526</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2402,7 +2453,7 @@
         <StalType>
           <SpawnTransform>
             <Pos>
-              <x>5.65358353</x>
+              <x>5.653576</x>
               <y>-3.406553</y>
             </Pos>
             <Scale>
@@ -2412,8 +2463,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2431,7 +2482,7 @@
         <StalType>
           <SpawnTransform>
             <Pos>
-              <x>-7.54000473</x>
+              <x>-7.54001236</x>
               <y>-3.43</y>
             </Pos>
             <Scale>
@@ -2442,7 +2493,7 @@
               <x>0</x>
               <y>0</y>
               <z>0.9967947</z>
-              <w>0.08000206</w>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2470,8 +2521,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9677589</z>
-              <w>-0.251878321</w>
+              <z>0.9677589</z>
+              <w>0.2518783</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2499,8 +2550,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2518,7 +2569,7 @@
         <StalType>
           <SpawnTransform>
             <Pos>
-              <x>6.637623</x>
+              <x>6.637615</x>
               <y>-2.975685</y>
             </Pos>
             <Scale>
@@ -2528,8 +2579,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2549,7 +2600,7 @@
         <MothType>
           <SpawnTransform>
             <Pos>
-              <x>4.09065628</x>
+              <x>4.09064865</x>
               <y>2.6380403</y>
             </Pos>
             <Scale>
@@ -2582,6 +2633,8 @@
       <BottomIndex>3</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals>
         <StalType>
@@ -2597,8 +2650,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.251878321</z>
-              <w>0.9677589</w>
+              <z>0.251878351</z>
+              <w>-0.9677589</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2626,8 +2679,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9640429</z>
-              <w>0.265746683</w>
+              <z>0.964042962</z>
+              <w>-0.265746623</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2655,8 +2708,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.983535767</z>
-              <w>0.180713519</w>
+              <z>0.983535767</z>
+              <w>-0.18071349</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2684,8 +2737,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9640429</z>
-              <w>0.265746683</w>
+              <z>0.964042962</z>
+              <w>-0.265746623</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2713,8 +2766,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.416101366</z>
-              <w>0.909318268</w>
+              <z>0.416101545</z>
+              <w>-0.9093182</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2742,8 +2795,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9640431</z>
-              <w>0.265746027</w>
+              <z>0.9640431</z>
+              <w>-0.265746027</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2771,8 +2824,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.251878321</z>
-              <w>0.9677589</w>
+              <z>0.251878351</z>
+              <w>-0.9677589</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2800,8 +2853,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.416101366</z>
-              <w>0.909318268</w>
+              <z>0.416101545</z>
+              <w>-0.9093182</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2829,8 +2882,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.0800021142</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2887,8 +2940,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -2974,8 +3027,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.986028969</z>
-              <w>-0.166574046</w>
+              <z>0.986028969</z>
+              <w>0.166573972</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -3003,8 +3056,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.909318268</z>
-              <w>-0.416101366</w>
+              <z>0.909318268</z>
+              <w>0.416101336</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -3032,8 +3085,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>0.937213063</z>
-              <w>-0.348757327</w>
+              <z>0.9372131</z>
+              <w>-0.3487572</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -3061,8 +3114,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -3090,8 +3143,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -3144,12 +3197,14 @@
       <BottomIndex>4</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals>
         <StalType>
           <SpawnTransform>
             <Pos>
-              <x>-9.220814</x>
+              <x>-9.220806</x>
               <y>4.99702263</y>
             </Pos>
             <Scale>
@@ -3159,8 +3214,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.166574046</z>
-              <w>0.986028969</w>
+              <z>0.166573927</z>
+              <w>-0.986028969</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -3178,7 +3233,7 @@
         <StalType>
           <SpawnTransform>
             <Pos>
-              <x>-7.612858</x>
+              <x>-7.61285</x>
               <y>-3.78214669</y>
             </Pos>
             <Scale>
@@ -3189,7 +3244,7 @@
               <x>0</x>
               <y>0</y>
               <z>0.9967947</z>
-              <w>0.08000206</w>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -3207,7 +3262,7 @@
         <StalType>
           <SpawnTransform>
             <Pos>
-              <x>-8.145939</x>
+              <x>-8.145931</x>
               <y>-3.39445686</y>
             </Pos>
             <Scale>
@@ -3217,8 +3272,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.983535767</z>
-              <w>0.180713519</w>
+              <z>0.983535767</z>
+              <w>-0.18071349</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -3246,8 +3301,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.986028969</z>
-              <w>-0.166574046</w>
+              <z>0.986028969</z>
+              <w>0.166573972</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -3275,8 +3330,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.983535767</z>
-              <w>0.180713519</w>
+              <z>0.983535767</z>
+              <w>-0.18071349</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -3304,8 +3359,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.999974251</z>
-              <w>0.00717879133</w>
+              <z>0.999974251</z>
+              <w>-0.00717876526</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -3333,8 +3388,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.983535767</z>
-              <w>0.180713519</w>
+              <z>0.983535767</z>
+              <w>-0.18071349</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -3362,8 +3417,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -3391,8 +3446,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.999974251</z>
-              <w>0.00717879133</w>
+              <z>0.999974251</z>
+              <w>-0.00717876526</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -3420,8 +3475,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9640429</z>
-              <w>0.265746683</w>
+              <z>0.964042962</z>
+              <w>-0.265746623</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -3449,12 +3504,12 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9032505</z>
-              <w>0.429113746</w>
+              <z>0.9032505</z>
+              <w>-0.429113567</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
-                <z>230.822647</z>
+                <z>230.822632</z>
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
@@ -3528,6 +3583,8 @@
       <BottomIndex>0</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals>
         <StalType>
@@ -3543,8 +3600,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.909318268</z>
-              <w>-0.416101366</w>
+              <z>0.909318268</z>
+              <w>0.416101336</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -3572,8 +3629,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -3601,8 +3658,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -3630,8 +3687,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.983535767</z>
-              <w>0.180713519</w>
+              <z>0.983535767</z>
+              <w>-0.18071349</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -3688,8 +3745,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -3746,8 +3803,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -3834,7 +3891,7 @@
               <x>0</x>
               <y>0</y>
               <z>0.9967947</z>
-              <w>0.08000206</w>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -3862,8 +3919,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -3916,6 +3973,8 @@
       <BottomIndex>1</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals>
         <StalType>
@@ -3931,8 +3990,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.999974251</z>
-              <w>0.00717879133</w>
+              <z>0.999974251</z>
+              <w>-0.00717876526</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -3960,8 +4019,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.942123652</z>
-              <w>-0.3352656</w>
+              <z>0.942123652</z>
+              <w>0.335265666</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -3989,8 +4048,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -4018,8 +4077,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -4047,8 +4106,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.983535767</z>
-              <w>0.180713519</w>
+              <z>0.983535767</z>
+              <w>-0.18071349</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -4076,8 +4135,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -4105,8 +4164,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -4163,8 +4222,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -4192,8 +4251,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -4221,8 +4280,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -4279,8 +4338,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.08000206</z>
-              <w>0.9967947</w>
+              <z>0.08000199</z>
+              <w>-0.9967947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -4387,6 +4446,8 @@
       <BottomIndex>1001</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals>
         <StalType>
@@ -4402,8 +4463,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9967947</z>
-              <w>-0.08000206</w>
+              <z>0.9967947</z>
+              <w>0.08000203</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -4431,8 +4492,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9640429</z>
-              <w>0.265746683</w>
+              <z>0.964042962</z>
+              <w>-0.265746623</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -4460,8 +4521,8 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9640429</z>
-              <w>0.265746683</w>
+              <z>0.964042962</z>
+              <w>-0.265746623</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -4479,7 +4540,7 @@
         <StalType>
           <SpawnTransform>
             <Pos>
-              <x>-6.86681366</x>
+              <x>-6.866829</x>
               <y>-3.08217549</y>
             </Pos>
             <Scale>
@@ -4489,12 +4550,12 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>-0.9032505</z>
-              <w>0.429113746</w>
+              <z>0.9032505</z>
+              <w>-0.429113567</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
-                <z>230.822647</z>
+                <z>230.822632</z>
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
@@ -4534,4 +4595,5 @@
       </eulerAngles>
     </Rotation>
   </Clumsy>
+  <ScoreToBeat>9100</ScoreToBeat>
 </LevelCollection>

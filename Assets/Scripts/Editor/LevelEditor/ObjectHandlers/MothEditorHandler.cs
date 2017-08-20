@@ -12,6 +12,11 @@ public class MothEditorHandler : BaseObjectHandler {
         zLayer = LevelEditorConstants.MothZ;
     }
 
+    public int GetNumMoths()
+    {
+        return parentObj.childCount;
+    }
+
     protected override void Update()
     {
         foreach (Transform moth in parentObj)

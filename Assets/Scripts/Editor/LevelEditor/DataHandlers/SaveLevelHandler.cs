@@ -16,13 +16,15 @@ public class SaveLevelHandler {
         TextAsset levelTxt = (TextAsset)Resources.Load("LevelXML/" + levelId);
         level = LevelContainer.LoadFromText(levelTxt.text);
         SetLevelObjects();
+        GameData.FindObjectOfType<LevelEditor>().ScoreToBeat = level.ScoreToBeat;
     }
 
-    public void Save(LevelEditorObjectHandler objHandler, LevelProgressionHandler.Levels levelId)
+    public void Save(LevelEditorObjectHandler objHandler, LevelProgressionHandler.Levels levelId, int scoreToBeat)
     {
         objects = objHandler;
         level = new LevelContainer();
 
+        level.ScoreToBeat = scoreToBeat;
         InitialiseCaveList();
 
         foreach (var handler in objects.ObjHandlers)

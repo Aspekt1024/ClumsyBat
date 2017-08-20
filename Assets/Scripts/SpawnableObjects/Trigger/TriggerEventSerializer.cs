@@ -5,6 +5,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System;
 using System.Xml.Serialization;
+using UnityEngine.SceneManagement;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -28,7 +29,10 @@ public class TriggerEventSerializer : MonoBehaviour {
             {
                 triggerEventSerializer = FindObjectOfType<TriggerEventSerializer>();
                 if (!triggerEventSerializer)
-                    Debug.LogError("triggerEventSerializer does not exist. Attach one to a game object");
+                {
+                    if (SceneManager.GetActiveScene().name != "Play")
+                        Debug.LogError("triggerEventSerializer does not exist. Attach one to a game object");
+                }
                 else
                     triggerEventSerializer.Init();
             }

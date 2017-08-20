@@ -50,6 +50,7 @@ public class TooltipButtonEffects : MonoBehaviour {
         lanternImage.enabled = false;
         lightImage.enabled = false;
         globeImage.enabled = false;
+        shimmerEffect.Stop();
     }
 
     private void Start ()

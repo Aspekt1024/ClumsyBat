@@ -17,7 +17,7 @@
         <TriggerType>
           <SpawnTransform>
             <Pos>
-              <x>2.65770316</x>
+              <x>8.6</x>
               <y>0.81742233</y>
             </Pos>
             <Scale>
@@ -39,14 +39,18 @@
           <TrigEvent>
             <Id>6</Id>
             <Dialogue>
-              <string>test</string>
+              <string>This cave has a secret exit that leads to a hidden shrine.</string>
+              <string>It will unlock a new power for your lantern!</string>
+              <string>We'll need all we can get to make it through the caves...</string>
             </Dialogue>
             <EventType>Dialogue</EventType>
-            <TooltipDuration>3</TooltipDuration>
-            <PausesGame>false</PausesGame>
+            <EventId>None</EventId>
             <ShowOnce>false</ShowOnce>
-            <ShowOnCompletedLevel>false</ShowOnCompletedLevel>
-            <ShowOnRestart>false</ShowOnRestart>
+            <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+            <ShowOnRestart>true</ShowOnRestart>
+            <HasDependency>true</HasDependency>
+            <DependencyId>NoHypersonic</DependencyId>
+            <ForceShow>Once</ForceShow>
           </TrigEvent>
         </TriggerType>
       </Triggers>
@@ -2162,4 +2166,5 @@
       </eulerAngles>
     </Rotation>
   </Clumsy>
+  <ScoreToBeat>5900</ScoreToBeat>
 </LevelCollection>

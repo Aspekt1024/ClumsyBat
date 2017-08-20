@@ -29,10 +29,9 @@ public class LevelContainer {
         public Quaternion Rotation;
     }
 
-    [XmlArray("CaveList"), XmlArrayItem("Cave")]
-    public CaveType[] Caves;
-
+    [XmlArray("CaveList"), XmlArrayItem("Cave")] public CaveType[] Caves;
     public ClumsyType Clumsy;
+    public int ScoreToBeat;
 
     public void Save(string path)
     {

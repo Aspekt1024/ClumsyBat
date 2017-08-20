@@ -4,9 +4,17 @@ using System.Collections.Generic;
 public class StatsHandler {
 
     // Stat keeping (active in-game only)
-    public int Score;
     public int CollectedCurrency;
+    public float TimeTaken;
     public float Distance;
+
+    public float Score
+    {
+        get
+        {
+            return ScoreCalculator.GetScore(Distance, mothsEaten, TimeTaken);
+        }
+    }
 
     private int mothsEaten;
     public int MothsEaten
@@ -18,7 +26,14 @@ public class StatsHandler {
             gameHud.SetCurrencyText(mothsEaten + "/" + GameData.Instance.NumMoths);
         }
     }
-    
+
+    public void SetLevelStart()
+    {
+        CollectedCurrency = 0;
+        TimeTaken = 0;
+        Distance = 0;
+    }
+
     // Stat data (persistent)
     public float TotalDistance;
     public float BestDistance;

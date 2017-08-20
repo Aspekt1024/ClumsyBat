@@ -37,6 +37,7 @@ public class StalactiteEditor
         float DistanceToFall = StalDropComponent.FallDistance * Mathf.Pow((TimeToReachDest / StalDropComponent.FallDuration), 2);   // TODO put this formula somewhere else.. static? should reference the same code the in-game control does
         Vector2 telePos = new Vector3(stalTf.position.x, stalTf.position.y - DistanceToFall);
 
+        Handles.color = Color.white;
         Color teleCol = new Color(0.9f, 0.3f, 0.3f);
         Handles.DrawSolidRectangleWithOutline(new Rect(telePos.x - 0.4f, telePos.y - stalTf.localScale.y * 2.6f, 1f, stalTf.localScale.y * 2.6f), new Color(teleCol.r, teleCol.g, teleCol.b, 0.3f), teleCol);
     }

@@ -17,7 +17,6 @@ public class GameUI : MonoBehaviour {
 
     // We're keeping these to isolate the values from the stats when we do the level won currency collect animation
     private int _currency;
-    private int _collectedCurrency;
     
     private Vector3 _currencyScale;
     private Vector3 _collectedCurrencyScale;
@@ -41,12 +40,13 @@ public class GameUI : MonoBehaviour {
 	{
 	    _stats = GameData.Instance.Data.Stats;
         SetupUI();
+        InvokeRepeating("SetScore", 1f, 0.1f);
 	}
 	
-	void Update ()
+    private void SetScore()
     {
         if (_bGamePaused) { return; }
-        _scoreText.text = ((int)_stats.Distance) + "m";
+        _scoreText.text = _stats.Score.ToString();
     }
 
     private void SetupUI()

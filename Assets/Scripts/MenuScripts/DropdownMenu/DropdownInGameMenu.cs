@@ -124,8 +124,15 @@ public class DropdownInGameMenu : MonoBehaviour {
 
         if (GameData.Instance.Level.ToString().Contains("Boss"))
         {
+            stars[0].SetText("Level Complete");
             stars[1].SetText("Under 2 Damage");
             stars[2].SetText("No Damage");
+        }
+        else
+        {
+            stars[0].SetText("All Moths Collected");
+            stars[1].SetText("No Damage");
+            stars[2].SetText(GameData.Instance.ScoreToBeat + "\nPoints");
         }
     }
 

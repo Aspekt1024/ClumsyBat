@@ -6,6 +6,8 @@
       <BottomIndex>1000</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals />
       <Moths />
@@ -19,6 +21,8 @@
       <BottomIndex>3</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals>
         <StalType>
@@ -167,6 +171,8 @@
       <BottomIndex>2</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals>
         <StalType>
@@ -595,11 +601,20 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <EventType>Tooltip</EventType>
-          <TooltipText>Watch out for spikes! They hurt!</TooltipText>
-          <TooltipDuration>3</TooltipDuration>
-          <EventId>FirstDeath</EventId>
-          <PausesGame>true</PausesGame>
+          <TrigEvent>
+            <Id>32</Id>
+            <Dialogue>
+              <string>Watch out for spikes, they hurt!</string>
+            </Dialogue>
+            <EventType>Dialogue</EventType>
+            <EventId>None</EventId>
+            <ShowOnce>false</ShowOnce>
+            <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+            <ShowOnRestart>true</ShowOnRestart>
+            <HasDependency>false</HasDependency>
+            <DependencyId>None</DependencyId>
+            <ForceShow>Once</ForceShow>
+          </TrigEvent>
         </TriggerType>
       </Triggers>
       <Npcs />
@@ -609,6 +624,8 @@
       <BottomIndex>4</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals>
         <StalType>
@@ -960,6 +977,8 @@
       <BottomIndex>0</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals>
         <StalType>
@@ -1137,6 +1156,8 @@
       <BottomIndex>3</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals>
         <StalType>
@@ -1171,7 +1192,7 @@
         <StalType>
           <SpawnTransform>
             <Pos>
-              <x>-5.412197</x>
+              <x>-5.41220474</x>
               <y>-5.886561</y>
             </Pos>
             <Scale>
@@ -1182,7 +1203,7 @@
               <x>0</x>
               <y>0</y>
               <z>0.986028969</z>
-              <w>0.166574016</w>
+              <w>0.166573972</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -1372,7 +1393,7 @@
         <MothType>
           <SpawnTransform>
             <Pos>
-              <x>9.396656</x>
+              <x>9.396648</x>
               <y>-0.329158545</y>
             </Pos>
             <Scale>
@@ -1430,6 +1451,8 @@
       <BottomIndex>4</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals>
         <StalType>
@@ -1698,6 +1721,8 @@
       <BottomIndex>1001</BottomIndex>
       <bTopSecretPath>false</bTopSecretPath>
       <bBottomSecretPath>false</bBottomSecretPath>
+      <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
+      <bSecretPathHasBlock>false</bSecretPathHasBlock>
       <Shrooms />
       <Stals>
         <StalType>
@@ -1813,4 +1838,5 @@
       </eulerAngles>
     </Rotation>
   </Clumsy>
+  <ScoreToBeat>7700</ScoreToBeat>
 </LevelCollection>

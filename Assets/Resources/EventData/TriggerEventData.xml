@@ -95,21 +95,18 @@
     <TriggerEvent>
       <Id>6</Id>
       <Dialogue>
-        <string />
-        <string />
-        <string />
-        <string />
-        <string />
-        <string>test</string>
+        <string>This cave has a secret exit that leads to a hidden shrine.</string>
+        <string>It will unlock a new power for your lantern!</string>
+        <string>We'll need all we can get to make it through the caves...</string>
       </Dialogue>
       <EventType>Dialogue</EventType>
       <EventId>None</EventId>
       <ShowOnce>false</ShowOnce>
-      <ShowOnCompletedLevel>false</ShowOnCompletedLevel>
-      <ShowOnRestart>false</ShowOnRestart>
-      <HasDependency>false</HasDependency>
-      <DependencyId>None</DependencyId>
-      <ForceShow>Never</ForceShow>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>true</HasDependency>
+      <DependencyId>NoHypersonic</DependencyId>
+      <ForceShow>Once</ForceShow>
     </TriggerEvent>
     <TriggerEvent>
       <Id>7</Id>
@@ -453,6 +450,106 @@
       <HasDependency>false</HasDependency>
       <DependencyId>None</DependencyId>
       <ForceShow>Never</ForceShow>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>30</Id>
+      <Dialogue>
+        <string>Eww, mushrooms! They'll decrease your vision</string>
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Never</ForceShow>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>31</Id>
+      <Dialogue>
+        <string>We can't get past this... we need to go back!</string>
+        <string>Let's go find the secret path!</string>
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>true</HasDependency>
+      <DependencyId>NoHypersonic</DependencyId>
+      <ForceShow>Always</ForceShow>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>32</Id>
+      <Dialogue>
+        <string>Watch out for spikes, they hurt!</string>
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Once</ForceShow>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>33</Id>
+      <Dialogue>
+        <string>Careful! Some of the spikes are unstable and will fall!</string>
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Never</ForceShow>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>34</Id>
+      <Dialogue>
+        <string>You should go back and find the hidden shrine!</string>
+        <string>It will help us get through this cave!</string>
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>true</HasDependency>
+      <DependencyId>NoHypersonic</DependencyId>
+      <ForceShow>Once</ForceShow>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>35</Id>
+      <Dialogue>
+        <string>Tap and hold while touching the ceiling to perch</string>
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Once</ForceShow>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>36</Id>
+      <Dialogue>
+        <string>Tap and hold while touching the ceiling to perch.</string>
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Once</ForceShow>
     </TriggerEvent>
   </EventData>
 </TriggerContainer>

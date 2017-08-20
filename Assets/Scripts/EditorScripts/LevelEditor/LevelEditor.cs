@@ -9,6 +9,7 @@ public class LevelEditor : MonoBehaviour {
     public bool EditMode;
     public bool DebugMode;
     public LevelProgressionHandler.Levels LevelId;
+    public int ScoreToBeat;
 
     [HideInInspector]
     public GameObject HeldObject = null;

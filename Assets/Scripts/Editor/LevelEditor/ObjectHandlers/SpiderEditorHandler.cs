@@ -11,11 +11,12 @@ public class SpiderEditorHandler : BaseObjectHandler
         parentObj = GetParentTransform("Spiders");
         zLayer = LevelEditorConstants.SpiderZ;
     }
-
+    
     protected override void Update()
     {
         foreach (Transform t in parentObj)
         {
+            t.GetComponent<HingeJoint2D>().enabled = false;
             SpiderClass s = t.GetComponent<SpiderClass>();
             if (!s.SwingingSpider) continue;
 

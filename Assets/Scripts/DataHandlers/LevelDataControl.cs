@@ -116,9 +116,9 @@ public class LevelDataControl : MonoBehaviour {
         }
         else
         {
-            _levelCompletion[level].Achievement1 |= _levelCompletion[level].LevelCompleted;
+            _levelCompletion[level].Achievement1 |= GameData.Instance.Data.Stats.MothsEaten == GameData.Instance.NumMoths;
             _levelCompletion[level].Achievement2 |= GameData.Instance.IsUntouched;
-            _levelCompletion[level].Achievement3 |= GameData.Instance.Data.Stats.MothsEaten == GameData.Instance.NumMoths;
+            _levelCompletion[level].Achievement3 |= GameData.Instance.Data.Stats.Score >= GameData.Instance.ScoreToBeat;
         }
 
         if (_levelCompletion[level].Achievement1 && GameData.Instance.Achievements[0] == GameData.AchievementStatus.Unachieved) GameData.Instance.Achievements[0] = GameData.AchievementStatus.NewAchievement;

@@ -18,6 +18,7 @@ public class GameData : Singleton<GameData>
     }
 
     public int NumMoths;
+    public int ScoreToBeat;
     public bool IsUntouched;
     public bool OnlyOneDamageTaken;
     public AchievementStatus[] Achievements = new AchievementStatus[3];

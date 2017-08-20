@@ -45,6 +45,16 @@ public class LevelEditorObjectHandler {
         return 0;
     }
 
+    public int GetNumMoths()
+    {
+        foreach(var objHandler in ObjHandlers)
+        {
+            if (objHandler.IsType<MothEditorHandler>())
+                return ((MothEditorHandler)objHandler).GetNumMoths();
+        }
+        return 0;
+    }
+
     public GameObject SpawnObject<T>() where T : BaseObjectHandler
     {
         BaseObjectHandler handler = null;
