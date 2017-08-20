@@ -15,6 +15,7 @@ public class TooltipButtonEffects : MonoBehaviour {
     private Image globeImage;
     private Image lanternImage;
     private ParticleSystem shimmerEffect;
+    private ParticleSystem burstEffect;
     private bool isPaused;
     private bool animationsPaused;
 
@@ -25,6 +26,7 @@ public class TooltipButtonEffects : MonoBehaviour {
         globeImage.color = new Color(0.4f, 0.4f, 0.4f, 0.4f);
         IsEnabled = false;
         shimmerEffect.Stop();
+        burstEffect.Stop();
     }
 
     public void ShowNewTip()
@@ -43,6 +45,7 @@ public class TooltipButtonEffects : MonoBehaviour {
         lightImage.enabled = true;
         globeImage.color = Color.white;
         shimmerEffect.Play();
+        burstEffect.Play();
     }
 
     public void Hide()
@@ -51,6 +54,7 @@ public class TooltipButtonEffects : MonoBehaviour {
         lightImage.enabled = false;
         globeImage.enabled = false;
         shimmerEffect.Stop();
+        burstEffect.Stop();
     }
 
     private void Start ()
@@ -58,7 +62,13 @@ public class TooltipButtonEffects : MonoBehaviour {
         lanternImage = Lantern.GetComponent<Image>();
         lightImage = LanternLight.GetComponent<Image>();
         globeImage = LanternGlobe.GetComponent<Image>();
-        shimmerEffect = LanternGlobe.GetComponentInChildren<ParticleSystem>();
+        foreach(ParticleSystem particles in LanternGlobe.GetComponentsInChildren<ParticleSystem>())
+        {
+            if (particles.name == "LanternBurstEffect")
+                burstEffect = particles;
+            else if (particles.name == "LanternShimmerEffect")
+                shimmerEffect = particles;
+        }
         StartCoroutine(PulseImage(LanternLight, 1.7f));
         StartCoroutine(FloatImage(LanternGlobe, 0.8f));
         DisplayIdle();
@@ -78,9 +88,9 @@ public class TooltipButtonEffects : MonoBehaviour {
     {
         float timer = 0f;
         float flashTimer = 0f;
-        const float flashDuration = 0.2f;
+        const float flashDuration = 0.3f;
         const float interval = 0.84f;
-        const int numPulses = 5;
+        const int numPulses = 1;
 
         for (int i = 0; i < numPulses; i++)
         {
@@ -92,7 +102,7 @@ public class TooltipButtonEffects : MonoBehaviour {
 
             while (flashTimer < flashDuration)
             {
-                rt.localScale = Vector3.one * Mathf.Lerp(0.1f, 2.7f, flashTimer / flashDuration);
+                rt.localScale = Vector3.one * Mathf.Lerp(0.1f, 2.7f, Mathf.Pow(flashTimer / flashDuration, 2));
                 flashTimer += Time.deltaTime;
                 timer += Time.deltaTime;
                 yield return null;
