@@ -53,7 +53,8 @@ public class DropdownInGameMenu : MonoBehaviour {
             if (tf.name.Contains("2")) stars[1] = tf.GetComponent<MothStar>();
             if (tf.name.Contains("3")) stars[2] = tf.GetComponent<MothStar>();
         }
-        StarsContainer.SetActive(false);
+        StarsContainer.GetComponent<CanvasGroup>().alpha = 0f;
+        StarsContainer.GetComponent<CanvasGroup>().blocksRaycasts = false;
         ContinueButtonObject.SetActive(false);
     }
 
@@ -118,8 +119,7 @@ public class DropdownInGameMenu : MonoBehaviour {
     private void LoadStars()
     {
         GameData.AchievementStatus[] starAchievements = GameData.Instance.Achievements;
-
-        StarsContainer.SetActive(true);
+        StarsContainer.GetComponent<CanvasGroup>().alpha = 1f;
         for (int i = 0; i < 3; i++)
         {
             if (starAchievements[i] == GameData.AchievementStatus.Achieved)

@@ -35,7 +35,7 @@ public class UIObjectAnimator : MonoBehaviour {
     {
         float timer = 0f;
         float duration = 0.2f;
-
+        
         Vector3 originalScale = rt.localScale;
         rt.gameObject.SetActive(true);
         while (timer < duration)
