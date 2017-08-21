@@ -120,6 +120,7 @@ public class DropdownInGameMenu : MonoBehaviour {
     {
         GameData.AchievementStatus[] starAchievements = GameData.Instance.Achievements;
         StarsContainer.GetComponent<CanvasGroup>().alpha = 1f;
+        StarsContainer.GetComponent<CanvasGroup>().blocksRaycasts = true;
         for (int i = 0; i < 3; i++)
         {
             if (starAchievements[i] == GameData.AchievementStatus.Achieved)
