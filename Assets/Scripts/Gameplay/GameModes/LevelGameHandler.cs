@@ -39,7 +39,7 @@ public class LevelGameHandler : GameHandler
     {
         yield return new WaitForSeconds(LevelStartupTime);
         Level.GameMenu.RemoveLoadingOverlay();
-        yield return null;
+        yield return new WaitForSeconds(0.7f);
 
         ThePlayer.StartFog();
         ThePlayer.StartCoroutine("CaveEntranceAnimation");

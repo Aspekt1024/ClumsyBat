@@ -84,6 +84,7 @@ public class BossGameHandler : GameHandler {
     {
         yield return new WaitForSeconds(1f);
         StartGame();
+        yield return new WaitForSeconds(0.8f);
         yield return ThePlayer.StartCoroutine(ThePlayer.CaveEntranceAnimation());
 
         // TODO put this into a function that says "boss level begin" or something

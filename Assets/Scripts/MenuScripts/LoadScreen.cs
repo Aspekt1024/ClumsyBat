@@ -3,38 +3,34 @@ using System.Collections;
 
 public class LoadScreen : MonoBehaviour {
 
-    private Animator _mothAnimator;
-    CanvasGroup _loadingCanvas;
-
     public bool LoadOnStartup;
+
+    private Animator mothAnimator;
+    private CanvasGroup loadingCanvas;
+    private RectTransform loadTextRt;
 
     private void Awake()
     {
-        _mothAnimator = GameObject.Find("LoadingMoth").GetComponent<Animator>();
-        _mothAnimator.Play("MothFlapAnim", 0, 0f);
-        _loadingCanvas = GetComponent<CanvasGroup>();
+        GetLoadScreenComponents();
+        mothAnimator.Play("MothFlapAnim", 0, 0f);
+        loadingCanvas = GetComponent<CanvasGroup>();
 
         if (LoadOnStartup)
         {
-            _loadingCanvas.alpha = 1f;
-            _loadingCanvas.blocksRaycasts = true;
-            _loadingCanvas.interactable = true;
+            loadingCanvas.alpha = 1f;
+            loadingCanvas.blocksRaycasts = true;
+            loadingCanvas.interactable = true;
         }
     }
 
     public void ShowLoadScreen()
     {
-        _mothAnimator.Play("MothFlapAnim", 0, 0f);
-        _loadingCanvas.alpha = 1f;
-        _loadingCanvas.blocksRaycasts = true;
-        _loadingCanvas.interactable = true;
+        StartCoroutine(FadeIn());
     }
 
     public void HideLoadScreen()
     {
-        _loadingCanvas.alpha = 0f;
-        _loadingCanvas.blocksRaycasts = false;
-        _loadingCanvas.interactable = false;
+        StartCoroutine(FadeOut());
     }
 
     public void HideLoadScreen(float delay)
@@ -45,6 +41,61 @@ public class LoadScreen : MonoBehaviour {
     private IEnumerator HideLoadAfterDelay(float delay)
     {
         yield return StartCoroutine(Toolbox.UIAnimator.Wait(delay));
-        HideLoadScreen();
+        yield return StartCoroutine(FadeOut());
+    }
+
+    public IEnumerator FadeIn()
+    {
+        loadingCanvas.blocksRaycasts = true;
+        loadingCanvas.interactable = true;
+        mothAnimator.gameObject.SetActive(false);
+
+        const float duration = 0.8f;
+        float timer = 0f;
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            loadingCanvas.alpha = Mathf.Lerp(0f, 1f, timer / duration);
+            yield return null;
+        }
+
+        Toolbox.UIAnimator.PopInObject(loadTextRt);
+        Toolbox.UIAnimator.PopInObject(mothAnimator.GetComponent<RectTransform>());
+        mothAnimator.Play("MothFlapAnim", 0, 0f);
+    }
+
+    private IEnumerator FadeOut()
+    {
+        Toolbox.UIAnimator.PopOutObject(loadTextRt);
+        yield return StartCoroutine(Toolbox.UIAnimator.PopOutObjectRoutine(mothAnimator.GetComponent<RectTransform>()));
+
+        const float duration = 0.8f;
+        float timer = 0f;
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            loadingCanvas.alpha = Mathf.Lerp(1f, 0f, timer / duration);
+            yield return null;
+        }
+        loadingCanvas.alpha = 0f;
+        loadingCanvas.blocksRaycasts = false;
+        loadingCanvas.interactable = false;
+    }
+
+    private void GetLoadScreenComponents()
+    {
+        foreach(RectTransform rt in GetComponent<RectTransform>())
+        {
+            if (rt.name == "Darkness")
+            {
+                foreach(RectTransform r in rt)
+                {
+                    if (r.name == "LoadingMoth")
+                        mothAnimator = r.GetComponent<Animator>();
+                    else if (r.name == "Text")
+                        loadTextRt = r;
+                }
+            }
+        }
     }
 }

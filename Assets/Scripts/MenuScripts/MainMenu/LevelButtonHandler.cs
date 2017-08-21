@@ -72,13 +72,13 @@ public class LevelButtonHandler : MonoBehaviour {
         Toolbox.Instance.Debug = false;
         AsyncOperation levelLoader;
 
+        yield return StartCoroutine(LoadingOverlay.GetComponent<LoadScreen>().FadeIn());
+
         if (levelId.ToString().Contains("Boss"))
             levelLoader = SceneManager.LoadSceneAsync("Boss");
         else
             levelLoader = SceneManager.LoadSceneAsync("Levels");
-
-        LoadingOverlay.GetComponent<LoadScreen>().ShowLoadScreen();
-
+        
         while (!levelLoader.isDone)
         {
             yield return null;
