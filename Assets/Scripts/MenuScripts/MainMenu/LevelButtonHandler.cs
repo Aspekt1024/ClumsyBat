@@ -10,6 +10,7 @@ public class LevelButtonHandler : MonoBehaviour {
     public GameObject LoadingOverlay;
     public RectTransform LevelTextRT;
     public RectTransform LevelPlayButton;
+    public RectTransform LevelScoreTextRt;
     
     public LevelProgressionHandler.Levels ActiveLevel;
 
@@ -17,6 +18,7 @@ public class LevelButtonHandler : MonoBehaviour {
     private RectTransform levelContentRect;
     private ScrollRect levelScrollRect;
     private Text levelText;
+    private Text levelScoreText;
     private int CurrentLevel;
 
     public LevelButton[] LevelButtons()
@@ -29,6 +31,7 @@ public class LevelButtonHandler : MonoBehaviour {
         levelContentRect = GameObject.Find("Content").GetComponent<RectTransform>();
         levelScrollRect = GameObject.Find("LevelScrollRect").GetComponent<ScrollRect>();
         levelText = LevelTextRT.GetComponent<Text>();
+        levelScoreText = LevelScoreTextRt.GetComponent<Text>();
 
         GetLevelButtons();
         SetupLevelSelect();
@@ -45,12 +48,11 @@ public class LevelButtonHandler : MonoBehaviour {
         {
             if (buttons[index] == null || !buttons[index].LevelAvailable()) continue;
             
-            
             buttons[index].Click(ActiveLevel);
 
             if (index == (int)ActiveLevel && buttons[index].LevelAvailable())
             {
-                SetLevelText(Toolbox.Instance.LevelNames[ActiveLevel]);
+                StartCoroutine(SetLevelText(Toolbox.Instance.LevelNames[ActiveLevel], GameData.Instance.Data.LevelData.GetBestScore((int)ActiveLevel)));
                 if (!LevelPlayButton.gameObject.activeSelf)
                     Toolbox.UIAnimator.PopInObject(LevelPlayButton);
             }
@@ -60,6 +62,7 @@ public class LevelButtonHandler : MonoBehaviour {
     public void LevelPlayClicked()
     {
         GameData.Instance.Level = ActiveLevel;
+        UIObjectAnimator.Instance.PopOutObject(LevelPlayButton);
         StartCoroutine(LoadLevel(ActiveLevel));
     }
 
@@ -116,17 +119,12 @@ public class LevelButtonHandler : MonoBehaviour {
     
     private void SetupLevelSelect()
     {
-        int level;
         if (Toolbox.Instance.MenuScreen == Toolbox.MenuSelector.LevelSelect)
-        {
-            level = (int)GameData.Instance.Level;
-        }
+            CurrentLevel = (int)GameData.Instance.Level;
         else
-        {
-            level = GetHighestLevel();
-        }
-        // TODO set the scroller
-        //_scroller.SetCurrentLevel(level);
+            CurrentLevel = GetHighestLevel();
+
+        levelScoreText.text = string.Empty;
     }
     
     private int GetHighestLevel()
@@ -161,22 +159,32 @@ public class LevelButtonHandler : MonoBehaviour {
 
     private void GotoCurrentLevel(bool Instantly = false)
     {
-        const float MaxPosX = 7f;
+        const float maxPosX = 7f;
         float LvlButtonPosX = GetButtonPosX();
-        if (LvlButtonPosX > MaxPosX)
+        if (LvlButtonPosX > maxPosX)
         {
-            float XShift = LvlButtonPosX - MaxPosX;
-            float ContentScale = GameObject.Find("ScrollOverlay").GetComponent<RectTransform>().localScale.x;
-            float NormalisedPosition = XShift / levelContentRect.rect.width / ContentScale;
+            float xShift = LvlButtonPosX - maxPosX;
+            float contentScale = GameObject.Find("ScrollOverlay").GetComponent<RectTransform>().localScale.x;
+            float normalisedPosition = xShift / levelContentRect.rect.width / contentScale;
             if (!Instantly)
             {
-                StartCoroutine("GotoLevelAnim", NormalisedPosition);
+                StartCoroutine(MoveToLevel(normalisedPosition));
             }
             else
             {
-                levelScrollRect.horizontalNormalizedPosition = NormalisedPosition;
+                levelScrollRect.horizontalNormalizedPosition = normalisedPosition;
             }
         }
+    }
+
+    private IEnumerator MoveToLevel(float normalisedPosition)
+    {
+        while (Mathf.Abs(levelScrollRect.horizontalNormalizedPosition - normalisedPosition) > 0.1f)
+        {
+            levelScrollRect.horizontalNormalizedPosition = Mathf.Lerp(levelScrollRect.horizontalNormalizedPosition, normalisedPosition, Time.deltaTime * 2);
+            yield return null;
+        }
+        levelScrollRect.horizontalNormalizedPosition = normalisedPosition;
     }
 
     private float GetButtonPosX()
@@ -188,9 +196,13 @@ public class LevelButtonHandler : MonoBehaviour {
         return ButtonPosX;
     }
 
-    private void SetLevelText(string text)
+    private IEnumerator SetLevelText(string text, int score)
     {
-        Toolbox.UIAnimator.PopInObject(LevelTextRT);
+        Toolbox.UIAnimator.PopObject(LevelTextRT);
+        yield return new WaitForSeconds(0.08f);
+
+        levelScoreText.text = "Best Score: " + score.ToString();
+        Toolbox.UIAnimator.PopObject(LevelScoreTextRt);
         levelText.text = text;
     }
 }
