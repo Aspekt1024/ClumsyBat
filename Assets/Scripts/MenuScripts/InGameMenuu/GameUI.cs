@@ -5,23 +5,23 @@ using System.Collections;
 
 public class GameUI : MonoBehaviour {
     
-    private Image _pauseImage;
-    private Button _pauseButton;
-    private Text _scoreText;
-    private Text _currencyText;
-    private Text _collectedCurrencyText;
-    private Text _levelText;
-    private Text _resumeTimerText;
-    private RectTransform _cooldownBar;
-    private Image _cooldownImage;
-
-    // We're keeping these to isolate the values from the stats when we do the level won currency collect animation
-    private int _currency;
+    private Image pauseImage;
+    private Button pauseButton;
+    private Text scoreText;
+    private Text currencyText;
+    private Text bigScoreText;
+    private Text levelText;
+    private Text resumeTimerText;
+    private Text timeText;
+    private RectTransform cooldownBar;
+    private Image cooldownImage;
+    private CanvasGroup gameUICanvas;
+    private Image mothImage;
     
-    private Vector3 _currencyScale;
-    private Vector3 _collectedCurrencyScale;
-    private RectTransform _currencyRt;
-    private RectTransform _collectedCurrencyRt;
+    private Vector3 currencyScale;
+    private Vector3 collectedCurrencyScale;
+    private RectTransform currencyRt;
+    private RectTransform bigScoreTextRt;
 
     private RectTransform _resumeTimerRt;
     private int _resumeTime;
@@ -40,82 +40,117 @@ public class GameUI : MonoBehaviour {
 	{
 	    _stats = GameData.Instance.Data.Stats;
         SetupUI();
-        InvokeRepeating("SetScore", 1f, 0.1f);
 	}
+
+    private void HideBossUIElements()
+    {
+        scoreText.GetComponent<Text>().enabled = false;
+        mothImage.enabled = false;
+        currencyRt.GetComponent<Text>().enabled = false;
+    }
 	
     private void SetScore()
     {
         if (_bGamePaused) { return; }
-        _scoreText.text = _stats.Score.ToString();
+        scoreText.text = _stats.Score.ToString();
     }
 
     private void SetupUI()
     {
-        _currencyText.text = _stats.Currency.ToString();
-        EnablePauseButton(false);
-        _collectedCurrencyText.text = string.Empty;
+        currencyText.text = _stats.Currency.ToString();
+        bigScoreText.text = string.Empty;
+        gameUICanvas.alpha = 0f;
+        gameUICanvas.blocksRaycasts = false;
+    }
+
+    public void UpdateTimer(float seconds)
+    {
+        int minutes = Mathf.FloorToInt(seconds / 60);
+        if (minutes > 0)
+        {
+            seconds -= 60 * minutes;
+            timeText.text = string.Format("{0}:{1}", minutes, seconds.ToString("n2"));
+        }
+        else
+        {
+            timeText.text = seconds.ToString("n2");
+        }
     }
 
     public void SetCurrencyText(string text)
     {
-        if (_currencyText == null) return;
-        if (_currencyText.text == text) return;
+        if (currencyText == null) return;
+        if (currencyText.text == text) return;
         
-        _currencyText.gameObject.SetActive(true);
-        StartCoroutine(PulseObject(_currencyRt));
-        _currencyText.text = text;
+        currencyText.gameObject.SetActive(true);
+        StartCoroutine(PulseObject(currencyRt));
+        currencyText.text = text;
     }
     
     private void GetTextObjects()
     {
         foreach (RectTransform rt in GetComponent<RectTransform>())
         {
-            switch (rt.name)
+            if (rt.name == "UIToggleElements")
             {
-                case "ResumeTimerText":
-                    _resumeTimerText = rt.GetComponent<Text>();
-                    _resumeTimerRt = rt;
-                    break;
-                case "PauseButton":
-                    _pauseButton = rt.GetComponent<Button>();
-                    _pauseImage = rt.GetComponent<Image>();
-                    break;
-                case "LevelText":
-                    _levelText = rt.GetComponent<Text>();
-                    break;
-                case "ScoreText":
-                    _scoreText = rt.GetComponent<Text>();
-                    break;
-                case "CurrencyText":
-                    _currencyText = rt.GetComponent<Text>();
-                    _currencyRt = rt;
-                    break;
-                case "CollectedCurrencyText":
-                    _collectedCurrencyText = rt.GetComponent<Text>();
-                    _collectedCurrencyRt = rt;
-                    break;
-                case "CooldownPanel":
-                    foreach (RectTransform childRt in rt)
+                gameUICanvas = rt.GetComponent<CanvasGroup>();
+                foreach (RectTransform r in rt)
+                {
+                    switch (r.name)
                     {
-                        if (childRt.name == "CooldownBar")
-                        {
-                            _cooldownBar = childRt;
-                            _cooldownImage = childRt.GetComponent<Image>();
-                        }
+                        case "PauseButton":
+                            pauseButton = r.GetComponent<Button>();
+                            pauseImage = r.GetComponent<Image>();
+                            break;
+                        case "LevelText":
+                            levelText = r.GetComponent<Text>();
+                            break;
+                        case "ScoreText":
+                            scoreText = r.GetComponent<Text>();
+                            break;
+                        case "CurrencyText":
+                            currencyText = r.GetComponent<Text>();
+                            currencyRt = r;
+                            break;
+                        case "BigPointsText":
+                            bigScoreText = r.GetComponent<Text>();
+                            bigScoreTextRt = r;
+                            break;
+                        case "TimeText":
+                            timeText = r.GetComponent<Text>();
+                            break;
+                        case "MothImage":
+                            mothImage = r.GetComponent<Image>();
+                            break;
+                        case "CooldownPanel":
+                            foreach (RectTransform childRt in r.GetComponentsInChildren<RectTransform>())
+                            {
+                                if (childRt.name == "CooldownBar")
+                                {
+                                    cooldownBar = childRt;
+                                    cooldownImage = childRt.GetComponent<Image>();
+                                }
+                            }
+                            break;
                     }
-                    break;
+                }
+            }
+            else if (rt.name == "ResumeTimerText")
+            {
+                resumeTimerText = rt.GetComponent<Text>();
+                _resumeTimerRt = rt;
             }
         }
         // TODO remove these if not needed
-        _collectedCurrencyRt.gameObject.SetActive(false);
-        _currencyRt.gameObject.SetActive(false);
+        bigScoreTextRt.gameObject.SetActive(false);
+        currencyRt.gameObject.SetActive(false);
     }
 
     public void SetResumeTimer(float timeRemaining)
     {
-        if (_resumeTimerText.enabled == false)
+        if (resumeTimerText.enabled == false)
         {
-            _resumeTimerText.enabled = true;
+            resumeTimerText.enabled = true;
         }
         if (_resumeTime != Mathf.CeilToInt(timeRemaining))
         {
@@ -125,19 +160,19 @@ public class GameUI : MonoBehaviour {
                 return;
             }
             StartCoroutine("PulseObject", _resumeTimerRt);
-            _resumeTimerText.text = _resumeTime.ToString();
+            resumeTimerText.text = _resumeTime.ToString();
         }
     }
 
     public void HideResumeTimer()
     {
-        _resumeTimerText.enabled = false;
+        resumeTimerText.enabled = false;
     }
 
     public void SetStartText(string startText)
     {
         StartCoroutine("PulseObject", _resumeTimerRt);
-        _resumeTimerText.text = startText;
+        resumeTimerText.text = startText;
     }
 
     public void SetLevelText(LevelProgressionHandler.Levels levelId)
@@ -146,65 +181,68 @@ public class GameUI : MonoBehaviour {
         var level = (int) levelId;
         if (level == -1)
         {
-            _levelText.text = "Level: Endless";
+            levelText.text = "Level: Endless";
         }
         else
         {
-            _levelText.text = "Level: " + Toolbox.Instance.LevelNames[levelId];
+            levelText.text = "Level: " + Toolbox.Instance.LevelNames[levelId];
         }
     }
 
     public void SetCustomText(string text)
     {
-        _currencyText.text = text;
+        currencyText.text = text;
     }
 
     public void GamePaused(bool paused)
     {
         _bGamePaused = paused;
-        EnablePauseButton(!paused);
+        gameUICanvas.alpha = paused ? 0f : 1f;
+        gameUICanvas.blocksRaycasts = !paused;
     }
 
     public void StartGame()
     {
-        EnablePauseButton(true);
+        if (GameData.Instance.Level.ToString().Contains("Boss"))
+            HideBossUIElements();
+        else
+            InvokeRepeating("SetScore", 1f, 0.1f);
+
+        gameUICanvas.alpha = 1f;
+        gameUICanvas.blocksRaycasts = true;
     }
 
     public void GameOver()
     {
-        EnablePauseButton(false);
-    }
-
-    private void EnablePauseButton(bool bEnabled)
-    {
-        _pauseButton.interactable = bEnabled;
-        _pauseImage.enabled = bEnabled;
+        gameUICanvas.alpha = 0f;
+        gameUICanvas.blocksRaycasts = false;
     }
 
     public void LevelWon()
     {
-        EnablePauseButton(false);
+        gameUICanvas.alpha = 0f;
+        gameUICanvas.blocksRaycasts = false;
     }
 
     public void SetCooldown(float ratio)
     {
-        _cooldownBar.localScale = new Vector2(ratio, _cooldownBar.localScale.y);
+        cooldownBar.localScale = new Vector2(ratio, cooldownBar.localScale.y);
         if (Math.Abs(ratio - 1f) < 0.01f && !_bCooldownReady)
         {
-            StartCoroutine(PulseObject(_cooldownBar));
+            StartCoroutine(PulseObject(cooldownBar));
             _bCooldownReady = true;
-            _cooldownImage.color = new Color(212 / 255f, 195 / 255f, 126 / 255f);
+            cooldownImage.color = new Color(212 / 255f, 195 / 255f, 126 / 255f);
         }
         else if (ratio < 1 && _bCooldownReady)
         {
             _bCooldownReady = false;
-            _cooldownImage.color = new Color(110 / 255f, 229 / 255f, 119 / 255f);
+            cooldownImage.color = new Color(110 / 255f, 229 / 255f, 119 / 255f);
         }
     }
 
     public void ShowCooldown(bool bShow)
     {
-        _cooldownImage.enabled = bShow;
+        cooldownImage.enabled = bShow;
     }
     
     private IEnumerator PulseObject(RectTransform textObject)

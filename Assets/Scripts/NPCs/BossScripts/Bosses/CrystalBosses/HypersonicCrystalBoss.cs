@@ -49,7 +49,7 @@ public class HypersonicCrystalBoss : CrystalBoss {
         }
 
         Toolbox.Tooltips.ShowDialogue("It worked! Any time you collect a gold moth, you will activate Hypersonic!", 2f, true);
-        while (Toolbox.Tooltips.IsPausedForTooltip)
+        while (Toolbox.Tooltips.IsPausedForDialogue)
         {
             yield return null;
         }

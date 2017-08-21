@@ -99,6 +99,8 @@ public class Player : MonoBehaviour {
     {
         if ((_state == PlayerState.Normal || _state == PlayerState.Perched) && !Toolbox.Instance.GamePaused)
             _data.Stats.TimeTaken += time;
+
+        GameData.Instance.Data.Stats.GameHud.UpdateTimer(_data.Stats.TimeTaken);
     }
 
     private void AddDistance()

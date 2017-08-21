@@ -23,7 +23,7 @@ public class StatsHandler {
         set
         {
             mothsEaten = value;
-            gameHud.SetCurrencyText(mothsEaten + "/" + GameData.Instance.NumMoths);
+            GameHud.SetCurrencyText(mothsEaten + "/" + GameData.Instance.NumMoths);
         }
     }
 
@@ -55,7 +55,7 @@ public class StatsHandler {
     public int TotalCurrency;
 
     private GameUI _gh;
-    private GameUI gameHud
+    public GameUI GameHud
     {
         get
         {

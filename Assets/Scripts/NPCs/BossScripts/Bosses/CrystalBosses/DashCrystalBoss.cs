@@ -49,7 +49,7 @@ public class DashCrystalBoss : CrystalBoss {
         }
 
         Toolbox.Tooltips.ShowDialogue("you can now dash.", 2f, true);
-        while (Toolbox.Tooltips.IsPausedForTooltip)
+        while (Toolbox.Tooltips.IsPausedForDialogue)
         {
             yield return null;
         }

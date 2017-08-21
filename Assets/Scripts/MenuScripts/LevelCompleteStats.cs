@@ -84,8 +84,15 @@ public class LevelCompleteStats : MonoBehaviour {
     private string ConvertFloatToTimeString(float seconds)
     {
         int minutes = Mathf.FloorToInt(seconds / 60);
-        seconds -= 60 * minutes;
-        return string.Format("{0}:{1}", minutes, seconds.ToString("n2"));
+        if (minutes > 0)
+        {
+            seconds -= 60 * minutes;
+            return string.Format("{0}:{1}", minutes, seconds.ToString("n2"));
+        }
+        else
+        {
+            return seconds.ToString("n2") + "s";
+        }
     }
 
     private void UpdateBestLevelScore(int score)

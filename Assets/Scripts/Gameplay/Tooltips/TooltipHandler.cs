@@ -5,17 +5,17 @@ using UnityEngine.UI;
 
 public class TooltipHandler : MonoBehaviour {
     
-    public RectTransform TooltipButton;
-    [HideInInspector] public bool IsPausedForTooltip;
+    public RectTransform DialogueButton;
+    [HideInInspector] public bool IsPausedForDialogue;
 
     private TriggerEvent storedEvent;
 
-    private Canvas tooltipOverlay;
-    private Image tooltipBackground;
-    private RectTransform tooltipScroll;
-    private Animator tooltipScrollAnimator;
-    private Text tooltipText;
-    private RectTransform tooltipTextRt;
+    private Canvas dialogueOverlay;
+    private Image dialogueBackground;
+    private RectTransform dialogueScroll;
+    private Animator dialogueScrollAnimator;
+    private Text dialogueText;
+    private RectTransform dialogueTextRt;
     private RectTransform resumeNextImage;
     private RectTransform resumePlayImage;
     private RectTransform nomee;
@@ -29,21 +29,21 @@ public class TooltipHandler : MonoBehaviour {
     #region Initialisation
     private void OnEnable()
     {
-        EventListener.OnDeath += RemoveTooltips;
-        EventListener.OnLevelWon += RemoveTooltips;
+        EventListener.OnDeath += RemoveDialogue;
+        EventListener.OnLevelWon += RemoveDialogue;
     }
     private void OnDisable()
     {
-        EventListener.OnDeath -= RemoveTooltips;
-        EventListener.OnLevelWon -= RemoveTooltips;
+        EventListener.OnDeath -= RemoveDialogue;
+        EventListener.OnLevelWon -= RemoveDialogue;
     }
 
     private void Awake()
     {
-        tooltipOverlay = GetComponent<Canvas>();
-        GetTooltipComponents();
-        tooltipOverlay.enabled = false;
-        buttonEffects = TooltipButton.GetComponent<TooltipButtonEffects>();
+        dialogueOverlay = GetComponent<Canvas>();
+        GetDialogueComponents();
+        dialogueOverlay.enabled = false;
+        buttonEffects = DialogueButton.GetComponent<TooltipButtonEffects>();
     }
 
     private void Start()
@@ -90,60 +90,65 @@ public class TooltipHandler : MonoBehaviour {
     {
         _playerControl.PauseGame(false);
         _playerControl.WaitForTooltip();
-        IsPausedForTooltip = true;
+        IsPausedForDialogue = true;
+
+        Toolbox.Player.transform.position = new Vector3(Toolbox.Player.transform.position.x, Toolbox.Player.transform.position.y, -8f);
+        float yPos = (Toolbox.Player.transform.position.y > 0) ? -2f : 2f;
+        dialogueScroll.position = new Vector3(dialogueScroll.position.x, yPos, dialogueScroll.position.z);
 
         if (!tooltipSetup)
-            yield return StartCoroutine(ShowTooltipWindow());
+            yield return StartCoroutine(ShowDialogueWindow());
 
         for (int i = 0; i < triggerEvent.Dialogue.Count; i++)
         {
-            SetTooltipText(triggerEvent.Dialogue[i]);
-            yield return StartCoroutine(WaitForTooltip(i == triggerEvent.Dialogue.Count - 1));
+            SetDialogueText(triggerEvent.Dialogue[i]);
+            yield return StartCoroutine(WaitForDialogue(i == triggerEvent.Dialogue.Count - 1));
         }
 
         if (tooltipSetup)
-            yield return StartCoroutine(HideTooltipWindow());
+            yield return StartCoroutine(HideDialogueWindow());
 
-        IsPausedForTooltip = false;
+        IsPausedForDialogue = false;
         _playerControl.TooltipResume();
+        Toolbox.Player.transform.position = new Vector3(Toolbox.Player.transform.position.x, Toolbox.Player.transform.position.y, -1f);
     }
 
-    private IEnumerator ShowTooltipWindow()
+    private IEnumerator ShowDialogueWindow()
     {
-        tooltipText.text = "";
+        dialogueText.text = "";
         nomee.gameObject.SetActive(false);
         resumePlayImage.gameObject.SetActive(false);
         resumeNextImage.gameObject.SetActive(false);
 
         tooltipSetup = true;
-        tooltipOverlay.enabled = true;
+        dialogueOverlay.enabled = true;
 
-        tooltipScroll.gameObject.SetActive(true);
-        tooltipScrollAnimator.Play("TooltipScrollClosed", 0, 0f);
-        yield return StartCoroutine(UIObjectAnimator.Instance.PopInObjectRoutine(tooltipScroll));
-        tooltipScrollAnimator.Play("TooltipScrollOpen", 0, 0f);
+        dialogueScroll.gameObject.SetActive(true);
+        dialogueScrollAnimator.Play("TooltipScrollClosed", 0, 0f);
+        yield return StartCoroutine(UIObjectAnimator.Instance.PopInObjectRoutine(dialogueScroll));
+        dialogueScrollAnimator.Play("TooltipScrollOpen", 0, 0f);
         yield return new WaitForSeconds(0.2f);
         UIObjectAnimator.Instance.PopInObject(nomee);
     }
 
-    private IEnumerator HideTooltipWindow()
+    private IEnumerator HideDialogueWindow()
     {
-        UIObjectAnimator.Instance.PopOutObject(tooltipText.GetComponent<RectTransform>());
+        UIObjectAnimator.Instance.PopOutObject(dialogueText.GetComponent<RectTransform>());
         yield return StartCoroutine(UIObjectAnimator.Instance.PopOutObjectRoutine(nomee));
-        tooltipScrollAnimator.Play("TooltipScrollClose", 0, 0f);
+        dialogueScrollAnimator.Play("TooltipScrollClose", 0, 0f);
         yield return new WaitForSeconds(0.2f);
-        yield return StartCoroutine(UIObjectAnimator.Instance.PopOutObjectRoutine(tooltipScroll));
+        yield return StartCoroutine(UIObjectAnimator.Instance.PopOutObjectRoutine(dialogueScroll));
         tooltipSetup = false;
-        tooltipOverlay.enabled = false;
+        dialogueOverlay.enabled = false;
     }
 
-    private void SetTooltipText(string text)
+    private void SetDialogueText(string text)
     {
-        tooltipText.text = text;
-        UIObjectAnimator.Instance.PopInObject(tooltipText.GetComponent<RectTransform>());
+        dialogueText.text = text;
+        UIObjectAnimator.Instance.PopInObject(dialogueText.GetComponent<RectTransform>());
     }
     
-    private IEnumerator WaitForTooltip(bool isFinal)
+    private IEnumerator WaitForDialogue(bool isFinal)
     {
         const float tooltipPauseDuration = 0.3f;
         yield return new WaitForSeconds(tooltipPauseDuration);
@@ -165,28 +170,28 @@ public class TooltipHandler : MonoBehaviour {
             UIObjectAnimator.Instance.PopOutObject(resumeNextImage);
     }
 
-    private void RemoveTooltips()
+    private void RemoveDialogue()
     {
         StopAllCoroutines();
-        tooltipOverlay.enabled = false;
+        dialogueOverlay.enabled = false;
     }
 
-    private void GetTooltipComponents()
+    private void GetDialogueComponents()
     {
-        foreach (RectTransform rt in tooltipOverlay.GetComponentsInChildren<RectTransform>())
+        foreach (RectTransform rt in dialogueOverlay.GetComponentsInChildren<RectTransform>())
         {
             if (rt.name == "TooltipBackground")
-                tooltipBackground = rt.GetComponent<Image>();
+                dialogueBackground = rt.GetComponent<Image>();
             else if (rt.name == "TooltipPanel")
             {
-                tooltipScroll = rt;
-                tooltipScrollAnimator = rt.GetComponent<Animator>();
+                dialogueScroll = rt;
+                dialogueScrollAnimator = rt.GetComponent<Animator>();
                 foreach (RectTransform r in rt.GetComponentsInChildren<RectTransform>())
                 {
                     if (r.name == "ToolTipTextBox")
                     {
-                        tooltipTextRt = r;
-                        tooltipText = r.GetComponent<Text>();
+                        dialogueTextRt = r;
+                        dialogueText = r.GetComponent<Text>();
                     }
                     else if (r.name == "ResumeNextImage")
                         resumeNextImage = r;
