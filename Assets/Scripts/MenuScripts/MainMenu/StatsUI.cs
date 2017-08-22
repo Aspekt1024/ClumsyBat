@@ -86,7 +86,7 @@ public class StatsUI : MonoBehaviour
 
     private RectTransform CreateTxtObj(string objName, string text, float txtWidth)
     {
-        GameObject txt = (GameObject)Instantiate(Resources.Load("TxtPrefab"), _scrollViewContent);
+        GameObject txt = (GameObject)Instantiate(Resources.Load("UIElements/TxtPrefab"), _scrollViewContent);
         txt.name = objName;
         txt.GetComponent<Text>().text = text;
 

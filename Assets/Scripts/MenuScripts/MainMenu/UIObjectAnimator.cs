@@ -44,12 +44,28 @@ public class UIObjectAnimator : MonoBehaviour {
 
     public void PopInObject(RectTransform rt)
     {
-        StartCoroutine(PopInObjectRoutine(rt));
+        RemoveObjIfExisting(rt);
+
+        RTObject obj = new RTObject
+        {
+            Obj = rt,
+            OriginalScale = rt.localScale,
+            Routine = StartCoroutine(PopInObjectRoutine(rt))
+        };
+        Instance.rtObjects.Add(obj);
     }
 
     public void PopOutObject(RectTransform rt)
     {
-        StartCoroutine(PopOutObjectRoutine(rt));
+        RemoveObjIfExisting(rt);
+
+        RTObject obj = new RTObject
+        {
+            Obj = rt,
+            OriginalScale = rt.localScale,
+            Routine = StartCoroutine(PopOutObjectRoutine(rt))
+        };
+        Instance.rtObjects.Add(obj);
     }
 
     public IEnumerator PopObjectRoutine(RectTransform rt)
