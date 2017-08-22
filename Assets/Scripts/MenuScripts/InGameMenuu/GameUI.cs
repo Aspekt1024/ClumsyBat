@@ -151,7 +151,7 @@ public class GameUI : MonoBehaviour {
             {
                 return;
             }
-            StartCoroutine("PulseObject", _resumeTimerRt);
+            Toolbox.UIAnimator.PopObject(_resumeTimerRt);
             resumeTimerText.text = _resumeTime.ToString();
         }
     }
@@ -163,7 +163,7 @@ public class GameUI : MonoBehaviour {
 
     public void SetStartText(string startText)
     {
-        StartCoroutine("PulseObject", _resumeTimerRt);
+        Toolbox.UIAnimator.PopObject(_resumeTimerRt);
         resumeTimerText.text = startText;
     }
 
