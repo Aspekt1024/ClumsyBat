@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class GameMenuOverlay : MonoBehaviour {
     
@@ -18,19 +19,20 @@ public class GameMenuOverlay : MonoBehaviour {
     
     public void MenuButtonPressed()
     {
-        Toolbox.Instance.ResetTooltips();
         Toolbox.Instance.MenuScreen = Toolbox.MenuSelector.MainMenu;
-        _loadingOverlay.ShowLoadScreen();
-        SaveData();
-        SceneManager.LoadScene("Play");
+        StartCoroutine(GotoMainMenu());
+    }
+
+    public void NextButtonPressed()
+    {
+        Toolbox.Instance.MenuScreen = Toolbox.MenuSelector.LevelSelect;
+        StartCoroutine(GotoMainMenu());
     }
 
     public void RestartButtonPressed()
     {
         Toolbox.Instance.ResetTooltips();
-        _loadingOverlay.ShowLoadScreen();
-        SaveData();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        StartCoroutine(RestartLevel());
     }
 
     public void OptionsButtonPressed()
@@ -42,15 +44,6 @@ public class GameMenuOverlay : MonoBehaviour {
     {
         SaveData(); // Just because
         _menu.StartCoroutine("MenuSwitchAnim", false);
-    }
-
-    public void NextButtonPressed()
-    {
-
-        Toolbox.Instance.ResetTooltips();
-        Toolbox.Instance.MenuScreen = Toolbox.MenuSelector.LevelSelect;
-        _loadingOverlay.ShowLoadScreen();
-        SceneManager.LoadScene("Play");
     }
 
     public void ShareButtonPressed()
@@ -97,5 +90,24 @@ public class GameMenuOverlay : MonoBehaviour {
     private void SaveData()
     {
         GameData.Instance.Data.SaveData();
+    }
+
+    private IEnumerator GotoMainMenu()
+    {
+        Toolbox.Instance.ResetTooltips();
+        yield return StartCoroutine(ShowLoadScreenRoutine());
+        SceneManager.LoadScene("Play");
+    }
+
+    private IEnumerator RestartLevel()
+    {
+        yield return ShowLoadScreenRoutine();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private IEnumerator ShowLoadScreenRoutine()
+    {
+        yield return StartCoroutine(_loadingOverlay.FadeIn());
+        SaveData();
     }
 }

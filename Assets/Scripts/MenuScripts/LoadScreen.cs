@@ -59,9 +59,9 @@ public class LoadScreen : MonoBehaviour {
             yield return null;
         }
 
-        Toolbox.UIAnimator.PopInObject(loadTextRt);
         Toolbox.UIAnimator.PopInObject(mothAnimator.GetComponent<RectTransform>());
-        mothAnimator.Play("MothFlapAnim", 0, 0f);
+        mothAnimator.Play("MothOpenWings", 0, 0f);
+        yield return StartCoroutine(Toolbox.UIAnimator.PopInObjectRoutine(loadTextRt));
     }
 
     private IEnumerator FadeOut()
