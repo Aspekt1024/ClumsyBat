@@ -148,13 +148,13 @@ public class Lantern : MonoBehaviour {
         switch (charges)
         {
             case 0:
-                ChangeColour(LanternColour.Green);
+                ChangeColour(LanternColour.Blue);
                 break;
             case 1:
-                ChangeColour(LanternColour.Gold);
+                ChangeColour(LanternColour.Green);
                 break;
             case 2:
-                ChangeColour(LanternColour.Blue);
+                ChangeColour(LanternColour.Gold);
                 break;
         }
     }

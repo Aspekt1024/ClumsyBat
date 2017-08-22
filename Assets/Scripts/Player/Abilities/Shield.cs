@@ -74,6 +74,7 @@ public class Shield : MonoBehaviour {
         _playerBody = _thePlayer.GetComponent<Rigidbody2D>();
         lantern = lanternRef;
 
+        _shieldCharges = 1;
         lantern.SetColourFromShieldCharges(_shieldCharges);
     }
 

@@ -13,8 +13,7 @@ public class GameUI : MonoBehaviour {
     private Text levelText;
     private Text resumeTimerText;
     private Text timeText;
-    private RectTransform cooldownBar;
-    private Image cooldownImage;
+    private DashIndicator dashIndicator;
     private CanvasGroup gameUICanvas;
     private Image mothImage;
     
@@ -83,7 +82,7 @@ public class GameUI : MonoBehaviour {
         if (currencyText.text == text) return;
         
         currencyText.gameObject.SetActive(true);
-        StartCoroutine(PulseObject(currencyRt));
+        Toolbox.UIAnimator.PopObject(currencyRt);
         currencyText.text = text;
     }
     
@@ -122,15 +121,8 @@ public class GameUI : MonoBehaviour {
                         case "MothImage":
                             mothImage = r.GetComponent<Image>();
                             break;
-                        case "CooldownPanel":
-                            foreach (RectTransform childRt in r.GetComponentsInChildren<RectTransform>())
-                            {
-                                if (childRt.name == "CooldownBar")
-                                {
-                                    cooldownBar = childRt;
-                                    cooldownImage = childRt.GetComponent<Image>();
-                                }
-                            }
+                        case "DashIndicator1":
+                            dashIndicator = r.GetComponent<DashIndicator>();
                             break;
                     }
                 }
@@ -224,49 +216,16 @@ public class GameUI : MonoBehaviour {
         gameUICanvas.blocksRaycasts = false;
     }
 
-    public void SetCooldown(float ratio)
+    public void SetCooldownTimer(float duration)
     {
-        cooldownBar.localScale = new Vector2(ratio, cooldownBar.localScale.y);
-        if (Math.Abs(ratio - 1f) < 0.01f && !_bCooldownReady)
-        {
-            StartCoroutine(PulseObject(cooldownBar));
-            _bCooldownReady = true;
-            cooldownImage.color = new Color(212 / 255f, 195 / 255f, 126 / 255f);
-        }
-        else if (ratio < 1 && _bCooldownReady)
-        {
-            _bCooldownReady = false;
-            cooldownImage.color = new Color(110 / 255f, 229 / 255f, 119 / 255f);
-        }
+        dashIndicator.StartCooldown(duration);
     }
 
     public void ShowCooldown(bool bShow)
     {
-        cooldownImage.enabled = bShow;
-    }
-    
-    private IEnumerator PulseObject(RectTransform textObject)
-    {
-        float animTimer = 0f;
-        const float animDuration = 0.2f;
-        const float scaleMax = 0.25f;
-
-        Vector3 startScale = textObject.localScale;
-        
-        while (animTimer < animDuration)
-        {
-            float scale;
-            if (animTimer > animDuration / 2)
-            {
-                scale = (1f + scaleMax) - (scaleMax * (animTimer - animDuration / 2) / (animDuration / 2));
-            }
-            else
-            {
-                scale = 1f + (scaleMax * animTimer / (animDuration / 2));
-            }
-            textObject.localScale = startScale * scale;
-            animTimer += Time.deltaTime;
-            yield return null;
-        }
+        if (bShow)
+            dashIndicator.Enable();
+        else
+            dashIndicator.Disable();
     }
 }

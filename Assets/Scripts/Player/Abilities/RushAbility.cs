@@ -34,14 +34,15 @@ public class RushAbility : MonoBehaviour {
         SetupHudBar();
 
         Toolbox.Instance.PlayerDashSpeed = RushSpeed;
+        _numCharges = 1;
+        _gameHud.SetCooldownTimer(5f);
+        _cooldownRemaining = 5f;
     }
 
     private void Update ()
     {
         if (Toolbox.Instance.GamePaused) return;
-
         _cooldownRemaining -= Time.deltaTime;
-        _gameHud.SetCooldown(1f - Mathf.Clamp(_cooldownRemaining / CooldownDuration, 0f, 1f));
     }
 
     public void Activate(PlayerController.SwipeDirecitons dir)
@@ -53,6 +54,7 @@ public class RushAbility : MonoBehaviour {
         direction = dir;
 
         GameData.Instance.Data.Stats.TimesDashed++;
+        _gameHud.SetCooldownTimer(CooldownDuration);
         _cooldownRemaining = CooldownDuration;
         if (dashRoutine != null) StopCoroutine(dashRoutine);
         dashRoutine = StartCoroutine(DashSequence());
@@ -101,7 +103,6 @@ public class RushAbility : MonoBehaviour {
                 _numMoths = _numMothsToRecharge - 1;
             }
         }
-        _gameHud.SetCooldown((float)_numMoths / _numMothsToRecharge);
     }
 
     private void SetupHudBar()
