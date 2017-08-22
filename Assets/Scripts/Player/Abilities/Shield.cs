@@ -5,10 +5,12 @@ public class Shield : MonoBehaviour {
 
     private int _shieldCharges;
     private const int MaxCharges = 2;
+    private const float shieldDuration = 0.9f;
 
     private Player _thePlayer;
     private Rigidbody2D _playerBody;
     private Lantern lantern;
+    private ShieldEffect effect;
     //private StatsHandler Stats;
 
     private enum ShieldStates
@@ -36,6 +38,7 @@ public class Shield : MonoBehaviour {
     private IEnumerator ShieldUp()
     {
         _state = ShieldStates.Activated;
+        effect.BeginShieldEffect(shieldDuration);
         _thePlayer.GetRenderer().color = new Color(0.6f, 0.6f, 1f);
         // TODO animations
         // PlayerAnim.Play("Knockback", 0, 0f);
@@ -50,7 +53,7 @@ public class Shield : MonoBehaviour {
     private IEnumerator Knockback()
     {
         float knockbackTimer = 0f;
-        const float knockbackDuration = 0.7f;
+        const float knockbackDuration = shieldDuration;
 
         float directionModifier = _thePlayer.IsFacingRight() ? -1f : 1f;
 
@@ -71,8 +74,9 @@ public class Shield : MonoBehaviour {
         //SetAbilityAttributes();
 
         _thePlayer = playerRef;
-        _playerBody = _thePlayer.GetComponent<Rigidbody2D>();
+        _playerBody = _thePlayer.GetBody();
         lantern = lanternRef;
+        effect = _thePlayer.GetComponentInChildren<ShieldEffect>();
 
         _shieldCharges = 1;
         lantern.SetColourFromShieldCharges(_shieldCharges);

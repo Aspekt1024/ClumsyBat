@@ -228,4 +228,9 @@ public class GameUI : MonoBehaviour {
         else
             dashIndicator.Disable();
     }
+
+    private void HighlightUIElement()
+    {
+        // TODO implement this for the purposes of tutorials and the like
+    }
 }
