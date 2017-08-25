@@ -38,6 +38,7 @@ public class GameUI : MonoBehaviour {
 	private void Start ()
 	{
 	    _stats = GameData.Instance.Data.Stats;
+        scoreText.text = "0";
         SetupUI();
 	}
 

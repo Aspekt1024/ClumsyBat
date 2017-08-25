@@ -117,7 +117,10 @@ public class LevelScript : MonoBehaviour {
         Toolbox.Player.GetComponent<PlayerController>().PauseGame(showMenu: false);
 
         // TODO add sound to sound controller script
-        var victoryClip = (AudioClip) Resources.Load("Audio/LevelComplete");
-        _audioControl.PlayOneShot(victoryClip);
+        if (GameData.Instance.Data.Stats.Settings.Music)
+        {
+            var victoryClip = (AudioClip)Resources.Load("Audio/LevelComplete");
+            _audioControl.PlayOneShot(victoryClip);
+        }
     }
 }

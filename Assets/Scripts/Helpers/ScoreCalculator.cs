@@ -5,8 +5,8 @@ using UnityEngine;
 public static class ScoreCalculator {
 
     private const int distanceMultiplier = 50;
-    private const int mothMultiplier = 200;
-    private const int timeMultiplier = 100;
+    private const int mothMultiplier = 500;
+    private const int timeMultiplier = 200;
     private const int scoreSuggestionOffset = -400;
 
     public static int SuggestScore(float distance, int numMoths)
@@ -17,7 +17,11 @@ public static class ScoreCalculator {
 
     public static int GetScore(float distance, int numMoths, float timeTaken)
     {
-        return (int)(distance * distanceMultiplier + numMoths * mothMultiplier - timeTaken * timeMultiplier);
+        int score = 0;
+        if (distance > 0.1f)
+            score = (int)(distance * distanceMultiplier + numMoths * mothMultiplier - timeTaken * timeMultiplier);
+        
+        return score > 0 ? score : 0;
     }
     
 }

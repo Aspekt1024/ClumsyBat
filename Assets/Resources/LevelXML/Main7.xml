@@ -452,12 +452,12 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>0.08715578</z>
+              <z>0.0871557742</z>
               <w>0.9961947</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
-                <z>10.0000038</z>
+                <z>10.0000029</z>
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
@@ -1391,5 +1391,5 @@
       </eulerAngles>
     </Rotation>
   </Clumsy>
-  <ScoreToBeat>4900</ScoreToBeat>
+  <ScoreToBeat>4500</ScoreToBeat>
 </LevelCollection>
