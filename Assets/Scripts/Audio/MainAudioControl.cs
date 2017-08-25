@@ -17,6 +17,7 @@ public class MainAudioControl : MonoBehaviour {
 
     public void PlaySound(AudioClip sound)
     {
-        audioSource.PlayOneShot(sound);
+        if (GameData.Instance.Data.Stats.Settings.Sfx)
+            audioSource.PlayOneShot(sound);
     }
 }

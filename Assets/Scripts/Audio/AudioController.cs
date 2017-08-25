@@ -122,6 +122,8 @@ public abstract class AudioController : MonoBehaviour
 
     private void SetToPlay(AudioSource aSource, SampleType sample)
     {
+        if (!GameData.Instance.Data.Stats.Settings.Sfx) return;
+
         aSource.volume = sample.Volume;
         aSource.clip = sample.AudioClip;
         aSource.loop = IsOnRepeat;
@@ -138,6 +140,8 @@ public abstract class AudioController : MonoBehaviour
 
     private void ResumeMusic()
     {
+        if (!GameData.Instance.Data.Stats.Settings.Music) return;
+
         SetToPlay(_primaryAudio, _musicSample);
         _primaryAudio.Play();
     }

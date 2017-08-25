@@ -114,9 +114,19 @@ public class StatsHandler {
 
     private void LoadUserSettings()
     {
-        Settings.Music = PlayerPrefs.GetInt("MusicON") == 1;
-        Settings.Sfx = PlayerPrefs.GetInt("SFXON") == 1;
-        Settings.Tooltips = PlayerPrefs.GetInt("TooltipsON") == 1;
+        if (PlayerPrefs.GetInt("SettingsLoaded") != 1)
+        {
+            Settings.Music = true;
+            Settings.Sfx = true;
+            Settings.Tooltips = true;
+            SaveUserSettings();
+        }
+        else
+        {
+            Settings.Music = PlayerPrefs.GetInt("MusicON") == 1;
+            Settings.Sfx = PlayerPrefs.GetInt("SFXON") == 1;
+            Settings.Tooltips = PlayerPrefs.GetInt("TooltipsON") == 1;
+        }
     }
 
     private void SaveUserSettings()
@@ -124,6 +134,7 @@ public class StatsHandler {
         PlayerPrefs.SetInt("MusicON", Settings.Music ? 1 : 0);
         PlayerPrefs.SetInt("SFXON", Settings.Sfx ? 1 : 0);
         PlayerPrefs.SetInt("TooltipsON", Settings.Tooltips ? 1 : 0);
+        PlayerPrefs.SetInt("SettingsLoaded", 1);
     }
     
     public void ResetCurrency()
