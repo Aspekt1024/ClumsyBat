@@ -22,9 +22,14 @@
 ///
 
 
-public static class GPGSIds
+public static class CBBLGId
 {
-        public const string leaderboard_clumsy_bat_high_scores = "CgkIwKf4rcoZEAIQAA"; // <GPGSID>
+        public const string leaderboard_high_scores = "CgkI57rzn9MHEAIQDQ"; // <GPGSID>
+        public const string achievement_ach3 = "CgkI57rzn9MHEAIQBA"; // <GPGSID>
+        public const string achievement_ach2 = "CgkI57rzn9MHEAIQAw"; // <GPGSID>
+        public const string achievement_blind_as_a_bat = "CgkI57rzn9MHEAIQAg"; // <GPGSID>
+        public const string achievement_ach4 = "CgkI57rzn9MHEAIQBQ"; // <GPGSID>
+        public const string achievement_ach5 = "CgkI57rzn9MHEAIQBg"; // <GPGSID>
 
 }
 

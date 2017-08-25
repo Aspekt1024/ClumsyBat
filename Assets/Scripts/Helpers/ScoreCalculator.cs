@@ -19,4 +19,5 @@ public static class ScoreCalculator {
     {
         return (int)(distance * distanceMultiplier + numMoths * mothMultiplier - timeTaken * timeMultiplier);
     }
+    
 }

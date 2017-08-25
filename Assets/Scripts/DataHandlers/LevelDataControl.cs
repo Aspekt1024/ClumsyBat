@@ -126,6 +126,22 @@ public class LevelDataControl : MonoBehaviour {
         if (_levelCompletion[level].Achievement3 && GameData.Instance.Achievements[2] == GameData.AchievementStatus.Unachieved) GameData.Instance.Achievements[2] = GameData.AchievementStatus.NewAchievement;
     }
 
+    public void SetBestScore(int level, int score)
+    {
+        _levelCompletion[level].BestScore = score;
+        UpdateHighScore();
+    }
+
+    private void UpdateHighScore()
+    {
+        long totalScore = 0;
+        foreach (LevelDataContainer.LevelType level in _levelCompletion)
+        {
+            totalScore += level.BestScore;
+        }
+        PlayGamesScript.AddHighScore(totalScore);
+    }
+
     public void UnlockLevel(LevelProgressionHandler.Levels levelId)
     {
         var level = (int)levelId;
@@ -158,7 +174,6 @@ public class LevelDataControl : MonoBehaviour {
     public bool AllMothsGathered(int level) { return _levelCompletion[level].Achievement2; }
     public bool NoDamageTaken(int level) { return _levelCompletion[level].Achievement3; }
     public int GetBestScore(int level) { return _levelCompletion[level].BestScore; }
-    public void SetBestScore(int level, int score) { _levelCompletion[level].BestScore = score; }
 }
 
 [Serializable]

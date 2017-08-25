@@ -1,8 +1,9 @@
 lastUpgrade=00940
 proj.pluginVersion=0.9.40
-proj.AppId=878954025920
+proj.AppId=262865214823
 proj.classDir=Assets
-proj.ConstantsClassName=GPGSIds
-and.ResourceData=%3c%3fxml+version%3d%221.0%22+encoding%3d%22utf-8%22%3f%3e%0d%0a%3c%21--%0d%0aGoogle+Play+game+services+IDs.%0d%0aSave+this+file+as+res%2fvalues%2fgames-ids.xml+in+your+project.%0d%0a--%3e%0d%0a%3cresources%3e%0d%0a++%3c%21--+app_id+--%3e%0d%0a++%3cstring+name%3d%22app_id%22+translatable%3d%22false%22%3e878954025920%3c%2fstring%3e%0d%0a++%3c%21--+leaderboard+Clumsy+Bat+High+Scores+--%3e%0d%0a++%3cstring+name%3d%22leaderboard_clumsy_bat_high_scores%22+translatable%3d%22false%22%3eCgkIwKf4rcoZEAIQAA%3c%2fstring%3e%0d%0a%3c%2fresources%3e
+proj.ConstantsClassName=CBBLGId
+and.ResourceData=%3c%3fxml+version%3d%221.0%22+encoding%3d%22utf-8%22%3f%3e%0d%0a%3c%21--%0d%0aGoogle+Play+game+services+IDs.%0d%0aSave+this+file+as+res%2fvalues%2fgames-ids.xml+in+your+project.%0d%0a--%3e%0d%0a%3cresources%3e%0d%0a++%3c%21--+app_id+--%3e%0d%0a++%3cstring+name%3d%22app_id%22+translatable%3d%22false%22%3e262865214823%3c%2fstring%3e%0d%0a++%3c%21--+package_name+--%3e%0d%0a++%3cstring+name%3d%22package_name%22+translatable%3d%22false%22%3ecom.BraveLlama.ClumsyBat%3c%2fstring%3e%0d%0a++%3c%21--+achievement+Blind+as+a+Bat%21+--%3e%0d%0a++%3cstring+name%3d%22achievement_blind_as_a_bat%22+translatable%3d%22false%22%3eCgkI57rzn9MHEAIQAg%3c%2fstring%3e%0d%0a++%3c%21--+achievement+ach2+--%3e%0d%0a++%3cstring+name%3d%22achievement_ach2%22+translatable%3d%22false%22%3eCgkI57rzn9MHEAIQAw%3c%2fstring%3e%0d%0a++%3c%21--+achievement+ach3+--%3e%0d%0a++%3cstring+name%3d%22achievement_ach3%22+translatable%3d%22false%22%3eCgkI57rzn9MHEAIQBA%3c%2fstring%3e%0d%0a++%3c%21--+achievement+ach4+--%3e%0d%0a++%3cstring+name%3d%22achievement_ach4%22+translatable%3d%22false%22%3eCgkI57rzn9MHEAIQBQ%3c%2fstring%3e%0d%0a++%3c%21--+achievement+ach5+--%3e%0d%0a++%3cstring+name%3d%22achievement_ach5%22+translatable%3d%22false%22%3eCgkI57rzn9MHEAIQBg%3c%2fstring%3e%0d%0a++%3c%21--+leaderboard+High+Scores+--%3e%0d%0a++%3cstring+name%3d%22leaderboard_high_scores%22+translatable%3d%22false%22%3eCgkI57rzn9MHEAIQDQ%3c%2fstring%3e%0d%0a%3c%2fresources%3e%0d%0a
 and.ClientId=
 android.SetupDone=true
+and.BundleId=com.BraveLlama.ClumsyBat

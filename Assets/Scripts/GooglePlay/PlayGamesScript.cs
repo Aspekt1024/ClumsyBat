@@ -3,47 +3,61 @@ using System.Collections.Generic;
 using UnityEngine;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
+using UnityEngine.SocialPlatforms;
+using UnityEngine.UI;
 
 public class PlayGamesScript : MonoBehaviour {
-   
+    
 	private void Start ()
     {
+        AuthenticateGooglePlay();
+    }
+
+    private void AuthenticateGooglePlay()
+    {
+        if (PlayGamesPlatform.Instance.IsAuthenticated()) return;
+
         PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder().Build();
         PlayGamesPlatform.InitializeInstance(config);
         PlayGamesPlatform.Activate();
+        PlayGamesPlatform.DebugLogEnabled = false;
 
-        SignIn();
-	}
-	
-    private void SignIn()
+        Social.localUser.Authenticate(success => {
+            if (!success)
+                GooglePlayAuthFail();
+        });
+    }
+
+    private void GooglePlayAuthFail()
     {
-        Social.localUser.Authenticate(success => { });
+        // TODO connection failure toast
     }
 
     #region Achievements
-    public void UnlockAchievement(string id)
+    public static void UnlockAchievement(string id)
     {
         Social.ReportProgress(id, 100, success => { });
     }
 
-    public void IncrementAchievement(string id, int stepsToIncrement)
+    public static void IncrementAchievement(string id, int stepsToIncrement)
     {
         PlayGamesPlatform.Instance.IncrementAchievement(id, stepsToIncrement, success => { });
     }
 
-    public void ShowAchievementsUI()
+    public static void ShowAchievementsUI()
     {
         Social.ShowAchievementsUI();
     }
     #endregion Achievements
 
     #region Leaderboards
-    public void AddScoreToLeaderboard(string leaderboardId, long score)
+    
+    public static void AddHighScore(long score)
     {
-        Social.ReportScore(score, leaderboardId, success => { });
+        Social.ReportScore(score, CBBLGId.leaderboard_high_scores, success => { });
     }
 
-    public void ShowLeaderboardsUI()
+    public static void ShowLeaderboardsUI()
     {
         Social.ShowLeaderboardUI();
     }
