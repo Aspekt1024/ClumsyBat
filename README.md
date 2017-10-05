@@ -2,8 +2,8 @@
 A deceivingly cute and playful 2D side-scrolling avoidance game.  Reminiscent of Flappy Bird, Clumsy Bat includes upgradeable abilities, a variety of obstacles, and RPG and story elements. Designed for touch-screen mobile devices (Android and Apple), the player uses touch gestures to control the character to get to the end of each level unscathed. Boss levels included.
 
 This is a product of two individuals:
-1.  Dan Szabo - Programming, Design & Technical Artist
-2.  Scott Robinson - Artist
+1.  Dan Szabo - Programmer, Designer & Technical Artist
+2.  Scott Robinson - Artist, Designer
 
 # Installation:
 1.  Clone this repoistory and open in Unit3D (This was last built in Unity 2017.1.1f1, and should also work in Unity5)
