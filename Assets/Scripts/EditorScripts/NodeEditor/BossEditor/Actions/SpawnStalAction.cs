@@ -8,9 +8,10 @@ public class SpawnStalAction : BaseAction {
     public struct StalSpawnType
     {
         public float delay;
-        public float xPosStart;
-        public float xPosEnd;
+        public int xPosIndexLower;
+        public int xPosIndexUpper;
         public int inputID;
+
     }
     public enum Ifaces
     {
@@ -122,9 +123,8 @@ public class SpawnStalAction : BaseAction {
         }
         else
         {
-            //spawnPosX = UnityEngine.Random.Range(spawn.xPosStart, spawn.xPosEnd);
-            //spawnPosX += GameObject.FindGameObjectWithTag("MainCamera").transform.position.x;
-            return bossStals.GetFreeTopStalXPos();
+            float spawnPos = bossStals.GetFreeTopStalXPos(stalSpawns[spawnIndex].xPosIndexLower, stalSpawns[spawnIndex].xPosIndexUpper);
+            return spawnPos;
         }
     }
 

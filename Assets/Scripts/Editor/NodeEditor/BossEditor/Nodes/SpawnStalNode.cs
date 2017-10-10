@@ -162,7 +162,16 @@ public class SpawnStalNode : BaseNode {
             else
             {
                 NodeGUI.Label(new Rect(startPos.x, startPos.y, 30f, 20f), "rng:");
-                EditorGUI.MinMaxSlider(new Rect(startPos.x + 30, startPos.y + 3f, 65f, 20), ref spawn.xPosStart, ref spawn.xPosEnd, -6.2f, 6.2f);
+
+                float xPosMin = -6.2f;
+                float xPosMax = 6.2f;
+                float increment = (xPosMax - xPosMin) / (StalBossHandler.NumStals - 1);
+
+                float xPosRangeLower = xPosMin + increment * spawn.xPosIndexLower;
+                float xPosRangeUpper = xPosMin + increment * spawn.xPosIndexUpper;
+                EditorGUI.MinMaxSlider(new Rect(startPos.x + 30, startPos.y + 3f, 65f, 20), ref xPosRangeLower, ref xPosRangeUpper, xPosMin, xPosMax);
+                spawn.xPosIndexLower = Mathf.CeilToInt((xPosRangeLower - xPosMin) / increment);
+                spawn.xPosIndexUpper = Mathf.CeilToInt((xPosRangeUpper - xPosMin) / increment);
             }
             NodeGUI.Label(new Rect(startPos.x + 100f, startPos.y, 40f, 20f), "dly:");
             spawn.delay = NodeGUI.FloatField(new Rect(startPos.x + 125f, startPos.y, 27f, 20f), spawn.delay, "", 0.01f);

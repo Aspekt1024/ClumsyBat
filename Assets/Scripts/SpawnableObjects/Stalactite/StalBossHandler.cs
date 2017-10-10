@@ -26,6 +26,7 @@ public class StalBossHandler : MonoBehaviour {
 
     public float GetFreeTopStalXPos(int startIndex = 0, int endIndex = NumStals - 1, BossStalPosition.StalTypes type = BossStalPosition.StalTypes.Spike)
     {
+        if (startIndex < 0) startIndex = 0;
         if (endIndex >= NumStals) endIndex = NumStals - 1;
 
         List<int> validIndexes = new List<int>();
