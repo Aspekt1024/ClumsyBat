@@ -174,9 +174,9 @@ public class Toolbox : Singleton<Toolbox>
         LevelNames.Add(Levels.Main16, "Hit");
 
         LevelNames.Add(Levels.Boss1, "A New Hope");
-        LevelNames.Add(Levels.Boss2, "King Rockbreath");
+        LevelNames.Add(Levels.Boss2, "Rockbreath");
         LevelNames.Add(Levels.Boss3, "Sonic");
-        LevelNames.Add(Levels.Boss4, "Boss4");
+        LevelNames.Add(Levels.Boss4, "King Rockbreath");
         LevelNames.Add(Levels.Boss5, "Boss5");
 
         LevelNames.Add(Levels.Village1, "Village 1");
