@@ -551,5 +551,19 @@
       <DependencyId>None</DependencyId>
       <ForceShow>Once</ForceShow>
     </TriggerEvent>
+    <TriggerEvent>
+      <Id>37</Id>
+      <Dialogue>
+        <string />
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Never</ForceShow>
+    </TriggerEvent>
   </EventData>
 </TriggerContainer>

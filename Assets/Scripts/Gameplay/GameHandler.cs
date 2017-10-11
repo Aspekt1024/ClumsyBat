@@ -72,6 +72,8 @@ public abstract class GameHandler : MonoBehaviour {
         }
     }
 
+    // TODO this could be done much better - there's no reason different game modes should give different results for when the player takes damage
+    // The only thing this should check for is what state the game is in
     public virtual void Collision(Collision2D other)
     {
         ThePlayer.DeactivateRush();

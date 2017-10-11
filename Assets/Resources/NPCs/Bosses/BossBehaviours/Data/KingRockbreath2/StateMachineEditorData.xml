@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <NodeDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <EditorOffset>
-    <x>106</x>
-    <y>-313</y>
+    <x>83</x>
+    <y>-262</y>
   </EditorOffset>
   <Nodes>
     <BaseNode xsi:type="StartNode">
@@ -18,7 +18,7 @@
           <Label />
           <Type>Event</Type>
           <Direction>Output</Direction>
-          <ConnectedNodeID>6</ConnectedNodeID>
+          <ConnectedNodeID>8</ConnectedNodeID>
           <ConnectedIfaceID>0</ConnectedIfaceID>
         </NodeInterface>
       </interfaces>
@@ -358,8 +358,8 @@
           <Label />
           <Type>Event</Type>
           <Direction>Input</Direction>
-          <ConnectedNodeID>0</ConnectedNodeID>
-          <ConnectedIfaceID>0</ConnectedIfaceID>
+          <ConnectedNodeID>-1</ConnectedNodeID>
+          <ConnectedIfaceID>-1</ConnectedIfaceID>
         </NodeInterface>
         <NodeInterface>
           <Position>
@@ -370,28 +370,28 @@
           <Label>Success</Label>
           <Type>Event</Type>
           <Direction>Output</Direction>
-          <ConnectedNodeID>7</ConnectedNodeID>
-          <ConnectedIfaceID>0</ConnectedIfaceID>
+          <ConnectedNodeID>-1</ConnectedNodeID>
+          <ConnectedIfaceID>-1</ConnectedIfaceID>
         </NodeInterface>
       </interfaces>
       <WindowRect>
         <x>190</x>
-        <y>430</y>
+        <y>390</y>
         <position>
           <x>190</x>
-          <y>430</y>
+          <y>390</y>
         </position>
         <center>
           <x>265</x>
-          <y>455</y>
+          <y>415</y>
         </center>
         <min>
           <x>190</x>
-          <y>430</y>
+          <y>390</y>
         </min>
         <max>
           <x>340</x>
-          <y>480</y>
+          <y>440</y>
         </max>
         <width>150</width>
         <height>50</height>
@@ -400,9 +400,9 @@
           <y>50</y>
         </size>
         <xMin>190</xMin>
-        <yMin>430</yMin>
+        <yMin>390</yMin>
         <xMax>340</xMax>
-        <yMax>480</yMax>
+        <yMax>440</yMax>
       </WindowRect>
       <StateName>Stalactite Wave</StateName>
     </BaseNode>
@@ -419,7 +419,7 @@
           <Label />
           <Type>Event</Type>
           <Direction>Input</Direction>
-          <ConnectedNodeID>6</ConnectedNodeID>
+          <ConnectedNodeID>8</ConnectedNodeID>
           <ConnectedIfaceID>1</ConnectedIfaceID>
         </NodeInterface>
       </interfaces>
@@ -453,6 +453,67 @@
         <xMax>540</xMax>
         <yMax>480</yMax>
       </WindowRect>
+    </BaseNode>
+    <BaseNode xsi:type="StateNode">
+      <WindowTitle>Spit Rock</WindowTitle>
+      <ID>8</ID>
+      <interfaces>
+        <NodeInterface>
+          <Position>
+            <x>7</x>
+            <y>35</y>
+          </Position>
+          <ID>0</ID>
+          <Label />
+          <Type>Event</Type>
+          <Direction>Input</Direction>
+          <ConnectedNodeID>0</ConnectedNodeID>
+          <ConnectedIfaceID>0</ConnectedIfaceID>
+        </NodeInterface>
+        <NodeInterface>
+          <Position>
+            <x>143</x>
+            <y>35</y>
+          </Position>
+          <ID>1</ID>
+          <Label>success</Label>
+          <Type>Event</Type>
+          <Direction>Output</Direction>
+          <ConnectedNodeID>7</ConnectedNodeID>
+          <ConnectedIfaceID>0</ConnectedIfaceID>
+        </NodeInterface>
+      </interfaces>
+      <WindowRect>
+        <x>190</x>
+        <y>490</y>
+        <position>
+          <x>190</x>
+          <y>490</y>
+        </position>
+        <center>
+          <x>265</x>
+          <y>515</y>
+        </center>
+        <min>
+          <x>190</x>
+          <y>490</y>
+        </min>
+        <max>
+          <x>340</x>
+          <y>540</y>
+        </max>
+        <width>150</width>
+        <height>50</height>
+        <size>
+          <x>150</x>
+          <y>50</y>
+        </size>
+        <xMin>190</xMin>
+        <yMin>490</yMin>
+        <xMax>340</xMax>
+        <yMax>540</yMax>
+      </WindowRect>
+      <StateName>Spit Rock</StateName>
     </BaseNode>
   </Nodes>
 </NodeDataCollection>

@@ -48,7 +48,7 @@ public class DashCrystalBoss : CrystalBoss {
             yield return null;
         }
 
-        Toolbox.Tooltips.ShowDialogue("you can now dash.", 2f, true);
+        Toolbox.Tooltips.ShowDialogue("You have unlocked the ability to (briefly) reach breakneck speeds! Swipe to dash!", 2f, true);
         while (Toolbox.Tooltips.IsPausedForDialogue)
         {
             yield return null;
