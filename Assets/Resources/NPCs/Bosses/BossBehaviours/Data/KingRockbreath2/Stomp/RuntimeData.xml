@@ -88,8 +88,8 @@
       <stalSpawns>
         <StalSpawnType>
           <delay>0</delay>
-          <xPosStart>0</xPosStart>
-          <xPosEnd>0</xPosEnd>
+          <xPosIndexLower>0</xPosIndexLower>
+          <xPosIndexUpper>0</xPosIndexUpper>
           <inputID>5</inputID>
         </StalSpawnType>
       </stalSpawns>
