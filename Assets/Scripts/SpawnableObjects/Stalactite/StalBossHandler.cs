@@ -5,7 +5,7 @@ using UnityEngine;
 public class StalBossHandler : MonoBehaviour {
     
     public const int NumStals = 12;
-    public const float IsInvalid = -100;
+    public const int IsInvalid = -100;
 
     private const float startPosition = 10.22f;
     private const float spacing = 1.178f;   // Calculated from NumStals and min/max position
@@ -24,10 +24,10 @@ public class StalBossHandler : MonoBehaviour {
         }
     }
 
-    public float GetFreeTopStalXPos(int startIndex = 0, int endIndex = NumStals - 1, BossStalPosition.StalTypes type = BossStalPosition.StalTypes.Spike)
+    public int GetFreeTopStalIndex(int startIndex = 0, int endIndex = NumStals - 1, BossStalPosition.StalTypes type = BossStalPosition.StalTypes.Spike)
     {
-        if (startIndex < 0) startIndex = 0;
-        if (endIndex >= NumStals) endIndex = NumStals - 1;
+        startIndex = Mathf.Clamp(startIndex, 0, NumStals - 1);
+        endIndex = Mathf.Clamp(endIndex, 0, NumStals - 1);
 
         List<int> validIndexes = new List<int>();
         for (int i = startIndex; i <= endIndex; i++)
@@ -36,18 +36,27 @@ public class StalBossHandler : MonoBehaviour {
                 validIndexes.Add(i);
         }
         if (validIndexes.Count == 0)
+        {
+            Debug.Log(startIndex + " " + endIndex);
             return IsInvalid;
+        }
 
         int index = validIndexes[Random.Range(0, validIndexes.Count)];
         topStals[index].IsActive = true;
+        return index;
+    }
+
+    public float ConvertIndexToPosition(int index)
+    {
         return startPosition + index * spacing;
     }
 
-    public void ClearTopStals()
+    public void ClearTopStals(int[] stalPositionIndexes)
     {
-        for (int i = 0; i < NumStals; i++)
+        for (int i = 0; i < stalPositionIndexes.Length; i++)
         {
-            topStals[i].IsActive = false;
+            int index = stalPositionIndexes[i];
+            topStals[index].IsActive = false;
         }
     }
 }
