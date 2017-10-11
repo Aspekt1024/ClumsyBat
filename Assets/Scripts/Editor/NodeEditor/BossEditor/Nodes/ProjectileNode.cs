@@ -33,26 +33,27 @@ public class ProjectileNode : BaseNode {
     private void SetInterfacePositions()
     {
         SetInterface((int)Ifaces.Main, 1);
-        SetInterface((int)Ifaces.ProjectileIn, 2, "Projectile");
-        SetInterface((int)Ifaces.Position, 3, "Position");
+        SetInterface((int)Ifaces.ProjectileIn, 2, "Projectile Ref");
+        SetInterface((int)Ifaces.Position, 6, "Position");
 
         SetInterface((int)Ifaces.Launched, 1, "Launched");
         SetInterface((int)Ifaces.HitPlayer, 2, "Player Hit");
         SetInterface((int)Ifaces.Landed, 3, "Landed");
-        SetInterface((int)Ifaces.ProjectileOut, 9, "Projectile");
+        SetInterface((int)Ifaces.ProjectileOut, 10, "Projectile");
     }
 
     public override void Draw()
     {
         WindowTitle = "Projectile";
         Transform.Width = 200;
-        Transform.Height = 210;
+        Transform.Height = 230;
         
         NodeGUI.Space(3);
         projectileSpeed = NodeGUI.FloatFieldLayout(projectileSpeed, "Speed:");
 
-        targetGround = NodeGUI.ToggleLayout("Target Ground?", targetGround);
+        NodeGUI.Space(2);
         ShowPositionGUI();
+        targetGround = NodeGUI.ToggleLayout("Target Ground?", targetGround);
         
         SetInterfacePositions();
         DrawInterfaces();
@@ -93,6 +94,7 @@ public class ProjectileNode : BaseNode {
             else
             {
                 targetPos.x = NodeGUI.HorizontalSliderLayout(targetPos.x, -6.315f, 6.2f, "xPos");
+                NodeGUI.Space();
             }
         }
     }

@@ -95,28 +95,7 @@ public abstract class GameHandler : MonoBehaviour {
     private void DamagePlayer(string tag)
     {
         ThePlayer.PlaySound(ClumsyAudioControl.PlayerSounds.Collision); // TODO sounds
-        if (ThePlayer.ActivateShield())
-        {
-            ThePlayer.Unperch();
-            if (GameData.Instance.IsUntouched)
-                GameData.Instance.IsUntouched = false;
-            else
-                GameData.Instance.OnlyOneDamageTaken = false;
-        }
-        else
-        {
-            switch (tag)
-            {
-                case "Stalactite":
-                    GameData.Instance.Data.Stats.ToothDeaths++;
-                    break;
-                case "Boss":
-                    //TODO Gamedata.Instance.Data.Stats.BossDeaths++;
-                    break;
-            }
-            
-            ThePlayer.Die();
-        }
+        ThePlayer.TakeDamage(tag);
     }
 
     public GameStates GetGameState()

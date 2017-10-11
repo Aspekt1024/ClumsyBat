@@ -9,32 +9,27 @@ using InterfaceTypes = NodeInterface.InterfaceTypes;
 using PlayerEvents = PlayerEventAction.PlayerEvents;
 
 public class PlayerEventNode : BaseNode {
-
-    [SerializeField]
-    private PlayerEvents playerEvent;
-    [SerializeField]
-    private int selectedPlayerEventIndex;
+    
+    public PlayerEvents playerEvent;
+    public int selectedPlayerEventIndex;
 
     protected override void AddInterfaces()
     {
-        AddInterface(IODirection.Input, 0);
+        AddInput(0);
     }
 
     private void SetInterfacePositions()
     {
-        SetInterface(30, 0);
+        SetInterface(0, 1);
     }
 
     public override void Draw()
     {
         WindowTitle = "Player Event";
-        Transform.Width = 120;
+        Transform.Width = 140;
         Transform.Height = 60;
-
-        EditorGUILayout.Space();
-        EditorGUILayout.Space();
-        EditorGUILayout.Space();
-        playerEvent = (PlayerEvents)EditorGUILayout.EnumPopup(playerEvent);
+        
+        playerEvent = (PlayerEvents)NodeGUI.EnumPopupLayout("Event:", playerEvent);
 
         SetInterfacePositions();
         DrawInterfaces();

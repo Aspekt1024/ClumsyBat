@@ -8,7 +8,6 @@ public class PlayerEventAction : BaseAction {
     {
         Stun, GiveShield, Damage
     }
-    [SerializeField]
     public PlayerEvents PlayerEvent;
     
     public override void ActivateBehaviour()
@@ -19,6 +18,7 @@ public class PlayerEventAction : BaseAction {
                 Toolbox.Player.Stun(1.3f);
                 break;
             case PlayerEvents.Damage:
+                Toolbox.Player.TakeDamage("Boss");
                 break;
             case PlayerEvents.GiveShield:
                 break;

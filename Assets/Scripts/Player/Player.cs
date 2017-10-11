@@ -196,16 +196,43 @@ public class Player : MonoBehaviour {
     public void ForceHypersonic() { _hypersonic.ForceHypersonic(); }
     public void AddShieldCharge() { _shield.AddCharge(); }
     public void AddDashCharge() { _rush.AddCharge(); }
-
-    // TODO why is this here and not in shield? Rename if we're doing something else here.
-    public bool ActivateShield()
+    
+    public void TakeDamage(string otherTag = "")
     {
-        if (!_shield.IsAvailable()) return false;
-        if (_shield.IsInUse()) return true;
-        _shield.ConsumeCharge();
-        return true;
-    }
+        if (_shield.IsInUse()) return;
 
+        if (_shield.IsAvailable())
+        {
+            Toolbox.Player.Unperch();
+            _shield.ConsumeCharge();
+
+            if (GameData.Instance.IsUntouched)
+            {
+                GameData.Instance.IsUntouched = false;
+            }
+            else
+            {
+                GameData.Instance.OnlyOneDamageTaken = false;
+            }
+        }
+        else
+        {
+            switch (otherTag)
+            {
+                case "Stalactite":
+                    GameData.Instance.Data.Stats.ToothDeaths++;
+                    break;
+                case "Boss":
+                    //TODO Gamedata.Instance.Data.Stats.BossDeaths++;
+                    break;
+                default:
+                    // TODO Gamedata.instance.data.stats.unknowndeaths++;
+                    break;
+            }
+            Die();
+        }
+    }
+    
     public void ActivateJump(InputManager.TapDirection tapDir = InputManager.TapDirection.Center)
     {
         if (_state == PlayerState.Perched)
