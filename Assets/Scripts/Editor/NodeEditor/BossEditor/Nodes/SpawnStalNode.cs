@@ -163,8 +163,8 @@ public class SpawnStalNode : BaseNode {
             {
                 NodeGUI.Label(new Rect(startPos.x, startPos.y, 30f, 20f), "rng:");
 
-                float xPosMin = -6.2f;
-                float xPosMax = 6.2f;
+                float xPosMin = -7.378f;
+                float xPosMax = 7.378f;
                 float increment = (xPosMax - xPosMin) / (StalBossHandler.NumStals - 1);
 
                 float xPosRangeLower = xPosMin + increment * spawn.xPosIndexLower;

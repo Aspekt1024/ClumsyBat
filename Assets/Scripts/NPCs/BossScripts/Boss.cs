@@ -99,7 +99,7 @@ public abstract class Boss : MonoBehaviour {
     {
         if (other.collider.tag == "Stalactite")
         {
-            if (other.collider.gameObject.GetComponent<Stalactite>().IsFalling())
+            if (other.collider.gameObject.GetComponent<Stalactite>().IsFalling)
                 machine.Damaged(CollisionAction.CollisionTypes.FallingStalactite, other.collider);
             else
                 machine.Damaged(CollisionAction.CollisionTypes.StaticStalactite, other.collider);

@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class StalBossHandler : MonoBehaviour {
     
-    public const int NumStals = 10;
+    public const int NumStals = 12;
     public const float IsInvalid = -100;
 
-    private const float startPosition = 12f;
-    private const float spacing = 1.178f;
-
+    private const float startPosition = 10.22f;
+    private const float spacing = 1.178f;   // Calculated from NumStals and min/max position
+    
     private BossStalPosition[] topStals;
     private BossStalPosition[] bottomStals;
     

@@ -14,19 +14,27 @@ public class SpawnStalactites : BossAbility {
         rubblePrefab = Resources.Load<GameObject>("Obstacles/Stalactite/FormingRockEffect");
     }
 
-    public void Spawn(float spawnPosX, SpawnStalAction.StalSpawnDirection direction, SpawnStalAction.StalTypes type, float greenChance = 1, float goldChance = 0, float blueChance = 0) // TODO wow parameters. fix it.
-    {
-        StartCoroutine(SpawnStal(spawnPosX, direction, type, greenChance, goldChance, blueChance));
-    }
-
-    public void Drop()
-    {
-        StartCoroutine(DropStalactites());
-    }
-
-    private IEnumerator SpawnStal(float spawnPosX, SpawnStalAction.StalSpawnDirection direction, SpawnStalAction.StalTypes type, float greenChance, float goldChance, float blueChance)
+    public int Spawn(float spawnPosX, SpawnStalAction.StalSpawnDirection direction, SpawnStalAction.StalTypes type, float greenChance = 1, float goldChance = 0, float blueChance = 0) // TODO wow parameters. fix it.
     {
         int index = GetUnusedStalIndex();
+        StartCoroutine(SpawnStal(index, spawnPosX, direction, type, greenChance, goldChance, blueChance));
+        return index;
+    }
+
+    public void Drop(int[] dropOrder = null)
+    {
+        if (dropOrder == null)
+        {
+            StartCoroutine(DropStalactites());
+        }
+        else
+        {
+            StartCoroutine(DropStalactites(dropOrder));
+        }
+    }
+
+    private IEnumerator SpawnStal(int index, float spawnPosX, SpawnStalAction.StalSpawnDirection direction, SpawnStalAction.StalTypes type, float greenChance, float goldChance, float blueChance)
+    {
         ActivateStal(index, spawnPosX, type, greenChance, goldChance, blueChance);
         Transform stalTf = _stals[index].transform;
         stalTf.localRotation = new Quaternion();
@@ -77,9 +85,22 @@ public class SpawnStalactites : BossAbility {
     {
         foreach(var stal in _stals)
         {
-            if (stal.IsActive && !stal.IsForming())
+            if (stal.IsActive && !stal.IsForming)
             {
                 stal.Drop();
+                yield return new WaitForSeconds(0.2f);
+            }
+        }
+    }
+
+    private IEnumerator DropStalactites(int[] dropOrder)
+    {
+        for (int i = 0; i < dropOrder.Length; i++)
+        {
+            int index = dropOrder[i];
+            if (_stals[index].IsActive && !_stals[index].IsForming)
+            {
+                _stals[index].Drop();
                 yield return new WaitForSeconds(0.2f);
             }
         }

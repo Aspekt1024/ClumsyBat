@@ -11,7 +11,6 @@ public class SpawnStalAction : BaseAction {
         public int xPosIndexLower;
         public int xPosIndexUpper;
         public int inputID;
-
     }
     public enum Ifaces
     {
@@ -27,6 +26,7 @@ public class SpawnStalAction : BaseAction {
     public StalActions StalAction;
     public StalSpawnDirection SpawnDirection;
     public List<StalSpawnType> stalSpawns = new List<StalSpawnType>();
+    public int[] spawnedStalIndexes;
 
     public float GreenChance;
     public float GoldChance;
@@ -60,6 +60,11 @@ public class SpawnStalAction : BaseAction {
 
     public override void ActivateBehaviour()
     {
+        if (spawnedStalIndexes == null)
+        {
+            spawnedStalIndexes = new int[stalSpawns.Count];
+        }
+
         if (stalSpawns.Count == 0)
         {
             IsActive = false;
@@ -83,23 +88,23 @@ public class SpawnStalAction : BaseAction {
     {
         if (StalAction == StalActions.Spawn)
         {
-            spawnAbility.Spawn(GetSpawnPosition(), SpawnDirection, StalType, GreenChance, GoldChance, BlueChance);
+            spawnedStalIndexes[spawnIndex] = spawnAbility.Spawn(GetSpawnPosition(), SpawnDirection, StalType, GreenChance, GoldChance, BlueChance);
         }
         else if (StalAction == StalActions.Drop)
         {
             bossStals.ClearTopStals();
-            spawnAbility.Drop();
+            spawnAbility.Drop(spawnedStalIndexes);
         }
         else
         {
             if (spawnPhase)
             {
-                spawnAbility.Spawn(GetSpawnPosition(), SpawnDirection, StalType, GreenChance, GoldChance, BlueChance);
+                spawnedStalIndexes[spawnIndex] = spawnAbility.Spawn(GetSpawnPosition(), SpawnDirection, StalType, GreenChance, GoldChance, BlueChance);
             }
             else
             {
-                bossStals.ClearTopStals();
-                spawnAbility.Drop();
+                bossStals.ClearTopStals(); // TODO should only clear the indexes that were made here
+                spawnAbility.Drop(spawnedStalIndexes);
             }
         }
         
