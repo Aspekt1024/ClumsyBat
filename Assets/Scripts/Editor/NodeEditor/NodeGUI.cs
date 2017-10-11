@@ -38,6 +38,16 @@ public class NodeGUI {
         
         return value;
     }
+
+    public static float HorizontalSliderLayout(float val, float min, float max, string label = "", float xSplitPercent = 0.3f)
+    {
+        return HorizontalSlider(NextLayoutRect(), val, min, max, label, xSplitPercent);
+    }
+
+    public static float HorizontalSlider(Rect rect, float val, float min, float max, string label = "", float xSplitPercent = 0.3f)
+    {
+        return EditorGUI.Slider(rect, val, min, max);
+    }
     
     public static void LabelLayout(string label)
     {
