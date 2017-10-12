@@ -6,6 +6,8 @@ using UnityEngine;
 using Ifaces = AlternatingAction.Ifaces;
 
 public class AlternatingNode : BaseNode {
+    
+    public int LatchCount;
 
     protected override void AddInterfaces()
     {
@@ -28,12 +30,18 @@ public class AlternatingNode : BaseNode {
         WindowTitle = "Alternate";
         WindowRect.size = new Vector2(80, 70);
 
+        if (LatchCount < 1) LatchCount = 1;
+        LatchCount = NodeGUI.IntFieldLayout("i =", LatchCount);
+
         SetInterfacePositions();
         DrawInterfaces();
     }
 
     public override BaseAction GetAction()
     {
-        return new AlternatingAction();
+        return new AlternatingAction()
+        {
+            LatchCount = LatchCount
+        };
     }
 }

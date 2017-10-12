@@ -90,9 +90,7 @@ public class SpawnStalAction : BaseAction {
     {
         if (StalAction == StalActions.Spawn)
         {
-            int posIndex = GetSpawnIndex();
-            spawnedStalPositionIndexes[spawnIndex] = posIndex;
-            float spawnPos = bossStals.ConvertIndexToPosition(posIndex);
+            float spawnPos = GetSpawnPos();
             spawnedStalPoolIndexes[spawnIndex] = spawnAbility.Spawn(spawnPos, SpawnDirection, StalType, GreenChance, GoldChance, BlueChance);
         }
         else if (StalAction == StalActions.Drop)
@@ -104,9 +102,7 @@ public class SpawnStalAction : BaseAction {
         {
             if (spawnPhase)
             {
-                int posIndex = GetSpawnIndex();
-                spawnedStalPositionIndexes[spawnIndex] = posIndex;
-                float spawnPos = bossStals.ConvertIndexToPosition(posIndex);
+                float spawnPos = GetSpawnPos();
                 spawnedStalPoolIndexes[spawnIndex] = spawnAbility.Spawn(spawnPos, SpawnDirection, StalType, GreenChance, GoldChance, BlueChance);
             }
             else
@@ -126,18 +122,19 @@ public class SpawnStalAction : BaseAction {
         }
     }
 
-    private int GetSpawnIndex()
+    private float GetSpawnPos()
     {
         GameObject posObj = GetInputObj(stalSpawns[spawnIndex].inputID);
         if (posObj != null)
         {
             DespawnIfProjectile(posObj);
-            return 0; //posObj.transform.position.x; // TODO fix this
+            return posObj.transform.position.x;
         }
         else
         {
             int stalIndex = bossStals.GetFreeTopStalIndex(stalSpawns[spawnIndex].xPosIndexLower, stalSpawns[spawnIndex].xPosIndexUpper);
-            return stalIndex;
+            spawnedStalPositionIndexes[spawnIndex] = stalIndex;
+            return bossStals.ConvertIndexToPosition(stalIndex); ;
         }
     }
 

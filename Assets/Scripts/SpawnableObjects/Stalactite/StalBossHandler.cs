@@ -37,7 +37,6 @@ public class StalBossHandler : MonoBehaviour {
         }
         if (validIndexes.Count == 0)
         {
-            Debug.Log(startIndex + " " + endIndex);
             return IsInvalid;
         }
 
