@@ -21,16 +21,16 @@ public class SpawnStalactites : BossAbility {
         return index;
     }
 
+    public void DropAllStalactites()
+    {
+        StartCoroutine(DropStalactites());
+    }
+
     public void Drop(int[] dropOrder = null)
     {
-        if (dropOrder == null)
-        {
-            StartCoroutine(DropStalactites());
-        }
-        else
-        {
-            StartCoroutine(DropStalactites(dropOrder));
-        }
+        if (dropOrder == null) return;
+
+        StartCoroutine(DropStalactites(dropOrder));
     }
 
     private IEnumerator SpawnStal(int index, float spawnPosX, SpawnStalAction.StalSpawnDirection direction, SpawnStalAction.StalTypes type, float greenChance, float goldChance, float blueChance)

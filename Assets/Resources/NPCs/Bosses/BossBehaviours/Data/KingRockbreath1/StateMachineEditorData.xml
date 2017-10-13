@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <NodeDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <EditorOffset>
-    <x>7</x>
-    <y>-277</y>
+    <x>-24</x>
+    <y>-242</y>
   </EditorOffset>
   <Nodes>
     <BaseNode xsi:type="StartNode">
@@ -708,6 +708,7 @@
         <xMax>460</xMax>
         <yMax>620</yMax>
       </WindowRect>
+      <LatchCount>1</LatchCount>
     </BaseNode>
     <BaseNode xsi:type="StateNode">
       <WindowTitle>Stomp</WindowTitle>

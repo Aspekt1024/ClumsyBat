@@ -164,7 +164,7 @@
       <GreenMothChance>0</GreenMothChance>
       <BlueMothChance>0</BlueMothChance>
       <GoldMothChance>0</GoldMothChance>
-      <StalAction>Drop</StalAction>
+      <StalAction>DropAll</StalAction>
       <StalActionIndex>0</StalActionIndex>
       <SpawnDirection>FromTop</SpawnDirection>
       <SpawnDirectionIndex>0</SpawnDirectionIndex>

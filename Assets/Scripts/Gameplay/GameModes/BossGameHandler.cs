@@ -290,7 +290,10 @@ public class BossGameHandler : GameHandler {
                 }
                 else
                 {
-                    Toolbox.Tooltips.ShowDialogue("Now that you have unlocked the power of hypersonic, we can defeat King Rockbreath!", 4f);
+                    if (!GameData.Instance.Data.LevelData.IsCompleted((int)LevelProgressionHandler.Levels.Boss2))
+                    {
+                        Toolbox.Tooltips.ShowDialogue("Now that you have unlocked the power of hypersonic, we can defeat King Rockbreath!", 4f);
+                    }
                 }
                 break;
         }

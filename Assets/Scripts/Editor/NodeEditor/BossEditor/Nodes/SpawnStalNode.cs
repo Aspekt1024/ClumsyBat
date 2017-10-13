@@ -82,7 +82,7 @@ public class SpawnStalNode : BaseNode {
 
         StalAction = (StalActions)NodeGUI.EnumPopupLayout("Stal action:", StalAction);
 
-        if (StalAction != StalActions.Drop)
+        if (StalAction != StalActions.DropAll)
         {
             SpawnDirection = (StalSpawnDirection)NodeGUI.EnumPopupLayout("Direction:", SpawnDirection);
             DisplayStalList();

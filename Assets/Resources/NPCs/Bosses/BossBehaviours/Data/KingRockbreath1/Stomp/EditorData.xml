@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <NodeDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <EditorOffset>
-    <x>-506</x>
-    <y>-213</y>
+    <x>-433</x>
+    <y>-134</y>
   </EditorOffset>
   <Nodes>
     <BaseNode xsi:type="StartNode">
@@ -249,7 +249,7 @@
       <GreenMothChance>0</GreenMothChance>
       <BlueMothChance>0</BlueMothChance>
       <GoldMothChance>0</GoldMothChance>
-      <StalAction>Drop</StalAction>
+      <StalAction>DropAll</StalAction>
       <StalActionIndex>0</StalActionIndex>
       <SpawnDirection>FromTop</SpawnDirection>
       <SpawnDirectionIndex>0</SpawnDirectionIndex>
@@ -257,8 +257,8 @@
       <StalSpawns>
         <StalSpawnType>
           <delay>0</delay>
-          <xPosStart>0</xPosStart>
-          <xPosEnd>0</xPosEnd>
+          <xPosIndexLower>0</xPosIndexLower>
+          <xPosIndexUpper>0</xPosIndexUpper>
           <inputID>5</inputID>
         </StalSpawnType>
       </StalSpawns>

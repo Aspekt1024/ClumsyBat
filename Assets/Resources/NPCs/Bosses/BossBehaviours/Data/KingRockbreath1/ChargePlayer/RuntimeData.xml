@@ -60,7 +60,7 @@
         <ActionConnection>
           <ID>3</ID>
           <Direction>Output</Direction>
-          <OtherActionID>4</OtherActionID>
+          <OtherActionID>6</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
         <ActionConnection>
@@ -79,8 +79,8 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>3</OtherActionID>
-          <OtherConnID>3</OtherConnID>
+          <OtherActionID>6</OtherActionID>
+          <OtherConnID>1</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>1</ID>
@@ -119,8 +119,8 @@
       <stalSpawns>
         <StalSpawnType>
           <delay>0</delay>
-          <xPosStart>-6.2</xPosStart>
-          <xPosEnd>6.2</xPosEnd>
+          <xPosIndexLower>1</xPosIndexLower>
+          <xPosIndexUpper>5</xPosIndexUpper>
           <inputID>5</inputID>
         </StalSpawnType>
       </stalSpawns>
@@ -174,9 +174,271 @@
       <stalSpawns>
         <StalSpawnType>
           <delay>0</delay>
-          <xPosStart>-6.2</xPosStart>
-          <xPosEnd>6.2</xPosEnd>
+          <xPosIndexLower>6</xPosIndexLower>
+          <xPosIndexUpper>10</xPosIndexUpper>
           <inputID>5</inputID>
+        </StalSpawnType>
+      </stalSpawns>
+      <GreenChance>0</GreenChance>
+      <GoldChance>0</GoldChance>
+      <BlueChance>0</BlueChance>
+    </BaseAction>
+    <BaseAction xsi:type="RandomOutAction">
+      <ID>6</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>3</OtherActionID>
+          <OtherConnID>3</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>4</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>7</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>3</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>8</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <NumOutputs>3</NumOutputs>
+    </BaseAction>
+    <BaseAction xsi:type="SpawnStalAction">
+      <ID>7</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>6</OtherActionID>
+          <OtherConnID>2</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>9</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>3</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>4</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>5</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <StalType>Crystal</StalType>
+      <StalAction>Spawn</StalAction>
+      <SpawnDirection>FromTop</SpawnDirection>
+      <stalSpawns>
+        <StalSpawnType>
+          <delay>0</delay>
+          <xPosIndexLower>6</xPosIndexLower>
+          <xPosIndexUpper>10</xPosIndexUpper>
+          <inputID>5</inputID>
+        </StalSpawnType>
+      </stalSpawns>
+      <GreenChance>0</GreenChance>
+      <GoldChance>1</GoldChance>
+      <BlueChance>0</BlueChance>
+    </BaseAction>
+    <BaseAction xsi:type="SpawnStalAction">
+      <ID>8</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>6</OtherActionID>
+          <OtherConnID>3</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>10</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>3</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>4</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>5</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <StalType>Crystal</StalType>
+      <StalAction>Spawn</StalAction>
+      <SpawnDirection>FromTop</SpawnDirection>
+      <stalSpawns>
+        <StalSpawnType>
+          <delay>0</delay>
+          <xPosIndexLower>4</xPosIndexLower>
+          <xPosIndexUpper>7</xPosIndexUpper>
+          <inputID>5</inputID>
+        </StalSpawnType>
+      </stalSpawns>
+      <GreenChance>0</GreenChance>
+      <GoldChance>1</GoldChance>
+      <BlueChance>0</BlueChance>
+    </BaseAction>
+    <BaseAction xsi:type="SpawnStalAction">
+      <ID>9</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>7</OtherActionID>
+          <OtherConnID>1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>3</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>4</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>5</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <StalType>Stalactite</StalType>
+      <StalAction>Spawn</StalAction>
+      <SpawnDirection>FromTop</SpawnDirection>
+      <stalSpawns>
+        <StalSpawnType>
+          <delay>0</delay>
+          <xPosIndexLower>1</xPosIndexLower>
+          <xPosIndexUpper>4</xPosIndexUpper>
+          <inputID>5</inputID>
+        </StalSpawnType>
+      </stalSpawns>
+      <GreenChance>0</GreenChance>
+      <GoldChance>0</GoldChance>
+      <BlueChance>0</BlueChance>
+    </BaseAction>
+    <BaseAction xsi:type="SpawnStalAction">
+      <ID>10</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>8</OtherActionID>
+          <OtherConnID>1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>3</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>4</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>5</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>6</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <StalType>Stalactite</StalType>
+      <StalAction>Spawn</StalAction>
+      <SpawnDirection>FromTop</SpawnDirection>
+      <stalSpawns>
+        <StalSpawnType>
+          <delay>0</delay>
+          <xPosIndexLower>1</xPosIndexLower>
+          <xPosIndexUpper>3</xPosIndexUpper>
+          <inputID>5</inputID>
+        </StalSpawnType>
+        <StalSpawnType>
+          <delay>0</delay>
+          <xPosIndexLower>8</xPosIndexLower>
+          <xPosIndexUpper>10</xPosIndexUpper>
+          <inputID>6</inputID>
         </StalSpawnType>
       </stalSpawns>
       <GreenChance>0</GreenChance>

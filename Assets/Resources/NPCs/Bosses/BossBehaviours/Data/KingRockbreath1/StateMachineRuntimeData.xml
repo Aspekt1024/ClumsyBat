@@ -210,6 +210,7 @@
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
+      <LatchCount>1</LatchCount>
     </BaseAction>
     <BaseAction xsi:type="StateAction">
       <ID>11</ID>

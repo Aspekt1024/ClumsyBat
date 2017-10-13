@@ -18,7 +18,7 @@ public class SpawnStalAction : BaseAction {
         GreenChance, GoldChance, BlueChance
     }
     
-    public enum StalActions { Spawn, Drop, AltDropFirst, AltSpawnFirst }
+    public enum StalActions { Spawn, DropAll, AltDropFirst, AltSpawnFirst }
     public enum StalSpawnDirection { FromTop, FromBottom }
     public enum StalTypes { Stalactite, Crystal }
 
@@ -93,10 +93,10 @@ public class SpawnStalAction : BaseAction {
             float spawnPos = GetSpawnPos();
             spawnedStalPoolIndexes[spawnIndex] = spawnAbility.Spawn(spawnPos, SpawnDirection, StalType, GreenChance, GoldChance, BlueChance);
         }
-        else if (StalAction == StalActions.Drop)
+        else if (StalAction == StalActions.DropAll)
         {
             bossStals.ClearTopStals(spawnedStalPositionIndexes);
-            spawnAbility.Drop(spawnedStalPoolIndexes);
+            spawnAbility.DropAllStalactites();
         }
         else
         {

@@ -53,7 +53,7 @@
         </ActionConnection>
       </connections>
       <StalType>Stalactite</StalType>
-      <StalAction>Drop</StalAction>
+      <StalAction>DropAll</StalAction>
       <SpawnDirection>FromTop</SpawnDirection>
       <stalSpawns>
         <StalSpawnType>
