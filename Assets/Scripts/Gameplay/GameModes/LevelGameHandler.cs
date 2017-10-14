@@ -17,7 +17,6 @@ public class LevelGameHandler : GameHandler
         Level = FindObjectOfType<LevelScript>();
         ThePlayer.transform.position = new Vector3(-Toolbox.TileSizeX / 2f, 0f, ThePlayer.transform.position.z);
         CaveHandler = FindObjectOfType<CaveHandler>();
-        GameObject.FindGameObjectWithTag("Scripts").AddComponent<VillageSequencer>();
         StartCoroutine(LoadSequence());
     }
 

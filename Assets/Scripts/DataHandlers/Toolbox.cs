@@ -142,7 +142,6 @@ public class Toolbox : Singleton<Toolbox>
         ZLayers.Add("LanternLight", -0.8f);
         ZLayers.Add("NPC", -0.7f);
         ZLayers.Add("Trigger", -0.5f);
-        // TODO WebFront 0.1f?
         ZLayers.Add("Cave", 0f);
         ZLayers.Add("Hypersonic", 1f);
         ZLayers.Add("Projectile", 3f);
@@ -174,7 +173,7 @@ public class Toolbox : Singleton<Toolbox>
         LevelNames.Add(Levels.Main16, "Hit");
 
         LevelNames.Add(Levels.Boss1, "A New Hope");
-        LevelNames.Add(Levels.Boss2, "Rockbreath");
+        LevelNames.Add(Levels.Boss2, "Rockbreath Jr.");
         LevelNames.Add(Levels.Boss3, "Sonic");
         LevelNames.Add(Levels.Boss4, "King Rockbreath");
         LevelNames.Add(Levels.Boss5, "Boss5");

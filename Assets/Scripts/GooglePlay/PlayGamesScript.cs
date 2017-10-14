@@ -36,16 +36,19 @@ public class PlayGamesScript : MonoBehaviour {
     #region Achievements
     public static void UnlockAchievement(string id)
     {
+        if (!PlayGamesPlatform.Instance.IsAuthenticated()) return;
         Social.ReportProgress(id, 100, success => { });
     }
 
     public static void IncrementAchievement(string id, int stepsToIncrement)
     {
+        if (!PlayGamesPlatform.Instance.IsAuthenticated()) return;
         PlayGamesPlatform.Instance.IncrementAchievement(id, stepsToIncrement, success => { });
     }
 
     public static void ShowAchievementsUI()
     {
+        if (!PlayGamesPlatform.Instance.IsAuthenticated()) return;
         Social.ShowAchievementsUI();
     }
     #endregion Achievements
@@ -54,11 +57,13 @@ public class PlayGamesScript : MonoBehaviour {
     
     public static void AddHighScore(long score)
     {
+        if (!PlayGamesPlatform.Instance.IsAuthenticated()) return;
         Social.ReportScore(score, CBBLGId.leaderboard_high_scores, success => { });
     }
 
     public static void ShowLeaderboardsUI()
     {
+        if (!PlayGamesPlatform.Instance.IsAuthenticated()) return;
         Social.ShowLeaderboardUI();
     }
     #endregion Leaderboards
