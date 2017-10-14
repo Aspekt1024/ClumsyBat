@@ -137,14 +137,14 @@ public class Toolbox : Singleton<Toolbox>
         ZLayers.Add("Moth", -5f);
         ZLayers.Add("Fog", -3.5f);
         ZLayers.Add("CaveEndFront", -2f);
+        ZLayers.Add("Projectile", -1.5f);
         ZLayers.Add("Lantern", -1.1f);
         ZLayers.Add("Player", -1f);
         ZLayers.Add("LanternLight", -0.8f);
-        ZLayers.Add("NPC", -0.7f);
+        ZLayers.Add("NPC", -0.6f);
         ZLayers.Add("Trigger", -0.5f);
         ZLayers.Add("Cave", 0f);
         ZLayers.Add("Hypersonic", 1f);
-        ZLayers.Add("Projectile", 3f);
         ZLayers.Add("Spore", 3.9f);
         ZLayers.Add("Stalactite", 4f);
         ZLayers.Add("Mushroom", 5f);

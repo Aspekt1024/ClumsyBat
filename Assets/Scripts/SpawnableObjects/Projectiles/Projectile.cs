@@ -22,9 +22,11 @@ public class Projectile : MonoBehaviour {
 
     protected Rigidbody2D projectileBody;
     protected Collider2D projectileCollider;
-
-    protected Vector2 storedVelocity;
-    protected float storedAngularVelocity;
+    
+    // For pausing/unpausing
+    private Vector2 storedVelocity;
+    private float storedAngularVelocity;
+    private bool kinematicState;
 
     private ProjectileAbility projectileAbility;
     
@@ -42,8 +44,8 @@ public class Projectile : MonoBehaviour {
         if (other.gameObject.tag == "Player")
         {
             other.gameObject.GetComponent<Player>().HitByObject();
-            PlayerCollision();
             callerAction.HitPlayer();
+            PlayerCollision();
         }
         else if (other.gameObject.tag == "BossFloor" && transform.position.y < 0)
         {
@@ -51,17 +53,23 @@ public class Projectile : MonoBehaviour {
             projectileCollider.enabled = false;
             projectileBody.AddForce(new Vector2(0f, 200f));
         }
+        else if (other.gameObject.tag == "Stalactite")
+        {
+            StalactiteCollision(other.collider);
+        }
 
         if (other.gameObject.tag.Contains("Cave") || other.gameObject.tag.Equals("BossFloor"))
         {
-            CaveCollision();
+            CaveCollision(other.gameObject.tag);
         }
     }
 
     public virtual void Pause()
     {
+        kinematicState = projectileBody.isKinematic;
         storedVelocity = projectileBody.velocity;
         storedAngularVelocity = projectileBody.angularVelocity;
+
         projectileBody.velocity = Vector2.zero;
         projectileBody.angularVelocity = 0f;
         projectileBody.isKinematic = true;
@@ -69,9 +77,12 @@ public class Projectile : MonoBehaviour {
 
     public virtual void Resume()
     {
-        projectileBody.isKinematic = false;
-        projectileBody.velocity = storedVelocity;
-        projectileBody.angularVelocity = storedAngularVelocity;
+        projectileBody.isKinematic = kinematicState;
+        if (!projectileBody.isKinematic)
+        {
+            projectileBody.velocity = storedVelocity;
+            projectileBody.angularVelocity = storedAngularVelocity;
+        }
     }
 
     public void SetReferences(ProjectileAction caller, ProjectileAbility ability)
@@ -84,19 +95,20 @@ public class Projectile : MonoBehaviour {
     /// Called by another node in the Boss State Machine
     /// E.g. Spawning a stalacmite from a rock
     /// </summary>
-    public void DespawnToEarth()
+    public void DespawnToEarth(float delay = 0f)
     {
         if (!bActive) return;
         bActive = false;
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        StartCoroutine(ToEarthAnimation());
+        StartCoroutine(ToEarthAnimation(delay));
     }
 
     protected virtual void Activated() { }
-    protected virtual void CaveCollision() { }
+    protected virtual void CaveCollision(string objectTag) { }
     protected virtual void PlayerCollision() { }
+    protected virtual void StalactiteCollision(Collider2D stalactite) { }
 
-    private IEnumerator ToEarthAnimation()
+    private IEnumerator ToEarthAnimation(float delay)
     {
         float animTimer = 0f;
         const float animDuration = 1f;
@@ -110,9 +122,20 @@ public class Projectile : MonoBehaviour {
             transform.position += Vector3.down * 0.1f;
             yield return null;
         }
+
+        animTimer = 0f;
+        while (animTimer < delay)
+        {
+            if (!Toolbox.Instance.GamePaused)
+            {
+                animTimer += Time.deltaTime;
+            }
+            yield return null;
+        }
+
         DeactivateProjectile();
     }
-    
+
     private void DeactivateProjectile()
     {
         if (projectileAbility != null)
