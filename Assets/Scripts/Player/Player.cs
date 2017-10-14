@@ -39,6 +39,7 @@ public class Player : MonoBehaviour {
     private Vector2 _savedVelocity = Vector2.zero;
     private float playerSpeed;
     private float previousPosX;
+    private Vector3 lastContactPoint;
 
     private bool _bPaused;
     private bool inSecretExit;
@@ -336,6 +337,7 @@ public class Player : MonoBehaviour {
         }
         else
         {
+            lastContactPoint = other.contacts[0].point;
             _gameHandler.Collision(other);
         }
     }
@@ -565,6 +567,7 @@ public class Player : MonoBehaviour {
     public void FaceRight() { _flap.FaceRight(); }
     public void FaceLeft() { _flap.Faceleft(); }
     public PlayerController GetPlayerController() { return _playerController; }
+    public Vector3 GetLastContactPoint() { return lastContactPoint; }
     
     private void GetPlayerComponents()
     {

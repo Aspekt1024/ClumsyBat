@@ -54,8 +54,8 @@ public class Shield : MonoBehaviour {
     {
         float knockbackTimer = 0f;
         const float knockbackDuration = shieldDuration;
-
-        float directionModifier = _thePlayer.IsFacingRight() ? -1f : 1f;
+        
+        float directionModifier = GetDirectionModifier();
 
         while (knockbackTimer < knockbackDuration)
         {
@@ -65,6 +65,20 @@ public class Shield : MonoBehaviour {
                 _playerBody.velocity = new Vector2(Mathf.Lerp(directionModifier * 7f, 0f, knockbackTimer/knockbackDuration), _playerBody.velocity.y);
             }
             yield return null;
+        }
+    }
+
+    private float GetDirectionModifier()
+    {
+        Vector3 playerPos = _thePlayer.transform.position;
+        Vector3 colliderPos = _thePlayer.GetLastContactPoint();
+        if (playerPos.x > colliderPos.x)
+        {
+            return 1f;
+        }
+        else
+        {
+            return -1f;
         }
     }
 
