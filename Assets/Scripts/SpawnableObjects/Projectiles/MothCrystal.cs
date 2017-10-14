@@ -10,6 +10,7 @@ public class MothCrystal : Projectile {
     public BrokenCrystalBall BrokenCrystalBall;
 
     private SpriteRenderer crystalRenderer;
+    private Animator essenceAnim;
 
     private Moth.MothColour mothColour;
     private Vector3 targetPos;
@@ -19,17 +20,19 @@ public class MothCrystal : Projectile {
     public override void Pause()
     {
         base.Pause();
+        essenceAnim.speed = 0f;
     }
 
     public override void Resume()
     {
         base.Resume();
+        essenceAnim.speed = 1f;
     }
 
     public void SetColour(Moth.MothColour colour)
     {
         mothColour = colour;
-        Animator essenceAnim = MothEssenceObject.GetComponent<Animator>();
+        essenceAnim = MothEssenceObject.GetComponent<Animator>();
 
         string mothAnimationName = "";
         switch (colour)
