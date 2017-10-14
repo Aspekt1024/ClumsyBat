@@ -7,46 +7,94 @@ using UnityEngine;
 /// This could also be used for standard level mechanics if decided later.
 /// </summary>
 public class Projectile : MonoBehaviour {
-    
-    private ProjectileAction callerAction;
-    private bool bActive;
 
-	private void OnCollisionEnter2D(Collision2D other)
+    public Rigidbody2D Body
+    {
+        get { return projectileBody; }
+    }
+    public Collider2D Collider
+    {
+        get { return projectileCollider; }
+    }
+    
+    protected ProjectileAction callerAction;
+    protected bool bActive;
+
+    protected Rigidbody2D projectileBody;
+    protected Collider2D projectileCollider;
+
+    protected Vector2 storedVelocity;
+    protected float storedAngularVelocity;
+
+    private ProjectileAbility projectileAbility;
+    
+    private void Awake()
+    {
+        bActive = true;
+        projectileBody = GetComponent<Rigidbody2D>();
+        projectileCollider = GetComponent<Collider2D>();
+        Activated();
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
     {
         if (!bActive) return;
         if (other.gameObject.tag == "Player")
         {
             other.gameObject.GetComponent<Player>().HitByObject();
+            PlayerCollision();
             callerAction.HitPlayer();
         }
         else if (other.gameObject.tag == "BossFloor" && transform.position.y < 0)
         {
             callerAction.Landed(this);
-            GetComponent<Collider2D>().enabled = false;
-            GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, 200f));
+            projectileCollider.enabled = false;
+            projectileBody.AddForce(new Vector2(0f, 200f));
+        }
+
+        if (other.gameObject.tag.Contains("Cave") || other.gameObject.tag.Equals("BossFloor"))
+        {
+            CaveCollision();
         }
     }
 
-    public void SetPoolOwner(ProjectileAbility owner)
+    public virtual void Pause()
     {
-        // TODO if this exists on April 30 without implementation, remove it!
-        // It was only put here because we thought it would be necessary to feed data back to the boss ability
-        //poolOwner = owner;
+        storedVelocity = projectileBody.velocity;
+        storedAngularVelocity = projectileBody.angularVelocity;
+        projectileBody.velocity = Vector2.zero;
+        projectileBody.angularVelocity = 0f;
+        projectileBody.isKinematic = true;
     }
 
-    public void SetCaller(ProjectileAction caller)
+    public virtual void Resume()
     {
-        bActive = true;
+        projectileBody.isKinematic = false;
+        projectileBody.velocity = storedVelocity;
+        projectileBody.angularVelocity = storedAngularVelocity;
+    }
+
+    public void SetReferences(ProjectileAction caller, ProjectileAbility ability)
+    {
         callerAction = caller;
+        projectileAbility = ability;
     }
 
+    /// <summary>
+    /// Called by another node in the Boss State Machine
+    /// E.g. Spawning a stalacmite from a rock
+    /// </summary>
     public void DespawnToEarth()
     {
         if (!bActive) return;
         bActive = false;
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        StartCoroutine("ToEarthAnimation");
+        StartCoroutine(ToEarthAnimation());
     }
+
+    protected virtual void Activated() { }
+    protected virtual void CaveCollision() { }
+    protected virtual void PlayerCollision() { }
 
     private IEnumerator ToEarthAnimation()
     {
@@ -64,14 +112,17 @@ public class Projectile : MonoBehaviour {
         }
         DeactivateProjectile(originalScale);
     }
-
-
+    
     private void DeactivateProjectile(Vector3 originalScale)
     {
-        var projectileBody = GetComponent<Rigidbody2D>();
-        transform.localScale = originalScale;
-        projectileBody.velocity = Vector2.zero;
-        projectileBody.position = Toolbox.Instance.HoldingArea;
+        if (projectileAbility != null)
+        {
+            projectileAbility.RemoveProjectile(this);
+        }
+        Destroy(gameObject);
     }
-
+    
+    public bool IsType<T>() { return GetType().Equals(typeof(T)); }
+    public bool IsRock() { return GetType().Equals(typeof(Rock)); }
+    public bool IsMothCrystal() { return GetType().Equals(typeof(MothCrystal)); }
 }

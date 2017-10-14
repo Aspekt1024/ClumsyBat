@@ -54,6 +54,35 @@ public class Lantern : MonoBehaviour {
         }
     }
 
+    public void ConsumeMoth(Moth.MothColour colour)
+    {
+        switch (colour)
+        {
+            case Moth.MothColour.Green:
+                break;
+            case Moth.MothColour.Gold:
+                Toolbox.Player.ActivateHypersonic();
+                break;
+            case Moth.MothColour.Blue:
+                break;
+        }
+
+        Toolbox.Player.AddShieldCharge();
+        Toolbox.Player.AddDashCharge();
+        Toolbox.Player.Fog.Echolocate();
+
+        SetColourFromShieldCharges(Toolbox.Player.GetShieldCharges());
+
+        DataHandler data = GameData.Instance.Data;
+        data.Stats.MothsEaten++;
+
+        if (data.Stats.MothsEaten > data.Stats.MostMoths)
+        {
+            data.Stats.MostMoths++;
+        }
+        data.Stats.TotalMoths++;
+    }
+
     private IEnumerator Flicker()
     {
         const float period = 0.2f;

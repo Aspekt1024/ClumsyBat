@@ -87,8 +87,12 @@ public class Shield : MonoBehaviour {
         if (_shieldCharges < MaxCharges)
         {
             _shieldCharges++;
-            lantern.SetColourFromShieldCharges(_shieldCharges);
         }
+    }
+
+    public int GetCharges()
+    {
+        return _shieldCharges;
     }
 
     public bool IsAvailable() { return (_shieldCharges > 0 || _state == ShieldStates.Activated); }

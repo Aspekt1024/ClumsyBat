@@ -3,6 +3,7 @@ using System.Collections;
 
 using GameStates = GameHandler.GameStates;
 
+// TODO remove this class - replaced and handled by Lantern
 public class MothInteractivity : MonoBehaviour
 {
     private Player _thePlayer;
@@ -12,6 +13,7 @@ public class MothInteractivity : MonoBehaviour
         _thePlayer = FindObjectOfType<Player>();
     }
     
+    // TODO remove this;
     public void ActivateAbility(Moth.MothColour colour)
     {
         switch (colour)

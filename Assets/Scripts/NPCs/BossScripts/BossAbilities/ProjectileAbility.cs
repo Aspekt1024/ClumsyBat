@@ -3,50 +3,18 @@ using UnityEngine;
 
 public class ProjectileAbility : BossAbility {
     
-    private const float DefaultProjectileSpeed = 12.5f; // Todo could add variance / some randomness to this speed.
-    private const int NumProjectiles = 400;
-    private readonly List<ProjectileType> _projectiles = new List<ProjectileType>();
-
-    private int _projectileIndex;
-
-    public struct ProjectileType
-    {
-        public Transform Tf;
-        public Rigidbody2D Body;
-        public Collider2D Coll;
-        public Vector2 PausedVelocity;
-        public Projectile Script;
-        public float PausedAngularVelocity;
-    }
-
+    private const float DefaultProjectileSpeed = 12.5f;
+    private readonly List<Projectile> _projectiles = new List<Projectile>();
+    
+    private Transform projectileParent;
+    private GameObject rockReference;
+    private GameObject mothCrystalReference;
+    
     private void Start()
     {
-        CreateProjectilePool();
-    }
-
-    private void CreateProjectilePool()
-    {
-        var projectileParent = new GameObject("Rocks").transform;
-        for (int i = 0; i < NumProjectiles; i++)
-        {
-            var newProjectileObj = Instantiate(Resources.Load<GameObject>("Projectiles/Rock"));
-            var newProjectile = new ProjectileType
-            {
-                Tf = newProjectileObj.transform,
-                Body = newProjectileObj.GetComponent<Rigidbody2D>(),
-                Coll = newProjectileObj.GetComponent<Collider2D>(),
-                Script = newProjectileObj.GetComponent<Projectile>()
-            };
-
-            newProjectile.Tf.name = "Rock";
-            newProjectile.Tf.SetParent(projectileParent);
-            newProjectile.Tf.position = Toolbox.Instance.HoldingArea;
-            newProjectile.Body.isKinematic = false;
-            newProjectile.Coll.enabled = false;
-            newProjectile.Script.SetPoolOwner(this);
-
-            _projectiles.Add(newProjectile);
-        }
+        rockReference = Resources.Load<GameObject>("Projectiles/Rock");
+        mothCrystalReference = Resources.Load<GameObject>("Projectiles/MothCrystal");
+        projectileParent = new GameObject("Rocks").transform;
     }
 
     /// <summary>
@@ -55,20 +23,34 @@ public class ProjectileAbility : BossAbility {
     /// </summary>
     public bool ActivateProjectile(ProjectileAction caller, Vector2 targetPos, float speed = DefaultProjectileSpeed)
     {
-        _projectileIndex++;
-        if (_projectileIndex == NumProjectiles) { _projectileIndex = 0; }
         var startPos = new Vector3(transform.position.x, transform.position.y, Toolbox.Instance.ZLayers["Projectile"]);
-        
         Vector2 velocity = CalculateThrowingVelocity(startPos, targetPos, caller.TargetGround, speed);
-        if (Mathf.Abs(velocity.x) < 0.0001f) { return false; }
+
+        if (Mathf.Abs(velocity.x) < 0.0001f) return false;
+
+        Projectile newProjectile = null;
+        switch(caller.ProjectileType)
+        {
+            case ProjectileAction.ProjectileTypes.Rock:
+                newProjectile = Instantiate(rockReference).GetComponent<Projectile>();
+                break;
+            case ProjectileAction.ProjectileTypes.MothCrystal:
+                newProjectile = Instantiate(mothCrystalReference).GetComponent<Projectile>();
+                ((MothCrystal)newProjectile).SetColour(caller.MothColour);
+                break;
+            default:
+                Debug.LogError("Invalid Projectile Type called by ActivateProjectile() in ProjectileAbility");
+                break;
+        }
         
-        var projectile = _projectiles[_projectileIndex];
-        projectile.Tf.position = startPos;
-        projectile.Body.velocity = velocity;
-        projectile.Coll.enabled = true;
-        projectile.Body.AddTorque(200f);    // TODO could randomise this torque
-        projectile.Script.SetCaller(caller);
-        _projectiles[_projectileIndex] = projectile;
+        newProjectile.transform.SetParent(projectileParent);
+        newProjectile.transform.position = startPos;
+        newProjectile.Body.velocity = velocity;
+        newProjectile.Collider.enabled = true;
+        newProjectile.Body.AddTorque(Random.Range(150f, 200f));
+        newProjectile.SetReferences(caller, this);
+
+        _projectiles.Add(newProjectile);
 
         caller.Launched();
 
@@ -92,6 +74,7 @@ public class ProjectileAbility : BossAbility {
 
     private float CalculateThrowingAngle(Vector3 startPos, Vector3 playerPos, bool upperPath, float s)
     {
+        // Source: https://en.wikipedia.org/wiki/Trajectory_of_a_projectile#Angle_required_to_hit_coordinate_.28x.2Cy.29
         float g = -Physics2D.gravity.y;
         float x = startPos.x - playerPos.x;
         float y = playerPos.y - startPos.y;
@@ -99,7 +82,6 @@ public class ProjectileAbility : BossAbility {
         bool backwards = x < 0;
         if (backwards) x = -x;
 
-        // Source: https://en.wikipedia.org/wiki/Trajectory_of_a_projectile#Angle_required_to_hit_coordinate_.28x.2Cy.29
         float angle;
         if (upperPath)
             angle = Mathf.Atan((s * s + Mathf.Sqrt(Mathf.Pow(s, 4) - g * (g * x * x + 2 * y * s * s))) / (g * x));
@@ -112,27 +94,22 @@ public class ProjectileAbility : BossAbility {
 
     public override void Pause()
     {
-        for (int i = 0; i < _projectiles.Count; i++)
+        foreach (Projectile projectile in _projectiles)
         {
-            var projectile = _projectiles[i];
-            projectile.PausedVelocity = projectile.Body.velocity;
-            projectile.PausedAngularVelocity = projectile.Body.angularVelocity;
-            projectile.Body.velocity = Vector2.zero;
-            projectile.Body.angularVelocity = 0f;
-            projectile.Body.isKinematic = true;
-            _projectiles[i] = projectile;
+            projectile.Pause();
         }
     }
 
     public override void Resume()
     {
-        for (int i = 0; i < _projectiles.Count; i++)
+        foreach (Projectile projectile in _projectiles)
         {
-            var projectile = _projectiles[i];
-            projectile.Body.isKinematic = false;
-            projectile.Body.velocity = projectile.PausedVelocity;
-            projectile.Body.angularVelocity = projectile.PausedAngularVelocity;
-            _projectiles[i] = projectile;
+            projectile.Resume();
         }
+    }
+
+    public void RemoveProjectile(Projectile projectile)
+    {
+        _projectiles.Remove(projectile);
     }
 }

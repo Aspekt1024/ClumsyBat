@@ -196,6 +196,8 @@ public class Player : MonoBehaviour {
     public void ForceHypersonic() { _hypersonic.ForceHypersonic(); }
     public void AddShieldCharge() { _shield.AddCharge(); }
     public void AddDashCharge() { _rush.AddCharge(); }
+
+    public int GetShieldCharges() { return _shield.GetCharges(); }
     
     public void TakeDamage(string otherTag = "")
     {

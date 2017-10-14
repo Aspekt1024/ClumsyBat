@@ -95,11 +95,6 @@ public class CrystalBall : MonoBehaviour {
 
     public void Activate()
     {
-        StartCoroutine(ActivateRoutine());
-    }
-
-    private IEnumerator ActivateRoutine()
-    {
         isDeactivating = false;
         IsActive = true;
         activeTimer = 0f;
@@ -108,7 +103,12 @@ public class CrystalBall : MonoBehaviour {
         crystalRenderer.color = GetMothColour();
         mothAnim.speed = Random.Range(0.5f, 1f);
         effects.Play();
-        
+
+        StartCoroutine(ActivateRoutine());
+    }
+
+    private IEnumerator ActivateRoutine()
+    {
         yield return StartCoroutine(PulseActive());
         StartCoroutine(PulseLight());
     }

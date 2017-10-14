@@ -21,6 +21,7 @@ public class BrokenCrystalBall : MonoBehaviour {
 
     public void Shatter()
     {
+        gameObject.SetActive(true);
         for (int i = 0; i < numPieces; i++)
         {
             float xVel = 0f;
@@ -33,6 +34,27 @@ public class BrokenCrystalBall : MonoBehaviour {
 
             pieces[i].isKinematic = false;
             pieces[i].velocity = new Vector3(xVel, Random.Range(-4, 10f), 0f);
+        }
+    }
+
+    public void ShatterAndDespawn()
+    {
+        Shatter();
+        StartCoroutine(DespawnRoutine());
+    }
+
+    private IEnumerator DespawnRoutine()
+    {
+        float timer = 0f;
+        const float duration = 1f;
+
+        while (timer < duration)
+        {
+            if (!Toolbox.Instance.GamePaused)
+            {
+                timer += Time.deltaTime;
+            }
+            yield return null;
         }
     }
 }

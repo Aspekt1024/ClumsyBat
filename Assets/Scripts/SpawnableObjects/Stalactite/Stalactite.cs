@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 
 // TODO there are really two different objects described in this and they should be split up.
-// They work fine, but i don't like it. Fix by either creating a base class, or using composition
+// They work fine, but i don't like it. Create a base class
 public class Stalactite : Spawnable {
 
     public bool DropEnabled;

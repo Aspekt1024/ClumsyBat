@@ -5,14 +5,21 @@ public class ProjectileAction : BaseAction {
     public bool TargetGround;
     public Vector2 TargetPos;
     public float ProjectileSpeed;
-
+    public ProjectileTypes ProjectileType;
+    public Moth.MothColour MothColour;
+    
     public enum Ifaces
     {
         Main,
         ProjectileIn, Position,
 
         Launched, Landed, HitPlayer,
-        ProjectileOut
+        Projectile
+    }
+
+    public enum ProjectileTypes
+    {
+        Rock, MothCrystal
     }
 
     private ProjectileAbility projAbility;
@@ -26,6 +33,7 @@ public class ProjectileAction : BaseAction {
 
     public override void ActivateBehaviour()
     {
+        IsActive = false;
         Vector2 tarPos = CalculateTargetPos();
         bool projectileSuccess = projAbility.ActivateProjectile(this, tarPos, ProjectileSpeed);
         if (!projectileSuccess)

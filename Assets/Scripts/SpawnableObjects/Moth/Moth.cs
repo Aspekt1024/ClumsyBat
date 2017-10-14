@@ -18,10 +18,8 @@ public class Moth : Spawnable {
     private MothInteractivity _mothInteractor;
     private MothPathHandler _pathHandler;
     private bool _bConsumption;
-    private readonly Dictionary<MothAudioNames, AudioClip> _mothAudioDict = new Dictionary<MothAudioNames, AudioClip>();
     private ParticleSystem shimmerEffect;
-
-    private enum MothAudioNames { Flutter, Morph, Consume }
+    
     private enum MothStates { Normal, ConsumeFollow }
     public enum MothColour { Green, Gold, Blue }
     
@@ -29,7 +27,6 @@ public class Moth : Spawnable {
     {
         IsActive = false;
         GetMothComponents();
-        LoadSoundClips();
     }
 	
 	private void FixedUpdate ()
@@ -40,12 +37,7 @@ public class Moth : Spawnable {
         if (_mothState == MothStates.ConsumeFollow) { return; }
         MoveLeft(Time.deltaTime);
     }
-
-    private void LoadSoundClips()
-    {
-        _mothAudioDict.Add(MothAudioNames.Consume, Resources.Load<AudioClip>("Audio/LanternConsumeMoth"));
-    }
-
+    
     public override void PauseGame(bool gamePaused)
     {
         base.PauseGame(gamePaused);
@@ -95,18 +87,11 @@ public class Moth : Spawnable {
             }
             yield return null;
         }
-        _mothInteractor.ActivateAbility(Colour);
+
+        Toolbox.Player.Lantern.ConsumeMoth(Colour);
+
         SendToInactivePool();
         _bConsumption = false;
-
-        DataHandler data = GameData.Instance.Data;
-        data.Stats.MothsEaten++;
-
-        if (data.Stats.MothsEaten > data.Stats.MostMoths)
-        {
-            data.Stats.MostMoths++;
-        }
-        data.Stats.TotalMoths++;
     }
 
     private void PlayNormalAnimation()
@@ -133,7 +118,6 @@ public class Moth : Spawnable {
 
     private void PlayExplosionAnim()
     {
-        //_mothAudio.PlayOneShot(Resources.Load<AudioClip>("LanternConsumeMoth"));  // TODO moth morph sound
         shimmerEffect.Stop();
         switch (Colour)
         {
@@ -153,7 +137,6 @@ public class Moth : Spawnable {
     {
         base.SendToInactivePool();
         MothSprite.transform.position = transform.position;
-        Toolbox.MainAudio.PlaySound(_mothAudioDict[MothAudioNames.Consume]);
     }
 
     public void Activate(SpawnType spawnTf, MothColour colour, MothPathHandler.MothPathTypes pathType = MothPathHandler.MothPathTypes.Spiral)
@@ -228,8 +211,8 @@ public class Moth : Spawnable {
 
     private IEnumerator MoveToLocation(Vector2 endPos, float animTime)
     {
-        Vector3 sPos = transform.position;
-        Vector3 ePos = new Vector3(endPos.x, endPos.y, sPos.z);
+        Vector3 startPosition = transform.position;
+        Vector3 endPosition = new Vector3(endPos.x, endPos.y, startPosition.z);
         float timer = 0f;
         while (timer < animTime)
         {
@@ -237,10 +220,10 @@ public class Moth : Spawnable {
                 timer += Time.deltaTime;
 
             float ratio = Mathf.Pow(timer / animTime, 4);
-            transform.position = sPos - (sPos - ePos) * ratio;
+            transform.position = startPosition - (startPosition - endPosition) * ratio;
             yield return null;
         }
-        transform.position = ePos;
+        transform.position = endPosition;
     }
 
     private IEnumerator WaitSeconds(float secs)
