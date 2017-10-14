@@ -110,10 +110,10 @@ public class Projectile : MonoBehaviour {
             transform.position += Vector3.down * 0.1f;
             yield return null;
         }
-        DeactivateProjectile(originalScale);
+        DeactivateProjectile();
     }
     
-    private void DeactivateProjectile(Vector3 originalScale)
+    private void DeactivateProjectile()
     {
         if (projectileAbility != null)
         {
