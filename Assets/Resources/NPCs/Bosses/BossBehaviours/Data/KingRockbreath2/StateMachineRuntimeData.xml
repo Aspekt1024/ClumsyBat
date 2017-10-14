@@ -7,7 +7,7 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Output</Direction>
-          <OtherActionID>6</OtherActionID>
+          <OtherActionID>5</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
@@ -48,14 +48,14 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>6</OtherActionID>
-          <OtherConnID>2</OtherConnID>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>1</ID>
           <Direction>Output</Direction>
-          <OtherActionID>5</OtherActionID>
-          <OtherConnID>0</OtherConnID>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
         </ActionConnection>
       </connections>
       <StateName>Stalactite Wave</StateName>
@@ -77,8 +77,8 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>3</OtherActionID>
-          <OtherConnID>1</OtherConnID>
+          <OtherActionID>0</OtherActionID>
+          <OtherConnID>0</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>1</ID>
@@ -95,8 +95,8 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>0</OtherActionID>
-          <OtherConnID>0</OtherConnID>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>1</ID>
@@ -107,8 +107,8 @@
         <ActionConnection>
           <ID>2</ID>
           <Direction>Output</Direction>
-          <OtherActionID>3</OtherActionID>
-          <OtherConnID>0</OtherConnID>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>3</ID>

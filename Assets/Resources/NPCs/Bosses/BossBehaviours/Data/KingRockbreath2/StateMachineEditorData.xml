@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <NodeDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <EditorOffset>
-    <x>-6</x>
-    <y>-221</y>
+    <x>204</x>
+    <y>-134</y>
   </EditorOffset>
   <Nodes>
     <BaseNode xsi:type="StartNode">
@@ -18,7 +18,7 @@
           <Label />
           <Type>Event</Type>
           <Direction>Output</Direction>
-          <ConnectedNodeID>6</ConnectedNodeID>
+          <ConnectedNodeID>5</ConnectedNodeID>
           <ConnectedIfaceID>0</ConnectedIfaceID>
         </NodeInterface>
       </interfaces>
@@ -176,8 +176,8 @@
           <Label />
           <Type>Event</Type>
           <Direction>Input</Direction>
-          <ConnectedNodeID>6</ConnectedNodeID>
-          <ConnectedIfaceID>2</ConnectedIfaceID>
+          <ConnectedNodeID>-1</ConnectedNodeID>
+          <ConnectedIfaceID>-1</ConnectedIfaceID>
         </NodeInterface>
         <NodeInterface>
           <Position>
@@ -188,28 +188,28 @@
           <Label>Success</Label>
           <Type>Event</Type>
           <Direction>Output</Direction>
-          <ConnectedNodeID>5</ConnectedNodeID>
-          <ConnectedIfaceID>0</ConnectedIfaceID>
+          <ConnectedNodeID>-1</ConnectedNodeID>
+          <ConnectedIfaceID>-1</ConnectedIfaceID>
         </NodeInterface>
       </interfaces>
       <WindowRect>
-        <x>210</x>
-        <y>390</y>
+        <x>180</x>
+        <y>310</y>
         <position>
-          <x>210</x>
-          <y>390</y>
+          <x>180</x>
+          <y>310</y>
         </position>
         <center>
-          <x>285</x>
-          <y>415</y>
+          <x>255</x>
+          <y>335</y>
         </center>
         <min>
-          <x>210</x>
-          <y>390</y>
+          <x>180</x>
+          <y>310</y>
         </min>
         <max>
-          <x>360</x>
-          <y>440</y>
+          <x>330</x>
+          <y>360</y>
         </max>
         <width>150</width>
         <height>50</height>
@@ -217,10 +217,10 @@
           <x>150</x>
           <y>50</y>
         </size>
-        <xMin>210</xMin>
-        <yMin>390</yMin>
-        <xMax>360</xMax>
-        <yMax>440</yMax>
+        <xMin>180</xMin>
+        <yMin>310</yMin>
+        <xMax>330</xMax>
+        <yMax>360</yMax>
       </WindowRect>
       <StateName>Stalactite Wave</StateName>
     </BaseNode>
@@ -285,8 +285,8 @@
           <Label />
           <Type>Event</Type>
           <Direction>Input</Direction>
-          <ConnectedNodeID>3</ConnectedNodeID>
-          <ConnectedIfaceID>1</ConnectedIfaceID>
+          <ConnectedNodeID>0</ConnectedNodeID>
+          <ConnectedIfaceID>0</ConnectedIfaceID>
         </NodeInterface>
         <NodeInterface>
           <Position>
@@ -346,8 +346,8 @@
           <Label />
           <Type>Event</Type>
           <Direction>Input</Direction>
-          <ConnectedNodeID>0</ConnectedNodeID>
-          <ConnectedIfaceID>0</ConnectedIfaceID>
+          <ConnectedNodeID>-1</ConnectedNodeID>
+          <ConnectedIfaceID>-1</ConnectedIfaceID>
         </NodeInterface>
         <NodeInterface>
           <Position>
@@ -370,8 +370,8 @@
           <Label />
           <Type>Event</Type>
           <Direction>Output</Direction>
-          <ConnectedNodeID>3</ConnectedNodeID>
-          <ConnectedIfaceID>0</ConnectedIfaceID>
+          <ConnectedNodeID>-1</ConnectedNodeID>
+          <ConnectedIfaceID>-1</ConnectedIfaceID>
         </NodeInterface>
         <NodeInterface>
           <Position>
@@ -388,22 +388,22 @@
       </interfaces>
       <WindowRect>
         <x>90</x>
-        <y>390</y>
+        <y>490</y>
         <position>
           <x>90</x>
-          <y>390</y>
+          <y>490</y>
         </position>
         <center>
           <x>130</x>
-          <y>425</y>
+          <y>525</y>
         </center>
         <min>
           <x>90</x>
-          <y>390</y>
+          <y>490</y>
         </min>
         <max>
           <x>170</x>
-          <y>460</y>
+          <y>560</y>
         </max>
         <width>80</width>
         <height>70</height>
@@ -412,9 +412,9 @@
           <y>70</y>
         </size>
         <xMin>90</xMin>
-        <yMin>390</yMin>
+        <yMin>490</yMin>
         <xMax>170</xMax>
-        <yMax>460</yMax>
+        <yMax>560</yMax>
       </WindowRect>
       <LatchCount>1</LatchCount>
     </BaseNode>
