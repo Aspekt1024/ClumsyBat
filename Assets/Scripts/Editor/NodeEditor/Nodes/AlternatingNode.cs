@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Ifaces = AlternatingAction.Ifaces;
+using AlternatingMode = AlternatingAction.AlternatingMode;
 
 public class AlternatingNode : BaseNode {
     
     public int LatchCount;
-
+    public AlternatingMode Mode;
+    
     protected override void AddInterfaces()
     {
         AddInput((int)Ifaces.Input);
@@ -20,7 +22,7 @@ public class AlternatingNode : BaseNode {
     private void SetInterfacePositions()
     {
         SetInterface((int)Ifaces.Input, 1);
-        SetInterface((int)Ifaces.Reset, 2, "reset");
+        SetInterface((int)Ifaces.Reset, 3, "reset");
         SetInterface((int)Ifaces.Output1, 1);
         SetInterface((int)Ifaces.Output2, 2);
     }
@@ -28,7 +30,9 @@ public class AlternatingNode : BaseNode {
     public override void Draw()
     {
         WindowTitle = "Alternate";
-        WindowRect.size = new Vector2(80, 70);
+        WindowRect.size = new Vector2(130, 90);
+
+        Mode = (AlternatingMode)NodeGUI.EnumPopupLayout("Mode", Mode);
 
         if (LatchCount < 1) LatchCount = 1;
         LatchCount = NodeGUI.IntFieldLayout("i =", LatchCount);
@@ -41,7 +45,8 @@ public class AlternatingNode : BaseNode {
     {
         return new AlternatingAction()
         {
-            LatchCount = LatchCount
+            LatchCount = LatchCount,
+            Mode = Mode
         };
     }
 }

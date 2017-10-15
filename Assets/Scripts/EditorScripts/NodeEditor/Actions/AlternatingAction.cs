@@ -6,11 +6,17 @@ using UnityEngine;
 public class AlternatingAction : BaseAction {
 
     public int LatchCount;
+    public AlternatingMode Mode;
     
     public enum Ifaces
     {
         Input, Reset,
         Output1, Output2
+    }
+
+    public enum AlternatingMode
+    {
+        Normal, NoLoop
     }
 
     private bool firstOutput = true;
@@ -56,9 +62,11 @@ public class AlternatingAction : BaseAction {
         if (currentCount == LatchCount)
         {
             firstOutput = !firstOutput;
-            currentCount = 0;
+            if (Mode == AlternatingMode.Normal)
+            {
+                currentCount = 0;
+            }
         }
-
     }
 
 }
