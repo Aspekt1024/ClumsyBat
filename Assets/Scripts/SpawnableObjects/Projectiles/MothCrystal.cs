@@ -81,6 +81,23 @@ public class MothCrystal : Projectile {
         StartCoroutine(MoveEssenceToLantern());
     }
 
+    protected override void HypersonicCollision(Vector3 hypersonicOrigin)
+    {
+        projectileBody.velocity = Vector2.zero;
+        projectileBody.angularVelocity = 0f;
+        projectileBody.isKinematic = true;
+
+        crystalRenderer.enabled = false;
+        projectileCollider.enabled = false;
+        MothEssenceObject.SetActive(false);
+        BrokenCrystalBall.ShatterAndDespawn(hypersonicOrigin);
+
+        if (floatRoutine != null)
+        {
+            StopCoroutine(floatRoutine);
+        }
+    }
+
     private IEnumerator MoveToPosition()
     {
         float timer = 0f;

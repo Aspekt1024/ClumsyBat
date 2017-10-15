@@ -56,6 +56,11 @@ public class Rock : Projectile {
         Shatter();
     }
 
+    protected override void HypersonicCollision(Vector3 hypersonicOrigin)
+    {
+        Shatter();
+    }
+
     protected override void StalactiteCollision(Collider2D stalCollider)
     {
         Stalactite stalScript = stalCollider.GetComponent<Stalactite>();

@@ -38,29 +38,37 @@ public class Projectile : MonoBehaviour {
         Activated();
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (!bActive) return;
-        if (other.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player")
         {
-            other.gameObject.GetComponent<Player>().HitByObject();
+            collision.gameObject.GetComponent<Player>().HitByObject();
             callerAction.HitPlayer();
             PlayerCollision();
         }
-        else if (other.gameObject.tag == "BossFloor" && transform.position.y < 0)
+        else if (collision.gameObject.tag == "BossFloor" && transform.position.y < 0)
         {
             callerAction.Landed(this);
             projectileCollider.enabled = false;
             projectileBody.AddForce(new Vector2(0f, 200f));
         }
-        else if (other.gameObject.tag == "Stalactite")
+        else if (collision.gameObject.tag == "Stalactite")
         {
-            StalactiteCollision(other.collider);
+            StalactiteCollision(collision.collider);
         }
 
-        if (other.gameObject.tag.Contains("Cave") || other.gameObject.tag.Equals("BossFloor"))
+        if (collision.gameObject.tag.Contains("Cave") || collision.gameObject.tag.Equals("BossFloor"))
         {
-            CaveCollision(other.gameObject.tag);
+            CaveCollision(collision.gameObject.tag);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Hypersonic")
+        {
+            HypersonicCollision(other.transform.position);
         }
     }
 
@@ -107,6 +115,7 @@ public class Projectile : MonoBehaviour {
     protected virtual void CaveCollision(string objectTag) { }
     protected virtual void PlayerCollision() { }
     protected virtual void StalactiteCollision(Collider2D stalactite) { }
+    protected virtual void HypersonicCollision(Vector3 hypersonicOrigin) { }
 
     private IEnumerator ToEarthAnimation(float delay)
     {
