@@ -33,7 +33,6 @@ public class TimerAction : BaseAction {
 
     public override void Tick(float deltaTime)
     {
-        if (!IsActive) return;
         if (!Toolbox.Instance.GamePaused && isRunning)
         {
             timer += deltaTime;

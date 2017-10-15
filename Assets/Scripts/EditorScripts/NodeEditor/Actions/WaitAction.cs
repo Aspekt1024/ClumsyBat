@@ -20,7 +20,7 @@ public class WaitAction : BaseAction {
 
     public override void Tick(float deltaTime)
     {
-        if (!bWaitActive || IsStopped || !IsActive) return;
+        if (!bWaitActive || !IsActive) return;
         timeWaited += deltaTime;
         if (timeWaited > WaitTime)
         {

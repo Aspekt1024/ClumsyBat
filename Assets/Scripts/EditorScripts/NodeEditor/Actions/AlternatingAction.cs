@@ -19,7 +19,6 @@ public class AlternatingAction : BaseAction {
     protected override void ActivateBehaviour()
     {
         IsActive = false;
-        currentCount++;
         
         if (GetInterface((int)Ifaces.Reset).WasCalled())
         {
@@ -37,7 +36,8 @@ public class AlternatingAction : BaseAction {
         {
             CallNext((int)Ifaces.Output2);
         }
-
+        
+        currentCount++;
         if (currentCount == LatchCount)
         {
             firstOutput = !firstOutput;

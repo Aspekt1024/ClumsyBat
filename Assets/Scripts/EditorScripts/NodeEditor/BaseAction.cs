@@ -19,9 +19,7 @@ public abstract class BaseAction
     {
         if (behaviourSet.IsType<State>() && !((State)behaviourSet).IsEnabled) return;
         if (IsType<StateAction>()) ((StateAction)this).State.IsEnabled = true;
-
-        Debug.Log("called " + this);
-
+        
         IsActive = true;
         IsNewActivation = true;
         IsStopped = false;

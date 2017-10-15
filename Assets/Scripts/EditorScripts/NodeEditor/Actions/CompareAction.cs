@@ -35,8 +35,7 @@ public class CompareAction : BaseAction {
 
     public override void Tick(float deltaTime)
     {
-        if (!IsActive) return;
-        if (!behaviourSet.IsEnabled) return;
+        if (!behaviourSet.IsEnabled || !IsActive) return;
         if (!waitedOneTick) // prevents infinite loops
         {
             waitedOneTick = true;

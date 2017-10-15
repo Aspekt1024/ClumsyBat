@@ -27,7 +27,7 @@ public class RepeatAction : BaseAction {
     public override void Tick(float deltaTime)
     {
         if (!IsActive) return;
-        
+
         if (!Toolbox.Instance.GamePaused)
         {
             timer += deltaTime;

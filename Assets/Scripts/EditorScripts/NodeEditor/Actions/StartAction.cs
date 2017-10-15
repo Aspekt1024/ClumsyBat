@@ -4,7 +4,6 @@ public class StartAction : BaseAction {
 
     protected override void ActivateBehaviour()
     {
-        Debug.Log("startcalled");
         IsActive = false;
         CallNext(0);
     }

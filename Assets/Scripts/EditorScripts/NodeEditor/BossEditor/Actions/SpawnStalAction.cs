@@ -147,7 +147,7 @@ public class SpawnStalAction : BaseAction {
 
     public override void Tick(float deltaTime)
     {
-        if (!awaitingDelay || IsStopped || !IsActive) return;
+        if (!awaitingDelay || !IsActive) return;
         delayTimer += deltaTime;
         if (delayTimer > delayDuration)
         {

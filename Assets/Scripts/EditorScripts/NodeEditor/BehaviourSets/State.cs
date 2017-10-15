@@ -38,6 +38,7 @@ public class State : BehaviourSet {
     {
         foreach (var action in Actions)
         {
+            if (action.IsStopped) continue;
             action.Tick(deltaTime);
         }
     }
