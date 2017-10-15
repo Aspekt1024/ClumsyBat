@@ -107,7 +107,7 @@
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
-      <WaitTime>3</WaitTime>
+      <WaitTime>1</WaitTime>
     </BaseAction>
     <BaseAction xsi:type="PlayerEventAction">
       <ID>5</ID>
@@ -367,7 +367,7 @@
         </ActionConnection>
       </connections>
       <RepeatCount>3</RepeatCount>
-      <DelayDuration>1</DelayDuration>
+      <DelayDuration>0.3</DelayDuration>
     </BaseAction>
     <BaseAction xsi:type="MultipleOutAction">
       <ID>14</ID>

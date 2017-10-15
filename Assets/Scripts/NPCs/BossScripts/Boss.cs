@@ -14,6 +14,7 @@ public abstract class Boss : MonoBehaviour {
     }
 
     public Rigidbody2D Body;
+    public Transform ProjectilePoint;
 
     protected bool _bPaused;
     protected int health;
@@ -220,6 +221,18 @@ public abstract class Boss : MonoBehaviour {
     public void SetHealth(int newHealth)
     {
         health = newHealth;
+    }
+
+    public Vector3 GetProjectilePoint()
+    {
+        if (ProjectilePoint != null)
+        {
+            return ProjectilePoint.position;
+        }
+        else
+        {
+            return Vector3.zero;
+        }
     }
 
     public bool IsDead { get { return health <= 0; } }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <NodeDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <EditorOffset>
-    <x>200</x>
-    <y>-80</y>
+    <x>80</x>
+    <y>-201</y>
   </EditorOffset>
   <Nodes>
     <BaseNode xsi:type="StartNode">
@@ -18,7 +18,7 @@
           <Label />
           <Type>Event</Type>
           <Direction>Output</Direction>
-          <ConnectedNodeID>4</ConnectedNodeID>
+          <ConnectedNodeID>5</ConnectedNodeID>
           <ConnectedIfaceID>0</ConnectedIfaceID>
         </NodeInterface>
       </interfaces>
@@ -236,8 +236,8 @@
           <Label />
           <Type>Event</Type>
           <Direction>Input</Direction>
-          <ConnectedNodeID>0</ConnectedNodeID>
-          <ConnectedIfaceID>0</ConnectedIfaceID>
+          <ConnectedNodeID>5</ConnectedNodeID>
+          <ConnectedIfaceID>2</ConnectedIfaceID>
         </NodeInterface>
         <NodeInterface>
           <Position>
@@ -245,7 +245,7 @@
             <y>35</y>
           </Position>
           <ID>1</ID>
-          <Label>success</Label>
+          <Label>Complete</Label>
           <Type>Event</Type>
           <Direction>Output</Direction>
           <ConnectedNodeID>7</ConnectedNodeID>
@@ -297,8 +297,8 @@
           <Label />
           <Type>Event</Type>
           <Direction>Input</Direction>
-          <ConnectedNodeID>-1</ConnectedNodeID>
-          <ConnectedIfaceID>-1</ConnectedIfaceID>
+          <ConnectedNodeID>0</ConnectedNodeID>
+          <ConnectedIfaceID>0</ConnectedIfaceID>
         </NodeInterface>
         <NodeInterface>
           <Position>
@@ -321,8 +321,8 @@
           <Label />
           <Type>Event</Type>
           <Direction>Output</Direction>
-          <ConnectedNodeID>-1</ConnectedNodeID>
-          <ConnectedIfaceID>-1</ConnectedIfaceID>
+          <ConnectedNodeID>4</ConnectedNodeID>
+          <ConnectedIfaceID>0</ConnectedIfaceID>
         </NodeInterface>
         <NodeInterface>
           <Position>
@@ -368,7 +368,7 @@
         <yMax>590</yMax>
       </WindowRect>
       <LatchCount>1</LatchCount>
-      <Mode>NoLoop</Mode>
+      <Mode>Normal</Mode>
     </BaseNode>
     <BaseNode xsi:type="StateNode">
       <WindowTitle>ClearFloorCharge</WindowTitle>

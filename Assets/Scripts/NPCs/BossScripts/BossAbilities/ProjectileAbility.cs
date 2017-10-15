@@ -23,7 +23,9 @@ public class ProjectileAbility : BossAbility {
     /// </summary>
     public bool ActivateProjectile(ProjectileAction caller, Vector2 targetPos, float speed = DefaultProjectileSpeed)
     {
-        var startPos = new Vector3(transform.position.x, transform.position.y, Toolbox.Instance.ZLayers["Projectile"]);
+        Vector3 startPos = GetComponent<Boss>().GetProjectilePoint();
+        startPos.z = Toolbox.Instance.ZLayers["Projectile"];
+        
         Vector2 velocity = CalculateThrowingVelocity(startPos, targetPos, caller.TargetGround, speed);
 
         if (Mathf.Abs(velocity.x) < 0.0001f) return false;

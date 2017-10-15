@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <NodeDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <EditorOffset>
-    <x>701</x>
-    <y>-274</y>
+    <x>895</x>
+    <y>-134</y>
   </EditorOffset>
   <Nodes>
     <BaseNode xsi:type="StartNode">
@@ -71,23 +71,23 @@
         </NodeInterface>
       </interfaces>
       <WindowRect>
-        <x>90</x>
-        <y>560</y>
+        <x>80</x>
+        <y>610</y>
         <position>
-          <x>90</x>
-          <y>560</y>
+          <x>80</x>
+          <y>610</y>
         </position>
         <center>
-          <x>130</x>
-          <y>585</y>
+          <x>120</x>
+          <y>635</y>
         </center>
         <min>
-          <x>90</x>
-          <y>560</y>
+          <x>80</x>
+          <y>610</y>
         </min>
         <max>
-          <x>170</x>
-          <y>610</y>
+          <x>160</x>
+          <y>660</y>
         </max>
         <width>80</width>
         <height>50</height>
@@ -95,10 +95,10 @@
           <x>80</x>
           <y>50</y>
         </size>
-        <xMin>90</xMin>
-        <yMin>560</yMin>
-        <xMax>170</xMax>
-        <yMax>610</yMax>
+        <xMin>80</xMin>
+        <yMin>610</yMin>
+        <xMax>160</xMax>
+        <yMax>660</yMax>
       </WindowRect>
     </BaseNode>
     <BaseNode xsi:type="SpawnStalNode">
@@ -227,7 +227,7 @@
       </StalSpawns>
     </BaseNode>
     <BaseNode xsi:type="StateEventNode">
-      <WindowTitle>success</WindowTitle>
+      <WindowTitle>Complete</WindowTitle>
       <ID>3</ID>
       <interfaces>
         <NodeInterface>
@@ -334,7 +334,7 @@
         <xMax>-240</xMax>
         <yMax>390</yMax>
       </WindowRect>
-      <WaitTime>3</WaitTime>
+      <WaitTime>1</WaitTime>
     </BaseNode>
     <BaseNode xsi:type="PlayerEventNode">
       <WindowTitle>Player Event</WindowTitle>
@@ -794,22 +794,22 @@
         </NodeInterface>
       </interfaces>
       <WindowRect>
-        <x>-10</x>
+        <x>-20</x>
         <y>470</y>
         <position>
-          <x>-10</x>
+          <x>-20</x>
           <y>470</y>
         </position>
         <center>
-          <x>40</x>
+          <x>30</x>
           <y>505</y>
         </center>
         <min>
-          <x>-10</x>
+          <x>-20</x>
           <y>470</y>
         </min>
         <max>
-          <x>90</x>
+          <x>80</x>
           <y>540</y>
         </max>
         <width>100</width>
@@ -818,9 +818,9 @@
           <x>100</x>
           <y>70</y>
         </size>
-        <xMin>-10</xMin>
+        <xMin>-20</xMin>
         <yMin>470</yMin>
-        <xMax>90</xMax>
+        <xMax>80</xMax>
         <yMax>540</yMax>
       </WindowRect>
       <NumInputs>2</NumInputs>
@@ -1031,23 +1031,23 @@
         </NodeInterface>
       </interfaces>
       <WindowRect>
-        <x>-450</x>
-        <y>530</y>
+        <x>-460</x>
+        <y>560</y>
         <position>
-          <x>-450</x>
-          <y>530</y>
+          <x>-460</x>
+          <y>560</y>
         </position>
         <center>
-          <x>-400</x>
-          <y>590</y>
+          <x>-410</x>
+          <y>620</y>
         </center>
         <min>
-          <x>-450</x>
-          <y>530</y>
+          <x>-460</x>
+          <y>560</y>
         </min>
         <max>
-          <x>-350</x>
-          <y>650</y>
+          <x>-360</x>
+          <y>680</y>
         </max>
         <width>100</width>
         <height>120</height>
@@ -1055,13 +1055,13 @@
           <x>100</x>
           <y>120</y>
         </size>
-        <xMin>-450</xMin>
-        <yMin>530</yMin>
-        <xMax>-350</xMax>
-        <yMax>650</yMax>
+        <xMin>-460</xMin>
+        <yMin>560</yMin>
+        <xMax>-360</xMax>
+        <yMax>680</yMax>
       </WindowRect>
       <RepeatCount>3</RepeatCount>
-      <DelayDuration>1</DelayDuration>
+      <DelayDuration>0.3</DelayDuration>
     </BaseNode>
     <BaseNode xsi:type="MultipleOutNode">
       <WindowTitle>M-Out</WindowTitle>
@@ -1105,22 +1105,22 @@
         </NodeInterface>
       </interfaces>
       <WindowRect>
-        <x>-570</x>
+        <x>-600</x>
         <y>780</y>
         <position>
-          <x>-570</x>
+          <x>-600</x>
           <y>780</y>
         </position>
         <center>
-          <x>-520</x>
+          <x>-550</x>
           <y>815</y>
         </center>
         <min>
-          <x>-570</x>
+          <x>-600</x>
           <y>780</y>
         </min>
         <max>
-          <x>-470</x>
+          <x>-500</x>
           <y>850</y>
         </max>
         <width>100</width>
@@ -1129,9 +1129,9 @@
           <x>100</x>
           <y>70</y>
         </size>
-        <xMin>-570</xMin>
+        <xMin>-600</xMin>
         <yMin>780</yMin>
-        <xMax>-470</xMax>
+        <xMax>-500</xMax>
         <yMax>850</yMax>
       </WindowRect>
       <NumOutputs>2</NumOutputs>
