@@ -232,6 +232,7 @@ public class Stalactite : Spawnable {
         else
         {
             stalBroken = Instantiate(stalPrefabBroken, transform);
+            stalBroken.transform.position = transform.position;
         }
 
         if (stalUnbroken != null) stalUnbroken.SetActive(false);
@@ -289,7 +290,6 @@ public class Stalactite : Spawnable {
 
         float weightedGreen = greenMothChance / colorTotals;
         float weightedGold = goldMothChance / colorTotals;
-        //float weightedBlue = blueMothChance / colorTotals;
 
         float randomVal = Random.Range(0f, 1f);
 
