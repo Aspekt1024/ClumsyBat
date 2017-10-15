@@ -12,7 +12,7 @@ public class WaitAction : BaseAction {
     private bool bWaitActive;
     private float timeWaited;
 
-    public override void ActivateBehaviour()
+    protected override void ActivateBehaviour()
     {
         bWaitActive = true;
         timeWaited = 0f;
@@ -20,7 +20,7 @@ public class WaitAction : BaseAction {
 
     public override void Tick(float deltaTime)
     {
-        if (!bWaitActive) return;
+        if (!bWaitActive || IsStopped || !IsActive) return;
         timeWaited += deltaTime;
         if (timeWaited > WaitTime)
         {
@@ -38,6 +38,7 @@ public class WaitAction : BaseAction {
 
     public override void Stop()
     {
+        IsStopped = true;
         if (!IsActive) return;
         IsActive = false;
         bWaitActive = false;

@@ -142,8 +142,6 @@ public abstract class Boss : MonoBehaviour {
     {
         if (this == null) return;
 
-        machine.Restart();
-
         health -= damage;
         if (health <= 0)
         {
@@ -156,6 +154,12 @@ public abstract class Boss : MonoBehaviour {
         machine.HealthChanged(health);
         HealthUpdate();
     }
+
+    public void StopCurrentActions()
+    {
+        machine.Stop();
+    }
+
 
     protected virtual void HealthUpdate() { }
 
@@ -189,7 +193,6 @@ public abstract class Boss : MonoBehaviour {
             }
         }
         bossRenderer.color = Color.white;
-        machine.StartingAction.Activate();
     }
 
     public bool IsPaused()
@@ -218,4 +221,7 @@ public abstract class Boss : MonoBehaviour {
     {
         health = newHealth;
     }
+
+    public bool IsDead { get { return health <= 0; } }
+    public bool IsAlive { get { return health > 0; } }
 }

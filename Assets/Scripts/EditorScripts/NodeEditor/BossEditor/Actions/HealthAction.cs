@@ -11,7 +11,7 @@ public class HealthAction : BaseAction {
         Input, Output
     }
 
-    public override void ActivateBehaviour()
+    protected override void ActivateBehaviour()
     {
         boss.GetComponent<Boss>().SetHealth(Health);
         CallNext((int)Ifaces.Output);

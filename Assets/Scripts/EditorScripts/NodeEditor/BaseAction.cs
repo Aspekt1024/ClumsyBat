@@ -7,6 +7,7 @@ public abstract class BaseAction
     public int ID;
     public List<ActionConnection> connections = new List<ActionConnection>();
 
+    [XmlIgnore] public bool IsStopped;
     [XmlIgnore] public bool IsActive;
     [XmlIgnore] public bool IsNewActivation;
 
@@ -19,15 +20,34 @@ public abstract class BaseAction
         if (behaviourSet.IsType<State>() && !((State)behaviourSet).IsEnabled) return;
         if (IsType<StateAction>()) ((StateAction)this).State.IsEnabled = true;
 
+        Debug.Log("called " + this);
+
         IsActive = true;
         IsNewActivation = true;
+        IsStopped = false;
         ActivateBehaviour();
     }
 
-    public abstract void ActivateBehaviour();
+    protected abstract void ActivateBehaviour();
 
-    public virtual void Stop() { }
+    public virtual void Stop()
+    {
+        IsActive = false;
+        IsStopped = true;
+    }
+
     public virtual void Tick(float deltaTime) { }
+
+    public void ForceCallNext(int id)
+    {
+        foreach(var conn in connections)
+        {
+            if (conn.ID == id)
+            {
+                conn.ForceCallNext();
+            }
+        }
+    }
 
     public void CallNext(int id)
     {

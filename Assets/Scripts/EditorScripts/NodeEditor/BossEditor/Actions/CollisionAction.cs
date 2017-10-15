@@ -30,7 +30,7 @@ public class CollisionAction : BaseAction {
         other = o;
     }
 
-    public override void ActivateBehaviour()
+    protected override void ActivateBehaviour()
     {
         IsActive = false;
 

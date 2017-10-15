@@ -28,7 +28,7 @@ public class CompareAction : BaseAction {
 
     private bool waitedOneTick;
 
-    public override void ActivateBehaviour()
+    protected override void ActivateBehaviour()
     {
         waitedOneTick = false;
     }

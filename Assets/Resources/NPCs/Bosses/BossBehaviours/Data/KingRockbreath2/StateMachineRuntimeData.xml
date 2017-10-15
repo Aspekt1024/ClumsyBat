@@ -7,7 +7,7 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Output</Direction>
-          <OtherActionID>5</OtherActionID>
+          <OtherActionID>4</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
@@ -18,7 +18,7 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Output</Direction>
-          <OtherActionID>2</OtherActionID>
+          <OtherActionID>10</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
         <ActionConnection>
@@ -30,20 +30,8 @@
       </connections>
       <CollisionType>Hypersonic</CollisionType>
     </BaseAction>
-    <BaseAction xsi:type="DamageAction">
-      <ID>2</ID>
-      <connections>
-        <ActionConnection>
-          <ID>0</ID>
-          <Direction>Input</Direction>
-          <OtherActionID>1</OtherActionID>
-          <OtherConnID>0</OtherConnID>
-        </ActionConnection>
-      </connections>
-      <Damage>1</Damage>
-    </BaseAction>
     <BaseAction xsi:type="StateAction">
-      <ID>3</ID>
+      <ID>2</ID>
       <connections>
         <ActionConnection>
           <ID>0</ID>
@@ -61,18 +49,18 @@
       <StateName>Stalactite Wave</StateName>
     </BaseAction>
     <BaseAction xsi:type="LoopAction">
-      <ID>4</ID>
+      <ID>3</ID>
       <connections>
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>8</OtherActionID>
+          <OtherActionID>7</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
     </BaseAction>
     <BaseAction xsi:type="StateAction">
-      <ID>5</ID>
+      <ID>4</ID>
       <connections>
         <ActionConnection>
           <ID>0</ID>
@@ -83,14 +71,14 @@
         <ActionConnection>
           <ID>1</ID>
           <Direction>Output</Direction>
-          <OtherActionID>8</OtherActionID>
+          <OtherActionID>7</OtherActionID>
           <OtherConnID>1</OtherConnID>
         </ActionConnection>
       </connections>
       <StateName>Spit Rock</StateName>
     </BaseAction>
     <BaseAction xsi:type="AlternatingAction">
-      <ID>6</ID>
+      <ID>5</ID>
       <connections>
         <ActionConnection>
           <ID>0</ID>
@@ -113,14 +101,109 @@
         <ActionConnection>
           <ID>3</ID>
           <Direction>Output</Direction>
-          <OtherActionID>9</OtherActionID>
+          <OtherActionID>8</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
       <LatchCount>1</LatchCount>
     </BaseAction>
     <BaseAction xsi:type="StateAction">
+      <ID>6</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>8</OtherActionID>
+          <OtherConnID>1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>7</OtherActionID>
+          <OtherConnID>2</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <StateName>ClearFloorCharge</StateName>
+    </BaseAction>
+    <BaseAction xsi:type="MultipleInAction">
       <ID>7</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>3</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>4</OtherActionID>
+          <OtherConnID>1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>6</OtherActionID>
+          <OtherConnID>1</OtherConnID>
+        </ActionConnection>
+      </connections>
+    </BaseAction>
+    <BaseAction xsi:type="WaitAction">
+      <ID>8</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>5</OtherActionID>
+          <OtherConnID>3</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>6</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <WaitTime>1</WaitTime>
+    </BaseAction>
+    <BaseAction xsi:type="StateAction">
+      <ID>9</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>10</OtherActionID>
+          <OtherConnID>1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>11</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <StateName>Damage1</StateName>
+    </BaseAction>
+    <BaseAction xsi:type="DamageAction">
+      <ID>10</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>1</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>9</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <Damage>1</Damage>
+    </BaseAction>
+    <BaseAction xsi:type="RestartMachineAction">
+      <ID>11</ID>
       <connections>
         <ActionConnection>
           <ID>0</ID>
@@ -128,55 +211,7 @@
           <OtherActionID>9</OtherActionID>
           <OtherConnID>1</OtherConnID>
         </ActionConnection>
-        <ActionConnection>
-          <ID>1</ID>
-          <Direction>Output</Direction>
-          <OtherActionID>8</OtherActionID>
-          <OtherConnID>2</OtherConnID>
-        </ActionConnection>
       </connections>
-      <StateName>ClearFloorCharge</StateName>
-    </BaseAction>
-    <BaseAction xsi:type="MultipleInAction">
-      <ID>8</ID>
-      <connections>
-        <ActionConnection>
-          <ID>0</ID>
-          <Direction>Output</Direction>
-          <OtherActionID>4</OtherActionID>
-          <OtherConnID>0</OtherConnID>
-        </ActionConnection>
-        <ActionConnection>
-          <ID>1</ID>
-          <Direction>Input</Direction>
-          <OtherActionID>5</OtherActionID>
-          <OtherConnID>1</OtherConnID>
-        </ActionConnection>
-        <ActionConnection>
-          <ID>2</ID>
-          <Direction>Input</Direction>
-          <OtherActionID>7</OtherActionID>
-          <OtherConnID>1</OtherConnID>
-        </ActionConnection>
-      </connections>
-    </BaseAction>
-    <BaseAction xsi:type="WaitAction">
-      <ID>9</ID>
-      <connections>
-        <ActionConnection>
-          <ID>0</ID>
-          <Direction>Input</Direction>
-          <OtherActionID>6</OtherActionID>
-          <OtherConnID>3</OtherConnID>
-        </ActionConnection>
-        <ActionConnection>
-          <ID>1</ID>
-          <Direction>Output</Direction>
-          <OtherActionID>7</OtherActionID>
-          <OtherConnID>0</OtherConnID>
-        </ActionConnection>
-      </connections>
-      <WaitTime>1</WaitTime>
     </BaseAction>
   </Actions>
 </ActionDataCollection>

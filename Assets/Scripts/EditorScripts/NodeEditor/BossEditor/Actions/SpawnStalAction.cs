@@ -59,7 +59,7 @@ public class SpawnStalAction : BaseAction {
             bossStals = GameObject.FindGameObjectWithTag("Scripts").AddComponent<StalBossHandler>();
     }
 
-    public override void ActivateBehaviour()
+    protected override void ActivateBehaviour()
     {
         if (spawnedStalPoolIndexes == null)
         {
@@ -147,7 +147,7 @@ public class SpawnStalAction : BaseAction {
 
     public override void Tick(float deltaTime)
     {
-        if (!awaitingDelay) return;
+        if (!awaitingDelay || IsStopped || !IsActive) return;
         delayTimer += deltaTime;
         if (delayTimer > delayDuration)
         {

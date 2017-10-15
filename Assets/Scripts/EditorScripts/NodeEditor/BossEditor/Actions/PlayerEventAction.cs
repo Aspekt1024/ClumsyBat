@@ -9,9 +9,11 @@ public class PlayerEventAction : BaseAction {
         Stun, GiveShield, Damage
     }
     public PlayerEvents PlayerEvent;
-    
-    public override void ActivateBehaviour()
+
+    protected override void ActivateBehaviour()
     {
+        IsActive = false;
+
         switch(PlayerEvent)
         {
             case PlayerEvents.Stun:

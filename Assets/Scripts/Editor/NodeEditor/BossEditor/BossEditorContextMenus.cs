@@ -27,6 +27,7 @@ public class BossEditorContextMenus : BaseContextMenus {
         menu.AddItem(new GUIContent("New State"), false, ContextCallback, typeof(StateNode));
         menu.AddSeparator("");
         menu.AddItem(new GUIContent("Add Loop"), false, ContextCallback, typeof(LoopNode));
+        menu.AddItem(new GUIContent("Add Machine Restart"), false, ContextCallback, typeof(RestartMachineNode));
         menu.AddItem(new GUIContent("Operator/Multiple Out"), false, ContextCallback, typeof(MultipleOutNode));
         menu.AddItem(new GUIContent("Operator/Multiple In"), false, ContextCallback, typeof(MultipleInNode));
         menu.AddItem(new GUIContent("Operator/Alternating Output"), false, ContextCallback, typeof(AlternatingNode));
@@ -65,6 +66,7 @@ public class BossEditorContextMenus : BaseContextMenus {
         menu.AddItem(new GUIContent("Operator/Random Float"), false, ContextCallback, typeof(RandomNode));
         menu.AddItem(new GUIContent("Operator/Timer"), false, ContextCallback, typeof(TimerNode));
         menu.AddItem(new GUIContent("Operator/Alternating Output"), false, ContextCallback, typeof(AlternatingNode));
+        menu.AddItem(new GUIContent("Operator/Repeat"), false, ContextCallback, typeof(RepeatNode));
 
         menu.AddSeparator("");
 

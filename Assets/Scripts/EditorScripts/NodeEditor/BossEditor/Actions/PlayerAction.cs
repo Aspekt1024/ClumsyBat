@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerAction : BaseAction {
 
-    public override void ActivateBehaviour()
+    protected override void ActivateBehaviour()
     {
         // Do nothing
     }

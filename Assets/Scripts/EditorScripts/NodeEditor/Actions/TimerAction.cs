@@ -12,7 +12,7 @@ public class TimerAction : BaseAction {
     private float timer;
     private bool isRunning;
 
-    public override void ActivateBehaviour()
+    protected override void ActivateBehaviour()
     {
         IsActive = false;
         if (GetInterface((int)Ifaces.Start).WasCalled())
@@ -33,6 +33,7 @@ public class TimerAction : BaseAction {
 
     public override void Tick(float deltaTime)
     {
+        if (!IsActive) return;
         if (!Toolbox.Instance.GamePaused && isRunning)
         {
             timer += deltaTime;
@@ -48,6 +49,7 @@ public class TimerAction : BaseAction {
 
     public override void Stop()
     {
+        IsStopped = true;
         IsActive = false;
         isRunning = false;
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BossAction : BaseAction {
 
-    public override void ActivateBehaviour()
+    protected override void ActivateBehaviour()
     {
         // Do nothing
     }

@@ -10,7 +10,7 @@ public class StateEventAction : BaseAction {
         Input
     }
 
-    public override void ActivateBehaviour()
+    protected override void ActivateBehaviour()
     {
         // TODO this is messy. Need a better way of matching StateAction to the current State, then we only need to iterate through connections
         foreach(var action in behaviourSet.ParentMachine.Actions)

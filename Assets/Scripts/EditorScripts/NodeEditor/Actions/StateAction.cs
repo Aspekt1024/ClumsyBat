@@ -7,8 +7,8 @@ public class StateAction : BaseAction {
     public string StateName;
 
     [XmlIgnore] public State State;
-    
-    public override void ActivateBehaviour()
+
+    protected override void ActivateBehaviour()
     {
         if (State == null)
         {
@@ -48,6 +48,7 @@ public class StateAction : BaseAction {
     public override void Stop()
     {
         IsActive = false;
+        IsStopped = true;
         foreach (var action in State.Actions)
         {
             action.Stop();

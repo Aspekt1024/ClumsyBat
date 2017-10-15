@@ -16,7 +16,7 @@ public class AlternatingAction : BaseAction {
     private bool firstOutput = true;
     private int currentCount;
 
-    public override void ActivateBehaviour()
+    protected override void ActivateBehaviour()
     {
         IsActive = false;
         currentCount++;

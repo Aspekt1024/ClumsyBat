@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 
 public class StartAction : BaseAction {
-    
-    public override void ActivateBehaviour()
+
+    protected override void ActivateBehaviour()
     {
+        Debug.Log("startcalled");
         IsActive = false;
         CallNext(0);
     }

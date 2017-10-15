@@ -27,7 +27,7 @@ public class ChargeAction : BaseAction {
         return pos.x;
     }
 
-    public override void ActivateBehaviour()
+    protected override void ActivateBehaviour()
     {
         charge.Activate(this);
         CallNext((int)Ifaces.Charging);
@@ -52,6 +52,7 @@ public class ChargeAction : BaseAction {
 
     public override void Stop()
     {
+        IsStopped = true;
         if (!IsActive) return;
 
         IsActive = false;

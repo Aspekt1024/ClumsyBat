@@ -21,7 +21,7 @@ public class JumpAction : BaseAction {
         jumpAbility = base.bossData.GetAbility<JumpPound>();
     }
 
-    public override void ActivateBehaviour()
+    protected override void ActivateBehaviour()
     {
         boss.GetComponent<Boss>().Jump();
         jumpAbility.Jump(this, JumpForce);
@@ -46,6 +46,7 @@ public class JumpAction : BaseAction {
 
     public override void Stop()
     {
+        IsStopped = true;
         if (!IsActive) return;
 
         boss.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;

@@ -12,7 +12,7 @@ public class RandomAction : BaseAction {
     public float MinValue;
     public float MaxValue;
 
-    public override void ActivateBehaviour()
+    protected override void ActivateBehaviour()
     {
         // Do nothing
     }

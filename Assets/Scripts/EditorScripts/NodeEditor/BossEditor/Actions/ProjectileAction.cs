@@ -31,7 +31,7 @@ public class ProjectileAction : BaseAction {
         projAbility = base.bossData.GetAbility<ProjectileAbility>();
     }
 
-    public override void ActivateBehaviour()
+    protected override void ActivateBehaviour()
     {
         IsActive = false;
         Vector2 tarPos = CalculateTargetPos();

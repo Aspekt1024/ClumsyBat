@@ -78,7 +78,9 @@ public class SpawnStalNode : BaseNode {
         StalType = (StalTypes)NodeGUI.EnumPopupLayout("Stal type:", StalType);
         verticalShift = 0f;
         if (StalType == StalTypes.Crystal)
+        {
             SelectMothColor();
+        }
 
         StalAction = (StalActions)NodeGUI.EnumPopupLayout("Stal action:", StalAction);
 
@@ -205,7 +207,6 @@ public class SpawnStalNode : BaseNode {
         var newSpawn = new StalSpawnType()
         {
             inputID = GetUniqueIfaceID(),
-            
         };
         StalSpawns.Add(newSpawn);
         AddInput(newSpawn.inputID, InterfaceTypes.Object);

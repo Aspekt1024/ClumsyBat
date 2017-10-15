@@ -26,7 +26,7 @@ public class WalkAction : BaseAction {
         walkAbility = base.bossData.GetAbility<Walk>();
     }
 
-    public override void ActivateBehaviour()
+    protected override void ActivateBehaviour()
     {
         if (GetInterface((int)Ifaces.Direction).IsConnected())
         {
@@ -61,6 +61,7 @@ public class WalkAction : BaseAction {
 
     public override void Stop()
     {
+        IsStopped = true;
         if (!IsActive) return;
 
         IsActive = false;

@@ -16,9 +16,11 @@ public class StateMachine : BehaviourSet
     public List<State> ActiveStates = new List<State>();
 
     private List<CollisionAction> damageActions = new List<CollisionAction>();
+    private Boss bossScript;
     
     public void StateMachineSetup(BossData bossData, GameObject boss)
     {
+        bossScript = boss.GetComponent<Boss>();
         BossActionLoadHandler.Load(this);
 
         foreach(var action in Actions)
@@ -29,10 +31,16 @@ public class StateMachine : BehaviourSet
         }
     }
 
-    public void AwakenBoss()
+    public void StartMachine()
     {
+        if (bossScript.IsDead) return;
         IsEnabled = true;
         StartingAction.Activate();
+    }
+
+    public void AwakenBoss()
+    {
+        StartMachine();
     }
 
     public void ActivateNewState(State state)

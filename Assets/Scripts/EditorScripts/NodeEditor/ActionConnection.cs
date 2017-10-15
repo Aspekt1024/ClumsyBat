@@ -26,8 +26,18 @@ public class ActionConnection {
         return ConnectedInterface != null;
     }
 
+    public void ForceCallNext()
+    {
+        if (IsConnected())
+        {
+            ConnectedInterface.called = true;
+            ConnectedInterface.Action.Activate();
+        }
+    }
+
     public void CallNext()
     {
+        if (Action.IsStopped) return;
         if (IsConnected())
         {
             ConnectedInterface.called = true;

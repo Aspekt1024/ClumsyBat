@@ -10,7 +10,7 @@ public class SwoopAction : BaseAction {
         base.GameSetup(behaviourSet, bossData, bossReference);
     }
 
-    public override void ActivateBehaviour()
+    protected override void ActivateBehaviour()
     {
         throw new NotImplementedException();
     }

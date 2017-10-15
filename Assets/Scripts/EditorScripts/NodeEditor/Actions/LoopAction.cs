@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
 public class LoopAction : BaseAction {
-    
-    public override void ActivateBehaviour()
+
+    protected override void ActivateBehaviour()
     {
         IsActive = false;
         behaviourSet.LoopToStart();

@@ -16,7 +16,7 @@ public class PositionAction : BaseAction {
     private int Pos1ConnIndex = -1;
     private int Pos2ConnIndex = -1;
 
-    public override void ActivateBehaviour() { }
+    protected override void ActivateBehaviour() { }
 
     public override float GetFloat(int connID)
     {

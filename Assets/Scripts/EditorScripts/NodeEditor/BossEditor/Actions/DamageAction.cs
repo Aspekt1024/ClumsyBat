@@ -11,13 +11,19 @@ public class DamageAction : BaseAction {
 
     public enum Ifaces
     {
-        Input
+        Input, Output
     }
 
-    public override void ActivateBehaviour()
+    protected override void ActivateBehaviour()
     {
         IsActive = false;
+        bossScript.StopCurrentActions();
         bossScript.TakeDamage(Damage);
+
+        if (bossScript.IsAlive)
+        {
+            ForceCallNext((int)Ifaces.Output);
+        }
     }
 
     public override void GameSetup(BehaviourSet behaviourSet, BossData bossData, GameObject bossReference)

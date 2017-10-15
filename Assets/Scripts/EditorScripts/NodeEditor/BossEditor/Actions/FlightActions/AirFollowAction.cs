@@ -18,8 +18,8 @@ public class AirFollowAction : BaseAction {
     private GameObject followingObject;
     private Rigidbody2D bossBody;
     private SpriteRenderer bossRenderer;
-    
-    public override void ActivateBehaviour()
+
+    protected override void ActivateBehaviour()
     {
         IsActive = false;
         Follow();
@@ -58,6 +58,7 @@ public class AirFollowAction : BaseAction {
 
     public override void Stop()
     {
+        IsStopped = true;
         IsActive = false;
     }
 
