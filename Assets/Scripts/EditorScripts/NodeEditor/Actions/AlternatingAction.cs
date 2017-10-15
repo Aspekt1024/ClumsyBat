@@ -20,8 +20,8 @@ public class AlternatingAction : BaseAction {
     }
 
     private bool firstOutput = true;
+    private bool waitedOneTick = true;
     private int currentCount;
-    private bool waitedOneTick;
 
     protected override void ActivateBehaviour()
     {
