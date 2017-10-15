@@ -15,18 +15,33 @@ public class AlternatingAction : BaseAction {
 
     private bool firstOutput = true;
     private int currentCount;
+    private bool waitedOneTick;
 
     protected override void ActivateBehaviour()
     {
-        IsActive = false;
-        
         if (GetInterface((int)Ifaces.Reset).WasCalled())
         {
             GetInterface((int)Ifaces.Reset).UseCall();
             firstOutput = true;
+
             currentCount = 0;
-            return;
         }
+
+        if (GetInterface((int)Ifaces.Input).WasCalled())
+        {
+            GetInterface((int)Ifaces.Input).UseCall();
+            IsActive = true;
+            waitedOneTick = false;  // Allows reset to be called first
+        }
+    }
+
+    public override void Tick(float deltaTime)
+    {
+        if (!IsActive) return;
+        IsActive = false;
+
+        if (waitedOneTick) return;
+        waitedOneTick = true;
         
         if (firstOutput)
         {
@@ -36,13 +51,14 @@ public class AlternatingAction : BaseAction {
         {
             CallNext((int)Ifaces.Output2);
         }
-        
+
         currentCount++;
         if (currentCount == LatchCount)
         {
             firstOutput = !firstOutput;
             currentCount = 0;
         }
+
     }
 
 }
