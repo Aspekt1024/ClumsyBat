@@ -259,6 +259,7 @@
         </ActionConnection>
       </connections>
       <LatchCount>1</LatchCount>
+      <Mode>NoLoop</Mode>
     </BaseAction>
     <BaseAction xsi:type="MultipleInAction">
       <ID>10</ID>
@@ -416,7 +417,7 @@
       <RandomType>Weighted</RandomType>
       <OutputWeights>
         <float>0.7</float>
-        <float>2</float>
+        <float>0.3</float>
       </OutputWeights>
     </BaseAction>
     <BaseAction xsi:type="RandomOutAction">

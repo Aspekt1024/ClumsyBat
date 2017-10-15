@@ -106,6 +106,7 @@
         </ActionConnection>
       </connections>
       <LatchCount>1</LatchCount>
+      <Mode>NoLoop</Mode>
     </BaseAction>
     <BaseAction xsi:type="StateAction">
       <ID>6</ID>
