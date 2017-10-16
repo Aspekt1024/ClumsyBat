@@ -54,7 +54,7 @@
       </connections>
       <OperationType>Greater</OperationType>
       <Input1>0</Input1>
-      <Input2>4</Input2>
+      <Input2>3.2</Input2>
       <Input3>0</Input3>
     </BaseAction>
     <BaseAction xsi:type="StateEventAction">

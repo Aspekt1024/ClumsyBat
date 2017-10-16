@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <NodeDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <EditorOffset>
-    <x>73</x>
-    <y>-76</y>
+    <x>-46</x>
+    <y>-82</y>
   </EditorOffset>
   <Nodes>
     <BaseNode xsi:type="StartNode">
@@ -132,22 +132,22 @@
       </interfaces>
       <WindowRect>
         <x>400</x>
-        <y>270</y>
+        <y>260</y>
         <position>
           <x>400</x>
-          <y>270</y>
+          <y>260</y>
         </position>
         <center>
           <x>460</x>
-          <y>325</y>
+          <y>315</y>
         </center>
         <min>
           <x>400</x>
-          <y>270</y>
+          <y>260</y>
         </min>
         <max>
           <x>520</x>
-          <y>380</y>
+          <y>370</y>
         </max>
         <width>120</width>
         <height>110</height>
@@ -156,13 +156,13 @@
           <y>110</y>
         </size>
         <xMin>400</xMin>
-        <yMin>270</yMin>
+        <yMin>260</yMin>
         <xMax>520</xMax>
-        <yMax>380</yMax>
+        <yMax>370</yMax>
       </WindowRect>
       <Operation>Greater</Operation>
       <Input1>0</Input1>
-      <Input2>4</Input2>
+      <Input2>3.2</Input2>
       <Input3>0</Input3>
     </BaseNode>
     <BaseNode xsi:type="StateEventNode">
@@ -184,22 +184,22 @@
       </interfaces>
       <WindowRect>
         <x>600</x>
-        <y>330</y>
+        <y>320</y>
         <position>
           <x>600</x>
-          <y>330</y>
+          <y>320</y>
         </position>
         <center>
           <x>675</x>
-          <y>370</y>
+          <y>360</y>
         </center>
         <min>
           <x>600</x>
-          <y>330</y>
+          <y>320</y>
         </min>
         <max>
           <x>750</x>
-          <y>410</y>
+          <y>400</y>
         </max>
         <width>150</width>
         <height>80</height>
@@ -208,9 +208,9 @@
           <y>80</y>
         </size>
         <xMin>600</xMin>
-        <yMin>330</yMin>
+        <yMin>320</yMin>
         <xMax>750</xMax>
-        <yMax>410</yMax>
+        <yMax>400</yMax>
       </WindowRect>
       <StateEventID>2</StateEventID>
     </BaseNode>
@@ -233,22 +233,22 @@
       </interfaces>
       <WindowRect>
         <x>600</x>
-        <y>470</y>
+        <y>480</y>
         <position>
           <x>600</x>
-          <y>470</y>
+          <y>480</y>
         </position>
         <center>
           <x>675</x>
-          <y>510</y>
+          <y>520</y>
         </center>
         <min>
           <x>600</x>
-          <y>470</y>
+          <y>480</y>
         </min>
         <max>
           <x>750</x>
-          <y>550</y>
+          <y>560</y>
         </max>
         <width>150</width>
         <height>80</height>
@@ -257,9 +257,9 @@
           <y>80</y>
         </size>
         <xMin>600</xMin>
-        <yMin>470</yMin>
+        <yMin>480</yMin>
         <xMax>750</xMax>
-        <yMax>550</yMax>
+        <yMax>560</yMax>
       </WindowRect>
       <StateEventID>1</StateEventID>
     </BaseNode>
@@ -306,22 +306,22 @@
       </interfaces>
       <WindowRect>
         <x>320</x>
-        <y>450</y>
+        <y>460</y>
         <position>
           <x>320</x>
-          <y>450</y>
+          <y>460</y>
         </position>
         <center>
           <x>370</x>
-          <y>485</y>
+          <y>495</y>
         </center>
         <min>
           <x>320</x>
-          <y>450</y>
+          <y>460</y>
         </min>
         <max>
           <x>420</x>
-          <y>520</y>
+          <y>530</y>
         </max>
         <width>100</width>
         <height>70</height>
@@ -330,9 +330,9 @@
           <y>70</y>
         </size>
         <xMin>320</xMin>
-        <yMin>450</yMin>
+        <yMin>460</yMin>
         <xMax>420</xMax>
-        <yMax>520</yMax>
+        <yMax>530</yMax>
       </WindowRect>
       <NumOutputs>2</NumOutputs>
     </BaseNode>
@@ -451,23 +451,23 @@
         </NodeInterface>
       </interfaces>
       <WindowRect>
-        <x>260</x>
-        <y>310</y>
+        <x>250</x>
+        <y>320</y>
         <position>
-          <x>260</x>
-          <y>310</y>
+          <x>250</x>
+          <y>320</y>
         </position>
         <center>
-          <x>310</x>
-          <y>355</y>
+          <x>300</x>
+          <y>365</y>
         </center>
         <min>
-          <x>260</x>
-          <y>310</y>
+          <x>250</x>
+          <y>320</y>
         </min>
         <max>
-          <x>360</x>
-          <y>400</y>
+          <x>350</x>
+          <y>410</y>
         </max>
         <width>100</width>
         <height>90</height>
@@ -475,10 +475,10 @@
           <x>100</x>
           <y>90</y>
         </size>
-        <xMin>260</xMin>
-        <yMin>310</yMin>
-        <xMax>360</xMax>
-        <yMax>400</yMax>
+        <xMin>250</xMin>
+        <yMin>320</yMin>
+        <xMax>350</xMax>
+        <yMax>410</yMax>
       </WindowRect>
       <StartingValue>2</StartingValue>
     </BaseNode>
