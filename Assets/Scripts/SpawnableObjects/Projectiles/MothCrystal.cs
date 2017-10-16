@@ -83,9 +83,9 @@ public class MothCrystal : Projectile {
 
     protected override void HypersonicCollision(Vector3 hypersonicOrigin)
     {
+        projectileBody.isKinematic = true;
         projectileBody.velocity = Vector2.zero;
         projectileBody.angularVelocity = 0f;
-        projectileBody.isKinematic = true;
 
         crystalRenderer.enabled = false;
         projectileCollider.enabled = false;
