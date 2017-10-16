@@ -10,6 +10,9 @@ public class Rock : Projectile {
     private ParticleSystem rockParticleSystem;
     private bool particleSystemIsPlaying;
 
+    private float timer;
+    private const float timeBeforeColliderEnabled = 0.2f;
+    
     public override void Pause()
     {
         base.Pause();
@@ -32,6 +35,19 @@ public class Rock : Projectile {
     {
         rockParticleSystem = RockShatterObject.GetComponent<ParticleSystem>();
         rockParticleSystem.Stop();
+        timer = 0;
+        Collider.enabled = false;
+    }
+
+    private void Update()
+    {
+        if (Collider.enabled || Toolbox.Instance.GamePaused) return;
+        
+        timer += Time.deltaTime;
+        if (timer >= timeBeforeColliderEnabled)
+        {
+            Collider.enabled = true;
+        }
     }
 
     protected override void CaveCollision(string objectTag)
