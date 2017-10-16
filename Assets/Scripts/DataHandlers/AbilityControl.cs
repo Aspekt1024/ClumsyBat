@@ -83,6 +83,26 @@ public class AbilityControl : MonoBehaviour {
         Debug.Log("Ability Data Cleared");
     }
 
+    public void ActivateAllAbilities()
+    {
+        ActivateDash();
+        ActivateHypersonic();
+    }
+
+    public void ActivateDash()
+    {
+        _abilities.Rush.AbilityAvailable = true;
+        _abilities.Rush.AbilityUnlocked = true;
+        Save();
+    }
+
+    public void ActivateHypersonic()
+    {
+        _abilities.Hypersonic.AbilityAvailable = true;
+        _abilities.Hypersonic.AbilityUnlocked = true;
+        Save();
+    }
+
     public AbilityContainer.AbilityType GetDashStats() { return _abilities.Rush; }
     public void SaveDashStats(AbilityContainer.AbilityType rush) { _abilities.Rush = rush; }
 

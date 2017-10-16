@@ -24,6 +24,15 @@ public class LevelDataControl : MonoBehaviour {
         EventListener.OnLevelWon -= OnLevelWon;
     }
 
+    public void UnlockAllLevels()
+    {
+        for (int i = 0; i < _levelCompletion.Length; i++)
+        {
+            _levelCompletion[i].LevelUnlocked = true;
+        }
+        GameData.Instance.Data.SaveData();
+    }
+
     private void OnLevelWon()
     {
         var levelCompletion = GameData.Instance.GetLevelCompletion();
