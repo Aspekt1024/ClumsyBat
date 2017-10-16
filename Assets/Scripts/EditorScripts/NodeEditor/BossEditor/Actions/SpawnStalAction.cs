@@ -90,8 +90,7 @@ public class SpawnStalAction : BaseAction {
     {
         if (StalAction == StalActions.Spawn)
         {
-            float spawnPos = GetSpawnPos();
-            spawnedStalPoolIndexes[spawnIndex] = spawnAbility.Spawn(spawnPos, SpawnDirection, StalType, GreenChance, GoldChance, BlueChance);
+            Spawn();
         }
         else if (StalAction == StalActions.DropAll)
         {
@@ -102,8 +101,7 @@ public class SpawnStalAction : BaseAction {
         {
             if (spawnPhase)
             {
-                float spawnPos = GetSpawnPos();
-                spawnedStalPoolIndexes[spawnIndex] = spawnAbility.Spawn(spawnPos, SpawnDirection, StalType, GreenChance, GoldChance, BlueChance);
+                Spawn();
             }
             else
             {
@@ -122,6 +120,12 @@ public class SpawnStalAction : BaseAction {
         }
     }
 
+    private void Spawn()
+    {
+        float spawnPos = GetSpawnPos();
+        spawnedStalPoolIndexes[spawnIndex] = spawnAbility.Spawn(spawnPos, SpawnDirection, StalType, GreenChance, GoldChance, BlueChance, spawnedStalPositionIndexes[spawnIndex]);
+    }
+
     private float GetSpawnPos()
     {
         GameObject posObj = GetInputObj(stalSpawns[spawnIndex].inputID);
@@ -134,7 +138,7 @@ public class SpawnStalAction : BaseAction {
         {
             int stalIndex = bossStals.GetFreeTopStalIndex(stalSpawns[spawnIndex].xPosIndexLower, stalSpawns[spawnIndex].xPosIndexUpper);
             spawnedStalPositionIndexes[spawnIndex] = stalIndex;
-            return bossStals.ConvertIndexToPosition(stalIndex); ;
+            return bossStals.ConvertIndexToPosition(stalIndex);
         }
     }
 

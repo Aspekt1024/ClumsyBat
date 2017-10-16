@@ -14,10 +14,10 @@ public class SpawnStalactites : BossAbility {
         rubblePrefab = Resources.Load<GameObject>("Obstacles/Stalactite/FormingRockEffect");
     }
 
-    public int Spawn(float spawnPosX, SpawnStalAction.StalSpawnDirection direction, SpawnStalAction.StalTypes type, float greenChance = 1, float goldChance = 0, float blueChance = 0) // TODO wow parameters. fix it.
+    public int Spawn(float spawnPosX, SpawnStalAction.StalSpawnDirection direction, SpawnStalAction.StalTypes type, float greenChance = 1, float goldChance = 0, float blueChance = 0, int poolIndex = -1) // TODO wow parameters. fix it.
     {
         int index = GetUnusedStalIndex();
-        StartCoroutine(SpawnStal(index, spawnPosX, direction, type, greenChance, goldChance, blueChance));
+        StartCoroutine(SpawnStal(index, spawnPosX, direction, type, greenChance, goldChance, blueChance, poolIndex));
         return index;
     }
 
@@ -33,9 +33,9 @@ public class SpawnStalactites : BossAbility {
         StartCoroutine(DropStalactites(dropOrder));
     }
 
-    private IEnumerator SpawnStal(int index, float spawnPosX, SpawnStalAction.StalSpawnDirection direction, SpawnStalAction.StalTypes type, float greenChance, float goldChance, float blueChance)
+    private IEnumerator SpawnStal(int index, float spawnPosX, SpawnStalAction.StalSpawnDirection direction, SpawnStalAction.StalTypes type, float greenChance, float goldChance, float blueChance, int poolIndex)
     {
-        ActivateStal(index, spawnPosX, type, greenChance, goldChance, blueChance);
+        ActivateStal(index, spawnPosX, type, greenChance, goldChance, blueChance, poolIndex, direction);
         Transform stalTf = _stals[index].transform;
         stalTf.localRotation = new Quaternion();
         
@@ -106,7 +106,7 @@ public class SpawnStalactites : BossAbility {
         }
     }
 
-    private void ActivateStal(int index, float spawnPosX, SpawnStalAction.StalTypes type, float greenChance, float goldChance, float blueChance)
+    private void ActivateStal(int index, float spawnPosX, SpawnStalAction.StalTypes type, float greenChance, float goldChance, float blueChance, int poolHandlerIndex, SpawnStalAction.StalSpawnDirection direction)
     {
         const float startY = 10f;
         Spawnable.SpawnType spawnTf = new Spawnable.SpawnType
@@ -123,7 +123,9 @@ public class SpawnStalactites : BossAbility {
             Type = type,
             GreenMothChance = greenChance,
             GoldMothChance = goldChance,
-            BlueMothChance = blueChance
+            BlueMothChance = blueChance,
+            PoolHandlerIndex = poolHandlerIndex,
+            Direction = direction
         };
         _stals[index].Activate(stalProps, 0);
     }
@@ -133,8 +135,7 @@ public class SpawnStalactites : BossAbility {
         int i = 0;
         for (i = 0; i < _stals.Count - 1; i++)
         {
-            if (!_stals[i].IsActive)
-                break;
+            if (!_stals[i].IsActive) break;
         }
         return i;
     }

@@ -12,7 +12,8 @@ public class StalBossHandler : MonoBehaviour {
     
     private BossStalPosition[] topStals;
     private BossStalPosition[] bottomStals;
-    
+
+    #region Lifecyc;e
     private void Start()
     {
         topStals = new BossStalPosition[NumStals];
@@ -23,6 +24,17 @@ public class StalBossHandler : MonoBehaviour {
             bottomStals[i] = new BossStalPosition();
         }
     }
+
+    private void OnEnable()
+    {
+        StalEvents.OnDestroy += StalactiteDestroyed;
+    }
+
+    private void OnDisable()
+    {
+        StalEvents.OnDestroy -= StalactiteDestroyed;
+    }
+    #endregion
 
     public int GetFreeTopStalIndex(int startIndex = 0, int endIndex = NumStals - 1, BossStalPosition.StalTypes type = BossStalPosition.StalTypes.Spike)
     {
@@ -55,6 +67,20 @@ public class StalBossHandler : MonoBehaviour {
         for (int i = 0; i < stalPositionIndexes.Length; i++)
         {
             int index = stalPositionIndexes[i];
+            topStals[index].IsActive = false;
+        }
+    }
+
+    private void StalactiteDestroyed(int index, SpawnStalAction.StalSpawnDirection direction)
+    {
+        if (index < 0) return;
+
+        if (direction == SpawnStalAction.StalSpawnDirection.FromBottom)
+        {
+            bottomStals[index].IsActive = false;
+        }
+        else
+        {
             topStals[index].IsActive = false;
         }
     }

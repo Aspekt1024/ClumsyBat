@@ -44,6 +44,9 @@ public class Stalactite : Spawnable {
     private float goldMothChance;
     private float blueMothChance;
 
+    private int poolHandlerIndex;
+    private SpawnStalAction.StalSpawnDirection direction;
+
     private void Awake ()
     {
         GetStalComponents();
@@ -140,7 +143,9 @@ public class Stalactite : Spawnable {
         stalUnbroken.SetActive(true);
         stalUnbroken.transform.position = transform.position;
 
-        transform.localPosition = stalProps.SpawnTransform.Pos + Vector2.right * xOffset;
+        transform.position = stalProps.SpawnTransform.Pos + Vector2.right * xOffset;
+        transform.position += Vector3.forward * Toolbox.Instance.ZLayers["Stalactite"];
+        
         transform.localScale = stalProps.SpawnTransform.Scale;
         transform.rotation = stalProps.SpawnTransform.Rotation;
         TriggerPosX = stalProps.TriggerPosX;
@@ -151,6 +156,8 @@ public class Stalactite : Spawnable {
         greenMothChance = stalProps.GreenMothChance;
         goldMothChance = stalProps.GoldMothChance;
         blueMothChance = stalProps.BlueMothChance;
+        poolHandlerIndex = stalProps.PoolHandlerIndex;
+        direction = stalProps.Direction;
 
         if (Type == SpawnStalAction.StalTypes.Crystal)
         {
@@ -310,6 +317,7 @@ public class Stalactite : Spawnable {
     public override void SendToInactivePool()
     {
         base.SendToInactivePool();
+        StalEvents.OnDestroy(poolHandlerIndex, direction);
         if (stalBroken != null) Destroy(stalBroken);
         if (stalUnbroken != null) Destroy(stalUnbroken);
     }

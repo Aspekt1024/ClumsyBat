@@ -30,6 +30,8 @@ public sealed class StalPool : SpawnPool<Stalactite> {
         public float GreenMothChance;
         public float GoldMothChance;
         public float BlueMothChance;
+        public int PoolHandlerIndex;
+        public SpawnStalAction.StalSpawnDirection Direction;
     }
 
     public void SetupStalactitesInList(StalType[] stalList, float xOffset)
