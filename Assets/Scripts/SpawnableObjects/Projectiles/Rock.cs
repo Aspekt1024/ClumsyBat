@@ -11,7 +11,7 @@ public class Rock : Projectile {
     private bool particleSystemIsPlaying;
 
     private float timer;
-    private const float timeBeforeColliderEnabled = 0.2f;
+    private const float timeBeforeColliderEnabled = 0.12f;
     
     public override void Pause()
     {
@@ -31,7 +31,7 @@ public class Rock : Projectile {
         }
     }
 
-    protected override void Activated()
+    public override void Activate()
     {
         rockParticleSystem = RockShatterObject.GetComponent<ParticleSystem>();
         rockParticleSystem.Stop();

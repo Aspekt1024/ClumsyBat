@@ -52,7 +52,7 @@ public class MothCrystal : Projectile {
         essenceAnim.Play(mothAnimationName);
     }
 
-    protected override void Activated()
+    public override void Activate()
     {
         targetPos = Toolbox.PlayerCam.transform.position;
         targetPos += new Vector3(Random.Range(-5f, 5f), Random.Range(-2f, 3f), 0f);

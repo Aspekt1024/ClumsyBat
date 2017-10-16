@@ -35,8 +35,9 @@ public class Projectile : MonoBehaviour {
         bActive = true;
         projectileBody = GetComponent<Rigidbody2D>();
         projectileCollider = GetComponent<Collider2D>();
-        Activated();
     }
+
+    public virtual void Activate() { }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -110,8 +111,7 @@ public class Projectile : MonoBehaviour {
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         StartCoroutine(ToEarthAnimation(delay));
     }
-
-    protected virtual void Activated() { }
+    
     protected virtual void CaveCollision(string objectTag) { }
     protected virtual void PlayerCollision() { }
     protected virtual void StalactiteCollision(Collider2D stalactite) { }

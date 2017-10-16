@@ -51,6 +51,7 @@ public class ProjectileAbility : BossAbility {
         newProjectile.Collider.enabled = true;
         newProjectile.Body.AddTorque(Random.Range(150f, 200f));
         newProjectile.SetReferences(caller, this);
+        newProjectile.Activate();
 
         _projectiles.Add(newProjectile);
 
