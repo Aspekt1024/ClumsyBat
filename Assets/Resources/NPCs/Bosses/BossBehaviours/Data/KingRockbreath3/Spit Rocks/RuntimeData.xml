@@ -7,13 +7,85 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Output</Direction>
-          <OtherActionID>1</OtherActionID>
+          <OtherActionID>4</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
     </BaseAction>
-    <BaseAction xsi:type="RepeatAction">
+    <BaseAction xsi:type="StateEventAction">
       <ID>1</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>8</OtherActionID>
+          <OtherConnID>2</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <StateEventID>1</StateEventID>
+      <StopsState>false</StopsState>
+    </BaseAction>
+    <BaseAction xsi:type="RandomOutAction">
+      <ID>2</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>8</OtherActionID>
+          <OtherConnID>1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>6</OtherActionID>
+          <OtherConnID>1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>3</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <RandomType>Weighted</RandomType>
+      <OutputWeights>
+        <float>19</float>
+        <float>1</float>
+      </OutputWeights>
+    </BaseAction>
+    <BaseAction xsi:type="AlternatingAction">
+      <ID>3</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>2</OtherActionID>
+          <OtherConnID>2</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>4</OtherActionID>
+          <OtherConnID>2</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>5</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>3</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>6</OtherActionID>
+          <OtherConnID>2</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <LatchCount>1</LatchCount>
+      <Mode>NoLoop</Mode>
+    </BaseAction>
+    <BaseAction xsi:type="MultipleOutAction">
+      <ID>4</ID>
       <connections>
         <ActionConnection>
           <ID>0</ID>
@@ -24,27 +96,171 @@
         <ActionConnection>
           <ID>1</ID>
           <Direction>Output</Direction>
-          <OtherActionID>2</OtherActionID>
+          <OtherActionID>8</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>2</ID>
           <Direction>Output</Direction>
           <OtherActionID>3</OtherActionID>
-          <OtherConnID>0</OtherConnID>
+          <OtherConnID>1</OtherConnID>
         </ActionConnection>
       </connections>
-      <RepeatCount>4</RepeatCount>
-      <DelayDuration>0.5</DelayDuration>
     </BaseAction>
-    <BaseAction xsi:type="JumpAction">
-      <ID>2</ID>
+    <BaseAction xsi:type="ProjectileAction">
+      <ID>5</ID>
       <connections>
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>1</OtherActionID>
+          <OtherActionID>3</OtherActionID>
+          <OtherConnID>2</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>11</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>3</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>4</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>5</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>6</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <TargetGround>false</TargetGround>
+      <TargetPos>
+        <x>0</x>
+        <y>0</y>
+      </TargetPos>
+      <ProjectileSpeed>12.5</ProjectileSpeed>
+      <ProjectileType>MothCrystal</ProjectileType>
+      <MothColour>Gold</MothColour>
+    </BaseAction>
+    <BaseAction xsi:type="MultipleInAction">
+      <ID>6</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>7</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>2</OtherActionID>
           <OtherConnID>1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>3</OtherActionID>
+          <OtherConnID>3</OtherConnID>
+        </ActionConnection>
+      </connections>
+    </BaseAction>
+    <BaseAction xsi:type="ProjectileAction">
+      <ID>7</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>6</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>10</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>3</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>4</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>9</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>5</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>12</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>6</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>9</OtherActionID>
+          <OtherConnID>5</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <TargetGround>false</TargetGround>
+      <TargetPos>
+        <x>0</x>
+        <y>0</y>
+      </TargetPos>
+      <ProjectileSpeed>12.5</ProjectileSpeed>
+      <ProjectileType>Rock</ProjectileType>
+      <MothColour>Green</MothColour>
+    </BaseAction>
+    <BaseAction xsi:type="RepeatAction">
+      <ID>8</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>4</OtherActionID>
+          <OtherConnID>1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>2</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>1</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <RepeatCount>5</RepeatCount>
+      <DelayDuration>0.1</DelayDuration>
+    </BaseAction>
+    <BaseAction xsi:type="SpawnStalAction">
+      <ID>9</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>7</OtherActionID>
+          <OtherConnID>4</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>1</ID>
@@ -54,31 +270,77 @@
         </ActionConnection>
         <ActionConnection>
           <ID>2</ID>
-          <Direction>Output</Direction>
+          <Direction>Input</Direction>
           <OtherActionID>-1</OtherActionID>
           <OtherConnID>-1</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>3</ID>
-          <Direction>Output</Direction>
+          <Direction>Input</Direction>
           <OtherActionID>-1</OtherActionID>
           <OtherConnID>-1</OtherConnID>
         </ActionConnection>
+        <ActionConnection>
+          <ID>4</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>5</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>7</OtherActionID>
+          <OtherConnID>6</OtherConnID>
+        </ActionConnection>
       </connections>
-      <JumpForce>400</JumpForce>
+      <StalType>Stalactite</StalType>
+      <StalAction>Spawn</StalAction>
+      <SpawnDirection>FromBottom</SpawnDirection>
+      <stalSpawns>
+        <StalSpawnType>
+          <delay>0</delay>
+          <xPosIndexLower>0</xPosIndexLower>
+          <xPosIndexUpper>0</xPosIndexUpper>
+          <inputID>5</inputID>
+        </StalSpawnType>
+      </stalSpawns>
+      <GreenChance>0</GreenChance>
+      <GoldChance>0</GoldChance>
+      <BlueChance>0</BlueChance>
     </BaseAction>
-    <BaseAction xsi:type="StateEventAction">
-      <ID>3</ID>
+    <BaseAction xsi:type="PlayerAction">
+      <ID>10</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>7</OtherActionID>
+          <OtherConnID>2</OtherConnID>
+        </ActionConnection>
+      </connections>
+    </BaseAction>
+    <BaseAction xsi:type="PlayerAction">
+      <ID>11</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>5</OtherActionID>
+          <OtherConnID>2</OtherConnID>
+        </ActionConnection>
+      </connections>
+    </BaseAction>
+    <BaseAction xsi:type="PlayerEventAction">
+      <ID>12</ID>
       <connections>
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>1</OtherActionID>
-          <OtherConnID>2</OtherConnID>
+          <OtherActionID>7</OtherActionID>
+          <OtherConnID>5</OtherConnID>
         </ActionConnection>
       </connections>
-      <StateEventID>1</StateEventID>
-      <StopsState>false</StopsState>
+      <PlayerEvent>Damage</PlayerEvent>
     </BaseAction>
   </Actions>
 </ActionDataCollection>
