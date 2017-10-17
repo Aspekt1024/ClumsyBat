@@ -266,8 +266,20 @@ public class BossGameHandler : GameHandler {
             case LevelProgressionHandler.Levels.Boss5:
                 bossDataScript.BossStateMachine = Resources.Load<StateMachine>("NPCs/Bosses/BossBehaviours/KingRockbreath3");
                 break;
+            case LevelProgressionHandler.Levels.Boss6:
+                bossDataScript.BossStateMachine = Resources.Load<StateMachine>("NPCs/Bosses/BossBehaviours/Rockbreath4");
+                break;
+            case LevelProgressionHandler.Levels.Boss7:
+                bossDataScript.BossStateMachine = Resources.Load<StateMachine>("NPCs/Bosses/BossBehaviours/Rockbreath5");
+                break;
+            case LevelProgressionHandler.Levels.Boss8:
+                bossDataScript.BossStateMachine = Resources.Load<StateMachine>("NPCs/Bosses/BossBehaviours/Rockbreath6");
+                break;
+            case LevelProgressionHandler.Levels.Boss9:
+                bossDataScript.BossStateMachine = Resources.Load<StateMachine>("NPCs/Bosses/BossBehaviours/Rockbreath7");
+                break;
             default:
-                bossDataScript.BossStateMachine = Resources.Load<StateMachine>("NPCs/Bosses/BossBehaviours/KingRockbreath");
+                bossDataScript.BossStateMachine = Resources.Load<StateMachine>("NPCs/Bosses/BossBehaviours/KingRockbreath3");
                 break;
         }
 

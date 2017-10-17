@@ -10,7 +10,7 @@ public static class LevelProgressionHandler
         Main1 = 1, Main2, Main3, Main4, Main5, Main6, Boss2,
         Main7, Main8, Main9, Main10, Main11,
         Main12, Main13, Main14, Main15, Boss4,
-        Main16, Boss5,
+        Main16, Boss5, Boss6, Boss7, Boss8, Boss9,
         Boss1, Boss3,
         Village1, Village2, Village3, Village4,
         AltB1, AltB2,

@@ -57,6 +57,8 @@ public class NodeRuntimeBorders {
     private void CheckIfStateActive()
     {
         bool stillActive = false;
+        if (((StateAction)action).State == null) return;
+        if (((StateAction)action).State.Actions == null) return;
         foreach (var a in ((StateAction)action).State.Actions)
         {
             if (a.IsActive)

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <NodeDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <EditorOffset>
-    <x>895</x>
-    <y>-134</y>
+    <x>349</x>
+    <y>-424</y>
   </EditorOffset>
   <Nodes>
     <BaseNode xsi:type="StartNode">
@@ -227,7 +227,7 @@
       </StalSpawns>
     </BaseNode>
     <BaseNode xsi:type="StateEventNode">
-      <WindowTitle>Complete</WindowTitle>
+      <WindowTitle>success</WindowTitle>
       <ID>3</ID>
       <interfaces>
         <NodeInterface>

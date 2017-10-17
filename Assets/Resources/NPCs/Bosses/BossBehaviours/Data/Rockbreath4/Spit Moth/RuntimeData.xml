@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<ActionDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Actions>
+    <BaseAction xsi:type="StartAction">
+      <ID>0</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>1</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+      </connections>
+    </BaseAction>
+    <BaseAction xsi:type="ProjectileAction">
+      <ID>1</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>0</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>2</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>3</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>4</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>5</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>6</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <TargetGround>false</TargetGround>
+      <TargetPos>
+        <x>0</x>
+        <y>0</y>
+      </TargetPos>
+      <ProjectileSpeed>12.5</ProjectileSpeed>
+      <ProjectileType>MothCrystal</ProjectileType>
+      <MothColour>Gold</MothColour>
+    </BaseAction>
+    <BaseAction xsi:type="PlayerAction">
+      <ID>2</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>1</OtherActionID>
+          <OtherConnID>2</OtherConnID>
+        </ActionConnection>
+      </connections>
+    </BaseAction>
+  </Actions>
+</ActionDataCollection>
