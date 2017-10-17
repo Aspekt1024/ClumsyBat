@@ -9,6 +9,7 @@ public class Rock : Projectile {
 
     private ParticleSystem rockParticleSystem;
     private bool particleSystemIsPlaying;
+    private bool shattered;
 
     private float timer;
     private const float timeBeforeColliderEnabled = 0.12f;
@@ -90,6 +91,9 @@ public class Rock : Projectile {
     
     private void Shatter()
     {
+        if (shattered) return;
+
+        shattered = true;
         particleSystemIsPlaying = true;
         projectileCollider.enabled = false;
         projectileBody.velocity = Vector2.zero;

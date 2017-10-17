@@ -16,6 +16,7 @@ public class MothCrystal : Projectile {
     private Vector3 targetPos;
 
     private Coroutine floatRoutine;
+    private Coroutine moveRoutine;
 
     public override void Pause()
     {
@@ -57,7 +58,7 @@ public class MothCrystal : Projectile {
         targetPos = Toolbox.PlayerCam.transform.position;
         targetPos += new Vector3(Random.Range(-5f, 5f), Random.Range(-2f, 3f), 0f);
         targetPos.z = transform.position.z;
-        StartCoroutine(MoveToPosition());
+        moveRoutine = StartCoroutine(MoveToPosition());
 
         crystalRenderer = CrystalObject.GetComponent<SpriteRenderer>();
         MothEssenceObject.SetActive(true);
@@ -95,6 +96,10 @@ public class MothCrystal : Projectile {
         if (floatRoutine != null)
         {
             StopCoroutine(floatRoutine);
+        }
+        if (moveRoutine != null)
+        {
+            StopCoroutine(moveRoutine);
         }
     }
 
