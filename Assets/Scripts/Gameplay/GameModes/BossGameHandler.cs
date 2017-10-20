@@ -221,6 +221,7 @@ public class BossGameHandler : GameHandler {
         }
         
         GameData.Instance.SetLevelCompletion(GameData.LevelCompletePaths.MainPath);
+        GameData.Instance.NextLevel = LevelProgressionHandler.GetNextLevel(GameData.Instance.Level);
         EventListener.LevelWon();
         _gameMenu.WinGame();
         _gameHud.LevelWon();

@@ -76,8 +76,8 @@ public class Mushroom : Spawnable {
     {
         const float animationDuration = 1f;
         const float sporeRiseTime = 0.29f;
-        _sporeAnimator.Play("SporeAnim", 0, 0f);
         _spore.SetActive(true);
+        _sporeAnimator.Play("SporeAnim", 0, 0f);
 
         float animationTimer = 0f;
         while (animationTimer < animationDuration)

@@ -4,21 +4,17 @@
     <TriggerEvent>
       <Id>1</Id>
       <Dialogue>
-        <string />
-        <string />
-        <string />
-        <string />
-        <string />
-        <string>hello!</string>
+        <string>Use the dash ability to get past these spikes unharmed!</string>
+        <string>Swipe the screen to the right to dash</string>
       </Dialogue>
       <EventType>Dialogue</EventType>
       <EventId>None</EventId>
       <ShowOnce>false</ShowOnce>
-      <ShowOnCompletedLevel>false</ShowOnCompletedLevel>
-      <ShowOnRestart>false</ShowOnRestart>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
       <HasDependency>false</HasDependency>
       <DependencyId>None</DependencyId>
-      <ForceShow>Never</ForceShow>
+      <ForceShow>Once</ForceShow>
     </TriggerEvent>
     <TriggerEvent>
       <Id>2</Id>
@@ -380,7 +376,7 @@
     <TriggerEvent>
       <Id>25</Id>
       <Dialogue>
-        <string>Great work! Now, these moths carry an essence that the lantern can gather.</string>
+        <string>These moths carry an essence that the lantern can gather.</string>
         <string>The essence will help you through this cave by providing light.</string>
         <string>Some moths will even unleash powerful abilities!</string>
       </Dialogue>
@@ -391,7 +387,7 @@
       <ShowOnRestart>true</ShowOnRestart>
       <HasDependency>false</HasDependency>
       <DependencyId>None</DependencyId>
-      <ForceShow>Never</ForceShow>
+      <ForceShow>Once</ForceShow>
     </TriggerEvent>
     <TriggerEvent>
       <Id>26</Id>
@@ -426,7 +422,6 @@
       <Dialogue>
         <string>Hi, I'm Nomee! These caves are dangerous, so I'll help you through!</string>
         <string>I can talk to you through the lantern you're carrying!</string>
-        <string>Tap the lantern at the top of the screen when it flashes, and I'll be able to talk.</string>
       </Dialogue>
       <EventType>Dialogue</EventType>
       <EventId>None</EventId>
@@ -440,7 +435,7 @@
     <TriggerEvent>
       <Id>29</Id>
       <Dialogue>
-        <string>This is the end of this area! Did you gather all the moths?</string>
+        <string>This is the end of this area! Did you collect all the essence?</string>
       </Dialogue>
       <EventType>Dialogue</EventType>
       <EventId>None</EventId>
@@ -449,7 +444,7 @@
       <ShowOnRestart>true</ShowOnRestart>
       <HasDependency>false</HasDependency>
       <DependencyId>None</DependencyId>
-      <ForceShow>Never</ForceShow>
+      <ForceShow>Once</ForceShow>
     </TriggerEvent>
     <TriggerEvent>
       <Id>30</Id>
@@ -463,7 +458,7 @@
       <ShowOnRestart>true</ShowOnRestart>
       <HasDependency>false</HasDependency>
       <DependencyId>None</DependencyId>
-      <ForceShow>Never</ForceShow>
+      <ForceShow>Once</ForceShow>
     </TriggerEvent>
     <TriggerEvent>
       <Id>31</Id>
@@ -506,7 +501,7 @@
       <ShowOnRestart>true</ShowOnRestart>
       <HasDependency>false</HasDependency>
       <DependencyId>None</DependencyId>
-      <ForceShow>Never</ForceShow>
+      <ForceShow>Once</ForceShow>
     </TriggerEvent>
     <TriggerEvent>
       <Id>34</Id>
@@ -541,15 +536,16 @@
       <Id>36</Id>
       <Dialogue>
         <string>Tap and hold while touching the ceiling to perch.</string>
+        <string>Collect the hypersonic moth to clear the path, then drop down!</string>
       </Dialogue>
       <EventType>Dialogue</EventType>
       <EventId>None</EventId>
       <ShowOnce>false</ShowOnce>
       <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
       <ShowOnRestart>true</ShowOnRestart>
-      <HasDependency>false</HasDependency>
-      <DependencyId>None</DependencyId>
-      <ForceShow>Once</ForceShow>
+      <HasDependency>true</HasDependency>
+      <DependencyId>NoDash</DependencyId>
+      <ForceShow>Always</ForceShow>
     </TriggerEvent>
     <TriggerEvent>
       <Id>37</Id>
@@ -564,6 +560,49 @@
       <HasDependency>false</HasDependency>
       <DependencyId>None</DependencyId>
       <ForceShow>Never</ForceShow>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>38</Id>
+      <Dialogue>
+        <string>Use dash to get past this tight space!</string>
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>true</HasDependency>
+      <DependencyId>HasDash</DependencyId>
+      <ForceShow>Once</ForceShow>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>39</Id>
+      <Dialogue>
+        <string>Without the dash ability, we can't get past here unharmed</string>
+        <string>Go back and find the shrine to activate it!</string>
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>true</HasDependency>
+      <DependencyId>NoDash</DependencyId>
+      <ForceShow>Always</ForceShow>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>40</Id>
+      <Dialogue>
+        <string>Remember how you can perch on the ceiling?</string>
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>false</HasDependency>
+      <DependencyId>None</DependencyId>
+      <ForceShow>Once</ForceShow>
     </TriggerEvent>
   </EventData>
 </TriggerContainer>

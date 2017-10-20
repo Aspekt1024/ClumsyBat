@@ -41,7 +41,6 @@
             <Dialogue>
               <string>Hi, I'm Nomee! These caves are dangerous, so I'll help you through!</string>
               <string>I can talk to you through the lantern you're carrying!</string>
-              <string>Tap the lantern at the top of the screen when it flashes, and I'll be able to talk.</string>
             </Dialogue>
             <EventType>Dialogue</EventType>
             <EventId>None</EventId>
@@ -72,7 +71,7 @@
         <TriggerType>
           <SpawnTransform>
             <Pos>
-              <x>-2.1400013</x>
+              <x>6.299999</x>
               <y>0.6537069</y>
             </Pos>
             <Scale>
@@ -94,7 +93,7 @@
           <TrigEvent>
             <Id>25</Id>
             <Dialogue>
-              <string>Great work! Now, these moths carry an essence that the lantern can gather.</string>
+              <string>These moths carry an essence that the lantern can gather.</string>
               <string>The essence will help you through this cave by providing light.</string>
               <string>Some moths will even unleash powerful abilities!</string>
             </Dialogue>
@@ -105,7 +104,7 @@
             <ShowOnRestart>true</ShowOnRestart>
             <HasDependency>false</HasDependency>
             <DependencyId>None</DependencyId>
-            <ForceShow>Never</ForceShow>
+            <ForceShow>Once</ForceShow>
           </TrigEvent>
         </TriggerType>
       </Triggers>
@@ -423,7 +422,7 @@
           <TrigEvent>
             <Id>29</Id>
             <Dialogue>
-              <string>This is the end of this area! Did you gather all the moths?</string>
+              <string>This is the end of this area! Did you collect all the essence?</string>
             </Dialogue>
             <EventType>Dialogue</EventType>
             <EventId>None</EventId>
@@ -432,7 +431,7 @@
             <ShowOnRestart>true</ShowOnRestart>
             <HasDependency>false</HasDependency>
             <DependencyId>None</DependencyId>
-            <ForceShow>Never</ForceShow>
+            <ForceShow>Once</ForceShow>
           </TrigEvent>
         </TriggerType>
       </Triggers>

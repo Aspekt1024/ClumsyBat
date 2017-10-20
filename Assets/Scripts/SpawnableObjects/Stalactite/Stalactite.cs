@@ -317,7 +317,7 @@ public class Stalactite : Spawnable {
     public override void SendToInactivePool()
     {
         base.SendToInactivePool();
-        StalEvents.OnDestroy(poolHandlerIndex, direction);
+        StalEvents.Destroy(poolHandlerIndex, direction);
         if (stalBroken != null) Destroy(stalBroken);
         if (stalUnbroken != null) Destroy(stalUnbroken);
     }

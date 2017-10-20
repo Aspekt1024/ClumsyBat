@@ -23,6 +23,7 @@ public class GameData : Singleton<GameData>
     public bool OnlyOneDamageTaken;
     public AchievementStatus[] Achievements = new AchievementStatus[3];
     public LevelProgressionHandler.Levels Level;
+    public LevelProgressionHandler.Levels NextLevel;
     public bool BossLeftRightTapTutorialSeen;
 
     private LevelDataContainer.LevelType _levelCompletion;

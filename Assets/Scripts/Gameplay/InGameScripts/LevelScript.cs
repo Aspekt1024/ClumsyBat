@@ -106,10 +106,12 @@ public class LevelScript : MonoBehaviour {
         if (Toolbox.Player.ExitViaSecretPath)
         {
             GameData.Instance.SetLevelCompletion(GameData.LevelCompletePaths.Secret1);
+            GameData.Instance.NextLevel = LevelProgressionHandler.GetSecretLevel1(GameData.Instance.Level);
         }
         else
         {
             GameData.Instance.SetLevelCompletion(GameData.LevelCompletePaths.MainPath);
+            GameData.Instance.NextLevel = LevelProgressionHandler.GetNextLevel(GameData.Instance.Level);
         }
         EventListener.LevelWon();
         GameHud.LevelWon();

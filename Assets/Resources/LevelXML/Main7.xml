@@ -13,7 +13,45 @@
       <Moths />
       <Spiders />
       <Webs />
-      <Triggers />
+      <Triggers>
+        <TriggerType>
+          <SpawnTransform>
+            <Pos>
+              <x>3.78</x>
+              <y>1.23</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>11.0749674</y>
+            </Scale>
+            <Rotation>
+              <x>0</x>
+              <y>0</y>
+              <z>0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <TrigEvent>
+            <Id>30</Id>
+            <Dialogue>
+              <string>Eww, mushrooms! They'll decrease your vision</string>
+            </Dialogue>
+            <EventType>Dialogue</EventType>
+            <EventId>None</EventId>
+            <ShowOnce>false</ShowOnce>
+            <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+            <ShowOnRestart>true</ShowOnRestart>
+            <HasDependency>false</HasDependency>
+            <DependencyId>None</DependencyId>
+            <ForceShow>Once</ForceShow>
+          </TrigEvent>
+        </TriggerType>
+      </Triggers>
       <Npcs />
     </Cave>
     <Cave>
@@ -128,45 +166,7 @@
       </Moths>
       <Spiders />
       <Webs />
-      <Triggers>
-        <TriggerType>
-          <SpawnTransform>
-            <Pos>
-              <x>-9.4800005</x>
-              <y>1.23</y>
-            </Pos>
-            <Scale>
-              <x>1</x>
-              <y>11.0749674</y>
-            </Scale>
-            <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
-              <w>1</w>
-              <eulerAngles>
-                <x>0</x>
-                <y>0</y>
-                <z>0</z>
-              </eulerAngles>
-            </Rotation>
-          </SpawnTransform>
-          <TrigEvent>
-            <Id>30</Id>
-            <Dialogue>
-              <string>Eww, mushrooms! They'll decrease your vision</string>
-            </Dialogue>
-            <EventType>Dialogue</EventType>
-            <EventId>None</EventId>
-            <ShowOnce>false</ShowOnce>
-            <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
-            <ShowOnRestart>true</ShowOnRestart>
-            <HasDependency>false</HasDependency>
-            <DependencyId>None</DependencyId>
-            <ForceShow>Never</ForceShow>
-          </TrigEvent>
-        </TriggerType>
-      </Triggers>
+      <Triggers />
       <Npcs />
     </Cave>
     <Cave>
@@ -206,6 +206,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
         <StalType>
           <SpawnTransform>
@@ -235,6 +237,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
         <StalType>
           <SpawnTransform>
@@ -264,6 +268,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
         <StalType>
           <SpawnTransform>
@@ -293,6 +299,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
         <StalType>
           <SpawnTransform>
@@ -322,6 +330,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
         <StalType>
           <SpawnTransform>
@@ -351,6 +361,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
         <StalType>
           <SpawnTransform>
@@ -380,6 +392,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
         <StalType>
           <SpawnTransform>
@@ -409,6 +423,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
         <StalType>
           <SpawnTransform>
@@ -438,6 +454,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
         <StalType>
           <SpawnTransform>
@@ -452,7 +470,7 @@
             <Rotation>
               <x>0</x>
               <y>0</y>
-              <z>0.0871557742</z>
+              <z>0.08715577</z>
               <w>0.9961947</w>
               <eulerAngles>
                 <x>0</x>
@@ -467,6 +485,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
         <StalType>
           <SpawnTransform>
@@ -496,6 +516,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
       </Stals>
       <Moths>
@@ -554,15 +576,16 @@
             <Id>36</Id>
             <Dialogue>
               <string>Tap and hold while touching the ceiling to perch.</string>
+              <string>Collect the hypersonic moth to clear the path, then drop down!</string>
             </Dialogue>
             <EventType>Dialogue</EventType>
             <EventId>None</EventId>
             <ShowOnce>false</ShowOnce>
             <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
             <ShowOnRestart>true</ShowOnRestart>
-            <HasDependency>false</HasDependency>
-            <DependencyId>None</DependencyId>
-            <ForceShow>Once</ForceShow>
+            <HasDependency>true</HasDependency>
+            <DependencyId>NoDash</DependencyId>
+            <ForceShow>Always</ForceShow>
           </TrigEvent>
         </TriggerType>
       </Triggers>
@@ -630,6 +653,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
         <StalType>
           <SpawnTransform>
@@ -659,6 +684,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
         <StalType>
           <SpawnTransform>
@@ -688,6 +715,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
         <StalType>
           <SpawnTransform>
@@ -717,6 +746,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
         <StalType>
           <SpawnTransform>
@@ -746,6 +777,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
         <StalType>
           <SpawnTransform>
@@ -775,6 +808,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
         <StalType>
           <SpawnTransform>
@@ -804,6 +839,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
       </Stals>
       <Moths>
@@ -900,6 +937,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
         <StalType>
           <SpawnTransform>
@@ -929,6 +968,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
         <StalType>
           <SpawnTransform>
@@ -958,6 +999,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
         <StalType>
           <SpawnTransform>
@@ -987,6 +1030,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
         <StalType>
           <SpawnTransform>
@@ -1016,6 +1061,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
       </Stals>
       <Moths>
@@ -1087,6 +1134,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
         <StalType>
           <SpawnTransform>
@@ -1116,6 +1165,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
         <StalType>
           <SpawnTransform>
@@ -1145,6 +1196,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
         <StalType>
           <SpawnTransform>
@@ -1174,6 +1227,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
         <StalType>
           <SpawnTransform>
@@ -1203,6 +1258,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
       </Stals>
       <Moths>
@@ -1274,6 +1331,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
         <StalType>
           <SpawnTransform>
@@ -1303,6 +1362,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
         <StalType>
           <SpawnTransform>
@@ -1332,6 +1393,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
         <StalType>
           <SpawnTransform>
@@ -1361,6 +1424,8 @@
           <GreenMothChance>0</GreenMothChance>
           <GoldMothChance>0</GoldMothChance>
           <BlueMothChance>0</BlueMothChance>
+          <PoolHandlerIndex>0</PoolHandlerIndex>
+          <Direction>FromTop</Direction>
         </StalType>
       </Stals>
       <Moths />

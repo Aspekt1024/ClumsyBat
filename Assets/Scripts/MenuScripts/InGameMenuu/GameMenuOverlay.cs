@@ -25,8 +25,16 @@ public class GameMenuOverlay : MonoBehaviour {
 
     public void NextButtonPressed()
     {
-        Toolbox.Instance.MenuScreen = Toolbox.MenuSelector.LevelSelect;
-        StartCoroutine(GotoMainMenu());
+        GameData.Instance.Level = GameData.Instance.NextLevel;
+        if (GameData.Instance.Level.ToString().Substring(0, 4) == "Boss")
+        {
+            StartCoroutine(GotoBossLevel());
+        }
+        else
+        {
+            StartCoroutine(GotoNormalLevel());
+
+        }
     }
 
     public void RestartButtonPressed()
@@ -90,6 +98,18 @@ public class GameMenuOverlay : MonoBehaviour {
     private void SaveData()
     {
         GameData.Instance.Data.SaveData();
+    }
+
+    private IEnumerator GotoBossLevel()
+    {
+        yield return StartCoroutine(ShowLoadScreenRoutine());
+        SceneManager.LoadScene("Boss");
+    }
+
+    private IEnumerator GotoNormalLevel()
+    {
+        yield return StartCoroutine(ShowLoadScreenRoutine());
+        SceneManager.LoadScene("Levels");
     }
 
     private IEnumerator GotoMainMenu()
