@@ -252,31 +252,31 @@ public class BossGameHandler : GameHandler {
 
         switch (GameData.Instance.Level)
         {
-            case LevelProgressionHandler.Levels.Boss1:
+            case LevelProgressionHandler.Levels.BossS1:
                 bossDataScript.BossStateMachine = Resources.Load<StateMachine>("NPCs/Bosses/BossBehaviours/HypersonicEventBoss");
                 break;
-            case LevelProgressionHandler.Levels.Boss2:
-                bossDataScript.BossStateMachine = Resources.Load<StateMachine>("NPCs/Bosses/BossBehaviours/KingRockbreath1");
-                break;
-            case LevelProgressionHandler.Levels.Boss3:
+            case LevelProgressionHandler.Levels.BossS2:
                 bossDataScript.BossStateMachine = Resources.Load<StateMachine>("NPCs/Bosses/BossBehaviours/DashEventBoss");
                 break;
-            case LevelProgressionHandler.Levels.Boss4:
+            case LevelProgressionHandler.Levels.Boss1:
+                bossDataScript.BossStateMachine = Resources.Load<StateMachine>("NPCs/Bosses/BossBehaviours/KingRockbreath1");
+                break;
+            case LevelProgressionHandler.Levels.Boss2:
                 bossDataScript.BossStateMachine = Resources.Load<StateMachine>("NPCs/Bosses/BossBehaviours/KingRockbreath2");
                 break;
-            case LevelProgressionHandler.Levels.Boss5:
+            case LevelProgressionHandler.Levels.Boss3:
                 bossDataScript.BossStateMachine = Resources.Load<StateMachine>("NPCs/Bosses/BossBehaviours/KingRockbreath3");
                 break;
-            case LevelProgressionHandler.Levels.Boss6:
+            case LevelProgressionHandler.Levels.Boss4:
                 bossDataScript.BossStateMachine = Resources.Load<StateMachine>("NPCs/Bosses/BossBehaviours/Rockbreath4");
                 break;
-            case LevelProgressionHandler.Levels.Boss7:
+            case LevelProgressionHandler.Levels.Boss5:
                 bossDataScript.BossStateMachine = Resources.Load<StateMachine>("NPCs/Bosses/BossBehaviours/Rockbreath5");
                 break;
-            case LevelProgressionHandler.Levels.Boss8:
+            case LevelProgressionHandler.Levels.Boss6:
                 bossDataScript.BossStateMachine = Resources.Load<StateMachine>("NPCs/Bosses/BossBehaviours/Rockbreath6");
                 break;
-            case LevelProgressionHandler.Levels.Boss9:
+            case LevelProgressionHandler.Levels.Boss7:
                 bossDataScript.BossStateMachine = Resources.Load<StateMachine>("NPCs/Bosses/BossBehaviours/Rockbreath7");
                 break;
             default:
@@ -293,10 +293,10 @@ public class BossGameHandler : GameHandler {
     {
         switch (GameData.Instance.Level)
         {
-            case LevelProgressionHandler.Levels.Boss1:
+            case LevelProgressionHandler.Levels.BossS1:
                 Toolbox.Tooltips.ShowDialogue("You found the hidden shrine! The key to defeating King Rockbreath can be found here.", 4f);
                 break;
-            case LevelProgressionHandler.Levels.Boss2:
+            case LevelProgressionHandler.Levels.Boss1:
                 if (!GameData.Instance.Data.AbilityData.GetHypersonicStats().AbilityAvailable)
                 {
                     Toolbox.Tooltips.ShowDialogue("Without visiting the hidden shrine, you don't stand a chance here! Turn back!", 4f);

@@ -170,23 +170,21 @@ public class Toolbox : Singleton<Toolbox>
         LevelNames.Add(Levels.Main13, "Luck");
         LevelNames.Add(Levels.Main14, "Spaceship");
         LevelNames.Add(Levels.Main15, "Hit");
-        LevelNames.Add(Levels.Main16, "Hit");
+        LevelNames.Add(Levels.Main16, "Hit2");
+        
+        LevelNames.Add(Levels.BossS1, "A New Hope");
+        LevelNames.Add(Levels.BossS2, "Sonic");
 
-        LevelNames.Add(Levels.Boss1, "A New Hope");
+        LevelNames.Add(Levels.Boss1, "Rockbreath");
         LevelNames.Add(Levels.Boss2, "Rockbreath Jr.");
-        LevelNames.Add(Levels.Boss3, "Sonic");
+        LevelNames.Add(Levels.Boss3, "Elder Rockbreath");
         LevelNames.Add(Levels.Boss4, "King Rockbreath");
-        LevelNames.Add(Levels.Boss5, "Boss5");
+        LevelNames.Add(Levels.Boss5, "Count Nomee");
 
-        LevelNames.Add(Levels.Boss6, "Boss6");
-        LevelNames.Add(Levels.Boss7, "Boss7");
-        LevelNames.Add(Levels.Boss8, "Boss8");
-        LevelNames.Add(Levels.Boss9, "Boss9");
-
-        LevelNames.Add(Levels.Village1, "Village 1");
-        LevelNames.Add(Levels.Village2, "Village 2");
-        LevelNames.Add(Levels.Village3, "Village 3");
-        LevelNames.Add(Levels.Village4, "Village 4");
+        LevelNames.Add(Levels.Boss6, "Rockbreath Beta");
+        LevelNames.Add(Levels.Boss7, "Rockbreath Omega");
+        LevelNames.Add(Levels.Boss8, "Rockbreath Prime");
+        LevelNames.Add(Levels.Boss9, "Nomee Prime");
     }
 
     #region TooltipMemory

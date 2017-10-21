@@ -604,5 +604,35 @@
       <DependencyId>None</DependencyId>
       <ForceShow>Once</ForceShow>
     </TriggerEvent>
+    <TriggerEvent>
+      <Id>41</Id>
+      <Dialogue>
+        <string>Secret passages lead to essence shrines</string>
+        <string>You can unlock the power of the lanterna t these</string>
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>true</HasDependency>
+      <DependencyId>NoHypersonic</DependencyId>
+      <ForceShow>Always</ForceShow>
+    </TriggerEvent>
+    <TriggerEvent>
+      <Id>42</Id>
+      <Dialogue>
+        <string>Without hypersonic, we can't make it past here!</string>
+        <string>Go back and find the shrine to unlock the lantern's power!</string>
+      </Dialogue>
+      <EventType>Dialogue</EventType>
+      <EventId>None</EventId>
+      <ShowOnce>false</ShowOnce>
+      <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
+      <ShowOnRestart>true</ShowOnRestart>
+      <HasDependency>true</HasDependency>
+      <DependencyId>NoHypersonic</DependencyId>
+      <ForceShow>Always</ForceShow>
+    </TriggerEvent>
   </EventData>
 </TriggerContainer>

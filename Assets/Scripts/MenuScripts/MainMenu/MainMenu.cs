@@ -16,7 +16,7 @@ public class MainMenu : MonoBehaviour {
         GameData.Instance.Data.LoadDataObjects();
         camPositioner = GetComponent<CamPositioner>();
         dropdownHandler = FindObjectOfType<MainMenuDropdownHandler>();
-
+        
         GetMenuButtonRects();
         ShowMenuButtons();
     }

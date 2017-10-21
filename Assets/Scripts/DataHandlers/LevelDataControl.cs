@@ -26,11 +26,32 @@ public class LevelDataControl : MonoBehaviour {
 
     public void UnlockAllLevels()
     {
-        for (int i = 0; i < _levelCompletion.Length; i++)
-        {
-            _levelCompletion[i].LevelUnlocked = true;
-        }
-        GameData.Instance.Data.SaveData();
+        _levelCompletion[(int)LevelProgressionHandler.Levels.Main2].LevelUnlocked = true;
+        _levelCompletion[(int)LevelProgressionHandler.Levels.Main3].LevelUnlocked = true;
+        _levelCompletion[(int)LevelProgressionHandler.Levels.Main4].LevelUnlocked = true;
+        _levelCompletion[(int)LevelProgressionHandler.Levels.Main5].LevelUnlocked = true;
+        _levelCompletion[(int)LevelProgressionHandler.Levels.Main6].LevelUnlocked = true;
+        _levelCompletion[(int)LevelProgressionHandler.Levels.Main7].LevelUnlocked = true;
+        _levelCompletion[(int)LevelProgressionHandler.Levels.Main8].LevelUnlocked = true;
+        _levelCompletion[(int)LevelProgressionHandler.Levels.Main9].LevelUnlocked = true;
+        _levelCompletion[(int)LevelProgressionHandler.Levels.Main10].LevelUnlocked = true;
+        _levelCompletion[(int)LevelProgressionHandler.Levels.Main11].LevelUnlocked = true;
+        _levelCompletion[(int)LevelProgressionHandler.Levels.Main12].LevelUnlocked = true;
+        _levelCompletion[(int)LevelProgressionHandler.Levels.Main13].LevelUnlocked = true;
+        _levelCompletion[(int)LevelProgressionHandler.Levels.Main14].LevelUnlocked = true;
+        _levelCompletion[(int)LevelProgressionHandler.Levels.Main15].LevelUnlocked = true;
+        _levelCompletion[(int)LevelProgressionHandler.Levels.Main16].LevelUnlocked = true;
+        _levelCompletion[(int)LevelProgressionHandler.Levels.Boss1].LevelUnlocked = true;
+        _levelCompletion[(int)LevelProgressionHandler.Levels.Boss2].LevelUnlocked = true;
+        _levelCompletion[(int)LevelProgressionHandler.Levels.Boss3].LevelUnlocked = true;
+        _levelCompletion[(int)LevelProgressionHandler.Levels.Boss4].LevelUnlocked = true;
+        _levelCompletion[(int)LevelProgressionHandler.Levels.Boss5].LevelUnlocked = true;
+        _levelCompletion[(int)LevelProgressionHandler.Levels.Boss6].LevelUnlocked = true;
+        _levelCompletion[(int)LevelProgressionHandler.Levels.Boss7].LevelUnlocked = true;
+        _levelCompletion[(int)LevelProgressionHandler.Levels.BossS1].LevelUnlocked = true;
+        _levelCompletion[(int)LevelProgressionHandler.Levels.BossS2].LevelUnlocked = true;
+        _levelCompletion[(int)LevelProgressionHandler.Levels.BossS3].LevelUnlocked = true;
+        Save();
     }
 
     private void OnLevelWon()

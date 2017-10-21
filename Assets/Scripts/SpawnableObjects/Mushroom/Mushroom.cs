@@ -95,7 +95,7 @@ public class Mushroom : Spawnable {
                 else
                 {
                     float sporeExpandRatio = (animationTimer - sporeRiseTime) / (animationDuration - sporeRiseTime);
-                    _sporeCollider.radius = 1f;  // TODO could make this expand over time using SporeExpandTime
+                    _sporeCollider.radius = 1f;
                     _sporeCollider.offset = new Vector2(0f, 0.4f - 0.7f * sporeExpandRatio);
                 }
             }
@@ -115,6 +115,7 @@ public class Mushroom : Spawnable {
         _bIsTriggered = false;
         _mushroomRenderer.enabled = true;
         _spore.transform.Rotate(Vector3.forward * 16f);  // Offsets the spore trajectory to line up with the shroom graphic
+                                                         // TODO set this in the editor using animations?
     }
 
     public override void PauseGame(bool pauseGame)
@@ -127,8 +128,6 @@ public class Mushroom : Spawnable {
     public void DestroyMushroom()
     {
         // TODO animation
-        // TODO coroutine
-        // TODO whatever
         DeactivateMushroom();
     }
 }

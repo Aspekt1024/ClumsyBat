@@ -32,7 +32,7 @@ public class LevelButtonHandler : MonoBehaviour {
         levelScrollRect = GameObject.Find("LevelScrollRect").GetComponent<ScrollRect>();
         levelText = LevelTextRT.GetComponent<Text>();
         levelScoreText = LevelScoreTextRt.GetComponent<Text>();
-
+        
         GetLevelButtons();
         SetupLevelSelect();
         LoadingOverlay = GameObject.Find("LoadScreen");
@@ -91,7 +91,7 @@ public class LevelButtonHandler : MonoBehaviour {
         foreach (LevelButton lvlButton in GetComponentsInChildren<LevelButton>())
         {
             int level = (int)lvlButton.Level;
-            if (level >= 1 && level <= GameData.Instance.Data.LevelData.NumLevels)
+            if (level >= 1 && level <= GameData.Instance.Data.LevelData.NumLevels - 1)
             {
                 buttons[level] = lvlButton;
 
