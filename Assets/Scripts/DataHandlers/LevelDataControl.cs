@@ -63,21 +63,29 @@ public class LevelDataControl : MonoBehaviour {
         if (levelCompletion.SecretPath1)
         {
             level = LevelProgressionHandler.GetSecretLevel1(level);
-            UnlockLevel(level);
+            Unlock(level);
         }
         else if (levelCompletion.SecretPath2)
         {
             level = LevelProgressionHandler.GetSecretLevel2(level);
-            UnlockLevel(level);
+            Unlock(level);
         }
         else if (levelCompletion.LevelCompleted)
         {
             level = LevelProgressionHandler.GetNextLevel(level);
-            UnlockLevel(level);
+            Unlock(level);
         }
-
+        
         GameData.Instance.Data.Stats.LevelsCompleted++;
         GameData.Instance.Data.SaveData();
+    }
+
+    private void Unlock(LevelProgressionHandler.Levels level)
+    {
+        if (level != LevelProgressionHandler.Levels.Unassigned)
+        {
+            UnlockLevel(level);
+        }
     }
 
     public void Save()
@@ -188,10 +196,19 @@ public class LevelDataControl : MonoBehaviour {
         while (level < LevelProgressionHandler.Levels.Boss5 && (_levelCompletion[(int)level].LevelUnlocked || level == LevelProgressionHandler.Levels.Main1))
         {
             LevelProgressionHandler.Levels nextLevel = LevelProgressionHandler.GetNextLevel(level);
-            if (_levelCompletion[(int)nextLevel].LevelUnlocked)
-                level = nextLevel;
-            else
+            if (nextLevel == LevelProgressionHandler.Levels.Unassigned)
+            {
+                level = LevelProgressionHandler.Levels.Main1;
                 break;
+            }
+            else if (_levelCompletion[(int)nextLevel].LevelUnlocked)
+            {
+                level = nextLevel;
+            }
+            else
+            {
+                break;
+            }
         }
         return level;
     }

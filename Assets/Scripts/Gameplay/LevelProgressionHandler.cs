@@ -9,9 +9,10 @@ public static class LevelProgressionHandler
         Unassigned = 0,
         Main1 = 1, Main2 = 2, Main3 = 3, Boss1 = 4,
         Main4, Main5, Main6, Boss2,
-        Main7, Main8, Main9, Main10, Main11, Boss3,
-        Main12, Main13, Main14, Main15, Boss4,
-        Main16, Boss5, Boss6, Boss7, Boss8, Boss9,
+        Main7, Main8, Boss3,
+        Main9, Main10, Main11, Boss4,
+        Main12, Main13, Main14, Boss5,
+        Main15, Main16, Boss6, Boss7, Boss8, Boss9,
         BossS1, BossS2, BossS3,
         Endless 
     }
@@ -22,9 +23,11 @@ public static class LevelProgressionHandler
         switch (level)
         {
             case Levels.BossS1:
-                return Levels.Main2;    // TODO send back to main menu
+                return Levels.Unassigned;
             case Levels.BossS2:
-                return Levels.Main7;
+                return Levels.Unassigned;
+            case Levels.Boss5:
+                return Levels.Unassigned;
             default:
                 if (level < Levels.Boss5)
                 {

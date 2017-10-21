@@ -26,7 +26,12 @@ public class GameMenuOverlay : MonoBehaviour {
     public void NextButtonPressed()
     {
         GameData.Instance.Level = GameData.Instance.NextLevel;
-        if (GameData.Instance.Level.ToString().Substring(0, 4) == "Boss")
+        if (GameData.Instance.Level == LevelProgressionHandler.Levels.Unassigned)
+        {
+            Toolbox.Instance.MenuScreen = Toolbox.MenuSelector.LevelSelect;
+            StartCoroutine(GotoMainMenu());
+        }
+        else if (GameData.Instance.Level.ToString().Substring(0, 4) == "Boss")
         {
             StartCoroutine(GotoBossLevel());
         }
