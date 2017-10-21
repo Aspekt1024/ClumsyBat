@@ -643,8 +643,8 @@
         <MothType>
           <SpawnTransform>
             <Pos>
-              <x>0.5333977</x>
-              <y>-2.42951345</y>
+              <x>0.455497742</x>
+              <y>-2.58527565</y>
             </Pos>
             <Scale>
               <x>1</x>
@@ -662,7 +662,7 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <Colour>Green</Colour>
+          <Colour>Gold</Colour>
           <PathType>Clover</PathType>
         </MothType>
       </Moths>
@@ -1280,8 +1280,8 @@
         <MothType>
           <SpawnTransform>
             <Pos>
-              <x>5.94084167</x>
-              <y>-1.03579736</y>
+              <x>6.174492</x>
+              <y>-0.996845</y>
             </Pos>
             <Scale>
               <x>1</x>
@@ -1299,7 +1299,7 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <Colour>Green</Colour>
+          <Colour>Gold</Colour>
           <PathType>Clover</PathType>
         </MothType>
         <MothType>
