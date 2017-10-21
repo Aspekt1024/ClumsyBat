@@ -7,7 +7,7 @@ public static class LevelProgressionHandler
     public enum Levels
     {
         Unassigned = 0,
-        Main1 = 1, Main2, Main3, Boss1,
+        Main1 = 1, Main2 = 2, Main3 = 3, Boss1 = 4,
         Main4, Main5, Main6, Boss2,
         Main7, Main8, Main9, Main10, Main11, Boss3,
         Main12, Main13, Main14, Main15, Boss4,
@@ -28,7 +28,7 @@ public static class LevelProgressionHandler
             default:
                 if (level < Levels.Boss5)
                 {
-                    return level++;
+                    return (Levels)(((int)level) + 1);
                 }
                 else
                 {

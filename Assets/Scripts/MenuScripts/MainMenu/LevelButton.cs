@@ -62,10 +62,28 @@ public class LevelButton : MonoBehaviour
 
     private void GetLevelImages()
     {
-        _availableImage = Resources.Load<Sprite>("LevelButtons/" + Level + "Available");
-        _availableClickedImage = Resources.Load<Sprite>("LevelButtons/" + Level + "AvailableClicked");
-        _completedImage = Resources.Load<Sprite>("LevelButtons/" + Level + "Completed");
-        _completedClickedImage = Resources.Load<Sprite>("LevelButtons/" + Level + "CompletedClicked");
+        if (Level.ToString().Contains("BossS"))
+        {
+            // TODO shrine level images
+            _availableImage = Resources.Load<Sprite>("LevelButtons/Boss2Available");
+            _availableClickedImage = Resources.Load<Sprite>("LevelButtons/Boss2AvailableClicked");
+            _completedImage = Resources.Load<Sprite>("LevelButtons/Boss2Completed");
+            _completedClickedImage = Resources.Load<Sprite>("LevelButtons/Boss2CompletedClicked");
+        }
+        else if (Level.ToString().Contains("Boss"))
+        {
+            _availableImage = Resources.Load<Sprite>("LevelButtons/Boss2Available");
+            _availableClickedImage = Resources.Load<Sprite>("LevelButtons/Boss2AvailableClicked");
+            _completedImage = Resources.Load<Sprite>("LevelButtons/Boss2Completed");
+            _completedClickedImage = Resources.Load<Sprite>("LevelButtons/Boss2CompletedClicked");
+        }
+        else
+        {
+            _availableImage = Resources.Load<Sprite>("LevelButtons/" + Level + "Available");
+            _availableClickedImage = Resources.Load<Sprite>("LevelButtons/" + Level + "AvailableClicked");
+            _completedImage = Resources.Load<Sprite>("LevelButtons/" + Level + "Completed");
+            _completedClickedImage = Resources.Load<Sprite>("LevelButtons/" + Level + "CompletedClicked");
+        }
         _unavailableImage = Resources.Load<Sprite>("LevelButtons/LevelUnavailable");
 
         if (_availableImage == null) { _availableImage = Resources.Load<Sprite>("LevelButtons/LevelAvailableNotFound"); }
