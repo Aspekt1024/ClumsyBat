@@ -7,7 +7,7 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Output</Direction>
-          <OtherActionID>2</OtherActionID>
+          <OtherActionID>8</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
@@ -18,7 +18,7 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Output</Direction>
-          <OtherActionID>5</OtherActionID>
+          <OtherActionID>12</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
         <ActionConnection>
@@ -36,8 +36,8 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>0</OtherActionID>
-          <OtherConnID>0</OtherConnID>
+          <OtherActionID>14</OtherActionID>
+          <OtherConnID>2</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>1</ID>
@@ -48,8 +48,8 @@
         <ActionConnection>
           <ID>2</ID>
           <Direction>Output</Direction>
-          <OtherActionID>8</OtherActionID>
-          <OtherConnID>0</OtherConnID>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
         </ActionConnection>
       </connections>
       <StateName>Stalactite Ceiling</StateName>
@@ -60,8 +60,8 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>7</OtherActionID>
-          <OtherConnID>1</OtherConnID>
+          <OtherActionID>11</OtherActionID>
+          <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
     </BaseAction>
@@ -82,8 +82,8 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>1</OtherActionID>
-          <OtherConnID>0</OtherConnID>
+          <OtherActionID>12</OtherActionID>
+          <OtherConnID>2</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>1</ID>
@@ -112,7 +112,7 @@
       </connections>
       <StateName>Dmg Anim</StateName>
     </BaseAction>
-    <BaseAction xsi:type="WaitAction">
+    <BaseAction xsi:type="StateAction">
       <ID>7</ID>
       <connections>
         <ActionConnection>
@@ -124,11 +124,11 @@
         <ActionConnection>
           <ID>1</ID>
           <Direction>Output</Direction>
-          <OtherActionID>3</OtherActionID>
-          <OtherConnID>0</OtherConnID>
+          <OtherActionID>16</OtherActionID>
+          <OtherConnID>1</OtherConnID>
         </ActionConnection>
       </connections>
-      <WaitTime>1</WaitTime>
+      <StateName>Spit Moth</StateName>
     </BaseAction>
     <BaseAction xsi:type="StateAction">
       <ID>8</ID>
@@ -136,11 +136,224 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>2</OtherActionID>
+          <OtherActionID>0</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>9</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>13</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <StateName>Action Timer</StateName>
+    </BaseAction>
+    <BaseAction xsi:type="StateAction">
+      <ID>9</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>8</OtherActionID>
+          <OtherConnID>1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>10</OtherActionID>
+          <OtherConnID>1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>10</OtherActionID>
           <OtherConnID>2</OtherConnID>
         </ActionConnection>
       </connections>
-      <StateName>Spit Moth</StateName>
+      <StateName>Follow Player 2</StateName>
+    </BaseAction>
+    <BaseAction xsi:type="MultipleInAction">
+      <ID>10</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>11</OtherActionID>
+          <OtherConnID>1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>9</OtherActionID>
+          <OtherConnID>1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>9</OtherActionID>
+          <OtherConnID>2</OtherConnID>
+        </ActionConnection>
+      </connections>
+    </BaseAction>
+    <BaseAction xsi:type="MultipleInAction">
+      <ID>11</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>3</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>10</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>17</OtherActionID>
+          <OtherConnID>1</OtherConnID>
+        </ActionConnection>
+      </connections>
+    </BaseAction>
+    <BaseAction xsi:type="MultipleOutAction">
+      <ID>12</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>1</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>14</OtherActionID>
+          <OtherConnID>1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>5</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+      </connections>
+    </BaseAction>
+    <BaseAction xsi:type="StateAction">
+      <ID>13</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>8</OtherActionID>
+          <OtherConnID>2</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>14</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <StateName>StompChargeDecider</StateName>
+    </BaseAction>
+    <BaseAction xsi:type="AlternatingAction">
+      <ID>14</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>13</OtherActionID>
+          <OtherConnID>1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>12</OtherActionID>
+          <OtherConnID>1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>2</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>3</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>15</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <LatchCount>1</LatchCount>
+      <Mode>Normal</Mode>
+    </BaseAction>
+    <BaseAction xsi:type="StateAction">
+      <ID>15</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>14</OtherActionID>
+          <OtherConnID>3</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>16</OtherActionID>
+          <OtherConnID>2</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <StateName>DropAll</StateName>
+    </BaseAction>
+    <BaseAction xsi:type="MultipleInAction">
+      <ID>16</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>17</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>7</OtherActionID>
+          <OtherConnID>1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>15</OtherActionID>
+          <OtherConnID>1</OtherConnID>
+        </ActionConnection>
+      </connections>
+    </BaseAction>
+    <BaseAction xsi:type="WaitAction">
+      <ID>17</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>16</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>11</OtherActionID>
+          <OtherConnID>2</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <WaitTime>1</WaitTime>
     </BaseAction>
   </Actions>
 </ActionDataCollection>
