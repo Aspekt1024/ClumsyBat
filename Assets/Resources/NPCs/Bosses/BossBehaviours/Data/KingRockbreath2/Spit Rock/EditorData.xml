@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <NodeDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <EditorOffset>
-    <x>349</x>
-    <y>-424</y>
+    <x>1038</x>
+    <y>-417</y>
   </EditorOffset>
   <Nodes>
     <BaseNode xsi:type="StartNode">
@@ -18,28 +18,28 @@
           <Label />
           <Type>Event</Type>
           <Direction>Output</Direction>
-          <ConnectedNodeID>14</ConnectedNodeID>
+          <ConnectedNodeID>17</ConnectedNodeID>
           <ConnectedIfaceID>0</ConnectedIfaceID>
         </NodeInterface>
       </interfaces>
       <WindowRect>
-        <x>-750</x>
-        <y>780</y>
+        <x>-920</x>
+        <y>640</y>
         <position>
-          <x>-750</x>
-          <y>780</y>
+          <x>-920</x>
+          <y>640</y>
         </position>
         <center>
-          <x>-710</x>
-          <y>805</y>
+          <x>-880</x>
+          <y>665</y>
         </center>
         <min>
-          <x>-750</x>
-          <y>780</y>
+          <x>-920</x>
+          <y>640</y>
         </min>
         <max>
-          <x>-670</x>
-          <y>830</y>
+          <x>-840</x>
+          <y>690</y>
         </max>
         <width>80</width>
         <height>50</height>
@@ -47,10 +47,10 @@
           <x>80</x>
           <y>50</y>
         </size>
-        <xMin>-750</xMin>
-        <yMin>780</yMin>
-        <xMax>-670</xMax>
-        <yMax>830</yMax>
+        <xMin>-920</xMin>
+        <yMin>640</yMin>
+        <xMax>-840</xMax>
+        <yMax>690</yMax>
       </WindowRect>
     </BaseNode>
     <BaseNode xsi:type="PlayerNode">
@@ -1076,8 +1076,8 @@
           <Label />
           <Type>Event</Type>
           <Direction>Input</Direction>
-          <ConnectedNodeID>0</ConnectedNodeID>
-          <ConnectedIfaceID>0</ConnectedIfaceID>
+          <ConnectedNodeID>18</ConnectedNodeID>
+          <ConnectedIfaceID>1</ConnectedIfaceID>
         </NodeInterface>
         <NodeInterface>
           <Position>
@@ -1291,6 +1291,152 @@
         <float>0.6</float>
         <float>0.4</float>
       </OutputWeights>
+    </BaseNode>
+    <BaseNode xsi:type="JumpNode">
+      <WindowTitle>Jump</WindowTitle>
+      <ID>17</ID>
+      <interfaces>
+        <NodeInterface>
+          <Position>
+            <x>7</x>
+            <y>35</y>
+          </Position>
+          <ID>0</ID>
+          <Label />
+          <Type>Event</Type>
+          <Direction>Input</Direction>
+          <ConnectedNodeID>0</ConnectedNodeID>
+          <ConnectedIfaceID>0</ConnectedIfaceID>
+        </NodeInterface>
+        <NodeInterface>
+          <Position>
+            <x>143</x>
+            <y>35</y>
+          </Position>
+          <ID>1</ID>
+          <Label>next</Label>
+          <Type>Event</Type>
+          <Direction>Output</Direction>
+          <ConnectedNodeID>-1</ConnectedNodeID>
+          <ConnectedIfaceID>-1</ConnectedIfaceID>
+        </NodeInterface>
+        <NodeInterface>
+          <Position>
+            <x>143</x>
+            <y>55</y>
+          </Position>
+          <ID>2</ID>
+          <Label>Top</Label>
+          <Type>Event</Type>
+          <Direction>Output</Direction>
+          <ConnectedNodeID>-1</ConnectedNodeID>
+          <ConnectedIfaceID>-1</ConnectedIfaceID>
+        </NodeInterface>
+        <NodeInterface>
+          <Position>
+            <x>143</x>
+            <y>75</y>
+          </Position>
+          <ID>3</ID>
+          <Label>Landed</Label>
+          <Type>Event</Type>
+          <Direction>Output</Direction>
+          <ConnectedNodeID>18</ConnectedNodeID>
+          <ConnectedIfaceID>0</ConnectedIfaceID>
+        </NodeInterface>
+      </interfaces>
+      <WindowRect>
+        <x>-900</x>
+        <y>770</y>
+        <position>
+          <x>-900</x>
+          <y>770</y>
+        </position>
+        <center>
+          <x>-825</x>
+          <y>820</y>
+        </center>
+        <min>
+          <x>-900</x>
+          <y>770</y>
+        </min>
+        <max>
+          <x>-750</x>
+          <y>870</y>
+        </max>
+        <width>150</width>
+        <height>100</height>
+        <size>
+          <x>150</x>
+          <y>100</y>
+        </size>
+        <xMin>-900</xMin>
+        <yMin>770</yMin>
+        <xMax>-750</xMax>
+        <yMax>870</yMax>
+      </WindowRect>
+      <JumpForce>300</JumpForce>
+    </BaseNode>
+    <BaseNode xsi:type="WaitNode">
+      <WindowTitle>Wait</WindowTitle>
+      <ID>18</ID>
+      <interfaces>
+        <NodeInterface>
+          <Position>
+            <x>7</x>
+            <y>35</y>
+          </Position>
+          <ID>0</ID>
+          <Label />
+          <Type>Event</Type>
+          <Direction>Input</Direction>
+          <ConnectedNodeID>17</ConnectedNodeID>
+          <ConnectedIfaceID>3</ConnectedIfaceID>
+        </NodeInterface>
+        <NodeInterface>
+          <Position>
+            <x>63</x>
+            <y>35</y>
+          </Position>
+          <ID>1</ID>
+          <Label />
+          <Type>Event</Type>
+          <Direction>Output</Direction>
+          <ConnectedNodeID>14</ConnectedNodeID>
+          <ConnectedIfaceID>0</ConnectedIfaceID>
+        </NodeInterface>
+      </interfaces>
+      <WindowRect>
+        <x>-710</x>
+        <y>780</y>
+        <position>
+          <x>-710</x>
+          <y>780</y>
+        </position>
+        <center>
+          <x>-675</x>
+          <y>810</y>
+        </center>
+        <min>
+          <x>-710</x>
+          <y>780</y>
+        </min>
+        <max>
+          <x>-640</x>
+          <y>840</y>
+        </max>
+        <width>70</width>
+        <height>60</height>
+        <size>
+          <x>70</x>
+          <y>60</y>
+        </size>
+        <xMin>-710</xMin>
+        <yMin>780</yMin>
+        <xMax>-640</xMax>
+        <yMax>840</yMax>
+      </WindowRect>
+      <WaitTime>0.7</WaitTime>
     </BaseNode>
   </Nodes>
 </NodeDataCollection>

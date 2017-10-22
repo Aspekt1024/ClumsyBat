@@ -7,7 +7,7 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Output</Direction>
-          <OtherActionID>14</OtherActionID>
+          <OtherActionID>17</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
@@ -375,8 +375,8 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>0</OtherActionID>
-          <OtherConnID>0</OtherConnID>
+          <OtherActionID>18</OtherActionID>
+          <OtherConnID>1</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>1</ID>
@@ -447,6 +447,54 @@
         <float>0.6</float>
         <float>0.4</float>
       </OutputWeights>
+    </BaseAction>
+    <BaseAction xsi:type="JumpAction">
+      <ID>17</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>0</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>2</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>3</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>18</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <JumpForce>300</JumpForce>
+    </BaseAction>
+    <BaseAction xsi:type="WaitAction">
+      <ID>18</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>17</OtherActionID>
+          <OtherConnID>3</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>14</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <WaitTime>0.7</WaitTime>
     </BaseAction>
   </Actions>
 </ActionDataCollection>
