@@ -75,7 +75,7 @@ public class Stalactite : Spawnable {
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!IsBreakable) return;
+        if (state == StalStates.Exploding || state == StalStates.Broken) return;
 
         if (other.tag == "Boss")
         {
@@ -96,7 +96,6 @@ public class Stalactite : Spawnable {
         stalPrefabBroken = Resources.Load<GameObject>(brokenStalPath);
 
         stalCollider = GetComponent<PolygonCollider2D>();
-        stalCollider = GetComponentInChildren<PolygonCollider2D>();
         stalRenderer = GetComponent<SpriteRenderer>();
         body = GetComponent<Rigidbody2D>();
         dropControl = gameObject.AddComponent<StalDropComponent>();
@@ -229,7 +228,9 @@ public class Stalactite : Spawnable {
         state = StalStates.Broken;
 
         if (stalBroken != null)
+        {
             Destroy(stalBroken);
+        }
         
         if (Type == SpawnStalAction.StalTypes.Crystal)
         {
@@ -325,7 +326,6 @@ public class Stalactite : Spawnable {
     public bool IsForming { get { return state == StalStates.Forming; } }
     public bool IsFalling { get { return state == StalStates.Falling; } }
     public bool IsBroken { get { return state == StalStates.Broken; } }
-    public bool IsBreakable { get { return state == StalStates.Falling || state == StalStates.Normal; } }
     public void SetState(StalStates newState) { state = newState; }
     
 }
