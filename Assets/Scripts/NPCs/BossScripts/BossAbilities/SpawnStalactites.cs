@@ -61,6 +61,8 @@ public class SpawnStalactites : BossAbility {
         _stals[index].SetState(Stalactite.StalStates.Forming);
         while (animTimer < animDuration)
         {
+            if (_stals[index].IsBroken) yield break;
+
             if (!Toolbox.Instance.GamePaused)
             {
                 animTimer += Time.deltaTime;
@@ -69,9 +71,14 @@ public class SpawnStalactites : BossAbility {
             }
             yield return null;
         }
-        _stals[index].SetState(Stalactite.StalStates.Normal);
+
+        if (!_stals[index].IsBroken)
+        {
+            _stals[index].SetState(Stalactite.StalStates.Normal);
+        }
     }
 
+    // TODO the existence of this looks wrong... there should be an event instead
     private IEnumerator CheckStalExists(int index, GameObject rubbleEffect)
     {
         while (_stals[index].IsActive)
