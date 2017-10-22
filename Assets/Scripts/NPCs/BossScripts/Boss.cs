@@ -22,7 +22,8 @@ public abstract class Boss : MonoBehaviour {
     protected Collider2D bossCollider;
 
     private StateMachine machine;
-    
+
+    private Color originalColor;
     private Vector2 storedVelocity;
     private float damageCooldownTimer;
     
@@ -38,6 +39,7 @@ public abstract class Boss : MonoBehaviour {
     private void Awake()
     {
         GetBossComponents();
+        originalColor = bossRenderer.color;
     }
 
     private void Update()
@@ -193,7 +195,7 @@ public abstract class Boss : MonoBehaviour {
                 yield return null;
             }
         }
-        bossRenderer.color = Color.white;
+        bossRenderer.color = originalColor;
     }
 
     public bool IsPaused()

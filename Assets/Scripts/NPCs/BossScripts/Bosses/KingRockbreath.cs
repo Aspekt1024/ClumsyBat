@@ -5,6 +5,8 @@ using System;
 
 public class KingRockbreath : Boss
 {
+    public ParticleSystem Particles;
+
     private enum Animations
     {
         Idle, Walk, Jump
@@ -25,7 +27,6 @@ public class KingRockbreath : Boss
     private void Start()
     {
         PopulateSpriteDict();
-        GetSprites();
         anim = GetComponentInChildren<Animator>();
         anim.Play(spriteDict[Animations.Idle], 0, 0f);
     }
@@ -44,9 +45,9 @@ public class KingRockbreath : Boss
 
     protected override void GetBossComponents()
     {
+        GetSprites();
         Body = GetComponent<Rigidbody2D>();
         bossCollider = GetComponentInChildren<Collider2D>();
-        bossRenderer = GetComponent<SpriteRenderer>();
         explosion = GetComponentInChildren<ParticleSystem>();
         explosion.Stop();
     }
@@ -78,6 +79,11 @@ public class KingRockbreath : Boss
 
     protected override void DeathSequence()
     {
+        if (Particles != null)
+        {
+            Particles.Stop();
+        }
+
         explosion.Play();
         foreach (var sprite in sprites)
         {

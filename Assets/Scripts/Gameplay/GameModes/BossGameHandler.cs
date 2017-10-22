@@ -246,6 +246,7 @@ public class BossGameHandler : GameHandler {
         return bossMoths.GetMothPool();
     }
 
+    // TODO set up a dictionary
     private void LoadBoss()
     {
         BossData bossDataScript = FindObjectOfType<BossData>();
