@@ -39,7 +39,10 @@ public abstract class Boss : MonoBehaviour {
     private void Awake()
     {
         GetBossComponents();
-        originalColor = bossRenderer.color;
+        if (bossRenderer != null)
+        {
+            originalColor = bossRenderer.color;
+        }
     }
 
     private void Update()

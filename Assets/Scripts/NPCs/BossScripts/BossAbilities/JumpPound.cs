@@ -21,7 +21,7 @@ public class JumpPound : BossAbility
     public void Jump(BaseAction caller, float jumpForce)
     {
         callerAction = caller;
-        StartCoroutine("JumpAndPound", jumpForce);
+        StartCoroutine(JumpAndPound(jumpForce));
     }
 
     private void Update()
@@ -38,6 +38,7 @@ public class JumpPound : BossAbility
     private IEnumerator JumpAndPound(float jumpForce = 1000f)
     {
         bossBody.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
+        bossBody.velocity = new Vector2(bossBody.velocity.x, 0f);
         bossBody.AddForce(Vector2.up * jumpForce);
         yield return null;
         _state = JumpState.Jumping;

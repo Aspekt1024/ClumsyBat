@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <NodeDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <EditorOffset>
-    <x>866</x>
-    <y>-320</y>
+    <x>749</x>
+    <y>-310</y>
   </EditorOffset>
   <Nodes>
     <BaseNode xsi:type="StartNode">
