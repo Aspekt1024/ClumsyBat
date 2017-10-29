@@ -50,7 +50,7 @@ public class LoadScreen : MonoBehaviour {
         loadingCanvas.interactable = true;
         mothAnimator.gameObject.SetActive(false);
 
-        const float duration = 0.8f;
+        const float duration = 0.2f;
         float timer = 0f;
         while (timer < duration)
         {
@@ -69,7 +69,7 @@ public class LoadScreen : MonoBehaviour {
         Toolbox.UIAnimator.PopOutObject(loadTextRt);
         yield return StartCoroutine(Toolbox.UIAnimator.PopOutObjectRoutine(mothAnimator.GetComponent<RectTransform>()));
 
-        const float duration = 0.8f;
+        const float duration = 0.2f;
         float timer = 0f;
         while (timer < duration)
         {
