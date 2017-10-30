@@ -7,65 +7,47 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Output</Direction>
-          <OtherActionID>8</OtherActionID>
+          <OtherActionID>7</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
     </BaseAction>
-    <BaseAction xsi:type="StateAction">
+    <BaseAction xsi:type="WaitAction">
       <ID>1</ID>
       <connections>
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>8</OtherActionID>
-          <OtherConnID>2</OtherConnID>
-        </ActionConnection>
-        <ActionConnection>
-          <ID>1</ID>
-          <Direction>Output</Direction>
-          <OtherActionID>10</OtherActionID>
-          <OtherConnID>1</OtherConnID>
-        </ActionConnection>
-      </connections>
-      <StateName>Spit Rocks</StateName>
-    </BaseAction>
-    <BaseAction xsi:type="WaitAction">
-      <ID>2</ID>
-      <connections>
-        <ActionConnection>
-          <ID>0</ID>
-          <Direction>Input</Direction>
-          <OtherActionID>10</OtherActionID>
+          <OtherActionID>9</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>1</ID>
           <Direction>Output</Direction>
-          <OtherActionID>3</OtherActionID>
+          <OtherActionID>2</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
       <WaitTime>2</WaitTime>
     </BaseAction>
     <BaseAction xsi:type="LoopAction">
-      <ID>3</ID>
+      <ID>2</ID>
       <connections>
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>2</OtherActionID>
+          <OtherActionID>1</OtherActionID>
           <OtherConnID>1</OtherConnID>
         </ActionConnection>
       </connections>
     </BaseAction>
     <BaseAction xsi:type="CollisionAction">
-      <ID>4</ID>
+      <ID>3</ID>
       <connections>
         <ActionConnection>
           <ID>0</ID>
           <Direction>Output</Direction>
-          <OtherActionID>5</OtherActionID>
+          <OtherActionID>4</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
         <ActionConnection>
@@ -78,13 +60,31 @@
       <CollisionType>Hypersonic</CollisionType>
     </BaseAction>
     <BaseAction xsi:type="DamageAction">
+      <ID>4</ID>
+      <connections>
+        <ActionConnection>
+          <ID>0</ID>
+          <Direction>Input</Direction>
+          <OtherActionID>3</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+        <ActionConnection>
+          <ID>1</ID>
+          <Direction>Output</Direction>
+          <OtherActionID>5</OtherActionID>
+          <OtherConnID>0</OtherConnID>
+        </ActionConnection>
+      </connections>
+      <Damage>1</Damage>
+    </BaseAction>
+    <BaseAction xsi:type="StateAction">
       <ID>5</ID>
       <connections>
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
           <OtherActionID>4</OtherActionID>
-          <OtherConnID>0</OtherConnID>
+          <OtherConnID>1</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>1</ID>
@@ -93,9 +93,9 @@
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
-      <Damage>1</Damage>
+      <StateName>DmgAnim</StateName>
     </BaseAction>
-    <BaseAction xsi:type="StateAction">
+    <BaseAction xsi:type="RestartMachineAction">
       <ID>6</ID>
       <connections>
         <ActionConnection>
@@ -104,28 +104,10 @@
           <OtherActionID>5</OtherActionID>
           <OtherConnID>1</OtherConnID>
         </ActionConnection>
-        <ActionConnection>
-          <ID>1</ID>
-          <Direction>Output</Direction>
-          <OtherActionID>7</OtherActionID>
-          <OtherConnID>0</OtherConnID>
-        </ActionConnection>
-      </connections>
-      <StateName>DmgAnim</StateName>
-    </BaseAction>
-    <BaseAction xsi:type="RestartMachineAction">
-      <ID>7</ID>
-      <connections>
-        <ActionConnection>
-          <ID>0</ID>
-          <Direction>Input</Direction>
-          <OtherActionID>6</OtherActionID>
-          <OtherConnID>1</OtherConnID>
-        </ActionConnection>
       </connections>
     </BaseAction>
     <BaseAction xsi:type="AlternatingAction">
-      <ID>8</ID>
+      <ID>7</ID>
       <connections>
         <ActionConnection>
           <ID>0</ID>
@@ -142,13 +124,13 @@
         <ActionConnection>
           <ID>2</ID>
           <Direction>Output</Direction>
-          <OtherActionID>1</OtherActionID>
-          <OtherConnID>0</OtherConnID>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>3</ID>
           <Direction>Output</Direction>
-          <OtherActionID>9</OtherActionID>
+          <OtherActionID>8</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
@@ -156,42 +138,42 @@
       <Mode>Normal</Mode>
     </BaseAction>
     <BaseAction xsi:type="StateAction">
-      <ID>9</ID>
+      <ID>8</ID>
       <connections>
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>8</OtherActionID>
+          <OtherActionID>7</OtherActionID>
           <OtherConnID>3</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>1</ID>
           <Direction>Output</Direction>
-          <OtherActionID>10</OtherActionID>
+          <OtherActionID>9</OtherActionID>
           <OtherConnID>2</OtherConnID>
         </ActionConnection>
       </connections>
       <StateName>Bashy Stalactites</StateName>
     </BaseAction>
     <BaseAction xsi:type="MultipleInAction">
-      <ID>10</ID>
+      <ID>9</ID>
       <connections>
         <ActionConnection>
           <ID>0</ID>
           <Direction>Output</Direction>
-          <OtherActionID>2</OtherActionID>
+          <OtherActionID>1</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>1</ID>
           <Direction>Input</Direction>
-          <OtherActionID>1</OtherActionID>
-          <OtherConnID>1</OtherConnID>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>2</ID>
           <Direction>Input</Direction>
-          <OtherActionID>9</OtherActionID>
+          <OtherActionID>8</OtherActionID>
           <OtherConnID>1</OtherConnID>
         </ActionConnection>
       </connections>

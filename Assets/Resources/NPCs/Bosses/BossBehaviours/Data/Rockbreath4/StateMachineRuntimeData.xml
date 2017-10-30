@@ -36,13 +36,13 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>14</OtherActionID>
-          <OtherConnID>2</OtherConnID>
+          <OtherActionID>13</OtherActionID>
+          <OtherConnID>1</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>1</ID>
           <Direction>Output</Direction>
-          <OtherActionID>7</OtherActionID>
+          <OtherActionID>14</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
         <ActionConnection>
@@ -118,8 +118,8 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>2</OtherActionID>
-          <OtherConnID>1</OtherConnID>
+          <OtherActionID>14</OtherActionID>
+          <OtherConnID>2</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>1</ID>
@@ -259,7 +259,7 @@
         <ActionConnection>
           <ID>1</ID>
           <Direction>Output</Direction>
-          <OtherActionID>14</OtherActionID>
+          <OtherActionID>2</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
@@ -271,7 +271,7 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>13</OtherActionID>
+          <OtherActionID>2</OtherActionID>
           <OtherConnID>1</OtherConnID>
         </ActionConnection>
         <ActionConnection>
@@ -283,14 +283,14 @@
         <ActionConnection>
           <ID>2</ID>
           <Direction>Output</Direction>
-          <OtherActionID>2</OtherActionID>
+          <OtherActionID>7</OtherActionID>
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>3</ID>
           <Direction>Output</Direction>
-          <OtherActionID>15</OtherActionID>
-          <OtherConnID>0</OtherConnID>
+          <OtherActionID>16</OtherActionID>
+          <OtherConnID>2</OtherConnID>
         </ActionConnection>
       </connections>
       <LatchCount>1</LatchCount>
@@ -302,14 +302,14 @@
         <ActionConnection>
           <ID>0</ID>
           <Direction>Input</Direction>
-          <OtherActionID>14</OtherActionID>
-          <OtherConnID>3</OtherConnID>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
         </ActionConnection>
         <ActionConnection>
           <ID>1</ID>
           <Direction>Output</Direction>
-          <OtherActionID>16</OtherActionID>
-          <OtherConnID>2</OtherConnID>
+          <OtherActionID>-1</OtherActionID>
+          <OtherConnID>-1</OtherConnID>
         </ActionConnection>
       </connections>
       <StateName>DropAll</StateName>
@@ -332,8 +332,8 @@
         <ActionConnection>
           <ID>2</ID>
           <Direction>Input</Direction>
-          <OtherActionID>15</OtherActionID>
-          <OtherConnID>1</OtherConnID>
+          <OtherActionID>14</OtherActionID>
+          <OtherConnID>3</OtherConnID>
         </ActionConnection>
       </connections>
     </BaseAction>

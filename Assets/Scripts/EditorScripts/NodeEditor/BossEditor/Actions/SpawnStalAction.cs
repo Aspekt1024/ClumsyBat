@@ -41,7 +41,7 @@ public class SpawnStalAction : BaseAction {
     private float delayDuration;
 
     private SpawnStalactites spawnAbility;
-    private StalBossHandler bossStals;
+    private StalBossHandler bossStalHandler;
     
     public override void GameSetup(BehaviourSet behaviourSet, BossData bossData, GameObject bossReference)
     {
@@ -54,9 +54,9 @@ public class SpawnStalAction : BaseAction {
 
     private void GetBossStals()
     {
-        bossStals = GameObject.FindObjectOfType<StalBossHandler>();
-        if (bossStals == null)
-            bossStals = GameObject.FindGameObjectWithTag("Scripts").AddComponent<StalBossHandler>();
+        bossStalHandler = GameObject.FindObjectOfType<StalBossHandler>();
+        if (bossStalHandler == null)
+            bossStalHandler = GameObject.FindGameObjectWithTag("Scripts").AddComponent<StalBossHandler>();
     }
 
     protected override void ActivateBehaviour()
@@ -94,7 +94,7 @@ public class SpawnStalAction : BaseAction {
         }
         else if (StalAction == StalActions.DropAll)
         {
-            bossStals.ClearTopStals(spawnedStalPositionIndexes);
+            bossStalHandler.ClearTopStals(spawnedStalPositionIndexes);
             spawnAbility.DropAllStalactites();
         }
         else
@@ -105,7 +105,7 @@ public class SpawnStalAction : BaseAction {
             }
             else
             {
-                bossStals.ClearTopStals(spawnedStalPositionIndexes);
+                bossStalHandler.ClearTopStals(spawnedStalPositionIndexes);
                 spawnAbility.Drop(spawnedStalPoolIndexes);
             }
         }
@@ -136,9 +136,9 @@ public class SpawnStalAction : BaseAction {
         }
         else
         {
-            int stalIndex = bossStals.GetFreeTopStalIndex(stalSpawns[spawnIndex].xPosIndexLower, stalSpawns[spawnIndex].xPosIndexUpper);
+            int stalIndex = bossStalHandler.GetFreeTopStalIndex(stalSpawns[spawnIndex].xPosIndexLower, stalSpawns[spawnIndex].xPosIndexUpper);
             spawnedStalPositionIndexes[spawnIndex] = stalIndex;
-            return bossStals.ConvertIndexToPosition(stalIndex);
+            return bossStalHandler.ConvertIndexToPosition(stalIndex);
         }
     }
 

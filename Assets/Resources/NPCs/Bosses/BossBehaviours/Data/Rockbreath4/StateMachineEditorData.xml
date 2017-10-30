@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <NodeDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <EditorOffset>
-    <x>455</x>
-    <y>-327</y>
+    <x>413</x>
+    <y>-320</y>
   </EditorOffset>
   <Nodes>
     <BaseNode xsi:type="StartNode">
@@ -127,8 +127,8 @@
           <Label />
           <Type>Event</Type>
           <Direction>Input</Direction>
-          <ConnectedNodeID>14</ConnectedNodeID>
-          <ConnectedIfaceID>2</ConnectedIfaceID>
+          <ConnectedNodeID>13</ConnectedNodeID>
+          <ConnectedIfaceID>1</ConnectedIfaceID>
         </NodeInterface>
         <NodeInterface>
           <Position>
@@ -139,7 +139,7 @@
           <Label>StalsSpawned</Label>
           <Type>Event</Type>
           <Direction>Output</Direction>
-          <ConnectedNodeID>7</ConnectedNodeID>
+          <ConnectedNodeID>14</ConnectedNodeID>
           <ConnectedIfaceID>0</ConnectedIfaceID>
         </NodeInterface>
         <NodeInterface>
@@ -418,8 +418,8 @@
           <Label />
           <Type>Event</Type>
           <Direction>Input</Direction>
-          <ConnectedNodeID>2</ConnectedNodeID>
-          <ConnectedIfaceID>1</ConnectedIfaceID>
+          <ConnectedNodeID>14</ConnectedNodeID>
+          <ConnectedIfaceID>2</ConnectedIfaceID>
         </NodeInterface>
         <NodeInterface>
           <Position>
@@ -856,7 +856,7 @@
           <Label>ScreenShake</Label>
           <Type>Event</Type>
           <Direction>Output</Direction>
-          <ConnectedNodeID>14</ConnectedNodeID>
+          <ConnectedNodeID>2</ConnectedNodeID>
           <ConnectedIfaceID>0</ConnectedIfaceID>
         </NodeInterface>
       </interfaces>
@@ -905,7 +905,7 @@
           <Label />
           <Type>Event</Type>
           <Direction>Input</Direction>
-          <ConnectedNodeID>13</ConnectedNodeID>
+          <ConnectedNodeID>2</ConnectedNodeID>
           <ConnectedIfaceID>1</ConnectedIfaceID>
         </NodeInterface>
         <NodeInterface>
@@ -929,7 +929,7 @@
           <Label />
           <Type>Event</Type>
           <Direction>Output</Direction>
-          <ConnectedNodeID>2</ConnectedNodeID>
+          <ConnectedNodeID>7</ConnectedNodeID>
           <ConnectedIfaceID>0</ConnectedIfaceID>
         </NodeInterface>
         <NodeInterface>
@@ -941,8 +941,8 @@
           <Label />
           <Type>Event</Type>
           <Direction>Output</Direction>
-          <ConnectedNodeID>15</ConnectedNodeID>
-          <ConnectedIfaceID>0</ConnectedIfaceID>
+          <ConnectedNodeID>16</ConnectedNodeID>
+          <ConnectedIfaceID>2</ConnectedIfaceID>
         </NodeInterface>
       </interfaces>
       <WindowRect>
@@ -991,8 +991,8 @@
           <Label />
           <Type>Event</Type>
           <Direction>Input</Direction>
-          <ConnectedNodeID>14</ConnectedNodeID>
-          <ConnectedIfaceID>3</ConnectedIfaceID>
+          <ConnectedNodeID>-1</ConnectedNodeID>
+          <ConnectedIfaceID>-1</ConnectedIfaceID>
         </NodeInterface>
         <NodeInterface>
           <Position>
@@ -1003,8 +1003,8 @@
           <Label>Complete</Label>
           <Type>Event</Type>
           <Direction>Output</Direction>
-          <ConnectedNodeID>16</ConnectedNodeID>
-          <ConnectedIfaceID>2</ConnectedIfaceID>
+          <ConnectedNodeID>-1</ConnectedNodeID>
+          <ConnectedIfaceID>-1</ConnectedIfaceID>
         </NodeInterface>
       </interfaces>
       <WindowRect>
@@ -1076,8 +1076,8 @@
           <Label />
           <Type>Event</Type>
           <Direction>Input</Direction>
-          <ConnectedNodeID>15</ConnectedNodeID>
-          <ConnectedIfaceID>1</ConnectedIfaceID>
+          <ConnectedNodeID>14</ConnectedNodeID>
+          <ConnectedIfaceID>3</ConnectedIfaceID>
         </NodeInterface>
       </interfaces>
       <WindowRect>

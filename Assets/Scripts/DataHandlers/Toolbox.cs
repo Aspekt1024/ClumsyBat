@@ -181,7 +181,7 @@ public class Toolbox : Singleton<Toolbox>
         LevelNames.Add(Levels.Boss4, "King Rockbreath");
         LevelNames.Add(Levels.Boss5, "Count Nomee");
 
-        LevelNames.Add(Levels.Boss6, "Rockbreath Beta");
+        LevelNames.Add(Levels.Boss6, "Rockbreath Demo");
         LevelNames.Add(Levels.Boss7, "Rockbreath Omega");
         LevelNames.Add(Levels.Boss8, "Rockbreath Prime");
         LevelNames.Add(Levels.Boss9, "Nomee Prime");

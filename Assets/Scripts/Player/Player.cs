@@ -337,7 +337,10 @@ public class Player : MonoBehaviour {
         }
         else
         {
-            lastContactPoint = other.contacts[0].point;
+            if (other.contacts.Length > 0)
+            {
+                lastContactPoint = other.contacts[0].point;
+            }
             _gameHandler.Collision(other);
         }
     }

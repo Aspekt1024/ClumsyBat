@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <NodeDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <EditorOffset>
-    <x>116</x>
-    <y>-81</y>
+    <x>83</x>
+    <y>-165</y>
   </EditorOffset>
   <Nodes>
     <BaseNode xsi:type="StartNode">
@@ -958,22 +958,22 @@
       </interfaces>
       <WindowRect>
         <x>970</x>
-        <y>320</y>
+        <y>330</y>
         <position>
           <x>970</x>
-          <y>320</y>
+          <y>330</y>
         </position>
         <center>
           <x>1040</x>
-          <y>350</y>
+          <y>360</y>
         </center>
         <min>
           <x>970</x>
-          <y>320</y>
+          <y>330</y>
         </min>
         <max>
           <x>1110</x>
-          <y>380</y>
+          <y>390</y>
         </max>
         <width>140</width>
         <height>60</height>
@@ -982,9 +982,9 @@
           <y>60</y>
         </size>
         <xMin>970</xMin>
-        <yMin>320</yMin>
+        <yMin>330</yMin>
         <xMax>1110</xMax>
-        <yMax>380</yMax>
+        <yMax>390</yMax>
       </WindowRect>
       <playerEvent>Damage</playerEvent>
       <selectedPlayerEventIndex>0</selectedPlayerEventIndex>
