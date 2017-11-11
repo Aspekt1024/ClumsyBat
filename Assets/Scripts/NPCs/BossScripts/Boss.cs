@@ -47,10 +47,13 @@ public abstract class Boss : MonoBehaviour {
 
     private void Update()
     {
+        BossUpdate();
+
         if (damageCooldownTimer < 0) return;
         damageCooldownTimer -= Time.deltaTime;
     }
 
+    protected virtual void BossUpdate() { }
     protected abstract void GetBossComponents();
     protected abstract void DeathSequence();
 
