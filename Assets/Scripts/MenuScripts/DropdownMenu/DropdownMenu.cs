@@ -18,8 +18,8 @@ public class DropdownMenu : MonoBehaviour {
     private const float PanelDropAnimDuration = 0.30f;
     private bool _bKeepMenuAlpha;
 
-    private const float MenuTopPos = 11f;
-    private const float MenuBottomPos = 0f;
+    private const float MenuTopOffset = 11f;
+    private const float MenuBottomOffset = 0f;
 
     void Awake ()
     {
@@ -60,7 +60,8 @@ public class DropdownMenu : MonoBehaviour {
 
     public void Hide()
     {
-        _menuPanel.position = new Vector3(_menuPanel.position.x, MenuTopPos, _menuPanel.position.z);
+        float yPos = Camera.main.transform.position.y + MenuTopOffset;
+        _menuPanel.position = new Vector3(_menuPanel.position.x, yPos, _menuPanel.position.z);
         _menuBackPanel.color = Color.clear;
     }
 
@@ -120,9 +121,11 @@ public class DropdownMenu : MonoBehaviour {
         }
 
         const float animDuration = PanelDropAnimDuration;
+        float yPosTop = Camera.main.transform.position.y + MenuTopOffset;
+        float yPosBottom = Camera.main.transform.position.y;
         float animTimer = 0f;
-        float startPos = (bEnteringScreen ? MenuTopPos : MenuBottomPos);
-        float endPos = (bEnteringScreen ? MenuBottomPos : MenuTopPos);
+        float startPos = (bEnteringScreen ? yPosTop : yPosBottom);
+        float endPos = (bEnteringScreen ? yPosBottom : yPosTop);
         float startAlpha = (bEnteringScreen ? 0f : 0.65f);
         float endAlpha = (bEnteringScreen ? 0.65f : 0f);
         _menuPanel.position = new Vector3(_menuPanel.position.x, startPos, _menuPanel.position.z);

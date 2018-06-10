@@ -177,7 +177,7 @@ public class ClumsyMainMenu : MonoBehaviour {
         isPerched = true;
         body.isKinematic = true;
         body.velocity = Vector2.zero;
-        if (transform.position.y > 0f)
+        if (transform.position.y > Camera.main.transform.position.y)
             animControl.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Perch);
         else
             animControl.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Land);
@@ -185,7 +185,7 @@ public class ClumsyMainMenu : MonoBehaviour {
 
     private void Unperch()
     {
-        if (transform.position.y < 0 && target.y > transform.position.y)
+        if (transform.position.y < Camera.main.transform.position.y && target.y > transform.position.y)
         {
             isPerched = false;
             body.isKinematic = false;
@@ -194,7 +194,7 @@ public class ClumsyMainMenu : MonoBehaviour {
             if (isPerched)
                 animControl.PlayAnimation(ClumsyAnimator.ClumsyAnimations.FlapBlink);
         }
-        else if (transform.position.y > 0 && target.y < transform.position.y)
+        else if (transform.position.y > Camera.main.transform.position.y && target.y < transform.position.y)
         {
             isPerched = false;
             body.isKinematic = false;

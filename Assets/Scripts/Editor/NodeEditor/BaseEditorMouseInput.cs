@@ -47,7 +47,7 @@ public class BaseEditorMouseInput {
                 }
                 break;
         }
-        if (e.rawType == EventType.mouseUp && e.button == (int)MouseButtons.LeftClick)
+        if (e.rawType == EventType.MouseUp && e.button == (int)MouseButtons.LeftClick)
         {
             isDragged = false;
             if (e.button == (int)MouseButtons.LeftClick)

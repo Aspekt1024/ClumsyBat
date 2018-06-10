@@ -40,7 +40,7 @@ public class MultipleInNode : BaseNode {
 
     private void CheckForListCountChange()
     {
-        if (Event.current.type == EventType.keyDown && NumInputs != interfaces.Count - 1)
+        if (Event.current.type == EventType.KeyDown && NumInputs != interfaces.Count - 1)
         {
             if (Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.KeypadEnter)
             {

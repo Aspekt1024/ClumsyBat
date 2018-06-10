@@ -66,7 +66,7 @@ public class CamPositioner : MonoBehaviour {
         mainScreen = GameObject.Find("MainScreen").GetComponent<RectTransform>();
         levelScroller = GameObject.Find("LevelScrollRect").GetComponent<RectTransform>();
         Vector3 levelScrollPos = keyPoints.LevelMapStart.transform.position;
-        levelScroller.position = new Vector3(levelScrollPos.x, levelScrollPos.y, levelScroller.position.z);
+        levelScroller.position = new Vector3(levelScrollPos.x, 0, levelScroller.position.z);
 
         if (Toolbox.Instance.MenuScreen == Toolbox.MenuSelector.LevelSelect)
         {
@@ -140,7 +140,7 @@ public class CamPositioner : MonoBehaviour {
         NavButtons.DisableNavButtons();
         state = CamStates.Moving;
 
-        Clumsy.MoveToPoint(Vector3.zero);
+        Clumsy.MoveToPoint(new Vector3(0, Camera.main.transform.position.y, 0));
         while (!Clumsy.TargetReached())
         {
             Clumsy.RemainUnperched();
@@ -153,7 +153,7 @@ public class CamPositioner : MonoBehaviour {
         while (timer < duration)
         {
             timer += Time.deltaTime;
-            SetCamPositionFromPointImmediate(new Vector3(mainCam.transform.position.x + Time.deltaTime * (timer * 10f + 3f), 0f, 0f));
+            SetCamPositionFromPointImmediate(new Vector3(mainCam.transform.position.x + Time.deltaTime * (timer * 10f + 3f), Camera.main.transform.position.y, 0f));
             yield return null;
         }
         SetTargetPosition(keyPoints.LevelMenuMidPoint);

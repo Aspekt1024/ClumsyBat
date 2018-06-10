@@ -83,8 +83,13 @@ public class ParralaxBG : MonoBehaviour {
 
     private void UpdateBgPos(Rigidbody2D[] bgList, float bgShift)
     {
+        float yPos = Camera.main.transform.position.y;
         foreach (Rigidbody2D bg in bgList)
         {
+            Vector3 pos = bg.transform.position;
+            pos.y = Camera.main.transform.position.y;
+            bg.transform.position = pos;
+
             bg.transform.position += Vector3.right * bgShift;
             if (bg.transform.position.x <= ObjectToTrack.position.x - backgroundTileSize * 1.01f)
             {
@@ -162,6 +167,8 @@ public class ParralaxBG : MonoBehaviour {
         int frontIndex = 0;
         int midIndex = 0;
         int rearIndex = 0;
+
+        float yPos = 0f;
         foreach (Transform bgPiece in transform)
         {
             switch (bgPiece.name.Substring(0, 1))
@@ -169,19 +176,19 @@ public class ParralaxBG : MonoBehaviour {
                 case "F":
                     _bgImage[frontIndex] = SetBGImg(bgPiece.GetComponent<SpriteRenderer>(), DepthIndex.Front);
                     _frontBgPieces[frontIndex] = bgPiece.GetComponent<Rigidbody2D>();
-                    _frontBgPieces[frontIndex].transform.position = new Vector3(backgroundTileSize * frontIndex, 0, transform.position.z + 0);
+                    _frontBgPieces[frontIndex].transform.position = new Vector3(backgroundTileSize * frontIndex, yPos, transform.position.z + 0);
                     frontIndex++;
                     break;
                 case "M":
                     _bgImage[midIndex + 2] = SetBGImg(bgPiece.GetComponent<SpriteRenderer>(), DepthIndex.Mid);
                     _midBgPieces[midIndex] = bgPiece.GetComponent<Rigidbody2D>();
-                    _midBgPieces[midIndex].transform.position = new Vector3(backgroundTileSize * midIndex, 0, transform.position.z + 1);
+                    _midBgPieces[midIndex].transform.position = new Vector3(backgroundTileSize * midIndex, yPos, transform.position.z + 1);
                     midIndex++;
                     break;
                 case "R":
                     _bgImage[rearIndex + 4] = SetBGImg(bgPiece.GetComponent<SpriteRenderer>(), DepthIndex.Rear);
                     _rearBgPieces[rearIndex] = bgPiece.GetComponent<Rigidbody2D>();
-                    _rearBgPieces[rearIndex].transform.position = new Vector3(backgroundTileSize * rearIndex, 0, transform.position.z + 2);
+                    _rearBgPieces[rearIndex].transform.position = new Vector3(backgroundTileSize * rearIndex, yPos, transform.position.z + 2);
                     rearIndex++;
                     break;
             }

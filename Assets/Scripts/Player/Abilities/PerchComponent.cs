@@ -14,6 +14,7 @@ public class PerchComponent : MonoBehaviour
     private const float PerchSwitchTime = 0.38f;    // Once unperched from bottom, can't re-perch immediately
     private float _timeSinceUnperch;
     private float normalRotation;
+    private float screenVerticalCentre;
 
     private enum PerchState
     {
@@ -36,6 +37,7 @@ public class PerchComponent : MonoBehaviour
 
     private void Update()
     {
+        screenVerticalCentre = Camera.main.transform.position.y;
         _timeSinceUnperch += Time.deltaTime;
     }
 
@@ -45,7 +47,7 @@ public class PerchComponent : MonoBehaviour
         {
             _state = PerchState.PerchedTop;
         }
-        else if (objName.Contains("Bottom") || _player.transform.position.y < 0f)
+        else if (objName.Contains("Bottom") || _player.transform.position.y < screenVerticalCentre)
         {
             if (!PerchPossible()) return;
             if (touchHeld)
