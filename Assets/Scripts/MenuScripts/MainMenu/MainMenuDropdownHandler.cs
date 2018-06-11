@@ -6,7 +6,7 @@ public class MainMenuDropdownHandler : MonoBehaviour {
     private DropdownMenu dropdownMenu ;
     private MainMenu mainMenu;
 
-    void Start ()
+    private void Start ()
     {
         mainMenu = FindObjectOfType<MainMenu>();
         dropdownMenu = FindObjectOfType<DropdownMenu>();

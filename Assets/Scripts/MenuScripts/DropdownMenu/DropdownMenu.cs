@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using ClumsyBat.Managers;
 
 public class DropdownMenu : MonoBehaviour {
     
@@ -60,7 +61,7 @@ public class DropdownMenu : MonoBehaviour {
 
     public void Hide()
     {
-        float yPos = Camera.main.transform.position.y + MenuTopOffset;
+        float yPos = CameraManager.CurrentCamera.transform.position.y + MenuTopOffset;
         _menuPanel.position = new Vector3(_menuPanel.position.x, yPos, _menuPanel.position.z);
         _menuBackPanel.color = Color.clear;
     }
@@ -121,8 +122,8 @@ public class DropdownMenu : MonoBehaviour {
         }
 
         const float animDuration = PanelDropAnimDuration;
-        float yPosTop = Camera.main.transform.position.y + MenuTopOffset;
-        float yPosBottom = Camera.main.transform.position.y;
+        float yPosTop = CameraManager.CurrentCamera.transform.position.y + MenuTopOffset;
+        float yPosBottom = CameraManager.CurrentCamera.transform.position.y;
         float animTimer = 0f;
         float startPos = (bEnteringScreen ? yPosTop : yPosBottom);
         float endPos = (bEnteringScreen ? yPosBottom : yPosTop);

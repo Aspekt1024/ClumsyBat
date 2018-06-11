@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using ClumsyBat.Managers;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +8,6 @@ public class CamPositioner : MonoBehaviour {
     public ClumsyMainMenu Clumsy;
     public NavButtonHandler NavButtons;
     public LevelButtonHandler LevelButtons;
-    public LoadScreen LoadScreen;
 
     public enum Positions
     {
@@ -79,7 +79,7 @@ public class CamPositioner : MonoBehaviour {
             SetCamPositionFromPointImmediate(keyPoints.MainMenuCamPoint);
             StartCoroutine(MainMenu());
         }
-        LoadScreen.HideLoadScreen(0.4f);
+        OverlayManager.Instance.LoadScreen.HideLoadScreen(0.4f);
     }
 	
 	private void FixedUpdate ()
