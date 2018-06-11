@@ -13,8 +13,7 @@ public class CamPositioner : MonoBehaviour {
     {
         Main, DropdownArea, LevelSelect
     }
-
-    private Camera mainCam;
+    
     private CameraFollowObject camFollow;
     private KeyPointsHandler keyPoints;
     private Vector2 targetPosition;
@@ -55,9 +54,8 @@ public class CamPositioner : MonoBehaviour {
     
     private void Awake()
     {
-        mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         keyPoints = GameObject.FindGameObjectWithTag("Scripts").GetComponent<KeyPointsHandler>();
-        camFollow = mainCam.GetComponent<CameraFollowObject>();
+        camFollow = CameraManager.Instance.MenuCamera.GetComponent<CameraFollowObject>();
         camFollow.StopFollowing();
     }
 
@@ -66,7 +64,7 @@ public class CamPositioner : MonoBehaviour {
         mainScreen = GameObject.Find("MainScreen").GetComponent<RectTransform>();
         levelScroller = GameObject.Find("LevelScrollRect").GetComponent<RectTransform>();
         Vector3 levelScrollPos = keyPoints.LevelMapStart.transform.position;
-        levelScroller.position = new Vector3(levelScrollPos.x, mainCam.transform.position.y, levelScroller.position.z);
+        levelScroller.position = new Vector3(levelScrollPos.x, CameraManager.Instance.MenuCamera.transform.position.y, levelScroller.position.z);
 
         if (Toolbox.Instance.MenuScreen == Toolbox.MenuSelector.LevelSelect)
         {
@@ -84,9 +82,9 @@ public class CamPositioner : MonoBehaviour {
 	
 	private void FixedUpdate ()
     {
-        float xDist = Mathf.Lerp(mainCam.transform.position.x, targetPosition.x, Time.deltaTime * 4) - mainCam.transform.position.x;
+        float xDist = Mathf.Lerp(CameraManager.Instance.MenuCamera.transform.position.x, targetPosition.x, Time.deltaTime * 4) - CameraManager.Instance.MenuCamera.transform.position.x;
         xDist = Mathf.Clamp(xDist, -maxCamDistPerFrame, maxCamDistPerFrame);
-        mainCam.transform.position += Vector3.right * xDist;
+        CameraManager.Instance.MenuCamera.transform.position += Vector3.right * xDist;
 
         float xDiff = keyPoints.MainMenuCamPoint.transform.position.x - mainScreen.position.x;
         mainScreen.position += Vector3.right * xDiff;
@@ -106,7 +104,7 @@ public class CamPositioner : MonoBehaviour {
         yield return StartCoroutine(LevelButtons.MoveLevelMapToStart());
         SetTargetPosition(keyPoints.MainMenuCamPoint);
         
-        while (Mathf.Abs(mainCam.transform.position.x - targetPosition.x) > 0.1f)
+        while (Mathf.Abs(CameraManager.Instance.MenuCamera.transform.position.x - targetPosition.x) > 0.1f)
         {
             yield return null;
         }
@@ -127,7 +125,7 @@ public class CamPositioner : MonoBehaviour {
 
         SetTargetPosition(keyPoints.DropdownAreaPoint);
 
-        while (Mathf.Abs(mainCam.transform.position.x - targetPosition.x) > 0.1f)
+        while (Mathf.Abs(CameraManager.Instance.MenuCamera.transform.position.x - targetPosition.x) > 0.1f)
         {
             yield return null;
         }
@@ -140,7 +138,7 @@ public class CamPositioner : MonoBehaviour {
         NavButtons.DisableNavButtons();
         state = CamStates.Moving;
 
-        Clumsy.MoveToPoint(new Vector3(0, Camera.main.transform.position.y, 0));
+        Clumsy.MoveToPoint(new Vector3(0, CameraManager.Instance.MenuCamera.transform.position.y, 0));
         while (!Clumsy.TargetReached())
         {
             Clumsy.RemainUnperched();
@@ -153,7 +151,7 @@ public class CamPositioner : MonoBehaviour {
         while (timer < duration)
         {
             timer += Time.deltaTime;
-            SetCamPositionFromPointImmediate(new Vector3(mainCam.transform.position.x + Time.deltaTime * (timer * 10f + 3f), Camera.main.transform.position.y, 0f));
+            SetCamPositionFromPointImmediate(new Vector3(CameraManager.Instance.MenuCamera.transform.position.x + Time.deltaTime * (timer * 10f + 3f), CameraManager.Instance.MenuCamera.transform.position.y, 0f));
             yield return null;
         }
         SetTargetPosition(keyPoints.LevelMenuMidPoint);
@@ -185,12 +183,12 @@ public class CamPositioner : MonoBehaviour {
     private void SetCamPositionFromPointImmediate(GameObject objToMoveTo)
     {
         SetTargetPosition(objToMoveTo);
-        mainCam.transform.position = GetPosFromPoint(objToMoveTo);
+        CameraManager.Instance.MenuCamera.transform.position = GetPosFromPoint(objToMoveTo);
     }
     private void SetCamPositionFromPointImmediate(Vector3 pt)
     {
         targetPosition = pt;
-        mainCam.transform.position = new Vector3(pt.x, pt.y, mainCam.transform.position.z);
+        CameraManager.Instance.MenuCamera.transform.position = new Vector3(pt.x, pt.y, CameraManager.Instance.MenuCamera.transform.position.z);
     }
 
     private void SetTargetPosition(GameObject targetObj)
@@ -201,11 +199,11 @@ public class CamPositioner : MonoBehaviour {
     private IEnumerator MoveCameraPoint(GameObject objToMoveTo)
     {
         Vector3 targetPos = GetPosFromPoint(objToMoveTo);
-        while (Vector3.Distance(mainCam.transform.position, targetPos) > 0.05f)
+        while (Vector3.Distance(CameraManager.Instance.MenuCamera.transform.position, targetPos) > 0.05f)
         {
-            float xDist = Vector3.Lerp(mainCam.transform.position, targetPos, Time.deltaTime * 4).x - mainCam.transform.position.x;
+            float xDist = Vector3.Lerp(CameraManager.Instance.MenuCamera.transform.position, targetPos, Time.deltaTime * 4).x - CameraManager.Instance.MenuCamera.transform.position.x;
             xDist = Mathf.Clamp(xDist, -1f, 1f);
-            mainCam.transform.position += Vector3.right * xDist;
+            CameraManager.Instance.MenuCamera.transform.position += Vector3.right * xDist;
             yield return null;
         }
     }
@@ -214,7 +212,7 @@ public class CamPositioner : MonoBehaviour {
     {
         float xPos = pointObj.transform.position.x;
         float yPos = pointObj.transform.position.y;
-        float zPos = mainCam.transform.position.z;
+        float zPos = CameraManager.Instance.MenuCamera.transform.position.z;
         return new Vector3(xPos, yPos, zPos);
     }
 }

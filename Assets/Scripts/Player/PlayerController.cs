@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ClumsyBat.Managers;
+using UnityEngine;
 
 using GameState = GameHandler.GameStates;
 
@@ -27,7 +28,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         State = GameState.Starting;
-        var scriptsObject = GameObject.Find("Scripts");
+        var scriptsObject = GameObject.Find("LevelScripts");
         _inputManager = scriptsObject.AddComponent<InputManager>();
         _gameHandler = scriptsObject.GetComponent<GameHandler>();
         ThePlayer = FindObjectOfType<Player>();
@@ -88,21 +89,17 @@ public class PlayerController : MonoBehaviour
         ThePlayer.StartGame();
     }
 
-    public void PauseButtonPressed()
-    {
-        PauseGame(showMenu: true);
-    }
-
-    public void PauseGame(bool showMenu)
+    public void PauseGame()
     {
         State = GameState.Paused;
-        _gameHandler.PauseGame(showMenu);
+        _gameHandler.PauseGame();
     }
 
     public void ResumeGame()
     {
         if (State == GameState.Resuming) { return; }
         State = GameState.Resuming;
+        OverlayManager.Instance.GameMenu.RaiseMenu();
         _gameHandler.ResumeGame();
     }
 
@@ -116,7 +113,7 @@ public class PlayerController : MonoBehaviour
     {
         State = GameState.PausedForTooltip;
         _inputManager.ClearInput();
-        PauseGame(showMenu: false);
+        PauseGame();
     }
 
     public void WaitForVillageSpeech()

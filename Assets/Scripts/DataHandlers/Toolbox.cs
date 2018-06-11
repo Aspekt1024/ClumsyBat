@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 
 using Levels = LevelProgressionHandler.Levels;
+using ClumsyBat.Managers;
 
 public class Toolbox : Singleton<Toolbox>
 {
@@ -66,15 +67,8 @@ public class Toolbox : Singleton<Toolbox>
         {
             if (Instance.playerCamScript == null)
             {
-                GameObject[] camObjects = GameObject.FindGameObjectsWithTag("MainCamera");
-                foreach (GameObject camObj in camObjects)
-                {
-                    if (camObj.GetComponent<CameraFollowObject>() != null)
-                    {
-                        Instance.playerCamScript = camObj.GetComponent<CameraFollowObject>();
-                        break;
-                    }
-                }
+                Camera camObject = CameraManager.Instance.LevelCamera;
+                Instance.playerCamScript = camObject.GetComponent<CameraFollowObject>();
             }
             return Instance.playerCamScript;
         }

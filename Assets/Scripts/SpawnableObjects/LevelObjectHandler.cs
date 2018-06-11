@@ -1,12 +1,10 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 /// <summary>
 /// Handles the generation, positioning and movement of all cave pieces
 /// </summary>
 public class LevelObjectHandler : MonoBehaviour {
-    
-    // We're going to create (or have created? how long has this comment been here?) a random level template to
-    // store all possibilities of randomising the caves. 
     
     public struct CaveListType
     {
@@ -46,20 +44,22 @@ public class LevelObjectHandler : MonoBehaviour {
         _npcs = new NpcPool();
     }
 
-    private void Start ()
+    public IEnumerator LoadLevel(LevelProgressionHandler.Levels level)
     {
-        LoadLevel();
-        Debug.Log("Level " + GameData.Instance.Level + " loaded.");
-        SetupObjectPools();
+        if (_bEndlessMode) { yield break; }
+        TextAsset levelTxt = (TextAsset)Resources.Load("LevelXML/" + level.ToString());
+        
+        _level = LevelContainer.LoadFromText(levelTxt.text);
+
+        _cave.Setup(_level.Caves, _bEndlessMode, this);
+
+        GameData.Instance.Level = level;
         GameData.Instance.NumMoths = GetNumMoths();
         GameData.Instance.ScoreToBeat = _level.ScoreToBeat;
-    }
 
-    private void SetupObjectPools()
-    {
-        _cave.Setup(_level.Caves, _bEndlessMode, this);
+        Debug.Log("Level " + GameData.Instance.Level + " loaded.");
     }
-
+    
     public void SetCaveObstacles(int index)
     {
         var xOffset = index * Toolbox.TileSizeX;
@@ -96,13 +96,6 @@ public class LevelObjectHandler : MonoBehaviour {
         _webs.PauseGame(pauseGame);
         _triggers.PauseGame(pauseGame);
         _npcs.PauseGame(pauseGame);
-    }
-    
-    private void LoadLevel()
-    {
-        if (_bEndlessMode) { return; }
-        TextAsset levelTxt = (TextAsset)Resources.Load("LevelXML/" + GameData.Instance.Level);
-        _level = LevelContainer.LoadFromText(levelTxt.text);
     }
     
     public void SetMode(bool bIsEndless)

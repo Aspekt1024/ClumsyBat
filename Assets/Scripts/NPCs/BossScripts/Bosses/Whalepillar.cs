@@ -8,9 +8,9 @@ public class Whalepillar : Boss
     {
         Idle, Walk, Jump
     }
-    private Animations currentAnim;
+    //private Animations currentAnim;
     //private Dictionary<Animations, string> spriteDict = new Dictionary<Animations, string>();
-    private Animator anim;
+    //private Animator anim;
 
     private SpriteRenderer bodySprite;
     private HeadPiece head;
@@ -36,7 +36,7 @@ public class Whalepillar : Boss
     private void Start()
     {
         PopulateSpriteDict();
-        anim = GetComponentInChildren<Animator>();
+        //anim = GetComponentInChildren<Animator>();
         //anim.Play(spriteDict[Animations.Idle], 0, 0f);
     }
 

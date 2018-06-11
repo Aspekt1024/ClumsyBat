@@ -123,7 +123,6 @@ public class TooltipButtonEffects : MonoBehaviour {
     {
         float timer = 0f;
         bool isIncreasing = true;
-        float originalSize = rt.localScale.x;
         const float minSize = 0.9f;
         const float maxSize = 1.1f;
 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using ClumsyBat.Managers;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -56,7 +57,7 @@ public class Rock : Projectile {
         {
             float horizontalForce = Random.Range(100f, 250f);
 
-            if (transform.position.x < Camera.main.transform.position.x)
+            if (transform.position.x < CameraManager.CurrentCamera.transform.position.x)
             {
                 projectileBody.AddForce(new Vector2(horizontalForce, 10f));
             }

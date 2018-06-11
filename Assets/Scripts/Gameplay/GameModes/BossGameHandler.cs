@@ -151,14 +151,13 @@ public class BossGameHandler : GameHandler {
         ThePlayer.SetMovementMode(FlapComponent.MovementMode.VerticalOnly);
     }
 
-    public override void PauseGame(bool showMenu)
+    public override void PauseGame()
     {
         EventListener.PauseGame();
         Toolbox.Instance.GamePaused = true;
         GameState = GameStates.Paused;
         ThePlayer.PauseGame();
         _gameHud.GamePaused(true);
-        if (showMenu) { _gameMenu.PauseGame(); }
     }
 
     public override void ResumeGame(bool immediate = false)

@@ -6,12 +6,12 @@ using ClumsyBat.Managers;
 public class DropdownMenu : MonoBehaviour {
     
     private RectTransform _menuPanel;
-    private CanvasGroup _mainPanel;
+    private CanvasGroup _pausePanel;
     private CanvasGroup _statsPanel;
     private CanvasGroup _optionsPanel;
     private Image _menuBackPanel;
 
-    public DropdownInGameMenu InGameMenu;
+    public DropdownInGameMenu PauseMenu;   // TODO rename Dropdown Pause Menu
     public DropdownOptionsMenu OptionsMenu;
     public DropdownStatsMenu StatsMenu;
 
@@ -25,7 +25,7 @@ public class DropdownMenu : MonoBehaviour {
     void Awake ()
     {
         GetMenuObjects();
-        if (_mainPanel) { SetCanvasActive(_mainPanel, true); }
+        if (_pausePanel) { SetCanvasActive(_pausePanel, true); }
         if (_optionsPanel) { SetCanvasActive(_optionsPanel, false); }
         if (_statsPanel) { SetCanvasActive(_statsPanel, false); }
     }
@@ -43,7 +43,7 @@ public class DropdownMenu : MonoBehaviour {
     public void ShowOptions()
     {
         OptionsMenu.InitialiseOptionsView();
-        SetCanvasActive(_mainPanel, false);
+        SetCanvasActive(_pausePanel, false);
         SetCanvasActive(_optionsPanel, true);
         SetCanvasActive(_statsPanel, false);
         OptionsMenu.SetToggleStates();
@@ -52,7 +52,7 @@ public class DropdownMenu : MonoBehaviour {
 
     public void ShowStats()
     {
-        SetCanvasActive(_mainPanel, false);
+        SetCanvasActive(_pausePanel, false);
         SetCanvasActive(_optionsPanel, false);
         SetCanvasActive(_statsPanel, true);
         StatsMenu.Show();
@@ -66,6 +66,11 @@ public class DropdownMenu : MonoBehaviour {
         _menuBackPanel.color = Color.clear;
     }
 
+    public void DropMenu()
+    {
+        StartCoroutine(PanelDropAnim(true));
+    }
+
     public float RaiseMenu()
     {
         StartCoroutine("PanelDropAnim", false);
@@ -77,7 +82,7 @@ public class DropdownMenu : MonoBehaviour {
         _bKeepMenuAlpha = true;
         StartCoroutine("PanelDropAnim", false);
         yield return new WaitForSeconds(PanelDropAnimDuration + 0.4f);
-        SetCanvasActive(_mainPanel, !bOptionsMenu);
+        SetCanvasActive(_pausePanel, !bOptionsMenu);
         SetCanvasActive(_optionsPanel, bOptionsMenu);
         OptionsMenu.SetToggleStates();
         StartCoroutine("PanelDropAnim", true);
@@ -98,7 +103,7 @@ public class DropdownMenu : MonoBehaviour {
             switch (rt.name)
             {
                 case "MainPanel":
-                    _mainPanel = rt.GetComponent<CanvasGroup>();
+                    _pausePanel = rt.GetComponent<CanvasGroup>();
                     break;
                 case "OptionsPanel":
                     _optionsPanel = rt.GetComponent<CanvasGroup>();
@@ -108,7 +113,7 @@ public class DropdownMenu : MonoBehaviour {
                     break;
             }
         }
-        if (_mainPanel) { InGameMenu = _mainPanel.GetComponent<DropdownInGameMenu>(); }
+        if (_pausePanel) { PauseMenu = _pausePanel.GetComponent<DropdownInGameMenu>(); }
         if (_optionsPanel) { OptionsMenu = _optionsPanel.GetComponent<DropdownOptionsMenu>(); }
         if (_statsPanel) { StatsMenu = _statsPanel.GetComponent<DropdownStatsMenu>(); }
     }

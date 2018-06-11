@@ -1,10 +1,9 @@
-﻿using UnityEngine;
+﻿using ClumsyBat.Managers;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class GameUI : MonoBehaviour
 {
-    private Image pauseImage;
-    private Button pauseButton;
     private Text scoreText;
     private Text currencyText;
     private Text bigScoreText;
@@ -39,6 +38,12 @@ public class GameUI : MonoBehaviour
         scoreText.text = "0";
         SetupUI();
 	}
+
+    public void PauseButtonPressed()
+    {
+        FindObjectOfType<PlayerController>().PauseGame();
+        OverlayManager.Instance.GameMenu.PauseGame();
+    }
 
     private void HideBossUIElements()
     {
@@ -96,10 +101,6 @@ public class GameUI : MonoBehaviour
                 {
                     switch (r.name)
                     {
-                        case "PauseButton":
-                            pauseButton = r.GetComponent<Button>();
-                            pauseImage = r.GetComponent<Image>();
-                            break;
                         case "LevelText":
                             levelText = r.GetComponent<Text>();
                             break;

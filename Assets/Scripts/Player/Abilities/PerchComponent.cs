@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using ClumsyBat.Managers;
+using System.Collections;
 using UnityEngine;
 
 public class PerchComponent : MonoBehaviour
@@ -37,7 +38,7 @@ public class PerchComponent : MonoBehaviour
 
     private void Update()
     {
-        screenVerticalCentre = Camera.main.transform.position.y;
+        screenVerticalCentre = CameraManager.CurrentCamera.transform.position.y;
         _timeSinceUnperch += Time.deltaTime;
     }
 

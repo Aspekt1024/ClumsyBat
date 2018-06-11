@@ -1,25 +1,30 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using ClumsyBat.Managers;
 
 public class GameMenuOverlay : MonoBehaviour {
     
-    private LoadScreen _loadingOverlay;
     private DropdownMenu _menu;
     
     private void Awake()
     {
-        _loadingOverlay = GameObject.Find("LoadScreen").GetComponent<LoadScreen>();
         _menu = FindObjectOfType<DropdownMenu>();
+        CameraManager.OnCameraChanged += CameraChanged;
+    }
+
+    private void Start()
+    {
+        _menu.Hide();
     }
 
     /// <summary>
     /// Button presses
     /// </summary>
-    
+
     public void MenuButtonPressed()
     {
-        Toolbox.Instance.MenuScreen = Toolbox.MenuSelector.MainMenu;
+        Toolbox.Instance.MenuScreen = Toolbox.MenuSelector.MainMenu; // TODO no no no no no no!
         StartCoroutine(GotoMainMenu());
     }
 
@@ -70,18 +75,19 @@ public class GameMenuOverlay : MonoBehaviour {
    
     public void GameOver()
     {
-        _menu.InGameMenu.GameOver();
+        _menu.PauseMenu.GameOver();
     }
     
     public void PauseGame()
     {
-        _menu.InGameMenu.PauseMenu();
+        _menu.PauseMenu.PauseMenu();
+        _menu.DropMenu();
     }
 
     public void WinGame()
     {
         string levelName = Toolbox.Instance.LevelNames[GameData.Instance.Level];
-        _menu.InGameMenu.LevelComplete(levelName);
+        _menu.PauseMenu.LevelComplete(levelName);
     }
 
     public void Hide()
@@ -93,11 +99,6 @@ public class GameMenuOverlay : MonoBehaviour {
     {
         float waitTime = _menu.RaiseMenu();
         return waitTime;
-    }
-
-    public void RemoveLoadingOverlay()
-    {
-        _loadingOverlay.HideLoadScreen();
     }
 
     private void SaveData()
@@ -132,7 +133,12 @@ public class GameMenuOverlay : MonoBehaviour {
 
     private IEnumerator ShowLoadScreenRoutine()
     {
-        yield return StartCoroutine(_loadingOverlay.FadeIn());
+        yield return StartCoroutine(OverlayManager.Instance.LoadScreen.FadeIn());
         SaveData();
+    }
+
+    private void CameraChanged(Camera newCamera)
+    {
+        GetComponent<Canvas>().worldCamera = newCamera;
     }
 }

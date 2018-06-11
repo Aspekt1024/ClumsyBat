@@ -3,66 +3,45 @@ using UnityEngine;
 
 namespace ClumsyBat.Managers
 {
-    public class LevelManager : MonoBehaviour
+    public class LevelManager : ManagerBase<LevelManager>
     {
+        public LevelObjectHandler ObjectHandler;
+        public LevelGameHandler GameHandler;
+
         private int currentLevel;
-
-        private static LevelManager _instance;
-
-        public static LevelManager Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    Debug.LogError("Level Manager does not exist in the scene, but something is tring to access it.");
-                }
-                return _instance;
-            }
-        }
+        private bool loadingLevel;
         
-        public void Awake()
-        {
-            if (_instance == null)
-            {
-                Debug.Log("Level manager ready to go!");
-                _instance = this;
-            }
-            else
-            {
-                Debug.LogWarning("Multiple LevelMangers found in the scene. Removing duplicate");
-                Destroy(this);
-            }
-        }
-
         public static void StartLevel(LevelProgressionHandler.Levels level)
         {
             GameData.Instance.Level = level;
             Instance.StartCoroutine(Instance.LoadLevel(level));
         }
         
-        private IEnumerator LoadLevel(LevelProgressionHandler.Levels levelId)
+        private IEnumerator LoadLevel(LevelProgressionHandler.Levels level)
         {
-            GameData.Instance.Level = levelId;
             Toolbox.Instance.Debug = false;
+
+            loadingLevel = true;
+            StartCoroutine(LoadLevelObjects(level));
+
+            yield return ClumsySceneManager.FadeOut();
+
+            while (loadingLevel)
+            {
+                yield return null;
+            }
             
-            ClumsySceneManager.SwitchState(ClumsySceneManager.GameState.InLevel, LevelLoaded);
+            ClumsySceneManager.SwitchState(ClumsySceneManager.GameState.InLevel);
 
-            yield return null;
-            
-            //AsyncOperation levelLoader;
+            yield return ClumsySceneManager.FadeIn();
 
-            //yield return StartCoroutine(LoadingOverlay.GetComponent<LoadScreen>().FadeIn());
-
-            //if (levelId.ToString().Contains("Boss"))
-            //    levelLoader = SceneManager.LoadSceneAsync("Boss");
-            //else
-            //levelLoader = SceneManager.LoadSceneAsync("Levels");
-
+            GameHandler.StartLevel();
         }
 
-        private void LevelLoaded()
+        private IEnumerator LoadLevelObjects(LevelProgressionHandler.Levels level)
         {
+            yield return ObjectHandler.LoadLevel(level);
+            loadingLevel = false;
         }
     }
 }

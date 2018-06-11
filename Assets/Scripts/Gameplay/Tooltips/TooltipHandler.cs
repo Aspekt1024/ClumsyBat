@@ -11,11 +11,9 @@ public class TooltipHandler : MonoBehaviour {
     private TriggerEvent storedEvent;
 
     private Canvas dialogueOverlay;
-    private Image dialogueBackground;
     private RectTransform dialogueScroll;
     private Animator dialogueScrollAnimator;
     private Text dialogueText;
-    private RectTransform dialogueTextRt;
     private RectTransform resumeNextImage;
     private RectTransform resumePlayImage;
     private RectTransform nomee;
@@ -88,7 +86,7 @@ public class TooltipHandler : MonoBehaviour {
 
     private IEnumerator ShowDialogueRoutine(TriggerEvent triggerEvent)
     {
-        _playerControl.PauseGame(false);
+        _playerControl.PauseGame();
         _playerControl.WaitForTooltip();
         IsPausedForDialogue = true;
 
@@ -180,9 +178,7 @@ public class TooltipHandler : MonoBehaviour {
     {
         foreach (RectTransform rt in dialogueOverlay.GetComponentsInChildren<RectTransform>())
         {
-            if (rt.name == "TooltipBackground")
-                dialogueBackground = rt.GetComponent<Image>();
-            else if (rt.name == "TooltipPanel")
+            if (rt.name == "TooltipPanel")
             {
                 dialogueScroll = rt;
                 dialogueScrollAnimator = rt.GetComponent<Animator>();
@@ -190,7 +186,6 @@ public class TooltipHandler : MonoBehaviour {
                 {
                     if (r.name == "ToolTipTextBox")
                     {
-                        dialogueTextRt = r;
                         dialogueText = r.GetComponent<Text>();
                     }
                     else if (r.name == "ResumeNextImage")

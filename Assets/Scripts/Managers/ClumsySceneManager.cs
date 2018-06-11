@@ -19,37 +19,33 @@ namespace ClumsyBat.Managers
         
         private Action callback;
 
-        public static void SwitchState(GameState state, Action callback)
+        public static IEnumerator FadeOut()
         {
-            Instance.state = state;
-            Instance.callback = callback;
-
-            Instance.StartCoroutine(Instance.TransitionToNewState());
+            yield return Instance.StartCoroutine(Instance.LoadScreen.FadeIn());
         }
 
-        private IEnumerator TransitionToNewState()
+        public static IEnumerator FadeIn()
         {
-            yield return StartCoroutine(LoadScreen.FadeIn());
-            
+            yield return Instance.StartCoroutine(Instance.LoadScreen.FadeOut());
+        }
+
+        public static void SwitchState(GameState state)
+        {
             switch (state)
             {
                 case GameState.MainMenu:
                     CameraManager.SwitchToMenuCamera();
-                    MainMenuObject.SetActive(true);
-                    LevelObject.SetActive(false);
+                    Instance.MainMenuObject.SetActive(true);
+                    Instance.LevelObject.SetActive(false);
                     break;
                 case GameState.InLevel:
                     CameraManager.SwitchToLevelCamera();
-                    MainMenuObject.SetActive(false);
-                    LevelObject.SetActive(true);
+                    Instance.MainMenuObject.SetActive(false);
+                    Instance.LevelObject.SetActive(true);
                     break;
                 default:
                     break;
             }
-            
-            yield return StartCoroutine(LoadScreen.FadeOut());
         }
-
-
     }
 }

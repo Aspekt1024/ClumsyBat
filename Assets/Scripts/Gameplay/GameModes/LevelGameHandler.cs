@@ -2,28 +2,26 @@
 using System.Collections;
 using System;
 
-public class LevelGameHandler : GameHandler
+public sealed class LevelGameHandler : GameHandler
 {
     [HideInInspector] public LevelScript Level;
     [HideInInspector] public CaveHandler CaveHandler;
 
     private float _resumeTimerStart;
     private const float ResumeTimer = 3f;
-    private const float LevelStartupTime = 1f;
     private bool caveExitAutoFlightTriggered;
-    
-    private void Start ()
+
+    private void Start()
     {
         Level = FindObjectOfType<LevelScript>();
-        ThePlayer.transform.position = new Vector3(-Toolbox.TileSizeX / 2f, 0f, ThePlayer.transform.position.z);
         CaveHandler = FindObjectOfType<CaveHandler>();
-        StartCoroutine(LoadSequence());
     }
 
-    private IEnumerator LoadSequence()
+    public void StartLevel()
     {
-        yield return new WaitForSeconds(1f);
-        StartCoroutine("LevelStartAnimation");
+        ThePlayer.transform.position = new Vector3(-Toolbox.TileSizeX / 2f, 0f, ThePlayer.transform.position.z);
+
+        StartCoroutine(LevelStartAnimation());
         GameMusic.PlaySound(GameMusicControl.GameTrack.Twinkly);
         SetCameraEndPoint();
         Level.GameHud.SetCurrencyText("0/" + GameData.Instance.NumMoths);
@@ -36,9 +34,6 @@ public class LevelGameHandler : GameHandler
     
     private IEnumerator LevelStartAnimation()
     {
-        yield return new WaitForSeconds(LevelStartupTime);
-        Level.GameMenu.RemoveLoadingOverlay();
-        yield return new WaitForSeconds(0.7f);
 
         ThePlayer.StartFog();
         ThePlayer.StartCoroutine("CaveEntranceAnimation");
@@ -55,17 +50,17 @@ public class LevelGameHandler : GameHandler
         Level.StartGame();
     }
 
-    public sealed override void PauseGame(bool showMenu)
+    public override void PauseGame()
     {
         EventListener.PauseGame();
         GameState = GameStates.Paused;
         Toolbox.Instance.GamePaused = true;
-        Level.PauseGame(showMenu);
+        Level.PauseGame();
         ThePlayer.PauseGame();
         GameData.Instance.Data.SaveData();
     }
 
-    public sealed override void ResumeGame(bool immediate = false)
+    public override void ResumeGame(bool immediate = false)
     {
         if (immediate)
         {
@@ -80,11 +75,10 @@ public class LevelGameHandler : GameHandler
 
     private IEnumerator UpdateResumeTimer()
     {
-        float waitTime = Level.GameMenu.RaiseMenu();
-        yield return new WaitForSeconds(waitTime);
+        // TODO raise menu
         _resumeTimerStart = Time.time;
 
-        while (ThePlayer.IsAlive() && _resumeTimerStart + ResumeTimer - waitTime > Time.time)
+        while (ThePlayer.IsAlive() && _resumeTimerStart + ResumeTimer > Time.time)
         {
             float timeRemaining = _resumeTimerStart + ResumeTimer - Time.time;
             Level.GameHud.SetResumeTimer(timeRemaining);

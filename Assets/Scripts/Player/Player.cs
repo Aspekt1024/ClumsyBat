@@ -4,6 +4,7 @@ using System.Collections;
 
 using PlayerSounds = ClumsyAudioControl.PlayerSounds;
 using ClumsyAnimations = ClumsyAnimator.ClumsyAnimations;
+using ClumsyBat.Managers;
 
 public class Player : MonoBehaviour {
     
@@ -267,7 +268,7 @@ public class Player : MonoBehaviour {
 
     private void CheckIfOffscreen()
     {
-        Vector2 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
+        Vector2 screenPosition = CameraManager.Instance.LevelCamera.WorldToScreenPoint(transform.position);
 
         if (inSecretExit)
         {
@@ -297,7 +298,7 @@ public class Player : MonoBehaviour {
         _state = PlayerState.Dying;
 
         EventListener.Death();
-        DisablePlayerController();
+        _playerController.PauseInput(true);
         _data.Stats.Deaths += 1;
         
         _playerCollider.enabled = false;
@@ -312,8 +313,9 @@ public class Player : MonoBehaviour {
     {
         _audioControl.PlaySound(PlayerSounds.Collision);    // TODO replace with something... better? like an "ow!"
         yield return null;
-        _gameHandler.PauseGame(showMenu: false);
+        Time.timeScale = 0f;
         yield return new WaitForSeconds(0.47f);
+        Time.timeScale = 1f;
         _gameHandler.ResumeGame(immediate:true);
         _playerRigidBody.velocity = new Vector2(IsFacingRight() ? -3f : 3f, 1f);
         Anim.PlayAnimation(ClumsyAnimations.Die);
@@ -390,7 +392,7 @@ public class Player : MonoBehaviour {
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        Vector2 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
+        Vector2 screenPosition = CameraManager.Instance.LevelCamera.WorldToScreenPoint(transform.position);
         if (other.tag == "SecretExit" && screenPosition.y > 0 && screenPosition.y < Screen.height)
         {
             inSecretExit = false;
@@ -551,7 +553,6 @@ public class Player : MonoBehaviour {
     }
     public void StartFog() { Fog.StartOfLevel(); }
     public void PlaySound(PlayerSounds soundId) { _audioControl.PlaySound(soundId); }
-    private void DisablePlayerController() { FindObjectOfType<PlayerController>().PauseInput(true); }
     public float GetHomePositionX() { return ClumsyX; }
     public bool IsPerched() { return _state == PlayerState.Perched; }
     public bool IsPerchedOnTop() { return _perch.IsPerchedOnTop(); }

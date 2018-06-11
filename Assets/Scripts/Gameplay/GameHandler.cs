@@ -25,7 +25,7 @@ public abstract class GameHandler : MonoBehaviour {
         PlayerController = FindObjectOfType<PlayerController>();
         ThePlayer = FindObjectOfType<Player>();
 
-        GameObject scriptsObj = GameObject.Find("Scripts");
+        GameObject scriptsObj = GameObject.Find("LevelScripts");
         GameMusic = scriptsObj.AddComponent<GameMusicControl>();
 
         Stats = GameData.Instance.Data.Stats;
@@ -43,7 +43,7 @@ public abstract class GameHandler : MonoBehaviour {
     }
 
     public abstract MothPool GetMothPool();
-    public abstract void PauseGame(bool showMenu);
+    public abstract void PauseGame();
     public abstract void ResumeGame(bool immediate = false);
     
     public abstract void LevelComplete();

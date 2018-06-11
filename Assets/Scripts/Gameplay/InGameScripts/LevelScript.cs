@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ClumsyBat.Managers;
+using UnityEngine;
 
 public class LevelScript : MonoBehaviour {
 
@@ -6,15 +7,10 @@ public class LevelScript : MonoBehaviour {
     public float ClumsyBaseSpeed = 5f;    // TODO should this really belong with player?
     public LevelProgressionHandler.Levels DefaultLevel = LevelProgressionHandler.Levels.Main1;
     
-    // These attributes must be set in the inspector (remnants of the early days)
-    public ParralaxBG Background;
-    public GameMenuOverlay GameMenu;
-
     [HideInInspector]
     public GameUI GameHud;
 
     private GameObject _levelScripts;
-    private LevelObjectHandler _levelObjects;
     private AudioSource _audioControl;
 
     private int scoreToBeat;
@@ -26,15 +22,13 @@ public class LevelScript : MonoBehaviour {
 
     private void Awake()
     {
-        _levelScripts = GameObject.Find("Scripts");
+        _levelScripts = GameObject.Find("LevelScripts");
         _audioControl = _levelScripts.AddComponent<AudioSource>();
         GameHud = GameObject.Find("UI_Overlay").GetComponent<GameUI>();
     }
 
     private void Start ()
     {
-        CreateGameObjects();
-        GameMenu.Hide();
         Toolbox.Player.SetPlayerSpeed(ClumsyBaseSpeed);
         SetLevel();
     }
@@ -57,32 +51,23 @@ public class LevelScript : MonoBehaviour {
         }
         GameHud.SetLevelText(level);
         Toolbox.Instance.ShowLevelTooltips = (!GameData.Instance.Data.LevelData.IsCompleted((int)level));
-        _levelObjects.SetMode(bIsEndless: level == LevelProgressionHandler.Levels.Endless);
-    }
-
-    private void CreateGameObjects()
-    {
-        _levelObjects = _levelScripts.AddComponent<LevelObjectHandler>();
+        LevelManager.Instance.ObjectHandler.SetMode(bIsEndless: level == LevelProgressionHandler.Levels.Endless);
     }
     
     public void StartGame()
     {
         _bGameStarted = true;
         GameHud.StartGame();
-        _levelObjects.SetPaused(false);
+        LevelManager.Instance.ObjectHandler.SetPaused(false);
     }
 
-    public void PauseGame(bool showMenu = true)
+    public void PauseGame()
     {
         // TODO Play pause sound
         _bGamePaused = true;
-        _levelObjects.SetPaused(true);
+        LevelManager.Instance.ObjectHandler.SetPaused(true);
         GameHud.GamePaused(true);
-
-        if (showMenu)
-        {
-            GameMenu.PauseGame();
-        }
+        
         GameData.Instance.Data.SaveData();
     }
 
@@ -90,14 +75,13 @@ public class LevelScript : MonoBehaviour {
     {
         // Play resume sound
         _bGamePaused = false;
-        _levelObjects.SetPaused(false);
+        LevelManager.Instance.ObjectHandler.SetPaused(false);
         GameHud.GamePaused(false);
     }
 
     public void ShowGameoverMenu()
     {
         GameData.Instance.Data.SaveData();
-        GameMenu.GameOver();
         GameHud.GameOver();
     }
 
@@ -115,8 +99,6 @@ public class LevelScript : MonoBehaviour {
         }
         EventListener.LevelWon();
         GameHud.LevelWon();
-        GameMenu.WinGame();
-        Toolbox.Player.GetComponent<PlayerController>().PauseGame(showMenu: false);
 
         // TODO add sound to sound controller script
         if (GameData.Instance.Data.Stats.Settings.Music)

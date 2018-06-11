@@ -86,7 +86,6 @@ public class ParralaxBG : MonoBehaviour {
 
     private void UpdateBgPos(Rigidbody2D[] bgList, float bgShift)
     {
-        float yPos = cameraToTrack.position.y;
         foreach (Rigidbody2D bg in bgList)
         {
             Vector3 pos = bg.transform.position;
