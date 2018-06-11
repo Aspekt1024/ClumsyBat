@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using ClumsyBat.Managers;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -54,35 +55,18 @@ public class LevelButtonHandler : MonoBehaviour {
             {
                 StartCoroutine(SetLevelText(Toolbox.Instance.LevelNames[ActiveLevel], GameData.Instance.Data.LevelData.GetBestScore((int)ActiveLevel)));
                 if (!LevelPlayButton.gameObject.activeSelf)
-                    Toolbox.UIAnimator.PopInObject(LevelPlayButton);
+                    UIObjectAnimator.Instance.PopInObject(LevelPlayButton);
             }
         }
     }
 
+    /// <summary>
+    /// Event that loads a level
+    /// </summary>
     public void LevelPlayClicked()
     {
-        GameData.Instance.Level = ActiveLevel;
         UIObjectAnimator.Instance.PopOutObject(LevelPlayButton);
-        StartCoroutine(LoadLevel(ActiveLevel));
-    }
-
-    private IEnumerator LoadLevel(LevelProgressionHandler.Levels levelId)
-    {
-        GameData.Instance.Level = levelId;
-        Toolbox.Instance.Debug = false;
-        AsyncOperation levelLoader;
-
-        yield return StartCoroutine(LoadingOverlay.GetComponent<LoadScreen>().FadeIn());
-
-        if (levelId.ToString().Contains("Boss"))
-            levelLoader = SceneManager.LoadSceneAsync("Boss");
-        else
-            levelLoader = SceneManager.LoadSceneAsync("Levels");
-        
-        while (!levelLoader.isDone)
-        {
-            yield return null;
-        }
+        LevelManager.StartLevel(ActiveLevel);
     }
 
     private void GetLevelButtons()
@@ -198,11 +182,11 @@ public class LevelButtonHandler : MonoBehaviour {
 
     private IEnumerator SetLevelText(string text, int score)
     {
-        Toolbox.UIAnimator.PopObject(LevelTextRT);
+        UIObjectAnimator.Instance.PopObject(LevelTextRT);
         yield return new WaitForSeconds(0.08f);
 
         levelScoreText.text = "Best Score: " + score.ToString();
-        Toolbox.UIAnimator.PopObject(LevelScoreTextRt);
+        UIObjectAnimator.Instance.PopObject(LevelScoreTextRt);
         levelText.text = text;
     }
 }

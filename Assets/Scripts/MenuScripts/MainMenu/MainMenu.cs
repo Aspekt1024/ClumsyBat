@@ -83,16 +83,16 @@ public class MainMenu : MonoBehaviour {
 
     private void HideMenuButtons()
     {
-        Toolbox.UIAnimator.PopOutObject(playButton);
-        Toolbox.UIAnimator.PopOutObject(optionsButton);
-        Toolbox.UIAnimator.PopOutObject(statsButton);
+        UIObjectAnimator.Instance.PopOutObject(playButton);
+        UIObjectAnimator.Instance.PopOutObject(optionsButton);
+        UIObjectAnimator.Instance.PopOutObject(statsButton);
     }
 
     private void ShowMenuButtons()
     {
-        Toolbox.UIAnimator.PopInObject(playButton);
-        Toolbox.UIAnimator.PopInObject(optionsButton);
-        Toolbox.UIAnimator.PopInObject(statsButton);
+        UIObjectAnimator.Instance.PopInObject(playButton);
+        UIObjectAnimator.Instance.PopInObject(optionsButton);
+        UIObjectAnimator.Instance.PopInObject(statsButton);
     }
 
     private void SaveData() { GameData.Instance.Data.SaveData(); }

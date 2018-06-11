@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ClumsyBat.Managers;
 
 public class UIObjectAnimator : MonoBehaviour {
 
@@ -159,6 +160,8 @@ public class UIObjectAnimator : MonoBehaviour {
 
     private void RemoveObjIfExisting(RectTransform rt)
     {
+        if (rt == null) return;
+
         foreach (RTObject rtObj in Instance.rtObjects)
         {
             if (rtObj.Obj.gameObject == rt.gameObject)

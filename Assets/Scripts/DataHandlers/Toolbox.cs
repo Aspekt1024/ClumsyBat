@@ -40,21 +40,6 @@ public class Toolbox : Singleton<Toolbox>
         }
     }
 
-    public static UIObjectAnimator UIAnimator
-    {
-        get
-        {
-            if (Instance.objectAnimator == null)
-            {
-                GameObject scripts = GameObject.FindGameObjectWithTag("Scripts");
-                Instance.objectAnimator = scripts.GetComponent<UIObjectAnimator>();
-                if (Instance.objectAnimator == null)
-                    Instance.objectAnimator = scripts.AddComponent<UIObjectAnimator>();
-            }
-            return Instance.objectAnimator;
-        }
-    }
-
     public static Player Player
     {
         get

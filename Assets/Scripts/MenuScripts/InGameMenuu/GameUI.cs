@@ -1,10 +1,8 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
-public class GameUI : MonoBehaviour {
-    
+public class GameUI : MonoBehaviour
+{
     private Image pauseImage;
     private Button pauseButton;
     private Text scoreText;
@@ -83,7 +81,7 @@ public class GameUI : MonoBehaviour {
         if (currencyText.text == text) return;
         
         currencyText.gameObject.SetActive(true);
-        Toolbox.UIAnimator.PopObject(currencyRt);
+        UIObjectAnimator.Instance.PopObject(currencyRt);
         currencyText.text = text;
     }
     
@@ -152,7 +150,7 @@ public class GameUI : MonoBehaviour {
             {
                 return;
             }
-            Toolbox.UIAnimator.PopObject(_resumeTimerRt);
+            UIObjectAnimator.Instance.PopObject(_resumeTimerRt);
             resumeTimerText.text = _resumeTime.ToString();
         }
     }
@@ -164,7 +162,7 @@ public class GameUI : MonoBehaviour {
 
     public void SetStartText(string startText)
     {
-        Toolbox.UIAnimator.PopObject(_resumeTimerRt);
+        UIObjectAnimator.Instance.PopObject(_resumeTimerRt);
         resumeTimerText.text = startText;
     }
 

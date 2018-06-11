@@ -15,7 +15,7 @@ public class Moth : Spawnable {
     private Collider2D _mothCollider;
     private MothStates _mothState = MothStates.Normal;
     private Transform _lantern;
-    private MothInteractivity _mothInteractor;
+    //private MothInteractivity _mothInteractor;
     private MothPathHandler _pathHandler;
     private bool _bConsumption;
     private ParticleSystem shimmerEffect;
@@ -239,7 +239,7 @@ public class Moth : Spawnable {
 
     private void GetMothComponents()
     {
-        _mothInteractor = gameObject.AddComponent<MothInteractivity>();
+        //_mothInteractor = gameObject.AddComponent<MothInteractivity>();
         _pathHandler = new MothPathHandler(this);
         foreach (Transform tf in transform)
         {

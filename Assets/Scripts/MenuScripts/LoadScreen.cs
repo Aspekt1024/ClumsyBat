@@ -1,25 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections;
+using ClumsyBat.Managers;
 
 public class LoadScreen : MonoBehaviour {
 
     public bool LoadOnStartup;
 
-    private Animator mothAnimator;
-    private CanvasGroup loadingCanvas;
-    private RectTransform loadTextRt;
+    public Animator MothAnimator;
+    public CanvasGroup LoadingCanvas;
+    public RectTransform LoadTextRt;
 
     private void Awake()
     {
-        GetLoadScreenComponents();
-        mothAnimator.Play("MothFlapAnim", 0, 0f);
-        loadingCanvas = GetComponent<CanvasGroup>();
+        CameraManager.OnCameraChanged += CameraChanged;
+
+        MothAnimator.Play("MothFlapAnim", 0, 0f);
+        LoadingCanvas = GetComponent<CanvasGroup>();
 
         if (LoadOnStartup)
         {
-            loadingCanvas.alpha = 1f;
-            loadingCanvas.blocksRaycasts = true;
-            loadingCanvas.interactable = true;
+            LoadingCanvas.alpha = 1f;
+            LoadingCanvas.blocksRaycasts = true;
+            LoadingCanvas.interactable = true;
         }
     }
 
@@ -40,62 +42,50 @@ public class LoadScreen : MonoBehaviour {
 
     private IEnumerator HideLoadAfterDelay(float delay)
     {
-        yield return StartCoroutine(Toolbox.UIAnimator.Wait(delay));
+        yield return StartCoroutine(UIObjectAnimator.Instance.Wait(delay));
         yield return StartCoroutine(FadeOut());
     }
 
     public IEnumerator FadeIn()
     {
-        loadingCanvas.blocksRaycasts = true;
-        loadingCanvas.interactable = true;
-        mothAnimator.gameObject.SetActive(false);
+        LoadingCanvas.blocksRaycasts = true;
+        LoadingCanvas.interactable = true;
+        MothAnimator.gameObject.SetActive(false);
 
         const float duration = 0.2f;
         float timer = 0f;
         while (timer < duration)
         {
             timer += Time.deltaTime;
-            loadingCanvas.alpha = Mathf.Lerp(0f, 1f, timer / duration);
+            LoadingCanvas.alpha = Mathf.Lerp(0f, 1f, timer / duration);
             yield return null;
         }
 
-        Toolbox.UIAnimator.PopInObject(mothAnimator.GetComponent<RectTransform>());
-        mothAnimator.Play("MothOpenWings", 0, 0f);
-        yield return StartCoroutine(Toolbox.UIAnimator.PopInObjectRoutine(loadTextRt));
+        UIObjectAnimator.Instance.PopInObject(MothAnimator.GetComponent<RectTransform>());
+        MothAnimator.Play("MothOpenWings", 0, 0f);
+        yield return StartCoroutine(UIObjectAnimator.Instance.PopInObjectRoutine(LoadTextRt));
     }
 
-    private IEnumerator FadeOut()
+    public IEnumerator FadeOut()
     {
-        Toolbox.UIAnimator.PopOutObject(loadTextRt);
-        yield return StartCoroutine(Toolbox.UIAnimator.PopOutObjectRoutine(mothAnimator.GetComponent<RectTransform>()));
+        UIObjectAnimator.Instance.PopOutObject(LoadTextRt);
+        yield return StartCoroutine(UIObjectAnimator.Instance.PopOutObjectRoutine(MothAnimator.GetComponent<RectTransform>()));
 
         const float duration = 0.2f;
         float timer = 0f;
         while (timer < duration)
         {
             timer += Time.deltaTime;
-            loadingCanvas.alpha = Mathf.Lerp(1f, 0f, timer / duration);
+            LoadingCanvas.alpha = Mathf.Lerp(1f, 0f, timer / duration);
             yield return null;
         }
-        loadingCanvas.alpha = 0f;
-        loadingCanvas.blocksRaycasts = false;
-        loadingCanvas.interactable = false;
+        LoadingCanvas.alpha = 0f;
+        LoadingCanvas.blocksRaycasts = false;
+        LoadingCanvas.interactable = false;
     }
 
-    private void GetLoadScreenComponents()
+    private void CameraChanged(Camera newCamera)
     {
-        foreach(RectTransform rt in GetComponent<RectTransform>())
-        {
-            if (rt.name == "Darkness")
-            {
-                foreach(RectTransform r in rt)
-                {
-                    if (r.name == "LoadingMoth")
-                        mothAnimator = r.GetComponent<Animator>();
-                    else if (r.name == "Text")
-                        loadTextRt = r;
-                }
-            }
-        }
+        GetComponent<Canvas>().worldCamera = newCamera;
     }
 }

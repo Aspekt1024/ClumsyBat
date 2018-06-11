@@ -66,7 +66,7 @@ public class CamPositioner : MonoBehaviour {
         mainScreen = GameObject.Find("MainScreen").GetComponent<RectTransform>();
         levelScroller = GameObject.Find("LevelScrollRect").GetComponent<RectTransform>();
         Vector3 levelScrollPos = keyPoints.LevelMapStart.transform.position;
-        levelScroller.position = new Vector3(levelScrollPos.x, 0, levelScroller.position.z);
+        levelScroller.position = new Vector3(levelScrollPos.x, mainCam.transform.position.y, levelScroller.position.z);
 
         if (Toolbox.Instance.MenuScreen == Toolbox.MenuSelector.LevelSelect)
         {

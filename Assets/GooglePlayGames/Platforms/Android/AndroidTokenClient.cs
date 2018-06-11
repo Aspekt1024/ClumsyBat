@@ -272,7 +272,9 @@ namespace GooglePlayGames.Android
             }
         }
 
+#pragma warning disable CS0114 // Member hides inherited member; missing override keyword
         public string toString()
+#pragma warning restore CS0114 // Member hides inherited member; missing override keyword
         {
             return ToString();
         }

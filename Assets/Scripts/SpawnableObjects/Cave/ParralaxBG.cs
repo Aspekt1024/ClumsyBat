@@ -1,12 +1,13 @@
-﻿using UnityEngine;
+﻿using ClumsyBat.Managers;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ParralaxBG : MonoBehaviour {
-
-    public Transform ObjectToTrack;
+    
     public BackgroundColour DefaultColour;
 
     private float prevXPosition;
+    private Transform cameraToTrack;
 
     private enum DepthIndex
     {
@@ -45,15 +46,17 @@ public class ParralaxBG : MonoBehaviour {
     private readonly Rigidbody2D[] _frontBgPieces = new Rigidbody2D[2];
     private readonly Rigidbody2D[] _midBgPieces = new Rigidbody2D[2];
     private readonly Rigidbody2D[] _rearBgPieces = new Rigidbody2D[2];
-
+    
     private void Awake ()
     {
         ZLayer = Toolbox.Instance.ZLayers["Background"];
-        
+        CameraManager.OnCameraChanged += CameraChanged;
     }
 
     private void Start()
     {
+        cameraToTrack = CameraManager.CurrentCamera.transform;
+
         if (SceneManager.GetActiveScene().name == "Play")
         {
             var level = GameData.Instance.Data.LevelData.GetHighestLevel();
@@ -64,17 +67,17 @@ public class ParralaxBG : MonoBehaviour {
             ChooseColourFromLevel(GameData.Instance.Level);
         }
 
-        transform.position = new Vector3(0, 0, ZLayer);
+        transform.position = new Vector3(0, cameraToTrack.position.y, ZLayer);
         GetBgPieces();
         GetBgSprites();
         LoadStartingSprites();
-        prevXPosition = ObjectToTrack.position.x;
+        prevXPosition = cameraToTrack.position.x;
     }
 
     private void FixedUpdate()
     {
-        float dist = ObjectToTrack.position.x - prevXPosition;
-        prevXPosition = ObjectToTrack.position.x;
+        float dist = cameraToTrack.position.x - prevXPosition;
+        prevXPosition = cameraToTrack.position.x;
 
         UpdateBgPos(_frontBgPieces, FrontBgSpeed * dist);
         UpdateBgPos(_midBgPieces, MidBgSpeed * dist);
@@ -83,20 +86,20 @@ public class ParralaxBG : MonoBehaviour {
 
     private void UpdateBgPos(Rigidbody2D[] bgList, float bgShift)
     {
-        float yPos = Camera.main.transform.position.y;
+        float yPos = cameraToTrack.position.y;
         foreach (Rigidbody2D bg in bgList)
         {
             Vector3 pos = bg.transform.position;
-            pos.y = Camera.main.transform.position.y;
+            pos.y = cameraToTrack.position.y;
             bg.transform.position = pos;
 
             bg.transform.position += Vector3.right * bgShift;
-            if (bg.transform.position.x <= ObjectToTrack.position.x - backgroundTileSize * 1.01f)
+            if (bg.transform.position.x <= cameraToTrack.position.x - backgroundTileSize * 1.01f)
             {
                 bg.transform.position += Vector3.right * 2 * backgroundTileSize;
                 SelectNewTexture(bg);
             }
-            else if (bg.transform.position.x >= ObjectToTrack.position.x + backgroundTileSize * 1.01f)
+            else if (bg.transform.position.x >= cameraToTrack.position.x + backgroundTileSize * 1.01f)
             {
                 bg.transform.position += Vector3.left * 2 * backgroundTileSize;
             }
@@ -219,5 +222,10 @@ public class ParralaxBG : MonoBehaviour {
         {
             bgColour = BackgroundColour.Green;
         }
+    }
+
+    private void CameraChanged(Camera newCam)
+    {
+        cameraToTrack = newCam.transform;
     }
 }

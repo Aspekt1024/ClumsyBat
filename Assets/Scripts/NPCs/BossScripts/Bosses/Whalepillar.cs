@@ -9,7 +9,7 @@ public class Whalepillar : Boss
         Idle, Walk, Jump
     }
     private Animations currentAnim;
-    private Dictionary<Animations, string> spriteDict = new Dictionary<Animations, string>();
+    //private Dictionary<Animations, string> spriteDict = new Dictionary<Animations, string>();
     private Animator anim;
 
     private SpriteRenderer bodySprite;

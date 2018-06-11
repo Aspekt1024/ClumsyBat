@@ -22,9 +22,9 @@ public class DashIndicator : MonoBehaviour {
         if (!isEnabled || !isReady) return;
         
         isReady = false;
-        Toolbox.UIAnimator.PopOutObject(lightRt);
-        Toolbox.UIAnimator.PopOutObject(arrow1);
-        Toolbox.UIAnimator.PopOutObject(arrow2);
+        UIObjectAnimator.Instance.PopOutObject(lightRt);
+        UIObjectAnimator.Instance.PopOutObject(arrow1);
+        UIObjectAnimator.Instance.PopOutObject(arrow2);
     }
 
     public void Enable()
@@ -71,9 +71,9 @@ public class DashIndicator : MonoBehaviour {
         if (isReady) return;
 
         isReady = true;
-        Toolbox.UIAnimator.PopInObject(lightRt);
-        Toolbox.UIAnimator.PopInObject(arrow1);
-        Toolbox.UIAnimator.PopInObject(arrow2);
+        UIObjectAnimator.Instance.PopInObject(lightRt);
+        UIObjectAnimator.Instance.PopInObject(arrow1);
+        UIObjectAnimator.Instance.PopInObject(arrow2);
         radialShadow.fillAmount = 0f;
     }
     

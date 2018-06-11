@@ -43,12 +43,12 @@ public class NavButtonHandler : MonoBehaviour
 
     private void EnableBackButton()
     {
-        Toolbox.UIAnimator.PopInObject(backButton);
+        UIObjectAnimator.Instance.PopInObject(backButton);
     }
 
     private void DisableBackButton()
     {
-        Toolbox.UIAnimator.PopOutObject(backButton);
+        UIObjectAnimator.Instance.PopOutObject(backButton);
     }
 
 
