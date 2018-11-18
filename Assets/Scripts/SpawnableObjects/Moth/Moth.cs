@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
+using ClumsyBat;
 
 public class Moth : Spawnable {
 
@@ -88,7 +88,7 @@ public class Moth : Spawnable {
             yield return null;
         }
 
-        Toolbox.Player.Lantern.ConsumeMoth(Colour);
+        GameStatics.Player.Clumsy.Lantern.ConsumeMoth(Colour);
 
         SendToInactivePool();
         _bConsumption = false;
@@ -144,7 +144,7 @@ public class Moth : Spawnable {
         // TODO determine where in the vertical space the moth can spawn ie Raycast (endless mode only)
         //const float Range = 2f;
         //float MothYPos = Range * Random.value - Range / 2;
-        _lantern = Toolbox.Player.Lantern.transform;
+        _lantern = GameStatics.Player.Clumsy.Lantern.transform;
         base.Activate(transform, spawnTf);
         _mothState = MothStates.Normal;
         _mothAnimator.enabled = true;
@@ -193,7 +193,7 @@ public class Moth : Spawnable {
     {
         PlayExplosionAnim();
         Vector2 startPos = MothSprite.transform.position;
-        Vector2 pathLoc = Toolbox.Player.transform.position + (Toolbox.Player.IsFacingRight() ? Vector3.right : Vector3.left) * 2f;
+        Vector2 pathLoc = GameStatics.Player.Clumsy.transform.position + (GameStatics.Player.Clumsy.IsFacingRight ? Vector3.right : Vector3.left) * 2f;
 
         float timer = 0f;
         const float duration = 0.8f;

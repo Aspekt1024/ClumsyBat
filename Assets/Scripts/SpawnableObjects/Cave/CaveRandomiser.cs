@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
+using ClumsyBat.Objects;
+
+using static ClumsyBat.Objects.LevelContainer;
 
 public class CaveRandomiser {
 
@@ -21,13 +23,18 @@ public class CaveRandomiser {
         return Random.Range(0, NumBottomCaveTypes);
     }
 
-    public LevelObjectHandler.CaveListType RandomiseObstacleList()
+    public CaveType RandomiseObstacleList()
     {
-        StalPool.StalType[] StalList = new StalPool.StalType[0];
-        ShroomPool.ShroomType[] ShroomList = new ShroomPool.ShroomType[0];
-        MothPool.MothType[] MothList = new MothPool.MothType[0];
-        SpiderPool.SpiderType[] SpiderList = new SpiderPool.SpiderType[0];
-        WebPool.WebType[] WebList = new WebPool.WebType[0];
+        CaveType cave = new CaveType()
+        {
+            Stals = new StalPool.StalType[0],
+            Shrooms = new ShroomPool.ShroomType[0],
+            Moths = new MothPool.MothType[0],
+            Spiders = new SpiderPool.SpiderType[0],
+            Webs = new WebPool.WebType[0],
+            Triggers = null,
+            Npcs = null
+    };
 
         const int NumStals = 8;
         int LowerIndex = 0;
@@ -43,17 +50,17 @@ public class CaveRandomiser {
         {
             if (!bTop && (i / 2 - Mathf.Floor(i / 2) < 0.4) && Random.Range(0f, 1f) <= 0.47f)
             {
-                ShroomList[0].SpawnTransform.Pos = new Vector2(0, 0);
-                ShroomList[0].SpawnTransform.Rotation = new Quaternion();
-                ShroomList[0].SpawnTransform.Scale = new Vector2(1f, 1f);
-                ShroomList[0].SpecialEnabled = false;
+                cave.Shrooms[0].SpawnTransform.Pos = new Vector2(0, 0);
+                cave.Shrooms[0].SpawnTransform.Rotation = new Quaternion();
+                cave.Shrooms[0].SpawnTransform.Scale = new Vector2(1f, 1f);
+                cave.Shrooms[0].SpecialEnabled = false;
             }
             else
             {
-                StalList[0].SpawnTransform.Pos = new Vector2(0, 0);
-                StalList[0].SpawnTransform.Rotation = new Quaternion();
-                StalList[0].SpawnTransform.Scale = new Vector2(1f, 1f);
-                StalList[0].DropEnabled = true;
+                cave.Stals[0].SpawnTransform.Pos = new Vector2(0, 0);
+                cave.Stals[0].SpawnTransform.Rotation = new Quaternion();
+                cave.Stals[0].SpawnTransform.Scale = new Vector2(1f, 1f);
+                cave.Stals[0].DropEnabled = true;
             }
 
             int t = Random.Range(0, 2);
@@ -81,16 +88,7 @@ public class CaveRandomiser {
             }
             i = Random.Range(LowerIndex, UpperIndex);
         }
-
-        LevelObjectHandler.CaveListType ObjectList;
-        ObjectList.StalList = StalList;
-        ObjectList.MushroomList = ShroomList;
-        ObjectList.MothList = MothList;
-        ObjectList.SpiderList = SpiderList;
-        ObjectList.WebList = WebList;
-        ObjectList.TriggerList = null;
-        ObjectList.NpcList = null;
-
-        return ObjectList;
+        
+        return cave;
     }
 }

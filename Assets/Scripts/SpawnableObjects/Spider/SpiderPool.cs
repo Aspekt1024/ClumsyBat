@@ -1,30 +1,34 @@
 ﻿using UnityEngine;
 
-public sealed class SpiderPool : SpawnPool<SpiderClass> {
-    
-    public SpiderPool()
+namespace ClumsyBat.Objects
+{
+    public sealed class SpiderPool : SpawnPool<SpiderClass>
     {
-        ParentName = "Spiders";
-        ParentZ = Toolbox.Instance.ZLayers["Spider"];
-        ResourcePath = "Obstacles/Spider";
-        ObjTag = "Spider";
-    }
 
-    public struct SpiderType
-    {
-        public Spawnable.SpawnType SpawnTransform;
-        public bool SpiderSwings;
-        public Vector2 AnchorPoint;
-    }
-
-    public void SetupSpidersInList(SpiderType[] spiderList, float xOffset)
-    {
-        foreach (SpiderType spider in spiderList)
+        public SpiderPool()
         {
-            SpiderClass newSpider = GetNewObject();
-            Spawnable.SpawnType spawnTf = spider.SpawnTransform;
-            spawnTf.Pos += new Vector2(xOffset, 0f);
-            newSpider.Activate(spawnTf, spider.SpiderSwings, spider.AnchorPoint);
+            ParentName = "Spiders";
+            ParentZ = Toolbox.Instance.ZLayers["Spider"];
+            ResourcePath = "Obstacles/Spider";
+            ObjTag = "Spider";
+        }
+
+        public struct SpiderType
+        {
+            public Spawnable.SpawnType SpawnTransform;
+            public bool SpiderSwings;
+            public Vector2 AnchorPoint;
+        }
+
+        public void SetupSpidersInList(SpiderType[] spiderList, float xOffset)
+        {
+            foreach (SpiderType spider in spiderList)
+            {
+                SpiderClass newSpider = GetNewObject();
+                Spawnable.SpawnType spawnTf = spider.SpawnTransform;
+                spawnTf.Pos += new Vector2(xOffset, 0f);
+                newSpider.Activate(spawnTf, spider.SpiderSwings, spider.AnchorPoint);
+            }
         }
     }
 }

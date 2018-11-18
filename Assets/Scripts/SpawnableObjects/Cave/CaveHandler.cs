@@ -1,19 +1,23 @@
-﻿using System.Linq;
+﻿using ClumsyBat;
+using ClumsyBat.Objects;
+using System.Collections.Generic;
 using UnityEngine;
+
 public class CaveHandler : MonoBehaviour {
     
-    private LevelContainer.CaveType[] _levelCaveList;
-    private LevelObjectHandler _objectHandler;
-    private CaveRandomiser _endlessCave;
+    private Rigidbody2D caveBody;
 
-    private Rigidbody2D _caveBody;
-    private int _numCavePieces;
+    private GameObject startPiece;
+    private GameObject endPiece;
+    private List<GameObject> topCavePieces = new List<GameObject>();
+    private List<GameObject> bottomCavePieces = new List<GameObject>();
+
+    private int numCavePieces;
     private int _cavePieceCounter;
     private GameObject caveEnd;
-    
-    private bool _bEndlessMode;
-    private bool _bGnomeEnd;
 
+    private GameObject caveParent;
+    
     private bool bPaused;
 
     public enum CaveStates
@@ -25,45 +29,42 @@ public class CaveHandler : MonoBehaviour {
     }
     public CaveStates State;
     
-    private float _caveZ;
-    private float _tileSizeX;
+    private float caveZLayer;
+    private float tileSizeX;
 
-    public void Setup(LevelContainer.CaveType[] caveList, bool bEndless, LevelObjectHandler objHandler)
+    private void Start()
     {
-        _levelCaveList = caveList;
-        _objectHandler = objHandler;
-        _bEndlessMode = bEndless;
+        caveZLayer = Toolbox.Instance.ZLayers["Cave"];
+        tileSizeX = Toolbox.TileSizeX;
 
-        _caveZ = Toolbox.Instance.ZLayers["Cave"];
-        _tileSizeX = Toolbox.TileSizeX;
+        var levelObj = GameObject.Find("Level").transform;
+        caveParent = new GameObject("Caves");
+        caveParent.transform.SetParent(levelObj);
 
-        if (_bEndlessMode)
+        caveBody = caveParent.AddComponent<Rigidbody2D>();
+        caveBody.isKinematic = true;
+    }
+
+    public void SetupCave(LevelContainer.CaveType[] caveList)
+    {
+        ClearExistingCave();
+
+        numCavePieces = caveList.Length;
+        
+        for (int i = 0; i < caveList.Length; i++)
         {
-            _endlessCave = new CaveRandomiser();
-            // TODO generate random cave
-        }
-        else
-        {
-            _numCavePieces = _levelCaveList.Length;
-            GeneratePresetLevelCave();
-            SetObstacles();
+            GeneratePresetLevelCave(caveList[i], i);
         }
     }
     
 	private void Update ()
     {
-        if (Toolbox.Player.transform.position.x >= (_numCavePieces - 1f) * _tileSizeX)
-        {
-            Toolbox.PlayerCam.StopFollowing();
-        }
+        // TODO rework this - even a trigger would be better
+        //if (GameStatics.GameManager. GameStatics.Player.Clumsy.transform.position.x >= (numCavePieces - 1f) * tileSizeX)
+        //{
+        //    GameStatics.Camera.StopFollowing();
+        //}
     }
-
-    public LevelObjectHandler.CaveListType GetRandomisedObstacleList()
-    {
-        return _endlessCave.RandomiseObstacleList(); // TODO more here.
-    }
-    
-    public bool IsGnomeEnding() { return _bGnomeEnd; }
 
     public void PauseGame(bool paused)
     {
@@ -79,69 +80,79 @@ public class CaveHandler : MonoBehaviour {
     {
         if (State == CaveStates.Final) { return; }
         if (bPaused)
-            _caveBody.velocity = Vector2.zero;
+            caveBody.velocity = Vector2.zero;
         else
-            _caveBody.velocity = new Vector2(-speed, 0);
+            caveBody.velocity = new Vector2(-speed, 0);
     }
 
-    private void GeneratePresetLevelCave()
+    private void GeneratePresetLevelCave(LevelContainer.CaveType cave, int index)
     {
-        var levelObj = new GameObject("Level").transform;
-        var caveParent = new GameObject("Caves");
-        _caveBody = caveParent.AddComponent<Rigidbody2D>();
-        _caveBody.isKinematic = true;
-        caveParent.transform.SetParent(levelObj);
-        
-        for (int i = 0; i < _levelCaveList.Length; i++)
-        {
-            LevelContainer.CaveType cave = _levelCaveList[i];
-            GameObject caveTop;
-            // TODO should probably build a factory for this
-            if (cave.TopIndex == Toolbox.CaveStartIndex)
-            {
-                caveTop = (GameObject)Instantiate(Resources.Load("Caves/CaveEntrance"), caveParent.transform);
-                caveTop.name = "CaveEntrance";
-            }
-            else if (cave.TopIndex == Toolbox.CaveEndIndex)
-            {
-                caveTop = (GameObject)Instantiate(Resources.Load("Caves/CaveExit"), caveParent.transform);
-                caveTop.name = "CaveExit";
-                caveEnd = caveTop;
-            }
-            else if (cave.TopIndex == Toolbox.CaveGnomeEndIndex)
-            {
-                _bGnomeEnd = true;
-                caveTop = (GameObject) Instantiate(Resources.Load("Caves/CaveGnomeEnd"), caveParent.transform);
-                caveTop.name = "CaveGnomeEnd";
-                caveEnd = caveTop;
-            }
-            else
-            {
-                string caveBottomName = "CaveBottom" + (cave.bBottomSecretPath ? "Exit" : "") + (cave.BottomIndex + 1);
-                string caveTopName = "CaveTop" + (cave.bTopSecretPath ? "Exit" : "") + (cave.TopIndex + 1);
-                GameObject caveBottom = (GameObject)Instantiate(Resources.Load("Caves/" + caveBottomName), caveParent.transform);
-                caveTop = (GameObject)Instantiate(Resources.Load("Caves/" + caveTopName), caveParent.transform);
-                caveBottom.name = caveBottomName;
-                caveTop.name = caveTopName;
-                caveBottom.transform.position = new Vector3(_tileSizeX * i, 0f, _caveZ);
+        GameObject caveTop;
 
-                SecretPath path = caveBottom.GetComponentInChildren<SecretPath>();
-                if (path == null) path = caveTop.GetComponentInChildren<SecretPath>();
-                if (path != null)
-                {
-                    if (!cave.bSecretPathHasBlock) Destroy(path.gameObject);
-                    path.RequiresBlueMoth = cave.bSecretPathRequiresMoth;
-                }
+        if (cave.TopIndex == Toolbox.CaveStartIndex)
+        {
+            if (startPiece == null)
+            {
+                startPiece = (GameObject)Instantiate(Resources.Load("Caves/CaveEntrance"), caveParent.transform);
+                startPiece.name = "CaveEntrance";
             }
-            caveTop.transform.position = new Vector3(_tileSizeX * i, 0f, _caveZ);
+            caveTop = startPiece;
         }
+        else if (cave.TopIndex == Toolbox.CaveEndIndex)
+        {
+            if (endPiece == null)
+            {
+                endPiece = (GameObject)Instantiate(Resources.Load("Caves/CaveExit"), caveParent.transform);
+                endPiece.name = "CaveExit";
+            }
+            caveTop = caveEnd = endPiece;
+        }
+        else
+        {
+            string caveBottomName = "CaveBottom" + (cave.bBottomSecretPath ? "Exit" : "") + (cave.BottomIndex + 1);
+            string caveTopName = "CaveTop" + (cave.bTopSecretPath ? "Exit" : "") + (cave.TopIndex + 1);
+            GameObject caveBottom = (GameObject)Instantiate(Resources.Load("Caves/" + caveBottomName), caveParent.transform);
+            caveTop = (GameObject)Instantiate(Resources.Load("Caves/" + caveTopName), caveParent.transform);
+            caveBottom.name = caveBottomName;
+            caveTop.name = caveTopName;
+            caveBottom.transform.position = new Vector3(tileSizeX * index, 0f, caveZLayer);
+
+            topCavePieces.Add(caveTop);
+            bottomCavePieces.Add(caveBottom);
+
+            SecretPath path = caveBottom.GetComponentInChildren<SecretPath>();
+            if (path == null) path = caveTop.GetComponentInChildren<SecretPath>();
+            if (path != null)
+            {
+                if (!cave.bSecretPathHasBlock) Destroy(path.gameObject);
+                path.RequiresBlueMoth = cave.bSecretPathRequiresMoth;
+            }
+        }
+        caveTop.transform.position = new Vector3(tileSizeX * index, 0f, caveZLayer);
     }
 
-    private void SetObstacles()
+    private void ClearExistingCave()
     {
-        for (int i = 0; i < _numCavePieces; i++)
+        for (int i = topCavePieces.Count - 1; i >= 0; i--)
         {
-            _objectHandler.SetCaveObstacles(i);
+            Destroy(topCavePieces[i]);
+        }
+        for (int i = bottomCavePieces.Count - 1; i >= 0; i--)
+        {
+            Destroy(bottomCavePieces[i]);
+        }
+
+        topCavePieces.Clear();
+        bottomCavePieces.Clear();
+
+        if (startPiece != null)
+        {
+            startPiece.transform.position = new Vector3(0, 10000, 0);
+        }
+
+        if (endPiece != null)
+        {
+            endPiece.transform.position = new Vector3(0, 10000, 0);
         }
     }
 }

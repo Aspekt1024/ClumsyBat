@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using ClumsyBat.Players;
+using System.Collections;
 using UnityEngine;
 
 public class SecretPath : MonoBehaviour {
@@ -58,13 +58,13 @@ public class SecretPath : MonoBehaviour {
 
                 // TODO shake & sounds & all that
                 
-                if (player.IsPerched())
+                if (player.State.IsPerched)
                 {
                     // Ensure player is perched on this object before lowering/raising
-                    RaycastHit2D hit = Physics2D.Raycast(new Vector3(player.transform.position.x, 0, 0), Vector3.down, 10, 1 << LayerMask.NameToLayer("Caves"));
+                    RaycastHit2D hit = Physics2D.Raycast(new Vector3(player.Model.transform.position.x, 0, 0), Vector3.down, 10, 1 << LayerMask.NameToLayer("Caves"));
                     if (hit.collider != null && hit.collider.gameObject == gameObject)
                     {
-                        player.transform.position += dist;
+                        player.Model.transform.position += dist;
                     }
                 }
             }

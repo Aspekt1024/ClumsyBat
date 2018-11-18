@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
-using UnityEngine.SceneManagement;
+using ClumsyBat.Objects;
 
 [CustomEditor(typeof(TriggerClass))]
 public class TriggerEditorView : Editor {

@@ -1,611 +1,195 @@
-﻿using System;
-using UnityEngine;
+﻿using ClumsyBat.Controllers;
 using System.Collections;
+using UnityEngine;
 
 using PlayerSounds = ClumsyAudioControl.PlayerSounds;
-using ClumsyAnimations = ClumsyAnimator.ClumsyAnimations;
-using ClumsyBat.Managers;
+using ClumsyAnimations = ClumsyBat.Players.ClumsyAnimator.ClumsyAnimations;
+using StaticActions = ClumsyBat.Players.ClumsyAbilityHandler.StaticActions;
+using DirectionalActions = ClumsyBat.Players.ClumsyAbilityHandler.DirectionalActions;
 
-public class Player : MonoBehaviour {
-    
-    #region Public GameObjects
-    [HideInInspector] public Lantern Lantern;
-    public FogEffect Fog;
-    #endregion
-
-    #region Abilities
-    private Hypersonic _hypersonic;
-    private RushAbility _rush;
-    private FlapComponent _flap;
-    private Shield _shield;
-    private PerchComponent _perch;
-    #endregion
-
-    #region Clumsy Components
-    public ClumsyAnimator Anim;
-    private Rigidbody2D _playerRigidBody;
-    private Rigidbody2D _lanternBody;
-    private JumpClearance _clearance;
-    private ClumsyAudioControl _audioControl;
-    private PlayerController _playerController;
-    private Collider2D _playerCollider;
-    private SpriteRenderer _playerRenderer;
-    #endregion
-
-    #region Clumsy Properties
-    private readonly Vector3 _playerHoldingArea = new Vector3(-100f, 0f, 0f);        // Where Clumsy goes to die
-    private readonly Vector2 _nudgeVelocity = new Vector2(0f, 5f);
-    private const float ClumsyX = -5f;
-    private const float GravityScale = 3f;
-    private Vector2 _savedVelocity = Vector2.zero;
-    private float playerSpeed;
-    private float previousPosX;
-    private Vector3 lastContactPoint;
-
-    private bool _bPaused;
-    private bool inSecretExit;
-
-    private Coroutine hoverRoutine;
-
-    public bool ExitViaSecretPath;
-
-    private enum PlayerState
+namespace ClumsyBat.Players
+{
+    [RequireComponent(typeof(PlayerSensor))]
+    public class Player : MonoBehaviour, IControllable
     {
-        Startup,
-        Normal,
-        Perched,
-        Hovering,
-        Dying,
-        Dead,
-        EndOfLevel
-    }
-    private PlayerState _state = PlayerState.Startup;
-    #endregion
-    
-    private GameHandler _gameHandler;
-    private DataHandler _data;
+        private const float KNOCKBACK_DURATION = 0.55f;
 
-    private void Awake()
-    {
-        GetPlayerComponents();
-    }
+        public Transform Model;
+        public Hypersonic Hypersonic;
+        public Lantern Lantern;
 
-    private void Start ()
-    {
-        SetupAbilities();
-        _data.Stats.SetLevelStart();
-        previousPosX = transform.position.x;
-    }
-
-    private void FixedUpdate ()
-    {
-        if (_state == PlayerState.Normal)
+        public Controller Controller { get; set; }
+        public PlayerState State { get; private set; }
+        public PlayerPhysicsHandler Physics { get; private set; }
+        public ClumsyAbilityHandler Abilities { get; private set; }
+        
+        private ClumsyAnimator animator;
+        private ClumsyAudioControl audioControl;
+        private PlayerSensor sensor;
+        
+        private void Awake()
         {
-            if (_clearance) { _clearance.transform.position = transform.position; }
+            Abilities = new ClumsyAbilityHandler(this);
+            Physics = new PlayerPhysicsHandler(this);
+            State = new PlayerState(this);
 
-            if (!_shield.IsInUse())
+            animator = new ClumsyAnimator(this);
+            sensor = GetComponent<PlayerSensor>();
+            audioControl = gameObject.AddComponent<ClumsyAudioControl>();
+        }
+
+        private void FixedUpdate()
+        {
+            Physics.Tick(Time.deltaTime);
+        }
+        
+        public void SetPlayerData(DataManager data)
+        {
+            Abilities.SetData(data.Abilities);
+        }
+
+        public void SetSpeed(float speed)
+        {
+            Physics.Speed = speed;
+        }
+
+        public void DeactivateRush()
+        {
+
+        }
+
+        public void Stun(float duration)
+        {
+            Debug.Log("not stunned... implement this");
+        }
+
+        public void TakeDamage(string otherTag = "")
+        {
+            if (State.IsShielded) return;
+
+            bool successfullyShielded = DoAction(StaticActions.Shield);
+
+            if (Abilities.Shield.IsAvailable())
             {
-                if (!Toolbox.Instance.GamePaused)
+                DoAction(StaticActions.Unperch);
+                DoAction(StaticActions.Shield);
+
+                if (GameStatics.Data.GameState.IsUntouched)
                 {
-                    float dist = playerSpeed * Time.deltaTime;
-                    _playerRigidBody.position += Vector2.right * dist;
-                }
-            }
-        }
-        CheckIfOffscreen();
-        AddTime(Time.deltaTime);
-        AddDistance();
-    }
-
-    private void AddTime(float time)
-    {
-        if ((_state == PlayerState.Normal || _state == PlayerState.Perched) && !Toolbox.Instance.GamePaused)
-            _data.Stats.TimeTaken += time;
-
-        GameData.Instance.Data.Stats.GameHud.UpdateTimer(_data.Stats.TimeTaken);
-    }
-
-    private void AddDistance()
-    {
-        if (_state == PlayerState.Normal)
-            _data.Stats.Distance += transform.position.x - previousPosX;
-
-        previousPosX = transform.position.x;
-    }
-
-    public void SetPlayerSpeed(float speed)
-    {
-        playerSpeed = speed;
-    }
-    
-    private void SetupAbilities()
-    {
-        GameObject abilityScripts = new GameObject("Ability Scripts");
-        abilityScripts.transform.SetParent(Toolbox.Player.transform);
-        _rush = abilityScripts.AddComponent<RushAbility>();
-        _shield = abilityScripts.AddComponent<Shield>();
-        _hypersonic = FindObjectOfType<Hypersonic>();
-        _perch = abilityScripts.AddComponent<PerchComponent>();
-        _flap = abilityScripts.AddComponent<FlapComponent>();
-        Fog = FindObjectOfType<FogEffect>();
-        
-        _rush.Setup(this);
-        _hypersonic.Setup(this, Lantern);
-        _shield.Setup(this, Lantern);
-    }
-
-    public bool IsAlive()
-    {
-        return _state != PlayerState.Dead && _state != PlayerState.Dying;
-    }
-
-    public void ExitAutoFlightReached()
-    {
-        _playerCollider.enabled = false;
-        _playerRigidBody.isKinematic = true;
-        _playerRigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
-        _state = PlayerState.EndOfLevel;
-        StartCoroutine(CaveExitAnimation());
-    }
-
-    private IEnumerator CaveExitAnimation()
-    {
-        float animTimer = 0f;
-        const float animDuration = 0.9f;
-        Vector3 originalPos = transform.position;
-        Vector3 targetExitPoint = new Vector3(transform.position.x + Toolbox.TileSizeX / 2f, -0.5f, originalPos.z);
-
-        while (animTimer < animDuration)
-        {
-            animTimer += Time.deltaTime;
-            float animRatio = animTimer / animDuration;
-            transform.position = Vector3.Lerp(originalPos, targetExitPoint, animRatio);
-            yield return null;
-        }
-        transform.position = _playerHoldingArea;
-        _lanternBody.transform.position += new Vector3(.3f, 0f, 0f);
-        _gameHandler.LevelComplete();
-        Fog.EndOfLevel();
-    }
-
-    public IEnumerator CaveEntranceAnimation()
-    {
-        Anim.PlayAnimation(ClumsyAnimations.Hover);
-        _state = PlayerState.Startup;
-        float animTimer = 0f;
-        const float animDuration = 0.63f;
-        Vector2 startPos = new Vector2(-Toolbox.TileSizeX / 2, -0.7f);
-        Vector2 targetPos = new Vector2(ClumsyX, 1.3f);
-
-        while (animTimer < animDuration)
-        {
-            animTimer += Time.deltaTime;
-            float animRatio = animTimer / animDuration;
-            float xPos = startPos.x - (startPos.x - targetPos.x) * animRatio;
-            float yPos = startPos.y - (startPos.y - targetPos.y) * Mathf.Pow(animRatio, 2);
-            transform.position = new Vector3(xPos, yPos, transform.position.z);
-            yield return null;
-        }
-
-        _playerRigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
-        _playerRigidBody.velocity = new Vector2(0, 3f);
-        _state = PlayerState.Normal;
-    }
-    
-    public void ActivateRush(PlayerController.SwipeDirecitons direction) { _rush.Activate(direction); }
-    public void DeactivateRush() { _rush.Deactivate(); }
-    public void ActivateHypersonic() { _hypersonic.ActivateHypersonic(); }
-    public void ForceHypersonic() { _hypersonic.ForceHypersonic(); }
-    public void AddShieldCharge() { _shield.AddCharge(); }
-    public void AddDashCharge() { _rush.AddCharge(); }
-
-    public int GetShieldCharges() { return _shield.GetCharges(); }
-    
-    public void TakeDamage(string otherTag = "")
-    {
-        if (_shield.IsInUse()) return;
-
-        if (_shield.IsAvailable())
-        {
-            Toolbox.Player.Unperch();
-            _shield.ConsumeCharge();
-
-            if (GameData.Instance.IsUntouched)
-            {
-                GameData.Instance.IsUntouched = false;
-            }
-            else
-            {
-                GameData.Instance.OnlyOneDamageTaken = false;
-            }
-        }
-        else
-        {
-            switch (otherTag)
-            {
-                case "Stalactite":
-                    GameData.Instance.Data.Stats.ToothDeaths++;
-                    break;
-                case "Boss":
-                    //TODO Gamedata.Instance.Data.Stats.BossDeaths++;
-                    break;
-                default:
-                    // TODO Gamedata.instance.data.stats.unknowndeaths++;
-                    break;
-            }
-            Die();
-        }
-    }
-    
-    public void ActivateJump(InputManager.TapDirection tapDir = InputManager.TapDirection.Center)
-    {
-        if (_state == PlayerState.Perched)
-        {
-            _perch.Unperch();
-        }
-        else
-        {
-            _flap.Flap(tapDir);
-        }
-    }
-
-    public void Unperch()
-    {
-        _perch.Unperch();
-    }
-    public void UnperchBottom()
-    {
-        _flap.Flap();
-    }
-    public void SetGravity(float gravity)
-    {
-        _playerRigidBody.gravityScale = Math.Abs(gravity - (-1f)) < 0.001f ? GravityScale : gravity;
-    }
-    public void SetVelocity(Vector2 velocity)
-    {
-        _playerRigidBody.velocity = velocity;
-    }
-
-    private void CheckIfOffscreen()
-    {
-        Vector2 screenPosition = CameraManager.Instance.LevelCamera.WorldToScreenPoint(transform.position);
-
-        if (inSecretExit)
-        {
-            if ((_state == PlayerState.Normal || _state == PlayerState.Perched) && (screenPosition.y > Screen.height - 20f || screenPosition.y < 20f))
-            {
-                StartCoroutine(SecretPathWinSequence());
-                return;
-            }
-        }
-
-        if (screenPosition.y > Screen.height || screenPosition.y < 0 || screenPosition.x < -1f)
-        {
-            if (_state == PlayerState.Normal || _state == PlayerState.Dying)
-            {
-                if (_state == PlayerState.Normal) { Die(); }
-                _state = PlayerState.Dead;
-                StartCoroutine(GameOverSequence());
-            }
-        }
-    }
-
-    public void Die()
-    {
-        if (_state == PlayerState.Dying || _state == PlayerState.Dead) return;
-
-        _perch.Unperch();
-        _state = PlayerState.Dying;
-
-        EventListener.Death();
-        _playerController.PauseInput(true);
-        _data.Stats.Deaths += 1;
-        
-        _playerCollider.enabled = false;
-        _playerRigidBody.gravityScale = GravityScale;
-        _playerRigidBody.velocity = new Vector2(1, 0);
-        Lantern.Drop();
-        
-        StartCoroutine(PauseForDeath());
-    }
-
-    private IEnumerator PauseForDeath()
-    {
-        _audioControl.PlaySound(PlayerSounds.Collision);    // TODO replace with something... better? like an "ow!"
-        yield return null;
-        Time.timeScale = 0f;
-        yield return new WaitForSeconds(0.47f);
-        Time.timeScale = 1f;
-        _gameHandler.ResumeGame(immediate:true);
-        _playerRigidBody.velocity = new Vector2(IsFacingRight() ? -3f : 3f, 1f);
-        Anim.PlayAnimation(ClumsyAnimations.Die);
-    }
-
-    private IEnumerator GameOverSequence()
-    {
-        yield return new WaitForSeconds(1f);
-        _gameHandler.GameOver();
-    }
-
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        _flap.CancelIfMoving();
-        
-        if (other.gameObject.name.Contains("Cave") || other.gameObject.name.Contains("Entrance") || other.gameObject.name.Contains("Exit"))
-        {
-            if (Mathf.Abs(other.contacts[0].normal.x) > 0.8f) return;
-
-            TryPerch(other.gameObject);
-        }
-        else
-        {
-            if (other.contacts.Length > 0)
-            {
-                lastContactPoint = other.contacts[0].point;
-            }
-            _gameHandler.Collision(other);
-        }
-    }
-
-    private void OnCollisionStay2D(Collision2D other)
-    {
-        if (IsPerched()) return;
-        if (other.gameObject.name.Contains("Cave") || other.gameObject.name.Contains("Entrance") || other.gameObject.name.Contains("Exit"))
-        {
-            foreach(ContactPoint2D cp in other.contacts)
-            {
-                if (Mathf.Abs(cp.normal.x) > 0.8f)
-                {
-                    continue;
+                    GameStatics.Data.GameState.IsUntouched = false;
                 }
                 else
                 {
-                    TryPerch(other.gameObject);
-                    return;
+                    GameStatics.Data.GameState.OneDamageTaken = false;
                 }
             }
+            else
+            {
+                switch (otherTag)
+                {
+                    case "Stalactite":
+                        GameStatics.Data.Stats.ToothDeaths++;
+                        break;
+                    case "Boss":
+                        //TODO GameStatics.Data.InGameData.Data.Stats.BossDeaths++;
+                        break;
+                    default:
+                        // TODO GameStatics.Data.InGameData.data.stats.unknowndeaths++;
+                        break;
+                }
+                Die();
+            }
         }
-    }
 
-    private void TryPerch(GameObject other)
-    {
-        if (_shield.IsInUse() || _playerController.InputPaused() || (_state != PlayerState.Normal && _state != PlayerState.Perched)) { return; }
-
-        _perch.Perch(other.name, _playerController.TouchHeld());
-        if (!IsPerched())
+        public void Animate(ClumsyAnimations animation)
         {
-            playerSpeed = 0;
+            animator.PlayAnimation(animation);
         }
-    }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.tag == "SecretExit")
+        public bool DoAction(StaticActions action)
         {
-            inSecretExit = true;
+            return Abilities.DoAction(action);
         }
-        else
+
+        public bool DoAction(DirectionalActions action, MovementDirections direction)
         {
-            _gameHandler.TriggerEntered(other);
+            return Abilities.DoAction(action, direction);
         }
-    }
 
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        Vector2 screenPosition = CameraManager.Instance.LevelCamera.WorldToScreenPoint(transform.position);
-        if (other.tag == "SecretExit" && screenPosition.y > 0 && screenPosition.y < Screen.height)
+        public void FaceLeft()
         {
-            inSecretExit = false;
+            Vector3 scale = Model.transform.localScale;
+            if (scale.x > 0)
+            {
+                Model.transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
+                Model.transform.position += Vector3.right * .5f;
+                Lantern.GetComponent<HingeJoint2D>().limits = new JointAngleLimits2D()
+                {
+                    min = -260f,
+                    max = -220f
+                };
+            }
         }
-        _gameHandler.TriggerExited(other);
-    }
 
-    private IEnumerator SecretPathWinSequence()
-    {
-        _state = PlayerState.EndOfLevel;
-        _playerRigidBody.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
-        _playerCollider.enabled = false;
-
-        float timer = 0f;
-        const float duration = 1f;
-        while (timer < duration)
+        public void FaceRight()
         {
-            timer += Time.deltaTime;
-            yield return null;
+            Vector3 scale = Model.transform.localScale;
+            if (scale.x < 0)
+            {
+                Model.transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
+                Model.transform.position += Vector3.left * .5f;
+                Lantern.GetComponent<HingeJoint2D>().limits = new JointAngleLimits2D()
+                {
+                    min = -20f,
+                    max = 40f
+                };
+            }
         }
 
-        ExitViaSecretPath = true;
-        _gameHandler.LevelComplete();
-        Fog.EndOfLevel();
-        transform.position = _playerHoldingArea;
-    }
-
-    public void StartGame()
-    {
-        _state = PlayerState.Normal;
-        _playerRigidBody.WakeUp();
-        _playerRigidBody.isKinematic = false;
-        _playerRigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
-        Fog.Resume();
-        _playerRigidBody.velocity = _nudgeVelocity;
-    }
-
-    public void PauseGame()
-    {
-        _bPaused = true;
-        _savedVelocity = _playerRigidBody.velocity;
-        _playerRigidBody.constraints = RigidbodyConstraints2D.FreezeAll;
-        _playerRigidBody.velocity = Vector2.zero;
-        Fog.Pause();
-        Lantern.GamePaused(true);
-        AbilitiesPaused(true);
-    }
-
-    public void ResumeGame()
-    {
-        if (!IsPerched() && _state != PlayerState.Hovering)
+        public IEnumerator Knockback(Vector2 contactPoint)
         {
-            _playerRigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
-            _playerRigidBody.velocity = _savedVelocity;
+            float knockbackTimer = 0f;
+
+            float directionModifier = contactPoint.x < transform.position.x ? -1 : 1;
+
+            while (knockbackTimer < KNOCKBACK_DURATION)
+            {
+                Physics.SetHorizontalVelocity(Mathf.Lerp(directionModifier * 7f, 0f, knockbackTimer / KNOCKBACK_DURATION));
+                yield return null;
+            }
         }
-        _bPaused = false;
-        Fog.Resume();
-        Lantern.GamePaused(false);
-        AbilitiesPaused(false);
-    }
 
-    private void AbilitiesPaused(bool bPauseAbility)
-    {
-        _hypersonic.GamePaused(bPauseAbility);
-    }
-
-    private void BounceIfBottomCave(string objName)
-    {
-        if (objName.Contains("Bottom") || (!objName.Contains("Top") && transform.position.y < 0f))
-            _playerRigidBody.velocity = _nudgeVelocity;
-    }
-
-    public void JumpIfClear()
-    {
-        if (_state == PlayerState.Hovering) return;
-
-        if (_clearance.IsEmpty())
+        public void SetColor(Color color)
         {
-            ActivateJump();
+            // TODO this
         }
-        else
-        {
-            _playerRigidBody.velocity = _nudgeVelocity;
-        }
-    }
-    
-    public void EnableHover()
-    {
-        _state = PlayerState.Hovering;
-        _playerRigidBody.velocity = Vector2.zero;
-        _playerRigidBody.constraints = RigidbodyConstraints2D.FreezeAll;
-        _playerController.PauseInput(true);
-        _flap.CancelIfMoving();
-        Anim.PlayAnimation(ClumsyAnimations.Hover);
 
-        if (hoverRoutine != null)
-            StopCoroutine(hoverRoutine);
-        hoverRoutine = StartCoroutine(Hover(transform.position.y));
-    }
+        public bool IsFacingRight { get { return Model.transform.localScale.x > 0; } }
 
-    public void DisableHover()
-    {
-        _state = PlayerState.Normal;
-        _playerRigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
-        _playerController.PauseInput(false);
-        StopCoroutine(hoverRoutine);
-    }
-
-    private IEnumerator Hover(float startY)
-    {
-        const float dist = 0.3f;
-        const float interval = 0.4f;
-        float timer = 0f;
-        bool rising = true;
         
-        while (true)
+        private void Die()
         {
-            timer += Time.deltaTime;
-            if (timer > interval)
-            {
-                timer -= interval;
-                rising = !rising;
-            }
-            transform.position += new Vector3(0f, (rising ? dist : -dist) * Time.deltaTime, 0f);
-            yield return null;
+            if (!State.IsAlive) return;
+
+            DoAction(StaticActions.Unperch);
+            State.SetState(PlayerState.States.Alive, false);
+
+            EventListener.Death();
+            GameStatics.Data.Stats.Deaths += 1;
+
+            Physics.Disable();
+            Lantern.Drop();
+            
+            StartCoroutine(PauseForDeath());
         }
-    }
-    
-    // TODO can call directly into the coroutine
-    public void Stun(float duration)
-    {
-        StartCoroutine(StunAnim(duration));
-    }
 
-    public IEnumerator StunAnim(float stunDuration)
-    {
-        float stunTimer = 0f;
-        _playerRigidBody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
-        Anim.PlayAnimation(ClumsyAnimations.WingClose);
-        _playerController.PauseInput(true);
-        // TODO flash?
-        while (stunTimer < stunDuration)
+        private IEnumerator PauseForDeath()
         {
-            if (!_bPaused)
-            {
-                stunTimer += Time.deltaTime;
-            }
-            yield return null;
-        }
-        _playerRigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
-        Anim.PlayAnimation(ClumsyAnimations.FlapBlink);
-        _playerController.PauseInput(false);
-    }
-
-    public void HitByObject()
-    {
-        _flap.CancelIfMoving();
-    }
-    public void StartFog() { Fog.StartOfLevel(); }
-    public void PlaySound(PlayerSounds soundId) { _audioControl.PlaySound(soundId); }
-    public float GetHomePositionX() { return ClumsyX; }
-    public bool IsPerched() { return _state == PlayerState.Perched; }
-    public bool IsPerchedOnTop() { return _perch.IsPerchedOnTop(); }
-    public bool TouchReleasedOnBottom() { return _perch.bJumpOnTouchRelease && _perch.IsPerchedOnBottom(); }
-    public bool CanRush() { return _rush.AbilityAvailable(); }
-    public GameHandler GetGameHandler() { return _gameHandler; }
-    public void SetStateToPerched() { _state = PlayerState.Perched; }
-    public void SetStateToUnperched() { _state = PlayerState.Normal; }
-    public bool GameHasStarted() { return _state != PlayerState.Startup; }
-    public void SetMovementMode(FlapComponent.MovementMode moveMode) { _flap.Mode = moveMode; }
-    public Rigidbody2D GetBody() { return _playerRigidBody; }
-    public Collider2D GetCollider() { return _playerCollider; }
-    public SpriteRenderer GetRenderer() { return _playerRenderer; }
-    public bool IsRushing() { return _rush.IsActive(); }
-    public bool IsFacingRight() { return _flap.IsFacingRight(); }
-    public void FaceRight() { _flap.FaceRight(); }
-    public void FaceLeft() { _flap.Faceleft(); }
-    public PlayerController GetPlayerController() { return _playerController; }
-    public Vector3 GetLastContactPoint() { return lastContactPoint; }
-    
-    private void GetPlayerComponents()
-    {
-        _data = GameData.Instance.Data;
-        _gameHandler = FindObjectOfType<GameHandler>();
-
-        _playerController = GetComponent<PlayerController>();
-        Anim = gameObject.AddComponent<ClumsyAnimator>();
-        _audioControl = gameObject.AddComponent<ClumsyAudioControl>();
-
-        _playerRigidBody = GetComponent<Rigidbody2D>();
-        _playerRigidBody.constraints = RigidbodyConstraints2D.FreezeAll;
-        _playerRigidBody.gravityScale = GravityScale;
-        GetChildrenComponents();
-    }
-
-    private void GetChildrenComponents()
-    {
-        foreach(Transform tf in transform)
-        {
-            if (tf.name == "Clumsy")
-            {
-                _playerCollider = tf.GetComponent<Collider2D>();
-                _playerRenderer = tf.GetComponent<SpriteRenderer>();
-            }
-            else if (tf.name == "Lantern")
-            {
-                _lanternBody = tf.GetComponent<Rigidbody2D>();
-                Lantern = _lanternBody.GetComponent<Lantern>();
-            }
-            else if (tf.name == "JumpClearance")
-            {
-                _clearance = tf.GetComponent<JumpClearance>();
-            }
+            audioControl.PlaySound(PlayerSounds.Collision);    // TODO replace with something... better? like an "ow!"
+            Time.timeScale = 0f;
+            yield return new WaitForSeconds(0.47f);
+            Time.timeScale = 1f;
+            animator.PlayAnimation(ClumsyAnimations.Die);
         }
     }
 }

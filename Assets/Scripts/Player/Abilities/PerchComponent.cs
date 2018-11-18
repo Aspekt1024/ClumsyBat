@@ -1,4 +1,5 @@
-﻿using ClumsyBat.Managers;
+﻿using ClumsyBat;
+using ClumsyBat.Players;
 using System.Collections;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ public class PerchComponent : MonoBehaviour
 {
     public bool bJumpOnTouchRelease;
 
-    private Player _player;
+    private Player player;
     private Rigidbody2D _body;
     private Transform _lantern;
     private Rigidbody2D _lanternBody;
@@ -14,8 +15,8 @@ public class PerchComponent : MonoBehaviour
     
     private const float PerchSwitchTime = 0.38f;    // Once unperched from bottom, can't re-perch immediately
     private float _timeSinceUnperch;
-    private float normalRotation;
-    private float screenVerticalCentre;
+
+    private bool canPerch;
 
     private enum PerchState
     {
@@ -28,105 +29,110 @@ public class PerchComponent : MonoBehaviour
     
 	private void Start ()
 	{
-	    _player = Toolbox.Player;
-	    _body = _player.GetComponent<Rigidbody2D>();
-        _lantern = _player.Lantern.transform;
+        player = FindObjectOfType<Player>();
+	    _body = player.Model.GetComponent<Rigidbody2D>();
+        _lantern = player.Lantern.transform;
         _lanternBody = _lantern.GetComponent<Rigidbody2D>();
         rubble = Resources.Load<GameObject>("Effects/SmallRubbleEffect");
-        normalRotation = _player.GetRenderer().transform.eulerAngles.z;
+        canPerch = true;
     }
 
     private void Update()
     {
-        screenVerticalCentre = CameraManager.CurrentCamera.transform.position.y;
         _timeSinceUnperch += Time.deltaTime;
     }
 
-    public void Perch(string objName, bool touchHeld)
+    public void Enable()
     {
-        if (objName.Contains("Top") && touchHeld)
+        canPerch = true;
+    }
+
+    public void Disable()
+    {
+        canPerch = false;
+    }
+
+    public bool TryPerch(Collision2D collision, bool touchHeld)
+    {
+        if (!canPerch) return false;
+        if (player.State.IsShielded || player.State.IsPerched || !player.State.IsNormal) return false;
+
+        if (collision.contacts[0].point.y > player.Model.transform.position.y)
         {
+            if (!touchHeld) return false;
+
             _state = PerchState.PerchedTop;
         }
-        else if (objName.Contains("Bottom") || _player.transform.position.y < screenVerticalCentre)
+        else
         {
-            if (!PerchPossible()) return;
+            if (!PerchPossible()) return false;
             if (touchHeld)
             {
                 bJumpOnTouchRelease = true;
             }
             _state = PerchState.PerchedBottom;
         }
-        else if (touchHeld)
-        {
-            _state = PerchState.PerchedTop;
-        }
-        else
-        {
-            return;
-        }
-        
-        _player.SetStateToPerched();
+
+        player.State.SetState(PlayerState.States.Perched, true);
         _body.velocity = Vector2.zero;
         _body.constraints = RigidbodyConstraints2D.FreezeAll;
 
         SetPerchGraphics();
+        return true;
     }
 
     private void SetPerchGraphics()
     {
         if (_state == PerchState.PerchedTop)
         {
-            normalRotation = _player.GetRenderer().transform.eulerAngles.z;
             StartCoroutine(MoveLantern(false));
-            if (!_player.IsFacingRight())
-            {
-                _player.GetRenderer().transform.Rotate(Vector3.forward * _player.GetRenderer().transform.eulerAngles.z * 2f);
-            }
-            _player.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Perch);
+            player.Animate(ClumsyAnimator.ClumsyAnimations.Perch);
         }
         else
         {
-            _player.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Land);
+            player.Animate(ClumsyAnimator.ClumsyAnimations.Land);
         }
     }
 
-    public void Unperch()
+    public bool Unperch()
     {
-        if (_state == PerchState.Unperched) return;
+        if (_state == PerchState.Unperched) return false;
         _timeSinceUnperch = 0f;
         bJumpOnTouchRelease = false;
-        _player.GetBody().constraints = RigidbodyConstraints2D.FreezeRotation;
+        player.Model.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
 
         RaycastHit2D hit = new RaycastHit2D();
         
         if (_state == PerchState.PerchedTop)
         {
-            if (!_player.IsFacingRight())
-            {
-                  _player.GetRenderer().transform.Rotate(Vector3.back * normalRotation * 2f);
-            }
             _state = PerchState.Transitioning;
-            _player.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Unperch);
+            player.Animate(ClumsyAnimator.ClumsyAnimations.Unperch);
             StartCoroutine(Drop(0.1f));
             StartCoroutine(MoveLantern(true));
-            hit = Physics2D.Raycast(_player.transform.position, Vector2.up, 5f, 1 << LayerMask.NameToLayer("Caves") | 1 << LayerMask.NameToLayer("CaveTop"));
+            hit = Physics2D.Raycast(player.Model.transform.position, Vector2.up, 5f, 1 << LayerMask.NameToLayer("Caves") | 1 << LayerMask.NameToLayer("CaveTop"));
         }
         else
         {
             _state = PerchState.Unperched;
-            _player.transform.position += Vector3.up * 0.2f;
-            _player.SetStateToUnperched();
-            _player.UnperchBottom();
-            hit = Physics2D.Raycast(_player.transform.position, Vector2.down, 5f, 1 << LayerMask.NameToLayer("Caves"));
+            player.Model.transform.position += Vector3.up * 0.2f;
+            player.State.SetState(PlayerState.States.Perched, false);
+            if (player.IsFacingRight)
+            {
+                player.DoAction(ClumsyAbilityHandler.DirectionalActions.Jump, MovementDirections.Right);
+            }
+            else
+            {
+                player.DoAction(ClumsyAbilityHandler.DirectionalActions.Jump, MovementDirections.Left);
+            }
+            hit = Physics2D.Raycast(player.Model.transform.position, Vector2.down, 5f, 1 << LayerMask.NameToLayer("Caves"));
         }
 
         if (hit.collider != null)
         {
-            GameObject rCopy = Instantiate(rubble, new Vector3(hit.point.x, hit.point.y, _player.transform.position.z), Quaternion.identity, hit.collider.transform);
+            GameObject rCopy = Instantiate(rubble, new Vector3(hit.point.x, hit.point.y, player.Model.transform.position.z), Quaternion.identity, hit.collider.transform);
             Destroy(rCopy, 0.5f);
         }
-
+        return true;
     }
 
     private bool PerchPossible()
@@ -149,7 +155,7 @@ public class PerchComponent : MonoBehaviour
         if (_state == PerchState.Transitioning)
         {
             _state = PerchState.Unperched;
-            _player.SetStateToUnperched();
+            player.State.SetState(PlayerState.States.Perched, false);
         }
     }
 
@@ -161,17 +167,19 @@ public class PerchComponent : MonoBehaviour
 
         float startAngle = _lantern.localRotation.z;
         Vector3 startPosition = _lantern.position;
-        Vector3 endPosition = bToPlayer ? _player.transform.position : _player.transform.position + Vector3.left * 0.5f;
+        Vector3 endPosition = bToPlayer ? player.Model.transform.position : player.Model.transform.position + Vector3.left * 0.5f;
         RaycastHit2D hit = Physics2D.Raycast(endPosition, Vector3.up, 2f, ~(1 << LayerMask.NameToLayer("Player")));
         if (hit.collider != null)
-            // 0.2f is a magic number i trial-and-errored to offset from the lanter's center
+        {
+            // 0.2f is a magic number I trial-and-errored to offset from the lanter's center
             endPosition += Vector3.up * (hit.distance - 0.2f);
+        }
 
         const float animDuration = 0.26f;
         float animTimer = 0f;
         while (animTimer < animDuration)
         {
-            if (bToPlayer) { endPosition = _player.transform.position - new Vector3(0.3f, 0.5f, 0f); }
+            if (bToPlayer) { endPosition = player.Model.transform.position - new Vector3(0.3f, 0.5f, 0f); }
             animTimer += Time.deltaTime;
             float ratio = animTimer / animDuration;
             float posX = startPosition.x - (startPosition.x - endPosition.x) * ratio;

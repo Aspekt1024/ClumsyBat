@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using ClumsyBat;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -55,7 +56,7 @@ public class MothCrystal : Projectile {
 
     public override void Activate()
     {
-        targetPos = Toolbox.PlayerCam.transform.position;
+        targetPos = GameStatics.Camera.CurrentCamera.transform.position;
         targetPos += new Vector3(Random.Range(-5f, 5f), Random.Range(-2f, 3f), 0f);
         targetPos.z = transform.position.z;
         moveRoutine = StartCoroutine(MoveToPosition());
@@ -72,7 +73,7 @@ public class MothCrystal : Projectile {
 
         crystalRenderer.enabled = false;
         projectileCollider.enabled = false;
-        BrokenCrystalBall.ShatterAndDespawn(Toolbox.Player.transform.position);
+        BrokenCrystalBall.ShatterAndDespawn(GameStatics.Player.Clumsy.transform.position);
         
         if (floatRoutine != null)
         {
@@ -177,7 +178,7 @@ public class MothCrystal : Projectile {
 
     private IEnumerator MoveEssenceToLantern()
     {
-        Transform lanternTf = Toolbox.Player.Lantern.transform;
+        Transform lanternTf = GameStatics.Player.Clumsy.Lantern.transform;
         Transform essenceTf = MothEssenceObject.transform;
 
         float timer = 0f;
@@ -199,6 +200,6 @@ public class MothCrystal : Projectile {
         }
         
         MothEssenceObject.SetActive(false);
-        Toolbox.Player.Lantern.ConsumeMoth(mothColour);
+        GameStatics.Player.Clumsy.Lantern.ConsumeMoth(mothColour);
     }
 }

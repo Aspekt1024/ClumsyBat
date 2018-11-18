@@ -1,4 +1,4 @@
-﻿using ClumsyBat.Managers;
+﻿using ClumsyBat;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -47,25 +47,19 @@ public class ParralaxBG : MonoBehaviour {
     private readonly Rigidbody2D[] _midBgPieces = new Rigidbody2D[2];
     private readonly Rigidbody2D[] _rearBgPieces = new Rigidbody2D[2];
     
-    private void Awake ()
+    private void OnDestroy()
     {
-        ZLayer = Toolbox.Instance.ZLayers["Background"];
-        CameraManager.OnCameraChanged += CameraChanged;
+        GameStatics.Camera.OnCameraChanged -= CameraChanged;
     }
 
     private void Start()
     {
-        cameraToTrack = CameraManager.CurrentCamera.transform;
+        ZLayer = Toolbox.Instance.ZLayers["Background"];
+        GameStatics.Camera.OnCameraChanged += CameraChanged;
 
-        if (SceneManager.GetActiveScene().name == "Play")
-        {
-            var level = GameData.Instance.Data.LevelData.GetHighestLevel();
-            ChooseColourFromLevel(level);
-        }
-        else
-        {
-            ChooseColourFromLevel(GameData.Instance.Level);
-        }
+        cameraToTrack = GameStatics.Camera.CurrentCamera.transform;
+
+        ChooseColourFromLevel(GameStatics.LevelManager.Level);
 
         transform.position = new Vector3(0, cameraToTrack.position.y, ZLayer);
         GetBgPieces();

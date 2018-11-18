@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using ClumsyBat;
+using ClumsyBat.Players;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -38,7 +40,7 @@ public class BossData : MonoBehaviour {
     public void LoadBoss()
     {
         _state = BossStates.Disabled;
-        player = Toolbox.Player;
+        player = GameStatics.Player.Clumsy;
         bossObject = Instantiate(BossStateMachine.BossPrefab, transform.position, new Quaternion(), transform);
         bossScripts = bossObject.GetComponent<Boss>();
         if (bossScripts == null)
@@ -94,8 +96,8 @@ public class BossData : MonoBehaviour {
         _state = BossStates.Dead;
 
         BossStateMachine.Stop();
-        if (!player.IsAlive()) return;
-        player.GetGameHandler().LevelComplete();
+        if (!player.State.IsAlive) return;
+        GameStatics.LevelManager.GameHandler.LevelComplete();
     }
 
     private void PauseGame()

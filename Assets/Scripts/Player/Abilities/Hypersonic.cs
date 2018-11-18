@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using ClumsyBat;
+using ClumsyBat.DataContainers;
+using ClumsyBat.Objects;
+using ClumsyBat.Players;
 
 public class Hypersonic : MonoBehaviour {
 
@@ -30,17 +34,15 @@ public class Hypersonic : MonoBehaviour {
         _hypersonicCollider.enabled = false;
     }
 
-    public void Setup(Player playerRef, Lantern lanternRef)
+    public void Setup(Lantern lanternRef)
     {
-        _hyperStats = GameData.Instance.Data.AbilityData.GetHypersonicStats();
-        
         _lantern = lanternRef;
-
-        SetAbilityAttributes();
     }
 
-    private void SetAbilityAttributes()
+    public void SetData(AbilityContainer.AbilityType stats)
     {
+        _hyperStats = stats;
+
         _numPulses = 1;
         _bCanDestroyStals = true;
         if (_hyperStats.AbilityLevel >= 2) { _numPulses = 2; }
@@ -49,17 +51,23 @@ public class Hypersonic : MonoBehaviour {
         _bCanDestroySpiders = _hyperStats.AbilityLevel >= 5;
     }
 
-    public void ActivateHypersonic()
+    public bool ActivateHypersonic()
     {
         if (_hyperStats.AbilityAvailable)
         {
-            StartCoroutine("HypersonicAbilityGo");
+            StartCoroutine(HypersonicAbilityGo());
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
-    public void ForceHypersonic()
+    public bool ForceHypersonic()
     {
-        StartCoroutine("HypersonicAbilityGo");
+        StartCoroutine(HypersonicAbilityGo());
+        return true;
     }
 
     public void GamePaused(bool paused)

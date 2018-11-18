@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using ClumsyBat;
+using ClumsyBat.Objects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -20,7 +20,7 @@ public class LevelEditor : MonoBehaviour {
 
     private void Start()
     {
-        GameData.Instance.Level = LevelId;
+        GameStatics.LevelManager.Level = LevelId;
         Toolbox.Instance.Debug = DebugMode;
         SceneManager.LoadScene("Levels");
     }

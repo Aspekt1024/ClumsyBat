@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using ClumsyBat;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -75,11 +76,11 @@ public class BrokenCrystalBall : MonoBehaviour {
         for (int i = 0; i < numPieces; i++)
         {
             float xVel = 0f;
-            if (transform.position.x > Toolbox.PlayerCam.transform.position.x + 1f)
+            if (transform.position.x > GameStatics.Camera.CurrentCamera.transform.position.x + 1f)
             {
                 xVel = Random.Range(-2f, 10f);
             }
-            else if (transform.position.x < Toolbox.PlayerCam.transform.position.x - 1f)
+            else if (transform.position.x < GameStatics.Camera.CurrentCamera.transform.position.x - 1f)
             {
                 xVel = Random.Range(-10f, 2f);
             }

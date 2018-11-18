@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using ClumsyBat;
 using UnityEngine;
 
 public class PlayerEventAction : BaseAction {
@@ -17,10 +16,10 @@ public class PlayerEventAction : BaseAction {
         switch(PlayerEvent)
         {
             case PlayerEvents.Stun:
-                Toolbox.Player.Stun(1.3f);
+                GameStatics.Player.Clumsy.Stun(1.3f);
                 break;
             case PlayerEvents.Damage:
-                Toolbox.Player.TakeDamage("Boss");
+                GameStatics.Player.Clumsy.TakeDamage("Boss");
                 break;
             case PlayerEvents.GiveShield:
                 break;

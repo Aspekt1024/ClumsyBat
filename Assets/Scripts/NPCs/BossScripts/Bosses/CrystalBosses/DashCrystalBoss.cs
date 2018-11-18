@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using ClumsyBat;
+using System.Collections;
 using UnityEngine;
 
 public class DashCrystalBoss : CrystalBoss {
@@ -10,7 +10,9 @@ public class DashCrystalBoss : CrystalBoss {
         {
             crystal.Explode();
         }
-        Toolbox.Player.EnableHover();
+
+        GameStatics.Player.PossessByAI();
+        GameStatics.Player.AIController.Hover();
         StartCoroutine(MovePlayerToCenterAndEndScene());
     }
 
@@ -19,28 +21,28 @@ public class DashCrystalBoss : CrystalBoss {
         float timer = 0f;
         const float duration = 7f;
 
-        if (Toolbox.Player.transform.position.x > Toolbox.PlayerCam.transform.position.x)
-            Toolbox.Player.FaceLeft();
+        if (GameStatics.Player.Clumsy.transform.position.x > GameStatics.Camera.CurrentCamera.transform.position.x)
+            GameStatics.Player.Clumsy.FaceLeft();
         else
-            Toolbox.Player.FaceRight();
+            GameStatics.Player.Clumsy.FaceRight();
 
         CameraEventListener.CameraShake(duration - 1f);
         while (timer < duration)
         {
-            Vector2 pos = Vector2.Lerp(Toolbox.Player.transform.position, Toolbox.PlayerCam.transform.position, Time.deltaTime);
-            Toolbox.Player.transform.position = new Vector3(pos.x, pos.y, Toolbox.Player.transform.position.z);
+            Vector2 pos = Vector2.Lerp(GameStatics.Player.Clumsy.transform.position, GameStatics.Camera.CurrentCamera.transform.position, Time.deltaTime);
+            GameStatics.Player.Clumsy.transform.position = new Vector3(pos.x, pos.y, GameStatics.Player.Clumsy.transform.position.z);
             timer += Time.deltaTime;
             yield return null;
         }
 
-        var dash = GameData.Instance.Data.AbilityData.GetDashStats();
+        var dash = GameStatics.Data.Abilities.GetDashStats();
         dash.AbilityUnlocked = true;
         dash.AbilityAvailable = true;
         dash.AbilityLevel = 1;
         dash.AbilityEvolution = 1;
-        GameData.Instance.Data.AbilityData.SaveDashStats(dash);
+        GameStatics.Data.Abilities.SaveDashStats(dash);
 
-        Toolbox.Player.ForceHypersonic();
+        GameStatics.Player.Clumsy.DoAction(ClumsyBat.Players.ClumsyAbilityHandler.StaticActions.ForcedHypersonic);
         timer = 0f;
         while (timer < 2f)
         {
@@ -49,11 +51,11 @@ public class DashCrystalBoss : CrystalBoss {
         }
 
         Toolbox.Tooltips.ShowDialogue("You have unlocked the ability to (briefly) reach breakneck speeds! Swipe to dash!", 2f, true);
-        while (Toolbox.Tooltips.IsPausedForDialogue)
+        while (GameStatics.LevelManager.GameHandler.GameState == GameHandler.GameStates.PausedForTooltip)
         {
             yield return null;
         }
 
-        Toolbox.Player.GetGameHandler().LevelComplete();
+        GameStatics.LevelManager.GameHandler.LevelComplete();
     }
 }

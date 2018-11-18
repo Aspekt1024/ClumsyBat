@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using ClumsyBat.Objects;
+using UnityEngine;
 
 public class BossMoths : MonoBehaviour
 {
@@ -19,11 +19,6 @@ public class BossMoths : MonoBehaviour
     private void Start ()
     {
 		_moths = new MothPool();
-    }
-    
-    public MothPool GetMothPool()
-    {
-        return _moths;
     }
 
     private void PauseGame()

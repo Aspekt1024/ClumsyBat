@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using ClumsyBat;
 using UnityEngine;
 
 public class PlayerAction : BaseAction {
@@ -11,11 +10,11 @@ public class PlayerAction : BaseAction {
 
     public override GameObject GetObject(int id)
     {
-        return Toolbox.Player.gameObject;
+        return GameStatics.Player.Clumsy.gameObject;
     }
 
     public override Vector2 GetPosition(int id)
     {
-        return Toolbox.Player.transform.position;
+        return GameStatics.Player.Clumsy.transform.position;
     }
 }

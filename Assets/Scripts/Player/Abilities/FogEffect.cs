@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using ClumsyBat;
+using ClumsyBat.Players;
 
 /// <summary>
 /// Handles the "light source" of the Lantern
@@ -46,15 +48,8 @@ public class FogEffect : MonoBehaviour {
 
     private void Start()
     {
-        if (Toolbox.Player != null)
-        {
-            _player = Toolbox.Player;
-            _lantern = _player.Lantern.transform;
-        }
-        else
-        {
-            _lantern = _player.Lantern.transform;
-        }
+        _player = GameStatics.Player.Clumsy;
+        _lantern = _player.Lantern.transform;
         
         _echolocateActivatedTime = Time.time;
         Material.SetVector("_PlayerPos", _lantern.position);
@@ -68,7 +63,7 @@ public class FogEffect : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        transform.position = new Vector3(Toolbox.PlayerCam.transform.position.x, 0f, transform.position.z);
+        transform.position = new Vector3(GameStatics.Camera.CurrentCamera.transform.position.x, 0f, transform.position.z);
         Material.SetVector("_PlayerPos", _lantern.position);
     }
 
@@ -81,14 +76,14 @@ public class FogEffect : MonoBehaviour {
         }
         else
         {
-            if (_player != null && _player.IsPerched())
+            if (_player != null && _player.State.IsPerched)
                 _echolocateActivatedTime += Time.deltaTime * 2f / 3;
 
             _echoScale = GetEchoScale();
             if (_echoScale <= _minFogScale)
             {
                 _echoScale = _minFogScale;
-                GameData.Instance.Data.Stats.DarknessTime += Time.deltaTime;
+                GameStatics.Data.Stats.DarknessTime += Time.deltaTime;
             }
             
             _pulseTimer += Time.deltaTime;

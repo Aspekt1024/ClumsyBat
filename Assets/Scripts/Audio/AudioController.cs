@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using ClumsyBat;
+using ClumsyBat.DataManagement;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,8 +26,6 @@ public abstract class AudioController : MonoBehaviour
             _pathFromAudioFolder = value;
         }
     }
-
-    private StatsHandler _dataHandler;
 
     protected enum AudioTypes
     {
@@ -53,7 +53,7 @@ public abstract class AudioController : MonoBehaviour
     private void ToggleMusic()
     {
         if (AudioType != AudioTypes.Music) return;  // TODO setup eventHandler better
-        _enabled = _dataHandler.Settings.Music;
+        _enabled = GameStatics.Data.Settings.MusicOn;
         if (!_enabled)
             StopAllSounds();
         else
@@ -63,7 +63,7 @@ public abstract class AudioController : MonoBehaviour
     private void ToggleSfx()
     {
         if (AudioType != AudioTypes.SoundFx) return;  // TODO setup eventHandler better
-        _enabled = _dataHandler.Settings.Sfx;
+        _enabled = GameStatics.Data.Settings.SfxOn;
         if (!_enabled)
             StopAllSounds();
     }
@@ -77,16 +77,15 @@ public abstract class AudioController : MonoBehaviour
         SetupAudioDict();
     }
 
-    private void Start()
+    public void SetData(UserSettings data)
     {
-        _dataHandler = GameData.Instance.Data.Stats;
         switch (AudioType)
         {
             case AudioTypes.Music:
-                _enabled = _dataHandler.Settings.Music;
+                _enabled = GameStatics.Data.Settings.MusicOn;
                 break;
             case AudioTypes.SoundFx:
-                _enabled = _dataHandler.Settings.Sfx;
+                _enabled = GameStatics.Data.Settings.SfxOn;
                 break;
         }
     }
@@ -122,7 +121,7 @@ public abstract class AudioController : MonoBehaviour
 
     private void SetToPlay(AudioSource aSource, SampleType sample)
     {
-        if (!GameData.Instance.Data.Stats.Settings.Sfx) return;
+        if (!GameStatics.Data.Settings.SfxOn) return;
 
         aSource.volume = sample.Volume;
         aSource.clip = sample.AudioClip;
@@ -140,7 +139,7 @@ public abstract class AudioController : MonoBehaviour
 
     private void ResumeMusic()
     {
-        if (!GameData.Instance.Data.Stats.Settings.Music) return;
+        if (!GameStatics.Data.Settings.MusicOn) return;
 
         SetToPlay(_primaryAudio, _musicSample);
         _primaryAudio.Play();

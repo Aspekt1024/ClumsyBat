@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using ClumsyBat.Players;
 
 public class Mushroom : Spawnable {
     
@@ -30,7 +31,7 @@ public class Mushroom : Spawnable {
 
 	private void Update ()
     {
-        if (!IsActive || _bIsTriggered || !(_player.transform.position.x + 10 > transform.position.x)) return;
+        if (!IsActive || _bIsTriggered || !(_player.Model.transform.position.x + 10 > transform.position.x)) return;
         _bIsTriggered = true;
         StartCoroutine("PrepareSpores");
     }

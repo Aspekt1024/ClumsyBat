@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using ClumsyBat;
 
 public class AirFollowAction : BaseAction {
 
@@ -29,7 +30,7 @@ public class AirFollowAction : BaseAction {
     private void Follow()
     {
         Vector2 followPos = followingObject.transform.position;
-        if (!Toolbox.Player.IsAlive())
+        if (!GameStatics.Player.Clumsy.State.IsAlive)
             followPos = GameObject.FindGameObjectWithTag("MainCamera").transform.position;
 
         bool isFlipped = bossRenderer.flipX;

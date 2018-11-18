@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using ClumsyBat.Players;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -44,7 +45,7 @@ public class Projectile : MonoBehaviour {
         if (!bActive) return;
         if (collision.gameObject.tag == "Player")
         {
-            collision.gameObject.GetComponent<Player>().HitByObject();
+            Debug.Log("implement: player hit by projectile.");
             callerAction.HitPlayer();
             PlayerCollision();
         }

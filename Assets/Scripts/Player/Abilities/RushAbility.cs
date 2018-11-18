@@ -1,164 +1,143 @@
 ﻿using UnityEngine;
 using System.Collections;
+using ClumsyBat;
+using ClumsyBat.DataContainers;
+using ClumsyBat.Players;
 
 public class RushAbility : MonoBehaviour {
 
-    private AbilityContainer.AbilityType _rushStats;
-    private Player _thePlayer;
-    private GameUI _gameHud;
+    public bool IsEnabled { get; private set; }
+    public float CooldownRemaining { get; private set; }
+    public event System.Action OnRushActivation = delegate { };
+    
+    private Player player;
     private Coroutine dashRoutine;
 
-    private int _numMothsToRecharge;
-    private bool _epicDashEnabled;
-    private int _maxCharges;
+    private int numMothsToRecharge;
+    private bool epicDashEnabled;
+    private int maxCharges;
 
-    private int _numCharges;
-    private int _numMoths;
-    private bool _bIsRushing;
-    private float _cooldownRemaining;
+    private int numCharges;
+    private int numMoths;
 
     private const float RushDuration = 0.33f;
     private const float RushSpeed = 15f;
     private const float CooldownDuration = 1.5f;
-
-    private PlayerController.SwipeDirecitons direction;
     
     public void Setup(Player playerRef)
     {
-        _rushStats = GameData.Instance.Data.AbilityData.GetDashStats();
-
-        _thePlayer = playerRef;
-        _gameHud = FindObjectOfType<GameUI>();
-
-        SetAbilityAttributes();
-        SetupHudBar();
-
+        player = playerRef;
+        
         Toolbox.Instance.PlayerDashSpeed = RushSpeed;
-        _numCharges = 1;
-        _gameHud.SetCooldownTimer(5f);
-        _cooldownRemaining = 5f;
+        numCharges = 1;
+        CooldownRemaining = 5f;
+    }
+
+    public void SetStats(AbilityContainer.AbilityType stats)
+    {
+        IsEnabled = stats.AbilityAvailable;
+        numMoths = 0;
+        numMothsToRecharge = 1;
+        maxCharges = 2;
+        epicDashEnabled = false;
+
+        if (stats.AbilityLevel >= 2) { maxCharges = 3; }
+        if (stats.AbilityLevel >= 3) { maxCharges = 4; }
+        if (stats.AbilityLevel >= 4) { maxCharges = 5; }
+        if (stats.AbilityLevel >= 5) { maxCharges = 6; }
+        if (stats.AbilityEvolution == 2) { epicDashEnabled = true; }
     }
 
     private void Update ()
     {
-        if (Toolbox.Instance.GamePaused) return;
-        _cooldownRemaining -= Time.deltaTime;
+        if (CooldownRemaining > 0)
+        {
+            CooldownRemaining -= Time.deltaTime;
+        }
     }
 
-    public void Activate(PlayerController.SwipeDirecitons dir)
+    public bool Activate(MovementDirections dir)
     {
-        if (!_rushStats.AbilityAvailable) { return; }
-        if (_cooldownRemaining > 0) { return; }
-        // TODO charges
+        if (PlayerManager.Instance.PossessedByPlayer)
+        {
+            if (!IsEnabled || CooldownRemaining > 0 || numCharges < 1) return false;
+        }
         
-        direction = dir;
+        OnRushActivation.Invoke();
+        CooldownRemaining = CooldownDuration;
 
-        GameData.Instance.Data.Stats.TimesDashed++;
-        _gameHud.SetCooldownTimer(CooldownDuration);
-        _cooldownRemaining = CooldownDuration;
         if (dashRoutine != null) StopCoroutine(dashRoutine);
-        dashRoutine = StartCoroutine(DashSequence());
+        dashRoutine = StartCoroutine(DashSequence(dir));
+
+        return true;
     }
 
     public void Deactivate()
     {
-        _bIsRushing = false;
+        player.State.SetState(PlayerState.States.IsRushing, false);
         if (dashRoutine != null)
+        {
             StopCoroutine(dashRoutine);
+        }
 
-        if (GameData.Instance.IsBossLevel())
-            _thePlayer.SetPlayerSpeed(0);
-        else
-            _thePlayer.SetPlayerSpeed(Toolbox.Instance.PlayerSpeed);
-
-        _thePlayer.SetGravity(Toolbox.Instance.GravityScale);
+        player.Physics.SetNormalSpeed();
+        player.Physics.EnableGravity();
     }
-
-    private void SetAbilityAttributes()
-    {
-        _numMoths = 0;
-        _numMothsToRecharge = 1;
-        _maxCharges = 2;
-        _epicDashEnabled = false;
-
-        if (_rushStats.AbilityLevel >= 2) { _maxCharges = 3; }
-        if (_rushStats.AbilityLevel >= 3) { _maxCharges = 4; }
-        if (_rushStats.AbilityLevel >= 4) { _maxCharges = 5; }
-        if (_rushStats.AbilityLevel >= 5) { _maxCharges = 6; }
-        if (_rushStats.AbilityEvolution == 2) { _epicDashEnabled = true; }
-    }
-
+    
     public void AddCharge()
     {
-        _numMoths++;
-        if (_numMoths == _numMothsToRecharge)
+        numMoths++;
+        if (numMoths == numMothsToRecharge)
         {
-            if (_numCharges < _maxCharges)
+            if (numCharges < maxCharges)
             {
-                _numCharges++;
-                _numMoths = 0;
+                numCharges++;
+                numMoths = 0;
             }
             else
             {
-                _numMoths = _numMothsToRecharge - 1;
+                numMoths = numMothsToRecharge - 1;
             }
         }
     }
 
-    private void SetupHudBar()
+    private IEnumerator DashSequence(MovementDirections direction)
     {
-        _gameHud.ShowCooldown(_rushStats.AbilityAvailable);
-    }
+        player.State.SetState(PlayerState.States.IsRushing, true);
+        player.Physics.DisableGravity();
+        player.Physics.SetVerticalVelocity(0);
 
-    private IEnumerator DashSequence()
-    {
-        _bIsRushing = true;
-        _thePlayer.SetGravity(0f);
-        _thePlayer.SetVelocity(Vector2.zero);
+        SetDashSpeed(direction);
 
-        SetDashSpeed();
-
-        if (_epicDashEnabled)
+        if (epicDashEnabled)
         {
-            _thePlayer.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Rush);
+            player.Animate(ClumsyAnimator.ClumsyAnimations.Rush);
             // TODO special dash
         }
         else
         {
-            _thePlayer.Anim.PlayAnimation(ClumsyAnimator.ClumsyAnimations.Rush);
+            player.Animate(ClumsyAnimator.ClumsyAnimations.Rush);
         }
-
-        float timer = 0f;
-
-        while (timer < RushDuration)
-        {
-            if (!Toolbox.Instance.GamePaused)
-            {
-                timer += Time.deltaTime;
-                GameData.Instance.Data.Stats.DashDistance += Time.deltaTime * RushSpeed;
-            }
-            yield return null;
-        }
+        
+        yield return new WaitForSeconds(RushDuration);
 
         Deactivate();
     }
 
-    private void SetDashSpeed()
+    private void SetDashSpeed(MovementDirections direction)
     {
         float speed = RushSpeed;
-        if (GameData.Instance.IsBossLevel())
+        if (direction == MovementDirections.Left)
         {
-            if (_thePlayer.IsFacingRight() && direction == PlayerController.SwipeDirecitons.Left)
-                _thePlayer.FaceLeft();
-            else if (!_thePlayer.IsFacingRight() && direction == PlayerController.SwipeDirecitons.Right)
-                _thePlayer.FaceRight();
-
-            if (direction == PlayerController.SwipeDirecitons.Left)
-                speed = -speed;
+            player.FaceLeft();
+            speed = -speed;
         }
-        _thePlayer.SetPlayerSpeed(speed);
+        else
+        {
+            player.FaceRight();
+        }
+        player.Physics.SetHorizontalVelocity(speed);
     }
     
-    public bool IsActive() { return _bIsRushing; }
-    public bool AbilityAvailable() { return _rushStats.AbilityAvailable && _numCharges > 0; }
+    public bool AbilityAvailable() { return IsEnabled && numCharges > 0; }
 }

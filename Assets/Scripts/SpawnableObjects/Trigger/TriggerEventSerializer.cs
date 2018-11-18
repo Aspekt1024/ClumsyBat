@@ -6,6 +6,7 @@ using System.IO;
 using System;
 using System.Xml.Serialization;
 using UnityEngine.SceneManagement;
+using ClumsyBat.Objects;
 
 #if UNITY_EDITOR
 using UnityEditor;

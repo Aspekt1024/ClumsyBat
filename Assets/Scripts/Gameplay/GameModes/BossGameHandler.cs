@@ -1,23 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System;
+using ClumsyBat;
+
+using LevelCompletionPaths = ClumsyBat.LevelManagement.LevelCompletionHandler.LevelCompletionPaths;
+using ClumsyBat.Players;
 
 public class BossGameHandler : GameHandler {
 
     public float ClumsySpeed = 6f;
-
-    private LoadScreen _loadScreen;
-    private GameMenuOverlay _gameMenu;
-    private GameUI _gameHud;
+    
     private Canvas leftRightOverlay;
     
-    public LevelProgressionHandler.Levels Level = LevelProgressionHandler.Levels.Boss1;
     private const float ResumeTimerDuration = 3f;
     private float _resumeTimerStart;
 
     private bool startingDialoagueComplete;
 
     private const float manualCaveScale = 0.8558578f;
+
+    private Player player;
     
     private enum BossGameState
     {
@@ -29,16 +30,16 @@ public class BossGameHandler : GameHandler {
 
     private void Start()
     {
-        if (GameData.Instance.Level == LevelProgressionHandler.Levels.Unassigned)
+        player = GameStatics.Player.Clumsy;
+        if (GameStatics.LevelManager.Level == LevelProgressionHandler.Levels.Unassigned)
         {
-            GameData.Instance.Level = Level;
+            GameStatics.LevelManager.Level = LevelProgressionHandler.Levels.Boss1;
         }
-        _loadScreen = FindObjectOfType<LoadScreen>();
-        _gameHud = FindObjectOfType<GameUI>();
-        _gameMenu = FindObjectOfType<GameMenuOverlay>();
         
-        foreach (Transform tf in Toolbox.PlayerCam.transform)
+        // TODO this is never true
+        foreach (Transform tf in GameStatics.Camera.CurrentCamera.transform)
         {
+            Debug.Log("setup left right overlay");
             if (tf.name == "LeftRightOverlay")
             {
                 leftRightOverlay = tf.GetComponent<Canvas>();
@@ -48,9 +49,8 @@ public class BossGameHandler : GameHandler {
         }
 
         LoadBoss();
-
-        _gameMenu.Hide();
-        ThePlayer.Fog.Disable();
+        
+        //ThePlayer.Fog.Disable();
         SetCameraEndPoint();
         StartCoroutine(LoadSequence());
     }
@@ -59,7 +59,7 @@ public class BossGameHandler : GameHandler {
     {
         if (!startingDialoagueComplete)
         {
-            if (Toolbox.Player.transform.position.x > 0f)
+            if (GameStatics.Player.Clumsy.transform.position.x > 0f)
             {
                 startingDialoagueComplete = true;
                 BossEntranceDialogue();
@@ -67,7 +67,7 @@ public class BossGameHandler : GameHandler {
         }
 
         if (GameState != GameStates.Normal || _state == BossGameState.InBossRoom) return;
-        if (Toolbox.Player.transform.position.x > Toolbox.TileSizeX * manualCaveScale - 3f)
+        if (GameStatics.Player.Clumsy.transform.position.x > Toolbox.TileSizeX * manualCaveScale - 3f)
         {
             _state = BossGameState.InBossRoom;
             StartCoroutine(BossEntrance());
@@ -76,8 +76,8 @@ public class BossGameHandler : GameHandler {
 
     protected override void SetCameraEndPoint()
     {
-        Toolbox.PlayerCam.SetEndPoint(Toolbox.TileSizeX * manualCaveScale + 0.8f);
-        Toolbox.PlayerCam.StopFollowingAtEndPoint();
+        GameStatics.Camera.SetEndPoint(Toolbox.TileSizeX * manualCaveScale + 0.8f);
+        GameStatics.Camera.StopFollowingAtEndPoint();
     }
     
     private IEnumerator LoadSequence()
@@ -85,18 +85,19 @@ public class BossGameHandler : GameHandler {
         yield return new WaitForSeconds(1f);
         StartGame();
         yield return new WaitForSeconds(0.8f);
-        yield return ThePlayer.StartCoroutine(ThePlayer.CaveEntranceAnimation());
+        //yield return player.StartCoroutine(player.CaveEntranceAnimation());
 
         // TODO put this into a function that says "boss level begin" or something
         GameState = GameStates.Normal;
         _state = BossGameState.MovingTowardsBoss;
-        ThePlayer.SetPlayerSpeed(ClumsySpeed);
-        PlayerController.EnterGamePlay();
+        player.Physics.SetNormalSpeed();
+        GameStatics.Player.PossessByPlayer();
     }
 
     private IEnumerator BossEntrance()
     {
-        ThePlayer.EnableHover();
+        GameStatics.Player.PossessByAI();
+        GameStatics.Player.AIController.Hover();
 
         FindObjectOfType<SlidingDoors>().Close();
 
@@ -110,107 +111,72 @@ public class BossGameHandler : GameHandler {
             yield return null;
         }
 
-        if (GameData.Instance.Level == LevelProgressionHandler.Levels.Boss1)
+        if (GameStatics.LevelManager.Level == LevelProgressionHandler.Levels.Boss1)
         {
             yield return StartCoroutine(ShowMovementTutorial());
         }
 
-        ThePlayer.DisableHover();
-        ThePlayer.SetPlayerSpeed(0);
-        ThePlayer.SetMovementMode(FlapComponent.MovementMode.HorizontalEnabled);
+        GameStatics.Player.AIController.DisableHover();
+        GameStatics.Player.PossessByPlayer();
+        player.Abilities.Flap.MovementMode = FlapComponent.MovementModes.LeftAndRight;
         BossEvents.BossFightStart();
     }
 
     private IEnumerator ShowMovementTutorial()
     {
-        if (GameData.Instance.Data.LevelData.LevelCompletedAchievement((int)LevelProgressionHandler.Levels.Boss1)
-            || GameData.Instance.BossLeftRightTapTutorialSeen)
+        if (GameStatics.LevelManager.IsLevelCompleted(LevelProgressionHandler.Levels.Boss1)
+            || GameStatics.Data.EventData.Data.BossLeftRightTapTutorialSeen)
             yield break;
 
-        GameData.Instance.BossLeftRightTapTutorialSeen = true;
+        GameStatics.Data.EventData.Data.BossLeftRightTapTutorialSeen = true;
         leftRightOverlay.enabled = true;
-        _gameHud.GetComponent<Canvas>().enabled = false;
+        GameStatics.UI.GameHud.Hide();
 
         yield return new WaitForSeconds(1f);
 
-        Toolbox.Player.GetPlayerController().PauseInput(false);
-        Toolbox.Player.GetPlayerController().WaitForInput();
-        while (Toolbox.Player.GetPlayerController().WaitingForInput())
-        {
-            yield return null;
-        }
+        Debug.Log("show movement tutorial is broken");
+
+        //GameStatics.Player.Clumsy.GetPlayerController().PauseInput(false);
+        //GameStatics.Player.Clumsy.GetPlayerController().WaitForInput();
+        //while (GameStatics.Player.Clumsy.GetPlayerController().WaitingForInput())
+        //{
+        //    yield return null;
+        //}
         leftRightOverlay.enabled = false;
-        _gameHud.GetComponent<Canvas>().enabled = true;
+        GameStatics.UI.GameHud.Show();
     }
 
     private void StartGame()
     {
-        _gameHud.StartGame();
-        _loadScreen.HideLoadScreen();
+        GameStatics.UI.GameHud.StartGame();
         GameMusic.PlaySound(GameMusicControl.GameTrack.Twinkly);
-        ThePlayer.SetMovementMode(FlapComponent.MovementMode.VerticalOnly);
     }
 
-    public override void PauseGame()
-    {
-        EventListener.PauseGame();
-        Toolbox.Instance.GamePaused = true;
-        GameState = GameStates.Paused;
-        ThePlayer.PauseGame();
-        _gameHud.GamePaused(true);
-    }
-
-    public override void ResumeGame(bool immediate = false)
-    {
-        if (!immediate)
-        {
-            _gameMenu.RaiseMenu();
-            StartCoroutine("UpdateResumeTimer");
-        }
-        else
-        {
-            _gameMenu.Hide();
-            ResumeGameplay();
-        }
-    }
-    
     private IEnumerator UpdateResumeTimer()
     {
         GameState = GameStates.Resuming;
-        float waitTime = _gameMenu.RaiseMenu();
-        yield return new WaitForSeconds(waitTime);
+        yield return StartCoroutine(GameStatics.UI.DropdownMenu.RaiseMenuRoutine());
         _resumeTimerStart = Time.time;
 
-        while (ThePlayer.IsAlive() && _resumeTimerStart + ResumeTimerDuration - waitTime > Time.time)
+        while (GameStatics.Player.Clumsy.State.IsAlive && _resumeTimerStart + ResumeTimerDuration > Time.time)
         {
             float timeRemaining = _resumeTimerStart + ResumeTimerDuration - Time.time;
-            _gameHud.SetResumeTimer(timeRemaining);
+            GameStatics.UI.GameHud.SetResumeTimer(timeRemaining);
             yield return null;
         }
-        ResumeGameplay();
-    }
-
-    private void ResumeGameplay()
-    {
-        EventListener.ResumeGame();
-        Toolbox.Instance.GamePaused = false;
-        GameState = GameStates.Normal;
-        ThePlayer.ResumeGame();
-        _gameHud.HideResumeTimer();
-        _gameHud.GamePaused(false);
-        PlayerController.ResumeGameplay();
     }
     
-    public override void LevelComplete()
+    public override void LevelComplete(bool viaSecretExit = false)
     {
-        ThePlayer.EnableHover();
-        ThePlayer.GetCollider().enabled = false;
+        GameStatics.Player.PossessByAI();
+        GameStatics.Player.AIController.Hover();
+        GameStatics.Player.Clumsy.Physics.DisableCollisions();
         StartCoroutine(BossFightWon());
     }
 
     private IEnumerator BossFightWon()
     {
-        if (GameData.Instance.Level == LevelProgressionHandler.Levels.Boss2)
+        if (GameStatics.LevelManager.Level == LevelProgressionHandler.Levels.Boss2)
         {
             yield return new WaitForSeconds(2.5f);
         }
@@ -218,31 +184,16 @@ public class BossGameHandler : GameHandler {
         {
             yield return new WaitForSeconds(1.5f);
         }
-        
-        GameData.Instance.SetLevelCompletion(GameData.LevelCompletePaths.MainPath);
-        GameData.Instance.NextLevel = LevelProgressionHandler.GetNextLevel(GameData.Instance.Level);
-        EventListener.LevelWon();
-        _gameMenu.WinGame();
-        _gameHud.LevelWon();
+
+        GameStatics.LevelManager.LevelCompleted(LevelCompletionPaths.MainPath);
 
         // TODO add sound to sound controller script
     }
 
     public override void GameOver()
     {
-        _gameHud.GameOver();
-        _gameMenu.GameOver();
-    }
-
-    public override MothPool GetMothPool()
-    {
-        BossMoths bossMoths = GetComponent<BossMoths>();
-        if (bossMoths == null)
-        {
-            bossMoths = gameObject.AddComponent<BossMoths>();
-        }
-
-        return bossMoths.GetMothPool();
+        GameStatics.UI.DropdownMenu.ShowGameOverMenu();
+        GameStatics.UI.GameHud.Hide();
     }
 
     // TODO set up a dictionary
@@ -250,7 +201,7 @@ public class BossGameHandler : GameHandler {
     {
         BossData bossDataScript = FindObjectOfType<BossData>();
 
-        switch (GameData.Instance.Level)
+        switch (GameStatics.LevelManager.Level)
         {
             case LevelProgressionHandler.Levels.BossS1:
                 bossDataScript.BossStateMachine = Resources.Load<StateMachine>("NPCs/Bosses/BossBehaviours/HypersonicEventBoss");
@@ -285,25 +236,25 @@ public class BossGameHandler : GameHandler {
         }
 
         bossDataScript.LoadBoss();
-        _gameHud.SetLevelText(GameData.Instance.Level);
+        GameStatics.UI.GameHud.SetLevelText(GameStatics.LevelManager.Level);
     }
 
     // TODO set this up in the boss script instead
     private void BossEntranceDialogue()
     {
-        switch (GameData.Instance.Level)
+        switch (GameStatics.LevelManager.Level)
         {
             case LevelProgressionHandler.Levels.BossS1:
                 Toolbox.Tooltips.ShowDialogue("You found the hidden shrine! The key to defeating King Rockbreath can be found here.", 4f);
                 break;
             case LevelProgressionHandler.Levels.Boss1:
-                if (!GameData.Instance.Data.AbilityData.GetHypersonicStats().AbilityAvailable)
+                if (!GameStatics.Data.Abilities.GetHypersonicStats().AbilityAvailable)
                 {
                     Toolbox.Tooltips.ShowDialogue("Without visiting the hidden shrine, you don't stand a chance here! Turn back!", 4f);
                 }
                 else
                 {
-                    if (!GameData.Instance.Data.LevelData.IsCompleted((int)LevelProgressionHandler.Levels.Boss2))
+                    if (!GameStatics.Data.LevelDataHandler.IsCompleted(LevelProgressionHandler.Levels.Boss2))
                     {
                         Toolbox.Tooltips.ShowDialogue("Now that you have unlocked the power of hypersonic, we can defeat King Rockbreath!", 4f);
                     }

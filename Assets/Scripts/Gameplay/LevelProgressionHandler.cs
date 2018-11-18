@@ -28,15 +28,15 @@ public static class LevelProgressionHandler
                 return Levels.Unassigned;
             case Levels.Boss5:
                 return Levels.Unassigned;
-            default:
-                if (level < Levels.Boss5)
-                {
-                    return (Levels)(((int)level) + 1);
-                }
-                else
-                {
-                    return level;
-                }
+        }
+
+        if (level < Levels.Boss5)
+        {
+            return (Levels)(((int)level) + 1);
+        }
+        else
+        {
+            return level;
         }
     }
 

@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using ClumsyBat.Objects;
+using ClumsyBat;
 
 public class StalDropComponent : MonoBehaviour {
 
@@ -8,7 +10,6 @@ public class StalDropComponent : MonoBehaviour {
     private Stalactite stal;
     private StalAnimationHandler anim;
     private Rigidbody2D stalBody;
-    private PlayerController playerControl;
 
     [HideInInspector]
     public const float FallDuration = 1.2f;
@@ -38,16 +39,16 @@ public class StalDropComponent : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        if (playerControl == null) return; //editor has no player
-        if (!stal.DropEnabled || !stal.IsActive || isPaused || _state == DropStates.Falling || !playerControl.ThePlayer.IsAlive()) return;
+        if (!GameStatics.StaticsInitiated) return;
+        if (!stal.DropEnabled || !stal.IsActive || isPaused || _state == DropStates.Falling || !GameStatics.Player.Clumsy.State.IsAlive) return;
         
-        if (Toolbox.Player.transform.position.x > transform.position.x - stal.TriggerPosX)
+        if (GameStatics.Player.Clumsy.transform.position.x > transform.position.x - stal.TriggerPosX)
         {
             Drop();
         }
         else
         {
-            if (Toolbox.Player.transform.position.x > transform.position.x - stal.TriggerPosX - shakeThresholdX && _state == DropStates.None)
+            if (GameStatics.Player.Clumsy.transform.position.x > transform.position.x - stal.TriggerPosX - shakeThresholdX && _state == DropStates.None)
             {
                 StartCoroutine(Shake());
             }
@@ -56,8 +57,8 @@ public class StalDropComponent : MonoBehaviour {
 
     private void Update()
     {
-        if (playerControl == null) return;
-        if (!playerControl.ThePlayer.IsAlive() && _state == DropStates.Shaking)
+        if (!GameStatics.StaticsInitiated) return;
+        if (!GameStatics.Player.Clumsy.State.IsAlive && _state == DropStates.Shaking)
         {
             _state = DropStates.None;
         }
@@ -180,12 +181,7 @@ public class StalDropComponent : MonoBehaviour {
 
     private void GetComponentList()
     {
-        if (Toolbox.Player == null) return; //editor doesnt have player
-        Transform playerTf = Toolbox.Player.transform;
-        if (playerTf != null)
-        {
-            playerControl = playerTf.GetComponent<PlayerController>();
-        }
+        if (GameStatics.Player.Clumsy == null) return; //editor doesnt have player
         
         TriggerSprite = GetComponent<SpriteRenderer>();
         stal = GetComponent<Stalactite>();

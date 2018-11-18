@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using ClumsyBat.Objects;
 using UnityEngine;
 
 public class SaveLevelHandler {
@@ -16,7 +15,7 @@ public class SaveLevelHandler {
         TextAsset levelTxt = (TextAsset)Resources.Load("LevelXML/" + levelId);
         level = LevelContainer.LoadFromText(levelTxt.text);
         SetLevelObjects();
-        GameData.FindObjectOfType<LevelEditor>().ScoreToBeat = level.ScoreToBeat;
+        Object.FindObjectOfType<LevelEditor>().ScoreToBeat = level.ScoreToBeat;
     }
 
     public void Save(LevelEditorObjectHandler objHandler, LevelProgressionHandler.Levels levelId, int scoreToBeat)

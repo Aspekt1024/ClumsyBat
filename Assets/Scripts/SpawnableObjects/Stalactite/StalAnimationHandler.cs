@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ClumsyBat.Objects;
+using UnityEngine;
 
 public class StalAnimationHandler : MonoBehaviour
 {

@@ -1,10 +1,9 @@
-﻿using UnityEngine;
+﻿using static ClumsyBat.DataManagement.LevelDataHandler;
 
 public class EventListener
 {
     public delegate void EventHandler();
     public static EventHandler OnDeath;
-    public static EventHandler OnLevelWon;
     public static EventHandler OnPauseGame;
     public static EventHandler OnResumeGame;
 
@@ -14,51 +13,48 @@ public class EventListener
 
     public static EventHandler OnTooltipActioned;
 
+    public static EventHandler OnLevelWon;
+
+    /// <summary>
+    /// Notifies subscribers that the level has been completed
+    /// </summary>
+    public static void LevelCompleted()
+    {
+        OnLevelWon.Invoke();
+    }
+    
     public static void Death()
     {
-        if (OnDeath != null)
-            OnDeath();
-    }
-
-    public static void LevelWon()
-    {
-        if (OnLevelWon != null)
-            OnLevelWon();
+        OnDeath.Invoke();
     }
 
     public static void PauseGame()
     {
-        if (OnPauseGame != null)
-            OnPauseGame();
+        OnPauseGame.Invoke();
     }
 
     public static void ResumeGame()
     {
-        if (OnResumeGame != null)
-            OnResumeGame();
+        OnResumeGame?.Invoke();
     }
 
     public static void MusicToggle()
     {
-        if (OnMusicToggle != null)
-            OnMusicToggle();
+        OnMusicToggle?.Invoke();
     }
 
     public static void SfxToggle()
     {
-        if (OnSfxToggle != null)
-            OnSfxToggle();
+        OnSfxToggle?.Invoke();
     }
 
     public static void TooltipToggle()
     {
-        if (OnTooltipToggle != null)
-            OnTooltipToggle();
+        OnTooltipToggle?.Invoke();
     }
 
     public static void TooltipActioned()
     {
-        if (OnTooltipActioned != null)
-            OnTooltipActioned();
+        OnTooltipActioned?.Invoke();
     }
 }

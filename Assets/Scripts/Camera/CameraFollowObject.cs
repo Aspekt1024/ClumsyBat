@@ -1,24 +1,33 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraFollowObject : MonoBehaviour {
 
     public Transform ObjectToFollow;
 
-    private bool following = true;
-    private const float xOffset = 4f;
+    public const float BASE_FOLLOW_SPEED = 4f;
+
+    public float XOffset = 4f; // This is for clumsy, but for the menu we need to set to 0... 
+
+    private bool following = false;
     private float endPointX;
     private bool stopFollowingAtEndpoint;
+    private float followSpeed = BASE_FOLLOW_SPEED;
     
     public void SetEndPoint(float endPoint)
     {
         endPointX = endPoint;
     }
 
-    public void StartFollowing()
+    public void StartFollowing(Transform target = null, float followSpeed = BASE_FOLLOW_SPEED)
     {
+        Debug.Log("new object to follow: " + target.name);
         following = true;
+        this.followSpeed = followSpeed;
+
+        if (target != null)
+        {
+            ObjectToFollow = target;
+        }
     }
 
     public void StopFollowing()
@@ -39,9 +48,13 @@ public class CameraFollowObject : MonoBehaviour {
             return;
         }
 
-        if (!following || ObjectToFollow.position.x + xOffset < 0 || transform.position.x > endPointX) return;
-        
-        float xPos = Mathf.Lerp(transform.position.x, ObjectToFollow.position.x + xOffset, Time.deltaTime * 4f);
-        transform.position = new Vector3(xPos, transform.position.y, transform.position.z);
+        if (ObjectToFollow == null) return;
+
+        if (!following || ObjectToFollow.position.x + XOffset < 0 || transform.position.x > endPointX) return;
+
+        float xPos = Mathf.Lerp(transform.position.x, ObjectToFollow.position.x + XOffset, Time.deltaTime * followSpeed);
+        Vector3 pos = transform.position;
+        pos.x = xPos;
+        transform.position = pos;
 	}
 }

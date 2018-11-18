@@ -1,115 +1,39 @@
-﻿using System.Collections;
-using UnityEngine;
-
-/// <summary>
-/// Handles the generation, positioning and movement of all cave pieces
-/// </summary>
-public class LevelObjectHandler : MonoBehaviour {
-    
-    public struct CaveListType
+﻿namespace ClumsyBat.Objects
+{/// <summary>
+ /// Handles the generation, positioning and movement of all cave pieces
+ /// </summary>
+    public class LevelObjectHandler
     {
-        public StalPool.StalType[] StalList;
-        public ShroomPool.ShroomType[] MushroomList;
-        public MothPool.MothType[] MothList;
-        public SpiderPool.SpiderType[] SpiderList;
-        public WebPool.WebType[] WebList;
-        public TriggerHandler.TriggerType[] TriggerList;
-        public NpcPool.NpcType[] NpcList;
-    }
-    
-    private LevelContainer _level;
-
-    private bool _bEndlessMode;
-    
-    private CaveHandler _cave;
-    private ShroomPool _shrooms;
-    private MothPool _moths;
-    private StalPool _stals;
-    private SpiderPool _spiders;
-    private WebPool _webs;
-    private TriggerHandler _triggers;
-    private NpcPool _npcs;
-
-    private void Awake()
-    {
-        var caveObject = new GameObject("Caves");
-        _cave = caveObject.AddComponent<CaveHandler>();
-
-        _shrooms = new ShroomPool();
-        _stals = new StalPool();
-        _moths = new MothPool();
-        _spiders = new SpiderPool();
-        _webs = new WebPool();
-        _triggers = new TriggerHandler();
-        _npcs = new NpcPool();
-    }
-
-    public IEnumerator LoadLevel(LevelProgressionHandler.Levels level)
-    {
-        if (_bEndlessMode) { yield break; }
-        TextAsset levelTxt = (TextAsset)Resources.Load("LevelXML/" + level.ToString());
+        public readonly ShroomPool Shrooms = new ShroomPool();
+        public readonly MothPool Moths = new MothPool();
+        public readonly StalPool Stals = new StalPool();
+        public readonly SpiderPool Spiders = new SpiderPool();
+        public readonly WebPool Webs = new WebPool();
+        public readonly TriggerHandler Triggers = new TriggerHandler();
+        public readonly NpcPool Npcs = new NpcPool();
         
-        _level = LevelContainer.LoadFromText(levelTxt.text);
-
-        _cave.Setup(_level.Caves, _bEndlessMode, this);
-
-        GameData.Instance.Level = level;
-        GameData.Instance.NumMoths = GetNumMoths();
-        GameData.Instance.ScoreToBeat = _level.ScoreToBeat;
-
-        Debug.Log("Level " + GameData.Instance.Level + " loaded.");
-    }
-    
-    public void SetCaveObstacles(int index)
-    {
-        var xOffset = index * Toolbox.TileSizeX;
-        var objectList = _bEndlessMode ? _cave.GetRandomisedObstacleList() : GetCaveObjectList(index);
-        
-        if (objectList.MushroomList != null) { _shrooms.SetupMushroomsInList(objectList.MushroomList, xOffset); }
-        if (objectList.StalList != null) { _stals.SetupStalactitesInList(objectList.StalList, xOffset); }
-        if (objectList.MothList != null) { _moths.SetupMothsInList(objectList.MothList, xOffset); }
-        if (objectList.SpiderList != null) { _spiders.SetupSpidersInList(objectList.SpiderList, xOffset); }
-        if (objectList.WebList != null) { _webs.SetupWebsInList(objectList.WebList, xOffset); }
-        if (objectList.TriggerList != null) { _triggers.SetupTriggersInList(objectList.TriggerList, xOffset); }
-        if (objectList.NpcList != null) { _npcs.SetupObjectsInList(objectList.NpcList, xOffset); }
-    }
-
-    private CaveListType GetCaveObjectList(int index)
-    {
-        CaveListType objectList;
-        objectList.StalList = _level.Caves[index].Stals;
-        objectList.MushroomList = _level.Caves[index].Shrooms;
-        objectList.MothList = _level.Caves[index].Moths;
-        objectList.SpiderList = _level.Caves[index].Spiders;
-        objectList.WebList = _level.Caves[index].Webs;
-        objectList.TriggerList = _level.Caves[index].Triggers;
-        objectList.NpcList = _level.Caves[index].Npcs;
-        return objectList;
-    }
-    
-    public void SetPaused(bool pauseGame)
-    {
-        _shrooms.PauseGame(pauseGame);
-        _stals.PauseGame(pauseGame);
-        _moths.PauseGame(pauseGame);
-        _spiders.PauseGame(pauseGame);
-        _webs.PauseGame(pauseGame);
-        _triggers.PauseGame(pauseGame);
-        _npcs.PauseGame(pauseGame);
-    }
-    
-    public void SetMode(bool bIsEndless)
-    {
-        _bEndlessMode = bIsEndless;
-    }
-
-    private int GetNumMoths()
-    {
-        int numMoths = 0;
-        foreach (var cave in _level.Caves)
+        public void SetCaveObstacles(LevelContainer.CaveType cave, int index)
         {
-            numMoths += cave.Moths.Length;
+            var xOffset = index * Toolbox.TileSizeX;
+
+            Shrooms.SetupMushroomsInList(cave.Shrooms, xOffset);
+            Stals.SetupStalactitesInList(cave.Stals, xOffset);
+            Moths.SetupMothsInList(cave.Moths, xOffset);
+            Spiders.SetupSpidersInList(cave.Spiders, xOffset);
+            Webs.SetupWebsInList(cave.Webs, xOffset);
+            Triggers.SetupTriggersInList(cave.Triggers, xOffset);
+            Npcs.SetupObjectsInList(cave.Npcs, xOffset);
         }
-        return numMoths;
+
+        public void SetPaused(bool pauseGame)
+        {
+            Shrooms.PauseGame(pauseGame);
+            Stals.PauseGame(pauseGame);
+            Moths.PauseGame(pauseGame);
+            Spiders.PauseGame(pauseGame);
+            Webs.PauseGame(pauseGame);
+            Triggers.PauseGame(pauseGame);
+            Npcs.PauseGame(pauseGame);
+        }
     }
 }

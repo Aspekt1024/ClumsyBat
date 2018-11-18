@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.UI;
+using ClumsyBat;
 
 public class TooltipHandler : MonoBehaviour {
     
     public RectTransform DialogueButton;
-    [HideInInspector] public bool IsPausedForDialogue;
 
     private TriggerEvent storedEvent;
 
@@ -17,8 +16,7 @@ public class TooltipHandler : MonoBehaviour {
     private RectTransform resumeNextImage;
     private RectTransform resumePlayImage;
     private RectTransform nomee;
-
-    private PlayerController _playerControl;
+    
     private InputManager _inputManager;
     private TooltipButtonEffects buttonEffects;
 
@@ -43,12 +41,6 @@ public class TooltipHandler : MonoBehaviour {
         dialogueOverlay.enabled = false;
         buttonEffects = DialogueButton.GetComponent<TooltipButtonEffects>();
     }
-
-    private void Start()
-    {
-        _playerControl = FindObjectOfType<PlayerController>();
-        _inputManager = _playerControl.GetInputManager();
-    }
     #endregion
 
     public void TooltipButtonPressed()
@@ -72,7 +64,7 @@ public class TooltipHandler : MonoBehaviour {
 
     public void ShowDialogue(TriggerEvent triggerEvent)
     {
-        if (!_playerControl.ThePlayer.IsAlive()) { return; }
+        if (!GameStatics.Player.Clumsy.State.IsAlive) { return; }
         TriggerEventSerializer.Instance.SetEventSeen(triggerEvent.Id);
         StartCoroutine(ShowDialogueRoutine(triggerEvent));
     }
@@ -86,16 +78,20 @@ public class TooltipHandler : MonoBehaviour {
 
     private IEnumerator ShowDialogueRoutine(TriggerEvent triggerEvent)
     {
-        _playerControl.PauseGame();
-        _playerControl.WaitForTooltip();
-        IsPausedForDialogue = true;
+        GameStatics.GameManager.PauseGame();
+        GameStatics.LevelManager.GameHandler.GameState = GameHandler.GameStates.PausedForTooltip;
 
-        Toolbox.Player.transform.position = new Vector3(Toolbox.Player.transform.position.x, Toolbox.Player.transform.position.y, -8f);
-        float yPos = (Toolbox.Player.transform.position.y > 0) ? -2f : 2f;
+        Vector3 position = GameStatics.Player.Clumsy.transform.position;
+        position.z = -8f;
+        GameStatics.Player.Clumsy.transform.position = position;
+
+        float yPos = (GameStatics.Player.Clumsy.transform.position.y > 0) ? -2f : 2f;
         dialogueScroll.position = new Vector3(dialogueScroll.position.x, yPos, dialogueScroll.position.z);
 
         if (!tooltipSetup)
+        {
             yield return StartCoroutine(ShowDialogueWindow());
+        }
 
         for (int i = 0; i < triggerEvent.Dialogue.Count; i++)
         {
@@ -104,11 +100,12 @@ public class TooltipHandler : MonoBehaviour {
         }
 
         if (tooltipSetup)
+        {
             yield return StartCoroutine(HideDialogueWindow());
-
-        IsPausedForDialogue = false;
-        _playerControl.TooltipResume();
-        Toolbox.Player.transform.position = new Vector3(Toolbox.Player.transform.position.x, Toolbox.Player.transform.position.y, -1f);
+        }
+        
+        position.z = -1;
+        GameStatics.Player.Clumsy.transform.position = position;
     }
 
     private IEnumerator ShowDialogueWindow()

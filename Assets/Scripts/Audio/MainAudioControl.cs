@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using ClumsyBat;
 using UnityEngine;
 
 public class MainAudioControl : MonoBehaviour {
@@ -17,7 +16,7 @@ public class MainAudioControl : MonoBehaviour {
 
     public void PlaySound(AudioClip sound)
     {
-        if (GameData.Instance.Data.Stats.Settings.Sfx)
+        if (GameStatics.Data.Settings.SfxOn)
             audioSource.PlayOneShot(sound);
     }
 }

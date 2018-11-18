@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using ClumsyBat.Objects;
+using ClumsyBat;
 
 /// <summary>
 /// Base class for describing specific boss behaviour
@@ -115,7 +117,7 @@ public abstract class Boss : MonoBehaviour {
         }
         else if (other.collider.tag == "Player")
         {
-            if (Toolbox.Player.IsRushing())
+            if (GameStatics.Player.Clumsy.State.IsRushing)
                 machine.Damaged(CollisionAction.CollisionTypes.Dash, other.collider);
             else
                 machine.Damaged(CollisionAction.CollisionTypes.Player, other.collider);

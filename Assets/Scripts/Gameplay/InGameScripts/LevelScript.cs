@@ -1,110 +1,76 @@
-﻿using ClumsyBat.Managers;
+﻿using ClumsyBat;
+using ClumsyBat.LevelManagement;
 using UnityEngine;
+
+using LevelCompletionPaths = ClumsyBat.LevelManagement.LevelCompletionHandler.LevelCompletionPaths;
 
 public class LevelScript : MonoBehaviour {
 
     // These attributes can be set in the inspector
     public float ClumsyBaseSpeed = 5f;    // TODO should this really belong with player?
     public LevelProgressionHandler.Levels DefaultLevel = LevelProgressionHandler.Levels.Main1;
+    public LevelStateHandler statsHandler;
     
-    [HideInInspector]
-    public GameUI GameHud;
-
     private GameObject _levelScripts;
     private AudioSource _audioControl;
-
-    private int scoreToBeat;
-
-    // Gameplay attributes
-    private bool _bGameStarted;
-    private bool _bGamePaused;
-    private bool _bAtEnd;
-
+    
     private void Awake()
     {
         _levelScripts = GameObject.Find("LevelScripts");
         _audioControl = _levelScripts.AddComponent<AudioSource>();
-        GameHud = GameObject.Find("UI_Overlay").GetComponent<GameUI>();
+        statsHandler = new LevelStateHandler();
     }
-
-    private void Start ()
-    {
-        Toolbox.Player.SetPlayerSpeed(ClumsyBaseSpeed);
-        SetLevel();
-    }
-
+    
     private void Update ()
     {
-        GameData.Instance.Data.Stats.TotalTime += Time.deltaTime;
-        if (!_bGameStarted || _bGamePaused) { GameData.Instance.Data.Stats.IdleTime += Time.deltaTime; return; }
-        GameData.Instance.Data.Stats.PlayTime += Time.deltaTime;
-        
+        statsHandler.Tick(Time.deltaTime);
     }
 
-    private void SetLevel()
+    public void SetLevel()
     {
-        var level = GameData.Instance.Level;
+        var level = GameStatics.LevelManager.Level;
         if (level == LevelProgressionHandler.Levels.Unassigned)
         {
-            GameData.Instance.Level = DefaultLevel;
+            GameStatics.LevelManager.Level = DefaultLevel;
             level = DefaultLevel;
         }
-        GameHud.SetLevelText(level);
-        Toolbox.Instance.ShowLevelTooltips = (!GameData.Instance.Data.LevelData.IsCompleted((int)level));
-        LevelManager.Instance.ObjectHandler.SetMode(bIsEndless: level == LevelProgressionHandler.Levels.Endless);
+        GameStatics.UI.GameHud.SetLevelText(level);
+        Toolbox.Instance.ShowLevelTooltips = (!GameStatics.Data.LevelDataHandler.IsCompleted(level));
     }
     
     public void StartGame()
     {
-        _bGameStarted = true;
-        GameHud.StartGame();
-        LevelManager.Instance.ObjectHandler.SetPaused(false);
-    }
+        statsHandler.Begin();
 
-    public void PauseGame()
-    {
-        // TODO Play pause sound
-        _bGamePaused = true;
-        LevelManager.Instance.ObjectHandler.SetPaused(true);
-        GameHud.GamePaused(true);
-        
-        GameData.Instance.Data.SaveData();
-    }
+        GameStatics.UI.GameHud.StartGame();
+        GameStatics.Objects.ObjectHandler.SetPaused(false);
 
-    public void ResumeGame()
-    {
-        // Play resume sound
-        _bGamePaused = false;
-        LevelManager.Instance.ObjectHandler.SetPaused(false);
-        GameHud.GamePaused(false);
     }
-
+    
     public void ShowGameoverMenu()
     {
-        GameData.Instance.Data.SaveData();
-        GameHud.GameOver();
+        GameStatics.Data.SaveData();
+        GameStatics.UI.DropdownMenu.ShowGameOverMenu();
     }
 
-    public void LevelWon()
+    public void LevelWon(bool viaSecretPath)
     {
-        if (Toolbox.Player.ExitViaSecretPath)
+        if (viaSecretPath)
         {
-            GameData.Instance.SetLevelCompletion(GameData.LevelCompletePaths.Secret1);
-            GameData.Instance.NextLevel = LevelProgressionHandler.GetSecretLevel1(GameData.Instance.Level);
+            GameStatics.LevelManager.LevelCompleted(LevelCompletionPaths.Secret1);
         }
         else
         {
-            GameData.Instance.SetLevelCompletion(GameData.LevelCompletePaths.MainPath);
-            GameData.Instance.NextLevel = LevelProgressionHandler.GetNextLevel(GameData.Instance.Level);
+            GameStatics.LevelManager.LevelCompleted(LevelCompletionPaths.MainPath);
         }
-        EventListener.LevelWon();
-        GameHud.LevelWon();
 
         // TODO add sound to sound controller script
-        if (GameData.Instance.Data.Stats.Settings.Music)
+        if (GameStatics.Data.Settings.MusicOn)
         {
             var victoryClip = (AudioClip)Resources.Load("Audio/LevelComplete");
             _audioControl.PlayOneShot(victoryClip);
         }
     }
+
+
 }

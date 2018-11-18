@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using ClumsyBat;
+using System.Collections;
 using UnityEngine;
 
 public class HypersonicCrystalBoss : CrystalBoss {
@@ -10,7 +10,9 @@ public class HypersonicCrystalBoss : CrystalBoss {
         {
             crystal.Explode();
         }
-        Toolbox.Player.EnableHover();
+
+        GameStatics.Player.PossessByAI();
+        GameStatics.Player.AIController.Hover();
         StartCoroutine(MovePlayerToCenterAndEndScene());
     }
 
@@ -19,28 +21,28 @@ public class HypersonicCrystalBoss : CrystalBoss {
         float timer = 0f;
         const float duration = 7f;
 
-        if (Toolbox.Player.transform.position.x > Toolbox.PlayerCam.transform.position.x)
-            Toolbox.Player.FaceLeft();
+        if (GameStatics.Player.Clumsy.transform.position.x > GameStatics.Camera.CurrentCamera.transform.position.x)
+            GameStatics.Player.Clumsy.FaceLeft();
         else
-            Toolbox.Player.FaceRight();
+            GameStatics.Player.Clumsy.FaceRight();
 
         CameraEventListener.CameraShake(duration - 1f);
         while (timer < duration)
         {
-            Vector2 pos = Vector2.Lerp(Toolbox.Player.transform.position, Toolbox.PlayerCam.transform.position, Time.deltaTime);
-            Toolbox.Player.transform.position = new Vector3(pos.x, pos.y, Toolbox.Player.transform.position.z);
+            Vector2 pos = Vector2.Lerp(GameStatics.Player.Clumsy.transform.position, GameStatics.Camera.CurrentCamera.transform.position, Time.deltaTime);
+            GameStatics.Player.Clumsy.transform.position = new Vector3(pos.x, pos.y, GameStatics.Player.Clumsy.transform.position.z);
             timer += Time.deltaTime;
             yield return null;
         }
 
-        var hypersonic = GameData.Instance.Data.AbilityData.GetHypersonicStats();
+        var hypersonic = GameStatics.Data.Abilities.GetHypersonicStats();
         hypersonic.AbilityUnlocked = true;
         hypersonic.AbilityAvailable = true;
         hypersonic.AbilityLevel = 1;
         hypersonic.AbilityEvolution = 1;
-        GameData.Instance.Data.AbilityData.SaveHypersonicStats(hypersonic);
+        GameStatics.Data.Abilities.SaveHypersonicStats(hypersonic);
 
-        Toolbox.Player.ForceHypersonic();
+        GameStatics.Player.Clumsy.DoAction(ClumsyBat.Players.ClumsyAbilityHandler.StaticActions.ForcedHypersonic);
         timer = 0f;
         while (timer < 2f)
         {
@@ -49,11 +51,11 @@ public class HypersonicCrystalBoss : CrystalBoss {
         }
 
         Toolbox.Tooltips.ShowDialogue("It worked! Any time you collect a gold moth, you will activate Hypersonic!", 2f, true);
-        while (Toolbox.Tooltips.IsPausedForDialogue)
+        while (GameStatics.LevelManager.GameHandler.GameState == GameHandler.GameStates.PausedForTooltip)
         {
             yield return null;
         }
 
-        Toolbox.Player.GetGameHandler().LevelComplete();
+        GameStatics.LevelManager.GameHandler.LevelComplete();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using ClumsyBat;
 
 /// <summary>
 /// Handles the physics of the Lantern carried by Clumsy
@@ -55,32 +56,13 @@ public class Lantern : MonoBehaviour {
     }
 
     public void ConsumeMoth(Moth.MothColour colour)
-    {
-        switch (colour)
+    {   
+        GameStatics.Data.GameState.MothsEaten++;
+        if (GameStatics.Data.GameState.MothsEaten > GameStatics.Data.Stats.MostMoths)
         {
-            case Moth.MothColour.Green:
-                break;
-            case Moth.MothColour.Gold:
-                Toolbox.Player.ActivateHypersonic();
-                break;
-            case Moth.MothColour.Blue:
-                break;
+            GameStatics.Data.Stats.MostMoths++;
         }
-
-        Toolbox.Player.AddShieldCharge();
-        Toolbox.Player.AddDashCharge();
-        Toolbox.Player.Fog.Echolocate();
-
-        SetColourFromShieldCharges(Toolbox.Player.GetShieldCharges());
-
-        DataHandler data = GameData.Instance.Data;
-        data.Stats.MothsEaten++;
-
-        if (data.Stats.MothsEaten > data.Stats.MostMoths)
-        {
-            data.Stats.MostMoths++;
-        }
-        data.Stats.TotalMoths++;
+        GameStatics.Data.Stats.TotalMoths++;
     }
 
     private IEnumerator Flicker()

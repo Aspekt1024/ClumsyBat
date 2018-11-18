@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using ClumsyBat;
+using ClumsyBat.Players;
 
 public sealed class LevelGameHandler : GameHandler
 {
@@ -11,91 +13,46 @@ public sealed class LevelGameHandler : GameHandler
     private const float ResumeTimer = 3f;
     private bool caveExitAutoFlightTriggered;
 
+    private Player player;
+
     private void Start()
     {
         Level = FindObjectOfType<LevelScript>();
         CaveHandler = FindObjectOfType<CaveHandler>();
+        player = GameStatics.Player.Clumsy;
     }
 
     public void StartLevel()
     {
-        ThePlayer.transform.position = new Vector3(-Toolbox.TileSizeX / 2f, 0f, ThePlayer.transform.position.z);
+        player.Model.transform.position = new Vector3(-Toolbox.TileSizeX / 2f, 0f, player.Model.transform.position.z);
 
         StartCoroutine(LevelStartAnimation());
         GameMusic.PlaySound(GameMusicControl.GameTrack.Twinkly);
         SetCameraEndPoint();
-        Level.GameHud.SetCurrencyText("0/" + GameData.Instance.NumMoths);
+        GameStatics.UI.GameHud.SetCurrencyText("0/" + GameStatics.LevelManager.NumMoths);
     }
 
     protected override void SetCameraEndPoint()
     {
-        Toolbox.PlayerCam.SetEndPoint(CaveHandler.GetEndCave().transform.position.x);
+        GameStatics.Camera.SetEndPoint(CaveHandler.GetEndCave().transform.position.x);
     }
     
     private IEnumerator LevelStartAnimation()
     {
 
-        ThePlayer.StartFog();
-        ThePlayer.StartCoroutine("CaveEntranceAnimation");
+        //player.StartCoroutine(player.CaveEntranceAnimation());
 
         const float timeToReachDest = 0.6f;
         yield return new WaitForSeconds(timeToReachDest);
 
         LevelStart();
+        GameStatics.Camera.StartFollowing();
     }
 
     private void LevelStart()
     {
-        PlayerController.EnterGamePlay();
+        GameStatics.Player.PossessByPlayer();
         Level.StartGame();
-    }
-
-    public override void PauseGame()
-    {
-        EventListener.PauseGame();
-        GameState = GameStates.Paused;
-        Toolbox.Instance.GamePaused = true;
-        Level.PauseGame();
-        ThePlayer.PauseGame();
-        GameData.Instance.Data.SaveData();
-    }
-
-    public override void ResumeGame(bool immediate = false)
-    {
-        if (immediate)
-        {
-            ResumeGameplay();
-        }
-        else
-        {
-            GameData.Instance.Data.SaveData();
-            StartCoroutine("UpdateResumeTimer");
-        }
-    }
-
-    private IEnumerator UpdateResumeTimer()
-    {
-        // TODO raise menu
-        _resumeTimerStart = Time.time;
-
-        while (ThePlayer.IsAlive() && _resumeTimerStart + ResumeTimer > Time.time)
-        {
-            float timeRemaining = _resumeTimerStart + ResumeTimer - Time.time;
-            Level.GameHud.SetResumeTimer(timeRemaining);
-            yield return null;
-        }
-        ResumeGameplay();
-    }
-
-    public void ResumeGameplay()
-    {
-        GameState = GameStates.Normal;
-        Toolbox.Instance.GamePaused = false;
-        EventListener.ResumeGame();
-        PlayerController.ResumeGameplay();
-        ThePlayer.ResumeGame();
-        Level.GameHud.HideResumeTimer();
-        Level.ResumeGame();
     }
 
     protected override void OnDeath()
@@ -103,7 +60,7 @@ public sealed class LevelGameHandler : GameHandler
         GetComponent<AudioSource>().Stop();
     }
 
-    public override void TriggerEntered(Collider2D other)
+    public void TriggerEntered(Collider2D other)
     {
         switch (other.name)
         {
@@ -114,28 +71,22 @@ public sealed class LevelGameHandler : GameHandler
                 if (!caveExitAutoFlightTriggered)
                 {
                     caveExitAutoFlightTriggered = true;
-                    ThePlayer.ExitAutoFlightReached();
+                    //player.ExitAutoFlightReached();
                 }
                 break;
             case "Spore":
-                ThePlayer.Fog.Minimise();
+                //player.Fog.Minimise();
                 break;
         }
     }
 
-    public override void LevelComplete()
+    public override void LevelComplete(bool viaSecretPath = false)
     {
-        Level.LevelWon();
+        Level.LevelWon(viaSecretPath);
     }
 
     public override void GameOver()
     {
         Level.ShowGameoverMenu();
-    }
-
-    public override MothPool GetMothPool()
-    {
-        // TODO implement this?
-        return null;
     }
 }
