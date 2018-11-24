@@ -62,6 +62,7 @@ namespace ClumsyBat.UI
         {
             HideAll();
             MainMenu.ShowScreen();
+            ShowDropdownMenu();
             MainMenu.ShowLevelCompletion(level, nextLevel);
         }
         

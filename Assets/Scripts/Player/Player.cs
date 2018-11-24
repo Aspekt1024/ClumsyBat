@@ -14,6 +14,8 @@ namespace ClumsyBat.Players
     {
         private const float KNOCKBACK_DURATION = 0.55f;
 
+        public float MoveSpeed = 4f;
+
         public Transform Model;
         public Hypersonic Hypersonic;
         public Lantern Lantern;

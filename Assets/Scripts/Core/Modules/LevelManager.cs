@@ -37,6 +37,11 @@ namespace ClumsyBat
 
         private LevelCompletionHandler completionHandler = new LevelCompletionHandler();
 
+        public void EndOfLevelReached()
+        {
+            GameHandler.EndLevelMainPath();
+        }
+
         public void LevelCompleted(LevelCompletionPaths path)
         {
             EventListener.LevelCompleted();

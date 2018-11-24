@@ -2,6 +2,7 @@
 using System.Collections;
 using ClumsyBat;
 using ClumsyBat.Players;
+using static LevelProgressionHandler;
 
 public sealed class LevelGameHandler : GameHandler
 {
@@ -27,6 +28,12 @@ public sealed class LevelGameHandler : GameHandler
         GameMusic.PlaySound(GameMusicControl.GameTrack.Twinkly);
         SetCameraEndPoint();
         GameStatics.UI.GameHud.SetCurrencyText("0/" + GameStatics.LevelManager.NumMoths);
+    }
+
+    public void EndLevelMainPath()
+    {
+        //TODO pause scores
+        StartCoroutine(CaveExitAnimation());
     }
 
     protected override void SetCameraEndPoint()
@@ -75,6 +82,32 @@ public sealed class LevelGameHandler : GameHandler
         player.Physics.SetVelocity(6f, 8f);
     }
 
+    private IEnumerator CaveExitAnimation()
+    {
+        GameStatics.Player.PossessByAI();
+
+        player.Physics.Disable();
+        player.Abilities.Perch.Unperch();
+
+        float animTimer = 0f;
+        const float animDuration = 0.9f;
+        Vector3 originalPos = player.Model.position;
+        Vector3 targetExitPoint = new Vector3(player.Model.position.x + Toolbox.TileSizeX / 2f, -0.5f, originalPos.z);
+
+        while (animTimer < animDuration)
+        {
+            animTimer += Time.deltaTime;
+            float animRatio = animTimer / animDuration;
+            player.Model.position = Vector3.Lerp(originalPos, targetExitPoint, animRatio);
+            yield return null;
+        }
+        player.Lantern.transform.position += new Vector3(.3f, 0f, 0f);
+        player.Fog.EndOfLevel();
+        player.Physics.Body.velocity = Vector2.zero;
+
+        LevelComplete();
+    }
+
     private void LevelStart()
     {
         GameStatics.Player.PossessByPlayer();
@@ -89,6 +122,8 @@ public sealed class LevelGameHandler : GameHandler
     public override void LevelComplete(bool viaSecretPath = false)
     {
         Level.LevelWon(viaSecretPath);
+        Levels nextLevel = GetNextLevel(GameStatics.LevelManager.Level);
+        GameStatics.UI.DropdownMenu.ShowLevelCompletion(GameStatics.LevelManager.Level, nextLevel);
     }
 
     public override void GameOver()

@@ -52,7 +52,7 @@ public class CameraFollowObject : MonoBehaviour {
 
         if (!following || transform.position.x > endPointX) return;
 
-        float xPos = Mathf.Lerp(transform.position.x, ObjectToFollow.position.x + XOffset, Time.fixedDeltaTime * followSpeed);
+        float xPos = Mathf.Lerp(transform.position.x, ObjectToFollow.position.x + XOffset, Time.deltaTime * followSpeed);
         Vector3 pos = transform.position;
         pos.x = xPos;
         if (GameStatics.GameManager.IsInLevel && pos.x < 0)

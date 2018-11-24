@@ -7,7 +7,7 @@ namespace ClumsyBat.Players
         private readonly Player player;
         private readonly Rigidbody2D playerBody;
 
-        private const float horizontalVelocity = 4f;
+        private float horizontalVelocity;
         private const float verticalVelocity = 9f;
         
         private const float moveDuration = 0.7f;
@@ -22,6 +22,7 @@ namespace ClumsyBat.Players
         public FlapComponent(Player player)
         {
             this.player = player;
+            horizontalVelocity = player.MoveSpeed;
             playerBody = player.Model.GetComponent<Rigidbody2D>();
         }
 
