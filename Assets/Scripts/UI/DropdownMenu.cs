@@ -130,6 +130,7 @@ namespace ClumsyBat.UI
         {
             if (!bEnteringScreen)
             {
+                state = States.Hidden;
                 StartCoroutine(Bounce(-0.7f));
                 yield return new WaitForSecondsRealtime(BounceDuration);
             }
