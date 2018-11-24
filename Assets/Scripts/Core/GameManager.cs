@@ -100,8 +100,8 @@ namespace ClumsyBat
         {
             yield return StartCoroutine(GameStatics.UI.LoadingScreen.ShowLoadScreen());
             GameStatics.UI.DropdownMenu.HideImmediate();
+            SetUnpaused();
             sceneAction.Invoke();
-            ResumeGame();
             StartCoroutine(GameStatics.UI.LoadingScreen.HideLoadScreen());
         }
 
@@ -135,12 +135,13 @@ namespace ClumsyBat
         private IEnumerator ResumeGameRoutine()
         {
             yield return GameStatics.UI.DropdownMenu.RaiseMenuRoutine();
+            SetUnpaused();
+        }
 
-            // TODO timer
-
+        private void SetUnpaused()
+        {
             IsPaused = false;
             Time.timeScale = 1;
-
         }
     }
 }
