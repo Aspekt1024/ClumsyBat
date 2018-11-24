@@ -42,17 +42,18 @@ public sealed class LevelGameHandler : GameHandler
         GameStatics.Camera.StartFollowing();
     }
 
-    public IEnumerator CaveEntranceAnimation()
+    private IEnumerator CaveEntranceAnimation()
     {
         GameStatics.Player.PossessByAI();
-
+        
         float timer = 0f;
         const float duration = 1f;
-        Vector2 startPos = new Vector2(-Toolbox.TileSizeX / 2, -0.7f);
         Vector2 targetPos = new Vector2(-3, 1.3f);
 
+        Vector2 startPos = new Vector2(-Toolbox.TileSizeX / 2, -0.7f);
         GameStatics.Player.SetPlayerPosition(startPos);
         yield return new WaitForSeconds(0.3f); // Allows lantern to settle
+
         player.Physics.Disable();
         player.Abilities.Perch.Unperch();
         player.Animate(ClumsyAnimator.ClumsyAnimations.Hover);

@@ -1,6 +1,5 @@
 ﻿using ClumsyBat;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class ParralaxBG : MonoBehaviour {
     
@@ -220,5 +219,7 @@ public class ParralaxBG : MonoBehaviour {
     private void CameraChanged(Camera newCam)
     {
         cameraToTrack = newCam.transform;
+        prevXPosition = newCam.transform.position.x;
+        transform.position = new Vector3(newCam.transform.position.x, cameraToTrack.position.y, ZLayer);
     }
 }

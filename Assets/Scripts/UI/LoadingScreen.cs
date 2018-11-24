@@ -6,6 +6,7 @@ namespace ClumsyBat.UI
     public class LoadingScreen : MonoBehaviour
     {
         public bool LoadOnStartup;
+        public float BaseHideDelay = 0f;
 
         public Animator MothAnimator;
         public CanvasGroup LoadingCanvas;
@@ -39,7 +40,7 @@ namespace ClumsyBat.UI
             float timer = 0f;
             while (timer < duration)
             {
-                timer += Time.deltaTime;
+                timer += Time.unscaledDeltaTime;
                 LoadingCanvas.alpha = Mathf.Lerp(0f, 1f, timer / duration);
                 yield return null;
             }
@@ -49,9 +50,9 @@ namespace ClumsyBat.UI
             yield return StartCoroutine(UIObjectAnimator.Instance.PopInObjectRoutine(LoadTextRt));
         }
 
-        public IEnumerator HideLoadScreen(float delay = 0)
+        public IEnumerator HideLoadScreen(float delay = 0f)
         {
-            yield return new WaitForSeconds(delay);
+            yield return new WaitForSecondsRealtime(delay + BaseHideDelay);
 
             UIObjectAnimator.Instance.PopOutObject(LoadTextRt);
             yield return StartCoroutine(UIObjectAnimator.Instance.PopOutObjectRoutine(MothAnimator.GetComponent<RectTransform>()));
@@ -60,7 +61,7 @@ namespace ClumsyBat.UI
             float timer = 0f;
             while (timer < duration)
             {
-                timer += Time.deltaTime;
+                timer += Time.unscaledDeltaTime;
                 LoadingCanvas.alpha = Mathf.Lerp(1f, 0f, timer / duration);
                 yield return null;
             }

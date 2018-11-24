@@ -50,11 +50,15 @@ public class CameraFollowObject : MonoBehaviour {
 
         if (ObjectToFollow == null) return;
 
-        if (!following || (GameStatics.GameManager.IsInLevel && ObjectToFollow.position.x + XOffset < 0) || transform.position.x > endPointX) return;
+        if (!following || transform.position.x > endPointX) return;
 
-        float xPos = Mathf.Lerp(transform.position.x, ObjectToFollow.position.x + XOffset, Time.deltaTime * followSpeed);
+        float xPos = Mathf.Lerp(transform.position.x, ObjectToFollow.position.x + XOffset, Time.fixedDeltaTime * followSpeed);
         Vector3 pos = transform.position;
         pos.x = xPos;
+        if (GameStatics.GameManager.IsInLevel && pos.x < 0)
+        {
+            pos.x = 0f;
+        }
         transform.position = pos;
 	}
 }

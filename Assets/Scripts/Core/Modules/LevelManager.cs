@@ -51,6 +51,8 @@ namespace ClumsyBat
 
         public void LoadLevel(Levels level)
         {
+            SetInitialState();
+
             Level = level;
             TextAsset levelTxt = (TextAsset)Resources.Load("LevelXML/" + level.ToString());
             LevelContainer levelData = LevelContainer.LoadFromText(levelTxt.text);
@@ -60,6 +62,18 @@ namespace ClumsyBat
             Level = level;
             NumMoths = GetNumMoths(levelData);
             ScoreToBeat = levelData.ScoreToBeat;
+        }
+
+        private void SetInitialState()
+        {
+            Vector2 startPos = new Vector2(-Toolbox.TileSizeX / 2, -0.7f);
+            GameStatics.Player.SetPlayerPosition(startPos);
+
+            var pos = GameStatics.Camera.LevelCamera.transform.position;
+            pos.x = 0f;
+            GameStatics.Camera.LevelCamera.transform.position = pos;
+            GameStatics.Camera.SwitchToLevelCamera();
+            GameStatics.Player.Clumsy.Fog.Initialise();
         }
 
         public void BeginLevel()

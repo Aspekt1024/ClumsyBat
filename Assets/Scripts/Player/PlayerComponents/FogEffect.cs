@@ -75,7 +75,7 @@ public class FogEffect : MonoBehaviour {
         _minimiseStartTime = Time.time;
         _bIsMinimised = true;
     }
-
+    
     public void StartOfLevel()
     {
         _echoScale = -3f;
@@ -87,6 +87,7 @@ public class FogEffect : MonoBehaviour {
         _state = FogStates.ExpandingToRemove;
         StartCoroutine(ExpandFogCompletely());
     }
+
     public void Disable()
     {
         _state = FogStates.Disabled;
@@ -100,15 +101,23 @@ public class FogEffect : MonoBehaviour {
     {
         _player = GameStatics.Player.Clumsy;
         _lantern = _player.Lantern.transform;
-        
+
+        Initialise();
+    }
+
+    public void Initialise()
+    {
         _echolocateActivatedTime = Time.time;
+
+        _state = FogStates.Normal;
+        _bAbilityPaused = true;
+        _bIsMinimised = false;
+        _echoScale = -3f;
+
         Material.SetVector("_PlayerPos", _lantern.position);
         Material.SetFloat("_LightDist", _echoScale);
         Material.SetFloat("_DarknessAlpha", 0.85f);
-
-        _state = FogStates.Normal;
-        _bIsMinimised = false;
-        _echoScale = -3f;
+        
     }
 
     private void FixedUpdate()
@@ -198,6 +207,8 @@ public class FogEffect : MonoBehaviour {
     {
         _bAbilityPaused = false;
         _bAbilityAnimating = true;
+
+        _echolocateActivatedTime = Time.time;
 
         float animTime = 0f;
         const float animDuration = 0.7f;

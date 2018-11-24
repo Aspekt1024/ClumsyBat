@@ -77,7 +77,7 @@ public class UIObjectAnimator : MonoBehaviour {
         rt.gameObject.SetActive(true);
         while (timer < duration)
         {
-            timer += Time.deltaTime;
+            timer += Time.unscaledDeltaTime;
             if (timer > duration) timer = duration;
             rt.localScale = Vector3.Lerp(originalScale, originalScale * 1.1f, timer / duration);
             yield return null;
@@ -87,7 +87,7 @@ public class UIObjectAnimator : MonoBehaviour {
         duration = 0.08f;
         while (timer < duration)
         {
-            timer += Time.deltaTime;
+            timer += Time.unscaledDeltaTime;
             if (timer > duration) timer = duration;
             rt.localScale = Vector3.Lerp(originalScale * 1.1f, originalScale, timer / duration);
             yield return null;
@@ -105,7 +105,7 @@ public class UIObjectAnimator : MonoBehaviour {
         rt.gameObject.SetActive(true);
         while (timer < duration)
         {
-            timer += Time.deltaTime;
+            timer += Time.unscaledDeltaTime;
             if (timer > duration) timer = duration;
             rt.localScale = Vector3.Lerp(Vector3.one * 0.1f, originalScale * 1.1f, timer / duration);
             yield return null;
@@ -115,7 +115,7 @@ public class UIObjectAnimator : MonoBehaviour {
         duration = 0.08f;
         while (timer < duration)
         {
-            timer += Time.deltaTime;
+            timer += Time.unscaledDeltaTime;
             if (timer > duration) timer = duration;
             rt.localScale = Vector3.Lerp(originalScale * 1.1f, originalScale, timer / duration);
             yield return null;
@@ -130,7 +130,7 @@ public class UIObjectAnimator : MonoBehaviour {
         Vector3 originalScale = rt.localScale;
         while (timer < duration)
         {
-            timer += Time.deltaTime;
+            timer += Time.unscaledDeltaTime;
             rt.localScale = Vector3.Lerp(originalScale, originalScale * 1.1f, timer / duration);
             yield return null;
         }
@@ -139,7 +139,7 @@ public class UIObjectAnimator : MonoBehaviour {
         duration = 0.2f;
         while (timer < duration)
         {
-            timer += Time.deltaTime;
+            timer += Time.unscaledDeltaTime;
             rt.localScale = Vector3.Lerp(originalScale * 1.1f, Vector3.one * 0.1f, timer / duration);
             yield return null;
         }

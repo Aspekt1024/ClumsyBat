@@ -43,8 +43,6 @@ namespace ClumsyBat.UI.DropdownMenuComponents
 
         public void MenuButtonPressed()
         {
-            Toolbox.Instance.ResetTooltips();
-            GameStatics.UI.LoadingScreen.ShowLoadScreen();
             GameStatics.GameManager.GotoMenuScene();
         }
 
@@ -86,22 +84,6 @@ namespace ClumsyBat.UI.DropdownMenuComponents
             OptionsBtn.SetActive(false);
             ResumeBtn.SetActive(false);
             LevelSelectBtn.SetActive(false);
-        }
-
-        private void GetMenuObjects()
-        {
-            _menuHeader.RectTransform = GameObject.Find("MenuHeader").GetComponent<RectTransform>();
-            _menuHeader.Text = _menuHeader.RectTransform.GetComponent<Text>();
-
-            _subText.RectTransform = GameObject.Find("SubText").GetComponent<RectTransform>();
-            _subText.Text = _subText.RectTransform.GetComponent<Text>();
-
-            var canvasGroup = GetComponent<CanvasGroup>();
-            canvasGroup.alpha = 1f;
-            canvasGroup.blocksRaycasts = true;
-            canvasGroup.interactable = true;
-
-            ContinueButtonObject.SetActive(false);
         }
 
         public void ShowLevelCompletion(Levels level, Levels nextLevel)
@@ -152,6 +134,22 @@ namespace ClumsyBat.UI.DropdownMenuComponents
 
             _menuHeader.Text.text = "GAME OVER";
             _subText.Text.text = "Clumsy didn't make it...";
+        }
+
+        private void GetMenuObjects()
+        {
+            _menuHeader.RectTransform = GameObject.Find("MenuHeader").GetComponent<RectTransform>();
+            _menuHeader.Text = _menuHeader.RectTransform.GetComponent<Text>();
+
+            _subText.RectTransform = GameObject.Find("SubText").GetComponent<RectTransform>();
+            _subText.Text = _subText.RectTransform.GetComponent<Text>();
+
+            var canvasGroup = GetComponent<CanvasGroup>();
+            canvasGroup.alpha = 1f;
+            canvasGroup.blocksRaycasts = true;
+            canvasGroup.interactable = true;
+
+            ContinueButtonObject.SetActive(false);
         }
 
         private void PositionMenuBtn(GameObject btn, float buttonXPos)

@@ -90,7 +90,6 @@ namespace ClumsyBat
             GameStatics.LevelManager.LoadLevel(level);
 
             GameStatics.UI.DropdownMenu.HideImmediate();
-            GameStatics.Camera.SwitchToLevelCamera();
             state = GameStates.InLevel;
 
             yield return StartCoroutine(GameStatics.UI.LoadingScreen.HideLoadScreen());
@@ -100,7 +99,9 @@ namespace ClumsyBat
         private IEnumerator SwitchSceneRoutine(Action sceneAction)
         {
             yield return StartCoroutine(GameStatics.UI.LoadingScreen.ShowLoadScreen());
+            GameStatics.UI.DropdownMenu.HideImmediate();
             sceneAction.Invoke();
+            ResumeGame();
             StartCoroutine(GameStatics.UI.LoadingScreen.HideLoadScreen());
         }
 
@@ -121,9 +122,12 @@ namespace ClumsyBat
 
         private void FadeToMainMenu()
         {
-            GameStatics.Camera.SwitchToMenuCamera();
+            var pos = GameStatics.Camera.MenuCamera.transform.position;
+            pos.x = 0f;
+            GameStatics.Camera.MenuCamera.transform.position = pos;
             menuObject.SetActive(true);
             levelObject.SetActive(false);
+            GameStatics.Camera.SwitchToMenuCamera();
 
             mainMenuTransitions.AnimateMainMenuScene();
         }

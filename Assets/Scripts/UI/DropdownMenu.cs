@@ -37,6 +37,7 @@ namespace ClumsyBat.UI
         private void Start()
         {
             HideAll();
+            HideImmediate();
             GameStatics.Camera.OnCameraChanged += CameraChanged;
         }
 
@@ -116,8 +117,8 @@ namespace ClumsyBat.UI
         {
             if (state == States.Hidden)
             {
-                StartCoroutine(DropMenuRoutine());
                 state = States.Visible;
+                StartCoroutine(DropMenuRoutine());
                 CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
                 canvasGroup.alpha = 1;
                 canvasGroup.blocksRaycasts = true;
@@ -182,7 +183,6 @@ namespace ClumsyBat.UI
             MainMenu.HideScreen();
             OptionsMenu.HideScreen();
             StatsMenu.HideScreen();
-            HideImmediate();
         }
 
         private void GetMenuObjects()
