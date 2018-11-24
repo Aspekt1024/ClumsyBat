@@ -63,8 +63,8 @@ public class LevelButtonHandler : MonoBehaviour {
     /// </summary>
     public void LevelPlayClicked()
     {
-        GameStatics.GameManager.LoadLevel(ActiveLevel);
         UIObjectAnimator.Instance.PopOutObject(LevelPlayButton);
+        GameStatics.GameManager.LoadLevel(ActiveLevel);
     }
 
     private void GetLevelButtons()

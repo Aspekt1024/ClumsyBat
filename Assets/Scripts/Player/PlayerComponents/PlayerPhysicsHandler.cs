@@ -35,6 +35,7 @@ namespace ClumsyBat.Players
             collider.enabled = false;
             Body.isKinematic = true;
             Body.constraints = RigidbodyConstraints2D.FreezeRotation;
+            DisableCollisions();
         }
 
         public void Enable()
@@ -42,6 +43,7 @@ namespace ClumsyBat.Players
             collider.enabled = true;
             Body.isKinematic = false;
             Body.constraints = RigidbodyConstraints2D.FreezeRotation;
+            EnableCollisions();
         }
 
         public void DisableGravity()
@@ -52,6 +54,11 @@ namespace ClumsyBat.Players
         public void EnableGravity()
         {
             Body.gravityScale = NORMAL_GRAVITY_SCALE;
+        }
+
+        public void SetVelocity(float xVelocity, float yVelocity)
+        {
+            Body.velocity = new Vector2(xVelocity, yVelocity);
         }
 
         public void SetHorizontalVelocity(float velocity)

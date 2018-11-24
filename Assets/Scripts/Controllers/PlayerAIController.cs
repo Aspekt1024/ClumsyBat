@@ -28,6 +28,7 @@ namespace ClumsyBat.Controllers
 
         private void Start()
         {
+            state = States.Idle;
             player = FindObjectOfType<Player>();
             positionMarker = new GameObject("Player AI Marker").transform;
         }

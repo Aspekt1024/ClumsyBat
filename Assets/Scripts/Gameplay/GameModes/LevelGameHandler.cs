@@ -24,9 +24,7 @@ public sealed class LevelGameHandler : GameHandler
 
     public void StartLevel()
     {
-        player.Model.transform.position = new Vector3(-Toolbox.TileSizeX / 2f, 0f, player.Model.transform.position.z);
-
-        StartCoroutine(LevelStartAnimation());
+        StartCoroutine(LevelStartRoutine());
         GameMusic.PlaySound(GameMusicControl.GameTrack.Twinkly);
         SetCameraEndPoint();
         GameStatics.UI.GameHud.SetCurrencyText("0/" + GameStatics.LevelManager.NumMoths);
@@ -37,16 +35,43 @@ public sealed class LevelGameHandler : GameHandler
         GameStatics.Camera.SetEndPoint(CaveHandler.GetEndCave().transform.position.x);
     }
     
-    private IEnumerator LevelStartAnimation()
+    private IEnumerator LevelStartRoutine()
     {
-
-        //player.StartCoroutine(player.CaveEntranceAnimation());
-
-        const float timeToReachDest = 0.6f;
-        yield return new WaitForSeconds(timeToReachDest);
+        yield return StartCoroutine(CaveEntranceAnimation());
 
         LevelStart();
         GameStatics.Camera.StartFollowing();
+    }
+
+    public IEnumerator CaveEntranceAnimation()
+    {
+        GameStatics.Player.PossessByAI();
+
+        float timer = 0f;
+        const float duration = 1f;
+        Vector2 startPos = new Vector2(-Toolbox.TileSizeX / 2, -0.7f);
+        Vector2 targetPos = new Vector2(-3, 1.3f);
+
+        GameStatics.Player.SetPlayerPosition(startPos);
+        yield return new WaitForSeconds(0.3f); // Allows lantern to settle
+        player.Physics.Disable();
+        player.Abilities.Perch.Unperch();
+        player.Animate(ClumsyAnimator.ClumsyAnimations.Hover);
+
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            float animRatio = timer / duration;
+            var pos = player.Model.position;
+            pos.x = startPos.x - (startPos.x - targetPos.x) * animRatio;
+            pos.y = startPos.y - (startPos.y - targetPos.y) * Mathf.Pow(animRatio, 2);
+            player.Model.position = pos;
+            yield return null;
+        }
+
+        player.Animate(ClumsyAnimator.ClumsyAnimations.FlapSlower);
+        player.Physics.Enable();
+        player.Physics.SetVelocity(6f, 8f);
     }
 
     private void LevelStart()

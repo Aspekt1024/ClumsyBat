@@ -1,5 +1,4 @@
 ﻿using ClumsyBat.Menu;
-using ClumsyBat.Players;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -13,6 +12,12 @@ namespace ClumsyBat
     /// </summary>
     public class GameManager : MonoBehaviour
     {
+        public enum StartupModes
+        {
+            MainMenu, InLevel
+        }
+        public StartupModes StartupMode = StartupModes.MainMenu;
+
         public enum GameStates
         {
             MainMenu, InLevel
@@ -79,12 +84,12 @@ namespace ClumsyBat
 
         private IEnumerator LoadLevelRoutine(Levels level)
         {
-            levelObject.SetActive(true);
-            GameStatics.LevelManager.LoadLevel(level);
             yield return StartCoroutine(GameStatics.UI.LoadingScreen.ShowLoadScreen());
-
-            menuObject.SetActive(false);
             levelObject.SetActive(true);
+            menuObject.SetActive(false);
+
+            GameStatics.LevelManager.LoadLevel(level);
+
             GameStatics.UI.DropdownMenu.Hide();
             GameStatics.Camera.SwitchToLevelCamera();
             state = GameStates.InLevel;
@@ -104,8 +109,15 @@ namespace ClumsyBat
         {
             GameStatics.LevelManager.Init();
 
-            FadeToMainMenu();
-            StartCoroutine(GameStatics.UI.LoadingScreen.HideLoadScreen());
+            if (StartupMode == StartupModes.MainMenu)
+            {
+                FadeToMainMenu();
+                StartCoroutine(GameStatics.UI.LoadingScreen.HideLoadScreen());
+            }
+            else
+            {
+                LoadLevel(Levels.Main1);
+            }
         }
 
         private void FadeToMainMenu()
