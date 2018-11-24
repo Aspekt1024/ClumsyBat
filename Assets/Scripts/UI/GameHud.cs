@@ -52,6 +52,7 @@ namespace ClumsyBat.UI
         public void PauseButtonPressed()
         {
             GameStatics.GameManager.PauseGame();
+            GameStatics.UI.DropdownMenu.ShowPauseMenu();
         }
 
         private void HideBossUIElements()

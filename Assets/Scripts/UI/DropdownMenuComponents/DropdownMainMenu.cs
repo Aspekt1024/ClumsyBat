@@ -60,6 +60,11 @@ namespace ClumsyBat.UI.DropdownMenuComponents
             GameStatics.UI.DropdownMenu.ShowOptions();
         }
 
+        public void ResumeButtonPressed()
+        {
+            GameStatics.GameManager.ResumeGame();
+        }
+
         public void BackToMainPressed()
         {
             GameStatics.Data.SaveData();
@@ -91,6 +96,11 @@ namespace ClumsyBat.UI.DropdownMenuComponents
             _subText.RectTransform = GameObject.Find("SubText").GetComponent<RectTransform>();
             _subText.Text = _subText.RectTransform.GetComponent<Text>();
 
+            var canvasGroup = GetComponent<CanvasGroup>();
+            canvasGroup.alpha = 1f;
+            canvasGroup.blocksRaycasts = true;
+            canvasGroup.interactable = true;
+
             ContinueButtonObject.SetActive(false);
         }
 
@@ -107,7 +117,7 @@ namespace ClumsyBat.UI.DropdownMenuComponents
             StartCoroutine(completionScreen.ShowMenuButtonsRoutine());
         }
         
-        public void PauseMenu()
+        public void SetupPauseMenu()
         {
             NextBtn.SetActive(false);
             ShareBtn.SetActive(false);

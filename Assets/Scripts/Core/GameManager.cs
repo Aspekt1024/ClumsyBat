@@ -51,7 +51,6 @@ namespace ClumsyBat
 
         public void PauseGame()
         {
-            // TODO Play pause sound
             IsPaused = true;
             Time.timeScale = 0;
             GameStatics.Data.SaveData();
@@ -59,9 +58,7 @@ namespace ClumsyBat
 
         public void ResumeGame()
         {
-            // Play resume sound
-            IsPaused = true;
-            Time.timeScale = 1;
+            StartCoroutine(ResumeGameRoutine());
         }
 
         public void GotoMenuScene()
@@ -90,7 +87,7 @@ namespace ClumsyBat
 
             GameStatics.LevelManager.LoadLevel(level);
 
-            GameStatics.UI.DropdownMenu.Hide();
+            GameStatics.UI.DropdownMenu.HideImmediate();
             GameStatics.Camera.SwitchToLevelCamera();
             state = GameStates.InLevel;
 
@@ -127,6 +124,17 @@ namespace ClumsyBat
             levelObject.SetActive(false);
 
             mainMenuTransitions.AnimateMainMenuScene();
+        }
+
+        private IEnumerator ResumeGameRoutine()
+        {
+            yield return GameStatics.UI.DropdownMenu.RaiseMenuRoutine();
+
+            // TODO timer
+
+            IsPaused = false;
+            Time.timeScale = 1;
+
         }
     }
 }

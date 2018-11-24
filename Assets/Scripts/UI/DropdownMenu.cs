@@ -22,14 +22,20 @@ namespace ClumsyBat.UI
         private const float MenuTopOffset = 11f;
         private const float MenuBottomOffset = 0f;
 
+        private enum States
+        {
+            Hidden, Visible
+        }
+        private States state;
+
         private void Awake()
         {
+            state = States.Hidden;
             GetMenuObjects();
         }
 
         private void Start()
         {
-            Hide();
             HideAllMenus();
             GameStatics.Camera.OnCameraChanged += CameraChanged;
         }
@@ -50,44 +56,44 @@ namespace ClumsyBat.UI
         {
             HideAllMenus();
             OptionsMenu.ShowScreen();
-            StartCoroutine(PanelDropAnim(true));
+            StartCoroutine(DropMenuRoutine());
         }
 
         public void ShowStats()
         {
             HideAllMenus();
-            StatsMenu.ShowScreen(); StartCoroutine(PanelDropAnim(true));
+            StatsMenu.ShowScreen();
+            StartCoroutine(DropMenuRoutine());
         }
         
         public void ShowPauseMenu()
         {
-            MainMenu.PauseMenu();
+            HideAllMenus();
+            MainMenu.SetupPauseMenu();
+            MainMenu.ShowScreen();
+            ShowDropdownMenu();
         }
-
+        
         public void ShowGameOverMenu()
         {
-            StartCoroutine(PanelDropAnim(true));
+            StartCoroutine(DropMenuRoutine());
             HideAllMenus();
             MainMenu.ShowScreen();
         }
         
-        public void Hide()
+        public void HideImmediate()
         {
-            CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
-            canvasGroup.alpha = 0;
-            canvasGroup.blocksRaycasts = false;
-        }
-
-        private void Show()
-        {
-            CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
-            canvasGroup.alpha = 1;
-            canvasGroup.blocksRaycasts = true;
+            if (state == States.Visible)
+            {
+                state = States.Hidden;
+                CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
+                canvasGroup.alpha = 0;
+                canvasGroup.blocksRaycasts = false;
+            }
         }
         
         public IEnumerator DropMenuRoutine()
         {
-            Show();
             yield return StartCoroutine(PanelDropAnim(true));
         }
 
@@ -96,12 +102,25 @@ namespace ClumsyBat.UI
             yield return StartCoroutine(PanelDropAnim(false));
         }
 
+        private void ShowDropdownMenu()
+        {
+            if (state == States.Hidden)
+            {
+                StartCoroutine(DropMenuRoutine());
+                state = States.Visible;
+                CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
+                canvasGroup.alpha = 1;
+                canvasGroup.blocksRaycasts = true;
+                canvasGroup.interactable = true;
+            }
+        }
+
         private IEnumerator PanelDropAnim(bool bEnteringScreen) // todo create separate coroutine for raising and dropping
         {
             if (!bEnteringScreen)
             {
                 StartCoroutine(Bounce(-0.7f));
-                yield return new WaitForSeconds(BounceDuration);
+                yield return new WaitForSecondsRealtime(BounceDuration);
             }
 
             const float animDuration = PanelDropAnimDuration;
@@ -116,7 +135,7 @@ namespace ClumsyBat.UI
 
             while (animTimer < animDuration)
             {
-                animTimer += Time.deltaTime;
+                animTimer += Time.unscaledDeltaTime;
                 _menuPanel.position = new Vector3(_menuPanel.position.x, (startPos - (animTimer / animDuration) * (startPos - endPos)), _menuPanel.position.z);
                 _menuBackPanel.color = new Color(0f, 0f, 0f, startAlpha - (startAlpha - endAlpha) * (animTimer / animDuration));
                 yield return null;
@@ -125,7 +144,7 @@ namespace ClumsyBat.UI
             if (bEnteringScreen)
             {
                 StartCoroutine(Bounce(-1));
-                yield return new WaitForSeconds(BounceDuration);
+                yield return new WaitForSecondsRealtime(BounceDuration);
             }
             _menuPanel.position = new Vector3(_menuPanel.position.x, endPos, _menuPanel.position.z);
         }
@@ -140,7 +159,7 @@ namespace ClumsyBat.UI
 
             while (animTimer < animDuration)
             {
-                animTimer += Time.deltaTime;
+                animTimer += Time.unscaledDeltaTime;
                 float animRatio = -Mathf.Sin(Mathf.PI * animTimer / animDuration);
                 float yPos = startY - (animRatio) * (startY - midY);
                 _menuPanel.position = new Vector3(_menuPanel.position.x, yPos, _menuPanel.position.z);
@@ -153,12 +172,12 @@ namespace ClumsyBat.UI
             MainMenu.HideScreen();
             OptionsMenu.HideScreen();
             StatsMenu.HideScreen();
+            HideImmediate();
         }
 
         private void GetMenuObjects()
         {
             if (!gameObject.activeSelf) { gameObject.SetActive(true); }
-            Show();
 
             _menuPanel = GameObject.Find("GameMenuPanel").GetComponent<RectTransform>();
             _menuBackPanel = GameObject.Find("BackPanel").GetComponent<Image>();

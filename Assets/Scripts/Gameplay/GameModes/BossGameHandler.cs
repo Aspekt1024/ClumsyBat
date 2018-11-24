@@ -155,7 +155,7 @@ public class BossGameHandler : GameHandler {
     private IEnumerator UpdateResumeTimer()
     {
         GameState = GameStates.Resuming;
-        yield return StartCoroutine(GameStatics.UI.DropdownMenu.RaiseMenuRoutine());
+        //yield return StartCoroutine(GameStatics.UI.DropdownMenu.Hide);
         _resumeTimerStart = Time.time;
 
         while (GameStatics.Player.Clumsy.State.IsAlive && _resumeTimerStart + ResumeTimerDuration > Time.time)
