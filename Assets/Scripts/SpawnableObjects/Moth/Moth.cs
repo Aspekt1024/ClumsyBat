@@ -46,7 +46,6 @@ public class Moth : Spawnable {
 
     public void ConsumeMoth()
     {
-
         if (!_bConsumption)
         {
             _bConsumption = true;
@@ -87,7 +86,7 @@ public class Moth : Spawnable {
             }
             yield return null;
         }
-
+        
         GameStatics.Player.Clumsy.Lantern.ConsumeMoth(Colour);
 
         SendToInactivePool();

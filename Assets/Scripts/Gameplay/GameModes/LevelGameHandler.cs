@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System;
 using ClumsyBat;
 using ClumsyBat.Players;
 
@@ -57,6 +56,7 @@ public sealed class LevelGameHandler : GameHandler
         player.Physics.Disable();
         player.Abilities.Perch.Unperch();
         player.Animate(ClumsyAnimator.ClumsyAnimations.Hover);
+        player.Fog.StartOfLevel();
 
         while (timer < duration)
         {

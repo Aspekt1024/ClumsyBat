@@ -46,6 +46,56 @@ public class FogEffect : MonoBehaviour {
     }
     private FogStates _state;
 
+    public void Echolocate()
+    {
+        // Increase size from current scale to max scale
+        _initialScale = _echoScale / _scaleModifier;
+        _bAbilityActivating = true;
+        _echolocateActivatedTime = Time.time;
+    }
+
+    public void EndOfLevel()
+    {
+        _bAbilityPaused = false;
+        if (_echolocateActivatedTime + FullSizeDuration >= Time.time)
+        {
+            _echolocateActivatedTime = Time.time - FullSizeDuration;
+        }
+        _minFogScale = -3f;
+        _shrinkDuration = 1.5f;
+        StartCoroutine(FogFader());
+    }
+
+    public void Minimise()
+    {
+        if (!_bIsMinimised)
+        {
+            StartCoroutine(ChangeScale(0.2f));
+        }
+        _minimiseStartTime = Time.time;
+        _bIsMinimised = true;
+    }
+
+    public void StartOfLevel()
+    {
+        _echoScale = -3f;
+        StartCoroutine(LevelStartAnim());
+    }
+
+    public void ExpandToRemove()
+    {
+        _state = FogStates.ExpandingToRemove;
+        StartCoroutine(ExpandFogCompletely());
+    }
+    public void Disable()
+    {
+        _state = FogStates.Disabled;
+        GetComponent<SpriteRenderer>().enabled = false;
+    }
+
+    public void Pause() { _bAbilityPaused = true; }
+    public void Resume() { _bAbilityPaused = false; }
+
     private void Start()
     {
         _player = GameStatics.Player.Clumsy;
@@ -144,39 +194,13 @@ public class FogEffect : MonoBehaviour {
         return echoScale;
     }
 
-    public void Echolocate()
-    {
-        // Increase size from current scale to max scale
-        _initialScale = _echoScale / _scaleModifier;
-        _bAbilityActivating = true;
-        _echolocateActivatedTime = Time.time;
-    }
-
-    public void EndOfLevel()
-    {
-        _bAbilityPaused = false;
-        if (_echolocateActivatedTime + FullSizeDuration >= Time.time)
-        {
-            _echolocateActivatedTime = Time.time - FullSizeDuration;
-        }
-        _minFogScale = -3f;
-        _shrinkDuration = 1.5f;
-        StartCoroutine("FogFader");
-    }
-
-    public void StartOfLevel()
-    {
-        _echoScale = -3f;
-        const float animDuration = 0.7f;
-        StartCoroutine("LevelStartAnim", animDuration);
-    }
-
-    private IEnumerator LevelStartAnim(float animDuration)
+    private IEnumerator LevelStartAnim()
     {
         _bAbilityPaused = false;
         _bAbilityAnimating = true;
 
         float animTime = 0f;
+        const float animDuration = 0.7f;
         while (animTime < animDuration)
         {
             animTime += Time.deltaTime;
@@ -208,16 +232,6 @@ public class FogEffect : MonoBehaviour {
         }
     }
 
-    public void Minimise()
-    {
-        if (!_bIsMinimised)
-        {
-            StartCoroutine("ChangeScale", 0.2f);
-        }
-        _minimiseStartTime = Time.time;
-        _bIsMinimised = true;
-    }
-
     private IEnumerator ChangeScale(float scale)
     {
         float startModifier = _scaleModifier;
@@ -233,11 +247,6 @@ public class FogEffect : MonoBehaviour {
         _scaleModifier = scale;
     }
 
-    public void ExpandToRemove()
-    {
-        _state = FogStates.ExpandingToRemove;
-        StartCoroutine("ExpandFogCompletely");
-    }
 
     private IEnumerator ExpandFogCompletely()
     {
@@ -255,12 +264,4 @@ public class FogEffect : MonoBehaviour {
         Disable();
     }
 
-    public void Disable()
-    {
-        _state = FogStates.Disabled;
-        GetComponent<SpriteRenderer>().enabled = false;
-    }
-
-    public void Pause() { _bAbilityPaused = true; }
-    public void Resume() { _bAbilityPaused = false; }
 }

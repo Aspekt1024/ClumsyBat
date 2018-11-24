@@ -90,6 +90,7 @@ public class PerchComponent : MonoBehaviour
         }
         else
         {
+            GameStatics.Camera.Squeeze();
             player.Animate(ClumsyAnimator.ClumsyAnimations.Land);
         }
     }

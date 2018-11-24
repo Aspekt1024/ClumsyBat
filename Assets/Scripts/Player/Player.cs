@@ -17,6 +17,7 @@ namespace ClumsyBat.Players
         public Transform Model;
         public Hypersonic Hypersonic;
         public Lantern Lantern;
+        public FogEffect Fog;
 
         public Controller Controller { get; set; }
         public PlayerState State { get; private set; }
@@ -55,7 +56,8 @@ namespace ClumsyBat.Players
 
         public void DeactivateRush()
         {
-
+            // TODO this
+            Debug.Log("deactivate rush to be implemented");
         }
 
         public void Stun(float duration)

@@ -56,7 +56,22 @@ public class Lantern : MonoBehaviour {
     }
 
     public void ConsumeMoth(Moth.MothColour colour)
-    {   
+    {
+        GameStatics.Player.Clumsy.Fog.Echolocate();
+
+        switch (colour)
+        {
+            case Moth.MothColour.Green:
+                break;
+            case Moth.MothColour.Gold:
+                PlayerManager.Instance.Clumsy.Hypersonic.ActivateHypersonic();
+                break;
+            case Moth.MothColour.Blue:
+                break;
+            default:
+                break;
+        }
+
         GameStatics.Data.GameState.MothsEaten++;
         if (GameStatics.Data.GameState.MothsEaten > GameStatics.Data.Stats.MostMoths)
         {

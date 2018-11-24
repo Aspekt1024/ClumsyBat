@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections;
 
 namespace ClumsyBat
 {
@@ -62,6 +63,42 @@ namespace ClumsyBat
         public void StopFollowing()
         {
             CurrentCamera.GetComponent<CameraFollowObject>()?.StopFollowing();
+        }
+
+        public void Squeeze()
+        {
+            GameStatics.GameManager.StartCoroutine(SqueezeRoutine());
+        }
+
+        private IEnumerator SqueezeRoutine()
+        {
+            var originalSize = CurrentCamera.orthographicSize;
+
+            float timer = 0f;
+            const float duration = 0.07f;
+            while (timer < duration)
+            {
+                timer += Time.deltaTime;
+
+                float ratio = timer / duration;
+                CurrentCamera.orthographicSize = originalSize * (1 - 0.006f * ratio);
+
+                yield return null;
+            }
+
+            timer = 0f;
+
+            while (timer < duration)
+            {
+                timer += Time.deltaTime;
+
+                float ratio = 1f - timer / duration;
+                CurrentCamera.orthographicSize = originalSize * (1 - 0.006f * ratio);
+
+                yield return null;
+            }
+
+            CurrentCamera.orthographicSize = originalSize;
         }
     }
 }
