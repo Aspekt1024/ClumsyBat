@@ -13,6 +13,12 @@ namespace ClumsyBat.Controllers
         private Transform target;          // The target to move to
 
         private Transform positionMarker;  // Used when not following an object, just moving to a position
+
+        private enum XDirection
+        {
+            Left, Right
+        }
+        private XDirection direction;
         
         private enum States
         {
@@ -37,6 +43,7 @@ namespace ClumsyBat.Controllers
             this.target = target;
             this.targetReachedCallback = targetReachedCallback;
             state = States.Moving;
+            direction = (player.Model.transform.position.x < target.position.x) ? XDirection.Right : XDirection.Left;
 
             if (player.State.IsPerched) player.DoAction(ClumsyAbilityHandler.StaticActions.Unperch);
             player.Animate(ClumsyAnimator.ClumsyAnimations.Flap);
@@ -127,6 +134,12 @@ namespace ClumsyBat.Controllers
 
         private bool IsTargetReached()
         {
+            if ((state == States.Moving)&&
+                ((direction == XDirection.Left && player.Model.transform.position.x < target.position.x) ||
+                (direction == XDirection.Right && player.Model.transform.position.x > target.position.x)))
+            {
+                return true;
+            }
             const float PROXIMITY_THRESHOLD = 0.35f;
             return Vector2.Distance(player.Model.transform.position, target.position) < PROXIMITY_THRESHOLD;
         }

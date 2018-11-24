@@ -20,7 +20,6 @@ public class CameraFollowObject : MonoBehaviour {
 
     public void StartFollowing(Transform target = null, float followSpeed = BASE_FOLLOW_SPEED)
     {
-        Debug.Log("new object to follow: " + target.name);
         following = true;
         this.followSpeed = followSpeed;
 
