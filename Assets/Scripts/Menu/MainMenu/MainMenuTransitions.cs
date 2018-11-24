@@ -7,9 +7,38 @@ namespace ClumsyBat.Menu
     {
         private KeyPointsHandler keyPoints;
 
+        private enum States
+        {
+            MainMenu, DropdownArea, LevelSelect
+        }
+        private States state;
+
         public MainMenuTransitions()
         {
+            state = States.MainMenu;
             keyPoints = Object.FindObjectOfType<KeyPointsHandler>();
+        }
+
+        public void GotoDropdownArea()
+        {
+            if (state != States.DropdownArea)
+            {
+                state = States.DropdownArea;
+                GameStatics.Camera.StartFollowing(keyPoints.DropdownAreaPoint.transform, 4.0f);
+            }
+        }
+
+        public void GotoMainMenuArea()
+        {
+            if (state == States.DropdownArea)
+            {
+                GameStatics.GameManager.StartCoroutine(HideDropdownRoutine());
+            }
+            else
+            {
+                GameStatics.Camera.StartFollowing(keyPoints.MainMenuCamPoint.transform, 4.0f);
+            }
+            state = States.MainMenu;
         }
 
         public void AnimateMainMenuScene()
@@ -23,6 +52,7 @@ namespace ClumsyBat.Menu
         { 
             PlayerManager.Instance.PossessByAI();
             PlayerManager.Instance.AIController.MoveTo(keyPoints.MainMenuCamPoint.transform, AnimateThroughCave);
+            state = States.LevelSelect;
         }
 
         public void AnimateToMainMenu()
@@ -61,6 +91,12 @@ namespace ClumsyBat.Menu
             yield return new WaitForSeconds(1.1f);
 
             AnimateMainMenuScene();
+        }
+
+        private IEnumerator HideDropdownRoutine()
+        {
+            yield return GameStatics.GameManager.StartCoroutine(GameStatics.UI.DropdownMenu.RaiseMenuRoutine());
+            GameStatics.Camera.StartFollowing(keyPoints.MainMenuCamPoint.transform, 4.0f);
         }
     }
 }

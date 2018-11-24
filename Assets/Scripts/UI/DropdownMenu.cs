@@ -36,7 +36,7 @@ namespace ClumsyBat.UI
 
         private void Start()
         {
-            HideAllMenus();
+            HideAll();
             GameStatics.Camera.OnCameraChanged += CameraChanged;
         }
 
@@ -45,30 +45,42 @@ namespace ClumsyBat.UI
             GameStatics.Camera.OnCameraChanged -= CameraChanged;
         }
 
+        public void ReturnButtonClicked()
+        {
+            if (GameStatics.GameManager.IsInMenu)
+            {
+                GameStatics.UI.MainMenuTransitions.GotoMainMenuArea();
+            }
+            else
+            {
+                ShowPauseMenu();
+            }
+        }
+
         public void ShowLevelCompletion(Levels level, Levels nextLevel)
         {
-            HideAllMenus();
+            HideAll();
             MainMenu.ShowScreen();
             MainMenu.ShowLevelCompletion(level, nextLevel);
         }
         
         public void ShowOptions()
         {
-            HideAllMenus();
+            HideAll();
             OptionsMenu.ShowScreen();
-            StartCoroutine(DropMenuRoutine());
+            ShowDropdownMenu();
         }
 
         public void ShowStats()
         {
-            HideAllMenus();
+            HideAll();
             StatsMenu.ShowScreen();
-            StartCoroutine(DropMenuRoutine());
+            ShowDropdownMenu();
         }
         
         public void ShowPauseMenu()
         {
-            HideAllMenus();
+            HideAll();
             MainMenu.SetupPauseMenu();
             MainMenu.ShowScreen();
             ShowDropdownMenu();
@@ -76,20 +88,18 @@ namespace ClumsyBat.UI
         
         public void ShowGameOverMenu()
         {
-            StartCoroutine(DropMenuRoutine());
-            HideAllMenus();
+            HideAll();
             MainMenu.ShowScreen();
+            ShowDropdownMenu();
         }
         
         public void HideImmediate()
         {
-            if (state == States.Visible)
-            {
-                state = States.Hidden;
-                CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
-                canvasGroup.alpha = 0;
-                canvasGroup.blocksRaycasts = false;
-            }
+            state = States.Hidden;
+            CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
+            canvasGroup.alpha = 0;
+            canvasGroup.blocksRaycasts = false;
+            canvasGroup.interactable = false;
         }
         
         public IEnumerator DropMenuRoutine()
@@ -167,7 +177,7 @@ namespace ClumsyBat.UI
             }
         }
     
-        private void HideAllMenus()
+        private void HideAll()
         {
             MainMenu.HideScreen();
             OptionsMenu.HideScreen();

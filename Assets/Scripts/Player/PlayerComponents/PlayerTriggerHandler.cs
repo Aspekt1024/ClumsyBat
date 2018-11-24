@@ -13,7 +13,6 @@ namespace ClumsyBat.Players
 
         private void OnTriggerEnter2D(Collider2D collider)
         {
-            GameStatics.LevelManager.GameHandler.TriggerEntered(collider);
             switch (collider.tag)
             {
                 case "Projectile":

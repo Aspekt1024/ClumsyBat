@@ -85,26 +85,6 @@ public sealed class LevelGameHandler : GameHandler
         GetComponent<AudioSource>().Stop();
     }
 
-    public void TriggerEntered(Collider2D other)
-    {
-        switch (other.name)
-        {
-            case "MothTrigger":
-                other.GetComponentInParent<Moth>().ConsumeMoth();
-                break;
-            case "ExitTrigger":
-                if (!caveExitAutoFlightTriggered)
-                {
-                    caveExitAutoFlightTriggered = true;
-                    //player.ExitAutoFlightReached();
-                }
-                break;
-            case "Spore":
-                //player.Fog.Minimise();
-                break;
-        }
-    }
-
     public override void LevelComplete(bool viaSecretPath = false)
     {
         Level.LevelWon(viaSecretPath);

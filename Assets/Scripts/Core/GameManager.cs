@@ -32,6 +32,8 @@ namespace ClumsyBat
         private MainMenuTransitions mainMenuTransitions;
 
         public bool IsPaused { get; private set; }
+        public bool IsInMenu { get { return state == GameStates.MainMenu; } }
+        public bool IsInLevel { get { return state == GameStates.InLevel; } }
 
         private void Awake()
         {

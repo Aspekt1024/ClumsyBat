@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using ClumsyBat;
 
 public class CameraFollowObject : MonoBehaviour {
 
@@ -49,7 +50,7 @@ public class CameraFollowObject : MonoBehaviour {
 
         if (ObjectToFollow == null) return;
 
-        if (!following || ObjectToFollow.position.x + XOffset < 0 || transform.position.x > endPointX) return;
+        if (!following || (GameStatics.GameManager.IsInLevel && ObjectToFollow.position.x + XOffset < 0) || transform.position.x > endPointX) return;
 
         float xPos = Mathf.Lerp(transform.position.x, ObjectToFollow.position.x + XOffset, Time.deltaTime * followSpeed);
         Vector3 pos = transform.position;

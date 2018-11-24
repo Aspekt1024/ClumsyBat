@@ -72,6 +72,8 @@ namespace ClumsyBat
 
         private IEnumerator SqueezeRoutine()
         {
+            if (GameStatics.GameManager.IsInMenu) yield break;
+
             var originalSize = CurrentCamera.orthographicSize;
 
             float timer = 0f;
