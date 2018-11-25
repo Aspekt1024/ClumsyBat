@@ -86,7 +86,7 @@ public class CamPositioner : MonoBehaviour {
 	
 	private void FixedUpdate ()
     {
-        float xDist = Mathf.Lerp(GameStatics.Camera.MenuCamera.transform.position.x, targetPosition.x, Time.deltaTime * 4) - GameStatics.Camera.MenuCamera.transform.position.x;
+        float xDist = Mathf.Lerp(GameStatics.Camera.MenuCamera.transform.position.x, targetPosition.x, Time.fixedDeltaTime * 4) - GameStatics.Camera.MenuCamera.transform.position.x;
         xDist = Mathf.Clamp(xDist, -maxCamDistPerFrame, maxCamDistPerFrame);
         GameStatics.Camera.MenuCamera.transform.position += Vector3.right * xDist;
 

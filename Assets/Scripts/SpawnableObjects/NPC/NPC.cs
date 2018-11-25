@@ -19,7 +19,7 @@ public class NPC : Spawnable {
     private void FixedUpdate()
     {
         if (!IsActive || IsPaused) { return; }
-        MoveLeft(Time.deltaTime);
+        MoveLeft(Time.fixedDeltaTime);
     }
 
     public void Activate(SpawnType spawnTf, NpcTypes type)

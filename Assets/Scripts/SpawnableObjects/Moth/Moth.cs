@@ -31,10 +31,10 @@ public class Moth : Spawnable {
 	private void FixedUpdate ()
     {
         if (!IsActive || IsPaused) { return; }
-        _pathHandler.MoveAlongPath(Time.deltaTime);
+        _pathHandler.MoveAlongPath(Time.fixedDeltaTime);
 
         if (_mothState == MothStates.ConsumeFollow) { return; }
-        MoveLeft(Time.deltaTime);
+        MoveLeft(Time.fixedDeltaTime);
     }
     
     public override void PauseGame(bool gamePaused)

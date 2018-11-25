@@ -30,7 +30,7 @@ public class WebClass : Spawnable {
     private void FixedUpdate()
     {
         if (!IsActive) { return; }
-        MoveLeft(Time.deltaTime);
+        MoveLeft(Time.fixedDeltaTime);
     }
 
     public void Activate(SpawnType spawnTf, bool bDropEnabled)

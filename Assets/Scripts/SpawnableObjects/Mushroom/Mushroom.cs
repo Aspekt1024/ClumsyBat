@@ -26,7 +26,7 @@ public class Mushroom : Spawnable {
     private void FixedUpdate()
     {
         if (!IsActive) { return; }
-        MoveLeft(Time.deltaTime);
+        MoveLeft(Time.fixedDeltaTime);
     }
 
 	private void Update ()

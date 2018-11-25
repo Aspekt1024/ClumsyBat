@@ -10,8 +10,21 @@ namespace ClumsyBat
         public PlayerController Controller;
         public PlayerAIController AIController;
 
+        [HideInInspector]
+        public LevelAnimationSequencer Sequencer;
+
         private Controller currentController;
-        
+
+        private void Awake()
+        {
+            Sequencer = new LevelAnimationSequencer(Clumsy);
+        }
+
+        private void FixedUpdate()
+        {
+            Sequencer.Update(Time.fixedDeltaTime);
+        }
+
         public void PossessByPlayer()
         {
             currentController = Controller;

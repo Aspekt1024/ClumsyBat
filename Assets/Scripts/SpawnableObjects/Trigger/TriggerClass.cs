@@ -45,7 +45,7 @@ namespace ClumsyBat.Objects
         private void FixedUpdate()
         {
             if (!IsActive) { return; }
-            MoveLeft(Time.deltaTime);
+            MoveLeft(Time.fixedDeltaTime);
         }
 
         private void OnTriggerEnter2D(Collider2D other)

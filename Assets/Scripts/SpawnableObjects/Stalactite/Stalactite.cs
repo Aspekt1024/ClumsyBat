@@ -63,7 +63,7 @@ namespace ClumsyBat.Objects
         {
             if (!IsActive || Toolbox.Instance.GamePaused) return;
 
-            MoveLeft(Time.deltaTime);
+            MoveLeft(Time.fixedDeltaTime);
 
             if (Type == SpawnStalAction.StalTypes.Crystal)
                 moth.Rotate(Vector3.back, 64 * Time.deltaTime);

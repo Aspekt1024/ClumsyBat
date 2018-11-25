@@ -43,7 +43,7 @@ namespace ClumsyBat.Players
 
         private void FixedUpdate()
         {
-            Physics.Tick(Time.deltaTime);
+            Physics.Tick(Time.fixedDeltaTime);
         }
         
         public void SetPlayerData(DataManager data)
