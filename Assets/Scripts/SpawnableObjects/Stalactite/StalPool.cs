@@ -12,7 +12,6 @@ namespace ClumsyBat.Objects
         public StalPool(int objCount)
         {
             SetBaseStalParameters();
-            SetupPool(objCount);
         }
 
         private void SetBaseStalParameters()
@@ -40,8 +39,8 @@ namespace ClumsyBat.Objects
         {
             foreach (StalType stal in stalList)
             {
-                Stalactite newStal = GetNewObject();
-                newStal.Activate(stal, xOffset);
+                Stalactite newStal = GetObjectFromPool();
+                newStal.Spawn(stal, xOffset);
             }
         }
     }

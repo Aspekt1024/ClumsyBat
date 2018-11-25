@@ -48,7 +48,7 @@ public class WebString {
         }
         PositionLink(activeSections, sections[0].tf.position, webAnchor.position);
 
-        if (spiderScript.IsActive)
+        if (spiderScript.isActiveAndEnabled)
         {
             PositionLink(activeSections - 1, sections[activeSections - 1].tf.position, spiderTf.position);
         }
@@ -92,7 +92,7 @@ public class WebString {
         webAnchor.position += Vector3.left * time * speed;
     }
 
-    public void Activate(bool IsSwinging, Vector2 anchorPoint)
+    public void Spawn(bool IsSwinging, Vector2 anchorPoint)
     {
         foreach (var section in sections)
         {

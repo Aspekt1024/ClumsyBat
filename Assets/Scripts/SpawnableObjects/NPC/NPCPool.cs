@@ -22,10 +22,10 @@ namespace ClumsyBat.Objects
         {
             foreach (NpcType npc in npcList)
             {
-                NPC newNpc = GetNewObject();
+                NPC newNpc = GetObjectFromPool();
                 Spawnable.SpawnType spawnTf = npc.SpawnTransform;
                 spawnTf.Pos += new Vector2(xOffset, 0f);
-                newNpc.Activate(spawnTf, npc.Type);
+                newNpc.Spawn(spawnTf, npc.Type);
             }
         }
     }

@@ -78,6 +78,7 @@ namespace ClumsyBat.Players
                 DoAction(StaticActions.Unperch);
                 DoAction(StaticActions.Shield);
 
+                // TODO there's an easier way to do this... use an int.
                 if (GameStatics.Data.GameState.IsUntouched)
                 {
                     GameStatics.Data.GameState.IsUntouched = false;

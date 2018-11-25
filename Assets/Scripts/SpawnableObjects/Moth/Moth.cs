@@ -24,23 +24,12 @@ public class Moth : Spawnable {
     
     private void Awake ()
     {
-        IsActive = false;
         GetMothComponents();
     }
 	
 	private void FixedUpdate ()
     {
-        if (!IsActive || IsPaused) { return; }
         _pathHandler.MoveAlongPath(Time.fixedDeltaTime);
-
-        if (_mothState == MothStates.ConsumeFollow) { return; }
-        MoveLeft(Time.fixedDeltaTime);
-    }
-    
-    public override void PauseGame(bool gamePaused)
-    {
-        base.PauseGame(gamePaused);
-        if (IsActive) { _mothAnimator.enabled = !gamePaused; }
     }
 
     public void ConsumeMoth()
@@ -51,6 +40,14 @@ public class Moth : Spawnable {
             _mothCollider.enabled = false;
             StartCoroutine(ConsumeAnim());
         }
+    }
+
+    protected override void Init()
+    {
+        gameObject.SetActive(true);
+        _mothCollider.enabled = true;
+        PlayNormalAnimation();
+        _mothState = MothStates.Normal;
     }
 
     private IEnumerator ConsumeAnim()
@@ -66,34 +63,32 @@ public class Moth : Spawnable {
 
         while (animTimer < animDuration)
         {
-            if (!IsPaused)
+            animTimer += Time.deltaTime;
+            if (animTimer > animDuration - lantenFollowTime)
             {
-                animTimer += Time.deltaTime;
-                if (animTimer > animDuration - lantenFollowTime)
+                if (!bStartPosSet)
                 {
-                    if (!bStartPosSet)
-                    {
-                        _mothState = MothStates.ConsumeFollow;
-                        startPos = MothSprite.position;
-                        bStartPosSet = true;
-                    }
-                    float timeRatio = (animTimer - (animDuration - lantenFollowTime)) / lantenFollowTime;
-                    float xOffset = startPos.x - (startPos.x - _lantern.position.x) * timeRatio;
-                    float yOffset = startPos.y - (startPos.y - _lantern.position.y) * timeRatio;
-                    MothSprite.position = new Vector3(xOffset, yOffset, startPos.z);
+                    _mothState = MothStates.ConsumeFollow;
+                    startPos = MothSprite.position;
+                    bStartPosSet = true;
                 }
+                float timeRatio = (animTimer - (animDuration - lantenFollowTime)) / lantenFollowTime;
+                float xOffset = startPos.x - (startPos.x - _lantern.position.x) * timeRatio;
+                float yOffset = startPos.y - (startPos.y - _lantern.position.y) * timeRatio;
+                MothSprite.position = new Vector3(xOffset, yOffset, startPos.z);
             }
             yield return null;
         }
         
         GameStatics.Player.Clumsy.Lantern.ConsumeMoth(Colour);
 
-        SendToInactivePool();
+        Deactivate();
         _bConsumption = false;
     }
 
     private void PlayNormalAnimation()
     {
+        _mothAnimator.enabled = true;
         Color color = new Color();
         switch (Colour)
         {
@@ -131,19 +126,16 @@ public class Moth : Spawnable {
         }
     }
 
-    public override void SendToInactivePool()
+    public override void Deactivate()
     {
-        base.SendToInactivePool();
+        base.Deactivate();
         MothSprite.transform.position = transform.position;
     }
 
     public void Activate(SpawnType spawnTf, MothColour colour, MothPathHandler.MothPathTypes pathType = MothPathHandler.MothPathTypes.Spiral)
     {
-        // TODO determine where in the vertical space the moth can spawn ie Raycast (endless mode only)
-        //const float Range = 2f;
-        //float MothYPos = Range * Random.value - Range / 2;
         _lantern = GameStatics.Player.Clumsy.Lantern.transform;
-        base.Activate(transform, spawnTf);
+        base.Spawn(transform, spawnTf);
         _mothState = MothStates.Normal;
         _mothAnimator.enabled = true;
         _mothCollider.enabled = true;
@@ -161,7 +153,7 @@ public class Moth : Spawnable {
         yield return StartCoroutine(MoveToLocation(endLocation, 0.9f));
 
         PlayNormalAnimation();
-        yield return StartCoroutine(WaitSeconds(0.2f));
+        yield return new WaitForSeconds(0.2f);
         
         if (despawnTimer <= 0)
         {
@@ -170,21 +162,18 @@ public class Moth : Spawnable {
         }
 
         _mothCollider.enabled = true;
-        yield return StartCoroutine(WaitSeconds(despawnTimer));
+        yield return new WaitForSeconds(despawnTimer);
 
     }
 
     private IEnumerator DespawnFromEssence()
     {
-        if (IsActive)
-        {
-            _mothCollider.enabled = false;
-            PlayExplosionAnim();
-            yield return StartCoroutine(WaitSeconds(0.9f));
+        _mothCollider.enabled = false;
+        PlayExplosionAnim();
+        yield return new WaitForSeconds(0.9f);
 
-            base.SendToInactivePool();
-            MothSprite.transform.position = transform.position;
-        }
+        base.Deactivate();
+        MothSprite.transform.position = transform.position;
     }
 
     public IEnumerator CollectFromCrystal()
@@ -222,17 +211,6 @@ public class Moth : Spawnable {
             yield return null;
         }
         transform.position = endPosition;
-    }
-
-    private IEnumerator WaitSeconds(float secs)
-    {
-        float timer = 0f;
-        while (timer < secs)
-        {
-            if (!IsPaused)
-                timer += Time.deltaTime;
-            yield return null;
-        }
     }
 
     private void GetMothComponents()

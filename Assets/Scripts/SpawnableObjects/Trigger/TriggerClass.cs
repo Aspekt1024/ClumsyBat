@@ -12,14 +12,16 @@ namespace ClumsyBat.Objects
 
         private TooltipHandler _tHandler;
 
-        public void Activate(TriggerHandler.TriggerType triggerProps, SpawnType spawnTf)
+        public void Spawn(TriggerHandler.TriggerType triggerProps, SpawnType spawnTf)
         {
-            base.Activate(transform, spawnTf);
+            base.Spawn(transform, spawnTf);
             Collider.enabled = true;
             gameObject.GetComponent<SpriteRenderer>().enabled = Toolbox.Instance.Debug;
 
             TriggerEvent = TriggerEventSerializer.Instance.GetTriggerEvent(triggerProps.TrigEvent.Id);
         }
+
+        protected override void Init() { }
 
         private void Awake()
         {
@@ -42,16 +44,9 @@ namespace ClumsyBat.Objects
 #endif
         }
 
-        private void FixedUpdate()
-        {
-            if (!IsActive) { return; }
-            MoveLeft(Time.fixedDeltaTime);
-        }
-
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (!GameStatics.Data.Settings.TooltipsOn || !IsActive) return;
-            IsActive = false;
+            if (!GameStatics.Data.Settings.TooltipsOn) return;
 
             switch (TriggerEvent.EventType)
             {

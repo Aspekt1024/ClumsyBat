@@ -85,6 +85,7 @@ namespace ClumsyBat
 
         private IEnumerator LoadLevelRoutine(Levels level)
         {
+            ResumeGame();
             yield return StartCoroutine(GameStatics.UI.LoadingScreen.ShowLoadScreen());
             levelObject.SetActive(true);
             menuObject.SetActive(false);

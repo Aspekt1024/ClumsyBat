@@ -24,8 +24,8 @@ namespace ClumsyBat.Objects
             {
                 Spawnable.SpawnType spawnTf = shroom.SpawnTransform;
                 spawnTf.Pos += new Vector2(xOffset, 0f);
-                Mushroom mushroom = GetNewObject();
-                mushroom.Activate(spawnTf);
+                Mushroom mushroom = GetObjectFromPool();
+                mushroom.Spawn(spawnTf);
             }
         }
     }

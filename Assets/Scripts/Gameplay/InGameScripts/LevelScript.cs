@@ -43,7 +43,6 @@ public class LevelScript : MonoBehaviour {
         statsHandler.Begin();
 
         GameStatics.UI.GameHud.StartGame();
-        GameStatics.Objects.ObjectHandler.SetPaused(false);
 
     }
     

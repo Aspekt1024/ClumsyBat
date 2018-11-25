@@ -12,20 +12,18 @@ public class NPC : Spawnable {
 
     private void Awake()
     {
-        IsActive = false;
         GetNPCComponents();
     }
-
-    private void FixedUpdate()
+    
+    public void Spawn(SpawnType spawnTf, NpcTypes type)
     {
-        if (!IsActive || IsPaused) { return; }
-        MoveLeft(Time.fixedDeltaTime);
+        base.Spawn(transform, spawnTf);
+        // TODO set sprite based on NPC type
     }
 
-    public void Activate(SpawnType spawnTf, NpcTypes type)
+    protected override void Init()
     {
-        base.Activate(transform, spawnTf);
-        // TODO set sprite based on NPC type
+
     }
 
     private void GetNPCComponents() { }

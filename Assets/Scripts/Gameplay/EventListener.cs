@@ -28,16 +28,6 @@ public class EventListener
         OnDeath.Invoke();
     }
 
-    public static void PauseGame()
-    {
-        OnPauseGame.Invoke();
-    }
-
-    public static void ResumeGame()
-    {
-        OnResumeGame?.Invoke();
-    }
-
     public static void MusicToggle()
     {
         OnMusicToggle?.Invoke();

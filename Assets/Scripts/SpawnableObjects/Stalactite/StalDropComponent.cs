@@ -40,7 +40,7 @@ public class StalDropComponent : MonoBehaviour {
     private void FixedUpdate()
     {
         if (!GameStatics.StaticsInitiated) return;
-        if (!stal.DropEnabled || !stal.IsActive || isPaused || _state == DropStates.Falling || !GameStatics.Player.Clumsy.State.IsAlive) return;
+        if (!stal.DropEnabled || !stal.isActiveAndEnabled || isPaused || _state == DropStates.Falling || !GameStatics.Player.Clumsy.State.IsAlive) return;
         
         if (GameStatics.Player.Clumsy.transform.position.x > transform.position.x - stal.TriggerPosX)
         {
@@ -128,7 +128,7 @@ public class StalDropComponent : MonoBehaviour {
                 yield return null;
             }
         }
-        stal.SendToInactivePool();
+        stal.Deactivate();
     }
     
     IEnumerator Shake()

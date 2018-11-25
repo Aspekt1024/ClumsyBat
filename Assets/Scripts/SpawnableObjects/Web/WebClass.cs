@@ -24,27 +24,24 @@ public class WebClass : Spawnable {
         _web.SpecialWeb = false;
         _web.Anim.Play("Normal", 0, 0f);
         _web.Anim.enabled = true;
-        IsActive = false;
     }
 
-    private void FixedUpdate()
+    protected override void Init()
     {
-        if (!IsActive) { return; }
-        MoveLeft(Time.fixedDeltaTime);
+        _web.Anim.Play("Normal", 0, 0f);
     }
 
-    public void Activate(SpawnType spawnTf, bool bDropEnabled)
+    public void Spawn(SpawnType spawnTf, bool bDropEnabled)
     {
-        base.Activate(transform, spawnTf);
+        base.Spawn(transform, spawnTf);
         _web.SpecialWeb = bDropEnabled;
     }
     
     public void DestroyWeb()
     {
-        if (!IsActive) { return; }
         _web.Collider.enabled = false;
         // TODO break animation
-        StartCoroutine("BreakWebAnim");
+        StartCoroutine(BreakWebAnim());
         _web.Collider.enabled = false;
     }
 
@@ -53,8 +50,6 @@ public class WebClass : Spawnable {
         _web.Anim.enabled = true;
         _web.Anim.Play("Break", 0, 0f);
         yield return new WaitForSeconds(0.67f); // TODO Set this
-        SendToInactivePool();
+        Deactivate();
     }
-
-    public bool Active() { return IsActive; }
 }

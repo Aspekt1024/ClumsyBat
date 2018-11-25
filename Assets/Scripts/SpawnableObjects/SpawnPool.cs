@@ -3,9 +3,12 @@ using System.Collections.Generic;
 
 namespace ClumsyBat.Objects
 {
-    public abstract class SpawnPool { }
+    public interface ISpawnPool
+    {
+        void DisableObjects();
+    }
 
-    public abstract class SpawnPool<T> : SpawnPool where T : Spawnable
+    public abstract class SpawnPool<T> : ISpawnPool where T : Spawnable
     {
         public string ObjTag;
 
@@ -19,12 +22,27 @@ namespace ClumsyBat.Objects
         private int index;
         private int numObjects;
 
-        protected T GetNewObject()
+        public void DisableObjects()
+        {
+            foreach (var obj in ObjPool)
+            {
+                obj.gameObject.SetActive(false);
+            }
+            index = 0;
+        }
+
+        protected T GetObjectFromPool()
         {
             if (ParentObject == null)
+            {
                 CreateParent();
+            }
 
-            numObjects++;
+            for (int i = index; i < numObjects; i++)
+            {
+                if (ObjPool[i].isActiveAndEnabled) continue;
+                return ObjPool[i];
+            }
             return CreateObject(numObjects);
         }
 
@@ -34,23 +52,6 @@ namespace ClumsyBat.Objects
             ParentObject.position = new Vector3(0f, 0f, ParentZ);
         }
 
-        protected void SetupPool(int objCount)
-        {
-            for (int i = 0; i < objCount; i++)
-            {
-                CreateObject(i);
-            }
-        }
-
-        protected T GetNextObj()
-        {
-            while (ObjPool[index].IsActive)
-            {
-                index++;
-            }
-            return ObjPool[index];
-        }
-
         protected T CreateObject(int objNum)
         {
             var newObj = (GameObject)Object.Instantiate(Resources.Load(ResourcePath), ParentObject);
@@ -58,15 +59,8 @@ namespace ClumsyBat.Objects
             newObj.transform.position = Toolbox.Instance.HoldingArea;
             var objScript = newObj.GetComponent<T>();
             ObjPool.Add(objScript);
+            numObjects++;
             return objScript;
-        }
-
-        public virtual void PauseGame(bool paused)
-        {
-            foreach (var obj in ObjPool)
-            {
-                obj.PauseGame(paused);
-            }
         }
     }
 }

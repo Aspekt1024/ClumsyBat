@@ -22,10 +22,10 @@ namespace ClumsyBat.Objects
         {
             foreach (WebType web in webList)
             {
-                WebClass newWeb = GetNewObject();
+                WebClass newWeb = GetObjectFromPool();
                 Spawnable.SpawnType spawnTf = web.SpawnTransform;
                 spawnTf.Pos += new Vector2(xOffset, 0f);
-                newWeb.Activate(spawnTf, web.SpecialWeb);
+                newWeb.Spawn(spawnTf, web.SpecialWeb);
             }
         }
     }

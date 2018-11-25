@@ -55,18 +55,13 @@ namespace ClumsyBat.Objects
             GetStalComponents();
 
             stalRenderer.enabled = false;   // used for editor only.
-            IsActive = false;
             anim.enabled = true;
         }
         
         private void FixedUpdate()
         {
-            if (!IsActive || Toolbox.Instance.GamePaused) return;
-
-            MoveLeft(Time.fixedDeltaTime);
-
             if (Type == SpawnStalAction.StalTypes.Crystal)
-                moth.Rotate(Vector3.back, 64 * Time.deltaTime);
+                moth.Rotate(Vector3.back, 64 * Time.fixedDeltaTime);
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -111,11 +106,15 @@ namespace ClumsyBat.Objects
             }
         }
 
-        public void Activate(StalPool.StalType stalProps, float xOffset = 0)
+        protected override void Init()
         {
+        }
+
+        public void Spawn(StalPool.StalType stalProps, float xOffset = 0)
+        {
+            gameObject.SetActive(true);
             Type = stalProps.Type;
             isExploding = false;
-            IsActive = true;
 
             if (stalBroken != null) Destroy(stalBroken);
             if (stalUnbroken != null) Destroy(stalUnbroken);
@@ -184,13 +183,6 @@ namespace ClumsyBat.Objects
             mothAnim.Play(mothAnimationName, 0, 0f);
         }
 
-        public override void PauseGame(bool gamePaused)
-        {
-            base.PauseGame(gamePaused);
-            anim.PauseAnimation(gamePaused);
-            dropControl.SetPaused(gamePaused);
-        }
-
         public void DestroyStalactite()
         {
             if (isExploding || state == StalStates.Broken) return;
@@ -198,7 +190,6 @@ namespace ClumsyBat.Objects
             isExploding = true;
             stalCollider.enabled = false;
             StartCoroutine(CrumbleAnim());
-            IsActive = false;
         }
 
         private IEnumerator CrumbleAnim()
@@ -216,7 +207,7 @@ namespace ClumsyBat.Objects
                     timer += Time.deltaTime;
                 yield return null;
             }
-            SendToInactivePool();
+            Deactivate();
         }
 
         private void Break()
@@ -250,14 +241,14 @@ namespace ClumsyBat.Objects
             float timer = 0;
             const float timeBeforeDestroy = 4f;
 
-            while (timer < timeBeforeDestroy && IsActive)
+            while (timer < timeBeforeDestroy)
             {
                 if (!Toolbox.Instance.GamePaused)
                     timer += Time.deltaTime;
                 yield return null;
             }
 
-            SendToInactivePool();
+            Deactivate();
         }
 
         public void Crack()
@@ -307,13 +298,12 @@ namespace ClumsyBat.Objects
 
         public void Drop()
         {
-            if (IsActive)
-                dropControl.Drop();
+            dropControl.Drop();
         }
 
-        public override void SendToInactivePool()
+        public override void Deactivate()
         {
-            base.SendToInactivePool();
+            base.Deactivate();
             StalEvents.Destroy(poolHandlerIndex, direction);
             if (stalBroken != null) Destroy(stalBroken);
             if (stalUnbroken != null) Destroy(stalUnbroken);

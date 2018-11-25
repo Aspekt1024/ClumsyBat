@@ -23,7 +23,7 @@ namespace ClumsyBat.Objects
         {
             foreach (MothType moth in mothList)
             {
-                Moth newMoth = GetNewObject();
+                Moth newMoth = GetObjectFromPool();
                 Spawnable.SpawnType spawnTf = moth.SpawnTransform;
                 spawnTf.Pos += new Vector2(xOffset, 0f);
                 newMoth.Activate(spawnTf, moth.Colour, moth.PathType);
@@ -36,7 +36,7 @@ namespace ClumsyBat.Objects
         public void ActivateMothInRange(float minY, float maxY, Moth.MothColour colour)
         {
             Debug.Log("Activating moth in range");
-            Moth newMoth = GetNewObject();
+            Moth newMoth = GetObjectFromPool();
             float xPos = 10f + GameObject.FindGameObjectWithTag("MainCamera").transform.position.x;
             var spawnTf = new Spawnable.SpawnType
             {
@@ -49,7 +49,7 @@ namespace ClumsyBat.Objects
 
         public void ActivateMothFromEssence(Vector2 spawnLoc, Vector2 appearanceLoc, Moth.MothColour colour, float despawnTimer)
         {
-            Moth newMoth = GetNewObject();
+            Moth newMoth = GetObjectFromPool();
             var spawnTf = new Spawnable.SpawnType
             {
                 Pos = spawnLoc,
@@ -62,7 +62,7 @@ namespace ClumsyBat.Objects
 
         public void CollectMothFromCrystal(Vector2 spawnLoc, Moth.MothColour colour)
         {
-            Moth newMoth = GetNewObject();
+            Moth newMoth = GetObjectFromPool();
             var spawnTf = new Spawnable.SpawnType
             {
                 Pos = spawnLoc,

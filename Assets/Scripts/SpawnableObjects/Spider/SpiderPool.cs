@@ -24,10 +24,10 @@ namespace ClumsyBat.Objects
         {
             foreach (SpiderType spider in spiderList)
             {
-                SpiderClass newSpider = GetNewObject();
+                SpiderClass newSpider = GetObjectFromPool();
                 Spawnable.SpawnType spawnTf = spider.SpawnTransform;
                 spawnTf.Pos += new Vector2(xOffset, 0f);
-                newSpider.Activate(spawnTf, spider.SpiderSwings, spider.AnchorPoint);
+                newSpider.Spawn(spawnTf, spider.SpiderSwings, spider.AnchorPoint);
             }
         }
     }

@@ -11,11 +11,24 @@
         public readonly WebPool Webs = new WebPool();
         public readonly TriggerHandler Triggers = new TriggerHandler();
         public readonly NpcPool Npcs = new NpcPool();
+
+        private ISpawnPool[] spawnPools = new ISpawnPool[7];
+
+        public LevelObjectHandler()
+        {
+            spawnPools[0] = Shrooms;
+            spawnPools[1] = Moths;
+            spawnPools[2] = Stals;
+            spawnPools[3] = Spiders;
+            spawnPools[4] = Webs;
+            spawnPools[5] = Triggers;
+            spawnPools[6] = Npcs;
+        }
         
         public void SetCaveObstacles(LevelContainer.CaveType cave, int index)
         {
             var xOffset = index * Toolbox.TileSizeX;
-
+            
             Shrooms.SetupMushroomsInList(cave.Shrooms, xOffset);
             Stals.SetupStalactitesInList(cave.Stals, xOffset);
             Moths.SetupMothsInList(cave.Moths, xOffset);
@@ -25,15 +38,12 @@
             Npcs.SetupObjectsInList(cave.Npcs, xOffset);
         }
 
-        public void SetPaused(bool pauseGame)
+        public void DisableAllObjects()
         {
-            Shrooms.PauseGame(pauseGame);
-            Stals.PauseGame(pauseGame);
-            Moths.PauseGame(pauseGame);
-            Spiders.PauseGame(pauseGame);
-            Webs.PauseGame(pauseGame);
-            Triggers.PauseGame(pauseGame);
-            Npcs.PauseGame(pauseGame);
+            foreach (var pool in spawnPools)
+            {
+                pool.DisableObjects();
+            }
         }
     }
 }

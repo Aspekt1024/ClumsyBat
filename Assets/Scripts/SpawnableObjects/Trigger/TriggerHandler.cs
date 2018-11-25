@@ -28,10 +28,10 @@ namespace ClumsyBat.Objects
         {
             foreach (TriggerType trigger in triggerList)
             {
-                TriggerClass newTrigger = GetNewObject();
+                TriggerClass newTrigger = GetObjectFromPool();
                 Spawnable.SpawnType spawnTf = trigger.SpawnTransform;
                 spawnTf.Pos += new Vector2(xOffset, 0f);
-                newTrigger.Activate(trigger, spawnTf);
+                newTrigger.Spawn(trigger, spawnTf);
             }
         }
     }

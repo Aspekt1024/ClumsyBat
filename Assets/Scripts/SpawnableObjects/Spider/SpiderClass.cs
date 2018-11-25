@@ -28,14 +28,7 @@ public class SpiderClass : Spawnable {
         GetSpiderComponents();
         spider.Anim.Play("Normal", 0, 0f);
         spider.Anim.enabled = true;
-        IsActive = false;
         body.isKinematic = true;
-    }
-
-    private void FixedUpdate()
-    {
-        if (!IsActive) { return; }
-        MoveLeft(Time.fixedDeltaTime);
     }
 
     private void Update()
@@ -50,6 +43,13 @@ public class SpiderClass : Spawnable {
         StartCoroutine(Drop());
     }
 
+    protected override void Init()
+    {
+        spider.Anim.Play("Normal", 0, 0f);
+        spider.Anim.enabled = true;
+        body.isKinematic = true;
+    }
+
     private void GetSpiderComponents()
     {
         body = GetComponent<Rigidbody2D>();
@@ -60,17 +60,16 @@ public class SpiderClass : Spawnable {
         web = new WebString(transform);
     }
 
-    public void Activate(SpawnType spawnTf, bool spiderSwings, Vector2 anchorPoint)
+    public void Spawn(SpawnType spawnTf, bool spiderSwings, Vector2 anchorPoint)
     {
-        base.Activate(transform, spawnTf);
+        base.Spawn(transform, spawnTf);
         spider.SpiderSwings = spiderSwings;
         spider.AnchorPoint = anchorPoint;
         _spiderState = SpiderStates.Normal;
-        web.Activate(spiderSwings, anchorPoint);
+        web.Spawn(spiderSwings, anchorPoint);
     }
     
-    public bool Active() { return IsActive; }
-    public void DestroySpider() { if (IsActive) StartCoroutine(KillIt()); }
+    public void DestroySpider() { StartCoroutine(KillIt()); }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
@@ -86,18 +85,15 @@ public class SpiderClass : Spawnable {
 
         while (shakeTime < shakeDuration)
         {
-            if (!IsPaused)
+            if (bRotateForward)
             {
-                if (bRotateForward)
-                {
-                    transform.Rotate(Vector3.forward * 3);
-                }
-                else
-                {
-                    transform.Rotate(Vector3.back * 3);
-                }
-                bRotateForward = !bRotateForward;
+                transform.Rotate(Vector3.forward * 3);
             }
+            else
+            {
+                transform.Rotate(Vector3.back * 3);
+            }
+            bRotateForward = !bRotateForward;
             yield return new WaitForSeconds(0.09f);
             shakeTime += 0.09f;
         }
@@ -119,7 +115,7 @@ public class SpiderClass : Spawnable {
         bool gravitySet = false;
         while (transform.position.y > -5)
         {
-            if (!IsPaused && IsFalling)
+            if (IsFalling)
             {
                 if (!gravitySet)
                 {
@@ -138,7 +134,7 @@ public class SpiderClass : Spawnable {
             yield return null;
         }
         web.Disengage();
-        SendToInactivePool();
+        Deactivate();
     }
 
     private IEnumerator KillIt()
@@ -148,6 +144,6 @@ public class SpiderClass : Spawnable {
         body.isKinematic = false;
         //Spider.Anim.Play("Crumble", 0, 0f);   // TODO anim
         yield return new WaitForSeconds(1f);
-        SendToInactivePool();
+        Deactivate();
     }
 }

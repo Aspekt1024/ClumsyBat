@@ -82,7 +82,7 @@ public class SpawnStalactites : BossAbility {
     // TODO the existence of this looks wrong... there should be an event instead
     private IEnumerator CheckStalExists(int index, GameObject rubbleEffect)
     {
-        while (_stals[index].IsActive)
+        while (_stals[index].isActiveAndEnabled)
         {
             yield return null;
         }
@@ -93,7 +93,7 @@ public class SpawnStalactites : BossAbility {
     {
         foreach(var stal in _stals)
         {
-            if (stal.IsActive && !stal.IsForming)
+            if (!stal.IsForming)
             {
                 stal.Drop();
                 yield return new WaitForSeconds(0.2f);
@@ -106,7 +106,7 @@ public class SpawnStalactites : BossAbility {
         for (int i = 0; i < dropOrder.Length; i++)
         {
             int index = dropOrder[i];
-            if (_stals[index].IsActive && !_stals[index].IsForming)
+            if (_stals[index].isActiveAndEnabled && !_stals[index].IsForming)
             {
                 _stals[index].Drop();
                 yield return new WaitForSeconds(0.2f);
@@ -135,7 +135,7 @@ public class SpawnStalactites : BossAbility {
             PoolHandlerIndex = poolHandlerIndex,
             Direction = direction
         };
-        _stals[index].Activate(stalProps, 0);
+        _stals[index].Spawn(stalProps, 0);
     }
 
     private int GetUnusedStalIndex()
@@ -143,7 +143,7 @@ public class SpawnStalactites : BossAbility {
         int i = 0;
         for (i = 0; i < _stals.Count - 1; i++)
         {
-            if (!_stals[i].IsActive) break;
+            if (!_stals[i].isActiveAndEnabled) break;
         }
         return i;
     }
@@ -159,22 +159,6 @@ public class SpawnStalactites : BossAbility {
             newStal.transform.position = Toolbox.Instance.HoldingArea;
             newStal.DropEnabled = false;
             _stals.Add(newStal);
-        }
-    }
-
-    public override void Pause()
-    {
-        foreach (var stal in _stals)
-        {
-            stal.PauseGame(true);
-        }
-    }
-
-    public override void Resume()
-    {
-        foreach (var stal in _stals)
-        {
-            stal.PauseGame(false);
         }
     }
 }

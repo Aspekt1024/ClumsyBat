@@ -58,18 +58,6 @@ namespace ClumsyBat
         public static PlayerManager Player { get { return Instance._playerManager; } }
         public static ObjectManager Objects { get { return Instance._objectManager; } }
 
-        public static void Pause()
-        {
-            Objects.ObjectHandler.SetPaused(true);
-            UI.DropdownMenu.ShowPauseMenu();
-        }
-
-        public static void Unpause()
-        {
-            Objects.ObjectHandler.SetPaused(false);
-            UI.GameHud.GamePaused(false);
-        }
-
         /// <summary>
         /// TODO This is a temporary function!!! Once LevelDataControl and AbilityControl are not monobehaviours, they can be removed
         /// </summary>
