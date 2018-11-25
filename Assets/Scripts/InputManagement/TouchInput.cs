@@ -43,7 +43,8 @@ namespace ClumsyBat.InputManagement
             {
                 IsJumpHeld = false;
             }
-            else if (touch.phase == TouchPhase.Began)
+
+            if (touch.phase == TouchPhase.Began)
             {
                 isGestureSet = false;
                 touchStartPos = touch.position.x;
