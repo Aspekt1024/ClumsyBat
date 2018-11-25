@@ -104,7 +104,7 @@ namespace ClumsyBat.UI
         {
             foreach (RectTransform rt in GetComponent<RectTransform>())
             {
-                if (rt.name == "UIToggleElements")
+                if (rt.name == "UIElements")
                 {
                     gameUICanvas = rt.GetComponent<CanvasGroup>();
                     foreach (RectTransform r in rt)

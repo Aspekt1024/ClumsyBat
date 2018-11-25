@@ -17,7 +17,6 @@ public class TooltipHandler : MonoBehaviour {
     private RectTransform resumePlayImage;
     private RectTransform nomee;
     
-    private InputManager _inputManager;
     private TooltipButtonEffects buttonEffects;
 
     private bool tooltipSetup;
@@ -153,11 +152,11 @@ public class TooltipHandler : MonoBehaviour {
         else
             UIObjectAnimator.Instance.PopInObject(resumeNextImage);
 
-        _inputManager.ClearInput();
-        while (!_inputManager.TapRegistered())
-        {
-            yield return null;
-        }
+        //_inputManager.ClearInput();
+        //while (!_inputManager.IsTapRegistered())
+        //{
+        //    yield return null;
+        //}
 
         if (isFinal)
             UIObjectAnimator.Instance.PopOutObject(resumePlayImage);

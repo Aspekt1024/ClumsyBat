@@ -24,8 +24,6 @@ namespace ClumsyBat.LevelManagement
 
             GameStatics.Data.Stats.LevelsCompleted++;
             GameStatics.Data.SaveData();
-
-            GameStatics.UI.DropdownMenu.ShowLevelCompletion(level, nextLevel.ID);
         }
 
         private LevelData GetNextLevel(Levels level, LevelCompletionPaths path)

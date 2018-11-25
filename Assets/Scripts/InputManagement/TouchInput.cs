@@ -18,10 +18,12 @@ namespace ClumsyBat.InputManagement
         private const float SwipeResistanceY = 90f;
         private const float StationaryTime = 0.05f; // Time before a tap is registered
         private const float SwipeTime = 0.4f;       // Player must swipe within this time
-        
-        private bool gestureIsSet;
+
+        private bool isGestureSet;
         private float touchStartPos;
         private float touchStartTime;
+
+        public bool IsJumpHeld { get; private set; }
 
         private PlayerInputHandler inputHandler;
 
@@ -37,15 +39,19 @@ namespace ClumsyBat.InputManagement
 
             if (EventSystem.current.IsPointerOverGameObject(touch.fingerId)) return TouchAction.None;
 
-            if (touch.phase == TouchPhase.Began)
+            if (touch.phase == TouchPhase.Ended)
             {
-                gestureIsSet = false;
+                IsJumpHeld = false;
+            }
+            else if (touch.phase == TouchPhase.Began)
+            {
+                isGestureSet = false;
                 touchStartPos = touch.position.x;
                 touchStartTime = Time.time;
-                inputHandler.JumpHeld();
+                IsJumpHeld = true;
                 return TouchAction.None;
             }
-            else if (gestureIsSet)
+            else if (isGestureSet)
             {
                 return TouchAction.None;
             }
@@ -57,7 +63,6 @@ namespace ClumsyBat.InputManagement
                 case TouchPhase.Moved:
                     return ResolveMovedTouch(touch.position.x);
                 case TouchPhase.Ended:
-                    inputHandler.JumpReleased();
                     return ResolveEndedTouch(touch.position.x);
             }
             return TouchAction.None;
@@ -71,7 +76,7 @@ namespace ClumsyBat.InputManagement
             }
             else
             {
-                gestureIsSet = true;
+                isGestureSet = true;
                 if (touchPosX < 0.5 * Screen.width)
                 {
                     return TouchAction.LeftTap;
@@ -87,12 +92,12 @@ namespace ClumsyBat.InputManagement
         {
             if (IsWithinSwipeTime() && RightSwipeDistanceAchieved(touchPosX))
             {
-                gestureIsSet = true;
+                isGestureSet = true;
                 return TouchAction.SwipeRight;
             }
             else if (IsWithinSwipeTime() && LeftSwipeDistanceAchieved(touchPosX))
             {
-                gestureIsSet = true;
+                isGestureSet = true;
                 return TouchAction.SwipeLeft;
             }
             else

@@ -48,9 +48,8 @@ namespace ClumsyBat.UI.DropdownMenuComponents
 
         public void RestartButtonPressed()
         {
-            Toolbox.Instance.ResetTooltips();
             GameStatics.Data.SaveData();
-            GameStatics.UI.LoadingScreen.ShowLoadScreen();
+            GameStatics.GameManager.LoadLevel(GameStatics.LevelManager.Level);
         }
 
         public void OptionsButtonPressed()
@@ -208,7 +207,7 @@ namespace ClumsyBat.UI.DropdownMenuComponents
             rt.gameObject.SetActive(true);
             while (timer < duration)
             {
-                timer += Time.deltaTime;
+                timer += Time.fixedDeltaTime;
                 rt.localScale = Vector3.Lerp(Vector3.one * 0.1f, originalScale * 1.1f, timer / duration);
                 yield return null;
             }
@@ -232,7 +231,7 @@ namespace ClumsyBat.UI.DropdownMenuComponents
             Vector3 originalScale = rt.localScale;
             while (timer < duration)
             {
-                timer += Time.deltaTime;
+                timer += Time.fixedDeltaTime;
                 rt.localScale = Vector3.Lerp(originalScale, originalScale * 1.1f, timer / duration);
                 yield return null;
             }

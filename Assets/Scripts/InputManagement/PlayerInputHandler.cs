@@ -2,6 +2,8 @@
 using TouchAction = ClumsyBat.InputManagement.TouchInput.TouchAction;
 using KeyboardAction = ClumsyBat.InputManagement.KeyboardInput.KeyboardAction;
 using ClumsyBat.Controllers;
+using ClumsyBat.UI.GameHudComponents;
+using UnityEngine;
 
 namespace ClumsyBat.InputManagement
 {
@@ -34,7 +36,7 @@ namespace ClumsyBat.InputManagement
 
         public PlayerActions GetPlayerAction()
         {
-            if (keyboardInput.CheckJumpHeld())
+            if (keyboardInput.CheckJumpHeld() || touchInput.IsJumpHeld)
             {
                 JumpHeld();
             }
@@ -72,11 +74,13 @@ namespace ClumsyBat.InputManagement
 
         public void JumpHeld()
         {
+            if (controller.IsJumpHeld) return;
             controller.IsJumpHeld = true;
         }
 
         public void JumpReleased()
         {
+            if (!controller.IsJumpHeld) return;
             controller.IsJumpHeld = false;
         }
     }

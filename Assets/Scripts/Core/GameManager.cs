@@ -18,6 +18,8 @@ namespace ClumsyBat
         }
         public StartupModes StartupMode = StartupModes.MainMenu;
 
+        public bool DebugMode = false;
+
         public enum GameStates
         {
             MainMenu, InLevel
