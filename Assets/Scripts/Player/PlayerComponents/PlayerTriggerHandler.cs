@@ -27,10 +27,5 @@ namespace ClumsyBat.Players
                     break;
             }
         }
-
-        private void OnTriggerExit2D(Collider2D other)
-        {
-            GameStatics.LevelManager.GameHandler.TriggerExited(other);
-        }
     }
 }

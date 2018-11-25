@@ -29,15 +29,6 @@ public abstract class Boss : MonoBehaviour {
     private Vector2 storedVelocity;
     private float damageCooldownTimer;
     
-    private void OnEnable()
-    {
-        SetEvents();
-    }
-    private void OnDisable()
-    {
-        RemoveEvents();
-    }
-
     private void Awake()
     {
         GetBossComponents();
@@ -209,18 +200,6 @@ public abstract class Boss : MonoBehaviour {
     public bool IsPaused()
     {
         return _bPaused;
-    }
-
-    protected virtual void SetEvents()
-    {
-        EventListener.OnPauseGame += PauseGame;
-        EventListener.OnResumeGame += ResumeGame;
-    }
-
-    protected virtual void RemoveEvents()
-    {
-        EventListener.OnPauseGame -= PauseGame;
-        EventListener.OnResumeGame -= ResumeGame;
     }
 
     public virtual void Walk() { }

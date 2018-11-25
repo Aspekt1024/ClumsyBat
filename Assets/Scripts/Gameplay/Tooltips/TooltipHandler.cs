@@ -78,7 +78,7 @@ public class TooltipHandler : MonoBehaviour {
     private IEnumerator ShowDialogueRoutine(TriggerEvent triggerEvent)
     {
         GameStatics.GameManager.PauseGame();
-        GameStatics.LevelManager.GameHandler.GameState = GameHandler.GameStates.PausedForTooltip;
+        GameStatics.Data.GameState.IsPausedForTooltip = true;
 
         Vector3 position = GameStatics.Player.Clumsy.transform.position;
         position.z = -8f;

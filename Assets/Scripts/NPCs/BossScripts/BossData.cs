@@ -24,15 +24,11 @@ public class BossData : MonoBehaviour {
 
     private void OnEnable()
     {
-        EventListener.OnPauseGame += PauseGame;
-        EventListener.OnResumeGame += ResumeGame;
         BossEvents.OnBossFightStart += BossStart;
         BossEvents.OnBossDeath += Die;
     }
     private void OnDisable()
     {
-        EventListener.OnPauseGame -= PauseGame;
-        EventListener.OnResumeGame -= ResumeGame;
         BossEvents.OnBossFightStart -= BossStart;
         BossEvents.OnBossDeath -= Die;
     }

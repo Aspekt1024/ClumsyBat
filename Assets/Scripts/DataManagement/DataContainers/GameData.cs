@@ -15,6 +15,8 @@ namespace ClumsyBat.DataManagement
 
         public bool IsUntouched;
         public bool OneDamageTaken;
+
+        public bool IsPausedForTooltip;
         
         private int mothsEaten;
         public int MothsEaten

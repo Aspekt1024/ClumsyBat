@@ -3,9 +3,8 @@
 public class EventListener
 {
     public delegate void EventHandler();
+
     public static EventHandler OnDeath;
-    public static EventHandler OnPauseGame;
-    public static EventHandler OnResumeGame;
 
     public static EventHandler OnMusicToggle;
     public static EventHandler OnSfxToggle;
@@ -15,17 +14,17 @@ public class EventListener
 
     public static EventHandler OnLevelWon;
 
+    public static void Death()
+    {
+        OnDeath?.Invoke();
+    }
+
     /// <summary>
     /// Notifies subscribers that the level has been completed
     /// </summary>
     public static void LevelCompleted()
     {
-        OnLevelWon.Invoke();
-    }
-    
-    public static void Death()
-    {
-        OnDeath.Invoke();
+        OnLevelWon?.Invoke();
     }
 
     public static void MusicToggle()

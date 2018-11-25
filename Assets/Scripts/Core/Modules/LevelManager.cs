@@ -10,7 +10,7 @@ namespace ClumsyBat
 {
     public class LevelManager
     {
-        public LevelGameHandler GameHandler;
+        public GameHandler GameHandler;
 
         private LevelScript levelScript;
         private LevelButtonHandler buttonHandler;
@@ -29,7 +29,7 @@ namespace ClumsyBat
             }
 
             levelScript = scriptsObject.GetComponent<LevelScript>();
-            GameHandler = scriptsObject.GetComponent<LevelGameHandler>();
+            GameHandler = scriptsObject.GetComponent<GameHandler>();
             buttonHandler = Object.FindObjectOfType<LevelButtonHandler>();
         }
 
