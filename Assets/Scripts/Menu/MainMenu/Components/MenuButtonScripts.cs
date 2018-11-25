@@ -7,7 +7,7 @@ namespace ClumsyBat.Menu
     {
         public void ScoresButtonPressed()
         {
-            PlayGamesScript.ShowLeaderboardsUI();
+
         }
 
         public void PlayButtonPressed()
