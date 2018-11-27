@@ -8,6 +8,8 @@ public class AbilityControl : MonoBehaviour {
     public AbilityContainer.AbilityDataType Data;
     private string persistentDataPath; // Can only be obtained in the main thread. Load/Save is async
 
+    private bool isAccessingData;
+
     public void Awake()
     {
         persistentDataPath = Application.persistentDataPath;
@@ -15,8 +17,11 @@ public class AbilityControl : MonoBehaviour {
 
     public bool Load()
     {
+        if (isAccessingData) return false;
+
         if (File.Exists(persistentDataPath + "/AbilityData.dat"))
         {
+            isAccessingData = true;
             var bf = new BinaryFormatter();
             FileStream file = File.Open(persistentDataPath + "/AbilityData.dat", FileMode.Open);
 
@@ -32,6 +37,7 @@ public class AbilityControl : MonoBehaviour {
                 return false;
             }
             file.Close();
+            isAccessingData = false;
 
             Data = abilityData.Data;
         }
@@ -69,6 +75,9 @@ public class AbilityControl : MonoBehaviour {
 
     public void Save()
     {
+        if (isAccessingData) return;
+        isAccessingData = true;
+
         var bf = new BinaryFormatter();
 
         FileStream file = File.Open(persistentDataPath + "/AbilityData.dat", FileMode.OpenOrCreate);
@@ -77,6 +86,7 @@ public class AbilityControl : MonoBehaviour {
 
         bf.Serialize(file, abilityData);
         file.Close();
+        isAccessingData = false;
     }
 
     public void ClearAbilityData()

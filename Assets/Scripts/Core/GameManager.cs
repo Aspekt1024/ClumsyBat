@@ -26,10 +26,11 @@ namespace ClumsyBat
         }
         private GameStates state;
 
-        private GameStatics statics;
+        public GameObject LevelObject;
+        public GameObject MenuObject;
+        public GameObject BossObject;
 
-        private GameObject levelObject;
-        private GameObject menuObject;
+        private GameStatics statics;
         
         private MainMenuTransitions mainMenuTransitions;
 
@@ -42,9 +43,6 @@ namespace ClumsyBat
             // All of the core managers are created in GameStatics
             statics = new GameStatics();
             state = GameStates.MainMenu;
-
-            levelObject = GameObject.Find("Level");
-            menuObject = GameObject.Find("MainMenu");
 
             GameStatics.Data.LoadData(GameDataLoaded);
             mainMenuTransitions = new MainMenuTransitions();
@@ -87,8 +85,7 @@ namespace ClumsyBat
         {
             ResumeGame();
             yield return StartCoroutine(GameStatics.UI.LoadingScreen.ShowLoadScreen());
-            levelObject.SetActive(true);
-            menuObject.SetActive(false);
+            MenuObject.SetActive(false);
 
             GameStatics.LevelManager.LoadLevel(level);
 
@@ -128,8 +125,9 @@ namespace ClumsyBat
             var pos = GameStatics.Camera.MenuCamera.transform.position;
             pos.x = 0f;
             GameStatics.Camera.MenuCamera.transform.position = pos;
-            menuObject.SetActive(true);
-            levelObject.SetActive(false);
+            MenuObject.SetActive(true);
+            LevelObject.SetActive(false);
+            BossObject.SetActive(false);
             GameStatics.Camera.SwitchToMenuCamera();
 
             mainMenuTransitions.AnimateMainMenuScene();

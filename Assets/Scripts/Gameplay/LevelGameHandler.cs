@@ -4,20 +4,10 @@ using UnityEngine;
 
 namespace ClumsyBat
 {
-    public class GameHandler : MonoBehaviour
+    public class LevelGameHandler : MonoBehaviour
     {
         public GameMusicControl GameMusic;
-
-        public enum GameStates
-        {
-            Starting,
-            Normal,
-            Paused,
-            Resuming,
-            PausedForTooltip
-        }
-        public GameStates GameState { get; private set; }
-
+        
         [HideInInspector] public LevelScript Level;
         [HideInInspector] public CaveHandler CaveHandler;
 
@@ -32,7 +22,7 @@ namespace ClumsyBat
             GameMusic = Level.gameObject.AddComponent<GameMusicControl>(); // TODO this ourselves
             CaveHandler = FindObjectOfType<CaveHandler>();
             player = GameStatics.Player.Clumsy;
-
+            
             EventListener.OnDeath += OnDeath;
         }
 
@@ -44,9 +34,16 @@ namespace ClumsyBat
         public void StartLevel()
         {
             StartCoroutine(LevelStartRoutine());
-            GameMusic.PlaySound(GameMusicControl.GameTrack.Twinkly);
-            SetCameraEndPoint();
-            GameStatics.UI.GameHud.SetCurrencyText("0/" + GameStatics.LevelManager.NumMoths);
+
+            if (GameStatics.LevelManager.IsBossLevel)
+            {
+                Debug.Log("Starting boss level.");
+            }
+            else
+            {
+                SetCameraEndPoint();
+                GameStatics.UI.GameHud.SetCurrencyText("0/" + GameStatics.LevelManager.NumMoths);
+            }
         }
 
         public void EndLevelMainPath()

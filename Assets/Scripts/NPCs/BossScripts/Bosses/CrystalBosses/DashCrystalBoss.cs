@@ -51,10 +51,10 @@ public class DashCrystalBoss : CrystalBoss {
         }
 
         Toolbox.Tooltips.ShowDialogue("You have unlocked the ability to (briefly) reach breakneck speeds! Swipe to dash!", 2f, true);
-        while (GameStatics.LevelManager.GameHandler.GameState == GameHandler.GameStates.PausedForTooltip)
-        {
-            yield return null;
-        }
+        //while (GameStatics.LevelManager.GameHandler.GameState == LevelGameHandler.GameStates.PausedForTooltip)
+        //{
+        //    yield return null;
+        //}
 
         GameStatics.LevelManager.GameHandler.LevelComplete();
     }

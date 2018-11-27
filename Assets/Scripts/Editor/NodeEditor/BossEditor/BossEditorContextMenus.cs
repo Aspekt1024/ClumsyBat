@@ -51,7 +51,7 @@ public class BossEditorContextMenus : BaseContextMenus {
         menu.AddItem(new GUIContent("Abilities/Stalactite"), false, ContextCallback, typeof(SpawnStalNode));
         menu.AddItem(new GUIContent("Abilities/Movement"), false, ContextCallback, typeof(WalkNode));
         menu.AddItem(new GUIContent("Abilities/Charge"), false, ContextCallback, typeof(ChargeNode));
-        menu.AddItem(new GUIContent("Flying Abilities/Air Charge"), false, ContextCallback, typeof(AirChargeNode));
+        //menu.AddItem(new GUIContent("Flying Abilities/Air Charge"), false, ContextCallback, typeof(AirChargeNode));
         menu.AddItem(new GUIContent("Flying Abilities/Air Follow"), false, ContextCallback, typeof(AirFollowNode));
 
         menu.AddItem(new GUIContent("Events/New"), false, ContextCallback, typeof(StateEventNode));

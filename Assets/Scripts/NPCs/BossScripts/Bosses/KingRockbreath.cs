@@ -134,16 +134,4 @@ public class KingRockbreath : Boss
     {
         anim.Play(spriteDict[Animations.Idle], 0, 0f);
     }
-
-    protected override void PauseGame()
-    {
-        base.PauseGame();
-        anim.enabled = false;
-    }
-
-    protected override void ResumeGame()
-    {
-        base.ResumeGame();
-        anim.enabled = true;
-    }
 }

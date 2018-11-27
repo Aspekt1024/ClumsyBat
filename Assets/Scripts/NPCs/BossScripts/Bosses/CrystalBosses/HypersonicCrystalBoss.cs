@@ -51,10 +51,10 @@ public class HypersonicCrystalBoss : CrystalBoss {
         }
 
         Toolbox.Tooltips.ShowDialogue("It worked! Any time you collect a gold moth, you will activate Hypersonic!", 2f, true);
-        while (GameStatics.LevelManager.GameHandler.GameState == GameHandler.GameStates.PausedForTooltip)
-        {
-            yield return null;
-        }
+        //while (GameStatics.LevelManager.GameHandler.GameState == LevelGameHandler.GameStates.PausedForTooltip)
+        //{
+        //    yield return null;
+        //}
 
         GameStatics.LevelManager.GameHandler.LevelComplete();
     }

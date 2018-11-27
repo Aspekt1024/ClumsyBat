@@ -44,6 +44,10 @@ namespace ClumsyBat.Menu
         public void AnimateMainMenuScene()
         {
             PlayerManager.Instance.PossessByAI();
+            PlayerManager.Instance.Clumsy.Physics.Enable();
+            PlayerManager.Instance.Clumsy.Physics.EnableGravity();
+            GameStatics.GameManager.ResumeGame();
+
             PlayerManager.Instance.SetPlayerPosition(keyPoints.EntryPoint.transform.position);
             PlayerManager.Instance.AIController.MoveTo(keyPoints.EntryLandingPoint.transform);
         }

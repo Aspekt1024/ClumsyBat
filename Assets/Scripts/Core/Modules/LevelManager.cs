@@ -10,8 +10,9 @@ namespace ClumsyBat
 {
     public class LevelManager
     {
-        public GameHandler GameHandler;
+        public LevelGameHandler GameHandler;
 
+        private BossHandler bossHandler;
         private LevelScript levelScript;
         private LevelButtonHandler buttonHandler;
 
@@ -29,8 +30,9 @@ namespace ClumsyBat
             }
 
             levelScript = scriptsObject.GetComponent<LevelScript>();
-            GameHandler = scriptsObject.GetComponent<GameHandler>();
+            GameHandler = scriptsObject.GetComponent<LevelGameHandler>();
             buttonHandler = Object.FindObjectOfType<LevelButtonHandler>();
+            bossHandler = Object.FindObjectOfType<BossHandler>();
         }
 
         public bool IsBossLevel { get { return Level.ToString().Contains("Boss"); } }
@@ -57,16 +59,26 @@ namespace ClumsyBat
         public void LoadLevel(Levels level)
         {
             SetInitialState();
-
             Level = level;
-            TextAsset levelTxt = (TextAsset)Resources.Load("LevelXML/" + level.ToString());
-            LevelContainer levelData = LevelContainer.LoadFromText(levelTxt.text);
 
-            GameStatics.Objects.SetupLevel(levelData);
+            if (IsBossLevel)
+            {
+                GameStatics.GameManager.LevelObject.SetActive(true);
+                GameStatics.GameManager.BossObject.SetActive(true);
+                bossHandler.LoadBoss();
+            }
+            else
+            {
+                GameStatics.GameManager.LevelObject.SetActive(true);
+                GameStatics.GameManager.BossObject.SetActive(false);
 
-            Level = level;
-            NumMoths = GetNumMoths(levelData);
-            ScoreToBeat = levelData.ScoreToBeat;
+                TextAsset levelTxt = (TextAsset)Resources.Load("LevelXML/" + level.ToString());
+                LevelContainer levelData = LevelContainer.LoadFromText(levelTxt.text);
+                GameStatics.Objects.SetupLevel(levelData);
+
+                NumMoths = GetNumMoths(levelData);
+                ScoreToBeat = levelData.ScoreToBeat;
+            }
         }
 
         private void SetInitialState()

@@ -6,24 +6,17 @@ using LevelCompletionPaths = ClumsyBat.LevelManagement.LevelCompletionHandler.Le
 
 public class LevelScript : MonoBehaviour {
 
-    // These attributes can be set in the inspector
-    public float ClumsyBaseSpeed = 5f;    // TODO should this really belong with player?
     public LevelProgressionHandler.Levels DefaultLevel = LevelProgressionHandler.Levels.Main1;
-    public LevelStateHandler statsHandler;
-    
-    private GameObject _levelScripts;
-    private AudioSource _audioControl;
+    public LevelStateHandler stateHandler;
     
     private void Awake()
     {
-        _levelScripts = GameObject.Find("LevelScripts");
-        _audioControl = _levelScripts.AddComponent<AudioSource>();
-        statsHandler = new LevelStateHandler();
+        stateHandler = new LevelStateHandler();
     }
     
     private void Update ()
     {
-        statsHandler.Tick(Time.deltaTime);
+        stateHandler.Tick(Time.deltaTime);
     }
 
     public void SetLevel()
@@ -40,7 +33,7 @@ public class LevelScript : MonoBehaviour {
     
     public void StartGame()
     {
-        statsHandler.Begin();
+        stateHandler.Begin();
 
         GameStatics.UI.GameHud.StartGame();
 
@@ -62,14 +55,5 @@ public class LevelScript : MonoBehaviour {
         {
             GameStatics.LevelManager.LevelCompleted(LevelCompletionPaths.MainPath);
         }
-
-        // TODO add sound to sound controller script
-        if (GameStatics.Data.Settings.MusicOn)
-        {
-            var victoryClip = (AudioClip)Resources.Load("Audio/LevelComplete");
-            _audioControl.PlayOneShot(victoryClip);
-        }
     }
-
-
 }

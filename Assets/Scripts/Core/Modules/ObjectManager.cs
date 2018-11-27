@@ -28,6 +28,5 @@ namespace ClumsyBat
                 ObjectHandler.SetCaveObstacles(levelContainer.Caves[i], i);
             }
         }
-        
     }
 }
