@@ -191,9 +191,9 @@ namespace ClumsyBat.Players
         private IEnumerator PauseForDeath()
         {
             audioControl.PlaySound(PlayerSounds.Collision);    // TODO replace with something... better? like an "ow!"
-            Time.timeScale = 0f;
-            yield return new WaitForSeconds(0.47f);
-            Time.timeScale = 1f;
+            GameStatics.GameManager.PauseGame();
+            yield return new WaitForSecondsRealtime(0.47f);
+            GameStatics.GameManager.ResumeGame();
             animator.PlayAnimation(ClumsyAnimations.Die);
         }
     }

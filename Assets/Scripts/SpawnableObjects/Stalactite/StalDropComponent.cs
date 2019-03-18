@@ -42,13 +42,13 @@ public class StalDropComponent : MonoBehaviour {
         if (!GameStatics.StaticsInitiated) return;
         if (!stal.DropEnabled || !stal.isActiveAndEnabled || isPaused || _state == DropStates.Falling || !GameStatics.Player.Clumsy.State.IsAlive) return;
         
-        if (GameStatics.Player.Clumsy.transform.position.x > transform.position.x - stal.TriggerPosX)
+        if (GameStatics.Player.Clumsy.Model.position.x > transform.position.x - stal.TriggerPosX)
         {
             Drop();
         }
         else
         {
-            if (GameStatics.Player.Clumsy.transform.position.x > transform.position.x - stal.TriggerPosX - shakeThresholdX && _state == DropStates.None)
+            if (GameStatics.Player.Clumsy.Model.position.x > transform.position.x - stal.TriggerPosX - shakeThresholdX && _state == DropStates.None)
             {
                 StartCoroutine(Shake());
             }

@@ -31,7 +31,7 @@ public class AirFollowAction : BaseAction {
     {
         Vector2 followPos = followingObject.transform.position;
         if (!GameStatics.Player.Clumsy.State.IsAlive)
-            followPos = GameObject.FindGameObjectWithTag("MainCamera").transform.position;
+            followPos = GameStatics.Camera.CurrentCamera.transform.position;
 
         bool isFlipped = bossRenderer.flipX;
         float rotation = GetAdditionalRotation(Time.deltaTime, followPos);

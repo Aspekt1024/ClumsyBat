@@ -60,7 +60,7 @@ public class CaveHandler : MonoBehaviour {
 	private void Update ()
     {
         // TODO rework this - even a trigger would be better
-        //if (GameStatics.GameManager. GameStatics.Player.Clumsy.transform.position.x >= (numCavePieces - 1f) * tileSizeX)
+        //if (GameStatics.GameManager. GameStatics.Player.Model.Transform.position.x >= (numCavePieces - 1f) * tileSizeX)
         //{
         //    GameStatics.Camera.StopFollowing();
         //}

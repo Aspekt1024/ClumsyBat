@@ -57,7 +57,7 @@ public class PerchComponent : MonoBehaviour
         if (!canPerch) return false;
         if (player.State.IsShielded || player.State.IsPerched || !player.State.IsNormal) return false;
 
-        if (collision.contacts[0].point.y > player.Model.transform.position.y)
+        if (collision.contacts[0].point.y > player.Model.position.y)
         {
             if (!touchHeld) return false;
 
@@ -110,12 +110,12 @@ public class PerchComponent : MonoBehaviour
             player.Animate(ClumsyAnimator.ClumsyAnimations.Unperch);
             StartCoroutine(Drop(0.1f));
             StartCoroutine(MoveLantern(true));
-            hit = Physics2D.Raycast(player.Model.transform.position, Vector2.up, 5f, 1 << LayerMask.NameToLayer("Caves") | 1 << LayerMask.NameToLayer("CaveTop"));
+            hit = Physics2D.Raycast(player.Model.position, Vector2.up, 5f, 1 << LayerMask.NameToLayer("Caves") | 1 << LayerMask.NameToLayer("CaveTop"));
         }
         else
         {
             _state = PerchState.Unperched;
-            player.Model.transform.position += Vector3.up * 0.2f;
+            player.Model.position += Vector3.up * 0.2f;
             player.State.SetState(PlayerState.States.Perched, false);
             if (player.IsFacingRight)
             {
@@ -125,12 +125,12 @@ public class PerchComponent : MonoBehaviour
             {
                 player.DoAction(ClumsyAbilityHandler.DirectionalActions.Jump, MovementDirections.Left);
             }
-            hit = Physics2D.Raycast(player.Model.transform.position, Vector2.down, 5f, 1 << LayerMask.NameToLayer("Caves"));
+            hit = Physics2D.Raycast(player.Model.position, Vector2.down, 5f, 1 << LayerMask.NameToLayer("Caves"));
         }
 
         if (hit.collider != null)
         {
-            GameObject rCopy = Instantiate(rubble, new Vector3(hit.point.x, hit.point.y, player.Model.transform.position.z), Quaternion.identity, hit.collider.transform);
+            GameObject rCopy = Instantiate(rubble, new Vector3(hit.point.x, hit.point.y, player.Model.position.z), Quaternion.identity, hit.collider.transform);
             Destroy(rCopy, 0.5f);
         }
         return true;
@@ -168,7 +168,7 @@ public class PerchComponent : MonoBehaviour
 
         float startAngle = _lantern.localRotation.z;
         Vector3 startPosition = _lantern.position;
-        Vector3 endPosition = bToPlayer ? player.Model.transform.position : player.Model.transform.position + Vector3.left * 0.5f;
+        Vector3 endPosition = bToPlayer ? player.Model.position : player.Model.position + Vector3.left * 0.5f;
         RaycastHit2D hit = Physics2D.Raycast(endPosition, Vector3.up, 2f, ~(1 << LayerMask.NameToLayer("Player")));
         if (hit.collider != null)
         {
@@ -180,7 +180,7 @@ public class PerchComponent : MonoBehaviour
         float animTimer = 0f;
         while (animTimer < animDuration)
         {
-            if (bToPlayer) { endPosition = player.Model.transform.position - new Vector3(0.3f, 0.5f, 0f); }
+            if (bToPlayer) { endPosition = player.Model.position - new Vector3(0.3f, 0.5f, 0f); }
             animTimer += Time.deltaTime;
             float ratio = animTimer / animDuration;
             float posX = startPosition.x - (startPosition.x - endPosition.x) * ratio;

@@ -88,6 +88,8 @@ public class BossHandler : MonoBehaviour {
     {
         if (!startingDialoagueComplete)
         {
+            Debug.Log("boss entrance dialogue not complete. implement me");
+            return;
             if (GameStatics.Player.Clumsy.Model.position.x > 0f)
             {
                 startingDialoagueComplete = true;
@@ -143,6 +145,7 @@ public class BossHandler : MonoBehaviour {
     private IEnumerator ShowMovementTutorial()
     {
         Debug.Log("accessing the show movement tutorial. fix this!");
+        yield break;
         if (GameStatics.LevelManager.IsLevelCompleted(LevelProgressionHandler.Levels.Boss1)
             || GameStatics.Data.EventData.Data.BossLeftRightTapTutorialSeen)
             yield break;
@@ -184,25 +187,28 @@ public class BossHandler : MonoBehaviour {
     // TODO set this up in the boss script instead
     private void BossEntranceDialogue()
     {
-        return;
+        string dialogue = "";
         switch (GameStatics.LevelManager.Level)
         {
             case LevelProgressionHandler.Levels.BossS1:
-                Toolbox.Tooltips.ShowDialogue("You found the hidden shrine! The key to defeating King Rockbreath can be found here.", 4f);
+                dialogue = "You found the hidden shrine! The key to defeating King Rockbreath can be found here.";
                 break;
             case LevelProgressionHandler.Levels.Boss1:
                 if (!GameStatics.Data.Abilities.GetHypersonicStats().AbilityAvailable)
                 {
-                    Toolbox.Tooltips.ShowDialogue("Without visiting the hidden shrine, you don't stand a chance here! Turn back!", 4f);
+                    dialogue = "Without visiting the hidden shrine, you don't stand a chance here! Turn back!";
                 }
                 else
                 {
                     if (!GameStatics.Data.LevelDataHandler.IsCompleted(LevelProgressionHandler.Levels.Boss2))
                     {
-                        Toolbox.Tooltips.ShowDialogue("Now that you have unlocked the power of hypersonic, we can defeat King Rockbreath!", 4f);
+                        dialogue = "Now that you have unlocked the power of hypersonic, we can defeat King Rockbreath!";
                     }
                 }
                 break;
+            default:
+                return;
         }
+        Toolbox.Tooltips.ShowDialogue(new TriggerEvent() { Dialogue = new List<string>() { dialogue } });
     }
 }

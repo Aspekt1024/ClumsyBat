@@ -41,8 +41,8 @@ namespace ClumsyBat.LevelManagement
             Player player = GameStatics.Player.Clumsy;
             if (player.State.IsNormal)
             {
-                GameStatics.Data.GameState.Distance += player.Model.transform.position.x - previousPlayerPos;
-                previousPlayerPos = player.Model.transform.position.x;
+                GameStatics.Data.GameState.Distance += player.Model.position.x - previousPlayerPos;
+                previousPlayerPos = player.Model.position.x;
             }
         }
     }

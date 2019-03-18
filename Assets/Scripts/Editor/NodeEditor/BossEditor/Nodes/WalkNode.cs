@@ -37,7 +37,7 @@ public class WalkNode : BaseNode {
 
     public override void Draw()
     {
-        WindowTitle = "Movement";
+        WindowTitle = "Walk";
         Transform.Width = 170;
         Transform.Height = 150;
 

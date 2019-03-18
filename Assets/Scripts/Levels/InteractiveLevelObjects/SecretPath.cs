@@ -61,10 +61,10 @@ public class SecretPath : MonoBehaviour {
                 if (player.State.IsPerched)
                 {
                     // Ensure player is perched on this object before lowering/raising
-                    RaycastHit2D hit = Physics2D.Raycast(new Vector3(player.Model.transform.position.x, 0, 0), Vector3.down, 10, 1 << LayerMask.NameToLayer("Caves"));
+                    RaycastHit2D hit = Physics2D.Raycast(new Vector3(player.Model.position.x, 0, 0), Vector3.down, 10, 1 << LayerMask.NameToLayer("Caves"));
                     if (hit.collider != null && hit.collider.gameObject == gameObject)
                     {
-                        player.Model.transform.position += dist;
+                        player.Model.position += dist;
                     }
                 }
             }

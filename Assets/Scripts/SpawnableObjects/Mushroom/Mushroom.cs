@@ -25,7 +25,7 @@ public class Mushroom : Spawnable {
 
 	private void Update ()
     {
-        if (_bIsTriggered || !(_player.Model.transform.position.x + 10 > transform.position.x)) return;
+        if (_bIsTriggered || !(_player.Model.position.x + 10 > transform.position.x)) return;
         _bIsTriggered = true;
         StartCoroutine(PrepareSpores());
     }

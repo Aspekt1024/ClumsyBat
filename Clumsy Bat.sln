@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clumsy Bat", "Assembly-CSharp.csproj", "{7D0EA23E-DAD5-CB56-4235-D51754E64207}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{7D0EA23E-DAD5-CB56-4235-D51754E64207}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clumsy Bat", "Assembly-CSharp-Editor.csproj", "{B28CD782-64A5-CBE1-05C2-DE2E8776D20B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{B28CD782-64A5-CBE1-05C2-DE2E8776D20B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

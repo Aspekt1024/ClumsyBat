@@ -45,7 +45,6 @@ public class Projectile : MonoBehaviour {
         if (!bActive) return;
         if (collision.gameObject.tag == "Player")
         {
-            Debug.Log("implement: player hit by projectile.");
             callerAction.HitPlayer();
             PlayerCollision();
         }

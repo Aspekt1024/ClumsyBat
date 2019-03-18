@@ -15,6 +15,7 @@ namespace ClumsyBat
         private CameraManager _cameraManager = new CameraManager();
         private PlayerManager _playerManager;
         private ObjectManager _objectManager = new ObjectManager();
+        private AudioManager _audioManager;
 
         private static GameStatics _instance;
         
@@ -45,6 +46,7 @@ namespace ClumsyBat
             _instance = this;
             _gameManager = Object.FindObjectOfType<GameManager>();
             _playerManager = Object.FindObjectOfType<PlayerManager>();
+            _audioManager = Object.FindObjectOfType<AudioManager>();
             CreateDataObjects();
         }
 
@@ -57,6 +59,7 @@ namespace ClumsyBat
         public static CameraManager Camera { get { return GetManager(ref Instance._cameraManager); } }
         public static PlayerManager Player { get { return Instance._playerManager; } }
         public static ObjectManager Objects { get { return Instance._objectManager; } }
+        public static AudioManager Audio { get { return Instance._audioManager; } }
 
         /// <summary>
         /// TODO This is a temporary function!!! Once LevelDataControl and AbilityControl are not monobehaviours, they can be removed

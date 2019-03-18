@@ -1,9 +1,6 @@
-﻿
-using TouchAction = ClumsyBat.InputManagement.TouchInput.TouchAction;
+﻿using TouchAction = ClumsyBat.InputManagement.TouchInput.TouchAction;
 using KeyboardAction = ClumsyBat.InputManagement.KeyboardInput.KeyboardAction;
 using ClumsyBat.Controllers;
-using ClumsyBat.UI.GameHudComponents;
-using UnityEngine;
 
 namespace ClumsyBat.InputManagement
 {

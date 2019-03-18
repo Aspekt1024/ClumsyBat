@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ClumsyBat;
+using UnityEngine;
 
 public class ProjectileAction : BaseAction {
 
@@ -67,7 +68,7 @@ public class ProjectileAction : BaseAction {
     private Vector2 CalculateTargetPos()
     {
         Vector2 outputPos = Vector2.zero;
-        outputPos.x = TargetPos.x + GameObject.FindGameObjectWithTag("MainCamera").transform.position.x;
+        outputPos.x = TargetPos.x + GameStatics.Camera.CurrentCamera.transform.position.x;
 
         ActionConnection posInput = GetInterface((int)Ifaces.Position);
         if (posInput.IsConnected())

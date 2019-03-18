@@ -180,7 +180,7 @@ public class Moth : Spawnable {
     {
         PlayExplosionAnim();
         Vector2 startPos = MothSprite.transform.position;
-        Vector2 pathLoc = GameStatics.Player.Clumsy.transform.position + (GameStatics.Player.Clumsy.IsFacingRight ? Vector3.right : Vector3.left) * 2f;
+        Vector2 pathLoc = GameStatics.Player.Clumsy.Model.position + (GameStatics.Player.Clumsy.IsFacingRight ? Vector3.right : Vector3.left) * 2f;
 
         float timer = 0f;
         const float duration = 0.8f;

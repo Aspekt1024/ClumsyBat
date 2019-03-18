@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using ClumsyBat.Players;
+using ClumsyBat;
 
 public class Shield : MonoBehaviour {
 
@@ -28,7 +29,7 @@ public class Shield : MonoBehaviour {
         if (_state == ShieldStates.Knockback || _state == ShieldStates.Recovering) return true;
         if (_shieldCharges < 0) return false;
 
-        Toolbox.MainAudio.PlaySound(Toolbox.MainAudio.Shield);
+        GameStatics.Audio.Main.PlaySound(MainSounds.Shield);
         _shieldCharges--;
         lantern.SetColourFromShieldCharges(_shieldCharges);
         StartCoroutine(ShieldUp());

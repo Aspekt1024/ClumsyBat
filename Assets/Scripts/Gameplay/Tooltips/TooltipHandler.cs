@@ -1,27 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.UI;
 using ClumsyBat;
+using ClumsyBat.UI;
 
 public class TooltipHandler : MonoBehaviour {
-    
-    public RectTransform DialogueButton;
+
+#pragma warning disable 649
+    [SerializeField] private TooltipUI ui;
+    [SerializeField] private TooltipButtonEffects buttonEffects;
+#pragma warning restore 649
 
     private TriggerEvent storedEvent;
 
-    private Canvas dialogueOverlay;
-    private RectTransform dialogueScroll;
-    private Animator dialogueScrollAnimator;
-    private Text dialogueText;
-    private RectTransform resumeNextImage;
-    private RectTransform resumePlayImage;
-    private RectTransform nomee;
-    
-    private TooltipButtonEffects buttonEffects;
+    private enum States
+    {
+        None, Frozen
+    }
+    private States state = States.None;
 
-    private bool tooltipSetup;
+    // TODO this isn't the best implementation but it's not worth changing at this point in development
+    private bool continuePressed;
 
-    #region Initialisation
+    #region Lifecycle
     private void OnEnable()
     {
         EventListener.OnDeath += RemoveDialogue;
@@ -32,15 +32,7 @@ public class TooltipHandler : MonoBehaviour {
         EventListener.OnDeath -= RemoveDialogue;
         EventListener.OnLevelWon -= RemoveDialogue;
     }
-
-    private void Awake()
-    {
-        dialogueOverlay = GetComponent<Canvas>();
-        GetDialogueComponents();
-        dialogueOverlay.enabled = false;
-        buttonEffects = DialogueButton.GetComponent<TooltipButtonEffects>();
-    }
-    #endregion
+    #endregion Lifecycle
 
     public void TooltipButtonPressed()
     {
@@ -49,30 +41,24 @@ public class TooltipHandler : MonoBehaviour {
         buttonEffects.DisplayIdle();
     }
 
+    public void ContinueDialogue()
+    {
+        if (state == States.Frozen) return;
+        continuePressed = true;
+    }
+
     public void StoreTriggerEvent(TriggerEvent triggerEvent)
     {
         storedEvent = triggerEvent;
         buttonEffects.ShowNewTip();
     }
 
-    public void ClearStoredTrigger()
-    {
-        storedEvent = null;
-        buttonEffects.DisplayIdle();
-    }
-
     public void ShowDialogue(TriggerEvent triggerEvent)
     {
         if (!GameStatics.Player.Clumsy.State.IsAlive) { return; }
+
         TriggerEventSerializer.Instance.SetEventSeen(triggerEvent.Id);
         StartCoroutine(ShowDialogueRoutine(triggerEvent));
-    }
-
-    public void ShowDialogue(string text, float duration, bool pausesGame = false)
-    {
-        TriggerEvent trigEvent = new TriggerEvent();
-        trigEvent.Dialogue.Add(text);
-        StartCoroutine(ShowDialogueRoutine(trigEvent));
     }
 
     private IEnumerator ShowDialogueRoutine(TriggerEvent triggerEvent)
@@ -80,125 +66,54 @@ public class TooltipHandler : MonoBehaviour {
         GameStatics.GameManager.PauseGame();
         GameStatics.Data.GameState.IsPausedForTooltip = true;
 
-        Vector3 position = GameStatics.Player.Clumsy.transform.position;
+        Vector3 position = GameStatics.Player.Clumsy.Model.position;
         position.z = -8f;
-        GameStatics.Player.Clumsy.transform.position = position;
+        GameStatics.Player.Clumsy.Model.position = position;
 
-        float yPos = (GameStatics.Player.Clumsy.transform.position.y > 0) ? -2f : 2f;
-        dialogueScroll.position = new Vector3(dialogueScroll.position.x, yPos, dialogueScroll.position.z);
-
-        if (!tooltipSetup)
-        {
-            yield return StartCoroutine(ShowDialogueWindow());
-        }
+        float yPos = (GameStatics.Player.Clumsy.Model.position.y > 0) ? -2f : 2f;
+        ui.Open(yPos);
 
         for (int i = 0; i < triggerEvent.Dialogue.Count; i++)
         {
-            SetDialogueText(triggerEvent.Dialogue[i]);
+            if (i == triggerEvent.Dialogue.Count - 1)
+            {
+                ui.SetText(triggerEvent.Dialogue[i], TooltipUI.NextDialogueImages.ResumeGame);
+            }
+            else
+            {
+                ui.SetText(triggerEvent.Dialogue[i], TooltipUI.NextDialogueImages.NextDialogue);
+            }
             yield return StartCoroutine(WaitForDialogue(i == triggerEvent.Dialogue.Count - 1));
         }
 
-        if (tooltipSetup)
-        {
-            yield return StartCoroutine(HideDialogueWindow());
-        }
+        ui.Close();
         
         position.z = -1;
-        GameStatics.Player.Clumsy.transform.position = position;
-    }
+        GameStatics.Player.Clumsy.Model.position = position;
 
-    private IEnumerator ShowDialogueWindow()
-    {
-        dialogueText.text = "";
-        nomee.gameObject.SetActive(false);
-        resumePlayImage.gameObject.SetActive(false);
-        resumeNextImage.gameObject.SetActive(false);
-
-        tooltipSetup = true;
-        dialogueOverlay.enabled = true;
-
-        dialogueScroll.gameObject.SetActive(true);
-        dialogueScrollAnimator.Play("TooltipScrollClosed", 0, 0f);
-        yield return StartCoroutine(UIObjectAnimator.Instance.PopInObjectRoutine(dialogueScroll));
-        dialogueScrollAnimator.Play("TooltipScrollOpen", 0, 0f);
-        yield return new WaitForSeconds(0.2f);
-        UIObjectAnimator.Instance.PopInObject(nomee);
-    }
-
-    private IEnumerator HideDialogueWindow()
-    {
-        UIObjectAnimator.Instance.PopOutObject(dialogueText.GetComponent<RectTransform>());
-        yield return StartCoroutine(UIObjectAnimator.Instance.PopOutObjectRoutine(nomee));
-        dialogueScrollAnimator.Play("TooltipScrollClose", 0, 0f);
-        yield return new WaitForSeconds(0.2f);
-        yield return StartCoroutine(UIObjectAnimator.Instance.PopOutObjectRoutine(dialogueScroll));
-        tooltipSetup = false;
-        dialogueOverlay.enabled = false;
-    }
-
-    private void SetDialogueText(string text)
-    {
-        dialogueText.text = text;
-        UIObjectAnimator.Instance.PopInObject(dialogueText.GetComponent<RectTransform>());
+        GameStatics.GameManager.ResumeGame();
+        GameStatics.Data.GameState.IsPausedForTooltip = false;
     }
     
     private IEnumerator WaitForDialogue(bool isFinal)
     {
+        state = States.Frozen;
         const float tooltipPauseDuration = 0.3f;
-        yield return new WaitForSeconds(tooltipPauseDuration);
+        yield return new WaitForSecondsRealtime(tooltipPauseDuration);
 
-        if (isFinal)
-            UIObjectAnimator.Instance.PopInObject(resumePlayImage);
-        else
-            UIObjectAnimator.Instance.PopInObject(resumeNextImage);
+        continuePressed = false;
+        state = States.None;
 
-        //_inputManager.ClearInput();
-        //while (!_inputManager.IsTapRegistered())
-        //{
-        //    yield return null;
-        //}
-
-        if (isFinal)
-            UIObjectAnimator.Instance.PopOutObject(resumePlayImage);
-        else
-            UIObjectAnimator.Instance.PopOutObject(resumeNextImage);
+        // TODO this isn't the best implementation but it's not worth changing at this point in development
+        while (!continuePressed)
+        {
+            yield return null;
+        }
     }
 
     private void RemoveDialogue()
     {
         StopAllCoroutines();
-        dialogueOverlay.enabled = false;
+        ui.CloseImmediate();
     }
-
-    private void GetDialogueComponents()
-    {
-        foreach (RectTransform rt in dialogueOverlay.GetComponentsInChildren<RectTransform>())
-        {
-            if (rt.name == "TooltipPanel")
-            {
-                dialogueScroll = rt;
-                dialogueScrollAnimator = rt.GetComponent<Animator>();
-                foreach (RectTransform r in rt.GetComponentsInChildren<RectTransform>())
-                {
-                    if (r.name == "ToolTipTextBox")
-                    {
-                        dialogueText = r.GetComponent<Text>();
-                    }
-                    else if (r.name == "ResumeNextImage")
-                        resumeNextImage = r;
-                    else if (r.name == "ResumePlayImage")
-                        resumePlayImage = r;
-                    else if (r.name == "NomeeWindow")
-                    {
-                        foreach(RectTransform rect in r.GetComponentsInChildren<RectTransform>())
-                        {
-                            if (rect.name == "Nomee")
-                                nomee = rect;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
 }

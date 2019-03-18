@@ -98,9 +98,9 @@ public class CamPositioner : MonoBehaviour {
 
     private IEnumerator MainMenu()
     {
-        if (Mathf.Abs(Clumsy.transform.position.x - keyPoints.EntryLandingPoint.transform.position.x) > 1f)
+        if (Mathf.Abs(Clumsy.Model.position.x - keyPoints.EntryLandingPoint.transform.position.x) > 1f)
         {
-            Clumsy.transform.position = keyPoints.EntryPoint.transform.position;
+            Clumsy.Model.position = keyPoints.EntryPoint.transform.position;
         }
 
         state = CamStates.Moving;
@@ -114,9 +114,9 @@ public class CamPositioner : MonoBehaviour {
         }
         state = CamStates.Idle;
 
-        if (Mathf.Abs(Clumsy.transform.position.x -keyPoints.EntryLandingPoint.transform.position.x) > 1f)
+        if (Mathf.Abs(Clumsy.Model.position.x -keyPoints.EntryLandingPoint.transform.position.x) > 1f)
         {
-            Clumsy.transform.position = keyPoints.EntryPoint.transform.position;
+            Clumsy.Model.position = keyPoints.EntryPoint.transform.position;
             GameStatics.Player.PossessByAI();
             GameStatics.Player.AIController.MoveTo(keyPoints.EntryLandingPoint.transform.position);
         }
@@ -167,7 +167,7 @@ public class CamPositioner : MonoBehaviour {
         }
         SetTargetPosition(keyPoints.LevelMenuMidPoint);
 
-        Clumsy.transform.position = keyPoints.LevelEntryPoint.transform.position;
+        Clumsy.Model.position = keyPoints.LevelEntryPoint.transform.position;
         Clumsy.DoAction(ClumsyAbilityHandler.DirectionalActions.Dash, MovementDirections.Right);
         yield return new WaitForSeconds(.5f);
 

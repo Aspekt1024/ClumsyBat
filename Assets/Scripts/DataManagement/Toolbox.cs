@@ -47,17 +47,6 @@ public class Toolbox : Singleton<Toolbox>
             return Instance.playerCamScript;
         }
     }
-
-    public static MainAudioControl MainAudio
-    {
-        get
-        {
-            if (mainAudio == null)
-                mainAudio = GameObject.FindGameObjectWithTag("AudioController").GetComponent<MainAudioControl>();
-
-            return mainAudio;
-        }
-    }
     
     public enum MenuSelector
     {

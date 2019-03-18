@@ -66,12 +66,15 @@ namespace ClumsyBat.Controllers
 
         public void Hover()
         {
-            Debug.Log("implement hovering");
+            player.Physics.DisableGravity();
+            player.Physics.SetVelocity(0, 0);
+            player.Animate(ClumsyAnimator.ClumsyAnimations.Hover);
         }
 
         public void DisableHover()
         {
-            Debug.Log("disable hover... is this even required?");
+            player.Physics.EnableGravity();
+            player.Animate(ClumsyAnimator.ClumsyAnimations.FlapSlower);
         }
 
         private void Update()

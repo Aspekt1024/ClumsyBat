@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using ClumsyBat;
 
 public class CameraShake : MonoBehaviour {
 
@@ -16,7 +17,7 @@ public class CameraShake : MonoBehaviour {
 
     private void Awake()
     {
-        _camera = GameObject.FindGameObjectWithTag("MainCamera").transform;
+        _camera = GameStatics.Camera.CurrentCamera.transform;
     }
 
     private void OnEnable()

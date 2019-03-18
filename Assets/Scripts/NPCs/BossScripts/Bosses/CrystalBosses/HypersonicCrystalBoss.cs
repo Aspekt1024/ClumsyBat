@@ -1,5 +1,6 @@
 ﻿using ClumsyBat;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class HypersonicCrystalBoss : CrystalBoss {
@@ -21,7 +22,7 @@ public class HypersonicCrystalBoss : CrystalBoss {
         float timer = 0f;
         const float duration = 7f;
 
-        if (GameStatics.Player.Clumsy.transform.position.x > GameStatics.Camera.CurrentCamera.transform.position.x)
+        if (GameStatics.Player.Clumsy.Model.position.x > GameStatics.Camera.CurrentCamera.transform.position.x)
             GameStatics.Player.Clumsy.FaceLeft();
         else
             GameStatics.Player.Clumsy.FaceRight();
@@ -29,8 +30,8 @@ public class HypersonicCrystalBoss : CrystalBoss {
         CameraEventListener.CameraShake(duration - 1f);
         while (timer < duration)
         {
-            Vector2 pos = Vector2.Lerp(GameStatics.Player.Clumsy.transform.position, GameStatics.Camera.CurrentCamera.transform.position, Time.deltaTime);
-            GameStatics.Player.Clumsy.transform.position = new Vector3(pos.x, pos.y, GameStatics.Player.Clumsy.transform.position.z);
+            Vector2 pos = Vector2.Lerp(GameStatics.Player.Clumsy.Model.position, GameStatics.Camera.CurrentCamera.transform.position, Time.deltaTime);
+            GameStatics.Player.Clumsy.Model.position = new Vector3(pos.x, pos.y, GameStatics.Player.Clumsy.Model.position.z);
             timer += Time.deltaTime;
             yield return null;
         }
@@ -50,11 +51,8 @@ public class HypersonicCrystalBoss : CrystalBoss {
             yield return null;
         }
 
-        Toolbox.Tooltips.ShowDialogue("It worked! Any time you collect a gold moth, you will activate Hypersonic!", 2f, true);
-        //while (GameStatics.LevelManager.GameHandler.GameState == LevelGameHandler.GameStates.PausedForTooltip)
-        //{
-        //    yield return null;
-        //}
+        string dialogue = "It worked! Any time you collect a gold moth, you will activate Hypersonic!";
+        Toolbox.Tooltips.ShowDialogue(new TriggerEvent() { Dialogue = new List<string> { dialogue } });
 
         GameStatics.LevelManager.GameHandler.LevelComplete();
     }

@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="Windows-1252"?>
-<NodeDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<?xml version="1.0"?>
+<NodeDataCollection xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <EditorOffset>
     <x>-92</x>
     <y>-162</y>
@@ -485,7 +485,7 @@
       </Pos2>
     </BaseNode>
     <BaseNode xsi:type="WalkNode">
-      <WindowTitle>Movement</WindowTitle>
+      <WindowTitle>Walk</WindowTitle>
       <ID>7</ID>
       <interfaces>
         <NodeInterface>

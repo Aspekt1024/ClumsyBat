@@ -25,8 +25,8 @@ public class TooltipButtonEffects : MonoBehaviour {
         globeImage.enabled = true;
         globeImage.color = new Color(0.4f, 0.4f, 0.4f, 0.4f);
         IsEnabled = false;
-        shimmerEffect.Stop();
-        burstEffect.Stop();
+        shimmerEffect.gameObject.SetActive(false);
+        burstEffect.gameObject.SetActive(false);
     }
 
     public void ShowNewTip()
@@ -44,8 +44,8 @@ public class TooltipButtonEffects : MonoBehaviour {
         if (!IsEnabled) return;
         lightImage.enabled = true;
         globeImage.color = Color.white;
-        shimmerEffect.Play();
-        burstEffect.Play();
+        shimmerEffect.gameObject.SetActive(true);
+        burstEffect.gameObject.SetActive(true);
     }
 
     public void Hide()
@@ -53,8 +53,8 @@ public class TooltipButtonEffects : MonoBehaviour {
         lanternImage.enabled = false;
         lightImage.enabled = false;
         globeImage.enabled = false;
-        shimmerEffect.Stop();
-        burstEffect.Stop();
+        shimmerEffect.gameObject.SetActive(false);
+        burstEffect.gameObject.SetActive(false);
     }
 
     private void Start ()

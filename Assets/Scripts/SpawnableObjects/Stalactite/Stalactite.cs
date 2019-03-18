@@ -222,7 +222,7 @@ namespace ClumsyBat.Objects
             if (Type == SpawnStalAction.StalTypes.Crystal)
             {
                 stalBroken = Instantiate(crystalPrefabBroken, transform);
-                Toolbox.MainAudio.PlaySound(Toolbox.MainAudio.BreakCrystal);
+                GameStatics.Audio.Main.PlaySound(MainSounds.BreakCrystal);
             }
             else
             {

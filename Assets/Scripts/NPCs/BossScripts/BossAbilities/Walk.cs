@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using ClumsyBat;
+using System.Collections;
 using UnityEngine;
 
 using WalkOptions = WalkAction.WalkOptions;
@@ -30,7 +31,7 @@ public class Walk : BossAbility {
     {
         if (collision.collider.tag == "CaveWall")
         {
-            if (transform.position.x < GameObject.FindGameObjectWithTag("MainCamera").transform.position.x)
+            if (transform.position.x < GameStatics.Camera.CurrentCamera.transform.position.x)
                 _direction = WalkDirection.Right;
             else
                 _direction = WalkDirection.Left;
@@ -56,7 +57,7 @@ public class Walk : BossAbility {
     // TODO remove?
     private void ReverseDirectionIfAtEnd()
     {
-        float camPosX = GameObject.FindGameObjectWithTag("MainCamera").transform.position.x;
+        float camPosX = GameStatics.Camera.CurrentCamera.transform.position.x;
         if (_direction == WalkDirection.Left && transform.position.x < -3.5f + camPosX)
         {
             _direction = WalkDirection.Right;

@@ -73,7 +73,7 @@ public class MothCrystal : Projectile {
 
         crystalRenderer.enabled = false;
         projectileCollider.enabled = false;
-        BrokenCrystalBall.ShatterAndDespawn(GameStatics.Player.Clumsy.transform.position);
+        BrokenCrystalBall.ShatterAndDespawn(GameStatics.Player.Clumsy.Model.position);
         
         if (floatRoutine != null)
         {

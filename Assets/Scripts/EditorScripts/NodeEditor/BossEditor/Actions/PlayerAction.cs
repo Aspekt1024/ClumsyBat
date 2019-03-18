@@ -10,11 +10,11 @@ public class PlayerAction : BaseAction {
 
     public override GameObject GetObject(int id)
     {
-        return GameStatics.Player.Clumsy.gameObject;
+        return GameStatics.Player.Clumsy.Model.gameObject;
     }
 
     public override Vector2 GetPosition(int id)
     {
-        return GameStatics.Player.Clumsy.transform.position;
+        return GameStatics.Player.Clumsy.Model.position;
     }
 }

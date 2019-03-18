@@ -37,7 +37,7 @@ namespace ClumsyBat.Objects
         {
             Debug.Log("Activating moth in range");
             Moth newMoth = GetObjectFromPool();
-            float xPos = 10f + GameObject.FindGameObjectWithTag("MainCamera").transform.position.x;
+            float xPos = 10f + GameStatics.Camera.CurrentCamera.transform.position.x;
             var spawnTf = new Spawnable.SpawnType
             {
                 Pos = new Vector2(xPos, Random.Range(minY, maxY)),
