@@ -40,7 +40,7 @@ namespace ClumsyBat.UI
 
         public void ContinuePressed()
         {
-            tooltipHandler.ContinueDialogue();
+            tooltipHandler.InputReceived();
         }
 
         public void SetText(string text, NextDialogueImages nextDialogueImage)

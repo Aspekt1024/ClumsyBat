@@ -41,7 +41,7 @@ public class TooltipHandler : MonoBehaviour {
         buttonEffects.DisplayIdle();
     }
 
-    public void ContinueDialogue()
+    public void InputReceived()
     {
         if (state == States.Frozen) return;
         continuePressed = true;

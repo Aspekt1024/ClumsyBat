@@ -18,49 +18,38 @@ namespace ClumsyBat.Controllers
 
         private void Update()
         {
+            var action = input.GetPlayerAction();
+            if (action == PlayerActions.JumpLeft || action == PlayerActions.JumpRight)
+            {
+                Toolbox.Tooltips.InputReceived();
+            }
+
             if (!CanReceiveInput()) return;
 
-            var action = input.GetPlayerAction();
-
-            if (AwaitingPlayerInput())
+            switch (action)
             {
-                if (action == PlayerActions.JumpLeft || action == PlayerActions.JumpRight)
-                {
-                    // TODO event handler - got input
-                }
-            }
-            else if (controlledObject != null)
-            {
-                switch (action)
-                {
-                    case PlayerActions.JumpLeft:
-                        player.DoAction(DirectionalActions.Jump, MovementDirections.Left);
-                        break;
-                    case PlayerActions.JumpRight:
-                        player.DoAction(DirectionalActions.Jump, MovementDirections.Right);
-                        break;
-                    case PlayerActions.BoostLeft:
-                        player.DoAction(DirectionalActions.Dash, MovementDirections.Left);
-                        break;
-                    case PlayerActions.BoostRight:
-                        player.DoAction(DirectionalActions.Dash, MovementDirections.Right);
-                        break;
-                }
+                case PlayerActions.JumpLeft:
+                    player.DoAction(DirectionalActions.Jump, MovementDirections.Left);
+                    break;
+                case PlayerActions.JumpRight:
+                    player.DoAction(DirectionalActions.Jump, MovementDirections.Right);
+                    break;
+                case PlayerActions.BoostLeft:
+                    player.DoAction(DirectionalActions.Dash, MovementDirections.Left);
+                    break;
+                case PlayerActions.BoostRight:
+                    player.DoAction(DirectionalActions.Dash, MovementDirections.Right);
+                    break;
             }
         }
 
         private bool CanReceiveInput()
         {
+            if (controlledObject == null) return false;
             if (!player.State.IsAlive) return false;
-            if (!GameStatics.StaticsInitiated) return true;
+            if (!GameStatics.StaticsInitiated) return false;
 
             return !GameStatics.GameManager.IsPaused;
-        }
-
-        private bool AwaitingPlayerInput()
-        {
-            if (!GameStatics.StaticsInitiated) return false;
-            return GameStatics.GameManager.AwaitingPlayerInput;
         }
     }
 }
