@@ -32,7 +32,9 @@ namespace ClumsyBat
             levelScript = scriptsObject.GetComponent<LevelScript>();
             GameHandler = scriptsObject.GetComponent<LevelGameHandler>();
             buttonHandler = Object.FindObjectOfType<LevelButtonHandler>();
-            bossHandler = Object.FindObjectOfType<BossHandler>();
+            bossHandler = levelScript.BossHandler;
+
+            bossHandler.gameObject.SetActive(false);
         }
 
         public bool IsBossLevel { get { return Level.ToString().Contains("Boss"); } }

@@ -13,13 +13,11 @@ public class Moth : Spawnable {
     public Transform MothSprite;
     private Animator _mothAnimator;
     private Collider2D _mothCollider;
-    private MothStates _mothState = MothStates.Normal;
     private Transform _lantern;
     private MothPathHandler _pathHandler;
     private bool _bConsumption;
     private ParticleSystem shimmerEffect;
     
-    private enum MothStates { Normal, ConsumeFollow }
     public enum MothColour { Green, Gold, Blue }
     
     private void Awake ()
@@ -47,7 +45,6 @@ public class Moth : Spawnable {
         gameObject.SetActive(true);
         _mothCollider.enabled = true;
         PlayNormalAnimation();
-        _mothState = MothStates.Normal;
     }
 
     private IEnumerator ConsumeAnim()
@@ -68,7 +65,6 @@ public class Moth : Spawnable {
             {
                 if (!bStartPosSet)
                 {
-                    _mothState = MothStates.ConsumeFollow;
                     startPos = MothSprite.position;
                     bStartPosSet = true;
                 }
@@ -136,7 +132,6 @@ public class Moth : Spawnable {
     {
         _lantern = GameStatics.Player.Clumsy.Lantern.transform;
         base.Spawn(transform, spawnTf);
-        _mothState = MothStates.Normal;
         _mothAnimator.enabled = true;
         _mothCollider.enabled = true;
         MothSprite.transform.position = transform.position;

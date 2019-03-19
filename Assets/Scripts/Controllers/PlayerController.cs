@@ -54,7 +54,7 @@ namespace ClumsyBat.Controllers
             if (!player.State.IsAlive) return false;
             if (!GameStatics.StaticsInitiated) return true;
 
-            return GameStatics.GameManager.CanReceivePlayerInput;
+            return !GameStatics.GameManager.IsPaused;
         }
 
         private bool AwaitingPlayerInput()

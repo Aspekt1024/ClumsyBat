@@ -25,7 +25,7 @@ public class BossHandler : MonoBehaviour {
     private const float ResumeTimerDuration = 3f;
     private float _resumeTimerStart;
 
-    private bool startingDialoagueComplete;
+    private bool isStartingDialogueTriggered;
 
     private const float manualCaveScale = 0.8558578f;
 
@@ -51,7 +51,7 @@ public class BossHandler : MonoBehaviour {
         SetCameraEndPoint();
 
         _state = BossGameState.MovingTowardsBoss;
-        player.Physics.SetNormalSpeed();
+        GameStatics.Player.Clumsy.Physics.SetNormalSpeed();
         GameStatics.Player.PossessByPlayer();
     }
 
@@ -86,22 +86,20 @@ public class BossHandler : MonoBehaviour {
 
     private void Update()
     {
-        if (!startingDialoagueComplete)
-        {
-            Debug.Log("boss entrance dialogue not complete. implement me");
-            return;
-            if (GameStatics.Player.Clumsy.Model.position.x > 0f)
-            {
-                startingDialoagueComplete = true;
-                BossEntranceDialogue();
-            }
-        }
-
         if (_state == BossGameState.InBossRoom) return;
         if (GameStatics.Player.Clumsy.Model.position.x > Toolbox.TileSizeX * manualCaveScale - 3f)
         {
             _state = BossGameState.InBossRoom;
             StartCoroutine(BossEntrance());
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Player" && !isStartingDialogueTriggered)
+        {
+            isStartingDialogueTriggered = true;
+            BossEntranceDialogue();
         }
     }
 

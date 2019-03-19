@@ -17,6 +17,7 @@ namespace ClumsyBat
             MainMenu, InLevel
         }
         public StartupModes StartupMode = StartupModes.MainMenu;
+        public Levels StartupLevel = Levels.Main1;
 
         public bool DebugMode = false;
 
@@ -48,7 +49,6 @@ namespace ClumsyBat
             mainMenuTransitions = new MainMenuTransitions();
         }
 
-        public bool CanReceivePlayerInput { get { return !IsPaused; } } // TODO review this - e.g. in tooltip, in menu, cutscene etc
         public bool AwaitingPlayerInput { get { return false; } }
 
         public void PauseGame()
@@ -93,6 +93,8 @@ namespace ClumsyBat
             state = GameStates.InLevel;
 
             yield return StartCoroutine(GameStatics.UI.LoadingScreen.HideLoadScreen());
+            GameStatics.UI.GameHud.SetLevelText(level);
+            Toolbox.Instance.ShowLevelTooltips = (!GameStatics.Data.LevelDataHandler.IsCompleted(level));
             GameStatics.LevelManager.BeginLevel();
         }
 
@@ -109,14 +111,14 @@ namespace ClumsyBat
         {
             GameStatics.LevelManager.Init();
 
-            if (StartupMode == StartupModes.MainMenu)
+            if (StartupMode == StartupModes.MainMenu && StartupLevel != Levels.Unassigned)
             {
                 FadeToMainMenu();
                 StartCoroutine(GameStatics.UI.LoadingScreen.HideLoadScreen());
             }
             else
             {
-                LoadLevel(Levels.Main1);
+                LoadLevel(StartupLevel);
             }
         }
 

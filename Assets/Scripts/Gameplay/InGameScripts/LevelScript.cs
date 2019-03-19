@@ -6,7 +6,7 @@ using LevelCompletionPaths = ClumsyBat.LevelManagement.LevelCompletionHandler.Le
 
 public class LevelScript : MonoBehaviour {
 
-    public LevelProgressionHandler.Levels DefaultLevel = LevelProgressionHandler.Levels.Main1;
+    public BossHandler BossHandler;
     public LevelStateHandler stateHandler;
     
     private void Awake()
@@ -17,18 +17,6 @@ public class LevelScript : MonoBehaviour {
     private void Update ()
     {
         stateHandler.Tick(Time.deltaTime);
-    }
-
-    public void SetLevel()
-    {
-        var level = GameStatics.LevelManager.Level;
-        if (level == LevelProgressionHandler.Levels.Unassigned)
-        {
-            GameStatics.LevelManager.Level = DefaultLevel;
-            level = DefaultLevel;
-        }
-        GameStatics.UI.GameHud.SetLevelText(level);
-        Toolbox.Instance.ShowLevelTooltips = (!GameStatics.Data.LevelDataHandler.IsCompleted(level));
     }
     
     public void StartGame()
