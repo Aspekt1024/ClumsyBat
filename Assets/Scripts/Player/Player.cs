@@ -45,11 +45,6 @@ namespace ClumsyBat.Players
         {
             Physics.Tick(Time.fixedDeltaTime);
         }
-        
-        public void SetPlayerData(DataManager data)
-        {
-            Abilities.SetData(data.Abilities);
-        }
 
         public void SetSpeed(float speed)
         {

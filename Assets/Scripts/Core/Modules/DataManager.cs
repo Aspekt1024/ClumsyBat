@@ -50,6 +50,7 @@ namespace ClumsyBat
 
             LevelDataHandler.SetData(await serializationHandler.Deserialize<LevelDataContainer>(LevelDataContainer.FILE_NAME));
             Stats = await serializationHandler.Deserialize<StatsContainer>(StatsContainer.FILE_NAME);
+            GameStatics.Player.Clumsy.Abilities.SetData(Abilities);
             callback.Invoke();
         }
 
