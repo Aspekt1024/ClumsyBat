@@ -198,9 +198,13 @@ public class BossHandler : MonoBehaviour {
                 }
                 else
                 {
-                    if (!GameStatics.Data.LevelDataHandler.IsCompleted(LevelProgressionHandler.Levels.Boss2))
+                    if (!GameStatics.Data.LevelDataHandler.IsCompleted(LevelProgressionHandler.Levels.Boss1))
                     {
                         dialogue = "Now that you have unlocked the power of hypersonic, we can defeat King Rockbreath!";
+                    }
+                    else
+                    {
+                        return;
                     }
                 }
                 break;
