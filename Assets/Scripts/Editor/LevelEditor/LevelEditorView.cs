@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
 using UnityEngine.SceneManagement;
+using UnityEditor.SceneManagement;
+using ClumsyBat;
 
 [CustomEditor(typeof(LevelEditor))]
 public class LevelEditorView : Editor {
@@ -11,7 +11,7 @@ public class LevelEditorView : Editor {
     private LevelEditorObjectHandler objectHandler;
 
     private bool testClicked = false;
-
+    
     public override void OnInspectorGUI()
     {
         editor = (LevelEditor)target;
@@ -87,7 +87,20 @@ public class LevelEditorView : Editor {
         if (GUILayout.Button("Overwrite " + editor.LevelId + ".xml and test!"))
         {
             SaveLevel();
+            EditorSceneManager.OpenScene("Assets/Scenes/Play.unity");
+            FindObjectOfType<GameManager>().StartupMode = GameManager.StartupModes.InLevel;
+            FindObjectOfType<GameManager>().StartupLevel = editor.LevelId;
+            FindObjectOfType<Toolbox>().Debug = editor.DebugMode;
+            FindObjectOfType<Toolbox>().ReturnToLevelEditor = true;
             EditorApplication.isPlaying = true;
+        }
+    }
+
+    private void PlayModeChanged(PlayModeStateChange obj)
+    {
+        if (obj == PlayModeStateChange.ExitingPlayMode)
+        {
+            EditorSceneManager.OpenScene("LevelEditor");
         }
     }
 }

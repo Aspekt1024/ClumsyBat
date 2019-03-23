@@ -63,6 +63,8 @@ public class CaveEditorHandler : BaseObjectHandler {
 
     public int GetNumSections()
     {
+        if (parentObj == null) return 0;
+
         int numSections = 2;
         foreach (Transform cave in parentObj)
         {

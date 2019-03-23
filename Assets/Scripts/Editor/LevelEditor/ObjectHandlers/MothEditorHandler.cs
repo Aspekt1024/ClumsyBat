@@ -13,11 +13,14 @@ public class MothEditorHandler : BaseObjectHandler {
 
     public int GetNumMoths()
     {
+        if (parentObj == null) return 0;
         return parentObj.childCount;
     }
 
     protected override void Update()
     {
+        if (parentObj == null) return;
+
         foreach (Transform moth in parentObj)
         {
             GlueMothObjects(moth);

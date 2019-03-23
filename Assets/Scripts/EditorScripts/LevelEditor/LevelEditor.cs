@@ -1,8 +1,8 @@
-﻿using ClumsyBat;
-using ClumsyBat.Objects;
+﻿using ClumsyBat.Objects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[ExecuteInEditMode]
 public class LevelEditor : MonoBehaviour {
 
     public LevelContainer Level;
@@ -20,8 +20,11 @@ public class LevelEditor : MonoBehaviour {
 
     private void Start()
     {
-        GameStatics.LevelManager.Level = LevelId;
-        Toolbox.Instance.Debug = DebugMode;
-        SceneManager.LoadScene("Levels");
+#if UNITY_EDITOR 
+        var playScene = SceneManager.GetSceneByName("Play");
+        if (playScene == null) return;
+        UnityEditor.SceneManagement.EditorSceneManager.CloseScene(playScene, true);
+#endif
     }
+
 }

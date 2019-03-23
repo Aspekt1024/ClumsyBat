@@ -40,7 +40,8 @@ namespace ClumsyBat
         public void SetPlayerPosition(Vector2 position)
         {
             Clumsy.Model.transform.position = position;
-            Clumsy.Lantern.transform.position = position;
+            Clumsy.Lantern.transform.position = position - new Vector2(0.3f, 1f);
+            Clumsy.Lantern.transform.localEulerAngles = new Vector3(0f, 0f, -40f);
         }
 
         public bool PossessedByAI { get { return currentController.Equals(AIController); } }

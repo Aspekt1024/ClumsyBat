@@ -6,6 +6,7 @@ namespace ClumsyBat.Players
     public class LevelAnimationSequencer
     {
         private Player player;
+        private Rigidbody2D playerBody;
 
         public enum Sequences
         {
@@ -27,6 +28,7 @@ namespace ClumsyBat.Players
         public LevelAnimationSequencer(Player player)
         {
             this.player = player;
+            playerBody = player.Model.GetComponent<Rigidbody2D>();
             state = States.None;
         }
 
@@ -72,7 +74,6 @@ namespace ClumsyBat.Players
                     startPos = new Vector2(-Toolbox.TileSizeX / 2, -0.7f);
 
                     GameStatics.Player.SetPlayerPosition(startPos);
-                    //yield return new WaitForSeconds(0.3f); // Allows lantern to settle
 
                     player.Physics.Disable();
                     player.Abilities.Perch.Unperch();
@@ -93,7 +94,7 @@ namespace ClumsyBat.Players
                     var pos = player.Model.position;
                     pos.x = startPos.x - (startPos.x - targetPos.x) * animRatio;
                     pos.y = startPos.y - (startPos.y - targetPos.y) * Mathf.Pow(animRatio, 2);
-                    player.Model.position = pos;
+                    playerBody.velocity = (pos - player.Model.position).normalized * player.MoveSpeed;
                     break;
                 case States.TearingDown:
                     player.Animate(ClumsyAnimator.ClumsyAnimations.FlapSlower);

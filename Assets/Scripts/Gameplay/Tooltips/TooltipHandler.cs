@@ -55,7 +55,7 @@ public class TooltipHandler : MonoBehaviour {
 
     public void ShowDialogue(TriggerEvent triggerEvent)
     {
-        if (!GameStatics.Player.Clumsy.State.IsAlive) { return; }
+        if (!GameStatics.Player.Clumsy.State.IsAlive || !GameStatics.Data.Settings.TooltipsOn) { return; }
 
         TriggerEventSerializer.Instance.SetEventSeen(triggerEvent.Id);
         StartCoroutine(ShowDialogueRoutine(triggerEvent));
