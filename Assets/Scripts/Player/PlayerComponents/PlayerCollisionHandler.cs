@@ -67,7 +67,11 @@ namespace ClumsyBat.Players
             switch (collision.collider.tag)
             {
                 case "Boss":
-                    player.TakeDamage(collision.collider.tag);
+                    var boss = collision.collider.GetComponent<Boss>();
+                    if (boss != null && boss.IsAlive)
+                    {
+                        player.TakeDamage(collision.collider.tag);
+                    }
                     break;
                 case "Stalactite":
                     Stalactite stal = collision.collider.GetComponentInParent<Stalactite>();

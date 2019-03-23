@@ -90,6 +90,7 @@ public class KingRockbreath : Boss
             sprite.enabled = false;
         }
         bossRenderer.enabled = false;
+        bossCollider.enabled = false;
     }
     
     protected override void HealthUpdate()
