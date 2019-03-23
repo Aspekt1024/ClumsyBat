@@ -38,7 +38,14 @@ namespace ClumsyBat.UI.DropdownMenuComponents
 
         public void NextButtonPressed()
         {
-            GameStatics.GameManager.LoadLevel(nextLevel);
+            if (nextLevel == Levels.Unassigned)
+            {
+                LevelSelectPressed();
+            }
+            else
+            {
+                GameStatics.GameManager.LoadLevel(nextLevel);
+            }
         }
 
         public void MenuButtonPressed()
@@ -66,6 +73,12 @@ namespace ClumsyBat.UI.DropdownMenuComponents
         {
             GameStatics.Data.SaveData();
             GameStatics.GameManager.GotoMenuScene();
+        }
+
+        public void LevelSelectPressed()
+        {
+            GameStatics.Data.SaveData();
+            GameStatics.GameManager.GotoLevelSelect();
         }
 
         public void ShareButtonPressed()
@@ -207,7 +220,7 @@ namespace ClumsyBat.UI.DropdownMenuComponents
             rt.gameObject.SetActive(true);
             while (timer < duration)
             {
-                timer += Time.fixedDeltaTime;
+                timer += Time.unscaledDeltaTime;
                 rt.localScale = Vector3.Lerp(Vector3.one * 0.1f, originalScale * 1.1f, timer / duration);
                 yield return null;
             }
@@ -216,7 +229,7 @@ namespace ClumsyBat.UI.DropdownMenuComponents
             duration = 0.08f;
             while (timer < duration)
             {
-                timer += Time.deltaTime;
+                timer += Time.unscaledDeltaTime;
                 rt.localScale = Vector3.Lerp(originalScale * 1.1f, originalScale, timer / duration);
                 yield return null;
             }
@@ -231,7 +244,7 @@ namespace ClumsyBat.UI.DropdownMenuComponents
             Vector3 originalScale = rt.localScale;
             while (timer < duration)
             {
-                timer += Time.fixedDeltaTime;
+                timer += Time.unscaledDeltaTime;
                 rt.localScale = Vector3.Lerp(originalScale, originalScale * 1.1f, timer / duration);
                 yield return null;
             }
@@ -240,7 +253,7 @@ namespace ClumsyBat.UI.DropdownMenuComponents
             duration = 0.2f;
             while (timer < duration)
             {
-                timer += Time.deltaTime;
+                timer += Time.unscaledDeltaTime;
                 rt.localScale = Vector3.Lerp(originalScale * 1.1f, Vector3.one * 0.1f, timer / duration);
                 yield return null;
             }

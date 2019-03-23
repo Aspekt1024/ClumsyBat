@@ -59,6 +59,13 @@ namespace ClumsyBat.Menu
             state = States.LevelSelect;
         }
 
+        public void ShowLevelSelect()
+        {
+            PlayerManager.Instance.PossessByAI();
+            GameStatics.Camera.GotoPointImmediate(keyPoints.LevelMapStart.transform.position.x);
+            GameStatics.GameManager.StartCoroutine(AnimateLevelSelect());
+        }
+
         public void AnimateToMainMenu()
         {
             GameStatics.GameManager.StartCoroutine(ScrollToMainMenuRoutine());
@@ -79,6 +86,11 @@ namespace ClumsyBat.Menu
             GameStatics.Camera.StartFollowing(keyPoints.LevelMapStart.transform, 2.9f);
             yield return new WaitForSeconds(1.2f);
 
+            GameStatics.GameManager.StartCoroutine(AnimateLevelSelect());
+        }
+
+        private IEnumerator AnimateLevelSelect()
+        {
             PlayerManager.Instance.SetPlayerPosition(keyPoints.LevelEntryPoint.transform.position);
             PlayerManager.Instance.AIController.Dash();
             yield return new WaitForSeconds(0.7f);

@@ -76,6 +76,12 @@ namespace ClumsyBat
             }
         }
 
+        public void GotoLevelSelect()
+        {
+            state = GameStates.MainMenu;
+            StartCoroutine(SwitchSceneRoutine(FadeToLevelSelect));
+        }
+
         public void LoadLevel(Levels level)
         {
             StartCoroutine(LoadLevelRoutine(level));
@@ -133,6 +139,16 @@ namespace ClumsyBat
             GameStatics.Camera.SwitchToMenuCamera();
 
             mainMenuTransitions.AnimateMainMenuScene();
+        }
+
+        private void FadeToLevelSelect()
+        {
+            MenuObject.SetActive(true);
+            LevelObject.SetActive(false);
+            BossObject.SetActive(false);
+            GameStatics.Camera.SwitchToMenuCamera();
+
+            mainMenuTransitions.ShowLevelSelect();
         }
 
         private IEnumerator ResumeGameRoutine()

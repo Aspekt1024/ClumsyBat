@@ -50,6 +50,11 @@ namespace ClumsyBat
             CurrentCamera.GetComponent<CameraFollowObject>()?.SetEndPoint(endPointX);
         }
 
+        public void GotoPointImmediate(float point)
+        {
+            CurrentCamera.GetComponent<CameraFollowObject>()?.GotoPoint(point);
+        }
+
         public void StartFollowing(Transform target = null, float followSpeed = CameraFollowObject.BASE_FOLLOW_SPEED)
         {
             CurrentCamera.GetComponent<CameraFollowObject>()?.StartFollowing(target, followSpeed);

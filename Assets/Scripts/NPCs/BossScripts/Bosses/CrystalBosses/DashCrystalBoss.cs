@@ -1,4 +1,5 @@
 ﻿using ClumsyBat;
+using ClumsyBat.Players;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,28 +23,37 @@ public class DashCrystalBoss : CrystalBoss {
         float timer = 0f;
         const float duration = 7f;
 
-        if (GameStatics.Player.Clumsy.Model.position.x > GameStatics.Camera.CurrentCamera.transform.position.x)
-            GameStatics.Player.Clumsy.FaceLeft();
+        Player clumsy = GameStatics.Player.Clumsy;
+
+        if (clumsy.Model.position.x > GameStatics.Camera.CurrentCamera.transform.position.x)
+        {
+            clumsy.FaceLeft();
+        }
         else
-            GameStatics.Player.Clumsy.FaceRight();
+        {
+            clumsy.FaceRight();
+        }
 
         CameraEventListener.CameraShake(duration - 1f);
         while (timer < duration)
         {
-            Vector2 pos = Vector2.Lerp(GameStatics.Player.Clumsy.Model.position, GameStatics.Camera.CurrentCamera.transform.position, Time.deltaTime);
-            GameStatics.Player.Clumsy.Model.position = new Vector3(pos.x, pos.y, GameStatics.Player.Clumsy.Model.position.z);
             timer += Time.deltaTime;
+
+            Vector3 pos = Vector2.Lerp(clumsy.Model.position, GameStatics.Camera.CurrentCamera.transform.position, Time.deltaTime);
+            pos.z = clumsy.Model.position.z;
+            clumsy.Model.position = pos;
+
             yield return null;
         }
 
-        var dash = GameStatics.Data.Abilities.GetDashStats();
-        dash.AbilityUnlocked = true;
-        dash.AbilityAvailable = true;
-        dash.AbilityLevel = 1;
-        dash.AbilityEvolution = 1;
-        GameStatics.Data.Abilities.SaveDashStats(dash);
+        var hypersonic = GameStatics.Data.Abilities.GetHypersonicStats();
+        hypersonic.AbilityUnlocked = true;
+        hypersonic.AbilityAvailable = true;
+        hypersonic.AbilityLevel = 1;
+        hypersonic.AbilityEvolution = 1;
+        GameStatics.Data.Abilities.SaveHypersonicStats(hypersonic);
 
-        GameStatics.Player.Clumsy.DoAction(ClumsyBat.Players.ClumsyAbilityHandler.StaticActions.ForcedHypersonic);
+        GameStatics.Player.Clumsy.DoAction(ClumsyAbilityHandler.StaticActions.ForcedHypersonic);
         timer = 0f;
         while (timer < 2f)
         {

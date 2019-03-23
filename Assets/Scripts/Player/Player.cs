@@ -138,6 +138,11 @@ namespace ClumsyBat.Players
             {
                 Model.transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
                 Model.transform.position += Vector3.left * .5f;
+
+                var rotation = Model.transform.localEulerAngles;
+                rotation.z = -rotation.z;
+                Model.transform.localEulerAngles = rotation;
+
                 Lantern.GetComponent<HingeJoint2D>().limits = new JointAngleLimits2D()
                 {
                     min = -20f,

@@ -112,9 +112,9 @@ namespace ClumsyBat.UI.DropdownMenuComponents
         private IEnumerator PopOutStars()
         {
             StartCoroutine(mainMenu.PopOutObject(stars[0].GetComponent<RectTransform>()));
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSecondsRealtime(0.05f);
             StartCoroutine(mainMenu.PopOutObject(stars[1].GetComponent<RectTransform>()));
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSecondsRealtime(0.05f);
             yield return StartCoroutine(mainMenu.PopOutObject(stars[2].GetComponent<RectTransform>()));
         }
 
@@ -122,7 +122,7 @@ namespace ClumsyBat.UI.DropdownMenuComponents
         {
             starsContainer.SetActive(true);
             mainMenu.ContinueButtonObject.SetActive(true);
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSecondsRealtime(0.5f);
             for (int i = 0; i < achievements.Length; i++)
             {
                 if (achievements[i] == AchievementStatus.NewAchievement)

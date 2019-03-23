@@ -19,6 +19,13 @@ public class CameraFollowObject : MonoBehaviour {
         endPointX = endPoint;
     }
 
+    public void GotoPoint(float point)
+    {
+        Vector3 pos = transform.position;
+        pos.x = point;
+        transform.position = pos;
+    }
+
     public void StartFollowing(Transform target = null, float followSpeed = BASE_FOLLOW_SPEED)
     {
         following = true;
