@@ -48,12 +48,12 @@ namespace ClumsyBat.UI
             StartCoroutine(SetTextRoutine(text, nextDialogueImage));
         }
 
-        public void Close()
+        public IEnumerator Close()
         {
-            if (state == States.Closed || state == States.Closing) return;
+            if (state == States.Closed || state == States.Closing) yield break;
 
             state = States.Closing;
-            StartCoroutine(CloseDialogueWindow());
+            yield return StartCoroutine(CloseDialogueWindow());
         }
 
         public void Open(float yPos)

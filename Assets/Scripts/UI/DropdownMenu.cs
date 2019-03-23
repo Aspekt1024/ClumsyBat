@@ -131,6 +131,8 @@ namespace ClumsyBat.UI
         {
             if (!bEnteringScreen)
             {
+                if (state == States.Hidden) yield break;
+
                 state = States.Hidden;
                 StartCoroutine(Bounce(-0.7f));
                 yield return new WaitForSecondsRealtime(BounceDuration);

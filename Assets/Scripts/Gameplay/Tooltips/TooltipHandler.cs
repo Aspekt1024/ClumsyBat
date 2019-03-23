@@ -66,9 +66,7 @@ public class TooltipHandler : MonoBehaviour {
         GameStatics.GameManager.PauseGame();
         GameStatics.Data.GameState.IsPausedForTooltip = true;
 
-        Vector3 position = GameStatics.Player.Clumsy.Model.position;
-        position.z = -8f;
-        GameStatics.Player.Clumsy.Model.position = position;
+        GameStatics.Player.Clumsy.Model.GetComponent<SpriteRenderer>().sortingLayerName = "UIFront";
 
         float yPos = (GameStatics.Player.Clumsy.Model.position.y > 0) ? -2f : 2f;
         ui.Open(yPos);
@@ -86,13 +84,9 @@ public class TooltipHandler : MonoBehaviour {
             yield return StartCoroutine(WaitForDialogue(i == triggerEvent.Dialogue.Count - 1));
         }
 
-        ui.Close();
-        
-        position.z = -1;
-        GameStatics.Player.Clumsy.Model.position = position;
-
-        GameStatics.GameManager.ResumeGame();
-        GameStatics.Data.GameState.IsPausedForTooltip = false;
+        yield return StartCoroutine(ui.Close());
+        GameStatics.Player.Clumsy.Model.GetComponent<SpriteRenderer>().sortingLayerName = "Player";
+        GameStatics.GameManager.ResumeGameFromTooltip();
     }
     
     private IEnumerator WaitForDialogue(bool isFinal)

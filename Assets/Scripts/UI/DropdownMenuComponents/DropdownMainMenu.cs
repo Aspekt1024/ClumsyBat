@@ -66,7 +66,7 @@ namespace ClumsyBat.UI.DropdownMenuComponents
 
         public void ResumeButtonPressed()
         {
-            GameStatics.GameManager.ResumeGame();
+            GameStatics.GameManager.ResumeGameFromMenu();
         }
 
         public void BackToMainPressed()

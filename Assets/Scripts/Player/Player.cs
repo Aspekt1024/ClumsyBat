@@ -193,7 +193,7 @@ namespace ClumsyBat.Players
             audioControl.PlaySound(PlayerSounds.Collision);    // TODO replace with something... better? like an "ow!"
             GameStatics.GameManager.PauseGame();
             yield return new WaitForSecondsRealtime(0.47f);
-            GameStatics.GameManager.ResumeGame();
+            GameStatics.GameManager.ResumeGameFromMenu();
             animator.PlayAnimation(ClumsyAnimations.Die);
         }
     }

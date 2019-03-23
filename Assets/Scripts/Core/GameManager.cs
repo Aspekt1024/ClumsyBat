@@ -58,9 +58,15 @@ namespace ClumsyBat
             GameStatics.Data.SaveData();
         }
 
-        public void ResumeGame()
+        public void ResumeGameFromMenu()
         {
             StartCoroutine(ResumeGameRoutine());
+        }
+
+        public void ResumeGameFromTooltip()
+        {
+            SetUnpaused();
+            GameStatics.Data.GameState.IsPausedForTooltip = false;
         }
 
         public void GotoMenuScene()
@@ -89,7 +95,7 @@ namespace ClumsyBat
 
         private IEnumerator LoadLevelRoutine(Levels level)
         {
-            ResumeGame();
+            ResumeGameFromMenu();
             yield return StartCoroutine(GameStatics.UI.LoadingScreen.ShowLoadScreen());
             MenuObject.SetActive(false);
 
