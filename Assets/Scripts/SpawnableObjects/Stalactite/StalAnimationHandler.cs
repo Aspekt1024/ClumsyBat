@@ -74,7 +74,7 @@ public class StalAnimationHandler : MonoBehaviour
 
     public void CrackAndFall()
     {
-        if (_anim == null || !gameObject.activeSelf || _stal.IsBroken) return;
+        if (_anim == null || !_anim.gameObject.activeSelf || _stal.IsBroken) return;
         _anim.enabled = true;
         _behaviour = StalBehaviour.Cracking;
         _anim.Play("Crack", 0, _normCrackTime);

@@ -17,7 +17,7 @@ public class Toolbox : Singleton<Toolbox>
     public bool ShowLevelTooltips = true;
 
     public List<int> TooltipCompletion = new List<int>();
-    public Dictionary<string, float> ZLayers = new Dictionary<string, float>();
+    public Dictionary<string, float> ZLayers = new Dictionary<string, float>(); // TODO replace with sorting layers
     public Dictionary<Levels, string> LevelNames = new Dictionary<Levels, string>();
     
     private static MainAudioControl mainAudio;

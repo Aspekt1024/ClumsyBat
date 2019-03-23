@@ -1,7 +1,5 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
-using ClumsyBat;
 
 namespace ClumsyBat.Objects
 {
@@ -9,7 +7,6 @@ namespace ClumsyBat.Objects
     // They work fine, but i don't like it. Create a base class
     public class Stalactite : Spawnable
     {
-
         public bool DropEnabled;
         [Range(2.5f, 7.5f)]
         public float TriggerPosX;
@@ -112,7 +109,6 @@ namespace ClumsyBat.Objects
 
         public void Spawn(StalPool.StalType stalProps, float xOffset = 0)
         {
-            gameObject.SetActive(true);
             Type = stalProps.Type;
             isExploding = false;
 
@@ -203,8 +199,7 @@ namespace ClumsyBat.Objects
             float duration = 0.67f;
             while (timer < duration)
             {
-                if (!Toolbox.Instance.GamePaused)
-                    timer += Time.deltaTime;
+                timer += Time.deltaTime;
                 yield return null;
             }
             Deactivate();
@@ -298,6 +293,7 @@ namespace ClumsyBat.Objects
 
         public void Drop()
         {
+            if (state == StalStates.Broken || state == StalStates.Falling || state == StalStates.Exploding) return;
             dropControl.Drop();
         }
 
@@ -309,9 +305,11 @@ namespace ClumsyBat.Objects
             if (stalUnbroken != null) Destroy(stalUnbroken);
         }
 
+        public bool IsActive { get { return gameObject.activeSelf; } }
         public bool IsForming { get { return state == StalStates.Forming; } }
         public bool IsFalling { get { return state == StalStates.Falling; } }
         public bool IsBroken { get { return state == StalStates.Broken; } }
         public void SetState(StalStates newState) { state = newState; }
+        public SpawnStalAction.StalSpawnDirection SpawnDirection { get { return direction; } }
     }
 }

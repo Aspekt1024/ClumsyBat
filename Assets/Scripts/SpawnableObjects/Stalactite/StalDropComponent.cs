@@ -86,7 +86,7 @@ public class StalDropComponent : MonoBehaviour {
     
     public void Drop()
     {
-        if (_state != DropStates.Falling)
+        if (_state != DropStates.Falling && stal.IsActive)
         {
             _state = DropStates.Falling;
             stal.SetState(Stalactite.StalStates.Falling);
@@ -96,22 +96,26 @@ public class StalDropComponent : MonoBehaviour {
     
     private IEnumerator DropSequence()
     {
-        if (rubbleEffect == null)
-        {
-            // this is required for boss fights where the boss causes the stalactite to fall
-            CreateRubbleEffect();
-        }
         if (anim != null)
         {
+            if (stal.SpawnDirection == SpawnStalAction.StalSpawnDirection.FromTop)
+            {
+                CreateRubbleEffect();
+            }
+
             anim.CrackAndFall();
             while (!anim.ReadyToFall() || isPaused)
             {
                 yield return null;
             }
+
+            if (rubbleEffect != null)
+            {
+                rubbleEffect.Stop();
+                Destroy(rubbleEffect, 2f);
+            }
         }
         
-        rubbleEffect.Stop();
-        Destroy(rubbleEffect, 2f);
         float fallTime = 0f;
         float startingYPos = stalBody.transform.position.y;
         while (fallTime < FallDuration)

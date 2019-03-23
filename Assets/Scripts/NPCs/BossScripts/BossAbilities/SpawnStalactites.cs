@@ -1,13 +1,16 @@
 ﻿using ClumsyBat.Objects;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SpawnStalactites : BossAbility {
 
-    private const int NumStals = 20;
+    private const int INITIAL_STALCOUNT = 5;
     private readonly List<Stalactite> _stals = new List<Stalactite>();
     private GameObject rubblePrefab;
+
+    private Transform stalParent;
     
     private void Start()
     {
@@ -52,7 +55,6 @@ public class SpawnStalactites : BossAbility {
         {
             GameObject rubbleEffect = Instantiate(rubblePrefab);
             rubbleEffect.transform.position = new Vector3(stalTf.position.x, endY, stalTf.position.z - 0.1f);
-            StartCoroutine(CheckStalExists(index, rubbleEffect));
             Destroy(rubbleEffect, 5f);
         }
 
@@ -79,25 +81,13 @@ public class SpawnStalactites : BossAbility {
         }
     }
 
-    // TODO the existence of this looks wrong... there should be an event instead
-    private IEnumerator CheckStalExists(int index, GameObject rubbleEffect)
-    {
-        while (_stals[index].isActiveAndEnabled)
-        {
-            yield return null;
-        }
-        Destroy(rubbleEffect);
-    }
-
     private IEnumerator DropStalactites()
     {
-        foreach(var stal in _stals)
+        var activeStals = _stals.Where(s => s.IsActive && !s.IsForming && !s.IsBroken).ToArray();
+        foreach(var stal in activeStals)
         {
-            if (!stal.IsForming)
-            {
-                stal.Drop();
-                yield return new WaitForSeconds(0.2f);
-            }
+            stal.Drop();
+            yield return new WaitForSeconds(0.2f);
         }
     }
 
@@ -106,7 +96,7 @@ public class SpawnStalactites : BossAbility {
         for (int i = 0; i < dropOrder.Length; i++)
         {
             int index = dropOrder[i];
-            if (_stals[index].isActiveAndEnabled && !_stals[index].IsForming)
+            if (_stals[index].IsActive && !_stals[index].IsForming)
             {
                 _stals[index].Drop();
                 yield return new WaitForSeconds(0.2f);
@@ -116,6 +106,7 @@ public class SpawnStalactites : BossAbility {
 
     private void ActivateStal(int index, float spawnPosX, SpawnStalAction.StalTypes type, float greenChance, float goldChance, float blueChance, int poolHandlerIndex, SpawnStalAction.StalSpawnDirection direction)
     {
+        _stals[index].gameObject.SetActive(true);
         const float startY = 10f;
         Spawnable.SpawnType spawnTf = new Spawnable.SpawnType
         {
@@ -143,22 +134,29 @@ public class SpawnStalactites : BossAbility {
         int i = 0;
         for (i = 0; i < _stals.Count - 1; i++)
         {
-            if (!_stals[i].isActiveAndEnabled) break;
+            if (!_stals[i].IsActive) return i;
         }
-        return i;
+        AddNewStal();
+        return _stals.Count - 1;
     }
 
 
     private void CreateStals()
     {
-        Transform stalParent = new GameObject("Stalactites").transform;
+        stalParent = new GameObject("Stalactites").transform;
         stalParent.position = new Vector3(0f, 0f, Toolbox.Instance.ZLayers["Stalactite"]);
-        for (int i = 0; i < NumStals; i++)
+        for (int i = 0; i < INITIAL_STALCOUNT; i++)
         {
-            Stalactite newStal = Instantiate(Resources.Load<Stalactite>("Obstacles/Stalactite"), stalParent);
-            newStal.transform.position = Toolbox.Instance.HoldingArea;
-            newStal.DropEnabled = false;
-            _stals.Add(newStal);
+            AddNewStal();
         }
+    }
+
+    private void AddNewStal()
+    {
+        Stalactite newStal = Instantiate(Resources.Load<Stalactite>("Obstacles/Stalactite"), stalParent);
+        newStal.transform.position = Toolbox.Instance.HoldingArea;
+        newStal.DropEnabled = false;
+        newStal.gameObject.SetActive(false);
+        _stals.Add(newStal);
     }
 }
