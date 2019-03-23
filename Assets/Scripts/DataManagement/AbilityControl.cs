@@ -2,6 +2,7 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using ClumsyBat.DataContainers;
+using ClumsyBat;
 
 public class AbilityControl : MonoBehaviour {
 
@@ -123,14 +124,19 @@ public class AbilityControl : MonoBehaviour {
     }
 
     public AbilityContainer.AbilityType GetDashStats() { return Data.Rush; }
-    public void SaveDashStats(AbilityContainer.AbilityType rush) { Data.Rush = rush; }
+    public void SaveDashStats(AbilityContainer.AbilityType rush) { Data.Rush = rush; RefreshPlayerAbilityData(); }
 
     public AbilityContainer.AbilityType GetHypersonicStats() { return Data.Hypersonic; }
-    public void SaveHypersonicStats(AbilityContainer.AbilityType hyperSonic) { Data.Hypersonic = hyperSonic; }
+    public void SaveHypersonicStats(AbilityContainer.AbilityType hyperSonic) { Data.Hypersonic = hyperSonic; RefreshPlayerAbilityData(); }
 
     public AbilityContainer.AbilityType GetLanternDurationStats() { return Data.LanternDurationLevel; }
-    public void SaveLanternDurationStats(AbilityContainer.AbilityType lanternDurationLevel) { Data.LanternDurationLevel = lanternDurationLevel; }
+    public void SaveLanternDurationStats(AbilityContainer.AbilityType lanternDurationLevel) { Data.LanternDurationLevel = lanternDurationLevel; RefreshPlayerAbilityData(); }
 
     public AbilityContainer.AbilityType GetShieldStats() { return Data.Shield; }
-    public void SaveShieldStats(AbilityContainer.AbilityType shieldStats) { Data.Shield = shieldStats; }
+    public void SaveShieldStats(AbilityContainer.AbilityType shieldStats) { Data.Shield = shieldStats; RefreshPlayerAbilityData(); }
+
+    private void RefreshPlayerAbilityData()
+    {
+        GameStatics.Player.Clumsy.Abilities.SetData(this);
+    }
 }

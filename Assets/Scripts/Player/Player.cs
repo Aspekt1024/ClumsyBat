@@ -15,7 +15,7 @@ namespace ClumsyBat.Players
     {
         private const float KNOCKBACK_DURATION = 0.55f;
 
-        public float MoveSpeed = 4f;
+        public float MoveSpeed = 5.5f;
 
         public Transform Model;
         public Hypersonic Hypersonic;
@@ -55,8 +55,7 @@ namespace ClumsyBat.Players
 
         public void DeactivateRush()
         {
-            // TODO this
-            Debug.Log("deactivate rush to be implemented");
+            Abilities.CancelAction(DirectionalActions.Dash);
         }
 
         public void Stun(float duration)
@@ -117,6 +116,11 @@ namespace ClumsyBat.Players
             {
                 Model.transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
                 Model.transform.position += Vector3.right * .5f;
+
+                var rotation = Model.transform.localEulerAngles;
+                rotation.z = -rotation.z;
+                Model.transform.localEulerAngles = rotation;
+
                 Lantern.GetComponent<HingeJoint2D>().limits = new JointAngleLimits2D()
                 {
                     min = -260f,

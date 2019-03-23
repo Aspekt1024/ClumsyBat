@@ -50,6 +50,7 @@ namespace ClumsyBat.Players
         {
             _hypersonic.SetData(abilityData.GetHypersonicStats());
             Shield.SetStats(abilityData.GetShieldStats());
+            _rush.SetStats(abilityData.GetDashStats());
         }
 
         public bool DoAction(DirectionalActions action, MovementDirections direction)
@@ -79,6 +80,37 @@ namespace ClumsyBat.Players
                     return Shield.Activate();
                 default:
                     return false;
+            }
+        }
+
+        public void CancelAction(DirectionalActions action)
+        {
+            switch (action)
+            {
+                case DirectionalActions.Jump:
+                    break;
+                case DirectionalActions.Dash:
+                    _rush.Deactivate();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public void CancelAction(StaticActions action)
+        {
+            switch (action)
+            {
+                case StaticActions.Hypersonic:
+                    break;
+                case StaticActions.ForcedHypersonic:
+                    break;
+                case StaticActions.Unperch:
+                    break;
+                case StaticActions.Shield:
+                    break;
+                default:
+                    break;
             }
         }
 

@@ -62,8 +62,11 @@ public class HypersonicCrystalBoss : CrystalBoss {
         }
 
         string dialogue = "It worked! Any time you collect a gold moth, you will activate Hypersonic!";
-        Toolbox.Tooltips.ShowDialogue(new TriggerEvent() { Dialogue = new List<string> { dialogue } });
+        Toolbox.Tooltips.ShowDialogue(new TriggerEvent() { Dialogue = new List<string> { dialogue } }, DialogueComplete);
+    }
 
+    private void DialogueComplete()
+    {
         GameStatics.LevelManager.GameHandler.LevelComplete();
     }
 }

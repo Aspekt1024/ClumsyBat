@@ -53,15 +53,19 @@ public class TooltipHandler : MonoBehaviour {
         buttonEffects.ShowNewTip();
     }
 
-    public void ShowDialogue(TriggerEvent triggerEvent)
+    public void ShowDialogue(TriggerEvent triggerEvent, System.Action callback = null)
     {
-        if (!GameStatics.Player.Clumsy.State.IsAlive || !GameStatics.Data.Settings.TooltipsOn) { return; }
+        if (!GameStatics.Player.Clumsy.State.IsAlive || !GameStatics.Data.Settings.TooltipsOn)
+        {
+            callback?.Invoke();
+            return;
+        }
 
         TriggerEventSerializer.Instance.SetEventSeen(triggerEvent.Id);
-        StartCoroutine(ShowDialogueRoutine(triggerEvent));
+        StartCoroutine(ShowDialogueRoutine(triggerEvent, callback));
     }
 
-    private IEnumerator ShowDialogueRoutine(TriggerEvent triggerEvent)
+    private IEnumerator ShowDialogueRoutine(TriggerEvent triggerEvent, System.Action callback)
     {
         GameStatics.GameManager.PauseGame();
         GameStatics.Data.GameState.IsPausedForTooltip = true;
@@ -87,6 +91,7 @@ public class TooltipHandler : MonoBehaviour {
         yield return StartCoroutine(ui.Close());
         GameStatics.Player.Clumsy.Model.GetComponent<SpriteRenderer>().sortingLayerName = "Player";
         GameStatics.GameManager.ResumeGame();
+        callback?.Invoke();
     }
     
     private IEnumerator WaitForDialogue(bool isFinal)

@@ -46,13 +46,14 @@ public class DashCrystalBoss : CrystalBoss {
             yield return null;
         }
 
-        var hypersonic = GameStatics.Data.Abilities.GetHypersonicStats();
-        hypersonic.AbilityUnlocked = true;
-        hypersonic.AbilityAvailable = true;
-        hypersonic.AbilityLevel = 1;
-        hypersonic.AbilityEvolution = 1;
-        GameStatics.Data.Abilities.SaveHypersonicStats(hypersonic);
+        var dash = GameStatics.Data.Abilities.GetDashStats();
+        dash.AbilityUnlocked = true;
+        dash.AbilityAvailable = true;
+        dash.AbilityLevel = 1;
+        dash.AbilityEvolution = 1;
+        GameStatics.Data.Abilities.SaveDashStats(dash);
 
+        // TODO something more interesting
         GameStatics.Player.Clumsy.DoAction(ClumsyAbilityHandler.StaticActions.ForcedHypersonic);
         timer = 0f;
         while (timer < 2f)
@@ -62,8 +63,11 @@ public class DashCrystalBoss : CrystalBoss {
         }
 
         string dialogue = "You have unlocked the ability to (briefly) reach breakneck speeds! Swipe to dash!";
-        Toolbox.Tooltips.ShowDialogue(new TriggerEvent() { Dialogue = new List<string> { dialogue } });
+        Toolbox.Tooltips.ShowDialogue(new TriggerEvent() { Dialogue = new List<string> { dialogue } }, DialogueComplete);
+    }
 
+    private void DialogueComplete()
+    {
         GameStatics.LevelManager.GameHandler.LevelComplete();
     }
 }
