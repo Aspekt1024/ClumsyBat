@@ -25,14 +25,14 @@ namespace ClumsyBat.LevelManagement
             {
                 // Boss achievements
                 levelData.Achievement1 |= levelData.LevelCompleted;
-                levelData.Achievement2 |= data.OneDamageTaken;
-                levelData.Achievement3 |= data.IsUntouched;
+                levelData.Achievement2 |= data.NumTimesTakenDamage <= 1;
+                levelData.Achievement3 |= data.NumTimesTakenDamage == 0;
             }
             else
             {
                 // Standard level achievements
                 levelData.Achievement1 |= data.MothsEaten == GameStatics.LevelManager.NumMoths;
-                levelData.Achievement2 |= data.IsUntouched;
+                levelData.Achievement2 |= data.NumTimesTakenDamage == 0;
                 levelData.Achievement3 |= data.Score >= GameStatics.LevelManager.ScoreToBeat;
             }
 

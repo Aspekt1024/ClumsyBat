@@ -16,14 +16,14 @@ namespace ClumsyBat.Players
             switch (collider.tag)
             {
                 case "Projectile":
-                    player.TakeDamage(collider.tag);
+                    player.TakeDamage(collider.transform, collider.tag, Vector2.zero);
                     break;
                 case "Moth":
                     Moth moth = collider.GetComponentInParent<Moth>();
                     moth.ConsumeMoth();
                     break;
                 case "Boss":
-                    GameStatics.Player.Clumsy.TakeDamage(collider.tag);
+                    GameStatics.Player.Clumsy.TakeDamage(collider.transform, collider.tag, Vector2.zero);
                     break;
             }
         }

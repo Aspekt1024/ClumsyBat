@@ -63,7 +63,7 @@ namespace ClumsyBat
             StartCoroutine(ResumeGameRoutine());
         }
 
-        public void ResumeGameFromTooltip()
+        public void ResumeGame()
         {
             SetUnpaused();
             GameStatics.Data.GameState.IsPausedForTooltip = false;

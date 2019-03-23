@@ -86,7 +86,7 @@ public class TooltipHandler : MonoBehaviour {
 
         yield return StartCoroutine(ui.Close());
         GameStatics.Player.Clumsy.Model.GetComponent<SpriteRenderer>().sortingLayerName = "Player";
-        GameStatics.GameManager.ResumeGameFromTooltip();
+        GameStatics.GameManager.ResumeGame();
     }
     
     private IEnumerator WaitForDialogue(bool isFinal)

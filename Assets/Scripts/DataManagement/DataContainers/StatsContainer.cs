@@ -19,6 +19,8 @@ namespace ClumsyBat.DataManagement
         public int TimesDashed;
         public int ToothDeaths;
         public int RockDeaths;
+        public int BossDeaths;
+        public int UnknownDeaths;
         public int Deaths;
 
         public int MostMoths;

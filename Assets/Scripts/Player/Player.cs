@@ -6,6 +6,7 @@ using PlayerSounds = ClumsyAudioControl.PlayerSounds;
 using ClumsyAnimations = ClumsyBat.Players.ClumsyAnimator.ClumsyAnimations;
 using StaticActions = ClumsyBat.Players.ClumsyAbilityHandler.StaticActions;
 using DirectionalActions = ClumsyBat.Players.ClumsyAbilityHandler.DirectionalActions;
+using ClumsyBat.UI;
 
 namespace ClumsyBat.Players
 {
@@ -20,6 +21,7 @@ namespace ClumsyBat.Players
         public Hypersonic Hypersonic;
         public Lantern Lantern;
         public FogEffect Fog;
+        public DeathOverlay DeathOverlay;
 
         public Controller Controller { get; set; }
         public PlayerState State { get; private set; }
@@ -62,7 +64,7 @@ namespace ClumsyBat.Players
             Debug.Log("not stunned... implement this");
         }
 
-        public void TakeDamage(string otherTag = "")
+        public void TakeDamage(Transform obj, string otherTag, Vector2 point)
         {
             if (State.IsShielded) return;
 
@@ -73,15 +75,7 @@ namespace ClumsyBat.Players
                 DoAction(StaticActions.Unperch);
                 DoAction(StaticActions.Shield);
 
-                // TODO there's an easier way to do this... use an int.
-                if (GameStatics.Data.GameState.IsUntouched)
-                {
-                    GameStatics.Data.GameState.IsUntouched = false;
-                }
-                else
-                {
-                    GameStatics.Data.GameState.OneDamageTaken = false;
-                }
+                GameStatics.Data.GameState.NumTimesTakenDamage++;
             }
             else
             {
@@ -91,13 +85,13 @@ namespace ClumsyBat.Players
                         GameStatics.Data.Stats.ToothDeaths++;
                         break;
                     case "Boss":
-                        //TODO GameStatics.Data.InGameData.Data.Stats.BossDeaths++;
+                        GameStatics.Data.Stats.BossDeaths++;
                         break;
                     default:
-                        // TODO GameStatics.Data.InGameData.data.stats.unknowndeaths++;
+                        GameStatics.Data.Stats.UnknownDeaths++;
                         break;
                 }
-                Die();
+                Die(obj);
             }
         }
 
@@ -172,7 +166,7 @@ namespace ClumsyBat.Players
         public bool IsFacingRight { get { return Model.transform.localScale.x > 0; } }
 
         
-        private void Die()
+        private void Die(Transform otherTf)
         {
             if (!State.IsAlive) return;
 
@@ -185,16 +179,52 @@ namespace ClumsyBat.Players
             Physics.DisableCollisions();
             Lantern.Drop();
             
-            StartCoroutine(PauseForDeath());
+            StartCoroutine(PauseForDeath(otherTf));
         }
 
-        private IEnumerator PauseForDeath()
+        private IEnumerator PauseForDeath(Transform otherTf)
         {
+            var otherRenderer = otherTf.GetComponent<SpriteRenderer>();
+            if (otherRenderer == null || !otherRenderer.gameObject.activeSelf)
+            {
+                otherRenderer = otherTf.GetComponentInParent<SpriteRenderer>();
+            }
+            if (otherRenderer == null || !otherRenderer.gameObject.activeSelf)
+            {
+                otherRenderer = otherTf.GetComponentInParent<SpriteRenderer>();
+            }
+
+            int originalSortOrder = 0;
+            string originalSortLayer = otherRenderer.sortingLayerName;
+            if (otherRenderer != null)
+            {
+                originalSortOrder = otherRenderer.sortingOrder;
+                otherRenderer.sortingLayerName = "UIFront";
+                otherRenderer.sortingOrder = 100;
+            }
+
+            Model.GetComponent<SpriteRenderer>().sortingLayerName = "UIFront";
+            DeathOverlay.Show();
+
             audioControl.PlaySound(PlayerSounds.Collision);    // TODO replace with something... better? like an "ow!"
             GameStatics.GameManager.PauseGame();
-            yield return new WaitForSecondsRealtime(0.47f);
-            GameStatics.GameManager.ResumeGameFromMenu();
+            yield return new WaitForSecondsRealtime(1f);
+            GameStatics.GameManager.ResumeGame();
             animator.PlayAnimation(ClumsyAnimations.Die);
+
+            Physics.DisableGravity();
+            yield return new WaitForSecondsRealtime(0.3f);
+            Physics.EnableGravity();
+            yield return new WaitForSecondsRealtime(0.5f);
+
+            DeathOverlay.Hide();
+            Model.GetComponent<SpriteRenderer>().sortingLayerName = "Player";
+
+            if (otherRenderer != null)
+            {
+                otherRenderer.sortingLayerName = originalSortLayer;
+                otherRenderer.sortingOrder = originalSortOrder;
+            }
         }
     }
 }

@@ -27,7 +27,7 @@ public class Shield : MonoBehaviour {
     public bool Activate()
     {
         if (_state == ShieldStates.Knockback || _state == ShieldStates.Recovering) return true;
-        if (_shieldCharges < 0) return false;
+        if (_shieldCharges <= 0) return false;
 
         GameStatics.Audio.Main.PlaySound(MainSounds.Shield);
         _shieldCharges--;

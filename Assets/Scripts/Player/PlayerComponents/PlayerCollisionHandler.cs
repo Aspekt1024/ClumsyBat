@@ -70,7 +70,7 @@ namespace ClumsyBat.Players
                     var boss = collision.collider.GetComponent<Boss>();
                     if (boss != null && boss.IsAlive)
                     {
-                        player.TakeDamage(collision.collider.tag);
+                        player.TakeDamage(collision.collider.transform, collision.collider.tag, collision.GetContact(0).point);
                     }
                     break;
                 case "Stalactite":
@@ -78,7 +78,7 @@ namespace ClumsyBat.Players
                     if (stal.Type == SpawnStalAction.StalTypes.Stalactite)
                     {
                         stal.Crack();
-                        player.TakeDamage(collision.collider.tag);
+                        player.TakeDamage(collision.collider.transform, collision.collider.tag, collision.GetContact(0).point);
                     }
                     break;
             }

@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using static LevelProgressionHandler;
-
+﻿
 namespace ClumsyBat.DataManagement
 {
     /// <summary>
@@ -13,8 +11,7 @@ namespace ClumsyBat.DataManagement
         public float TimeTaken;
         public float Distance;
 
-        public bool IsUntouched;
-        public bool OneDamageTaken;
+        public int NumTimesTakenDamage;
 
         public bool IsPausedForTooltip;
         
@@ -34,8 +31,7 @@ namespace ClumsyBat.DataManagement
             CollectedCurrency = 0;
             TimeTaken = 0;
             Distance = 0;
-            IsUntouched = true;
-            OneDamageTaken = false;
+            NumTimesTakenDamage = 0;
             MothsEaten = 0;
         }
 

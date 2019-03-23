@@ -19,7 +19,7 @@ public class PlayerEventAction : BaseAction {
                 GameStatics.Player.Clumsy.Stun(1.3f);
                 break;
             case PlayerEvents.Damage:
-                GameStatics.Player.Clumsy.TakeDamage("Boss");
+                GameStatics.Player.Clumsy.TakeDamage(null, "Boss", Vector3.zero);
                 break;
             case PlayerEvents.GiveShield:
                 break;
