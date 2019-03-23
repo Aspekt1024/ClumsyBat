@@ -39,6 +39,8 @@ namespace ClumsyBat
             await serializationHandler.Serialize(LevelDataHandler.LevelData.Clone(), LevelDataContainer.FILE_NAME);
             await serializationHandler.Serialize(Stats.Clone(), StatsContainer.FILE_NAME);
             await serializationHandler.Serialize(EventData, EventDataContainer.FILE_NAME);
+
+            Settings.SaveUserSettings();
         }
 
         public async void LoadData(Action callback)
@@ -51,6 +53,7 @@ namespace ClumsyBat
             LevelDataHandler.SetData(await serializationHandler.Deserialize<LevelDataContainer>(LevelDataContainer.FILE_NAME));
             Stats = await serializationHandler.Deserialize<StatsContainer>(StatsContainer.FILE_NAME);
             GameStatics.Player.Clumsy.Abilities.SetData(Abilities);
+            Settings.LoadUserSettings();
             callback.Invoke();
         }
 

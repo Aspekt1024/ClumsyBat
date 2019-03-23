@@ -182,7 +182,7 @@ namespace ClumsyBat.Players
             EventListener.Death();
             GameStatics.Data.Stats.Deaths += 1;
 
-            Physics.Disable();
+            Physics.DisableCollisions();
             Lantern.Drop();
             
             StartCoroutine(PauseForDeath());

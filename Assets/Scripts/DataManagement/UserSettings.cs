@@ -20,6 +20,13 @@ namespace ClumsyBat.DataManagement
         public bool SfxOn { get; private set; }
         public bool TooltipsOn { get; private set; }
 
+        public UserSettings()
+        {
+            MusicOn = true;
+            SfxOn = true;
+            TooltipsOn = true;
+        }
+
         public void LoadUserSettings()
         {
             if (PlayerPrefs.GetInt("SettingsStored") != 1)
