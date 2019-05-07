@@ -12,6 +12,8 @@ namespace ClumsyBat.Objects
 
         private TooltipHandler _tHandler;
 
+        private bool isTriggered;
+
         public void Spawn(TriggerHandler.TriggerType triggerProps, SpawnType spawnTf)
         {
             base.Spawn(transform, spawnTf);
@@ -46,8 +48,9 @@ namespace ClumsyBat.Objects
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (!GameStatics.Data.Settings.TooltipsOn) return;
+            if (!GameStatics.Data.Settings.TooltipsOn || isTriggered) return;
 
+            isTriggered = true;
             switch (TriggerEvent.EventType)
             {
                 case (TriggerHandler.EventType.Dialogue):

@@ -47,6 +47,7 @@ namespace ClumsyBat
             _gameManager = Object.FindObjectOfType<GameManager>();
             _playerManager = Object.FindObjectOfType<PlayerManager>();
             _audioManager = Object.FindObjectOfType<AudioManager>();
+            
             CreateDataObjects();
         }
 

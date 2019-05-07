@@ -33,7 +33,10 @@ public class StalDropComponent : MonoBehaviour {
 
     private void Awake()
     {
-        GetComponentList();
+        TriggerSprite = GetComponent<SpriteRenderer>();
+        stal = GetComponent<Stalactite>();
+        stalBody = transform.GetComponent<Rigidbody2D>();
+        
         rubblePrefab = Resources.Load<GameObject>("Obstacles/Stalactite/RubbleEffect");
     }
 
@@ -42,13 +45,13 @@ public class StalDropComponent : MonoBehaviour {
         if (!GameStatics.StaticsInitiated) return;
         if (!stal.DropEnabled || !stal.isActiveAndEnabled || isPaused || _state == DropStates.Falling || !GameStatics.Player.Clumsy.State.IsAlive) return;
         
-        if (GameStatics.Player.Clumsy.Model.position.x > transform.position.x - stal.TriggerPosX)
+        if (GameStatics.Player.Clumsy.model.position.x > transform.position.x - stal.TriggerPosX)
         {
             Drop();
         }
         else
         {
-            if (GameStatics.Player.Clumsy.Model.position.x > transform.position.x - stal.TriggerPosX - shakeThresholdX && _state == DropStates.None)
+            if (GameStatics.Player.Clumsy.model.position.x > transform.position.x - stal.TriggerPosX - shakeThresholdX && _state == DropStates.None)
             {
                 StartCoroutine(Shake());
             }
@@ -185,8 +188,6 @@ public class StalDropComponent : MonoBehaviour {
 
     private void GetComponentList()
     {
-        if (GameStatics.Player.Clumsy == null) return; //editor doesnt have player
-        
         TriggerSprite = GetComponent<SpriteRenderer>();
         stal = GetComponent<Stalactite>();
         stalBody = transform.GetComponent<Rigidbody2D>();

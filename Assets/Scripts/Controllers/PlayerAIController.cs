@@ -44,7 +44,7 @@ namespace ClumsyBat.Controllers
             this.target = target;
             this.targetReachedCallback = targetReachedCallback;
             state = States.Moving;
-            direction = (player.Model.transform.position.x < target.position.x) ? XDirection.Right : XDirection.Left;
+            direction = (player.model.transform.position.x < target.position.x) ? XDirection.Right : XDirection.Left;
 
             if (player.State.IsPerched) player.DoAction(ClumsyAbilityHandler.StaticActions.Unperch);
             player.Animate(ClumsyAnimator.ClumsyAnimations.Flap);
@@ -96,9 +96,9 @@ namespace ClumsyBat.Controllers
 
         private void MoveTowardsTarget()
         {
-            if (player.Model.transform.position.y < target.position.y - 0.3f)
+            if (player.model.transform.position.y < target.position.y - 0.3f)
             {
-                if (player.Model.transform.position.x < target.position.x)
+                if (player.model.transform.position.x < target.position.x)
                 {
                     player.DoAction(ClumsyAbilityHandler.DirectionalActions.Jump, MovementDirections.Right);
                 }
@@ -118,7 +118,7 @@ namespace ClumsyBat.Controllers
         {
             // Setting this up artificially as this is a cinematic thing only
             const float DASH_SPEED = 18f;
-            Vector2 direction = target.position - player.Model.transform.position;
+            Vector2 direction = target.position - player.model.transform.position;
 
             player.Physics.Body.velocity = direction.normalized * DASH_SPEED;
 
@@ -139,13 +139,13 @@ namespace ClumsyBat.Controllers
         private bool IsTargetReached()
         {
             if ((state == States.Moving)&&
-                ((direction == XDirection.Left && player.Model.transform.position.x < target.position.x) ||
-                (direction == XDirection.Right && player.Model.transform.position.x > target.position.x)))
+                ((direction == XDirection.Left && player.model.transform.position.x < target.position.x) ||
+                (direction == XDirection.Right && player.model.transform.position.x > target.position.x)))
             {
                 return true;
             }
             const float PROXIMITY_THRESHOLD = 0.35f;
-            return Vector2.Distance(player.Model.transform.position, target.position) < PROXIMITY_THRESHOLD;
+            return Vector2.Distance(player.model.transform.position, target.position) < PROXIMITY_THRESHOLD;
         }
     }
 }

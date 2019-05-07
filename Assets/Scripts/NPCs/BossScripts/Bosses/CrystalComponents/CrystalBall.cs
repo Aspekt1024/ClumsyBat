@@ -301,7 +301,7 @@ public class CrystalBall : MonoBehaviour {
                     float ratio = (timer - essenceDelays[i]) / duration;
                     if (ratio <= 1)
                     {
-                        moths[i].transform.position = Vector2.Lerp(essencePositions[i], GameStatics.Player.Clumsy.Lantern.transform.position, ratio);
+                        moths[i].transform.position = Vector2.Lerp(essencePositions[i], GameStatics.Player.Clumsy.lantern.transform.position, ratio);
                     }
                     else if (!essenceCollections[i])
                     {
@@ -311,13 +311,13 @@ public class CrystalBall : MonoBehaviour {
                         switch (Parent.MothColour)
                         {
                             case Moth.MothColour.Green:
-                                GameStatics.Player.Clumsy.Lantern.ChangeColour(Lantern.LanternColour.Green);
+                                GameStatics.Player.Clumsy.lantern.ChangeColour(Lantern.LanternColour.Green);
                                 break;
                             case Moth.MothColour.Gold:
-                                GameStatics.Player.Clumsy.Lantern.ChangeColour(Lantern.LanternColour.Gold);
+                                GameStatics.Player.Clumsy.lantern.ChangeColour(Lantern.LanternColour.Gold);
                                 break;
                             case Moth.MothColour.Blue:
-                                GameStatics.Player.Clumsy.Lantern.ChangeColour(Lantern.LanternColour.Blue);
+                                GameStatics.Player.Clumsy.lantern.ChangeColour(Lantern.LanternColour.Blue);
                                 break;
                         }
                         // TODO play sound

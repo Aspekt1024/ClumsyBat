@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ClumsyBat
 {
-    public class PlayerManager : Singleton<PlayerManager>
+    public class PlayerManager : Singleton<PlayerManager>, IManager
     {
         public Player Clumsy;
         public PlayerController Controller;
@@ -15,8 +15,9 @@ namespace ClumsyBat
 
         private Controller currentController;
 
-        private void Awake()
+        public void InitAwake()
         {
+            Clumsy.InitAwake();
             Sequencer = new LevelAnimationSequencer(Clumsy);
         }
 
@@ -39,9 +40,9 @@ namespace ClumsyBat
 
         public void SetPlayerPosition(Vector2 position)
         {
-            Clumsy.Model.transform.position = position;
-            Clumsy.Lantern.transform.position = position - new Vector2(0.3f, 1f);
-            Clumsy.Lantern.transform.localEulerAngles = new Vector3(0f, 0f, -40f);
+            Clumsy.model.transform.position = position;
+            Clumsy.lantern.transform.position = position - new Vector2(0.3f, 1f);
+            Clumsy.lantern.transform.localEulerAngles = new Vector3(0f, 0f, -40f);
         }
 
         public bool PossessedByAI { get { return currentController.Equals(AIController); } }

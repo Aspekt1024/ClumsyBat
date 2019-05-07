@@ -38,6 +38,7 @@ namespace ClumsyBat
         }
 
         public bool IsBossLevel { get { return Level.ToString().Contains("Boss"); } }
+        public bool IsInPlayMode => levelScript.stateHandler.GameHasStarted;
 
         private LevelCompletionHandler completionHandler = new LevelCompletionHandler();
 
@@ -93,7 +94,7 @@ namespace ClumsyBat
             pos.x = 0f;
             GameStatics.Camera.LevelCamera.transform.position = pos;
             GameStatics.Camera.SwitchToLevelCamera();
-            GameStatics.Player.Clumsy.Fog.Initialise();
+            GameStatics.Player.Clumsy.fog.Initialise();
         }
 
         public void BeginLevel()

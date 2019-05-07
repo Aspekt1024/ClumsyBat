@@ -17,8 +17,8 @@ namespace ClumsyBat.Players
         public PlayerPhysicsHandler(Player player)
         {
             this.player = player;
-            Body = player.Model.GetComponent<Rigidbody2D>();
-            collider = player.Model.GetComponent<Collider2D>();
+            Body = player.model.GetComponent<Rigidbody2D>();
+            collider = player.model.GetComponent<Collider2D>();
         }
 
         public void Tick(float deltaTime)
@@ -32,7 +32,6 @@ namespace ClumsyBat.Players
         
         public void Disable()
         {
-            collider.enabled = false;
             Body.isKinematic = true;
             Body.constraints = RigidbodyConstraints2D.FreezeRotation;
             DisableCollisions();
@@ -43,7 +42,6 @@ namespace ClumsyBat.Players
             collider.enabled = true;
             Body.isKinematic = false;
             Body.constraints = RigidbodyConstraints2D.FreezeRotation;
-            EnableCollisions();
         }
 
         public void DisableGravity()
@@ -74,11 +72,6 @@ namespace ClumsyBat.Players
         public void SetNormalSpeed()
         {
             SetHorizontalVelocity(NORMAL_PLAYER_SPEED * (player.IsFacingRight ? 1 : -1));
-        }
-
-        public void EnableCollisions()
-        {
-            collider.enabled = true;
         }
 
         public void DisableCollisions()

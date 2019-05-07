@@ -57,7 +57,7 @@ public class Lantern : MonoBehaviour {
 
     public void ConsumeMoth(Moth.MothColour colour)
     {
-        GameStatics.Player.Clumsy.Fog.Echolocate();
+        GameStatics.Player.Clumsy.fog.Echolocate();
         GameStatics.Player.Clumsy.Abilities.Shield.AddCharge();
 
         switch (colour)
@@ -65,7 +65,7 @@ public class Lantern : MonoBehaviour {
             case Moth.MothColour.Green:
                 break;
             case Moth.MothColour.Gold:
-                PlayerManager.Instance.Clumsy.Hypersonic.ActivateHypersonic();
+                PlayerManager.Instance.Clumsy.hypersonic.ActivateHypersonic();
                 break;
             case Moth.MothColour.Blue:
                 break;

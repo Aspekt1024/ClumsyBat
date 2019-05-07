@@ -22,8 +22,8 @@ namespace ClumsyBat.Players
         public FlapComponent(Player player)
         {
             this.player = player;
-            horizontalVelocity = player.MoveSpeed;
-            playerBody = player.Model.GetComponent<Rigidbody2D>();
+            horizontalVelocity = player.moveSpeed;
+            playerBody = player.model.GetComponent<Rigidbody2D>();
         }
 
         public void MoveLeft()

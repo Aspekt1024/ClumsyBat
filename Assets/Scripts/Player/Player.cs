@@ -13,15 +13,13 @@ namespace ClumsyBat.Players
     [RequireComponent(typeof(PlayerSensor))]
     public class Player : MonoBehaviour, IControllable
     {
-        private const float KNOCKBACK_DURATION = 0.55f;
+        public float moveSpeed = 5.5f;
 
-        public float MoveSpeed = 5.5f;
-
-        public Transform Model;
-        public Hypersonic Hypersonic;
-        public Lantern Lantern;
-        public FogEffect Fog;
-        public DeathOverlay DeathOverlay;
+        public Transform model;
+        public Hypersonic hypersonic;
+        public Lantern lantern;
+        public FogEffect fog;
+        public DeathOverlay deathOverlay;
 
         public Controller Controller { get; set; }
         public PlayerState State { get; private set; }
@@ -30,22 +28,37 @@ namespace ClumsyBat.Players
         
         private ClumsyAnimator animator;
         private ClumsyAudioControl audioControl;
-        private PlayerSensor sensor;
-        
-        private void Awake()
+
+        public void InitAwake()
         {
             Abilities = new ClumsyAbilityHandler(this);
             Physics = new PlayerPhysicsHandler(this);
             State = new PlayerState(this);
 
             animator = new ClumsyAnimator(this);
-            sensor = GetComponent<PlayerSensor>();
             audioControl = gameObject.AddComponent<ClumsyAudioControl>();
+            
+            Abilities.SetData(GameStatics.Data.Abilities);
         }
 
         private void FixedUpdate()
         {
             Physics.Tick(Time.fixedDeltaTime);
+            const float lowerLevelBound = -7f;
+            
+            if (!GameStatics.LevelManager.IsInPlayMode) return;
+            
+            if (model.position.y < lowerLevelBound)
+            {
+                if (State.IsInSecretPath)
+                {
+                    Debug.Log("secret path");
+                }
+                else
+                {
+                    Die(null);
+                }
+            }
         }
 
         public void SetSpeed(float speed)
@@ -66,8 +79,8 @@ namespace ClumsyBat.Players
         public void TakeDamage(Transform obj, string otherTag, Vector2 point)
         {
             if (State.IsShielded) return;
-
-            bool successfullyShielded = DoAction(StaticActions.Shield);
+            
+            StartCoroutine(Knockback(point));
 
             if (Abilities.Shield.IsAvailable())
             {
@@ -94,9 +107,9 @@ namespace ClumsyBat.Players
             }
         }
 
-        public void Animate(ClumsyAnimations animation)
+        public void Animate(ClumsyAnimations anim)
         {
-            animator.PlayAnimation(animation);
+            animator.PlayAnimation(anim);
         }
 
         public bool DoAction(StaticActions action)
@@ -111,37 +124,36 @@ namespace ClumsyBat.Players
 
         public void FaceLeft()
         {
-            Vector3 scale = Model.transform.localScale;
-            if (scale.x > 0)
+            var scale = model.localScale;
+            if (!(scale.x > 0)) return;
+            
+            model.localScale = new Vector3(-scale.x, scale.y, scale.z);
+            model.position += Vector3.right * .5f;
+
+            var rotation = model.localEulerAngles;
+            rotation.z = -rotation.z;
+            model.localEulerAngles = rotation;
+
+            lantern.GetComponent<HingeJoint2D>().limits = new JointAngleLimits2D()
             {
-                Model.transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
-                Model.transform.position += Vector3.right * .5f;
-
-                var rotation = Model.transform.localEulerAngles;
-                rotation.z = -rotation.z;
-                Model.transform.localEulerAngles = rotation;
-
-                Lantern.GetComponent<HingeJoint2D>().limits = new JointAngleLimits2D()
-                {
-                    min = -260f,
-                    max = -220f
-                };
-            }
+                min = -260f,
+                max = -220f
+            };
         }
 
         public void FaceRight()
         {
-            Vector3 scale = Model.transform.localScale;
+            Vector3 scale = model.transform.localScale;
             if (scale.x < 0)
             {
-                Model.transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
-                Model.transform.position += Vector3.left * .5f;
+                model.localScale = new Vector3(-scale.x, scale.y, scale.z);
+                model.position += Vector3.left * .5f;
 
-                var rotation = Model.transform.localEulerAngles;
+                var rotation = model.localEulerAngles;
                 rotation.z = -rotation.z;
-                Model.transform.localEulerAngles = rotation;
+                model.localEulerAngles = rotation;
 
-                Lantern.GetComponent<HingeJoint2D>().limits = new JointAngleLimits2D()
+                lantern.GetComponent<HingeJoint2D>().limits = new JointAngleLimits2D()
                 {
                     min = -20f,
                     max = 40f
@@ -149,17 +161,17 @@ namespace ClumsyBat.Players
             }
         }
 
-        public IEnumerator Knockback(Vector2 contactPoint)
+        private IEnumerator Knockback(Vector2 contactPoint)
         {
-            float knockbackTimer = 0f;
-
-            float directionModifier = contactPoint.x < transform.position.x ? -1 : 1;
-
-            while (knockbackTimer < KNOCKBACK_DURATION)
-            {
-                Physics.SetHorizontalVelocity(Mathf.Lerp(directionModifier * 7f, 0f, knockbackTimer / KNOCKBACK_DURATION));
-                yield return null;
-            }
+            const float knockbackSpeed = 6f;
+            const float knockbackDuration = 0.4f;
+            
+            var pos = model.position;
+            Physics.Body.velocity = -(contactPoint - new Vector2(pos.x, pos.y)).normalized * knockbackSpeed;;
+            
+            State.SetState(PlayerState.States.Knockback, true);
+            yield return new WaitForSeconds(knockbackDuration);
+            State.SetState(PlayerState.States.Knockback, false);
         }
 
         public void SetColor(Color color)
@@ -167,7 +179,7 @@ namespace ClumsyBat.Players
             // TODO this
         }
 
-        public bool IsFacingRight { get { return Model.transform.localScale.x > 0; } }
+        public bool IsFacingRight => model.transform.localScale.x > 0;
 
         
         private void Die(Transform otherTf)
@@ -181,34 +193,17 @@ namespace ClumsyBat.Players
             GameStatics.Data.Stats.Deaths += 1;
 
             Physics.DisableCollisions();
-            Lantern.Drop();
+            lantern.Drop();
             
             StartCoroutine(PauseForDeath(otherTf));
         }
 
         private IEnumerator PauseForDeath(Transform otherTf)
         {
-            var otherRenderer = otherTf.GetComponent<SpriteRenderer>();
-            if (otherRenderer == null || !otherRenderer.gameObject.activeSelf)
-            {
-                otherRenderer = otherTf.GetComponentInParent<SpriteRenderer>();
-            }
-            if (otherRenderer == null || !otherRenderer.gameObject.activeSelf)
-            {
-                otherRenderer = otherTf.GetComponentInParent<SpriteRenderer>();
-            }
-
-            int originalSortOrder = 0;
-            string originalSortLayer = otherRenderer.sortingLayerName;
-            if (otherRenderer != null)
-            {
-                originalSortOrder = otherRenderer.sortingOrder;
-                otherRenderer.sortingLayerName = "UIFront";
-                otherRenderer.sortingOrder = 100;
-            }
-
-            Model.GetComponent<SpriteRenderer>().sortingLayerName = "UIFront";
-            DeathOverlay.Show();
+            var originalSortDetails = SetToFront(otherTf);
+            
+            model.GetComponent<SpriteRenderer>().sortingLayerName = "UIFront";
+            deathOverlay.Show();
 
             audioControl.PlaySound(PlayerSounds.Collision);    // TODO replace with something... better? like an "ow!"
             GameStatics.GameManager.PauseGame();
@@ -221,14 +216,52 @@ namespace ClumsyBat.Players
             Physics.EnableGravity();
             yield return new WaitForSecondsRealtime(0.5f);
 
-            DeathOverlay.Hide();
-            Model.GetComponent<SpriteRenderer>().sortingLayerName = "Player";
+            deathOverlay.Hide();
+            model.GetComponent<SpriteRenderer>().sortingLayerName = "Player";
+
+            RevertLayerDetails(otherTf, originalSortDetails);
+        }
+
+        private struct RenderDetails
+        {
+            public int sortOrder;
+            public string sortLayer;
+        }
+        
+        private RenderDetails SetToFront(Transform otherTf)
+        {
+            var originalRenderDetails = new RenderDetails();
+
+            if (otherTf == null) return originalRenderDetails;
+            
+            var otherRenderer = otherTf.GetComponent<SpriteRenderer>();
+            if (otherRenderer == null || !otherRenderer.gameObject.activeSelf)
+            {
+                otherRenderer = otherTf.GetComponentInParent<SpriteRenderer>();
+            }
+            if (otherRenderer == null || !otherRenderer.gameObject.activeSelf)
+            {
+                otherRenderer = otherTf.GetComponentInParent<SpriteRenderer>();
+            }
 
             if (otherRenderer != null)
             {
-                otherRenderer.sortingLayerName = originalSortLayer;
-                otherRenderer.sortingOrder = originalSortOrder;
+                originalRenderDetails.sortLayer = otherRenderer.sortingLayerName;
+                originalRenderDetails.sortOrder = otherRenderer.sortingOrder;
+                otherRenderer.sortingLayerName = "UIFront";
+                otherRenderer.sortingOrder = 100;
             }
+
+            return originalRenderDetails;
+        }
+
+        private void RevertLayerDetails(Transform otherTf, RenderDetails details)
+        {
+            if (otherTf == null) return;
+            var otherRenderer = otherTf.GetComponent<SpriteRenderer>();
+            if (otherRenderer == null) return;
+            otherRenderer.sortingLayerName = details.sortLayer;
+            otherRenderer.sortingOrder = details.sortOrder;
         }
     }
 }

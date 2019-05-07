@@ -37,7 +37,7 @@ public class SpiderClass : Spawnable {
         web.UpdateWebSprites();
 
         if (player == null) { return; }
-        if (!(player.Model.position.x + 7f > transform.position.x + (spider.SpiderSwings ? spider.AnchorPoint.x : 0f)) || _spiderState != SpiderStates.Normal)
+        if (!(player.model.position.x + 7f > transform.position.x + (spider.SpiderSwings ? spider.AnchorPoint.x : 0f)) || _spiderState != SpiderStates.Normal)
             return;
         _spiderState = SpiderStates.PreparingDrop;
         StartCoroutine(Drop());

@@ -76,7 +76,7 @@ public class Moth : Spawnable {
             yield return null;
         }
         
-        GameStatics.Player.Clumsy.Lantern.ConsumeMoth(Colour);
+        GameStatics.Player.Clumsy.lantern.ConsumeMoth(Colour);
 
         Deactivate();
         _bConsumption = false;
@@ -130,7 +130,7 @@ public class Moth : Spawnable {
 
     public void Activate(SpawnType spawnTf, MothColour colour, MothPathHandler.MothPathTypes pathType = MothPathHandler.MothPathTypes.Spiral)
     {
-        _lantern = GameStatics.Player.Clumsy.Lantern.transform;
+        _lantern = GameStatics.Player.Clumsy.lantern.transform;
         base.Spawn(transform, spawnTf);
         _mothAnimator.enabled = true;
         _mothCollider.enabled = true;
@@ -175,7 +175,7 @@ public class Moth : Spawnable {
     {
         PlayExplosionAnim();
         Vector2 startPos = MothSprite.transform.position;
-        Vector2 pathLoc = GameStatics.Player.Clumsy.Model.position + (GameStatics.Player.Clumsy.IsFacingRight ? Vector3.right : Vector3.left) * 2f;
+        Vector2 pathLoc = GameStatics.Player.Clumsy.model.position + (GameStatics.Player.Clumsy.IsFacingRight ? Vector3.right : Vector3.left) * 2f;
 
         float timer = 0f;
         const float duration = 0.8f;

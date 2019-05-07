@@ -1,0 +1,719 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\dszab\.Rider2018.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\dszab\.Rider2018.3\system\resharper-host\local\Transient\ReSharperHost\v183\SolutionCaches\_Clumsy Bat.2112861622.00" t="ExcludeRecursive" />
+    <e p="C:\Users\dszab\Documents\2. Unity Projects\Clumsy Bat" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="Audio" t="Include">
+          <e p="Menu" t="Include">
+            <e p="song18.txt" t="Include" />
+          </e>
+        </e>
+        <e p="ImportedAssets" t="Include">
+          <e p="EndlessCaveAmbience" t="Include">
+            <e p="demos" t="Include">
+              <e p="demo scripts" t="Include">
+                <e p="DebugConsole.cs" t="Include" />
+                <e p="DebugConsoleLicence.txt" t="Include" />
+                <e p="MixControl.cs" t="Include" />
+                <e p="RandomMusicDemo.cs" t="Include" />
+              </e>
+            </e>
+            <e p="scripts" t="Include">
+              <e p="RandomMusic.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Epic_Arsenal_Essential_Elements_Demo_Packs" t="Include">
+            <e p="_README.txt" t="Include" />
+          </e>
+          <e p="Universal Sound FX" t="Include">
+            <e p="#Game Genre References" t="Include">
+              <e p="8bit and Retro.txt" t="Include" />
+              <e p="Fighting.txt" t="Include" />
+              <e p="First Person Shooter (FPS).txt" t="Include" />
+              <e p="Physics.txt" t="Include" />
+              <e p="Platform.txt" t="Include" />
+              <e p="Puzzle.txt" t="Include" />
+              <e p="Real Time Stategy (RTS) Medieval.txt" t="Include" />
+              <e p="Real Time Stategy (RTS) Sci-Fi.txt" t="Include" />
+              <e p="Shoot em Up.txt" t="Include" />
+            </e>
+            <e p="version_history.txt" t="Include" />
+          </e>
+        </e>
+        <e p="Material" t="Include">
+          <e p="Fog.shader" t="Include" />
+          <e p="Tint.shader" t="Include" />
+        </e>
+        <e p="Resources" t="Include">
+          <e p="EventData" t="Include">
+            <e p="TriggerEventData.xml" t="Include" />
+          </e>
+          <e p="LevelXML" t="Include">
+            <e p="Level4.xml" t="Include" />
+            <e p="Level5.xml" t="Include" />
+            <e p="Level6.xml" t="Include" />
+            <e p="Level7.xml" t="Include" />
+            <e p="Level8.xml" t="Include" />
+            <e p="Main1.xml" t="Include" />
+            <e p="Main10.xml" t="Include" />
+            <e p="Main2.xml" t="Include" />
+            <e p="Main3.xml" t="Include" />
+            <e p="Main4.xml" t="Include" />
+            <e p="Main5.xml" t="Include" />
+            <e p="Main6.xml" t="Include" />
+            <e p="Main7.xml" t="Include" />
+            <e p="Main8.xml" t="Include" />
+            <e p="Main9.xml" t="Include" />
+            <e p="Village1.xml" t="Include" />
+          </e>
+          <e p="NPCs" t="Include">
+            <e p="Bosses" t="Include">
+              <e p="BossBehaviours" t="Include">
+                <e p="Data" t="Include">
+                  <e p="DashEventBoss" t="Include">
+                    <e p="StateMachineEditorData.xml" t="Include" />
+                    <e p="StateMachineRuntimeData.xml" t="Include" />
+                  </e>
+                  <e p="HypersonicEventBoss" t="Include">
+                    <e p="StateMachineEditorData.xml" t="Include" />
+                    <e p="StateMachineRuntimeData.xml" t="Include" />
+                  </e>
+                  <e p="KingRockbreath" t="Include">
+                    <e p="Charge player" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="Drop Stalactites" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="Follow Player" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="Jump a lot" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="Move towards player" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="Spawn Stalactites" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="StateMachineEditorData.xml" t="Include" />
+                    <e p="StateMachineRuntimeData.xml" t="Include" />
+                    <e p="TakeDamage" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                  </e>
+                  <e p="KingRockbreath1" t="Include">
+                    <e p="ChargePlayer" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="Damage Animation" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="KRB Decider" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="MoveToPlayer" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="Spit MothCrystal" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="StateMachineEditorData.xml" t="Include" />
+                    <e p="StateMachineRuntimeData.xml" t="Include" />
+                    <e p="Stomp" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                  </e>
+                  <e p="KingRockbreath2" t="Include">
+                    <e p="ClearFloorCharge" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="Damage1" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="Spit Rock" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="Stalactite Wave" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="StateMachineEditorData.xml" t="Include" />
+                    <e p="StateMachineRuntimeData.xml" t="Include" />
+                  </e>
+                  <e p="KingRockbreath3" t="Include">
+                    <e p="Bashy Stalactites" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="DmgAnim" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="Spit Rocks" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="StateMachineEditorData.xml" t="Include" />
+                    <e p="StateMachineRuntimeData.xml" t="Include" />
+                  </e>
+                  <e p="Nomee" t="Include">
+                    <e p="StateMachineEditorData.xml" t="Include" />
+                    <e p="StateMachineRuntimeData.xml" t="Include" />
+                  </e>
+                  <e p="Rockbreath4" t="Include">
+                    <e p="Action Decider" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="Action Timer" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="Dmg Anim" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="DropAll" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="Follow Player" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="Follow Player 2" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="Spit Moth" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="Stalactite Ceiling" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="StateMachineEditorData.xml" t="Include" />
+                    <e p="StateMachineRuntimeData.xml" t="Include" />
+                    <e p="StompChargeDecider" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                  </e>
+                  <e p="Rockbreath5" t="Include">
+                    <e p="Damage Anim King" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="King Decision Maker" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="King Normal Mode" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="King Projectiles" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="King Stals" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="KingsCharge" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="StateMachineEditorData.xml" t="Include" />
+                    <e p="StateMachineRuntimeData.xml" t="Include" />
+                    <e p="StompyStal" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="WalkOne" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                  </e>
+                  <e p="Rockbreath6" t="Include">
+                    <e p="StateMachineEditorData.xml" t="Include" />
+                    <e p="StateMachineRuntimeData.xml" t="Include" />
+                  </e>
+                  <e p="RockbreathDemo" t="Include">
+                    <e p="Demo Action" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="Demo Actions" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="Demo Behaviour" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="Demo Dmg Anim" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                    <e p="StateMachineEditorData.xml" t="Include" />
+                    <e p="StateMachineRuntimeData.xml" t="Include" />
+                  </e>
+                  <e p="Whalepillar" t="Include">
+                    <e p="StateMachineEditorData.xml" t="Include" />
+                    <e p="StateMachineRuntimeData.xml" t="Include" />
+                    <e p="test" t="Include">
+                      <e p="EditorData.xml" t="Include" />
+                      <e p="RuntimeData.xml" t="Include" />
+                    </e>
+                  </e>
+                </e>
+              </e>
+            </e>
+          </e>
+        </e>
+        <e p="scripts" t="Include">
+          <e p="Audio" t="Include">
+            <e p="AudioController.cs" t="Include" />
+            <e p="AudioControls" t="Include">
+              <e p="ClumsyAudioControl.cs" t="Include" />
+              <e p="GameMusicControl.cs" t="Include" />
+            </e>
+            <e p="MainAudioControl.cs" t="Include" />
+          </e>
+          <e p="Camera" t="Include">
+            <e p="CameraEffectsHandler.cs" t="Include" />
+            <e p="CameraEventListener.cs" t="Include" />
+            <e p="CameraFollowObject.cs" t="Include" />
+            <e p="Effects" t="Include">
+              <e p="CameraShake.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Controllers" t="Include">
+            <e p="Controller.cs" t="Include" />
+            <e p="IControllable.cs" t="Include" />
+            <e p="PlayerAIController.cs" t="Include" />
+            <e p="PlayerController.cs" t="Include" />
+          </e>
+          <e p="Core" t="Include">
+            <e p="GameManager.cs" t="Include" />
+            <e p="GameStatics.cs" t="Include" />
+            <e p="Modules" t="Include">
+              <e p="AudioManager.cs" t="Include" />
+              <e p="CameraManager.cs" t="Include" />
+              <e p="DataManager.cs" t="Include" />
+              <e p="IManager.cs" t="Include" />
+              <e p="LevelManager.cs" t="Include" />
+              <e p="ObjectManager.cs" t="Include" />
+              <e p="PlayerManager.cs" t="Include" />
+              <e p="UIManager.cs" t="Include" />
+            </e>
+          </e>
+          <e p="DataManagement" t="Include">
+            <e p="AbilityControl.cs" t="Include" />
+            <e p="DataContainers" t="Include">
+              <e p="AbilityContainer.cs" t="Include" />
+              <e p="ClonableContainerBase.cs" t="Include" />
+              <e p="EventDataContainer.cs" t="Include" />
+              <e p="GameData.cs" t="Include" />
+              <e p="LevelData.cs" t="Include" />
+              <e p="LevelDataContainer.cs" t="Include" />
+              <e p="StatsContainer.cs" t="Include" />
+            </e>
+            <e p="DataHandlers" t="Include">
+              <e p="EventDataHandler.cs" t="Include" />
+              <e p="LevelDataHandler.cs" t="Include" />
+              <e p="StatsHandler.cs" t="Include" />
+            </e>
+            <e p="LevelDataControl.cs" t="Include" />
+            <e p="Serialization" t="Include">
+              <e p="DirectoryHandler.cs" t="Include" />
+              <e p="SerializationHandler.cs" t="Include" />
+            </e>
+            <e p="Singleton.cs" t="Include" />
+            <e p="Toolbox.cs" t="Include" />
+            <e p="UserSettings.cs" t="Include" />
+          </e>
+          <e p="Editor" t="Include">
+            <e p="CustomComponentInspectors" t="Include">
+              <e p="BodyPieceInspector.cs" t="Include" />
+            </e>
+            <e p="Helpers" t="Include">
+              <e p="BossSelectorHelpers.cs" t="Include" />
+            </e>
+            <e p="LevelEditor" t="Include">
+              <e p="BaseObjectHandler.cs" t="Include" />
+              <e p="DataHandlers" t="Include">
+                <e p="LoadLevelHandler.cs" t="Include" />
+                <e p="SaveLevelHandler.cs" t="Include" />
+              </e>
+              <e p="LevelEditorActions.cs" t="Include" />
+              <e p="LevelEditorConstants.cs" t="Include" />
+              <e p="LevelEditorContextMenu.cs" t="Include" />
+              <e p="LevelEditorInputHandler.cs" t="Include" />
+              <e p="LevelEditorObjectHandler.cs" t="Include" />
+              <e p="LevelEditorSceneView.cs" t="Include" />
+              <e p="LevelEditorView.cs" t="Include" />
+              <e p="ObjectHandlers" t="Include">
+                <e p="CaveEditorHandler.cs" t="Include" />
+                <e p="MothEditorHandler.cs" t="Include" />
+                <e p="MushroomEditorHandler.cs" t="Include" />
+                <e p="NpcEditorHandler.cs" t="Include" />
+                <e p="SpiderEditorHandler.cs" t="Include" />
+                <e p="StalactiteEditor" t="Include">
+                  <e p="StalactiteEditor.cs" t="Include" />
+                </e>
+                <e p="StalEditorHandler.cs" t="Include" />
+                <e p="TriggerEditorHandler.cs" t="Include" />
+                <e p="WebEditorHandler.cs" t="Include" />
+              </e>
+              <e p="ObjectViews" t="Include">
+                <e p="TriggerObjectView.cs" t="Include" />
+              </e>
+            </e>
+            <e p="NodeEditor" t="Include">
+              <e p="BaseContextMenus.cs" t="Include" />
+              <e p="BaseEditor.cs" t="Include" />
+              <e p="BaseEditorMouseInput.cs" t="Include" />
+              <e p="BaseNode.cs" t="Include" />
+              <e p="BossEditor" t="Include">
+                <e p="BossEditor.cs" t="Include" />
+                <e p="BossEditorContextMenus.cs" t="Include" />
+                <e p="BossSelectorEditor.cs" t="Include" />
+                <e p="Nodes" t="Include">
+                  <e p="BossNode.cs" t="Include" />
+                  <e p="ChargeNode.cs" t="Include" />
+                  <e p="CollisionNode.cs" t="Include" />
+                  <e p="DamageNode.cs" t="Include" />
+                  <e p="FlyingNodes" t="Include">
+                    <e p="AirChargeNode.cs" t="Include" />
+                    <e p="AirFollowNode.cs" t="Include" />
+                  </e>
+                  <e p="HealthNode.cs" t="Include" />
+                  <e p="JumpNode.cs" t="Include" />
+                  <e p="PlayerEventNode.cs" t="Include" />
+                  <e p="PlayerNode.cs" t="Include" />
+                  <e p="ProjectileNode.cs" t="Include" />
+                  <e p="SpawnMothNode.cs" t="Include" />
+                  <e p="SpawnStalNode.cs" t="Include" />
+                  <e p="SwoopNode.cs" t="Include" />
+                  <e p="WalkNode.cs" t="Include" />
+                </e>
+              </e>
+              <e p="NodeComponents" t="Include">
+                <e p="NodeInterface.cs" t="Include" />
+                <e p="NodeTransform.cs" t="Include" />
+              </e>
+              <e p="NodeEditorMenu.cs" t="Include" />
+              <e p="NodeEditorSaveHandler.cs" t="Include" />
+              <e p="NodeGUI.cs" t="Include" />
+              <e p="Nodes" t="Include">
+                <e p="AlternatingNode.cs" t="Include" />
+                <e p="CompareNode.cs" t="Include" />
+                <e p="LoopNode.cs" t="Include" />
+                <e p="MultipleInNode.cs" t="Include" />
+                <e p="MultipleOutNode.cs" t="Include" />
+                <e p="PositionNode.cs" t="Include" />
+                <e p="RandomNode.cs" t="Include" />
+                <e p="RandomOutNode.cs" t="Include" />
+                <e p="RepeatNode.cs" t="Include" />
+                <e p="RestartMachineNode.cs" t="Include" />
+                <e p="StartNode.cs" t="Include" />
+                <e p="StateEventNode.cs" t="Include" />
+                <e p="StateNode.cs" t="Include" />
+                <e p="TimerNode.cs" t="Include" />
+                <e p="WaitNode.cs" t="Include" />
+              </e>
+              <e p="OpenAssetHandler.cs" t="Include" />
+              <e p="RuntimeAnimations" t="Include">
+                <e p="NodeRuntimeBorders.cs" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="EditorScripts" t="Include">
+            <e p="LevelEditor" t="Include">
+              <e p="LevelContainer.cs" t="Include" />
+              <e p="LevelEditor.cs" t="Include" />
+            </e>
+            <e p="NodeEditor" t="Include">
+              <e p="ActionConnection.cs" t="Include" />
+              <e p="Actions" t="Include">
+                <e p="AlternatingAction.cs" t="Include" />
+                <e p="BooleanAction.cs" t="Include" />
+                <e p="CompareAction.cs" t="Include" />
+                <e p="LoopAction.cs" t="Include" />
+                <e p="MultipleInAction.cs" t="Include" />
+                <e p="MultipleOutAction.cs" t="Include" />
+                <e p="PositionAction.cs" t="Include" />
+                <e p="RandomAction.cs" t="Include" />
+                <e p="RandomOutAction.cs" t="Include" />
+                <e p="RepeatAction.cs" t="Include" />
+                <e p="RestartMachineAction.cs" t="Include" />
+                <e p="StartAction.cs" t="Include" />
+                <e p="StateAction.cs" t="Include" />
+                <e p="StateEventAction.cs" t="Include" />
+                <e p="TimerAction.cs" t="Include" />
+                <e p="WaitAction.cs" t="Include" />
+              </e>
+              <e p="BaseAction.cs" t="Include" />
+              <e p="BehaviourSet.cs" t="Include" />
+              <e p="BehaviourSets" t="Include">
+                <e p="State.cs" t="Include" />
+                <e p="StateMachine.cs" t="Include" />
+              </e>
+              <e p="BossEditor" t="Include">
+                <e p="Actions" t="Include">
+                  <e p="BossAction.cs" t="Include" />
+                  <e p="ChargeAction.cs" t="Include" />
+                  <e p="CollisionAction.cs" t="Include" />
+                  <e p="DamageAction.cs" t="Include" />
+                  <e p="FlightActions" t="Include">
+                    <e p="AirChargeAction.cs" t="Include" />
+                    <e p="AirFollowAction.cs" t="Include" />
+                  </e>
+                  <e p="HealthAction.cs" t="Include" />
+                  <e p="JumpAction.cs" t="Include" />
+                  <e p="PlayerAction.cs" t="Include" />
+                  <e p="PlayerEventAction.cs" t="Include" />
+                  <e p="ProjectileAction.cs" t="Include" />
+                  <e p="SpawnMothAction.cs" t="Include" />
+                  <e p="SpawnStalAction.cs" t="Include" />
+                  <e p="SwoopAction.cs" t="Include" />
+                  <e p="WalkAction.cs" t="Include" />
+                </e>
+                <e p="BossActionLoadHandler.cs" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="EventsAndTooltips" t="Include">
+            <e p="TooltipButtonEffects.cs" t="Include" />
+          </e>
+          <e p="Gameplay" t="Include">
+            <e p="BossHandler.cs" t="Include" />
+            <e p="EventListener.cs" t="Include" />
+            <e p="InGameScripts" t="Include">
+              <e p="BossMoths.cs" t="Include" />
+              <e p="LevelScript.cs" t="Include" />
+            </e>
+            <e p="LevelGameHandler.cs" t="Include" />
+            <e p="LevelProgressionHandler.cs" t="Include" />
+            <e p="Tooltips" t="Include">
+              <e p="TooltipHandler.cs" t="Include" />
+              <e p="TooltipUI.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Helpers" t="Include">
+            <e p="AssetHelpers.cs" t="Include" />
+            <e p="Definitions.cs" t="Include" />
+            <e p="RotateObject.cs" t="Include" />
+            <e p="ScoreCalculator.cs" t="Include" />
+          </e>
+          <e p="InputManagement" t="Include">
+            <e p="KeyboardInput.cs" t="Include" />
+            <e p="PlayerInputHandler.cs" t="Include" />
+            <e p="TouchInput.cs" t="Include" />
+          </e>
+          <e p="Levels" t="Include">
+            <e p="InteractiveLevelObjects" t="Include">
+              <e p="CaveExit.cs" t="Include" />
+              <e p="SecretPath.cs" t="Include" />
+              <e p="SlidingDoors.cs" t="Include" />
+            </e>
+            <e p="LevelAchievementHandler.cs" t="Include" />
+            <e p="LevelCompletionHandler.cs" t="Include" />
+            <e p="LevelStateHandler.cs" t="Include" />
+          </e>
+          <e p="Menu" t="Include">
+            <e p="DashIndicator.cs" t="Include" />
+            <e p="DropdownMenu" t="Include">
+              <e p="DropdownOptionsMenu.cs" t="Include" />
+              <e p="DropdownStatsMenu.cs" t="Include" />
+            </e>
+            <e p="LevelCompleteStats.cs" t="Include" />
+            <e p="MainMenu" t="Include">
+              <e p="Components" t="Include">
+                <e p="CamPositioner.cs" t="Include" />
+                <e p="DeveloperActions.cs" t="Include" />
+                <e p="KeyPointsHandler.cs" t="Include" />
+                <e p="LevelButton.cs" t="Include" />
+                <e p="LevelButtonHandler.cs" t="Include" />
+                <e p="LevelPath.cs" t="Include" />
+                <e p="MainMenu.cs" t="Include" />
+                <e p="MenuButtonScripts.cs" t="Include" />
+                <e p="MenuContentPositioner.cs" t="Include" />
+                <e p="NavButtonHandler.cs" t="Include" />
+                <e p="StatsUI.cs" t="Include" />
+                <e p="UIObjectAnimator.cs" t="Include" />
+              </e>
+              <e p="MainMenuClumsy" t="Include">
+                <e p="ClumsyButton.cs" t="Include" />
+              </e>
+              <e p="MainMenuTransitions.cs" t="Include" />
+            </e>
+            <e p="MothStar.cs" t="Include" />
+          </e>
+          <e p="NPCs" t="Include">
+            <e p="BossScripts" t="Include">
+              <e p="Boss.cs" t="Include" />
+              <e p="BossAbilities" t="Include">
+                <e p="AirChargeAbility.cs" t="Include" />
+                <e p="ChargeAbility.cs" t="Include" />
+                <e p="JumpPound.cs" t="Include" />
+                <e p="ProjectileAbility.cs" t="Include" />
+                <e p="SpawnStalactites.cs" t="Include" />
+                <e p="StraightProjectile.cs" t="Include" />
+                <e p="Swoop.cs" t="Include" />
+                <e p="Walk.cs" t="Include" />
+              </e>
+              <e p="BossAbility.cs" t="Include" />
+              <e p="BossData.cs" t="Include" />
+              <e p="Bosses" t="Include">
+                <e p="CrystalBoss.cs" t="Include" />
+                <e p="CrystalBosses" t="Include">
+                  <e p="DashCrystalBoss.cs" t="Include" />
+                  <e p="HypersonicCrystalBoss.cs" t="Include" />
+                </e>
+                <e p="CrystalComponents" t="Include">
+                  <e p="BrokenCrystalBall.cs" t="Include" />
+                  <e p="CrystalBall.cs" t="Include" />
+                </e>
+                <e p="EvilClumsy.cs" t="Include" />
+                <e p="KingRockbreath.cs" t="Include" />
+                <e p="NomeeBoss.cs" t="Include" />
+                <e p="Whalepillar.cs" t="Include" />
+                <e p="WhalepillarComponents" t="Include">
+                  <e p="BodyPiece.cs" t="Include" />
+                  <e p="HeadPiece.cs" t="Include" />
+                </e>
+              </e>
+              <e p="BossEvents.cs" t="Include" />
+            </e>
+            <e p="Nomee.cs" t="Include" />
+            <e p="NomeeUI.cs" t="Include" />
+          </e>
+          <e p="Player" t="Include">
+            <e p="Abilities" t="Include">
+              <e p="Hypersonic.cs" t="Include" />
+              <e p="PerchComponent.cs" t="Include" />
+              <e p="RushAbility.cs" t="Include" />
+              <e p="Shield.cs" t="Include" />
+            </e>
+            <e p="JumpClearance.cs" t="Include" />
+            <e p="Lantern.cs" t="Include" />
+            <e p="Player.cs" t="Include" />
+            <e p="PlayerComponents" t="Include">
+              <e p="ClumsyAbilityHandler.cs" t="Include" />
+              <e p="ClumsyAnimator.cs" t="Include" />
+              <e p="FlapComponent.cs" t="Include" />
+              <e p="FogEffect.cs" t="Include" />
+              <e p="LevelAnimationSequencer.cs" t="Include" />
+              <e p="PlayerCollisionHandler.cs" t="Include" />
+              <e p="PlayerPhysicsHandler.cs" t="Include" />
+              <e p="PlayerSensor.cs" t="Include" />
+              <e p="PlayerState.cs" t="Include" />
+              <e p="PlayerTriggerHandler.cs" t="Include" />
+            </e>
+            <e p="ShieldEffect.cs" t="Include" />
+          </e>
+          <e p="SpawnableObjects" t="Include">
+            <e p="Cave" t="Include">
+              <e p="CaveHandler.cs" t="Include" />
+              <e p="CavePool.cs" t="Include" />
+              <e p="CaveRandomiser.cs" t="Include" />
+              <e p="ParralaxBG.cs" t="Include" />
+            </e>
+            <e p="LevelObjectHandler.cs" t="Include" />
+            <e p="Moth" t="Include">
+              <e p="Moth.cs" t="Include" />
+              <e p="MothPathHandler.cs" t="Include" />
+              <e p="MothPool.cs" t="Include" />
+            </e>
+            <e p="Mushroom" t="Include">
+              <e p="Mushroom.cs" t="Include" />
+              <e p="ShroomPool.cs" t="Include" />
+              <e p="Spore.cs" t="Include" />
+            </e>
+            <e p="NPC" t="Include">
+              <e p="NPC.cs" t="Include" />
+              <e p="NPCPool.cs" t="Include" />
+            </e>
+            <e p="Projectiles" t="Include">
+              <e p="MothCrystal.cs" t="Include" />
+              <e p="Projectile.cs" t="Include" />
+              <e p="Rock.cs" t="Include" />
+            </e>
+            <e p="Spawnable.cs" t="Include" />
+            <e p="SpawnPool.cs" t="Include" />
+            <e p="Spider" t="Include">
+              <e p="SpiderClass.cs" t="Include" />
+              <e p="SpiderPool.cs" t="Include" />
+              <e p="WebString.cs" t="Include" />
+            </e>
+            <e p="Stalactite" t="Include">
+              <e p="Stalactite.cs" t="Include" />
+              <e p="StalAnimationHandler.cs" t="Include" />
+              <e p="StalBossHandler.cs" t="Include" />
+              <e p="StalDropComponent.cs" t="Include" />
+              <e p="StalEvents.cs" t="Include" />
+              <e p="StalPiece.cs" t="Include" />
+              <e p="StalPool.cs" t="Include" />
+            </e>
+            <e p="Trigger" t="Include">
+              <e p="TriggerClass.cs" t="Include" />
+              <e p="TriggerEventSerializer.cs" t="Include" />
+              <e p="TriggerHandler.cs" t="Include" />
+            </e>
+            <e p="Web" t="Include">
+              <e p="WebClass.cs" t="Include" />
+              <e p="WebPool.cs" t="Include" />
+            </e>
+          </e>
+          <e p="UI" t="Include">
+            <e p="DeathOverlay.cs" t="Include" />
+            <e p="DropdownMenu.cs" t="Include" />
+            <e p="DropdownMenuComponents" t="Include">
+              <e p="DropdownMainMenu.cs" t="Include" />
+              <e p="LevelCompletionScreen.cs" t="Include" />
+              <e p="MenuScreenBase.cs" t="Include" />
+            </e>
+            <e p="GameHud.cs" t="Include" />
+            <e p="GameHudComponents" t="Include">
+              <e p="ClumsyDebugConsole.cs" t="Include" />
+            </e>
+            <e p="LoadingScreen.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="Clumsy Bat.sln" t="IncludeFlat" />
+      <e p="Library" t="ExcludeRecursive" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="Temp" t="ExcludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+      </e>
+    </e>
+  </component>
+</project>

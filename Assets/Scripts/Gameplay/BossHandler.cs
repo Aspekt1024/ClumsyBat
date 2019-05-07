@@ -47,7 +47,7 @@ public class BossHandler : MonoBehaviour {
         bossDataScript.LoadBoss();
         GameStatics.UI.GameHud.SetLevelText(GameStatics.LevelManager.Level);
 
-        GameStatics.Player.Clumsy.Fog.Disable();
+        GameStatics.Player.Clumsy.fog.Disable();
         SetCameraEndPoint();
 
         _state = BossGameState.MovingTowardsBoss;
@@ -87,7 +87,7 @@ public class BossHandler : MonoBehaviour {
     private void Update()
     {
         if (_state == BossGameState.InBossRoom) return;
-        if (GameStatics.Player.Clumsy.Model.position.x > Toolbox.TileSizeX * manualCaveScale - 3f)
+        if (GameStatics.Player.Clumsy.model.position.x > Toolbox.TileSizeX * manualCaveScale - 3f)
         {
             _state = BossGameState.InBossRoom;
             StartCoroutine(BossEntrance());

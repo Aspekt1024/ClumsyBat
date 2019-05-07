@@ -42,7 +42,7 @@ namespace ClumsyBat.Players
             Flap = new FlapComponent(player);
 
             _rush.Setup(player);
-            _hypersonic.Setup(player.Lantern);
+            _hypersonic.Setup(player.lantern);
             Shield.Setup(player);
         }
 

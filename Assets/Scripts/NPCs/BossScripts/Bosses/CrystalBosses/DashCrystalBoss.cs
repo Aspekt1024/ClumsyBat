@@ -25,7 +25,7 @@ public class DashCrystalBoss : CrystalBoss {
 
         Player clumsy = GameStatics.Player.Clumsy;
 
-        if (clumsy.Model.position.x > GameStatics.Camera.CurrentCamera.transform.position.x)
+        if (clumsy.model.position.x > GameStatics.Camera.CurrentCamera.transform.position.x)
         {
             clumsy.FaceLeft();
         }
@@ -39,9 +39,9 @@ public class DashCrystalBoss : CrystalBoss {
         {
             timer += Time.deltaTime;
 
-            Vector3 pos = Vector2.Lerp(clumsy.Model.position, GameStatics.Camera.CurrentCamera.transform.position, Time.deltaTime);
-            pos.z = clumsy.Model.position.z;
-            clumsy.Model.position = pos;
+            Vector3 pos = Vector2.Lerp(clumsy.model.position, GameStatics.Camera.CurrentCamera.transform.position, Time.deltaTime);
+            pos.z = clumsy.model.position.z;
+            clumsy.model.position = pos;
 
             yield return null;
         }

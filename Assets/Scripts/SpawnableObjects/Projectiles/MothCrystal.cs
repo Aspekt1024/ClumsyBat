@@ -73,7 +73,7 @@ public class MothCrystal : Projectile {
 
         crystalRenderer.enabled = false;
         projectileCollider.enabled = false;
-        BrokenCrystalBall.ShatterAndDespawn(GameStatics.Player.Clumsy.Model.position);
+        BrokenCrystalBall.ShatterAndDespawn(GameStatics.Player.Clumsy.model.position);
         
         if (floatRoutine != null)
         {
@@ -178,7 +178,7 @@ public class MothCrystal : Projectile {
 
     private IEnumerator MoveEssenceToLantern()
     {
-        Transform lanternTf = GameStatics.Player.Clumsy.Lantern.transform;
+        Transform lanternTf = GameStatics.Player.Clumsy.lantern.transform;
         Transform essenceTf = MothEssenceObject.transform;
 
         float timer = 0f;
@@ -200,6 +200,6 @@ public class MothCrystal : Projectile {
         }
         
         MothEssenceObject.SetActive(false);
-        GameStatics.Player.Clumsy.Lantern.ConsumeMoth(mothColour);
+        GameStatics.Player.Clumsy.lantern.ConsumeMoth(mothColour);
     }
 }

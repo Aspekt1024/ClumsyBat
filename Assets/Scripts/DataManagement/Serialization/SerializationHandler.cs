@@ -11,34 +11,29 @@ namespace ClumsyBat.Serialization
 {
     public class SerializationHandler
     {
-        public async Task<bool> Serialize<T>(T data, string filename)
+        public bool Serialize<T>(T data, string filename)
         {
-            return await Task.Run(() =>
+            BinaryFormatter bf = new BinaryFormatter();
+            string filePath = DirectoryHandler.GetFullPath(filename, DirectoryCategory.Data, FileType.dat);
+            bool success = true;
+
+            try
             {
-                BinaryFormatter bf = new BinaryFormatter();
-                string filePath = DirectoryHandler.GetFullPath(filename, DirectoryCategory.Data, FileType.dat);
-                bool success = true;
-
-                try
+                using (FileStream stream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Write))
                 {
-                    using (FileStream stream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Write))
-                    {
-                        bf.Serialize(stream, data);
-                    }
+                    bf.Serialize(stream, data);
                 }
-                catch
-                {
-                    success = false;
-                }
+            }
+            catch
+            {
+                success = false;
+            }
 
-                return success;
-            });
+            return success;
         }
 
-        public async Task<T> Deserialize<T>(string filename) where T : new()
+        public T Deserialize<T>(string filename) where T : new()
         {
-            return await Task.Run(() =>
-            {
                 BinaryFormatter bf = new BinaryFormatter();
                 string filePath = DirectoryHandler.GetFullPath(filename, DirectoryCategory.Data, FileType.dat);
                 try
@@ -62,7 +57,6 @@ namespace ClumsyBat.Serialization
                 {
                     return new T();
                 }
-            });
         }
     }
 }

@@ -100,7 +100,7 @@ public class FogEffect : MonoBehaviour {
     private void Start()
     {
         _player = GameStatics.Player.Clumsy;
-        _lantern = _player.Lantern.transform;
+        _lantern = _player.lantern.transform;
 
         Initialise();
     }

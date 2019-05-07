@@ -70,9 +70,9 @@ public class TooltipHandler : MonoBehaviour {
         GameStatics.GameManager.PauseGame();
         GameStatics.Data.GameState.IsPausedForTooltip = true;
 
-        GameStatics.Player.Clumsy.Model.GetComponent<SpriteRenderer>().sortingLayerName = "UIFront";
+        GameStatics.Player.Clumsy.model.GetComponent<SpriteRenderer>().sortingLayerName = "UIFront";
 
-        float yPos = (GameStatics.Player.Clumsy.Model.position.y > 0) ? -2f : 2f;
+        float yPos = (GameStatics.Player.Clumsy.model.position.y > 0) ? -2f : 2f;
         ui.Open(yPos);
 
         for (int i = 0; i < triggerEvent.Dialogue.Count; i++)
@@ -89,7 +89,7 @@ public class TooltipHandler : MonoBehaviour {
         }
 
         yield return StartCoroutine(ui.Close());
-        GameStatics.Player.Clumsy.Model.GetComponent<SpriteRenderer>().sortingLayerName = "Player";
+        GameStatics.Player.Clumsy.model.GetComponent<SpriteRenderer>().sortingLayerName = "Player";
         GameStatics.GameManager.ResumeGame();
         callback?.Invoke();
     }

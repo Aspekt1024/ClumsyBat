@@ -5,9 +5,8 @@ using ClumsyBat.DataContainers;
 using ClumsyBat.Objects;
 using ClumsyBat.Players;
 
-public class Hypersonic : MonoBehaviour {
-
-    private AbilityContainer.AbilityType _hyperStats;
+public class Hypersonic : MonoBehaviour
+{
 
     private int _numPulses;
     private bool _bCanDestroyStals;
@@ -22,6 +21,8 @@ public class Hypersonic : MonoBehaviour {
     private bool _bPaused;
     
     private Lantern _lantern;
+
+    private AbilityContainer.AbilityType _hyperStats;
     
     private void Start ()
     {
@@ -53,6 +54,7 @@ public class Hypersonic : MonoBehaviour {
 
     public bool ActivateHypersonic()
     {
+        var hyperStats = GameStatics.Data.Abilities.GetHypersonicStats();
         if (_hyperStats.AbilityAvailable)
         {
             StartCoroutine(HypersonicAbilityGo());

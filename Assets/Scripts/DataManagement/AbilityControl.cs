@@ -88,6 +88,7 @@ public class AbilityControl : MonoBehaviour {
         bf.Serialize(file, abilityData);
         file.Close();
         isAccessingData = false;
+        RefreshPlayerAbilityData();
     }
 
     public void ClearAbilityData()

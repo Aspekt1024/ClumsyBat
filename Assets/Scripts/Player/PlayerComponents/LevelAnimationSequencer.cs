@@ -28,7 +28,7 @@ namespace ClumsyBat.Players
         public LevelAnimationSequencer(Player player)
         {
             this.player = player;
-            playerBody = player.Model.GetComponent<Rigidbody2D>();
+            playerBody = player.model.GetComponent<Rigidbody2D>();
             state = States.None;
         }
 
@@ -78,7 +78,7 @@ namespace ClumsyBat.Players
                     player.Physics.Disable();
                     player.Abilities.Perch.Unperch();
                     player.Animate(ClumsyAnimator.ClumsyAnimations.Hover);
-                    player.Fog.StartOfLevel();
+                    player.fog.StartOfLevel();
 
                     state = States.Playing;
                     break;
@@ -91,10 +91,10 @@ namespace ClumsyBat.Players
 
                     timer += deltaTime;
                     float animRatio = timer / duration;
-                    var pos = player.Model.position;
+                    var pos = player.model.position;
                     pos.x = startPos.x - (startPos.x - targetPos.x) * animRatio;
                     pos.y = startPos.y - (startPos.y - targetPos.y) * Mathf.Pow(animRatio, 2);
-                    playerBody.velocity = (pos - player.Model.position).normalized * player.MoveSpeed;
+                    playerBody.velocity = (pos - player.model.position).normalized * player.moveSpeed;
                     break;
                 case States.TearingDown:
                     player.Animate(ClumsyAnimator.ClumsyAnimations.FlapSlower);
@@ -118,8 +118,8 @@ namespace ClumsyBat.Players
                     player.Abilities.Perch.Unperch();
 
                     timer = 0f;
-                    startPos = player.Model.position;
-                    targetPos = new Vector3(player.Model.position.x + Toolbox.TileSizeX / 2f, -0.5f, player.Model.position.z);
+                    startPos = player.model.position;
+                    targetPos = new Vector3(player.model.position.x + Toolbox.TileSizeX / 2f, -0.5f, player.model.position.z);
 
                     state = States.Playing;
                     break;
@@ -131,11 +131,11 @@ namespace ClumsyBat.Players
                     }
 
                     timer += deltaTime;
-                    player.Model.position = Vector3.Lerp(startPos, targetPos, timer / duration);
+                    player.model.position = Vector3.Lerp(startPos, targetPos, timer / duration);
                     break;
                 case States.TearingDown:
-                    player.Lantern.transform.position += new Vector3(.3f, 0f, 0f);
-                    player.Fog.EndOfLevel();
+                    player.lantern.transform.position += new Vector3(.3f, 0f, 0f);
+                    player.fog.EndOfLevel();
                     player.Physics.Body.velocity = Vector2.zero;
                     state = States.None;
                     break;

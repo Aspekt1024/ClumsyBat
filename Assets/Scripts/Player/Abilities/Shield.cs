@@ -41,11 +41,11 @@ public class Shield : MonoBehaviour {
         _state = ShieldStates.Knockback;
         effect.BeginShieldEffect(SHIELD_DURATION);
         _thePlayer.SetColor(new Color(0.6f, 0.6f, 1f));
-        SetPlayerColliders("PlayerIgnoreObstacles");
+        //SetPlayerColliders("PlayerIgnoreObstacles");
 
         yield return new WaitForSeconds(SHIELD_DURATION);
 
-        SetPlayerColliders("Player");
+        //SetPlayerColliders("Player");
         _thePlayer.Animate(ClumsyAnimator.ClumsyAnimations.Hover);
 
         _state = ShieldStates.Idle;
@@ -70,7 +70,7 @@ public class Shield : MonoBehaviour {
     public void Setup(Player playerRef)
     {
         _thePlayer = playerRef;
-        lantern = _thePlayer.Lantern;
+        lantern = _thePlayer.lantern;
         effect = _thePlayer.GetComponentInChildren<ShieldEffect>();
 
         _shieldCharges = 1;

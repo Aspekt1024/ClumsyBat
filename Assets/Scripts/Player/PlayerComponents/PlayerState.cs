@@ -10,7 +10,8 @@ namespace ClumsyBat.Players
             Grounded, Perched, 
             Shielded, Alive,
             Knockback,
-            IsRushing
+            IsRushing,
+            InSecretPath
         }
 
         private readonly Player player;
@@ -23,7 +24,8 @@ namespace ClumsyBat.Players
             { States.Grounded, false },
             { States.Perched, false },
             { States.Knockback, false },
-            { States.IsRushing, false }
+            { States.IsRushing, false },
+            { States.InSecretPath, false },
         };
 
         public PlayerState(Player player)
@@ -41,10 +43,12 @@ namespace ClumsyBat.Players
             statesDict[state] = value;
         }
 
-        public bool IsAlive { get { return statesDict[States.Alive]; } }
-        public bool IsShielded { get { return statesDict[States.Shielded]; } }
-        public bool IsPerched { get { return statesDict[States.Perched]; } }
-        public bool IsNormal { get { return !statesDict[States.Knockback]; } }
-        public bool IsRushing { get { return statesDict[States.IsRushing]; } }
+        public bool IsAlive => statesDict[States.Alive];
+        public bool IsShielded => statesDict[States.Shielded];
+        public bool IsPerched => statesDict[States.Perched];
+        public bool IsNormal => !statesDict[States.Knockback];
+        public bool IsRushing => statesDict[States.IsRushing];
+        public bool IsKnockedBack => statesDict[States.Knockback];
+        public bool IsInSecretPath => statesDict[States.InSecretPath];
     }
 }

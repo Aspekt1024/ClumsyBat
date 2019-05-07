@@ -25,7 +25,7 @@ public class LevelButtonHandler : MonoBehaviour {
         return buttons;
     }
 
-    private void Start ()
+    private void Awake ()
     {
         levelText = LevelTextRT.GetComponent<Text>();
         levelScoreText = LevelScoreTextRt.GetComponent<Text>();

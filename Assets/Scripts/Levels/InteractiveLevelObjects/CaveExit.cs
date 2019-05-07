@@ -6,7 +6,7 @@ namespace ClumsyBat.InteractiveLevelObjects
     {
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.transform == GameStatics.Player.Clumsy.Model)
+            if (collision.transform == GameStatics.Player.Clumsy.model)
             {
                 GameStatics.LevelManager.EndOfLevelReached();
             }

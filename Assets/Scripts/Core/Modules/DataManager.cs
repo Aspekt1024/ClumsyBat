@@ -9,7 +9,7 @@ namespace ClumsyBat
     /// <summary>
     /// Manages all data modules for Clumsy Bat
     /// </summary>
-    public class DataManager
+    public class DataManager : IManager
     {
         public AbilityControl Abilities { get; } // TODO this is actually Player Data
 
@@ -29,30 +29,27 @@ namespace ClumsyBat
             Abilities = abilityData;
         }
 
-        public async void SaveData()
+        public void InitAwake()
         {
-            await Task.Run(() => 
-            {
-                Abilities.Save();
-            });
+        }
 
-            await serializationHandler.Serialize(LevelDataHandler.LevelData.Clone(), LevelDataContainer.FILE_NAME);
-            await serializationHandler.Serialize(Stats.Clone(), StatsContainer.FILE_NAME);
-            await serializationHandler.Serialize(EventData, EventDataContainer.FILE_NAME);
+        public void SaveData()
+        {
+            Abilities.Save();
+
+            serializationHandler.Serialize(LevelDataHandler.LevelData.Clone(), LevelDataContainer.FILE_NAME);
+            serializationHandler.Serialize(Stats.Clone(), StatsContainer.FILE_NAME);
+            serializationHandler.Serialize(EventData, EventDataContainer.FILE_NAME);
 
             Settings.SaveUserSettings();
         }
 
-        public async void LoadData(Action callback)
+        public void LoadData(Action callback)
         {
-            await Task.Run(() =>
-            {
-                Abilities.Load();
-            });
+            Abilities.Load();
 
-            LevelDataHandler.SetData(await serializationHandler.Deserialize<LevelDataContainer>(LevelDataContainer.FILE_NAME));
-            Stats = await serializationHandler.Deserialize<StatsContainer>(StatsContainer.FILE_NAME);
-            GameStatics.Player.Clumsy.Abilities.SetData(Abilities);
+            LevelDataHandler.SetData(serializationHandler.Deserialize<LevelDataContainer>(LevelDataContainer.FILE_NAME));
+            Stats = serializationHandler.Deserialize<StatsContainer>(StatsContainer.FILE_NAME);
             Settings.LoadUserSettings();
             callback.Invoke();
         }

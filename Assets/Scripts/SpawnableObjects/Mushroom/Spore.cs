@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using ClumsyBat;
+using ClumsyBat.Players;
 using UnityEngine;
 
 public class Spore : MonoBehaviour {
@@ -7,13 +9,11 @@ public class Spore : MonoBehaviour {
     private ParticleSystem sporeEffect;
     private SpriteRenderer sporeSprite;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            GameStatics.Player.Clumsy.fog.Minimise();
+        }
+    }
 }

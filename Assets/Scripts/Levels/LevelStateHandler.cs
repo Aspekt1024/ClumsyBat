@@ -5,13 +5,14 @@ namespace ClumsyBat.LevelManagement
 {
     public class LevelStateHandler
     {
-        private bool gameHasStarted;
         private float previousPlayerPos;
+
+        public bool GameHasStarted { get; private set; }
 
         public void Begin()
         {
             GameStatics.Data.GameState.Reset();
-            gameHasStarted = true;
+            GameHasStarted = true;
         }
 
         public void Tick(float deltaTime)
@@ -24,7 +25,7 @@ namespace ClumsyBat.LevelManagement
         {
             GameStatics.Data.Stats.TotalTime += deltaTime;
 
-            if (!gameHasStarted || GameStatics.GameManager.IsPaused)
+            if (!GameHasStarted || GameStatics.GameManager.IsPaused)
             {
                 GameStatics.Data.Stats.IdleTime += deltaTime;
                 return;
@@ -41,8 +42,8 @@ namespace ClumsyBat.LevelManagement
             Player player = GameStatics.Player.Clumsy;
             if (player.State.IsNormal)
             {
-                GameStatics.Data.GameState.Distance += player.Model.position.x - previousPlayerPos;
-                previousPlayerPos = player.Model.position.x;
+                GameStatics.Data.GameState.Distance += player.model.position.x - previousPlayerPos;
+                previousPlayerPos = player.model.position.x;
             }
         }
     }
