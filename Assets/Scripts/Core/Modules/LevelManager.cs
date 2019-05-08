@@ -37,8 +37,8 @@ namespace ClumsyBat
             bossHandler.gameObject.SetActive(false);
         }
 
-        public bool IsBossLevel { get { return Level.ToString().Contains("Boss"); } }
-        public bool IsInPlayMode => levelScript.stateHandler.GameHasStarted;
+        public bool IsBossLevel => Level.ToString().Contains("Boss");
+        public bool IsInPlayMode => levelScript.stateHandler.GameHasStarted && !levelScript.stateHandler.IsLevelOver;
 
         private LevelCompletionHandler completionHandler = new LevelCompletionHandler();
 
@@ -47,10 +47,13 @@ namespace ClumsyBat
             GameHandler.EndLevelMainPath();
         }
 
-        public void LevelCompleted(LevelCompletionPaths path)
+        /// <summary>
+        /// Called by LevelScript.LevelWon
+        /// </summary>
+        public LevelData LevelCompleted(LevelCompletionPaths path)
         {
             EventListener.LevelCompleted();
-            completionHandler.LevelCompleted(GameStatics.LevelManager.Level, path);
+            return completionHandler.LevelCompleted(GameStatics.LevelManager.Level, path);
         }
 
         public bool IsLevelCompleted(Levels level)
@@ -64,17 +67,16 @@ namespace ClumsyBat
             SetInitialState();
             Level = level;
 
+            GameStatics.GameManager.LevelObject.SetActive(true);
+            GameStatics.GameManager.BossObject.SetActive(IsBossLevel);
+            GameStatics.Objects.ClearExistingCave();
+            
             if (IsBossLevel)
             {
-                GameStatics.GameManager.LevelObject.SetActive(true);
-                GameStatics.GameManager.BossObject.SetActive(true);
                 bossHandler.LoadBoss();
             }
             else
             {
-                GameStatics.GameManager.LevelObject.SetActive(true);
-                GameStatics.GameManager.BossObject.SetActive(false);
-
                 TextAsset levelTxt = (TextAsset)Resources.Load("LevelXML/" + level.ToString());
                 LevelContainer levelData = LevelContainer.LoadFromText(levelTxt.text);
                 GameStatics.Objects.SetupLevel(levelData);

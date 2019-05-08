@@ -1,5 +1,6 @@
 ﻿using ClumsyBat.Controllers;
 using System.Collections;
+using ClumsyBat.LevelManagement;
 using UnityEngine;
 
 using PlayerSounds = ClumsyAudioControl.PlayerSounds;
@@ -50,14 +51,7 @@ namespace ClumsyBat.Players
             
             if (model.position.y < lowerLevelBound)
             {
-                if (State.IsInSecretPath)
-                {
-                    Debug.Log("secret path");
-                }
-                else
-                {
-                    Die(null);
-                }
+                HandleFallenOffLevel();
             }
         }
 
@@ -195,10 +189,12 @@ namespace ClumsyBat.Players
             Physics.DisableCollisions();
             lantern.Drop();
             
-            StartCoroutine(PauseForDeath(otherTf));
+            GameStatics.Camera.StopFollowing();
+            
+            StartCoroutine(DeathRoutine(otherTf));
         }
 
-        private IEnumerator PauseForDeath(Transform otherTf)
+        private IEnumerator DeathRoutine(Transform otherTf)
         {
             var originalSortDetails = SetToFront(otherTf);
             
@@ -262,6 +258,22 @@ namespace ClumsyBat.Players
             if (otherRenderer == null) return;
             otherRenderer.sortingLayerName = details.sortLayer;
             otherRenderer.sortingOrder = details.sortOrder;
+        }
+
+        private void HandleFallenOffLevel()
+        {
+            if (State.IsInSecretPath)
+            {
+                GameStatics.LevelManager.GameHandler.LevelComplete(true);
+            }
+            else if (!State.IsAlive)
+            {
+                GameStatics.LevelManager.GameHandler.GameOver();
+            }
+            else
+            {
+                Die(null);
+            }
         }
     }
 }

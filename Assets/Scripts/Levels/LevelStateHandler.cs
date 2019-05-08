@@ -8,11 +8,18 @@ namespace ClumsyBat.LevelManagement
         private float previousPlayerPos;
 
         public bool GameHasStarted { get; private set; }
+        public bool IsLevelOver { get; private set; }
 
         public void Begin()
         {
             GameStatics.Data.GameState.Reset();
             GameHasStarted = true;
+            IsLevelOver = false;
+        }
+
+        public void SetLevelOver(bool value)
+        {
+            IsLevelOver = value;
         }
 
         public void Tick(float deltaTime)

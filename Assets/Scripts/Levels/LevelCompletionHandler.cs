@@ -11,7 +11,7 @@ namespace ClumsyBat.LevelManagement
             MainPath, Secret1, Secret2
         }
 
-        public void LevelCompleted(Levels level, LevelCompletionPaths path)
+        public LevelData LevelCompleted(Levels level, LevelCompletionPaths path)
         {
             var levelData = GameStatics.Data.LevelDataHandler.GetLevelData(level);
 
@@ -24,6 +24,8 @@ namespace ClumsyBat.LevelManagement
 
             GameStatics.Data.Stats.LevelsCompleted++;
             GameStatics.Data.SaveData();
+
+            return nextLevel;
         }
 
         private LevelData GetNextLevel(Levels level, LevelCompletionPaths path)

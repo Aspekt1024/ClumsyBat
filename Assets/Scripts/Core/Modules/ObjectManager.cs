@@ -11,8 +11,6 @@ namespace ClumsyBat
 
         public ObjectManager()
         {
-            GameObject scriptsObject = GameObject.Find("LevelScripts");
-            
             var caveObject = new GameObject("Caves");
             caveHandler = caveObject.AddComponent<CaveHandler>();
 
@@ -27,6 +25,11 @@ namespace ClumsyBat
             {
                 ObjectHandler.SetCaveObstacles(levelContainer.Caves[i], i);
             }
+        }
+
+        public void ClearExistingCave()
+        {
+            caveHandler.ClearExistingCave();
         }
     }
 }

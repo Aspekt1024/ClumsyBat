@@ -47,8 +47,6 @@ public class CaveHandler : MonoBehaviour {
 
     public void SetupCave(LevelContainer.CaveType[] caveList)
     {
-        ClearExistingCave();
-
         numCavePieces = caveList.Length;
         
         for (int i = 0; i < caveList.Length; i++)
@@ -131,7 +129,7 @@ public class CaveHandler : MonoBehaviour {
         caveTop.transform.position = new Vector3(tileSizeX * index, 0f, caveZLayer);
     }
 
-    private void ClearExistingCave()
+    public void ClearExistingCave()
     {
         for (int i = topCavePieces.Count - 1; i >= 0; i--)
         {

@@ -1,4 +1,5 @@
 ﻿using ClumsyBat;
+using ClumsyBat.DataManagement;
 using ClumsyBat.LevelManagement;
 using UnityEngine;
 
@@ -33,15 +34,18 @@ public class LevelScript : MonoBehaviour {
         GameStatics.UI.DropdownMenu.ShowGameOverMenu();
     }
 
-    public void LevelWon(bool viaSecretPath)
+    /// <summary>
+    /// Called by LevelGameHandler.LevelComplete
+    /// </summary>
+    public LevelData LevelWon(bool viaSecretPath)
     {
         if (viaSecretPath)
         {
-            GameStatics.LevelManager.LevelCompleted(LevelCompletionPaths.Secret1);
+            return GameStatics.LevelManager.LevelCompleted(LevelCompletionPaths.Secret1);
         }
         else
         {
-            GameStatics.LevelManager.LevelCompleted(LevelCompletionPaths.MainPath);
+            return GameStatics.LevelManager.LevelCompleted(LevelCompletionPaths.MainPath);
         }
     }
 }

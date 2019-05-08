@@ -82,15 +82,31 @@ namespace ClumsyBat
             GetComponent<AudioSource>().Stop();
         }
 
+        /// <summary>
+        /// Used for when a level is completed
+        /// </summary>
+        /// <param name="viaSecretPath"></param>
         public void LevelComplete(bool viaSecretPath = false)
         {
-            Level.LevelWon(viaSecretPath);
-            LevelProgressionHandler.Levels nextLevel = LevelProgressionHandler.GetNextLevel(GameStatics.LevelManager.Level);
+            Level.stateHandler.SetLevelOver(true);
+            var nextLevelData = Level.LevelWon(viaSecretPath);
+            
+            if (viaSecretPath)
+            {
+                if (nextLevelData != null)
+                {
+                    GameStatics.GameManager.LoadLevel(nextLevelData.ID);
+                    return;
+                }
+            }
+
+            var nextLevel = LevelProgressionHandler.GetNextLevel(GameStatics.LevelManager.Level);
             GameStatics.UI.DropdownMenu.ShowLevelCompletion(GameStatics.LevelManager.Level, nextLevel);
         }
 
         public void GameOver()
         {
+            Level.stateHandler.SetLevelOver(true);
             Level.ShowGameoverMenu();
         }
     }
