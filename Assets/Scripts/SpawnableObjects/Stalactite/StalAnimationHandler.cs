@@ -54,7 +54,7 @@ public class StalAnimationHandler : MonoBehaviour
     public void NewStalactite()
     {
         _behaviour = StalBehaviour.Normal;
-        if (_anim == null) return;
+        if (_anim == null || !gameObject.activeSelf) return;
 
         _anim.enabled = true;
         _anim.Play("Static", 0, 0f);

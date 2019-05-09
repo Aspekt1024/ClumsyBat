@@ -33,7 +33,7 @@ public class LevelButtonHandler : MonoBehaviour {
 
     public void Init()
     {
-        GetLevelButtons();
+        SetupLevelButtons();
         SetupLevelSelect();
         LevelPlayButton.gameObject.SetActive(false);
         transform.parent.GetComponentInChildren<LevelPath>().CreateLevelPaths();
@@ -67,7 +67,7 @@ public class LevelButtonHandler : MonoBehaviour {
         GameStatics.GameManager.LoadLevel(ActiveLevel);
     }
 
-    private void GetLevelButtons()
+    public void SetupLevelButtons()
     {
         buttons = new LevelButton[GameStatics.Data.LevelDataHandler.NumLevels + 1];
         foreach (LevelButton lvlButton in GetComponentsInChildren<LevelButton>())
@@ -94,6 +94,10 @@ public class LevelButtonHandler : MonoBehaviour {
                     lvlButton.Star2Complete = GameStatics.Data.LevelDataHandler.AllMothsGathered(lvlButton.Level);
                     lvlButton.Star3Complete = GameStatics.Data.LevelDataHandler.NoDamageTaken(lvlButton.Level);
                     lvlButton.StarsSet = true;
+                }
+                else
+                {
+                    lvlButton.HideStars();
                 }
             }
         }

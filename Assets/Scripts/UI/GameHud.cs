@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Globalization;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace ClumsyBat.UI
@@ -26,14 +28,20 @@ namespace ClumsyBat.UI
 
         private bool _bGamePaused;
 
+        private Coroutine levelNameRoutine;
+        private RectTransform levelTextRt;
+        private Vector3 levelNameOriginalPosition;
+
         private void Awake()
         {
             GetTextObjects();
+            levelNameOriginalPosition = levelTextRt.anchoredPosition;
         }
 
         private void Start()
         {
             scoreText.text = "0";
+            UpdateTimer(0f);
             SetupUI();
         }
 
@@ -54,20 +62,7 @@ namespace ClumsyBat.UI
             GameStatics.GameManager.PauseGame();
             GameStatics.UI.DropdownMenu.ShowPauseMenu();
         }
-
-        private void HideBossUIElements()
-        {
-            scoreText.GetComponent<Text>().enabled = false;
-            mothImage.enabled = false;
-            currencyRt.GetComponent<Text>().enabled = false;
-        }
-
-        private void SetScore()
-        {
-            if (_bGamePaused) { return; }
-            scoreText.text = GameStatics.Data.GameState.Score.ToString();
-        }
-
+        
         private void SetupUI()
         {
             currencyText.text = GameStatics.Data.Stats.Currency.ToString();
@@ -113,6 +108,7 @@ namespace ClumsyBat.UI
                         {
                             case "LevelText":
                                 levelText = r.GetComponent<Text>();
+                                levelTextRt = levelText.GetComponent<RectTransform>();
                                 break;
                             case "ScoreText":
                                 scoreText = r.GetComponent<Text>();
@@ -203,12 +199,27 @@ namespace ClumsyBat.UI
             gameUICanvas.blocksRaycasts = !paused;
         }
 
+        public void SetupGame()
+        {
+            Hide();
+        }
+
         public void StartGame()
         {
+            Show();
+            if (levelNameRoutine != null) StopCoroutine(levelNameRoutine);
+            levelNameRoutine = StartCoroutine(ShowLevelNameRoutine());
+            
             if (GameStatics.LevelManager.Level.ToString().Contains("Boss"))
-                HideBossUIElements();
+            {
+                HideStandardLevelElements();
+            }
             else
-                InvokeRepeating("SetScore", 1f, 0.1f);
+            {
+                ShowStandardLevelElements();
+                CancelInvoke(nameof(SetScore));
+                InvokeRepeating(nameof(SetScore), 0f, 0.1f);
+            }
 
             gameUICanvas.alpha = 1f;
             gameUICanvas.blocksRaycasts = true;
@@ -227,9 +238,53 @@ namespace ClumsyBat.UI
                 dashIndicator.Disable();
         }
 
-        private void HighlightUIElement()
+        private void SetScore()
         {
-            // TODO implement this for the purposes of tutorials and the like
+            if (_bGamePaused || !GameStatics.LevelManager.IsInPlayMode) return;
+            scoreText.text = GameStatics.Data.GameState.Score.ToString();
+        }
+
+        private void HideStandardLevelElements()
+        {
+            scoreText.GetComponent<Text>().enabled = false;
+            mothImage.enabled = false;
+            currencyRt.GetComponent<Text>().enabled = false;
+        }
+        
+        private void ShowStandardLevelElements()
+        {
+            scoreText.GetComponent<Text>().enabled = true;
+            mothImage.enabled = true;
+            currencyRt.GetComponent<Text>().enabled = true;
+        }
+
+        private IEnumerator ShowLevelNameRoutine()
+        {
+            var pos = levelNameOriginalPosition;
+            var endPosX = pos.x;
+            float startPos = Screen.width;
+            const float duration = 1f;
+            float timer = 0f;
+            while (timer < duration)
+            {
+                timer += Time.deltaTime;
+                pos.x = Mathf.Lerp(startPos, endPosX, timer / duration);
+                levelTextRt.anchoredPosition = pos;
+                yield return null;
+            }
+            
+            yield return new WaitForSeconds(3f);
+
+            timer = 0f; 
+            endPosX = -Screen.width / 2f;
+            var startPosX = pos.x;
+            while (timer < duration)
+            {
+                yield return null;
+                timer += Time.deltaTime;
+                pos.x = Mathf.Lerp(startPosX, endPosX, timer / duration);
+                levelTextRt.anchoredPosition = pos;
+            }
         }
     }
 }

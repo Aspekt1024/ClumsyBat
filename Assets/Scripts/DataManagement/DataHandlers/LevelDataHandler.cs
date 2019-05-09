@@ -32,6 +32,8 @@ namespace ClumsyBat.DataManagement
             {
                 LevelData.Levels.Add(new LevelData(levelID));
             }
+
+            GameStatics.LevelManager.ReloadLevelSelect();
         }
 
         public void UnlockAllLevels()

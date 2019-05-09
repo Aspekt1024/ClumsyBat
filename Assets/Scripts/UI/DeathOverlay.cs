@@ -10,7 +10,14 @@ namespace ClumsyBat.UI
         private void Awake()
         {
             canvasGroup = GetComponent<CanvasGroup>();
-            Hide();
+            HideImmediate();
+        }
+
+        public void HideImmediate()
+        {
+            canvasGroup.alpha = 0f;
+            canvasGroup.blocksRaycasts = false;
+            canvasGroup.interactable = false;
         }
 
         public void Hide()

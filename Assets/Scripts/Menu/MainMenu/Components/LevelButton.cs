@@ -54,6 +54,11 @@ public class LevelButton : MonoBehaviour
         _state = BtnState.Unclicked;
     }
 
+    public void HideStars()
+    {
+        starsRt.gameObject.SetActive(false);
+    }
+
     private void Update()
     {
         if (!starImagesSet && StarsSet)

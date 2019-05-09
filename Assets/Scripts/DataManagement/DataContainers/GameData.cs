@@ -18,7 +18,7 @@ namespace ClumsyBat.DataManagement
         private int mothsEaten;
         public int MothsEaten
         {
-            get { return mothsEaten; }
+            get => mothsEaten;
             set
             {
                 mothsEaten = value;
@@ -35,12 +35,6 @@ namespace ClumsyBat.DataManagement
             MothsEaten = 0;
         }
 
-        public float Score
-        {
-            get
-            {
-                return ScoreCalculator.GetScore(Distance, mothsEaten, TimeTaken);
-            }
-        }
+        public int Score => ScoreCalculator.GetScore(Distance, MothsEaten, TimeTaken);
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -73,11 +74,11 @@ namespace ClumsyBat.UI.DropdownMenuComponents
             {
                 case YesNo.ResetAllData:
                     _optionConfirmText.text = "Story has been reset!";
-                    GameStatics.Data.ResetStoryData();
+                    GameStatics.Data.ResetAllData();
                     break;
                 case YesNo.ResetTooltips:
                     _optionConfirmText.text = "Tooltips have been reset!";
-                    //Stats.CompletionData.ResetTooltips();     // TODO redo these options
+                    GameStatics.Data.ResetTooltips();     // TODO redo these options
                     break;
             }
             SetPanelVisible(_optionsYesNoPanel, false);
@@ -92,17 +93,13 @@ namespace ClumsyBat.UI.DropdownMenuComponents
 
         public void OkPressed()
         {
-            switch (_confirmOption)
+            if (_confirmOption == YesNo.ResetAllData && GameStatics.GameManager.IsInLevel)
             {
-                case YesNo.ResetAllData:
-                    FindObjectOfType<LoadingScreen>().ShowLoadScreen();
-                    SceneManager.LoadScene("Play");
-                    break;
-                case YesNo.ResetTooltips:
-                    SetPanelVisible(_optionsOkPanel, false);
-                    SetPanelVisible(_optionsMainPanel, true);
-                    break;
+                GameStatics.GameManager.GotoMenuScene();
             }
+            
+            SetPanelVisible(_optionsOkPanel, false);
+            SetPanelVisible(_optionsMainPanel, true);
         }
 
         public void ToggleMusicPressed()

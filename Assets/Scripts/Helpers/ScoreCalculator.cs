@@ -17,10 +17,7 @@ public static class ScoreCalculator {
 
     public static int GetScore(float distance, int numMoths, float timeTaken)
     {
-        int score = 0;
-        if (distance > 0.1f)
-            score = (int)(distance * distanceMultiplier + numMoths * mothMultiplier - timeTaken * timeMultiplier);
-        
+        int score = (int)(distance * distanceMultiplier + numMoths * mothMultiplier - timeTaken * timeMultiplier);
         return score > 0 ? score : 0;
     }
     

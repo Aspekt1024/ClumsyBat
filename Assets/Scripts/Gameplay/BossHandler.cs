@@ -30,6 +30,8 @@ public class BossHandler : MonoBehaviour {
     private const float manualCaveScale = 0.8558578f;
 
     private Player player;
+    private BossData bossDataScript;
+    private SlidingDoors doors;
 
     private enum BossGameState
     {
@@ -41,10 +43,17 @@ public class BossHandler : MonoBehaviour {
     
     public void LoadBoss()
     {
-        BossData bossDataScript = FindObjectOfType<BossData>();
+        if (bossDataScript != null)
+        {
+            bossDataScript.ClearBoss();
+        }
+
+        doors = FindObjectOfType<SlidingDoors>();
+        doors.OpenImmediate();
+        
+        bossDataScript = FindObjectOfType<BossData>();
         string stateMachineResourcePath = bossStateMachinesDict[GameStatics.LevelManager.Level];
-        bossDataScript.BossStateMachine = Resources.Load<StateMachine>(stateMachineResourcePath);
-        bossDataScript.LoadBoss();
+        bossDataScript.LoadBoss(Resources.Load<StateMachine>(stateMachineResourcePath));
         GameStatics.UI.GameHud.SetLevelText(GameStatics.LevelManager.Level);
 
         GameStatics.Player.Clumsy.fog.Disable();
@@ -66,6 +75,7 @@ public class BossHandler : MonoBehaviour {
     private void Start()
     {
         player = GameStatics.Player.Clumsy;
+        
         if (GameStatics.LevelManager.Level == LevelProgressionHandler.Levels.Unassigned)
         {
             GameStatics.LevelManager.Level = LevelProgressionHandler.Levels.Boss1;

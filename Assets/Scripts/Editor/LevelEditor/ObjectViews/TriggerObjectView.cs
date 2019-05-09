@@ -47,6 +47,6 @@ public class TriggerEditorView : Editor {
     {
         if (target != null) return;
         if (trigger == null) return;
-        TriggerEventSerializer.Instance.RemoveTriggerEvent(trigger.TriggerId);
+        Object.FindObjectOfType<TriggerEventSerializer>().RemoveTriggerEvent(trigger.TriggerId);
     }
 }

@@ -20,7 +20,7 @@ namespace ClumsyBat.Objects
             Collider.enabled = true;
             gameObject.GetComponent<SpriteRenderer>().enabled = Toolbox.Instance.Debug;
 
-            TriggerEvent = TriggerEventSerializer.Instance.GetTriggerEvent(triggerProps.TrigEvent.Id);
+            TriggerEvent = GameStatics.Data.TriggerEvents.GetTriggerEvent(triggerProps.TrigEvent.Id);
         }
 
         protected override void Init() { }
@@ -35,12 +35,12 @@ namespace ClumsyBat.Objects
         {
             if (TriggerEvent.Id > 0)
             {
-                TriggerEvent = TriggerEventSerializer.Instance.GetTriggerEvent(TriggerEvent.Id);
+                TriggerEvent = GameStatics.Data.TriggerEvents.GetTriggerEvent(TriggerEvent.Id);
             }
 #if UNITY_EDITOR
             if (TriggerEvent.Id == 0 && !Application.isPlaying)
             {
-                TriggerEvent = TriggerEventSerializer.Instance.CreateNewTriggerEvent();
+                TriggerEvent = GameStatics.Data.TriggerEvents.CreateNewTriggerEvent();
                 TriggerId = TriggerEvent.Id;
             }
 #endif
@@ -64,7 +64,7 @@ namespace ClumsyBat.Objects
 
         private void ActionDialogueEvent()
         {
-            bool isSeen = TriggerEventSerializer.Instance.IsEventSeen(TriggerEvent.Id);
+            bool isSeen = GameStatics.Data.TriggerEvents.IsEventSeen(TriggerEvent.Id);
             if (TriggerEvent.ShowOnce && isSeen) return;
 
             bool shownBeforeRestart = Toolbox.Instance.TooltipCompleted(TriggerEvent.Id);

@@ -101,7 +101,6 @@ public class AbilityControl : MonoBehaviour {
         bf.Serialize(file, blankAbilityData);
         file.Close();
         Load();
-        Debug.Log("Ability Data Cleared");
     }
 
     public void ActivateAllAbilities()

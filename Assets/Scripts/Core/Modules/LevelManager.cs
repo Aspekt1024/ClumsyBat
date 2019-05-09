@@ -36,6 +36,8 @@ namespace ClumsyBat
 
             bossHandler.gameObject.SetActive(false);
         }
+        
+        public void ReloadLevelSelect() {buttonHandler.SetupLevelButtons();}
 
         public bool IsBossLevel => Level.ToString().Contains("Boss");
         public bool IsInPlayMode => levelScript.stateHandler.GameHasStarted && !levelScript.stateHandler.IsLevelOver;
@@ -53,7 +55,9 @@ namespace ClumsyBat
         public LevelData LevelCompleted(LevelCompletionPaths path)
         {
             EventListener.LevelCompleted();
-            return completionHandler.LevelCompleted(GameStatics.LevelManager.Level, path);
+            var nextLevel = completionHandler.LevelCompleted(GameStatics.LevelManager.Level, path);
+            buttonHandler.SetupLevelButtons();
+            return nextLevel;
         }
 
         public bool IsLevelCompleted(Levels level)
@@ -99,6 +103,11 @@ namespace ClumsyBat
             GameStatics.Player.Clumsy.fog.Initialise();
         }
 
+        public void SetupLevel()
+        {
+            GameHandler.SetupLevel();
+        }
+        
         public void BeginLevel()
         {
             GameHandler.StartLevel();

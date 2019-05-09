@@ -25,16 +25,17 @@ public class BossData : MonoBehaviour {
     private void OnEnable()
     {
         BossEvents.OnBossFightStart += BossStart;
-        BossEvents.OnBossDeath += Die;
+        BossEvents.OnBossDeath += OnBossDeath;
     }
     private void OnDisable()
     {
         BossEvents.OnBossFightStart -= BossStart;
-        BossEvents.OnBossDeath -= Die;
+        BossEvents.OnBossDeath -= OnBossDeath;
     }
     
-    public void LoadBoss()
+    public void LoadBoss(StateMachine bossStateMachine)
     {
+        BossStateMachine = bossStateMachine;
         _state = BossStates.Disabled;
         player = GameStatics.Player.Clumsy;
         bossObject = Instantiate(BossStateMachine.BossPrefab, transform.position, new Quaternion(), transform);
@@ -43,9 +44,17 @@ public class BossData : MonoBehaviour {
             Debug.LogError("Error: no boss script found on boss object");
 
         bossScripts.SetBaseProperties(BossStateMachine);
-        SetupAbilities();
         BossStateMachine.StateMachineSetup(this, bossObject);
         Toolbox.Instance.GamePaused = false;    // TODO shouldnt be done here...
+    }
+
+    public void ClearBoss()
+    {
+        if (bossObject != null)
+        {
+            Destroy(bossObject);
+        }
+        BossStateMachine = null;
     }
 	
 	private void Update () {
@@ -62,11 +71,7 @@ public class BossData : MonoBehaviour {
         _state = BossStates.Active;
         BossStateMachine.AwakenBoss();
     }
-
-    private void SetupAbilities()
-    {
-    }
-
+    
     public T GetAbility<T>() where T : BossAbility
     {
         BossAbility ability = null;
@@ -87,28 +92,21 @@ public class BossData : MonoBehaviour {
         return (T)ability;
     }
 
-    private void Die()
+    private void OnBossDeath()
     {
+        if (_state == BossStates.Dead) return;
+        
         _state = BossStates.Dead;
+        StartCoroutine(BossDeathRoutine());
+    }
 
+    private IEnumerator BossDeathRoutine()
+    {
         BossStateMachine.Stop();
-        if (!player.State.IsAlive) return;
+        if (!player.State.IsAlive) yield break;
+        
+        yield return new WaitForSeconds(2.5f);
+        
         GameStatics.LevelManager.GameHandler.LevelComplete();
-    }
-
-    private void PauseGame()
-    {
-        foreach(var ability in _abilities)
-        {
-            ability.Pause();
-        }
-    }
-
-    private void ResumeGame()
-    {
-        foreach (var ability in _abilities)
-        {
-            ability.Resume();
-        }
     }
 }

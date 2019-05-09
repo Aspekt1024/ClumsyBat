@@ -19,13 +19,17 @@ public class LevelScript : MonoBehaviour {
     {
         stateHandler.Tick(Time.deltaTime);
     }
+
+    public void SetupGame()
+    {
+        stateHandler.Setup();
+        GameStatics.UI.GameHud.SetupGame();
+    }
     
     public void StartGame()
     {
         stateHandler.Begin();
-
         GameStatics.UI.GameHud.StartGame();
-
     }
     
     public void ShowGameoverMenu()
@@ -39,13 +43,8 @@ public class LevelScript : MonoBehaviour {
     /// </summary>
     public LevelData LevelWon(bool viaSecretPath)
     {
-        if (viaSecretPath)
-        {
-            return GameStatics.LevelManager.LevelCompleted(LevelCompletionPaths.Secret1);
-        }
-        else
-        {
-            return GameStatics.LevelManager.LevelCompleted(LevelCompletionPaths.MainPath);
-        }
+        return GameStatics.LevelManager.LevelCompleted(viaSecretPath
+            ? LevelCompletionPaths.Secret1
+            : LevelCompletionPaths.MainPath);
     }
 }

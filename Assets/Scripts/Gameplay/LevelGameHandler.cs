@@ -31,6 +31,11 @@ namespace ClumsyBat
             EventListener.OnDeath -= OnDeath;
         }
 
+        public void SetupLevel()
+        {
+            Level.SetupGame();
+        }
+
         public void StartLevel()
         {
             StartCoroutine(LevelStartRoutine());

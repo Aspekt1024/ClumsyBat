@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ClumsyBat;
+using UnityEngine;
 using UnityEditor;
 using ClumsyBat.Objects;
 
@@ -23,7 +24,8 @@ public class TriggerEditorHandler : BaseObjectHandler
 
     public override void StoreObjects(ref LevelContainer levelObj)
     {
-        TriggerEventSerializer.Instance.Save();
+        var triggerEvents = Object.FindObjectOfType<TriggerEventSerializer>();
+        triggerEvents.Save();
         level = levelObj;
         var TriggerCounts = GetObjCounts(parentObj);
         for (int i = 0; i < level.Caves.Length; i++)
@@ -46,7 +48,8 @@ public class TriggerEditorHandler : BaseObjectHandler
 
     protected override void SetObjects(LevelContainer level)
     {
-        TriggerEventSerializer.Instance.Load();
+        var triggerEvents = Object.FindObjectOfType<TriggerEventSerializer>();
+        triggerEvents.Load();
         for (int i = 0; i < level.Caves.Length; i++)
         {
             if (level.Caves[i].Triggers == null || level.Caves[i].Triggers.Length == 0) continue;

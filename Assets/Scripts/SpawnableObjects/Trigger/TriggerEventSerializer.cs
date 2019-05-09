@@ -22,23 +22,9 @@ public class TriggerEventSerializer : MonoBehaviour {
     private const string savePath = "Assets/Resources/EventData/TriggerEventData.xml";
     private const string progressionSavePath = "TriggerEventData.dat";
 
-    public static TriggerEventSerializer Instance
+    public void LoadData()
     {
-        get
-        {
-            if (!triggerEventSerializer)
-            {
-                triggerEventSerializer = FindObjectOfType<TriggerEventSerializer>();
-                if (!triggerEventSerializer)
-                {
-                    if (SceneManager.GetActiveScene().name != "Play")
-                        Debug.LogError("triggerEventSerializer does not exist. Attach one to a game object");
-                }
-                else
-                    triggerEventSerializer.Init();
-            }
-            return triggerEventSerializer;
-        }
+        Init();
     }
 
     public TriggerEvent CreateNewTriggerEvent()
@@ -82,7 +68,7 @@ public class TriggerEventSerializer : MonoBehaviour {
     public void Save()
     {
         TriggerContainer data = new TriggerContainer();
-        data.EventData = Instance.TriggerEvents;
+        data.EventData = TriggerEvents;
 
         XmlSerializer serializer = new XmlSerializer(typeof(TriggerContainer));
         using (var stream = new FileStream(savePath, FileMode.Create))
@@ -103,7 +89,7 @@ public class TriggerEventSerializer : MonoBehaviour {
         if (dataText == null)
         {
             Debug.Log("Creating new Trigger Event data file");
-            Instance.TriggerEvents = new List<TriggerEvent>();
+            TriggerEvents = new List<TriggerEvent>();
             Save();
         }
         else
@@ -112,7 +98,7 @@ public class TriggerEventSerializer : MonoBehaviour {
             {
                 data = (TriggerContainer)serializer.Deserialize(stream);
             }
-            Instance.TriggerEvents = data.EventData;
+            TriggerEvents = data.EventData;
         }
     }
 
@@ -121,7 +107,7 @@ public class TriggerEventSerializer : MonoBehaviour {
         var bf = new BinaryFormatter();
         var file = File.Open(Application.persistentDataPath + "/" + progressionSavePath, FileMode.OpenOrCreate);
 
-        var data = new TriggerProgressionContainer { TriggerData = Instance.ProgressionData };
+        var data = new TriggerProgressionContainer { TriggerData = ProgressionData };
 
         bf.Serialize(file, data);
         file.Close();
@@ -146,11 +132,11 @@ public class TriggerEventSerializer : MonoBehaviour {
             }
             file.Close();
 
-            Instance.ProgressionData = data.TriggerData;
+            ProgressionData = data.TriggerData;
         }
     }
 
-    public void ClearEventData()
+    public void ClearProgressionData()
     {
         ProgressionData = new List<TriggerProgressionData>();
         SaveEventProgressionData();
@@ -158,7 +144,7 @@ public class TriggerEventSerializer : MonoBehaviour {
 
     public bool IsEventSeen(int triggerId)
     {
-        foreach (var trigEvent in Instance.ProgressionData)
+        foreach (var trigEvent in ProgressionData)
         {
             if (trigEvent.Id == triggerId)
                 return trigEvent.TooltipSeen;
@@ -168,7 +154,7 @@ public class TriggerEventSerializer : MonoBehaviour {
 
     public void SetEventSeen(int triggerId)
     {
-        foreach (var te in Instance.ProgressionData)
+        foreach (var te in ProgressionData)
         {
             if (te.Id == triggerId)
             {
@@ -180,12 +166,11 @@ public class TriggerEventSerializer : MonoBehaviour {
         TriggerProgressionData trigEvent = new TriggerProgressionData();
         trigEvent.Id = triggerId;
         trigEvent.TooltipSeen = true;
-        Instance.ProgressionData.Add(trigEvent);
+        ProgressionData.Add(trigEvent);
     }
 
     private void Init()
     {
-        TriggerEvents = new List<TriggerEvent>();
         ProgressionData = new List<TriggerProgressionData>();
         Load();
         LoadEventProgressionData();

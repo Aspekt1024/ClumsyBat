@@ -45,10 +45,15 @@ namespace ClumsyBat
             statics = new GameStatics();
             state = GameStates.MainMenu;
 
-            GameStatics.Data.LoadData(GameDataLoaded);
-            mainMenuTransitions = new MainMenuTransitions();
-            
+            GameStatics.Data.InitAwake();
             GameStatics.Player.InitAwake();
+            
+            mainMenuTransitions = new MainMenuTransitions();
+        }
+
+        private void Start()
+        {
+            StartGame();
         }
 
         public void PauseGame()
@@ -96,6 +101,7 @@ namespace ClumsyBat
         private IEnumerator LoadLevelRoutine(Levels level)
         {
             ResumeGameFromMenu();
+            GameStatics.LevelManager.SetupLevel();
             yield return StartCoroutine(GameStatics.UI.LoadingScreen.ShowLoadScreen());
             MenuObject.SetActive(false);
 
@@ -119,7 +125,7 @@ namespace ClumsyBat
             StartCoroutine(GameStatics.UI.LoadingScreen.HideLoadScreen());
         }
 
-        private void GameDataLoaded()
+        private void StartGame()
         {
             GameStatics.LevelManager.Init();
 

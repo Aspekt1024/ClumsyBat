@@ -26,10 +26,15 @@ namespace ClumsyBat.Controllers
         }
         private States state;
 
+        protected override void Awake()
+        {
+            base.Awake();
+            player = FindObjectOfType<Player>();
+        }
+
         private void Start()
         {
             state = States.Idle;
-            player = FindObjectOfType<Player>();
             positionMarker = new GameObject("Player AI Marker").transform;
         }
 

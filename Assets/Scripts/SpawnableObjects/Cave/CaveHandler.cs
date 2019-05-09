@@ -12,7 +12,6 @@ public class CaveHandler : MonoBehaviour {
     private List<GameObject> topCavePieces = new List<GameObject>();
     private List<GameObject> bottomCavePieces = new List<GameObject>();
 
-    private int numCavePieces;
     private int _cavePieceCounter;
     private GameObject caveEnd;
 
@@ -37,7 +36,7 @@ public class CaveHandler : MonoBehaviour {
         caveZLayer = Toolbox.Instance.ZLayers["Cave"];
         tileSizeX = Toolbox.TileSizeX;
 
-        var levelObj = GameObject.Find("Level").transform;
+        var levelObj = GameStatics.GameManager.LevelObject.transform;
         caveParent = new GameObject("Caves");
         caveParent.transform.SetParent(levelObj);
 
@@ -47,21 +46,10 @@ public class CaveHandler : MonoBehaviour {
 
     public void SetupCave(LevelContainer.CaveType[] caveList)
     {
-        numCavePieces = caveList.Length;
-        
         for (int i = 0; i < caveList.Length; i++)
         {
             GeneratePresetLevelCave(caveList[i], i);
         }
-    }
-    
-	private void Update ()
-    {
-        // TODO rework this - even a trigger would be better
-        //if (GameStatics.GameManager. GameStatics.Player.Model.Transform.position.x >= (numCavePieces - 1f) * tileSizeX)
-        //{
-        //    GameStatics.Camera.StopFollowing();
-        //}
     }
 
     public void PauseGame(bool paused)

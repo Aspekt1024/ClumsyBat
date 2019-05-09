@@ -61,7 +61,7 @@ public class TooltipHandler : MonoBehaviour {
             return;
         }
 
-        TriggerEventSerializer.Instance.SetEventSeen(triggerEvent.Id);
+        GameStatics.Data.TriggerEvents.SetEventSeen(triggerEvent.Id);
         StartCoroutine(ShowDialogueRoutine(triggerEvent, callback));
     }
 
