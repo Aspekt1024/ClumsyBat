@@ -39,7 +39,7 @@ public class NodeTransform {
                     ActionLeftMouseDown(e);
                 }
                 break;
-            case EventType.mouseUp:
+            case EventType.MouseUp:
                 if (IsDragged && e.button == 0)
                 {
                     node.WindowRect.position += dragOffset;

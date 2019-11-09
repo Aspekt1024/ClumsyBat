@@ -183,7 +183,7 @@ public class SpawnStalNode : BaseNode {
 
     private void CheckForListCountChange()
     {
-        if (Event.current.type == EventType.keyDown && NumStals != StalSpawns.Count)
+        if (Event.current.type == EventType.KeyDown && NumStals != StalSpawns.Count)
         {
             if (Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.KeypadEnter)
                 AdjustStalSpawnListCount();

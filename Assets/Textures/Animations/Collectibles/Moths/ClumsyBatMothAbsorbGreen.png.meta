@@ -1,47 +1,108 @@
 fileFormatVersion: 2
 guid: 665b3afef2c1dd8429822b29f8ddfe56
-timeCreated: 1482989729
-licenseType: Free
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: ClumsyBatMothAbsorbGreen_0
-    21300002: ClumsyBatMothAbsorbGreen_1
-    21300004: ClumsyBatMothAbsorbGreen_2
-    21300006: ClumsyBatMothAbsorbGreen_3
-    21300008: ClumsyBatMothAbsorbGreen_4
-    21300010: ClumsyBatMothAbsorbGreen_5
-    21300012: ClumsyBatMothAbsorbGreen_6
-    21300014: ClumsyBatMothAbsorbGreen_7
-    21300016: ClumsyBatMothAbsorbGreen_8
-    21300018: ClumsyBatMothAbsorbGreen_9
-    21300020: ClumsyBatMothAbsorbGreen_10
-    21300022: ClumsyBatMothAbsorbGreen_11
-    21300024: ClumsyBatMothAbsorbGreen_12
-    21300026: ClumsyBatMothAbsorbGreen_13
-    21300028: ClumsyBatMothAbsorbGreen_14
-    21300030: ClumsyBatMothAbsorbGreen_15
-    21300032: ClumsyBatMothAbsorbGreen_16
-    21300034: ClumsyBatMothAbsorbGreen_17
-    21300036: ClumsyBatMothAbsorbGreen_18
-    21300038: ClumsyBatMothAbsorbGreen_19
-    21300040: ClumsyBatMothAbsorbGreen_20
-    21300042: ClumsyBatMothAbsorbGreen_21
-    21300044: ClumsyBatMothAbsorbGreen_22
-    21300046: ClumsyBatMothAbsorbGreen_23
-    21300048: ClumsyBatMothAbsorbGreen_24
-    21300050: ClumsyBatMothAbsorbGreen_25
-    21300052: ClumsyBatMothAbsorbGreen_26
-    21300054: ClumsyBatMothAbsorbGreen_27
-    21300056: ClumsyBatMothAbsorbGreen_28
-    21300058: ClumsyBatMothAbsorbGreen_29
-  serializedVersion: 2
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: ClumsyBatMothAbsorbGreen_0
+  - first:
+      213: 21300002
+    second: ClumsyBatMothAbsorbGreen_1
+  - first:
+      213: 21300004
+    second: ClumsyBatMothAbsorbGreen_2
+  - first:
+      213: 21300006
+    second: ClumsyBatMothAbsorbGreen_3
+  - first:
+      213: 21300008
+    second: ClumsyBatMothAbsorbGreen_4
+  - first:
+      213: 21300010
+    second: ClumsyBatMothAbsorbGreen_5
+  - first:
+      213: 21300012
+    second: ClumsyBatMothAbsorbGreen_6
+  - first:
+      213: 21300014
+    second: ClumsyBatMothAbsorbGreen_7
+  - first:
+      213: 21300016
+    second: ClumsyBatMothAbsorbGreen_8
+  - first:
+      213: 21300018
+    second: ClumsyBatMothAbsorbGreen_9
+  - first:
+      213: 21300020
+    second: ClumsyBatMothAbsorbGreen_10
+  - first:
+      213: 21300022
+    second: ClumsyBatMothAbsorbGreen_11
+  - first:
+      213: 21300024
+    second: ClumsyBatMothAbsorbGreen_12
+  - first:
+      213: 21300026
+    second: ClumsyBatMothAbsorbGreen_13
+  - first:
+      213: 21300028
+    second: ClumsyBatMothAbsorbGreen_14
+  - first:
+      213: 21300030
+    second: ClumsyBatMothAbsorbGreen_15
+  - first:
+      213: 21300032
+    second: ClumsyBatMothAbsorbGreen_16
+  - first:
+      213: 21300034
+    second: ClumsyBatMothAbsorbGreen_17
+  - first:
+      213: 21300036
+    second: ClumsyBatMothAbsorbGreen_18
+  - first:
+      213: 21300038
+    second: ClumsyBatMothAbsorbGreen_19
+  - first:
+      213: 21300040
+    second: ClumsyBatMothAbsorbGreen_20
+  - first:
+      213: 21300042
+    second: ClumsyBatMothAbsorbGreen_21
+  - first:
+      213: 21300044
+    second: ClumsyBatMothAbsorbGreen_22
+  - first:
+      213: 21300046
+    second: ClumsyBatMothAbsorbGreen_23
+  - first:
+      213: 21300048
+    second: ClumsyBatMothAbsorbGreen_24
+  - first:
+      213: 21300050
+    second: ClumsyBatMothAbsorbGreen_25
+  - first:
+      213: 21300052
+    second: ClumsyBatMothAbsorbGreen_26
+  - first:
+      213: 21300054
+    second: ClumsyBatMothAbsorbGreen_27
+  - first:
+      213: 21300056
+    second: ClumsyBatMothAbsorbGreen_28
+  - first:
+      213: 21300058
+    second: ClumsyBatMothAbsorbGreen_29
+  externalObjects: {}
+  serializedVersion: 10
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
+    sRGBTexture: 1
     linearTexture: 0
-    correctGamma: 0
     fadeOut: 0
     borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
     mipMapFadeDistanceStart: 1
     mipMapFadeDistanceEnd: 3
   bumpmap:
@@ -50,35 +111,55 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
   grayScaleToAlpha: 0
-  generateCubemap: 0
+  generateCubemap: 6
   cubemapConvolution: 0
-  cubemapConvolutionSteps: 7
-  cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -1
   maxTextureSize: 2048
   textureSettings:
+    serializedVersion: 2
     filterMode: -1
     aniso: 16
-    mipBias: -1
-    wrapMode: 1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
-  rGBM: 0
   compressionQuality: 50
-  allowsAlphaSplitting: 0
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
   textureType: 8
-  buildTargetSettings: []
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -94,7 +175,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 02305410000000000800000000000000
+      internalID: 21300000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: ClumsyBatMothAbsorbGreen_1
       rect:
@@ -107,7 +196,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 22305410000000000800000000000000
+      internalID: 21300002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: ClumsyBatMothAbsorbGreen_2
       rect:
@@ -120,7 +217,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 42305410000000000800000000000000
+      internalID: 21300004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: ClumsyBatMothAbsorbGreen_3
       rect:
@@ -133,7 +238,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 62305410000000000800000000000000
+      internalID: 21300006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: ClumsyBatMothAbsorbGreen_4
       rect:
@@ -146,7 +259,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 82305410000000000800000000000000
+      internalID: 21300008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: ClumsyBatMothAbsorbGreen_5
       rect:
@@ -159,7 +280,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: a2305410000000000800000000000000
+      internalID: 21300010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: ClumsyBatMothAbsorbGreen_6
       rect:
@@ -172,7 +301,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: c2305410000000000800000000000000
+      internalID: 21300012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: ClumsyBatMothAbsorbGreen_7
       rect:
@@ -185,7 +322,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: e2305410000000000800000000000000
+      internalID: 21300014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: ClumsyBatMothAbsorbGreen_8
       rect:
@@ -198,7 +343,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 03305410000000000800000000000000
+      internalID: 21300016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: ClumsyBatMothAbsorbGreen_9
       rect:
@@ -211,7 +364,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 23305410000000000800000000000000
+      internalID: 21300018
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: ClumsyBatMothAbsorbGreen_10
       rect:
@@ -224,7 +385,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 43305410000000000800000000000000
+      internalID: 21300020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: ClumsyBatMothAbsorbGreen_11
       rect:
@@ -237,7 +406,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 63305410000000000800000000000000
+      internalID: 21300022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: ClumsyBatMothAbsorbGreen_12
       rect:
@@ -250,7 +427,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 83305410000000000800000000000000
+      internalID: 21300024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: ClumsyBatMothAbsorbGreen_13
       rect:
@@ -263,7 +448,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: a3305410000000000800000000000000
+      internalID: 21300026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: ClumsyBatMothAbsorbGreen_14
       rect:
@@ -276,7 +469,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: c3305410000000000800000000000000
+      internalID: 21300028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: ClumsyBatMothAbsorbGreen_15
       rect:
@@ -289,7 +490,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: e3305410000000000800000000000000
+      internalID: 21300030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: ClumsyBatMothAbsorbGreen_16
       rect:
@@ -302,7 +511,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 04305410000000000800000000000000
+      internalID: 21300032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: ClumsyBatMothAbsorbGreen_17
       rect:
@@ -315,7 +532,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 24305410000000000800000000000000
+      internalID: 21300034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: ClumsyBatMothAbsorbGreen_18
       rect:
@@ -328,7 +553,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 44305410000000000800000000000000
+      internalID: 21300036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: ClumsyBatMothAbsorbGreen_19
       rect:
@@ -341,7 +574,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 64305410000000000800000000000000
+      internalID: 21300038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: ClumsyBatMothAbsorbGreen_20
       rect:
@@ -354,7 +595,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 84305410000000000800000000000000
+      internalID: 21300040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: ClumsyBatMothAbsorbGreen_21
       rect:
@@ -367,7 +616,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: a4305410000000000800000000000000
+      internalID: 21300042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: ClumsyBatMothAbsorbGreen_22
       rect:
@@ -380,7 +637,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: c4305410000000000800000000000000
+      internalID: 21300044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: ClumsyBatMothAbsorbGreen_23
       rect:
@@ -393,7 +658,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: e4305410000000000800000000000000
+      internalID: 21300046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: ClumsyBatMothAbsorbGreen_24
       rect:
@@ -406,7 +679,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 05305410000000000800000000000000
+      internalID: 21300048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: ClumsyBatMothAbsorbGreen_25
       rect:
@@ -419,7 +700,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 25305410000000000800000000000000
+      internalID: 21300050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: ClumsyBatMothAbsorbGreen_26
       rect:
@@ -432,7 +721,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 45305410000000000800000000000000
+      internalID: 21300052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: ClumsyBatMothAbsorbGreen_27
       rect:
@@ -445,7 +742,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 65305410000000000800000000000000
+      internalID: 21300054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: ClumsyBatMothAbsorbGreen_28
       rect:
@@ -458,7 +763,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 85305410000000000800000000000000
+      internalID: 21300056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: ClumsyBatMothAbsorbGreen_29
       rect:
@@ -471,9 +784,28 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: a5305410000000000800000000000000
+      internalID: 21300058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
   spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -66,7 +66,7 @@ public class LevelEditorInputHandler
         if (menu == null)
             menu = new LevelEditorContextMenu(editor, actions);
         
-        if (Event.current.type == EventType.keyUp)
+        if (Event.current.type == EventType.KeyUp)
         {
             if (editor.HeldObject != null)
                 ProcessHeldKeyUp();

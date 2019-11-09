@@ -67,7 +67,7 @@ public class RandomOutNode : BaseNode
 
     private void CheckForListCountChange()
     {
-        if (Event.current.type == EventType.keyDown && NumOutputs != interfaces.Count - 1)
+        if (Event.current.type == EventType.KeyDown && NumOutputs != interfaces.Count - 1)
         {
             if (Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.KeypadEnter)
             {

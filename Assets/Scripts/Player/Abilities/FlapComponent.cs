@@ -107,7 +107,7 @@ public class FlapComponent : MonoBehaviour {
             Toolbox.Player.transform.position += Vector3.left * .5f;
             Toolbox.Player.Lantern.GetComponent<HingeJoint2D>().limits = new JointAngleLimits2D()
             {
-                min = -20f, max = 40f
+                min = -40f, max = 20f
             };
         }
     }

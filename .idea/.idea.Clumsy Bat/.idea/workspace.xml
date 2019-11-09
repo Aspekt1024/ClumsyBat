@@ -1,0 +1,879 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="38b429a7-de5d-42a1-a3ce-8c6cf72112ce" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/Assets/Material/Fog.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Material/Fog.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Backgrounds/FrontBG_1.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Backgrounds/FrontBG_1.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Backgrounds/FrontBG_1_blue.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Backgrounds/FrontBG_1_blue.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Backgrounds/FrontBG_1_green.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Backgrounds/FrontBG_1_green.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Backgrounds/FrontBG_2.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Backgrounds/FrontBG_2.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Backgrounds/FrontBG_2_blue.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Backgrounds/FrontBG_2_blue.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Backgrounds/FrontBG_2_green.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Backgrounds/FrontBG_2_green.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Backgrounds/FrontBG_3.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Backgrounds/FrontBG_3.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Backgrounds/FrontBG_3_blue.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Backgrounds/FrontBG_3_blue.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Backgrounds/FrontBG_3_green.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Backgrounds/FrontBG_3_green.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Backgrounds/MidBG_1.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Backgrounds/MidBG_1.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Backgrounds/MidBG_1_blue.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Backgrounds/MidBG_1_blue.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Backgrounds/MidBG_1_green.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Backgrounds/MidBG_1_green.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Backgrounds/RearBG_1.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Backgrounds/RearBG_1.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Backgrounds/RearBG_1_blue.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Backgrounds/RearBG_1_blue.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Backgrounds/RearBG_1_green.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Backgrounds/RearBG_1_green.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Collectibles/ClumsyBatLanternGlobe 1.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Collectibles/ClumsyBatLanternGlobe 1.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Font/ClumsyFont.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Font/ClumsyFont.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Font/ClumsyFontFullSharp.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Font/ClumsyFontFullSharp.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Font/ClumsyFontWhite 1.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Font/ClumsyFontWhite 1.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/LevelButtons/Boss2Available.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/LevelButtons/Boss2Available.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/LevelButtons/Boss2AvailableClicked.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/LevelButtons/Boss2AvailableClicked.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/LevelButtons/Boss2Completed.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/LevelButtons/Boss2Completed.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/LevelButtons/Boss2CompletedClicked.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/LevelButtons/Boss2CompletedClicked.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/LevelButtons/LevelAvailableClickedNotFound.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/LevelButtons/LevelAvailableClickedNotFound.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/LevelButtons/LevelAvailableNotFound.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/LevelButtons/LevelAvailableNotFound.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/LevelButtons/LevelAvailableNotFound2.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/LevelButtons/LevelAvailableNotFound2.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/LevelButtons/LevelCompleteClickedNotFound.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/LevelButtons/LevelCompleteClickedNotFound.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/LevelButtons/LevelCompleteNotFound.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/LevelButtons/LevelCompleteNotFound.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/LevelButtons/LevelCompleteNotFound2.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/LevelButtons/LevelCompleteNotFound2.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/LevelButtons/LevelUnavailable.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/LevelButtons/LevelUnavailable.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/LevelButtons/Main1Available.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/LevelButtons/Main1Available.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/LevelButtons/Main1AvailableClicked.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/LevelButtons/Main1AvailableClicked.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/LevelButtons/Main1Completed.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/LevelButtons/Main1Completed.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/LevelButtons/Main1CompletedClicked.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/LevelButtons/Main1CompletedClicked.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Obstacles/Spider/WebPiece.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Obstacles/Spider/WebPiece.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Obstacles/Stalactite/Rock.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Obstacles/Stalactite/Rock.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Textures/CrystalBall.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Textures/CrystalBall.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Textures/TriggerSquare.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Textures/TriggerSquare.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/LevelEditor/LevelEditorInputHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/LevelEditor/LevelEditorInputHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/NodeEditor/BaseEditorMouseInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/NodeEditor/BaseEditorMouseInput.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/NodeEditor/BossEditor/Nodes/SpawnStalNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/NodeEditor/BossEditor/Nodes/SpawnStalNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/NodeEditor/NodeComponents/NodeTransform.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/NodeEditor/NodeComponents/NodeTransform.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/NodeEditor/Nodes/MultipleInNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/NodeEditor/Nodes/MultipleInNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/NodeEditor/Nodes/MultipleOutNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/NodeEditor/Nodes/MultipleOutNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/NodeEditor/Nodes/RandomOutNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/NodeEditor/Nodes/RandomOutNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Abilities/FlapComponent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Abilities/FlapComponent.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/Collectibles/Moths/ClumsyBatMothAbsorb.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/Collectibles/Moths/ClumsyBatMothAbsorb.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/Collectibles/Moths/ClumsyBatMothAbsorbBlue.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/Collectibles/Moths/ClumsyBatMothAbsorbBlue.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/Collectibles/Moths/ClumsyBatMothAbsorbGold.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/Collectibles/Moths/ClumsyBatMothAbsorbGold.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/Collectibles/Moths/ClumsyBatMothAbsorbGreen.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/Collectibles/Moths/ClumsyBatMothAbsorbGreen.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/Collectibles/Moths/ClumsyBatMothAbsorbNoColor.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/Collectibles/Moths/ClumsyBatMothAbsorbNoColor.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/Collectibles/Moths/ClumsyBatMothFlapAnimation.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/Collectibles/Moths/ClumsyBatMothFlapAnimation.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/Collectibles/Moths/ClumsyBatMothFlapAnimationG.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/Collectibles/Moths/ClumsyBatMothFlapAnimationG.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/Collectibles/Moths/MothBlue.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/Collectibles/Moths/MothBlue.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/Collectibles/Moths/MothGold.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/Collectibles/Moths/MothGold.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/Collectibles/Moths/MothGreen.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/Collectibles/Moths/MothGreen.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/Collectibles/Moths/ParticleEffect/MothGreenBall.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/Collectibles/Moths/ParticleEffect/MothGreenBall.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/EnemiesAndObstacles/Bosses/KingRockbreath/ClumsyBatRockBoss.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/EnemiesAndObstacles/Bosses/KingRockbreath/ClumsyBatRockBoss.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/EnemiesAndObstacles/Bosses/KingRockbreath/RockBreathJumpSpriteSheet.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/EnemiesAndObstacles/Bosses/KingRockbreath/RockBreathJumpSpriteSheet.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/EnemiesAndObstacles/Bosses/KingRockbreath/RockBreathWalkSpriteSheet2.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/EnemiesAndObstacles/Bosses/KingRockbreath/RockBreathWalkSpriteSheet2.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/EnemiesAndObstacles/Bosses/WhalePillar/whalepillar.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/EnemiesAndObstacles/Bosses/WhalePillar/whalepillar.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/EnemiesAndObstacles/Mushroom/ClumsyBatSporeAnimation.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/EnemiesAndObstacles/Mushroom/ClumsyBatSporeAnimation.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/EnemiesAndObstacles/Mushroom/MushroomFrames.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/EnemiesAndObstacles/Mushroom/MushroomFrames.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/EnemiesAndObstacles/Mushroom/SporeFrames.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/EnemiesAndObstacles/Mushroom/SporeFrames.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/EnemiesAndObstacles/Spider/ClumsyBatSpiderEnemy 1.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/EnemiesAndObstacles/Spider/ClumsyBatSpiderEnemy 1.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/EnemiesAndObstacles/Spider/ClumsyBatSpiderEnemy.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/EnemiesAndObstacles/Spider/ClumsyBatSpiderEnemy.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/EnemiesAndObstacles/Spider/ClumsyBatSpiderFall.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/EnemiesAndObstacles/Spider/ClumsyBatSpiderFall.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/EnemiesAndObstacles/Stalactites/ClumsyBatStalactiteCrumble.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/EnemiesAndObstacles/Stalactites/ClumsyBatStalactiteCrumble.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/EnemiesAndObstacles/Stalactites/ClumsyStalBroken.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/EnemiesAndObstacles/Stalactites/ClumsyStalBroken.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/EnemiesAndObstacles/Stalactites/CrystalStal.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/EnemiesAndObstacles/Stalactites/CrystalStal.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/EnemiesAndObstacles/Stalactites/StalactiteCrumbleAndFall.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/EnemiesAndObstacles/Stalactites/StalactiteCrumbleAndFall.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/MenuAndTooltips/Buttons/ClumsyBatBackButton.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/MenuAndTooltips/Buttons/ClumsyBatBackButton.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/MenuAndTooltips/ClumsyBatToolTipScrollSpriteSheet 1.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/MenuAndTooltips/ClumsyBatToolTipScrollSpriteSheet 1.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/MenuAndTooltips/ClumsyBatToolTipScrollSpriteSheet.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/MenuAndTooltips/ClumsyBatToolTipScrollSpriteSheet.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/MenuAndTooltips/No_MeeSpace 1.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/MenuAndTooltips/No_MeeSpace 1.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/MenuAndTooltips/No_MeeSpace.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/MenuAndTooltips/No_MeeSpace.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Abilities/ClumsyBatBlueSoundwaveSpriteSheet.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Abilities/ClumsyBatBlueSoundwaveSpriteSheet.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Abilities/ClumsyBatGoldSoundwaveSpriteSheet.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Abilities/ClumsyBatGoldSoundwaveSpriteSheet.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Abilities/ClumsyBatGreenSoundwaveSpriteSheet.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Abilities/ClumsyBatGreenSoundwaveSpriteSheet.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Clumsy/ClumsyBatDeathAnimation.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Clumsy/ClumsyBatDeathAnimation.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Clumsy/ClumsyBatDismountSpriteSheet.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Clumsy/ClumsyBatDismountSpriteSheet.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Clumsy/ClumsyBatFlapAnimation.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Clumsy/ClumsyBatFlapAnimation.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Clumsy/ClumsyBatHoverAnimation.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Clumsy/ClumsyBatHoverAnimation.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Clumsy/ClumsyBatPerchSpriteSheet.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Clumsy/ClumsyBatPerchSpriteSheet.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Clumsy/ClumsyBatZoomAnimation.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Clumsy/ClumsyBatZoomAnimation.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/ClumsyBatCharacter.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/ClumsyBatCharacter.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/ClumsyBatFlapAnimation.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/ClumsyBatFlapAnimation.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Lantern/ClumsyBatLanternFrame.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Lantern/ClumsyBatLanternFrame.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Lantern/ClumsyBatLanternGlobe.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Lantern/ClumsyBatLanternGlobe.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Lantern/ClumsyBatLanternLight.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Lantern/ClumsyBatLanternLight.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Lantern/GreenLantern.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Lantern/GreenLantern.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Nomee/ClumsyBatNo_MeeSpeak.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Nomee/ClumsyBatNo_MeeSpeak.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Nomee/Nomee hand.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Animations/PlayerAndNPC/Nomee/Nomee hand.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Archive/Lantern.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Archive/Lantern.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Backgrounds/FrontBG_4.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Backgrounds/FrontBG_4.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Backgrounds/FrontBG_5.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Backgrounds/FrontBG_5.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Backgrounds/FrontBG_6.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Backgrounds/FrontBG_6.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Backgrounds/MidBG_2.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Backgrounds/MidBG_2.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Backgrounds/RearBG_2.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Backgrounds/RearBG_2.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/ClumsyIcon.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/ClumsyIcon.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/LevelPieces/BossPieces/BossCeiling.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/LevelPieces/BossPieces/BossCeiling.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/LevelPieces/BossPieces/BossFloor.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/LevelPieces/BossPieces/BossFloor.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/LevelPieces/Rocks/CaveRock3.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/LevelPieces/Rocks/CaveRock3.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/LevelPieces/Rocks/CaveRock4.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/LevelPieces/Rocks/CaveRock4.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/LevelPieces/SpecialPieces/CaveExitBottom1.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/LevelPieces/SpecialPieces/CaveExitBottom1.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/LevelPieces/SpecialPieces/CaveExitTop1.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/LevelPieces/SpecialPieces/CaveExitTop1.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/LevelPieces/SpecialPieces/CaveGnomeEnd.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/LevelPieces/SpecialPieces/CaveGnomeEnd.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/LevelPieces/SpecialPieces/EntranceBack.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/LevelPieces/SpecialPieces/EntranceBack.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/LevelPieces/SpecialPieces/EntranceFront.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/LevelPieces/SpecialPieces/EntranceFront.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/LevelPieces/SpecialPieces/ExitBack.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/LevelPieces/SpecialPieces/ExitBack.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/LevelPieces/SpecialPieces/ExitFront.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/LevelPieces/SpecialPieces/ExitFront.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/LevelPieces/SpecialPieces/SlidingRockBottom1.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/LevelPieces/SpecialPieces/SlidingRockBottom1.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/LevelPieces/SpecialPieces/SlidingRockTop.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/LevelPieces/SpecialPieces/SlidingRockTop.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/LevelPieces/StandardPieces/CaveBottom1.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/LevelPieces/StandardPieces/CaveBottom1.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/LevelPieces/StandardPieces/CaveBottom2.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/LevelPieces/StandardPieces/CaveBottom2.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/LevelPieces/StandardPieces/CaveBottom3.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/LevelPieces/StandardPieces/CaveBottom3.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/LevelPieces/StandardPieces/CaveBottom4.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/LevelPieces/StandardPieces/CaveBottom4.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/LevelPieces/StandardPieces/CaveBottom5.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/LevelPieces/StandardPieces/CaveBottom5.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/LevelPieces/StandardPieces/CaveTop1.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/LevelPieces/StandardPieces/CaveTop1.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/LevelPieces/StandardPieces/CaveTop2.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/LevelPieces/StandardPieces/CaveTop2.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/LevelPieces/StandardPieces/CaveTop3.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/LevelPieces/StandardPieces/CaveTop3.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/LevelPieces/StandardPieces/CaveTop4.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/LevelPieces/StandardPieces/CaveTop4.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/LevelPieces/StandardPieces/CaveTop5.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/LevelPieces/StandardPieces/CaveTop5.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/LevelPieces/TutorialPieces/ClumsyBatTutorialEndbottom.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/LevelPieces/TutorialPieces/ClumsyBatTutorialEndbottom.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/LevelPieces/TutorialPieces/ClumsyBatTutorialEndtop.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/LevelPieces/TutorialPieces/ClumsyBatTutorialEndtop.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/LevelPieces/TutorialPieces/ClumsyBatWallBackground.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/LevelPieces/TutorialPieces/ClumsyBatWallBackground.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu and UI/TooltipIcon.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu and UI/TooltipIcon.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu and UI/TooltipIconInverted.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu and UI/TooltipIconInverted.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu and UI/TooltipWhite.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu and UI/TooltipWhite.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatButtonBackArrow.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatButtonBackArrow.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatButtonForwardArrow.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatButtonForwardArrow.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatButtonLevelSelect.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatButtonLevelSelect.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatButtonMenu.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatButtonMenu.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatButtonOptionsGear.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatButtonOptionsGear.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatButtonPause.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatButtonPause.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatButtonPauseBW.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatButtonPauseBW.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatButtonPauseInverse.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatButtonPauseInverse.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatButtonPlay.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatButtonPlay.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatButtonPlayAgain.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatButtonPlayAgain.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatButtonSharesies.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatButtonSharesies.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatCaveExitExtended (2).png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatCaveExitExtended (2).png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatCaveExitFixed.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatCaveExitFixed.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatLogo.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatLogo.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatOkayG.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatOkayG.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatOptionsIcons.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatOptionsIcons.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatOptionsMenu (1).png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatOptionsMenu (1).png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatOptionsMenuBorder.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatOptionsMenuBorder.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatOptionsMenuScreen.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatOptionsMenuScreen.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatYesNoG.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatYesNoG.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatYesNoInverse.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/ClumsyBatYesNoInverse.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/LevelButtons/ClumsyBatLevelNumber1.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/LevelButtons/ClumsyBatLevelNumber1.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/LevelButtons/ClumsyBatLevelNumberUNAV3.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/LevelButtons/ClumsyBatLevelNumberUNAV3.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/LevelButtons/Level1.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/LevelButtons/Level1.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/LevelButtons/Level2.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/LevelButtons/Level2.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/LevelButtons/Level3.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/LevelButtons/Level3.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/LevelButtons/Level4.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/LevelButtons/Level4.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/LevelButtons/Level5.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/LevelButtons/Level5.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/LevelButtons/Level6.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/LevelButtons/Level6.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/LevelButtons/Level7.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/LevelButtons/Level7.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/LevelButtons/Level8.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/LevelButtons/Level8.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/LevelButtons/Level9.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/LevelButtons/Level9.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/LevelButtons/UnknownLevel.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/LevelButtons/UnknownLevel.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/LevelPath.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/LevelPath.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/LevelSelect.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/LevelSelect.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/Options/Okay.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/Options/Okay.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/Options/YesNo.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/Options/YesNo.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/Scroll.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/Scroll.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Menu/levelbtn.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Menu/levelbtn.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Miscellaneous/MyParticle.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Miscellaneous/MyParticle.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Miscellaneous/TriggerMask.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Miscellaneous/TriggerMask.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Miscellaneous/TriggerSquare.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Miscellaneous/TriggerSquare.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Miscellaneous/TriggerSquareWhite.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Miscellaneous/TriggerSquareWhite.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Miscellaneous/star.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Miscellaneous/star.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/No-Me.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/No-Me.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Spawnables/ClumsyBatMoth.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Spawnables/ClumsyBatMoth.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Spawnables/ClumsyBatMoth2.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Spawnables/ClumsyBatMoth2.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Spawnables/ClumsyBatMushroom.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Spawnables/ClumsyBatMushroom.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Spawnables/ClumsyBatRockbreathRock.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Spawnables/ClumsyBatRockbreathRock.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Spawnables/ClumsyBatStalactites.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Spawnables/ClumsyBatStalactites.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Spawnables/GreenGlow.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Spawnables/GreenGlow.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Spawnables/StalactiteColoured.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Spawnables/StalactiteColoured.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clumsy Bat.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Clumsy Bat.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/UnityAdsSettings.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/UnityConnectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/UnityConnectSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityPackageManager/manifest.json" beforeDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <splitter split-orientation="horizontal" split-proportion="0.5">
+      <split-first>
+        <leaf>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/Assets/Scripts/Player/Lantern.cs">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-2639">
+                  <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+                  <folding>
+                    <marker date="1573270565703" expanded="false" signature="6:44" ph="..." />
+                    <marker date="1573270565703" expanded="true" signature="46:131" ph="/// Handles the physics of the Lantern carried by Clumsy ... " />
+                    <marker date="1573270565703" expanded="true" signature="169:7546" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="444:513" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="873:1234" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="1261:1475" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="1319:1373" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="1415:1469" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="1528:2253" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="1558:1818" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="2158:2214" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="2288:3091" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="2448:3085" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="2505:3044" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="2597:2712" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="2742:2872" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="2893:3030" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="3130:3686" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="3186:3680" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="3231:3670" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="3710:4088" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="4127:4325" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="4367:4966" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="4421:4703" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="4716:4902" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="5023:5360" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="5054:5354" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="5413:5564" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="5451:5491" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="5604:6669" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="5846:6036" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="6124:6316" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="6384:6578" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="6699:7544" ph="{...}" />
+                    <marker date="1573270565703" expanded="true" signature="6803:7538" ph="{...}" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Assets/Scripts/Player/Player.cs">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-666">
+                  <caret line="570" column="38" selection-start-line="570" selection-start-column="38" selection-end-line="570" selection-end-column="38" />
+                  <folding>
+                    <marker date="1573270565707" expanded="false" signature="6:171" ph="..." />
+                    <marker date="1573270565707" expanded="true" signature="209:19231" ph="{...}" />
+                    <marker date="1573270565707" expanded="false" signature="220:333" ph="Public GameObjects" />
+                    <marker date="1573270565707" expanded="false" signature="339:534" ph="Abilities" />
+                    <marker date="1573270565707" expanded="false" signature="540:908" ph="Clumsy Components" />
+                    <marker date="1573270565707" expanded="false" signature="914:1712" ph="Clumsy Properties" />
+                    <marker date="1573270565707" expanded="true" signature="1515:1643" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="1812:1855" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="1882:2002" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="2035:2562" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="2083:2472" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="2214:2462" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="2278:2448" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="2600:2846" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="2878:3051" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="3096:3137" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="3176:3787" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="3814:3900" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="3941:4203" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="4248:4957" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="4533:4769" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="5005:5918" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="5342:5740" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="6464:7372" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="6545:6878" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="6678:6761" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="6778:6868" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="6891:7366" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="6931:7337" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="7475:7645" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="7524:7574" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="7587:7639" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="7672:7710" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="7742:7776" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="7818:7931" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="7977:8035" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="8072:8854" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="8190:8470" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="8351:8460" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="8567:8848" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="8654:8838" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="8877:9364" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="9405:9837" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="9881:9971" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="10027:10558" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="10214:10345" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="10358:10552" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="10411:10499" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="10613:11153" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="10792:11147" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="10859:11137" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="10924:10990" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="11011:11123" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="11198:11496" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="11441:11490" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="11549:11734" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="11594:11647" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="11660:11728" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="11786:12079" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="11976:12030" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="12128:12672" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="12430:12518" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="12701:12983" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="13012:13310" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="13340:13685" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="13406:13564" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="13739:13798" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="13851:14018" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="14049:14285" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="14142:14190" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="14203:14279" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="14320:14766" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="14798:15007" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="15052:15534" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="15212:15528" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="15293:15390" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="15625:15681" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="15734:16389" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="16053:16204" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="16090:16163" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="16420:16464" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="18058:18575" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="18617:19229" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="18666:19223" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="18713:18875" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="18918:19073" ph="{...}" />
+                    <marker date="1573270565707" expanded="true" signature="19122:19213" ph="{...}" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Assets/Scripts/Player/Abilities/FlapComponent.cs">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="609">
+                  <caret line="102" column="60" selection-start-line="102" selection-start-column="60" selection-end-line="102" selection-end-column="60" />
+                  <folding>
+                    <marker date="1573272823801" expanded="true" signature="63:3507" ph="{...}" />
+                    <marker date="1573272823801" expanded="true" signature="265:307" ph="{...}" />
+                    <marker date="1573272823801" expanded="true" signature="337:397" ph="{...}" />
+                    <marker date="1573272823801" expanded="true" signature="460:506" ph="{...}" />
+                    <marker date="1573272823801" expanded="true" signature="650:734" ph="{...}" />
+                    <marker date="1573272823801" expanded="true" signature="761:1263" ph="{...}" />
+                    <marker date="1573272823801" expanded="true" signature="955:1026" ph="{...}" />
+                    <marker date="1573272823801" expanded="true" signature="1039:1257" ph="{...}" />
+                    <marker date="1573272823801" expanded="true" signature="1358:1896" ph="{...}" />
+                    <marker date="1573272823801" expanded="true" signature="1411:1499" ph="{...}" />
+                    <marker date="1573272823801" expanded="true" signature="1512:1597" ph="{...}" />
+                    <marker date="1573272823801" expanded="true" signature="1967:2357" ph="{...}" />
+                    <marker date="1573272823801" expanded="true" signature="2027:2126" ph="{...}" />
+                    <marker date="1573272823801" expanded="true" signature="2186:2287" ph="{...}" />
+                    <marker date="1573272823801" expanded="true" signature="2389:2837" ph="{...}" />
+                    <marker date="1573272823801" expanded="true" signature="2481:2830" ph="{...}" />
+                    <marker date="1573272823801" expanded="true" signature="2763:2819" ph="{...}" />
+                    <marker date="1573272823801" expanded="true" signature="2866:3309" ph="{...}" />
+                    <marker date="1573272823801" expanded="true" signature="2958:3303" ph="{...}" />
+                    <marker date="1573272823801" expanded="true" signature="3239:3292" ph="{...}" />
+                    <marker date="1573272823801" expanded="true" signature="3342:3412" ph="{...}" />
+                    <marker date="1573272823801" expanded="true" signature="3446:3505" ph="{...}" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/Assets/GooglePlayGames/Editor/GPGSUpgrader.cs">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="832">
+                  <caret line="112" column="21" selection-start-line="112" selection-start-column="21" selection-end-line="112" selection-end-column="21" />
+                  <folding>
+                    <marker date="1573270565225" expanded="true" signature="0:674" ph="/* &lt;copyright file=&quot;GPGSUpgrader.cs&quot; company=&quot;Google Inc.&quot;&gt; ... */" />
+                    <marker date="1573270565225" expanded="true" signature="758:18453" ph="{...}" />
+                    <marker date="1573270565225" expanded="false" signature="771:827" ph="..." />
+                    <marker date="1573270565225" expanded="true" signature="833:925" ph="/// GPGS upgrader handles performing and upgrade tasks. ... " />
+                    <marker date="1573270565225" expanded="true" signature="978:18451" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="993:1125" ph="/// Initializes static members of the &lt;see cref=&quot;GooglePlayGames.GPGSUpgrader&quot;/&gt; class. ... " />
+                    <marker date="1573270565225" expanded="true" signature="1155:4026" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="1321:2529" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="1484:1571" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="2049:2252" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="2914:3784" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="2982:3159" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="3204:3280" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="3487:3565" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="3898:3978" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="4036:4267" ph="/// Cleans the duplicate files.  There should not be any since ... " />
+                    <marker date="1573270565225" expanded="true" signature="4324:5008" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="4534:4654" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="4748:4868" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="4934:4998" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="5018:5275" ph="/// Upgrade to 0.9.35 ... " />
+                    <marker date="1573270565225" expanded="true" signature="5332:7807" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="5396:7491" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="7543:7751" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="7596:7737" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="7817:8030" ph="/// Upgrade to 0.9.31 ... " />
+                    <marker date="1573270565225" expanded="true" signature="8087:8642" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="8151:8326" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="8378:8586" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="8431:8572" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="8652:8862" ph="/// Upgrade to 930 from the specified prevVer. ... " />
+                    <marker date="1573270565225" expanded="true" signature="8919:10926" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="9173:10317" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="10542:10861" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="10611:10847" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="10672:10829" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="10984:12146" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="11007:11120" ph="/* remove the jar resolver and if found, then ... */" />
+                    <marker date="1573270565225" expanded="true" signature="11174:11500" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="11610:11818" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="11663:11804" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="11842:11972" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="12156:12421" ph="/// Upgrade to 0.9.27a. ... " />
+                    <marker date="1573270565225" expanded="true" signature="12483:13558" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="12547:13235" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="13287:13495" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="13340:13481" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="13568:13778" ph="/// Upgrade to 915 from the specified prevVer. ... " />
+                    <marker date="1573270565225" expanded="true" signature="13835:16603" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="14098:16284" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="16337:16545" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="16390:16531" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="16613:16823" ph="/// Upgrade to 911 from the specified prevVer. ... " />
+                    <marker date="1573270565225" expanded="true" signature="16880:18445" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="17107:17505" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="17558:17766" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="17611:17752" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="17889:17967" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="18031:18275" ph="{...}" />
+                    <marker date="1573270565225" expanded="true" signature="18094:18261" ph="{...}" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>left</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/Lantern.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/Abilities/FlapComponent.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/GooglePlayGames/Editor/GPGSUpgrader.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Assets/Scripts/Player/Abilities/FlapComponent.cs" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectConfigurationFiles">
+    <option name="files">
+      <list>
+        <option value="$PROJECT_DIR$/.idea/.idea.Clumsy Bat/.idea/indexLayout.xml" />
+        <option value="$PROJECT_DIR$/.idea/.idea.Clumsy Bat/.idea/vcs.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-12" />
+    <option name="y" value="-12" />
+    <option name="width" value="3864" />
+    <option name="height" value="2124" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="UnityExplorer" proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="UnityExplorer">
+        <subPane>
+          <expand>
+            <path>
+              <item name="" type="e068e287:UnityExplorerRootNode" />
+              <item name="Assets" type="8711f2a6:AssetsRoot" />
+            </path>
+            <path>
+              <item name="" type="e068e287:UnityExplorerRootNode" />
+              <item name="Assets" type="8711f2a6:AssetsRoot" />
+              <item name="Scripts" type="1045f7f1:UnityExplorerNode" />
+            </path>
+            <path>
+              <item name="" type="e068e287:UnityExplorerRootNode" />
+              <item name="Assets" type="8711f2a6:AssetsRoot" />
+              <item name="Scripts" type="1045f7f1:UnityExplorerNode" />
+              <item name="Player" type="1045f7f1:UnityExplorerNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+        <option name="show-hidden-items" value="false" />
+        <option name="show-project-names" value="true" />
+      </pane>
+      <pane id="AssemblyExplorer" />
+      <pane id="FileSystemExplorer" />
+      <pane id="SolutionExplorer">
+        <option name="show-all-files" value="false" />
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Discover.Launch.Via.Unity" value="true" />
+    <property name="Rider.DefaultBreakpoints.AreToggled" value="true" />
+    <property name="Rider.ProjectViewActivator.IsNotFirstRun" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
+    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+      <option name="allowRunningInParallel" value="false" />
+      <option name="listenPortForConnections" value="false" />
+      <option name="pid" />
+      <option name="userSelectedPid" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+      <option name="allowRunningInParallel" value="false" />
+      <option name="listenPortForConnections" value="false" />
+      <option name="pid" />
+      <option name="userSelectedPid" value="false" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="38b429a7-de5d-42a1-a3ce-8c6cf72112ce" name="Default Changelist" comment="" />
+      <created>1573271004108</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1573271004108</updated>
+      <workItem from="1573271007685" duration="1872000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="1872000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-7" y="-7" width="2575" height="1415" extended-state="6" />
+    <layout>
+      <window_info id="Favorites" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="NuGet" />
+      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Unity" />
+      <window_info anchor="bottom" id="Database Changes" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Unit Tests" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Errors In Solution" />
+      <window_info anchor="right" id="Database" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" suspend="NONE" type="DotNet Exception Breakpoints">
+          <properties exception="System.Threading.ThreadAbortException" displayValue="System.Threading.ThreadAbortException" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Player/Lantern.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2639">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <folding>
+            <marker date="1573270565703" expanded="false" signature="6:44" ph="..." />
+            <marker date="1573270565703" expanded="true" signature="46:131" ph="/// Handles the physics of the Lantern carried by Clumsy ... " />
+            <marker date="1573270565703" expanded="true" signature="169:7546" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="444:513" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="873:1234" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="1261:1475" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="1319:1373" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="1415:1469" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="1528:2253" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="1558:1818" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="2158:2214" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="2288:3091" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="2448:3085" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="2505:3044" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="2597:2712" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="2742:2872" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="2893:3030" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="3130:3686" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="3186:3680" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="3231:3670" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="3710:4088" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="4127:4325" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="4367:4966" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="4421:4703" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="4716:4902" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="5023:5360" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="5054:5354" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="5413:5564" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="5451:5491" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="5604:6669" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="5846:6036" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="6124:6316" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="6384:6578" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="6699:7544" ph="{...}" />
+            <marker date="1573270565703" expanded="true" signature="6803:7538" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Player/Player.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-666">
+          <caret line="570" column="38" selection-start-line="570" selection-start-column="38" selection-end-line="570" selection-end-column="38" />
+          <folding>
+            <marker date="1573270565707" expanded="false" signature="6:171" ph="..." />
+            <marker date="1573270565707" expanded="true" signature="209:19231" ph="{...}" />
+            <marker date="1573270565707" expanded="false" signature="220:333" ph="Public GameObjects" />
+            <marker date="1573270565707" expanded="false" signature="339:534" ph="Abilities" />
+            <marker date="1573270565707" expanded="false" signature="540:908" ph="Clumsy Components" />
+            <marker date="1573270565707" expanded="false" signature="914:1712" ph="Clumsy Properties" />
+            <marker date="1573270565707" expanded="true" signature="1515:1643" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="1812:1855" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="1882:2002" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="2035:2562" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="2083:2472" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="2214:2462" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="2278:2448" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="2600:2846" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="2878:3051" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="3096:3137" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="3176:3787" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="3814:3900" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="3941:4203" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="4248:4957" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="4533:4769" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="5005:5918" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="5342:5740" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="6464:7372" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="6545:6878" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="6678:6761" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="6778:6868" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="6891:7366" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="6931:7337" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="7475:7645" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="7524:7574" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="7587:7639" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="7672:7710" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="7742:7776" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="7818:7931" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="7977:8035" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="8072:8854" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="8190:8470" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="8351:8460" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="8567:8848" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="8654:8838" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="8877:9364" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="9405:9837" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="9881:9971" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="10027:10558" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="10214:10345" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="10358:10552" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="10411:10499" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="10613:11153" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="10792:11147" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="10859:11137" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="10924:10990" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="11011:11123" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="11198:11496" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="11441:11490" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="11549:11734" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="11594:11647" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="11660:11728" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="11786:12079" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="11976:12030" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="12128:12672" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="12430:12518" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="12701:12983" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="13012:13310" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="13340:13685" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="13406:13564" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="13739:13798" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="13851:14018" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="14049:14285" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="14142:14190" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="14203:14279" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="14320:14766" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="14798:15007" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="15052:15534" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="15212:15528" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="15293:15390" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="15625:15681" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="15734:16389" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="16053:16204" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="16090:16163" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="16420:16464" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="18058:18575" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="18617:19229" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="18666:19223" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="18713:18875" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="18918:19073" ph="{...}" />
+            <marker date="1573270565707" expanded="true" signature="19122:19213" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Player/Abilities/FlapComponent.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="609">
+          <caret line="102" column="60" selection-start-line="102" selection-start-column="60" selection-end-line="102" selection-end-column="60" />
+          <folding>
+            <marker date="1573272823801" expanded="true" signature="63:3507" ph="{...}" />
+            <marker date="1573272823801" expanded="true" signature="265:307" ph="{...}" />
+            <marker date="1573272823801" expanded="true" signature="337:397" ph="{...}" />
+            <marker date="1573272823801" expanded="true" signature="460:506" ph="{...}" />
+            <marker date="1573272823801" expanded="true" signature="650:734" ph="{...}" />
+            <marker date="1573272823801" expanded="true" signature="761:1263" ph="{...}" />
+            <marker date="1573272823801" expanded="true" signature="955:1026" ph="{...}" />
+            <marker date="1573272823801" expanded="true" signature="1039:1257" ph="{...}" />
+            <marker date="1573272823801" expanded="true" signature="1358:1896" ph="{...}" />
+            <marker date="1573272823801" expanded="true" signature="1411:1499" ph="{...}" />
+            <marker date="1573272823801" expanded="true" signature="1512:1597" ph="{...}" />
+            <marker date="1573272823801" expanded="true" signature="1967:2357" ph="{...}" />
+            <marker date="1573272823801" expanded="true" signature="2027:2126" ph="{...}" />
+            <marker date="1573272823801" expanded="true" signature="2186:2287" ph="{...}" />
+            <marker date="1573272823801" expanded="true" signature="2389:2837" ph="{...}" />
+            <marker date="1573272823801" expanded="true" signature="2481:2830" ph="{...}" />
+            <marker date="1573272823801" expanded="true" signature="2763:2819" ph="{...}" />
+            <marker date="1573272823801" expanded="true" signature="2866:3309" ph="{...}" />
+            <marker date="1573272823801" expanded="true" signature="2958:3303" ph="{...}" />
+            <marker date="1573272823801" expanded="true" signature="3239:3292" ph="{...}" />
+            <marker date="1573272823801" expanded="true" signature="3342:3412" ph="{...}" />
+            <marker date="1573272823801" expanded="true" signature="3446:3505" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/GooglePlayGames/Editor/GPGSUpgrader.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="832">
+          <caret line="112" column="21" selection-start-line="112" selection-start-column="21" selection-end-line="112" selection-end-column="21" />
+          <folding>
+            <marker date="1573270565225" expanded="true" signature="0:674" ph="/* &lt;copyright file=&quot;GPGSUpgrader.cs&quot; company=&quot;Google Inc.&quot;&gt; ... */" />
+            <marker date="1573270565225" expanded="true" signature="758:18453" ph="{...}" />
+            <marker date="1573270565225" expanded="false" signature="771:827" ph="..." />
+            <marker date="1573270565225" expanded="true" signature="833:925" ph="/// GPGS upgrader handles performing and upgrade tasks. ... " />
+            <marker date="1573270565225" expanded="true" signature="978:18451" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="993:1125" ph="/// Initializes static members of the &lt;see cref=&quot;GooglePlayGames.GPGSUpgrader&quot;/&gt; class. ... " />
+            <marker date="1573270565225" expanded="true" signature="1155:4026" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="1321:2529" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="1484:1571" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="2049:2252" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="2914:3784" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="2982:3159" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="3204:3280" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="3487:3565" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="3898:3978" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="4036:4267" ph="/// Cleans the duplicate files.  There should not be any since ... " />
+            <marker date="1573270565225" expanded="true" signature="4324:5008" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="4534:4654" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="4748:4868" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="4934:4998" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="5018:5275" ph="/// Upgrade to 0.9.35 ... " />
+            <marker date="1573270565225" expanded="true" signature="5332:7807" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="5396:7491" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="7543:7751" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="7596:7737" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="7817:8030" ph="/// Upgrade to 0.9.31 ... " />
+            <marker date="1573270565225" expanded="true" signature="8087:8642" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="8151:8326" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="8378:8586" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="8431:8572" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="8652:8862" ph="/// Upgrade to 930 from the specified prevVer. ... " />
+            <marker date="1573270565225" expanded="true" signature="8919:10926" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="9173:10317" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="10542:10861" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="10611:10847" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="10672:10829" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="10984:12146" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="11007:11120" ph="/* remove the jar resolver and if found, then ... */" />
+            <marker date="1573270565225" expanded="true" signature="11174:11500" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="11610:11818" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="11663:11804" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="11842:11972" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="12156:12421" ph="/// Upgrade to 0.9.27a. ... " />
+            <marker date="1573270565225" expanded="true" signature="12483:13558" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="12547:13235" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="13287:13495" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="13340:13481" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="13568:13778" ph="/// Upgrade to 915 from the specified prevVer. ... " />
+            <marker date="1573270565225" expanded="true" signature="13835:16603" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="14098:16284" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="16337:16545" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="16390:16531" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="16613:16823" ph="/// Upgrade to 911 from the specified prevVer. ... " />
+            <marker date="1573270565225" expanded="true" signature="16880:18445" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="17107:17505" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="17558:17766" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="17611:17752" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="17889:17967" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="18031:18275" ph="{...}" />
+            <marker date="1573270565225" expanded="true" signature="18094:18261" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
