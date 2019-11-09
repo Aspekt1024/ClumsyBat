@@ -25,25 +25,28 @@ public class AbilityControl : MonoBehaviour {
         {
             isAccessingData = true;
             var bf = new BinaryFormatter();
+            Debug.Log(persistentDataPath);
             FileStream file = File.Open(persistentDataPath + "/AbilityData.dat", FileMode.Open);
-
-            AbilityContainer abilityData;
             try
             {
-                abilityData = (AbilityContainer)bf.Deserialize(file);
+                var abilityData = (AbilityContainer)bf.Deserialize(file);
+                Data = abilityData.Data;
             }
             catch
             {
-                abilityData = new AbilityContainer();
-                Debug.Log("Unable to load existing ability data set");
+                Debug.LogError("Failed to load existing ability data set");
+                Data = new AbilityContainer().Data;
                 return false;
             }
             file.Close();
-            isAccessingData = false;
-
-            Data = abilityData.Data;
         }
-
+        else
+        {
+            Debug.Log("Ability data does not yet exist. Creating");
+            Data = new AbilityContainer().Data;
+        }
+        isAccessingData = false;
+        
         if (!Data.AbilitiesCreated)
         {
             InitialiseAbilities();

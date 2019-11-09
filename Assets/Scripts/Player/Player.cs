@@ -130,8 +130,8 @@ namespace ClumsyBat.Players
 
             lantern.GetComponent<HingeJoint2D>().limits = new JointAngleLimits2D()
             {
-                min = -260f,
-                max = -220f
+                min = -180f,
+                max = -45f
             };
         }
 
@@ -149,8 +149,8 @@ namespace ClumsyBat.Players
 
                 lantern.GetComponent<HingeJoint2D>().limits = new JointAngleLimits2D()
                 {
-                    min = -20f,
-                    max = 40f
+                    min = 45f,
+                    max = 180f
                 };
             }
         }
