@@ -33,6 +33,7 @@ public class Hypersonic : MonoBehaviour
         _hypersonicCollider = GetComponent<CircleCollider2D>();
         _hypersonicCollider.radius = 0.01f;
         _hypersonicCollider.enabled = false;
+        gameObject.tag = "Hypersonic";
     }
 
     public void Setup(Lantern lanternRef)

@@ -15,7 +15,7 @@ public class CameraShake : MonoBehaviour {
     private float shakeTimer;
     private bool bShakeActive;
 
-    private void Awake()
+    private void Start()
     {
         _camera = GameStatics.Camera.CurrentCamera.transform;
     }

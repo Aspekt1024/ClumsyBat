@@ -24,19 +24,21 @@ namespace ClumsyBat.Players
             public float scale;
             public float rotation;
         }
-        private AnimationData death = new AnimationData() { name = "Die", scale = 1f, rotation = 0f };
-        private AnimationData flap = new AnimationData() { name = "Flap", scale = 1f, rotation = 0f };
-        private AnimationData flapBlink = new AnimationData() { name = "FlapBlink", scale = 1f, rotation = 0f };
-        private AnimationData flapSlower = new AnimationData() { name = "FlapSlower", scale = 1f, rotation = 0f };
-        private AnimationData perch = new AnimationData() { name = "Perch", scale = 1.28f, rotation = 13.7f };
-        private AnimationData unperch = new AnimationData() { name = "Unperch", scale = 1.1f, rotation = 0f };
-        private AnimationData land = new AnimationData() { name = "Land", scale = 1f, rotation = 0f };
-        private AnimationData hover = new AnimationData() { name = "Hover", scale = 1f, rotation = 0f };
-        private AnimationData rush = new AnimationData() { name = "Rush", scale = .25f, rotation = 0f };
-        private AnimationData rushContinuous = new AnimationData() { name = "RushContinuous", scale = .25f, rotation = 0f };
-        private AnimationData wingClose = new AnimationData() { name = "WingClose", scale = 1f, rotation = 0f };
 
-        private Dictionary<ClumsyAnimations, AnimationData> animDict = new Dictionary<ClumsyAnimations, AnimationData>();
+        private readonly Dictionary<ClumsyAnimations, AnimationData> animDict = new Dictionary<ClumsyAnimations, AnimationData>()
+        {
+            {ClumsyAnimations.Die, new AnimationData() {name = "Die", scale = 1f, rotation = 0f}},
+            {ClumsyAnimations.Flap, new AnimationData() {name = "Flap", scale = 1f, rotation = 0f}},
+            {ClumsyAnimations.FlapBlink, new AnimationData() {name = "FlapBlink", scale = 1f, rotation = 0f}},
+            {ClumsyAnimations.FlapSlower, new AnimationData() {name = "FlapSlower", scale = 1f, rotation = 0f}},
+            {ClumsyAnimations.Perch, new AnimationData() {name = "Perch", scale = 1.28f, rotation = 13.7f}},
+            {ClumsyAnimations.Unperch, new AnimationData() {name = "Unperch", scale = 1.1f, rotation = 0f}},
+            {ClumsyAnimations.Land, new AnimationData() {name = "Land", scale = 1f, rotation = 0f}},
+            {ClumsyAnimations.Hover, new AnimationData() {name = "Hover", scale = 1f, rotation = 0f}},
+            {ClumsyAnimations.Rush, new AnimationData() {name = "Rush", scale = .25f, rotation = 0f}},
+            {ClumsyAnimations.RushContinuous, new AnimationData() {name = "RushContinuous", scale = .25f, rotation = 0f}},
+            {ClumsyAnimations.WingClose, new AnimationData() {name = "WingClose", scale = 1f, rotation = 0f}},
+        };
 
         private AnimationData currentAnimation;
         private float animTimer;
@@ -53,8 +55,7 @@ namespace ClumsyBat.Players
             clumsy = anim.transform;
 
             anim.enabled = true;
-            currentAnimation = flap;
-            PopulateAnimDict();
+            currentAnimation = animDict[ClumsyAnimations.Flap];
         }
 
         private void Update()
@@ -67,21 +68,6 @@ namespace ClumsyBat.Players
                     PlayAnimation(ClumsyAnimations.WingClose);
                 }
             }
-        }
-
-        private void PopulateAnimDict()
-        {
-            animDict.Add(ClumsyAnimations.Die, death);
-            animDict.Add(ClumsyAnimations.Flap, flap);
-            animDict.Add(ClumsyAnimations.FlapBlink, flapBlink);
-            animDict.Add(ClumsyAnimations.FlapSlower, flapSlower);
-            animDict.Add(ClumsyAnimations.Perch, perch);
-            animDict.Add(ClumsyAnimations.Unperch, unperch);
-            animDict.Add(ClumsyAnimations.Land, land);
-            animDict.Add(ClumsyAnimations.Hover, hover);
-            animDict.Add(ClumsyAnimations.Rush, rush);
-            animDict.Add(ClumsyAnimations.RushContinuous, rushContinuous);
-            animDict.Add(ClumsyAnimations.WingClose, wingClose);
         }
 
         public void PlayAnimation(ClumsyAnimations animId)

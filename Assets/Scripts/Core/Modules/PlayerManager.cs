@@ -18,6 +18,8 @@ namespace ClumsyBat
         public void InitAwake()
         {
             Clumsy.InitAwake();
+            Controller.InitAwake(Clumsy);
+            AIController.InitAwake(Clumsy);
             Sequencer = new LevelAnimationSequencer(Clumsy);
         }
 

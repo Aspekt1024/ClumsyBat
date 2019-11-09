@@ -10,10 +10,14 @@ namespace ClumsyBat.Controllers
         private PlayerInputHandler input;
         private Player player;
 
+        public void InitAwake(Player player)
+        {
+            this.player = player;
+        }
+        
         private void Start()
         {
             input = new PlayerInputHandler(this);
-            player = FindObjectOfType<Player>();
         }
 
         private void Update()
@@ -21,7 +25,10 @@ namespace ClumsyBat.Controllers
             var action = input.GetPlayerAction();
             if (action == PlayerActions.JumpLeft || action == PlayerActions.JumpRight)
             {
-                Toolbox.Tooltips.InputReceived();
+                if (Toolbox.Tooltips != null)
+                {
+                    Toolbox.Tooltips.InputReceived();
+                }
             }
 
             if (!CanReceiveInput()) return;

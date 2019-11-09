@@ -90,7 +90,7 @@ public class Toolbox : Singleton<Toolbox>
         get
         {
             if (Instance.tooltipHandler == null)
-                Instance.tooltipHandler = GameObject.FindGameObjectWithTag("Tooltips").GetComponent<TooltipHandler>();
+                Instance.tooltipHandler = GameObject.FindObjectOfType<TooltipHandler>();
             return Instance.tooltipHandler;
         }
     }

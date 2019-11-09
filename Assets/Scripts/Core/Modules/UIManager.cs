@@ -17,6 +17,7 @@ namespace ClumsyBat
             LoadingScreen = Object.FindObjectOfType<LoadingScreen>();
             NavButtons = Object.FindObjectOfType<NavButtonHandler>();
             MainMenuTransitions = new MainMenuTransitions();
+            DebugText = Object.FindObjectOfType<DebugUI>();
         }
 
         public GameHud GameHud { get; }
@@ -24,5 +25,6 @@ namespace ClumsyBat
         public LoadingScreen LoadingScreen { get; }
         public NavButtonHandler NavButtons { get; }
         public MainMenuTransitions MainMenuTransitions;
+        public DebugUI DebugText { get; }
     }
 }

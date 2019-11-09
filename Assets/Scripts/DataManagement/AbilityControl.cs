@@ -9,6 +9,7 @@ public class AbilityControl : MonoBehaviour {
     public AbilityContainer.AbilityDataType Data;
     private string persistentDataPath; // Can only be obtained in the main thread. Load/Save is async
 
+    private bool hasStartedUp; // Game would need too much rework too late in the project to fix this
     private bool isAccessingData;
 
     public void Awake()
@@ -47,6 +48,8 @@ public class AbilityControl : MonoBehaviour {
         {
             InitialiseAbilities();
         }
+
+        hasStartedUp = true;
         return true;
     }
 
@@ -137,6 +140,7 @@ public class AbilityControl : MonoBehaviour {
 
     private void RefreshPlayerAbilityData()
     {
+        if (!hasStartedUp) return;
         GameStatics.Player.Clumsy.Abilities.SetData(this);
     }
 }

@@ -12,7 +12,7 @@ namespace ClumsyBat
     {
         public MainAudioControl Main { get; private set; }
 
-        private void Start()
+        private void Awake()
         {
             Main = gameObject.GetComponent<MainAudioControl>();
         }

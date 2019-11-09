@@ -6,11 +6,11 @@ namespace ClumsyBat.Controllers
 {
     public class PlayerAIController : Controller
     {
-        private Player player;
-
         private Action targetReachedCallback;
         private Vector2 targetPosition;
         private Transform target;          // The target to move to
+
+        private Player player;
 
         private Transform positionMarker;  // Used when not following an object, just moving to a position
 
@@ -26,12 +26,11 @@ namespace ClumsyBat.Controllers
         }
         private States state;
 
-        protected override void Awake()
+        public void InitAwake(Player player)
         {
-            base.Awake();
-            player = FindObjectOfType<Player>();
+            this.player = player;
         }
-
+        
         private void Start()
         {
             state = States.Idle;

@@ -28,6 +28,7 @@ public class CrystalBall : MonoBehaviour {
     
     private void Start ()
     {
+        GameStatics.UI.DebugText.SetText("crystal initialised");
         crystalRenderer = GetComponent<SpriteRenderer>();
 
 		foreach(Transform tf in transform)
@@ -78,7 +79,7 @@ public class CrystalBall : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
         {
             if (Parent.EventStarted && (!IsActive || isDeactivating) && !isOrderedMode)
             {
@@ -88,7 +89,7 @@ public class CrystalBall : MonoBehaviour {
             if (!IsActive)
                 Parent.CrystalTriggered(ID);
         }
-        else if (other.tag == "Hypersonic")
+        else if (other.CompareTag("Hypersonic"))
         {
             Shatter();
         }
@@ -400,6 +401,7 @@ public class CrystalBall : MonoBehaviour {
 
     private void Shatter()
     {
+        GameStatics.UI.DebugText.SetText("shattering");
         brokenCrystal.gameObject.SetActive(true);
         brokenCrystal.Shatter();
         crystalRenderer.enabled = false;

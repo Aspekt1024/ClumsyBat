@@ -51,7 +51,7 @@ public class Walk : BossAbility {
             }
             yield return null;
         }
-        ((WalkAction)callerAction).EndWalk();
+        ((WalkAction)callerAction)?.EndWalk();
     }
 
     // TODO remove?

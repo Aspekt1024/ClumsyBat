@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ClumsyBat;
+using UnityEngine;
 
 public class ClumsyButton : MonoBehaviour {
 
@@ -12,7 +13,7 @@ public class ClumsyButton : MonoBehaviour {
 
     private void Start()
     {
-        clumsy = GameObject.FindGameObjectWithTag("Player").transform;
+        clumsy = GameStatics.Player.Clumsy.model;
     }
 
     private void Update()

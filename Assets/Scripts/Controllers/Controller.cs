@@ -8,24 +8,10 @@ namespace ClumsyBat.Controllers
     /// </summary>
     public abstract class Controller : MonoBehaviour
     {
-        public GameObject PossessOnStartup;
-
         public bool IsJumpHeld { get; set; }
 
         protected IControllable controlledObject;
         
-        protected virtual void Awake()
-        {
-            if (PossessOnStartup != null)
-            {
-                var controllable = PossessOnStartup.GetComponent<IControllable>();
-                if (controllable != null)
-                {
-                    Possess(controllable);
-                }
-            }
-        }
-
         public void Possess(IControllable objectToControl)
         {
             if (objectToControl.Controller != null)
