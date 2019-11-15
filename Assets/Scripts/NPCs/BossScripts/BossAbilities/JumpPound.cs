@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using ClumsyBat;
 using UnityEngine;
 
 public class JumpPound : BossAbility
@@ -59,7 +60,7 @@ public class JumpPound : BossAbility
             _state = JumpState.Idle;
             BossEvents.JumpLanded();
             
-            CameraEventListener.CameraShake(0.7f);
+            GameStatics.Camera.Shake(0.7f);
             bossBody.velocity = Vector2.zero;
             bossBody.constraints = RigidbodyConstraints2D.FreezeRotation;
 

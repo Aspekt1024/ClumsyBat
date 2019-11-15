@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using ClumsyBat;
+using UnityEngine.Analytics;
 
 public class SlidingDoors : MonoBehaviour {
 
@@ -40,7 +42,7 @@ public class SlidingDoors : MonoBehaviour {
             yield return null;
         }
 
-        CameraEventListener.CameraShake(0.5f);
+        GameStatics.Camera.Shake(0.5f);
     }
 
     private IEnumerator OpenRoutine()

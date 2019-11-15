@@ -86,12 +86,9 @@ public class LevelCompleteStats : MonoBehaviour {
         if (minutes > 0)
         {
             seconds -= 60 * minutes;
-            return string.Format("{0}:{1}", minutes, seconds.ToString("n2"));
+            return $"{minutes}:{seconds:n2}";
         }
-        else
-        {
-            return seconds.ToString("n2") + "s";
-        }
+        return $"{seconds:n2}s";
     }
 
     private void UpdateBestLevelScore(int score)

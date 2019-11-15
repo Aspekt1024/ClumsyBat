@@ -115,7 +115,7 @@ public class StalDropComponent : MonoBehaviour {
             if (rubbleEffect != null)
             {
                 rubbleEffect.Stop();
-                Destroy(rubbleEffect, 2f);
+                Destroy(rubbleEffect.gameObject, 2f);
             }
         }
         
@@ -160,6 +160,11 @@ public class StalDropComponent : MonoBehaviour {
 
     private void CreateRubbleEffect()
     {
+        if (rubbleEffect != null)
+        {
+            rubbleEffect.Play();
+            return;
+        }
         rubbleEffect = Instantiate(rubblePrefab).GetComponent<ParticleSystem>();
         rubbleEffect.transform.position = new Vector3(transform.position.x, 5f, transform.position.z - 0.1f);
     }

@@ -6,20 +6,22 @@ namespace ClumsyBat
 {
     public class CameraManager
     {
-        private Camera _currentCamera;
+        private Camera currentCamera;
+        private readonly CameraShake shakeComponent = new CameraShake();
+        private readonly CameraSqueeze squeezeComponent = new CameraSqueeze();
 
         public Camera CurrentCamera
         {
-            get { return _currentCamera; }
+            get => currentCamera;
             private set
             {
-                _currentCamera = value;
-                OnCameraChanged.Invoke(_currentCamera);
+                currentCamera = value;
+                OnCameraChanged.Invoke(currentCamera);
             }
         }
 
-        public Camera MenuCamera { get; private set; }
-        public Camera LevelCamera { get; private set; }
+        public Camera MenuCamera { get; }
+        public Camera LevelCamera { get; }
 
         public event Action<Camera> OnCameraChanged = delegate { };
 
@@ -70,42 +72,11 @@ namespace ClumsyBat
             CurrentCamera.GetComponent<CameraFollowObject>()?.StopFollowing();
         }
 
+        public void Shake(float duration) => shakeComponent.Shake(CurrentCamera.transform, duration);
+
         public void Squeeze()
         {
-            GameStatics.GameManager.StartCoroutine(SqueezeRoutine());
-        }
-
-        private IEnumerator SqueezeRoutine()
-        {
-            if (GameStatics.GameManager.IsInMenu) yield break;
-
-            var originalSize = CurrentCamera.orthographicSize;
-
-            float timer = 0f;
-            const float duration = 0.07f;
-            while (timer < duration)
-            {
-                timer += Time.deltaTime;
-
-                float ratio = timer / duration;
-                CurrentCamera.orthographicSize = originalSize * (1 - 0.006f * ratio);
-
-                yield return null;
-            }
-
-            timer = 0f;
-
-            while (timer < duration)
-            {
-                timer += Time.deltaTime;
-
-                float ratio = 1f - timer / duration;
-                CurrentCamera.orthographicSize = originalSize * (1 - 0.006f * ratio);
-
-                yield return null;
-            }
-
-            CurrentCamera.orthographicSize = originalSize;
+            squeezeComponent.Squeeze(currentCamera);
         }
     }
 }

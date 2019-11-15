@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using ClumsyBat;
 using UnityEngine;
 
 public class ChargeAbility : BossAbility {
@@ -55,7 +56,9 @@ public class ChargeAbility : BossAbility {
             caller.HitWall();
 
             if (Mathf.Abs(chargeSpeed) > 10f)
-                CameraEventListener.CameraShake(0.4f);  // TODO shake time relative to speed
+            {
+                GameStatics.Camera.Shake(0.4f);
+            }
         }
     }
 

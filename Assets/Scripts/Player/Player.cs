@@ -1,4 +1,5 @@
-﻿using ClumsyBat.Controllers;
+﻿using System;
+using ClumsyBat.Controllers;
 using System.Collections;
 using ClumsyBat.LevelManagement;
 using UnityEngine;
@@ -168,13 +169,15 @@ namespace ClumsyBat.Players
             State.SetState(PlayerState.States.Knockback, false);
         }
 
-        public void SetColor(Color color)
-        {
-            // TODO this
-        }
-
         public bool IsFacingRight => model.transform.localScale.x > 0;
+        
 
+        public void ResetState()
+        {
+            State.Reset();
+            lantern.Reattach();
+            Abilities.Shield.SetCharges(1);
+        }
         
         private void Die(Transform otherTf)
         {
@@ -262,13 +265,13 @@ namespace ClumsyBat.Players
 
         private void HandleFallenOffLevel()
         {
-            if (State.IsInSecretPath)
-            {
-                GameStatics.LevelManager.GameHandler.LevelComplete(true);
-            }
-            else if (!State.IsAlive)
+            if (!State.IsAlive)
             {
                 GameStatics.LevelManager.GameHandler.GameOver();
+            }
+            else if (State.IsInSecretPath)
+            {
+                GameStatics.LevelManager.GameHandler.LevelComplete(true);
             }
             else
             {

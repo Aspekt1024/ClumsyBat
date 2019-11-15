@@ -97,7 +97,7 @@ public class Hypersonic : MonoBehaviour
 
     private IEnumerator HypersonicAbilityGo()
     {
-        CameraEventListener.CameraShake(1f);
+        GameStatics.Camera.Shake(1f);
         // TODO play sound
 
         _hypersonicCollider.enabled = true;

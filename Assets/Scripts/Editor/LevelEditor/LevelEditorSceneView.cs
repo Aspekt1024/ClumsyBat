@@ -7,7 +7,7 @@ public class LevelEditorSceneView
 {
     static LevelEditorSceneView()
     {
-        SceneView.onSceneGUIDelegate += OnSceneGUI;
+        SceneView.duringSceneGui += OnSceneGUI;
     }
 
     private static void OnSceneGUI(SceneView sceneView)

@@ -130,7 +130,7 @@ namespace ClumsyBat.UI.DropdownMenuComponents
             _subText.Text.text = "Clumsy will wait for you...";
         }
 
-        public void GameOverMenu()
+        public void SetupGameoverMenu()
         {
             NextBtn.SetActive(false);
             ShareBtn.SetActive(false);

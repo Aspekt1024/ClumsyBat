@@ -10,7 +10,7 @@ public class BossData : MonoBehaviour {
 
     private GameObject bossObject;
     private Boss bossScripts;
-    private readonly List<BossAbility> _abilities = new List<BossAbility>();
+    private List<BossAbility> _abilities = new List<BossAbility>();
 
     private Player player;
     
@@ -50,11 +50,21 @@ public class BossData : MonoBehaviour {
 
     public void ClearBoss()
     {
+        BossStateMachine.Stop();
+        BossStateMachine = null;
+        
+        foreach (var ability in _abilities)
+        {
+            ability.Clear();
+        }
+        
+        _abilities = new List<BossAbility>();
+        
         if (bossObject != null)
         {
             Destroy(bossObject);
         }
-        BossStateMachine = null;
+
     }
 	
 	private void Update () {

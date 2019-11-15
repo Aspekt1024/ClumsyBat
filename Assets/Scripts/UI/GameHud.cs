@@ -16,6 +16,7 @@ namespace ClumsyBat.UI
         private DashIndicator dashIndicator;
         private CanvasGroup gameUICanvas;
         private Image mothImage;
+        private GameObject pauseButton;
 
         private Vector3 currencyScale;
         private Vector3 collectedCurrencyScale;
@@ -77,7 +78,7 @@ namespace ClumsyBat.UI
             if (minutes > 0)
             {
                 seconds -= 60 * minutes;
-                timeText.text = string.Format("{0}:{1}", minutes, seconds.ToString("n2"));
+                timeText.text = $"{minutes}:{seconds:n2}";
             }
             else
             {
@@ -130,6 +131,9 @@ namespace ClumsyBat.UI
                             case "DashIndicator1":
                                 dashIndicator = r.GetComponent<DashIndicator>();
                                 break;
+                            case "PauseButton":
+                                pauseButton = r.gameObject;
+                                break;
                         }
                     }
                 }
@@ -167,6 +171,9 @@ namespace ClumsyBat.UI
             resumeTimerText.enabled = false;
         }
 
+        public void HidePauseButton() => pauseButton.SetActive(false);
+        public void ShowPauseButton() => pauseButton.SetActive(true);
+        
         public void SetStartText(string startText)
         {
             UIObjectAnimator.Instance.PopObject(_resumeTimerRt);

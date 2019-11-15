@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using ClumsyBat;
 using UnityEngine;
 
 public class CrystalBoss : Boss {
@@ -149,7 +150,7 @@ public class CrystalBoss : Boss {
         const float animDuration = 2f;
         float animTimer = 0f;
 
-        CameraEventListener.CameraShake(animDuration);
+        GameStatics.Camera.Shake(animDuration);
         while (animTimer < animDuration)
         {
             if (!Toolbox.Instance.GamePaused)

@@ -141,6 +141,20 @@ public class Lantern : MonoBehaviour {
         _lanternBody.AddTorque(Random.Range(100f, 600f));
     }
 
+    public void Reattach()
+    {
+        var prevTf = transform.parent;
+        transform.parent = GameStatics.Player.transform;
+        if (prevTf.name == "FreeLantern")
+        {
+            Destroy(prevTf.gameObject);
+        }
+        
+        _bDropped = false;
+        gameObject.GetComponent<PolygonCollider2D>().enabled = false;
+        _lanternHinge.enabled = true;
+    }
+
     private IEnumerator EngageMotor()
     {
         _lanternHinge.useMotor = true;

@@ -1,67 +1,56 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections;
+using UnityEngine;
 using ClumsyBat;
 
-public class CameraShake : MonoBehaviour {
+public class CameraShake {
 
     private Transform _camera;
     private Vector3 _startPos;
 
-    private float _xDeviation;
+    private float xDeviation;
 
-    private const float ShakeRate = 0.05f;
     private const float Radius = 0.1f;
 
     private float shakeTimer;
-    private bool bShakeActive;
 
-    private void Start()
+    private Coroutine shakeRoutine;
+    
+    public void Shake(Transform cameraTransform, float timeSeconds)
     {
-        _camera = GameStatics.Camera.CurrentCamera.transform;
-    }
-
-    private void OnEnable()
-    {
-        CameraEventListener.OnCameraShake += Shake;
-    }
-    private void OnDisable()
-    {
-        CameraEventListener.OnCameraShake -= Shake;
-    }
-
-    private void Update()
-    {
-        if (!bShakeActive) return;
-
-        shakeTimer -= Time.deltaTime;
-        if (shakeTimer < 0)
-        {
-            bShakeActive = false;
-            StopShake();
-        }
-    }
-
-    public void Shake(float timeSeconds)
-    {
-        bShakeActive = true;
+        _camera = cameraTransform;
         shakeTimer = timeSeconds;
-        _startPos = new Vector3(_camera.position.x - _xDeviation, _camera.position.y, _camera.position.z);
-        _xDeviation = 0f;
-        CancelInvoke();
-        InvokeRepeating("ShakeCam", 0f, ShakeRate);
+        _startPos = new Vector3(_camera.position.x - xDeviation, _camera.position.y, _camera.position.z);
+        xDeviation = 0f;
+
+        if (shakeRoutine != null)
+        {
+            GameStatics.GameManager.StopCoroutine(shakeRoutine);
+        }
+        shakeRoutine = GameStatics.GameManager.StartCoroutine(ShakeRoutine());
+    }
+
+    private IEnumerator ShakeRoutine()
+    {
+        var timer = 0f;
+        while (timer < shakeTimer)
+        {
+            timer += Time.deltaTime;
+            ShakeCam();
+            yield return null;
+        }
+        StopShake();
     }
 
     private void ShakeCam()
     {
         Vector2 rPos = Random.insideUnitCircle * Radius;
-        _camera.position = new Vector3(_camera.position.x - _xDeviation + rPos.x, rPos.y, _startPos.z);
-        _xDeviation = rPos.x;
+        _camera.position = new Vector3(_camera.position.x - xDeviation + rPos.x, rPos.y, _startPos.z);
+        xDeviation = rPos.x;
     }
 
     private void StopShake()
     {
-        _camera.position = new Vector3(_camera.position.x - _xDeviation, 0f, _startPos.z);
-        CancelInvoke();
-        _xDeviation = 0f;
+        _camera.position = new Vector3(_camera.position.x - xDeviation, 0f, _startPos.z);
+        xDeviation = 0f;
     }
 }

@@ -91,12 +91,14 @@ namespace ClumsyBat.UI
         public void ShowGameOverMenu()
         {
             HideAll();
+            MainMenu.SetupGameoverMenu();
             MainMenu.ShowScreen();
             ShowDropdownMenu();
         }
         
         public void HideImmediate()
         {
+            GameStatics.UI.GameHud.ShowPauseButton();
             state = States.Hidden;
             CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
             canvasGroup.alpha = 0;
@@ -112,6 +114,7 @@ namespace ClumsyBat.UI
         public IEnumerator RaiseMenuRoutine()
         {
             yield return StartCoroutine(PanelDropAnim(false));
+            GameStatics.UI.GameHud.ShowPauseButton();
         }
 
         private void ShowDropdownMenu()
@@ -124,6 +127,7 @@ namespace ClumsyBat.UI
                 canvasGroup.alpha = 1;
                 canvasGroup.blocksRaycasts = true;
                 canvasGroup.interactable = true;
+                GameStatics.UI.GameHud.HidePauseButton();
             }
         }
 

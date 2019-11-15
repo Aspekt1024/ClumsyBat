@@ -94,6 +94,7 @@ namespace ClumsyBat
         {
             Vector2 startPos = new Vector2(-Toolbox.TileSizeX / 2, -0.7f);
             GameStatics.Player.SetPlayerPosition(startPos);
+            GameStatics.Player.Clumsy.ResetState();
             GameStatics.Objects.ObjectHandler.DisableAllObjects();
 
             var pos = GameStatics.Camera.LevelCamera.transform.position;

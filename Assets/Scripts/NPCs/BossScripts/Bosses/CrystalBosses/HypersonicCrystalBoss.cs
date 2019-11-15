@@ -34,7 +34,7 @@ public class HypersonicCrystalBoss : CrystalBoss {
             clumsy.FaceRight();
         }
 
-        CameraEventListener.CameraShake(duration - 1f);
+        GameStatics.Camera.Shake(duration - 1f);
         while (timer < duration)
         {
             timer += Time.deltaTime;

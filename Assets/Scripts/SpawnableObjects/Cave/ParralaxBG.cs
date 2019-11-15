@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class ParralaxBG : MonoBehaviour {
     
-    public BackgroundColour DefaultColour;
-
     private float prevXPosition;
     private Transform cameraToTrack;
 
@@ -35,16 +33,18 @@ public class ParralaxBG : MonoBehaviour {
     private const int NumMidTextures = 1;
     private const int NumRearTextures = 1;
 
+    private const int NumTiles = 3;
+
     private const float backgroundTileSize = 19.185f;
 
-    private readonly BgImgType[] _bgImage = new BgImgType[6];
+    private readonly BgImgType[] _bgImage = new BgImgType[9];
     private readonly Sprite[] _frontSprites = new Sprite[NumFrontTextures];
     private readonly Sprite[] _midSprites = new Sprite[NumMidTextures];
     private readonly Sprite[] _rearSprites = new Sprite[NumRearTextures];
 
-    private readonly Rigidbody2D[] _frontBgPieces = new Rigidbody2D[2];
-    private readonly Rigidbody2D[] _midBgPieces = new Rigidbody2D[2];
-    private readonly Rigidbody2D[] _rearBgPieces = new Rigidbody2D[2];
+    private readonly Rigidbody2D[] _frontBgPieces = new Rigidbody2D[NumTiles];
+    private readonly Rigidbody2D[] _midBgPieces = new Rigidbody2D[NumTiles];
+    private readonly Rigidbody2D[] _rearBgPieces = new Rigidbody2D[NumTiles];
     
     private void OnDestroy()
     {
@@ -67,7 +67,7 @@ public class ParralaxBG : MonoBehaviour {
         prevXPosition = cameraToTrack.position.x;
     }
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         float dist = cameraToTrack.position.x - prevXPosition;
         prevXPosition = cameraToTrack.position.x;
@@ -86,14 +86,14 @@ public class ParralaxBG : MonoBehaviour {
             bg.transform.position = pos;
 
             bg.transform.position += Vector3.right * bgShift;
-            if (bg.transform.position.x <= cameraToTrack.position.x - backgroundTileSize * 1.01f)
+            if (bg.transform.position.x <= cameraToTrack.position.x - backgroundTileSize * 1.51f)
             {
-                bg.transform.position += Vector3.right * 2 * backgroundTileSize;
+                bg.transform.position += NumTiles * backgroundTileSize * Vector3.right;
                 SelectNewTexture(bg);
             }
-            else if (bg.transform.position.x >= cameraToTrack.position.x + backgroundTileSize * 1.01f)
+            else if (bg.transform.position.x >= cameraToTrack.position.x + backgroundTileSize * 1.51f)
             {
-                bg.transform.position += Vector3.left * 2 * backgroundTileSize;
+                bg.transform.position += NumTiles * backgroundTileSize * Vector3.left;
             }
         }
     }
@@ -126,10 +126,13 @@ public class ParralaxBG : MonoBehaviour {
     {
         _bgImage[0].Rendr.sprite = _frontSprites[Random.Range(0, NumFrontTextures)];
         _bgImage[1].Rendr.sprite = _frontSprites[Random.Range(0, NumFrontTextures)];
-        _bgImage[2].Rendr.sprite = _midSprites[Random.Range(0, NumMidTextures)];
+        _bgImage[2].Rendr.sprite = _frontSprites[Random.Range(0, NumFrontTextures)];
         _bgImage[3].Rendr.sprite = _midSprites[Random.Range(0, NumMidTextures)];
-        _bgImage[4].Rendr.sprite = _rearSprites[Random.Range(0, NumRearTextures)];
-        _bgImage[5].Rendr.sprite = _rearSprites[Random.Range(0, NumRearTextures)];
+        _bgImage[4].Rendr.sprite = _midSprites[Random.Range(0, NumMidTextures)];
+        _bgImage[5].Rendr.sprite = _midSprites[Random.Range(0, NumMidTextures)];
+        _bgImage[6].Rendr.sprite = _rearSprites[Random.Range(0, NumRearTextures)];
+        _bgImage[7].Rendr.sprite = _rearSprites[Random.Range(0, NumRearTextures)];
+        _bgImage[8].Rendr.sprite = _rearSprites[Random.Range(0, NumRearTextures)];
     }
 
     private void GetBgSprites()
@@ -175,13 +178,13 @@ public class ParralaxBG : MonoBehaviour {
                     frontIndex++;
                     break;
                 case "M":
-                    _bgImage[midIndex + 2] = SetBGImg(bgPiece.GetComponent<SpriteRenderer>(), DepthIndex.Mid);
+                    _bgImage[midIndex + 3] = SetBGImg(bgPiece.GetComponent<SpriteRenderer>(), DepthIndex.Mid);
                     _midBgPieces[midIndex] = bgPiece.GetComponent<Rigidbody2D>();
                     _midBgPieces[midIndex].transform.position = new Vector3(backgroundTileSize * midIndex, yPos, transform.position.z + 1);
                     midIndex++;
                     break;
                 case "R":
-                    _bgImage[rearIndex + 4] = SetBGImg(bgPiece.GetComponent<SpriteRenderer>(), DepthIndex.Rear);
+                    _bgImage[rearIndex + 6] = SetBGImg(bgPiece.GetComponent<SpriteRenderer>(), DepthIndex.Rear);
                     _rearBgPieces[rearIndex] = bgPiece.GetComponent<Rigidbody2D>();
                     _rearBgPieces[rearIndex].transform.position = new Vector3(backgroundTileSize * rearIndex, yPos, transform.position.z + 2);
                     rearIndex++;

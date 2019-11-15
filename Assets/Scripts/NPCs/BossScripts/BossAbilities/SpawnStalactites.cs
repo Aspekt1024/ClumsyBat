@@ -25,6 +25,14 @@ public class SpawnStalactites : BossAbility {
         return index;
     }
 
+    public override void Clear()
+    {
+        foreach (var stalactite in _stals)
+        {
+            Destroy(stalactite.gameObject);
+        }
+    }
+
     public void DropAllStalactites()
     {
         StartCoroutine(DropStalactites());

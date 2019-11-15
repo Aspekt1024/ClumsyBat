@@ -17,20 +17,12 @@ namespace ClumsyBat.Players
         private readonly Player player;
 
         // Defines default states
-        private readonly Dictionary<States, bool> statesDict = new Dictionary<States, bool>()
-        {
-            { States.Alive, true },
-            { States.Shielded, false },
-            { States.Grounded, false },
-            { States.Perched, false },
-            { States.Knockback, false },
-            { States.IsRushing, false },
-            { States.InSecretPath, false },
-        };
+        private readonly Dictionary<States, bool> statesDict = new Dictionary<States, bool>();
 
         public PlayerState(Player player)
         {
             this.player = player;
+            Reset();
         }
         
         public bool HasState(States state)
@@ -40,7 +32,26 @@ namespace ClumsyBat.Players
 
         public void SetState(States state, bool value)
         {
-            statesDict[state] = value;
+            if (statesDict.ContainsKey(state))
+            {
+                statesDict[state] = value;
+            }
+            else
+            {
+                statesDict.Add(state, value);
+            }
+        }
+
+        public void Reset()
+        {
+            statesDict.Clear();
+            statesDict.Add(States.Alive, true);
+            statesDict.Add(States.Shielded, false);
+            statesDict.Add(States.Grounded, false);
+            statesDict.Add(States.Perched, false);
+            statesDict.Add(States.Knockback, false);
+            statesDict.Add(States.IsRushing, false);
+            statesDict.Add(States.InSecretPath, false);
         }
 
         public bool IsAlive => statesDict[States.Alive];

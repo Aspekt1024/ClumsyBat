@@ -25,7 +25,7 @@ public abstract class BehaviourSet : ScriptableObject {
             action.Stop();
         }
     }
-
+    
     public void Restart()
     {
         foreach (var action in Actions)

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ClumsyBat;
+using UnityEngine;
 
 [System.Serializable]
 public class JumpAction : BaseAction {
@@ -33,7 +34,7 @@ public class JumpAction : BaseAction {
         IsActive = false;
         if (bossData.BossStateMachine.ShakeScreenOnLanding) // TODO this is a property of jump, not the boss
         {
-            CameraEventListener.CameraShake(0.4f);
+            GameStatics.Camera.Shake(0.4f);
         }
         boss.GetComponent<Boss>().EndJump();
         CallNext((int)Ifaces.Landed);

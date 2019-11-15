@@ -305,11 +305,10 @@
             <e p="MainAudioControl.cs" t="Include" />
           </e>
           <e p="Camera" t="Include">
-            <e p="CameraEffectsHandler.cs" t="Include" />
-            <e p="CameraEventListener.cs" t="Include" />
             <e p="CameraFollowObject.cs" t="Include" />
             <e p="Effects" t="Include">
               <e p="CameraShake.cs" t="Include" />
+              <e p="CameraSqueeze.cs" t="Include" />
             </e>
           </e>
           <e p="Controllers" t="Include">

@@ -76,6 +76,7 @@ namespace ClumsyBat
 
         public void GotoMenuScene()
         {
+            GameStatics.Player.Clumsy.ResetState();
             if (state == GameStates.MainMenu)
             {
                 mainMenuTransitions.AnimateToMainMenu();
