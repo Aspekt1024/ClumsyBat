@@ -21,8 +21,6 @@ public class Hypersonic : MonoBehaviour
     private bool _bPaused;
     
     private Lantern _lantern;
-
-    private AbilityContainer.AbilityType _hyperStats;
     
     private void Start ()
     {
@@ -43,20 +41,18 @@ public class Hypersonic : MonoBehaviour
 
     public void SetData(AbilityContainer.AbilityType stats)
     {
-        _hyperStats = stats;
-
         _numPulses = 1;
         _bCanDestroyStals = true;
-        if (_hyperStats.AbilityLevel >= 2) { _numPulses = 2; }
-        if (_hyperStats.AbilityLevel >= 4) { _numPulses = 3; }
-        _bCanDestroyShrooms = _hyperStats.AbilityLevel >= 3;
-        _bCanDestroySpiders = _hyperStats.AbilityLevel >= 5;
+        if (stats.AbilityLevel >= 2) { _numPulses = 2; }
+        if (stats.AbilityLevel >= 4) { _numPulses = 3; }
+        _bCanDestroyShrooms = stats.AbilityLevel >= 3;
+        _bCanDestroySpiders = stats.AbilityLevel >= 5;
     }
 
     public bool ActivateHypersonic()
     {
         var hyperStats = GameStatics.Data.Abilities.GetHypersonicStats();
-        if (_hyperStats.AbilityAvailable)
+        if (hyperStats.AbilityAvailable)
         {
             StartCoroutine(HypersonicAbilityGo());
             return true;
@@ -103,10 +99,10 @@ public class Hypersonic : MonoBehaviour
         _hypersonicCollider.enabled = true;
         _hypersonicSprite.enabled = true;
 
-        float hypersonicIntervalTime = 0.7f;
         for (int i = 0; i < _numPulses; i++)
         {
-            yield return StartCoroutine("HypersonicAnimation");
+            StartCoroutine(HypersonicAnimation());
+            const float hypersonicIntervalTime = 0.7f;
             yield return new WaitForSeconds(hypersonicIntervalTime);
         }
 
@@ -123,7 +119,7 @@ public class Hypersonic : MonoBehaviour
 
         const float animationDuration = 0.5f;
         float animTimer = 0f;
-
+        
         while (animTimer < animationDuration)
         {
             if (!_bPaused)

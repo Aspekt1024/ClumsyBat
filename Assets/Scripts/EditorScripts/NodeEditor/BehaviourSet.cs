@@ -14,7 +14,7 @@ public abstract class BehaviourSet : ScriptableObject {
 
     public bool IsType<T>() where T : BehaviourSet
     {
-        return GetType().Equals(typeof(T));
+        return GetType() == typeof(T);
     }
 
     public void Stop()

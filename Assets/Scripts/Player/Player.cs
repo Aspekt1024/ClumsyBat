@@ -18,7 +18,6 @@ namespace ClumsyBat.Players
         public float moveSpeed = 5.5f;
 
         public Transform model;
-        public Hypersonic hypersonic;
         public Lantern lantern;
         public FogEffect fog;
         public DeathOverlay deathOverlay;

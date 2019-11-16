@@ -36,6 +36,7 @@ public class AbilityControl : MonoBehaviour {
             {
                 Debug.LogError("Failed to load existing ability data set");
                 Data = new AbilityContainer().Data;
+                hasStartedUp = true;
                 return false;
             }
             file.Close();
@@ -51,7 +52,7 @@ public class AbilityControl : MonoBehaviour {
         {
             InitialiseAbilities();
         }
-
+        
         hasStartedUp = true;
         return true;
     }
@@ -132,7 +133,10 @@ public class AbilityControl : MonoBehaviour {
     public AbilityContainer.AbilityType GetDashStats() { return Data.Rush; }
     public void SaveDashStats(AbilityContainer.AbilityType rush) { Data.Rush = rush; RefreshPlayerAbilityData(); }
 
-    public AbilityContainer.AbilityType GetHypersonicStats() { return Data.Hypersonic; }
+    public AbilityContainer.AbilityType GetHypersonicStats()
+    {
+        return Data.Hypersonic;
+    }
     public void SaveHypersonicStats(AbilityContainer.AbilityType hyperSonic) { Data.Hypersonic = hyperSonic; RefreshPlayerAbilityData(); }
 
     public AbilityContainer.AbilityType GetLanternDurationStats() { return Data.LanternDurationLevel; }

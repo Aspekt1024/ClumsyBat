@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using ClumsyBat;
+using ClumsyBat.Players;
 
 /// <summary>
 /// Handles the physics of the Lantern carried by Clumsy
@@ -65,7 +66,7 @@ public class Lantern : MonoBehaviour {
             case Moth.MothColour.Green:
                 break;
             case Moth.MothColour.Gold:
-                PlayerManager.Instance.Clumsy.hypersonic.ActivateHypersonic();
+                PlayerManager.Instance.Clumsy.Abilities.DoAction(ClumsyAbilityHandler.StaticActions.Hypersonic);
                 break;
             case Moth.MothColour.Blue:
                 break;
