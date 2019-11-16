@@ -28,7 +28,6 @@ public class CrystalBall : MonoBehaviour {
     
     private void Start ()
     {
-        GameStatics.UI.DebugText.SetText("crystal initialised");
         crystalRenderer = GetComponent<SpriteRenderer>();
 
 		foreach(Transform tf in transform)
@@ -257,7 +256,7 @@ public class CrystalBall : MonoBehaviour {
         moths = new Animator[numMoths];
         for (int i = 0; i < numMoths; i++)
         {
-            moths[i] = Instantiate(Resources.Load<GameObject>("Collectibles/MothEssence")).GetComponent<Animator>();
+            moths[i] = Instantiate(Resources.Load<GameObject>("Collectibles/MothEssence"), transform).GetComponent<Animator>();
             moths[i].transform.position = Toolbox.Instance.HoldingArea;
         }
     }
@@ -401,7 +400,6 @@ public class CrystalBall : MonoBehaviour {
 
     private void Shatter()
     {
-        GameStatics.UI.DebugText.SetText("shattering");
         brokenCrystal.gameObject.SetActive(true);
         brokenCrystal.Shatter();
         crystalRenderer.enabled = false;

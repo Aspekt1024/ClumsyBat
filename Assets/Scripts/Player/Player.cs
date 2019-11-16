@@ -1,7 +1,5 @@
-﻿using System;
-using ClumsyBat.Controllers;
+﻿using ClumsyBat.Controllers;
 using System.Collections;
-using ClumsyBat.LevelManagement;
 using UnityEngine;
 
 using PlayerSounds = ClumsyAudioControl.PlayerSounds;

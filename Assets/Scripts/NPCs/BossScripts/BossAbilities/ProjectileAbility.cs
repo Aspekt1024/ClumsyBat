@@ -115,4 +115,13 @@ public class ProjectileAbility : BossAbility {
     {
         _projectiles.Remove(projectile);
     }
+
+    public override void Clear()
+    {
+        foreach (var projectile in _projectiles)
+        {
+            Destroy(projectile.gameObject);
+        }
+        _projectiles.Clear();
+    }
 }

@@ -8,13 +8,11 @@ namespace ClumsyBat.UI
         public bool LoadOnStartup;
         public float BaseHideDelay = 0f;
 
-        public Animator MothAnimator;
         public CanvasGroup LoadingCanvas;
         public RectTransform LoadTextRt;
 
         private void Awake()
         {
-            MothAnimator.Play("MothFlapAnim", 0, 0f);
             LoadingCanvas = GetComponent<CanvasGroup>();
 
             if (LoadOnStartup)
@@ -34,7 +32,6 @@ namespace ClumsyBat.UI
         {
             LoadingCanvas.blocksRaycasts = true;
             LoadingCanvas.interactable = true;
-            MothAnimator.gameObject.SetActive(false);
 
             const float duration = 0.2f;
             float timer = 0f;
@@ -45,8 +42,6 @@ namespace ClumsyBat.UI
                 yield return null;
             }
 
-            UIObjectAnimator.Instance.PopInObject(MothAnimator.GetComponent<RectTransform>());
-            MothAnimator.Play("MothOpenWings", 0, 0f);
             yield return StartCoroutine(UIObjectAnimator.Instance.PopInObjectRoutine(LoadTextRt));
         }
 
@@ -55,7 +50,6 @@ namespace ClumsyBat.UI
             yield return new WaitForSecondsRealtime(delay + BaseHideDelay);
 
             UIObjectAnimator.Instance.PopOutObject(LoadTextRt);
-            yield return StartCoroutine(UIObjectAnimator.Instance.PopOutObjectRoutine(MothAnimator.GetComponent<RectTransform>()));
 
             const float duration = 0.2f;
             float timer = 0f;
