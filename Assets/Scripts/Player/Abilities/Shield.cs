@@ -101,6 +101,6 @@ public class Shield : MonoBehaviour {
 
     public void SetStats(ClumsyBat.DataContainers.AbilityContainer.AbilityType shieldStats)
     {
-        Debug.Log("stats for shield not implemented");
+        // TODO implement shield stats
     }
 }

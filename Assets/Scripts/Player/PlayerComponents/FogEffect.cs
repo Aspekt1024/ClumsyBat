@@ -36,6 +36,9 @@ public class FogEffect : MonoBehaviour {
     private float _pulseTimer;
     private bool _bPulseIncreasing = true;
     
+    private Coroutine levelStartRoutine;
+    private Coroutine changeScaleRoutine;
+    private Coroutine expandRoutine;
 
     private enum FogStates
     {
@@ -70,7 +73,8 @@ public class FogEffect : MonoBehaviour {
     {
         if (!_bIsMinimised)
         {
-            StartCoroutine(ChangeScale(0.2f));
+            if (changeScaleRoutine != null) StopCoroutine(changeScaleRoutine);
+            changeScaleRoutine = StartCoroutine(ChangeScale(0.2f));
         }
         _minimiseStartTime = Time.time;
         _bIsMinimised = true;
@@ -78,14 +82,15 @@ public class FogEffect : MonoBehaviour {
     
     public void StartOfLevel()
     {
-        _echoScale = -3f;
-        StartCoroutine(LevelStartAnim());
+        SetInitialState();
+        levelStartRoutine = StartCoroutine(LevelStartAnim());
     }
 
     public void ExpandToRemove()
     {
         _state = FogStates.ExpandingToRemove;
-        StartCoroutine(ExpandFogCompletely());
+        if (expandRoutine != null) StopCoroutine(expandRoutine);
+        expandRoutine = StartCoroutine(ExpandFogCompletely());
     }
 
     public void Disable()
@@ -196,7 +201,8 @@ public class FogEffect : MonoBehaviour {
             
         if (_bIsMinimised && Time.time > _minimiseStartTime + MinimisedDuration)
         {
-            StartCoroutine("ChangeScale", 1f);
+            if (changeScaleRoutine != null) StopCoroutine(changeScaleRoutine);
+            StartCoroutine(ChangeScale(1f));
             _bIsMinimised = false;
         }
 
@@ -205,6 +211,8 @@ public class FogEffect : MonoBehaviour {
 
     private IEnumerator LevelStartAnim()
     {
+        _echoScale = -3f;
+        
         _bAbilityPaused = false;
         _bAbilityAnimating = true;
 
@@ -242,7 +250,7 @@ public class FogEffect : MonoBehaviour {
             yield return null;
         }
     }
-
+    
     private IEnumerator ChangeScale(float scale)
     {
         float startModifier = _scaleModifier;
@@ -275,4 +283,23 @@ public class FogEffect : MonoBehaviour {
         Disable();
     }
 
+    private void SetInitialState()
+    {
+        _bIsMinimised = false;
+        _bAbilityActivating = false;
+        _bAbilityPaused = false;
+        _bPulseIncreasing = false;
+        _bAbilityAnimating = false;
+        _scaleModifier = 1f;
+        _echolocateActivatedTime = Time.time;
+        const float startAlpha = 0.85f;
+        
+        GetComponent<SpriteRenderer>().enabled = true;
+        Material.SetFloat("_DarknessAlpha", startAlpha);
+        _state = FogStates.Normal;
+
+        if (expandRoutine != null) StopCoroutine(expandRoutine);
+        if (changeScaleRoutine != null) StopCoroutine(changeScaleRoutine);
+        if (levelStartRoutine != null) StopCoroutine(levelStartRoutine);
+    }
 }

@@ -17,6 +17,7 @@ public abstract class Spawnable : MonoBehaviour {
     public virtual void Spawn(Transform tf, SpawnType spawnTf)
     {
         Init();
+        gameObject.SetActive(true);
         SetTransform(tf, spawnTf);
     }
 

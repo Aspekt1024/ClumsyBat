@@ -30,5 +30,26 @@ namespace ClumsyBat.Objects
                 newSpider.Spawn(spawnTf, spider.SpiderSwings, spider.AnchorPoint);
             }
         }
+
+        public override void DisableObjects()
+        {
+            foreach (var obj in ObjPool)
+            {
+                obj.ClearWebs();
+                obj.Deactivate();
+            }
+            
+            if (ParentObject == null) return;
+            var webObject = ParentObject.Find("Webs");
+            if (webObject != null)
+            {
+                var objects = webObject.GetComponentsInChildren<Transform>();
+                foreach (var obj in objects)
+                {
+                    if (obj.name == "Webs") continue;
+                    GameObject.Destroy(obj.gameObject);
+                }
+            }
+        }
     }
 }

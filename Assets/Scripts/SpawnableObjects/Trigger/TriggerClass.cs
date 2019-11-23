@@ -18,6 +18,7 @@ namespace ClumsyBat.Objects
         {
             base.Spawn(transform, spawnTf);
             Collider.enabled = true;
+            isTriggered = false;
             gameObject.GetComponent<SpriteRenderer>().enabled = Toolbox.Instance.Debug;
 
             TriggerEvent = GameStatics.Data.TriggerEvents.GetTriggerEvent(triggerProps.TrigEvent.Id);

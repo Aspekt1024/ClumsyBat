@@ -29,13 +29,20 @@ public class WebString {
         spiderTf = parentTf;
         spiderHinge = spiderTf.GetComponent<HingeJoint2D>();
         spiderScript = spiderTf.GetComponent<SpiderClass>();
-        GenerateSections();
         zLayer = Toolbox.Instance.ZLayers["Spider"] + 0.01f;
     }
 
     public void Collision()
     {
         Engage();
+    }
+
+    public void Clear()
+    {
+        links = null;
+        sections = null;
+        webAnchor = null;
+        activeSections = 0;
     }
 
     public void UpdateWebSprites()
@@ -46,6 +53,7 @@ public class WebString {
         {
             PositionLink(i, sections[i].tf.position, sections[i + 1].tf.position);
         }
+
         PositionLink(activeSections, sections[0].tf.position, webAnchor.position);
 
         if (spiderScript.isActiveAndEnabled)
@@ -88,12 +96,15 @@ public class WebString {
 
     public void MoveLeft(float time, float speed)
     {
+        if (webAnchor == null) return;
         if (webAnchor.position.x > 20 || webAnchor.position.x < -20) return;
         webAnchor.position += Vector3.left * time * speed;
     }
 
     public void Spawn(bool IsSwinging, Vector2 anchorPoint)
     {
+        GenerateSections();
+        
         foreach (var section in sections)
         {
             section.body.isKinematic = true;

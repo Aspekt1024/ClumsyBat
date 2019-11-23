@@ -22,10 +22,10 @@ namespace ClumsyBat
         
         public LevelManager()
         {
-            GameObject scriptsObject = GameObject.Find("LevelScripts");
+            GameObject scriptsObject = GameObject.Find("LevelScripts"); // TODO Give as constructor argument?
             if (scriptsObject == null)
             {
-                Debug.Log("What are you doing... the LevelScripts object doesn't exist...");
+                Debug.LogError("The LevelScripts object doesn't exist.");
                 return;
             }
 
@@ -81,7 +81,13 @@ namespace ClumsyBat
             }
             else
             {
-                TextAsset levelTxt = (TextAsset)Resources.Load("LevelXML/" + level.ToString());
+                TextAsset levelTxt = (TextAsset)Resources.Load($"LevelXML/{level}");
+                if (levelTxt == null)
+                {
+                    Debug.LogError($"level {level} does not exist");
+                    GameStatics.GameManager.GotoMenuScene();
+                    return;
+                }
                 LevelContainer levelData = LevelContainer.LoadFromText(levelTxt.text);
                 GameStatics.Objects.SetupLevel(levelData);
 

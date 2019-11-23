@@ -109,6 +109,7 @@ namespace ClumsyBat.Objects
 
         public void Spawn(StalPool.StalType stalProps, float xOffset = 0)
         {
+            gameObject.SetActive(true);
             Type = stalProps.Type;
             isExploding = false;
 

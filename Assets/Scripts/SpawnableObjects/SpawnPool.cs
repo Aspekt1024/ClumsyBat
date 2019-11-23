@@ -22,7 +22,7 @@ namespace ClumsyBat.Objects
         private int index;
         private int numObjects;
 
-        public void DisableObjects()
+        public virtual void DisableObjects()
         {
             foreach (var obj in ObjPool)
             {
