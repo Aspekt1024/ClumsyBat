@@ -20,15 +20,6 @@ namespace ClumsyBat.Players
             Body = player.model.GetComponent<Rigidbody2D>();
             collider = player.model.GetComponent<Collider2D>();
         }
-
-        public void Tick(float deltaTime)
-        {
-            if (!player.State.IsShielded)
-            {
-                float dist = Speed * deltaTime;
-                //Body.position += Vector2.right * dist;
-            }
-        }
         
         public void Disable()
         {

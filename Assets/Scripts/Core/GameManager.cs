@@ -55,6 +55,14 @@ namespace ClumsyBat
         {
             StartGame();
         }
+        
+        private void Update()
+        {
+            if (IsInMenu)
+            {
+                GameStatics.Data.Stats.IdleTime += Time.deltaTime;
+            }
+        }
 
         public void PauseGame()
         {

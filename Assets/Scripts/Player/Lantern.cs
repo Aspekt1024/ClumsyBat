@@ -75,10 +75,6 @@ public class Lantern : MonoBehaviour {
         }
 
         GameStatics.Data.GameState.MothsEaten++;
-        if (GameStatics.Data.GameState.MothsEaten > GameStatics.Data.Stats.MostMoths)
-        {
-            GameStatics.Data.Stats.MostMoths++;
-        }
         GameStatics.Data.Stats.TotalMoths++;
     }
 

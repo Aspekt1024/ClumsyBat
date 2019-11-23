@@ -93,6 +93,7 @@ public class Hypersonic : MonoBehaviour
 
     private IEnumerator HypersonicAbilityGo()
     {
+        GameStatics.Data.Stats.HypersonicCount++;
         GameStatics.Camera.Shake(1f);
         // TODO play sound
 

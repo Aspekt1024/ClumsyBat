@@ -78,6 +78,7 @@ public class PerchComponent : MonoBehaviour
         _body.constraints = RigidbodyConstraints2D.FreezeAll;
 
         SetPerchGraphics();
+        GameStatics.Data.Stats.Perches++;
         return true;
     }
 

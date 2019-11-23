@@ -564,7 +564,6 @@
                 <e p="MenuButtonScripts.cs" t="Include" />
                 <e p="MenuContentPositioner.cs" t="Include" />
                 <e p="NavButtonHandler.cs" t="Include" />
-                <e p="StatsUI.cs" t="Include" />
                 <e p="UIObjectAnimator.cs" t="Include" />
               </e>
               <e p="MainMenuClumsy" t="Include">

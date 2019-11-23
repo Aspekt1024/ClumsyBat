@@ -19,11 +19,6 @@ public class MainMenu : MonoBehaviour {
         ShowMenuButtons();
     }
     
-    private void Update()
-    {
-        GameStatics.Data.Stats.IdleTime += Time.deltaTime;
-    }
-    
     public void PlayButtonClicked()
     {
         if (camPositioner.IsMoving()) return;

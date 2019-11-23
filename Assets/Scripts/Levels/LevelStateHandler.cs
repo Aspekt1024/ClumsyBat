@@ -38,8 +38,6 @@ namespace ClumsyBat.LevelManagement
 
         private void RecordTime(float deltaTime)
         {
-            GameStatics.Data.Stats.TotalTime += deltaTime;
-
             if (GameStatics.GameManager.IsPaused)
             {
                 GameStatics.Data.Stats.IdleTime += deltaTime;

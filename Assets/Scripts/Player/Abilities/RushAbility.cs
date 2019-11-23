@@ -68,6 +68,8 @@ public class RushAbility : MonoBehaviour {
 
         if (dashRoutine != null) StopCoroutine(dashRoutine);
         dashRoutine = StartCoroutine(DashSequence(dir));
+        
+        GameStatics.Data.Stats.TimesDashed++;
 
         return true;
     }

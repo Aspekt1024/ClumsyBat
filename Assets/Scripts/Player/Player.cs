@@ -42,8 +42,13 @@ namespace ClumsyBat.Players
 
         private void FixedUpdate()
         {
-            Physics.Tick(Time.fixedDeltaTime);
             const float lowerLevelBound = -7f;
+            var dist = Time.fixedDeltaTime * Physics.Speed;
+            GameStatics.Data.Stats.TotalDistance += dist;
+            if (State.IsRushing)
+            {
+                GameStatics.Data.Stats.DashDistance += dist;
+            }
             
             if (!GameStatics.LevelManager.IsInPlayMode) return;
             
@@ -70,6 +75,7 @@ namespace ClumsyBat.Players
 
         public void TakeDamage(Transform obj, string otherTag, Vector2 point)
         {
+            GameStatics.Data.Stats.DamageTaken++;
             if (State.IsShielded) return;
             
             StartCoroutine(Knockback(point));
@@ -90,6 +96,9 @@ namespace ClumsyBat.Players
                         break;
                     case "Boss":
                         GameStatics.Data.Stats.BossDeaths++;
+                        break;
+                    case "Spider":
+                        GameStatics.Data.Stats.SpiderDeaths++;
                         break;
                     default:
                         GameStatics.Data.Stats.UnknownDeaths++;

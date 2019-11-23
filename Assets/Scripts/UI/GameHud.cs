@@ -66,7 +66,6 @@ namespace ClumsyBat.UI
         
         private void SetupUI()
         {
-            currencyText.text = GameStatics.Data.Stats.Currency.ToString();
             bigScoreText.text = string.Empty;
             gameUICanvas.alpha = 0f;
             gameUICanvas.blocksRaycasts = false;

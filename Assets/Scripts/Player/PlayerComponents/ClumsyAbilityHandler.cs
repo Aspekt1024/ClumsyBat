@@ -17,10 +17,10 @@ namespace ClumsyBat.Players
         public Shield Shield { get; private set; }
         public PerchComponent Perch { get; private set; }
         public FlapComponent Flap { get; private set; }
+        public RushAbility Rush { get; private set; }
 
         private Player player;
         private Hypersonic _hypersonic;
-        private RushAbility _rush;
 
         public ClumsyAbilityHandler(Player player)
         {
@@ -35,13 +35,13 @@ namespace ClumsyBat.Players
 
             Shield = abilityScripts.AddComponent<Shield>();
 
-            _rush = abilityScripts.AddComponent<RushAbility>();
+            Rush = abilityScripts.AddComponent<RushAbility>();
             _hypersonic = Object.FindObjectOfType<Hypersonic>();
             Perch = abilityScripts.AddComponent<PerchComponent>();
 
             Flap = new FlapComponent(player);
 
-            _rush.Setup(player);
+            Rush.Setup(player);
             _hypersonic.Setup(player.lantern);
             Shield.Setup(player);
         }
@@ -50,7 +50,7 @@ namespace ClumsyBat.Players
         {
             _hypersonic.SetData(abilityData.GetHypersonicStats());
             Shield.SetStats(abilityData.GetShieldStats());
-            _rush.SetStats(abilityData.GetDashStats());
+            Rush.SetStats(abilityData.GetDashStats());
         }
 
         public bool DoAction(DirectionalActions action, MovementDirections direction)
@@ -60,7 +60,7 @@ namespace ClumsyBat.Players
                 case DirectionalActions.Jump:
                     return Jump(direction);
                 case DirectionalActions.Dash:
-                    return _rush.Activate(direction);
+                    return Rush.Activate(direction);
                 default:
                     return false;
             }
@@ -90,7 +90,7 @@ namespace ClumsyBat.Players
                 case DirectionalActions.Jump:
                     break;
                 case DirectionalActions.Dash:
-                    _rush.Deactivate();
+                    Rush.Deactivate();
                     break;
                 default:
                     break;

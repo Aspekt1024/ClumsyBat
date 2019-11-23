@@ -18,7 +18,7 @@ namespace ClumsyBat.UI.DropdownMenuComponents
             canvasGroup.interactable = true;
         }
 
-        public void HideScreen()
+        public virtual void HideScreen()
         {
             canvasGroup.alpha = 0f;
             canvasGroup.blocksRaycasts = false;

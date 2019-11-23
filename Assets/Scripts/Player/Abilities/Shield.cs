@@ -31,6 +31,7 @@ public class Shield : MonoBehaviour {
 
         GameStatics.Audio.Main.PlaySound(MainSounds.Shield);
         _shieldCharges--;
+        GameStatics.Data.Stats.ShieldUses++;
         lantern.SetColourFromShieldCharges(_shieldCharges);
         StartCoroutine(ShieldUp());
         return true;
