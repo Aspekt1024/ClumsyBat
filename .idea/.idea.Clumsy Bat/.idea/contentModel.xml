@@ -560,7 +560,6 @@
                 <e p="LevelButton.cs" t="Include" />
                 <e p="LevelButtonHandler.cs" t="Include" />
                 <e p="LevelPath.cs" t="Include" />
-                <e p="MainMenu.cs" t="Include" />
                 <e p="MenuButtonScripts.cs" t="Include" />
                 <e p="MenuContentPositioner.cs" t="Include" />
                 <e p="NavButtonHandler.cs" t="Include" />

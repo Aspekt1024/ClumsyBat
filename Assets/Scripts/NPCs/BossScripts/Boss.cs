@@ -170,6 +170,7 @@ public abstract class Boss : MonoBehaviour {
         machine.Stop();
         DeathSequence();
         BossEvents.BossDeath();
+        GameStatics.Data.Stats.BossesDefeated++;
     }
 
     private IEnumerator Damaged()

@@ -53,7 +53,7 @@ namespace ClumsyBat
 
         private void Start()
         {
-            StartGame();
+            StartCoroutine(StartGame());
         }
         
         private void Update()
@@ -134,8 +134,10 @@ namespace ClumsyBat
             StartCoroutine(GameStatics.UI.LoadingScreen.HideLoadScreen());
         }
 
-        private void StartGame()
+        private IEnumerator StartGame()
         {
+            yield return new WaitForSeconds(0.2f);
+
             GameStatics.LevelManager.Init();
 
             if (StartupMode == StartupModes.MainMenu && StartupLevel != Levels.Unassigned)

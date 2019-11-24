@@ -184,6 +184,7 @@ namespace ClumsyBat.Players
             State.Reset();
             lantern.Reattach();
             Abilities.Shield.SetCharges(1);
+            GameStatics.Player.AIController.DisableHover();
         }
         
         private void Die(Transform otherTf)

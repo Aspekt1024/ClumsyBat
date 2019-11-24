@@ -15,13 +15,24 @@ public class SlidingDoors : MonoBehaviour {
     private const float TopClosedY =  2.11f;
     private const float BottomClosedY = -2.97f;
 
+    private Coroutine closeRoutine;
+
     public void Close()
     {
-        StartCoroutine(CloseRoutine());
+        if (closeRoutine != null)
+        {
+            StopCoroutine(closeRoutine);
+        }
+        closeRoutine = StartCoroutine(CloseRoutine());
     }
 
     public void OpenImmediate()
     {
+        if (closeRoutine != null)
+        {
+            StopCoroutine(closeRoutine);
+            closeRoutine = null;
+        }
         topDoor.position = new Vector2(topDoor.position.x, TopOpenY);
         bottomDoor.position = new Vector2(bottomDoor.position.x, BottomOpenY);
     }

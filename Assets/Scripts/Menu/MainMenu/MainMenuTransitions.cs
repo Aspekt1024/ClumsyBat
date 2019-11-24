@@ -6,6 +6,7 @@ namespace ClumsyBat.Menu
     public class MainMenuTransitions
     {
         private KeyPointsHandler keyPoints;
+        private MenuButtonScripts menuButtons;
 
         private enum States
         {
@@ -17,6 +18,7 @@ namespace ClumsyBat.Menu
         {
             state = States.MainMenu;
             keyPoints = Object.FindObjectOfType<KeyPointsHandler>();
+            menuButtons = Object.FindObjectOfType<MenuButtonScripts>();
         }
 
         public void GotoDropdownArea()
@@ -39,6 +41,8 @@ namespace ClumsyBat.Menu
                 GameStatics.Camera.StartFollowing(keyPoints.MainMenuCamPoint.transform, 4.0f);
             }
             state = States.MainMenu;
+            
+            menuButtons.ShowAll();
         }
 
         public void AnimateMainMenuScene()
@@ -50,6 +54,7 @@ namespace ClumsyBat.Menu
 
             PlayerManager.Instance.SetPlayerPosition(keyPoints.EntryPoint.transform.position);
             PlayerManager.Instance.AIController.MoveTo(keyPoints.EntryLandingPoint.transform);
+            menuButtons.ShowAll();
         }
 
         public void AnimateToLevelSelect()

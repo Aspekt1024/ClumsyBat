@@ -32,6 +32,7 @@ public class BossHandler : MonoBehaviour {
     private Player player;
     private BossData bossDataScript;
     private SlidingDoors doors;
+    private Coroutine entranceRoutine;
 
     private enum BossGameState
     {
@@ -46,6 +47,12 @@ public class BossHandler : MonoBehaviour {
         if (bossDataScript != null)
         {
             bossDataScript.ClearBoss();
+        }
+
+        if (entranceRoutine != null)
+        {
+            StopCoroutine(entranceRoutine);
+            entranceRoutine = null;
         }
 
         doors = FindObjectOfType<SlidingDoors>();
@@ -100,7 +107,11 @@ public class BossHandler : MonoBehaviour {
         if (GameStatics.Player.Clumsy.model.position.x > Toolbox.TileSizeX * manualCaveScale - 3f)
         {
             _state = BossGameState.InBossRoom;
-            StartCoroutine(BossEntrance());
+            if (entranceRoutine != null)
+            {
+                StopCoroutine(entranceRoutine);
+            }
+            entranceRoutine = StartCoroutine(BossEntrance());
         }
     }
 
