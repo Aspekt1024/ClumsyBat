@@ -68,6 +68,10 @@ namespace ClumsyBat.Players
             {
                 case "Boss":
                     var boss = collision.collider.GetComponent<Boss>();
+                    if (boss == null)
+                    {
+                        boss = collision.collider.GetComponentInParent<Boss>();
+                    }
                     if (boss != null && boss.IsAlive)
                     {
                         player.TakeDamage(collision.collider.transform, collision.collider.tag, collision.GetContact(0).point);
@@ -80,6 +84,9 @@ namespace ClumsyBat.Players
                         stal.Crack();
                         player.TakeDamage(collision.collider.transform, collision.collider.tag, collision.GetContact(0).point);
                     }
+                    break;
+                case "Spider":
+                    player.TakeDamage(collision.collider.transform, collision.collider.tag, collision.GetContact(0).point);
                     break;
             }
         }

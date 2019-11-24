@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -20,6 +21,7 @@ namespace ClumsyBat.UI.DropdownMenuComponents
         private TextMeshProUGUI idleTimeTxt;
         
         private readonly List<Stat> _stats = new List<Stat>();
+        private readonly List<GameObject> textObjects = new List<GameObject>();
         
         private float _xScale = 1f;
         private float _yScale = 1f;
@@ -48,9 +50,14 @@ namespace ClumsyBat.UI.DropdownMenuComponents
 
         private void CreateStats()
         {
+            foreach (var obj in textObjects)
+            {
+                Destroy(obj);
+            }
+            textObjects.Clear();
+            
             InitialiseStatsList();
-
-            // TODO figure out what this was trying to do
+            
             _yScale = GameObject.Find("DropdownMenu").GetComponent<RectTransform>().localScale.y;
             _xScale = GameObject.Find("DropdownMenu").GetComponent<RectTransform>().localScale.x;
         
@@ -75,13 +82,17 @@ namespace ClumsyBat.UI.DropdownMenuComponents
 
         private void InitialiseStatsList()
         {
+            _stats.Clear();
             var stats = GameStatics.Data.Stats;
             NewStat("Moths Collected", stats.TotalMoths, "");
             NewStat("Distance Travelled", (int) stats.TotalDistance, "m");
             NewStat("Levels Completed", stats.LevelsCompleted, "");
+            NewStat("Bosses Defeated", stats.BossesDefeated, "");
             NewStat("Wing Flaps", stats.TotalJumps, "");
             NewStat("Hypersonic Count", stats.HypersonicCount, "");
             NewStat("Dash Count", stats.TimesDashed, "");
+            NewStat("Perch Count", stats.Perches, "");
+            NewStat("Damage Taken", stats.DamageTaken, "");
             NewStat("Shield Uses", stats.ShieldUses, "");
             NewStat("Distance Dashed", (int)stats.DashDistance, "m");
             NewStat("Stalactite Deaths", stats.ToothDeaths, "");
@@ -114,6 +125,8 @@ namespace ClumsyBat.UI.DropdownMenuComponents
             txtRt.localScale = Vector3.one;
             txtRt.sizeDelta = new Vector2(txtWidth, TxtHeight);
 
+            textObjects.Add(txt);
+            
             return txtRt;
         }
         

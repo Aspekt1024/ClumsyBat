@@ -7,8 +7,6 @@ namespace ClumsyBat.Players
         private const float NORMAL_PLAYER_SPEED = 5.5f;
         private const float NORMAL_GRAVITY_SCALE = 3f;
 
-        public float Speed { get; set; }
-
         public Rigidbody2D Body { get; private set; }
 
         private Player player;

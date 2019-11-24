@@ -43,15 +43,16 @@ namespace ClumsyBat.Players
         private void FixedUpdate()
         {
             const float lowerLevelBound = -7f;
-            var dist = Time.fixedDeltaTime * Physics.Speed;
+
+            if (!GameStatics.LevelManager.IsInPlayMode) return;
+            
+            var dist = Time.fixedDeltaTime * Mathf.Abs(Physics.Body.velocity.x);
             GameStatics.Data.Stats.TotalDistance += dist;
             if (State.IsRushing)
             {
                 GameStatics.Data.Stats.DashDistance += dist;
             }
-            
-            if (!GameStatics.LevelManager.IsInPlayMode) return;
-            
+
             if (model.position.y < lowerLevelBound)
             {
                 HandleFallenOffLevel();
@@ -60,7 +61,7 @@ namespace ClumsyBat.Players
 
         public void SetSpeed(float speed)
         {
-            Physics.Speed = speed;
+            Physics.SetHorizontalVelocity(speed);
         }
 
         public void DeactivateRush()
@@ -168,7 +169,7 @@ namespace ClumsyBat.Players
             const float knockbackDuration = 0.4f;
             
             var pos = model.position;
-            Physics.Body.velocity = -(contactPoint - new Vector2(pos.x, pos.y)).normalized * knockbackSpeed;;
+            Physics.Body.velocity = -(contactPoint - new Vector2(pos.x, pos.y)).normalized * knockbackSpeed;
             
             State.SetState(PlayerState.States.Knockback, true);
             yield return new WaitForSeconds(knockbackDuration);
