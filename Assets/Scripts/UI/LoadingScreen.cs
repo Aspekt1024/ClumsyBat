@@ -45,13 +45,13 @@ namespace ClumsyBat.UI
             yield return StartCoroutine(UIObjectAnimator.Instance.PopInObjectRoutine(LoadTextRt));
         }
 
-        public IEnumerator HideLoadScreen(float delay = 0f)
+        public IEnumerator HideLoadScreen(float delay = .05f)
         {
             yield return new WaitForSecondsRealtime(delay + BaseHideDelay);
 
             UIObjectAnimator.Instance.PopOutObject(LoadTextRt);
 
-            const float duration = 0.2f;
+            const float duration = 0.3f;
             float timer = 0f;
             while (timer < duration)
             {

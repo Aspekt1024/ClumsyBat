@@ -119,10 +119,10 @@ namespace ClumsyBat
             GameStatics.UI.DropdownMenu.HideImmediate();
             state = GameStates.InLevel;
 
-            yield return StartCoroutine(GameStatics.UI.LoadingScreen.HideLoadScreen());
             GameStatics.UI.GameHud.SetLevelText(level);
             Toolbox.Instance.ShowLevelTooltips = (!GameStatics.Data.LevelDataHandler.IsCompleted(level));
             GameStatics.LevelManager.BeginLevel();
+            StartCoroutine(GameStatics.UI.LoadingScreen.HideLoadScreen());
         }
 
         private IEnumerator SwitchSceneRoutine(Action sceneAction)

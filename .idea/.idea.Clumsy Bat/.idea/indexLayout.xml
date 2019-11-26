@@ -28,6 +28,7 @@
       <Path>Keys</Path>
       <Path>Library</Path>
       <Path>Logs</Path>
+      <Path>Temp</Path>
       <Path>WorkingFiles</Path>
       <Path>etc</Path>
       <Path>obj</Path>

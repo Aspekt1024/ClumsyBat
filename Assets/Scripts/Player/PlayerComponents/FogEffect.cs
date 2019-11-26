@@ -82,7 +82,10 @@ public class FogEffect : MonoBehaviour {
     
     public void StartOfLevel()
     {
-        SetInitialState();
+        if (!GameStatics.LevelManager.IsBossLevel)
+        {
+            SetInitialState();
+        }
         levelStartRoutine = StartCoroutine(LevelStartAnim());
     }
 
