@@ -114,7 +114,7 @@ namespace ClumsyBat
         {
             GameHandler.SetupLevel();
         }
-        
+
         public void BeginLevel()
         {
             GameHandler.StartLevel();

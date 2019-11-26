@@ -161,6 +161,7 @@ namespace ClumsyBat
             BossObject.SetActive(false);
             GameStatics.Camera.SwitchToMenuCamera();
 
+            mainMenuTransitions.GotoMainMenuArea();
             mainMenuTransitions.AnimateMainMenuScene();
         }
 

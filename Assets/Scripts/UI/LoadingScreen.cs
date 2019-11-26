@@ -63,7 +63,7 @@ namespace ClumsyBat.UI
             LoadingCanvas.blocksRaycasts = false;
             LoadingCanvas.interactable = false;
         }
-        
+
         private void CameraChanged(Camera newCamera)
         {
             GetComponent<Canvas>().worldCamera = newCamera;

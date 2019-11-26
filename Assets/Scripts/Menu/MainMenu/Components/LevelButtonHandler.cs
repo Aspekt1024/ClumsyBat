@@ -39,6 +39,17 @@ public class LevelButtonHandler : MonoBehaviour {
         transform.parent.GetComponentInChildren<LevelPath>().CreateLevelPaths();
     }
 
+    public void Refresh()
+    {
+        foreach (var button in buttons)
+        {
+            if (button == null) continue;
+            button.Deselect();
+            button.SetStars();
+        }
+        ClearLevelText();
+    }
+
     public void LevelClick()
     {
         ActiveLevel = EventSystem.current.currentSelectedGameObject.GetComponent<LevelButton>().Level;
@@ -90,10 +101,7 @@ public class LevelButtonHandler : MonoBehaviour {
 
                 if (GameStatics.Data.LevelDataHandler.IsCompleted(lvlButton.Level))
                 {
-                    lvlButton.Star1Complete = GameStatics.Data.LevelDataHandler.LevelCompletedAchievement(lvlButton.Level);
-                    lvlButton.Star2Complete = GameStatics.Data.LevelDataHandler.AllMothsGathered(lvlButton.Level);
-                    lvlButton.Star3Complete = GameStatics.Data.LevelDataHandler.NoDamageTaken(lvlButton.Level);
-                    lvlButton.StarsSet = true;
+                    lvlButton.SetStars();
                 }
                 else
                 {
@@ -129,6 +137,11 @@ public class LevelButtonHandler : MonoBehaviour {
         }
         
         return highestLevel;
+    }
+
+    public void MoveMapToStart()
+    {
+        StartCoroutine(MoveLevelMapToStart());
     }
     
     public IEnumerator MoveLevelMapToStart()
@@ -194,5 +207,11 @@ public class LevelButtonHandler : MonoBehaviour {
         levelScoreText.text = "Best Score: " + score.ToString();
         UIObjectAnimator.Instance.PopObject(LevelScoreTextRt);
         levelText.text = text;
+    }
+
+    private void ClearLevelText()
+    {
+        levelScoreText.text = "";
+        levelText.text = "";
     }
 }

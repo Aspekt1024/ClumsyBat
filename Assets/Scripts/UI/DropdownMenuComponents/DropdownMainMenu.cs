@@ -115,14 +115,14 @@ namespace ClumsyBat.UI.DropdownMenuComponents
         {
             NextBtn.SetActive(false);
             ShareBtn.SetActive(false);
-            MainMenuBtn.SetActive(true);
+            MainMenuBtn.SetActive(false);
             RestartBtn.SetActive(true);
             OptionsBtn.SetActive(true);
             ResumeBtn.SetActive(true);
-            LevelSelectBtn.SetActive(false);
+            LevelSelectBtn.SetActive(true);
 
             PositionMenuBtn(RestartBtn, GetButtonPosX(1, 4));
-            PositionMenuBtn(MainMenuBtn, GetButtonPosX(2, 4));
+            PositionMenuBtn(LevelSelectBtn, GetButtonPosX(2, 4));
             PositionMenuBtn(OptionsBtn, GetButtonPosX(3, 4));
             PositionMenuBtn(ResumeBtn, GetButtonPosX(4, 4));
 

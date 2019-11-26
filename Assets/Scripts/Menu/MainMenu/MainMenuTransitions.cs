@@ -5,8 +5,9 @@ namespace ClumsyBat.Menu
 {
     public class MainMenuTransitions
     {
-        private KeyPointsHandler keyPoints;
-        private MenuButtonScripts menuButtons;
+        private readonly LevelButtonHandler levelButtons;
+        private readonly KeyPointsHandler keyPoints;
+        private readonly MenuButtonScripts menuButtons;
 
         private enum States
         {
@@ -19,6 +20,7 @@ namespace ClumsyBat.Menu
             state = States.MainMenu;
             keyPoints = Object.FindObjectOfType<KeyPointsHandler>();
             menuButtons = Object.FindObjectOfType<MenuButtonScripts>();
+            levelButtons = Object.FindObjectOfType<LevelButtonHandler>();
         }
 
         public void GotoDropdownArea()
@@ -42,6 +44,7 @@ namespace ClumsyBat.Menu
             }
             state = States.MainMenu;
             
+            GameStatics.UI.NavButtons.DisableBackButton();
             menuButtons.ShowAll();
         }
 
@@ -83,6 +86,9 @@ namespace ClumsyBat.Menu
 
         private IEnumerator ThroughCaveRoutine()
         {
+            levelButtons.Refresh();
+            levelButtons.MoveMapToStart();
+            
             PlayerManager.Instance.AIController.DashTo(keyPoints.MainMenuExitPoint.transform);
             yield return new WaitForSeconds(0.3f);
 
@@ -96,6 +102,7 @@ namespace ClumsyBat.Menu
 
         private IEnumerator AnimateLevelSelect()
         {
+            levelButtons.Refresh();
             PlayerManager.Instance.SetPlayerPosition(keyPoints.LevelEntryPoint.transform.position);
             PlayerManager.Instance.AIController.Dash();
             yield return new WaitForSeconds(0.7f);

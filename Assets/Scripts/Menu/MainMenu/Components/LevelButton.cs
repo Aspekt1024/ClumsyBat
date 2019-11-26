@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ClumsyBat;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class LevelButton : MonoBehaviour
@@ -59,6 +60,15 @@ public class LevelButton : MonoBehaviour
         starsRt.gameObject.SetActive(false);
     }
 
+    public void SetStars()
+    {
+        Star1Complete = GameStatics.Data.LevelDataHandler.LevelCompletedAchievement(Level);
+        Star2Complete = GameStatics.Data.LevelDataHandler.AllMothsGathered(Level);
+        Star3Complete = GameStatics.Data.LevelDataHandler.NoDamageTaken(Level);
+        StarsSet = true;
+        SetStarCompletion();
+    }
+
     private void Update()
     {
         if (!starImagesSet && StarsSet)
@@ -110,6 +120,13 @@ public class LevelButton : MonoBehaviour
             _state = BtnState.Unclicked;
             SetLevelImage();
         }
+    }
+
+    public void Deselect()
+    {
+        if (_state == BtnState.Unclicked) return;
+        _state = BtnState.Unclicked;
+        SetLevelImage();
     }
     
     public bool LevelAvailable()
