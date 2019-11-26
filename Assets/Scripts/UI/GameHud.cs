@@ -231,17 +231,15 @@ namespace ClumsyBat.UI
             gameUICanvas.blocksRaycasts = true;
         }
 
-        public void SetCooldownTimer(float duration)
+        public void SetDashIndicator(float percent)
         {
-            dashIndicator.StartCooldown(duration);
+            dashIndicator.Enable();
+            dashIndicator.SetValue(percent);
         }
 
-        public void ShowCooldown(bool bShow)
+        public void HideDashIndicator()
         {
-            if (bShow)
-                dashIndicator.Enable();
-            else
-                dashIndicator.Disable();
+            dashIndicator.Disable();
         }
 
         private void SetScore()

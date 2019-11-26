@@ -27,14 +27,21 @@ public class DashIndicator : MonoBehaviour {
         UIObjectAnimator.Instance.PopOutObject(arrow2);
     }
 
+    public void SetValue(float percent)
+    {
+        radialShadow.fillAmount = 1f - percent;
+    }
+
     public void Enable()
     {
+        if (isEnabled) return;
         isEnabled = true;
         gameObject.SetActive(true);
     }
 
     public void Disable()
     {
+        if (!isEnabled) return;
         isEnabled = false;
         gameObject.SetActive(false);
     }

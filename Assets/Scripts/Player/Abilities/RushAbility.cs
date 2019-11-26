@@ -50,6 +50,15 @@ public class RushAbility : MonoBehaviour {
 
     private void Update ()
     {
+        if (IsEnabled)
+        {
+            GameStatics.UI.GameHud.SetDashIndicator(1f - CooldownRemaining / CooldownDuration);
+        }
+        else
+        {
+            GameStatics.UI.GameHud.HideDashIndicator();
+        }
+        
         if (CooldownRemaining > 0)
         {
             CooldownRemaining -= Time.deltaTime;
