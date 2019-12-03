@@ -107,7 +107,7 @@ public class SpiderClass : Spawnable {
             shakeTime += 0.09f;
         }
 
-        if (spider.SpiderSwings)
+        if (spider.SpiderSwings || SwingingSpider)
         {
             body.isKinematic = false;
             body.AddForce(new Vector2(-700, -1000));

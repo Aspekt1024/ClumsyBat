@@ -40,6 +40,11 @@ public class TriggerEventSerializer : MonoBehaviour {
         Init();
     }
 
+    private void Awake()
+    {
+        Init();
+    }
+
     public TriggerEvent CreateNewTriggerEvent()
     {
         Load();

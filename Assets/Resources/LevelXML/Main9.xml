@@ -554,12 +554,12 @@
         <TriggerType>
           <SpawnTransform>
             <Pos>
-              <x>-5.100136</x>
-              <y>-0.033490777</y>
+              <x>-5.73778534</x>
+              <y>0.06423925</y>
             </Pos>
             <Scale>
               <x>1</x>
-              <y>9.749999</y>
+              <y>11.338</y>
             </Scale>
             <Rotation>
               <x>-0</x>
@@ -574,7 +574,7 @@
             </Rotation>
           </SpawnTransform>
           <TrigEvent>
-            <Id>4</Id>
+            <Id>47</Id>
             <Dialogue>
               <string>Swipe to dash through tight spaces</string>
             </Dialogue>
@@ -584,7 +584,7 @@
             <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
             <ShowOnRestart>true</ShowOnRestart>
             <HasDependency>true</HasDependency>
-            <DependencyId>NoDash</DependencyId>
+            <DependencyId>HasDash</DependencyId>
             <ForceShow>Once</ForceShow>
           </TrigEvent>
         </TriggerType>

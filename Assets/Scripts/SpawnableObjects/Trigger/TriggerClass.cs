@@ -44,7 +44,7 @@ namespace ClumsyBat.Objects
             if (TriggerEvent.Id == 0 && !Application.isPlaying)
             {
                 //TriggerEvent = GameStatics.Data.TriggerEvents.CreateNewTriggerEvent();
-                TriggerEvent = TriggerEventSerializer.Instance.GetTriggerEvent(TriggerEvent.Id);
+                TriggerEvent = TriggerEventSerializer.Instance.CreateNewTriggerEvent();
                 TriggerId = TriggerEvent.Id;
             }
 #endif
