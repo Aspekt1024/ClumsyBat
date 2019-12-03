@@ -36,12 +36,15 @@ namespace ClumsyBat.Objects
         {
             if (TriggerEvent.Id > 0)
             {
-                TriggerEvent = GameStatics.Data.TriggerEvents.GetTriggerEvent(TriggerEvent.Id);
+                //TriggerEvent = GameStatics.Data.TriggerEvents.GetTriggerEvent(TriggerEvent.Id);
+                // Changing this to use .Instance because the level editor doesn't know about GameStatics
+                TriggerEvent = TriggerEventSerializer.Instance.GetTriggerEvent(TriggerEvent.Id);
             }
 #if UNITY_EDITOR
             if (TriggerEvent.Id == 0 && !Application.isPlaying)
             {
-                TriggerEvent = GameStatics.Data.TriggerEvents.CreateNewTriggerEvent();
+                //TriggerEvent = GameStatics.Data.TriggerEvents.CreateNewTriggerEvent();
+                TriggerEvent = TriggerEventSerializer.Instance.GetTriggerEvent(TriggerEvent.Id);
                 TriggerId = TriggerEvent.Id;
             }
 #endif

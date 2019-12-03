@@ -27,8 +27,8 @@ namespace ClumsyBat
 
         public CameraManager()
         {
-            MenuCamera = GameObject.Find("MenuCamera").GetComponent<Camera>();
-            LevelCamera = GameObject.Find("LevelCamera").GetComponent<Camera>();
+            MenuCamera = GameObject.Find("MenuCamera")?.GetComponent<Camera>();
+            LevelCamera = GameObject.Find("LevelCamera")?.GetComponent<Camera>();
 
             CurrentCamera = MenuCamera;
         }

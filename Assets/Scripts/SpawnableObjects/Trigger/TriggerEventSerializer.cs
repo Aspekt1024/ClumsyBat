@@ -16,11 +16,24 @@ public class TriggerEventSerializer : MonoBehaviour {
 
     private List<TriggerEvent> TriggerEvents;
     private List<TriggerProgressionData> ProgressionData;
-    private static TriggerEventSerializer triggerEventSerializer;
+    private static TriggerEventSerializer instance;
     
     private const string resourceLoadPath = "EventData/TriggerEventData";
     private const string savePath = "Assets/Resources/EventData/TriggerEventData.xml";
     private const string progressionSavePath = "TriggerEventData.dat";
+
+    public static TriggerEventSerializer Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<TriggerEventSerializer>();
+                instance.Init();
+            }
+            return instance;
+        }
+    }
 
     public void LoadData()
     {

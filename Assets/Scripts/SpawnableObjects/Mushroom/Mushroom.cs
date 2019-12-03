@@ -35,12 +35,13 @@ public class Mushroom : Spawnable {
         isTriggered = false;
         spore.transform.position = new Vector3(transform.position.x, transform.position.y, sporeZLayer);
         sporeAnimator.Play("Normal", 0, 0f);
+        spore.transform.rotation = Quaternion.identity;
     }
 
     private void SetupSpore()
     {
         Vector3 sporePos = new Vector3(transform.position.x, transform.position.y, sporeZLayer);
-        spore = (GameObject)Instantiate(Resources.Load("Obstacles/Spore"), sporePos, new Quaternion(), transform);
+        spore = (GameObject)Instantiate(Resources.Load("Obstacles/Spore"), sporePos, Quaternion.identity, transform);
         spore.name = "Spore";
         sporeAnimator = spore.GetComponent<Animator>();
         sporeCollider = spore.GetComponent<CircleCollider2D>();
