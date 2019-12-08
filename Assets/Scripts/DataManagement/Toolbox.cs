@@ -59,11 +59,6 @@ public class Toolbox : Singleton<Toolbox>
         {Levels.Main9, "9ine"},
         {Levels.Main10, "Tenpin"},
         {Levels.Main11, "Elfen"},
-        {Levels.Main12, "Oceans"},
-        {Levels.Main13, "Luck"},
-        {Levels.Main14, "Spaceship"},
-        {Levels.Main15, "Hit"},
-        {Levels.Main16, "Hit2"},
 
         {Levels.BossS1, "A New Hope"},
         {Levels.BossS2, "Sonic"},
@@ -72,12 +67,6 @@ public class Toolbox : Singleton<Toolbox>
         {Levels.Boss2, "Rockbreath Jr."},
         {Levels.Boss3, "Elder Rockbreath"},
         {Levels.Boss4, "King Rockbreath"},
-        {Levels.Boss5, "Count Nomee"},
-
-        {Levels.Boss6, "Rockbreath Demo"},
-        {Levels.Boss7, "Rockbreath Omega"},
-        {Levels.Boss8, "Rockbreath Prime"},
-        {Levels.Boss9, "Nomee Prime"},
     };
     
     private static MainAudioControl mainAudio;

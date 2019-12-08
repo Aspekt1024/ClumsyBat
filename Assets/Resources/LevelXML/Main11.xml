@@ -45,46 +45,7 @@
       <Moths />
       <Spiders />
       <Webs />
-      <Triggers>
-        <TriggerType>
-          <SpawnTransform>
-            <Pos>
-              <x>3.57105064</x>
-              <y>1.2067486</y>
-            </Pos>
-            <Scale>
-              <x>1</x>
-              <y>7.6625</y>
-            </Scale>
-            <Rotation>
-              <x>-0</x>
-              <y>-0</y>
-              <z>-0</z>
-              <w>1</w>
-              <eulerAngles>
-                <x>-0</x>
-                <y>0</y>
-                <z>0</z>
-              </eulerAngles>
-            </Rotation>
-          </SpawnTransform>
-          <TrigEvent>
-            <Id>34</Id>
-            <Dialogue>
-              <string>You should go back and find the hidden shrine!</string>
-              <string>It will help us get through this cave!</string>
-            </Dialogue>
-            <EventType>Dialogue</EventType>
-            <EventId>None</EventId>
-            <ShowOnce>false</ShowOnce>
-            <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
-            <ShowOnRestart>true</ShowOnRestart>
-            <HasDependency>true</HasDependency>
-            <DependencyId>NoHypersonic</DependencyId>
-            <ForceShow>Once</ForceShow>
-          </TrigEvent>
-        </TriggerType>
-      </Triggers>
+      <Triggers />
       <Npcs />
     </Cave>
     <Cave>
@@ -273,7 +234,7 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>5.97</TriggerPosX>
+          <TriggerPosX>5.19</TriggerPosX>
           <DropEnabled>true</DropEnabled>
           <Type>Stalactite</Type>
           <GreenMothChance>0</GreenMothChance>
@@ -304,7 +265,7 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>5.94</TriggerPosX>
+          <TriggerPosX>5.24</TriggerPosX>
           <DropEnabled>true</DropEnabled>
           <Type>Stalactite</Type>
           <GreenMothChance>0</GreenMothChance>
@@ -335,7 +296,7 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>5.94</TriggerPosX>
+          <TriggerPosX>3.21</TriggerPosX>
           <DropEnabled>true</DropEnabled>
           <Type>Stalactite</Type>
           <GreenMothChance>0</GreenMothChance>
@@ -366,7 +327,7 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>5.59</TriggerPosX>
+          <TriggerPosX>3.08</TriggerPosX>
           <DropEnabled>true</DropEnabled>
           <Type>Stalactite</Type>
           <GreenMothChance>0</GreenMothChance>
@@ -428,7 +389,7 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>6.06</TriggerPosX>
+          <TriggerPosX>5.63</TriggerPosX>
           <DropEnabled>true</DropEnabled>
           <Type>Stalactite</Type>
           <GreenMothChance>0</GreenMothChance>
@@ -552,7 +513,92 @@
           <PathType>Clover</PathType>
         </MothType>
       </Moths>
-      <Spiders />
+      <Spiders>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>-8.31778</x>
+              <y>4.1871376</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>-6.50427628</x>
+              <y>4.30048132</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>-3.72735119</x>
+              <y>4.13046551</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+      </Spiders>
       <Webs />
       <Triggers />
       <Npcs />
@@ -1109,7 +1155,120 @@
           <PathType>Clover</PathType>
         </MothType>
       </Moths>
-      <Spiders />
+      <Spiders>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>5.24189758</x>
+              <y>4.489738</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>6.48922348</x>
+              <y>5.194749</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>8.007706</x>
+              <y>5.194749</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>9.363491</x>
+              <y>4.92359</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+      </Spiders>
       <Webs />
       <Triggers />
       <Npcs />
@@ -1641,7 +1800,7 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>5.59</TriggerPosX>
+          <TriggerPosX>4.52</TriggerPosX>
           <DropEnabled>true</DropEnabled>
           <Type>Stalactite</Type>
           <GreenMothChance>0</GreenMothChance>
@@ -1771,7 +1930,64 @@
           <PathType>Figure8</PathType>
         </MothType>
       </Moths>
-      <Spiders />
+      <Spiders>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>-8.968811</x>
+              <y>4.54397</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>-0.8340874</x>
+              <y>4.6524334</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+      </Spiders>
       <Webs />
       <Triggers />
       <Npcs />
@@ -2024,7 +2240,7 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>6.18</TriggerPosX>
+          <TriggerPosX>4.98</TriggerPosX>
           <DropEnabled>true</DropEnabled>
           <Type>Stalactite</Type>
           <GreenMothChance>0</GreenMothChance>
@@ -2117,7 +2333,7 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>6.06</TriggerPosX>
+          <TriggerPosX>5.43</TriggerPosX>
           <DropEnabled>true</DropEnabled>
           <Type>Stalactite</Type>
           <GreenMothChance>0</GreenMothChance>
@@ -2334,7 +2550,92 @@
           <PathType>Clover</PathType>
         </MothType>
       </Moths>
-      <Spiders />
+      <Spiders>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>-8.970856</x>
+              <y>4.218581</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>-5.228874</x>
+              <y>4.272812</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>-1.6496048</x>
+              <y>4.489738</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+      </Spiders>
       <Webs />
       <Triggers />
       <Npcs />
@@ -2779,7 +3080,92 @@
           <PathType>Clover</PathType>
         </MothType>
       </Moths>
-      <Spiders />
+      <Spiders>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>-5.28519058</x>
+              <y>2.64586854</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>-6.47829056</x>
+              <y>3.8389616</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>4.151104</x>
+              <y>4.489742</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+      </Spiders>
       <Webs />
       <Triggers />
       <Npcs />
@@ -3094,7 +3480,7 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>5.91</TriggerPosX>
+          <TriggerPosX>4.47</TriggerPosX>
           <DropEnabled>true</DropEnabled>
           <Type>Stalactite</Type>
           <GreenMothChance>0</GreenMothChance>
@@ -3156,7 +3542,7 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>5.91</TriggerPosX>
+          <TriggerPosX>3.95</TriggerPosX>
           <DropEnabled>true</DropEnabled>
           <Type>Stalactite</Type>
           <GreenMothChance>0</GreenMothChance>
@@ -3187,7 +3573,7 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>5.91</TriggerPosX>
+          <TriggerPosX>5.47</TriggerPosX>
           <DropEnabled>true</DropEnabled>
           <Type>Stalactite</Type>
           <GreenMothChance>0</GreenMothChance>
@@ -3379,7 +3765,148 @@
           <PathType>Infinity</PathType>
         </MothType>
       </Moths>
-      <Spiders />
+      <Spiders>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>-8.97496</x>
+              <y>4.59820461</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>5.50479126</x>
+              <y>4.70667171</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>6.64364624</x>
+              <y>5.03206</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>9.24675751</x>
+              <y>5.03206</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>7.945198</x>
+              <y>5.086292</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+      </Spiders>
       <Webs />
       <Triggers />
       <Npcs />
@@ -3787,7 +4314,120 @@
           <PathType>Clover</PathType>
         </MothType>
       </Moths>
-      <Spiders />
+      <Spiders>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>-3.82514572</x>
+              <y>3.40511632</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>-0.300106049</x>
+              <y>4.652442</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>2.57417679</x>
+              <y>2.754338</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>5.88229752</x>
+              <y>3.02549553</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+      </Spiders>
       <Webs />
       <Triggers />
       <Npcs />
@@ -4071,7 +4711,7 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>5.94</TriggerPosX>
+          <TriggerPosX>5.17</TriggerPosX>
           <DropEnabled>true</DropEnabled>
           <Type>Stalactite</Type>
           <GreenMothChance>0</GreenMothChance>
@@ -4102,7 +4742,7 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>5.94</TriggerPosX>
+          <TriggerPosX>5.28</TriggerPosX>
           <DropEnabled>true</DropEnabled>
           <Type>Stalactite</Type>
           <GreenMothChance>0</GreenMothChance>
@@ -4578,7 +5218,7 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>6</TriggerPosX>
+          <TriggerPosX>4.02</TriggerPosX>
           <DropEnabled>true</DropEnabled>
           <Type>Stalactite</Type>
           <GreenMothChance>0</GreenMothChance>
@@ -4702,7 +5342,64 @@
           <PathType>Clover</PathType>
         </MothType>
       </Moths>
-      <Spiders />
+      <Spiders>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>-5.38977432</x>
+              <y>4.583839</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>7.58811569</x>
+              <y>5.09388638</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+      </Spiders>
       <Webs />
       <Triggers />
       <Npcs />
@@ -4842,7 +5539,64 @@
         </StalType>
       </Stals>
       <Moths />
-      <Spiders />
+      <Spiders>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>-6.28473663</x>
+              <y>4.47049427</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>-4.01786041</x>
+              <y>4.07379</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+      </Spiders>
       <Webs />
       <Triggers />
       <Npcs />
@@ -4869,5 +5623,5 @@
       </eulerAngles>
     </Rotation>
   </Clumsy>
-  <ScoreToBeat>7700</ScoreToBeat>
+  <ScoreToBeat>8000</ScoreToBeat>
 </LevelCollection>

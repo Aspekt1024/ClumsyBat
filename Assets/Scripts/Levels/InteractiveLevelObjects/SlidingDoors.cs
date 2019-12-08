@@ -41,6 +41,8 @@ public class SlidingDoors : MonoBehaviour {
     {
         const float slideDuration = 0.6f;
         float slideTimer = 0f;
+        
+        GameStatics.Audio.Main.PlaySound(MainSounds.DoorClosing);
 
         while (slideTimer < slideDuration)
         {
@@ -52,6 +54,7 @@ public class SlidingDoors : MonoBehaviour {
             bottomDoor.position = new Vector2(bottomDoor.position.x, bottomPosY);
             yield return null;
         }
+        GameStatics.Audio.Main.PlaySound(MainSounds.DoorSlam);
 
         GameStatics.Camera.Shake(0.5f);
     }

@@ -33,17 +33,16 @@ public class SpiderClass : Spawnable {
 
     private void Update()
     {
-        if (web != null)
-        {
-            web.MoveLeft(Time.deltaTime, Speed);
-            web.UpdateWebSprites();
-        }
+        web?.UpdateWebSprites();
 
         if (player == null) { return; }
-        if (!(player.model.position.x + 7f > transform.position.x + (spider.SpiderSwings ? spider.AnchorPoint.x : 0f)) || _spiderState != SpiderStates.Normal)
-            return;
-        _spiderState = SpiderStates.PreparingDrop;
-        StartCoroutine(Drop());
+
+        bool playerIsNearby = player.model.position.x + 7f > transform.position.x + (spider.SpiderSwings ? spider.AnchorPoint.x : 0f);
+        if (playerIsNearby && _spiderState == SpiderStates.Normal)
+        {
+            _spiderState = SpiderStates.PreparingDrop;
+            StartCoroutine(Drop());
+        }
     }
 
     protected override void Init()
@@ -107,7 +106,7 @@ public class SpiderClass : Spawnable {
             shakeTime += 0.09f;
         }
 
-        if (spider.SpiderSwings || SwingingSpider)
+        if (spider.SpiderSwings)
         {
             body.isKinematic = false;
             body.AddForce(new Vector2(-700, -1000));
@@ -151,7 +150,6 @@ public class SpiderClass : Spawnable {
         spider.Anim.enabled = true;
         web.Disengage();
         body.isKinematic = false;
-        //Spider.Anim.Play("Crumble", 0, 0f);   // TODO anim
         yield return new WaitForSeconds(1f);
         ClearWebs();
         Deactivate();

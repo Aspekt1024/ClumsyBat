@@ -53,6 +53,7 @@ public class LevelButtonHandler : MonoBehaviour {
     public void LevelClick()
     {
         ActiveLevel = EventSystem.current.currentSelectedGameObject.GetComponent<LevelButton>().Level;
+        GameStatics.Audio.Main.PlaySound(MainSounds.MenuButtonClick);
 
         for (int index = 1; index < GameStatics.Data.LevelDataHandler.NumLevels; index++)
         {

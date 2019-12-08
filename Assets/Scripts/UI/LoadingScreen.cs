@@ -9,7 +9,6 @@ namespace ClumsyBat.UI
         public float BaseHideDelay = 0f;
 
         public CanvasGroup LoadingCanvas;
-        public RectTransform LoadTextRt;
 
         private void Awake()
         {
@@ -28,12 +27,11 @@ namespace ClumsyBat.UI
             GameStatics.Camera.OnCameraChanged += CameraChanged;
         }
 
-        public IEnumerator ShowLoadScreen()
+        public IEnumerator ShowLoadScreen(float duration = 0.2f)
         {
             LoadingCanvas.blocksRaycasts = true;
             LoadingCanvas.interactable = true;
 
-            const float duration = 0.2f;
             float timer = 0f;
             while (timer < duration)
             {
@@ -41,15 +39,11 @@ namespace ClumsyBat.UI
                 LoadingCanvas.alpha = Mathf.Lerp(0f, 1f, timer / duration);
                 yield return null;
             }
-
-            yield return StartCoroutine(UIObjectAnimator.Instance.PopInObjectRoutine(LoadTextRt));
         }
 
         public IEnumerator HideLoadScreen(float delay = .05f)
         {
             yield return new WaitForSecondsRealtime(delay + BaseHideDelay);
-
-            UIObjectAnimator.Instance.PopOutObject(LoadTextRt);
 
             const float duration = 0.3f;
             float timer = 0f;

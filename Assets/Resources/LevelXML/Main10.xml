@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="Windows-1252"?>
-<LevelCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<?xml version="1.0"?>
+<LevelCollection xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <CaveList>
     <Cave>
       <TopIndex>1000</TopIndex>
@@ -21,12 +21,12 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
               <w>1</w>
               <eulerAngles>
-                <x>0</x>
+                <x>-0</x>
                 <y>0</y>
                 <z>0</z>
               </eulerAngles>
@@ -52,12 +52,12 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
               <w>1</w>
               <eulerAngles>
-                <x>0</x>
+                <x>-0</x>
                 <y>0</y>
                 <z>0</z>
               </eulerAngles>
@@ -83,10 +83,10 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>1</z>
-              <w>0</w>
+              <w>-4.371139E-08</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -114,10 +114,10 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>1</z>
-              <w>0</w>
+              <w>-4.371139E-08</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -145,10 +145,10 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>1</z>
-              <w>0</w>
+              <w>-4.371139E-08</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -176,10 +176,10 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>1</z>
-              <w>0</w>
+              <w>-4.371139E-08</w>
               <eulerAngles>
                 <x>0</x>
                 <y>0</y>
@@ -198,7 +198,36 @@
         </StalType>
       </Stals>
       <Moths />
-      <Spiders />
+      <Spiders>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>7.41515732</x>
+              <y>4.84953976</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+      </Spiders>
       <Webs />
       <Triggers />
       <Npcs />
@@ -210,7 +239,32 @@
       <bBottomSecretPath>false</bBottomSecretPath>
       <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
       <bSecretPathHasBlock>false</bSecretPathHasBlock>
-      <Shrooms />
+      <Shrooms>
+        <ShroomType>
+          <SpawnTransform>
+            <Pos>
+              <x>1.405035</x>
+              <y>-3.57888985</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpecialEnabled>false</SpecialEnabled>
+        </ShroomType>
+      </Shrooms>
       <Stals>
         <StalType>
           <SpawnTransform>
@@ -223,8 +277,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.08000199</z>
               <w>-0.9967947</w>
               <eulerAngles>
@@ -254,13 +308,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.0943050161</z>
               <w>0.995543361</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>10.8226414</z>
               </eulerAngles>
             </Rotation>
@@ -285,13 +339,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9967947</z>
               <w>0.08000203</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>170.822632</z>
               </eulerAngles>
             </Rotation>
@@ -316,8 +370,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.999974251</z>
               <w>-0.00717876526</w>
               <eulerAngles>
@@ -347,8 +401,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.983535767</z>
               <w>-0.18071349</w>
               <eulerAngles>
@@ -378,13 +432,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9967947</z>
               <w>0.08000203</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>170.822632</z>
               </eulerAngles>
             </Rotation>
@@ -409,8 +463,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.964042962</z>
               <w>-0.265746623</w>
               <eulerAngles>
@@ -442,12 +496,12 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
               <w>1</w>
               <eulerAngles>
-                <x>0</x>
+                <x>-0</x>
                 <y>0</y>
                 <z>0</z>
               </eulerAngles>
@@ -457,7 +511,64 @@
           <PathType>Clover</PathType>
         </MothType>
       </Moths>
-      <Spiders />
+      <Spiders>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>-6.8820734</x>
+              <y>3.97220278</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>5.452265</x>
+              <y>4.38506746</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+      </Spiders>
       <Webs />
       <Triggers />
       <Npcs />
@@ -469,7 +580,32 @@
       <bBottomSecretPath>false</bBottomSecretPath>
       <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
       <bSecretPathHasBlock>false</bSecretPathHasBlock>
-      <Shrooms />
+      <Shrooms>
+        <ShroomType>
+          <SpawnTransform>
+            <Pos>
+              <x>3.64347076</x>
+              <y>-2.33522415</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>0.258819133</z>
+              <w>-0.9659258</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>330</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpecialEnabled>false</SpecialEnabled>
+        </ShroomType>
+      </Shrooms>
       <Stals>
         <StalType>
           <SpawnTransform>
@@ -482,8 +618,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.999974251</z>
               <w>-0.0071793613</w>
               <eulerAngles>
@@ -513,13 +649,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9967947</z>
               <w>0.08000203</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>170.822632</z>
               </eulerAngles>
             </Rotation>
@@ -544,8 +680,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.983535767</z>
               <w>-0.18071349</w>
               <eulerAngles>
@@ -575,13 +711,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9967947</z>
               <w>0.08000203</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>170.822632</z>
               </eulerAngles>
             </Rotation>
@@ -606,13 +742,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9967947</z>
               <w>0.08000203</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>170.822632</z>
               </eulerAngles>
             </Rotation>
@@ -637,8 +773,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.995543361</z>
               <w>-0.0943050459</w>
               <eulerAngles>
@@ -668,18 +804,18 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.007178106</z>
               <w>0.999974251</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>0.8225574</z>
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>6.08</TriggerPosX>
+          <TriggerPosX>4.95</TriggerPosX>
           <DropEnabled>true</DropEnabled>
           <Type>Stalactite</Type>
           <GreenMothChance>0</GreenMothChance>
@@ -699,8 +835,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.08000199</z>
               <w>-0.9967947</w>
               <eulerAngles>
@@ -730,8 +866,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.08000199</z>
               <w>-0.9967947</w>
               <eulerAngles>
@@ -761,13 +897,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.0943050161</z>
               <w>0.995543361</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>10.8226414</z>
               </eulerAngles>
             </Rotation>
@@ -792,13 +928,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9967947</z>
               <w>0.08000203</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>170.822632</z>
               </eulerAngles>
             </Rotation>
@@ -823,8 +959,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.995543361</z>
               <w>-0.0943050459</w>
               <eulerAngles>
@@ -856,12 +992,12 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
               <w>1</w>
               <eulerAngles>
-                <x>0</x>
+                <x>-0</x>
                 <y>0</y>
                 <z>0</z>
               </eulerAngles>
@@ -881,12 +1017,12 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
               <w>1</w>
               <eulerAngles>
-                <x>0</x>
+                <x>-0</x>
                 <y>0</y>
                 <z>0</z>
               </eulerAngles>
@@ -896,7 +1032,64 @@
           <PathType>Clover</PathType>
         </MothType>
       </Moths>
-      <Spiders />
+      <Spiders>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>-6.67742538</x>
+              <y>4.38506746</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>-0.0199813843</x>
+              <y>5.1591897</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+      </Spiders>
       <Webs />
       <Triggers />
       <Npcs />
@@ -908,7 +1101,32 @@
       <bBottomSecretPath>false</bBottomSecretPath>
       <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
       <bSecretPathHasBlock>false</bSecretPathHasBlock>
-      <Shrooms />
+      <Shrooms>
+        <ShroomType>
+          <SpawnTransform>
+            <Pos>
+              <x>-7.146984</x>
+              <y>-2.098337</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>0.258819133</z>
+              <w>-0.9659258</w>
+              <eulerAngles>
+                <x>0</x>
+                <y>0</y>
+                <z>330</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpecialEnabled>false</SpecialEnabled>
+        </ShroomType>
+      </Shrooms>
       <Stals>
         <StalType>
           <SpawnTransform>
@@ -921,13 +1139,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9967947</z>
               <w>0.08000203</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>170.822632</z>
               </eulerAngles>
             </Rotation>
@@ -952,8 +1170,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.995543361</z>
               <w>-0.0943050459</w>
               <eulerAngles>
@@ -983,8 +1201,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.995543361</z>
               <w>-0.0943050459</w>
               <eulerAngles>
@@ -1014,13 +1232,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9967947</z>
               <w>0.08000203</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>170.822632</z>
               </eulerAngles>
             </Rotation>
@@ -1045,8 +1263,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.995543361</z>
               <w>-0.09430493</w>
               <eulerAngles>
@@ -1076,18 +1294,18 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
               <w>1</w>
               <eulerAngles>
-                <x>0</x>
+                <x>-0</x>
                 <y>0</y>
                 <z>0</z>
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>6.53</TriggerPosX>
+          <TriggerPosX>5.46</TriggerPosX>
           <DropEnabled>true</DropEnabled>
           <Type>Stalactite</Type>
           <GreenMothChance>0</GreenMothChance>
@@ -1107,18 +1325,18 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.007178799</z>
               <w>0.999974251</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>0.8226368</z>
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>6.16</TriggerPosX>
+          <TriggerPosX>4.98</TriggerPosX>
           <DropEnabled>true</DropEnabled>
           <Type>Stalactite</Type>
           <GreenMothChance>0</GreenMothChance>
@@ -1138,18 +1356,18 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.007178799</z>
               <w>0.999974251</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>0.8226368</z>
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>6.74</TriggerPosX>
+          <TriggerPosX>4.76</TriggerPosX>
           <DropEnabled>true</DropEnabled>
           <Type>Stalactite</Type>
           <GreenMothChance>0</GreenMothChance>
@@ -1169,13 +1387,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.09430502</z>
               <w>0.995543361</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>10.8226423</z>
               </eulerAngles>
             </Rotation>
@@ -1200,8 +1418,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.08000199</z>
               <w>-0.9967947</w>
               <eulerAngles>
@@ -1231,13 +1449,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.0943050161</z>
               <w>0.995543361</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>10.8226414</z>
               </eulerAngles>
             </Rotation>
@@ -1264,12 +1482,12 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
               <w>1</w>
               <eulerAngles>
-                <x>0</x>
+                <x>-0</x>
                 <y>0</y>
                 <z>0</z>
               </eulerAngles>
@@ -1279,7 +1497,36 @@
           <PathType>Clover</PathType>
         </MothType>
       </Moths>
-      <Spiders />
+      <Spiders>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>-0.537826538</x>
+              <y>4.12703037</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>-3.90000153</x>
+            <y>0.04487562</y>
+          </AnchorPoint>
+        </SpiderType>
+      </Spiders>
       <Webs />
       <Triggers />
       <Npcs />
@@ -1291,7 +1538,80 @@
       <bBottomSecretPath>false</bBottomSecretPath>
       <bSecretPathRequiresMoth>false</bSecretPathRequiresMoth>
       <bSecretPathHasBlock>false</bSecretPathHasBlock>
-      <Shrooms />
+      <Shrooms>
+        <ShroomType>
+          <SpawnTransform>
+            <Pos>
+              <x>-5.55999</x>
+              <y>-2.394448</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpecialEnabled>false</SpecialEnabled>
+        </ShroomType>
+        <ShroomType>
+          <SpawnTransform>
+            <Pos>
+              <x>-3.250328</x>
+              <y>2.99477458</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>0.906308</z>
+              <w>0.422617823</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>-0</y>
+                <z>130.000061</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpecialEnabled>false</SpecialEnabled>
+        </ShroomType>
+        <ShroomType>
+          <SpawnTransform>
+            <Pos>
+              <x>3.79711151</x>
+              <y>-3.40122342</y>
+            </Pos>
+            <Scale>
+              <x>1</x>
+              <y>1</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpecialEnabled>false</SpecialEnabled>
+        </ShroomType>
+      </Shrooms>
       <Stals>
         <StalType>
           <SpawnTransform>
@@ -1304,13 +1624,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.007178799</z>
               <w>0.999974251</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>0.8226368</z>
               </eulerAngles>
             </Rotation>
@@ -1335,13 +1655,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9967947</z>
               <w>0.08000203</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>170.822632</z>
               </eulerAngles>
             </Rotation>
@@ -1366,13 +1686,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9967947</z>
               <w>0.08000203</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>170.822632</z>
               </eulerAngles>
             </Rotation>
@@ -1397,8 +1717,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.999974251</z>
               <w>-0.00717876526</w>
               <eulerAngles>
@@ -1428,13 +1748,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9967947</z>
               <w>0.08000203</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>170.822632</z>
               </eulerAngles>
             </Rotation>
@@ -1459,8 +1779,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.999974251</z>
               <w>-0.00717876526</w>
               <eulerAngles>
@@ -1492,12 +1812,12 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
               <w>1</w>
               <eulerAngles>
-                <x>0</x>
+                <x>-0</x>
                 <y>0</y>
                 <z>0</z>
               </eulerAngles>
@@ -1517,12 +1837,12 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
               <w>1</w>
               <eulerAngles>
-                <x>0</x>
+                <x>-0</x>
                 <y>0</y>
                 <z>0</z>
               </eulerAngles>
@@ -1532,7 +1852,36 @@
           <PathType>Clover</PathType>
         </MothType>
       </Moths>
-      <Spiders />
+      <Spiders>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>-7.274208</x>
+              <y>4.647498</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+      </Spiders>
       <Webs />
       <Triggers />
       <Npcs />
@@ -1557,13 +1906,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.0943050161</z>
               <w>0.995543361</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>10.8226414</z>
               </eulerAngles>
             </Rotation>
@@ -1588,8 +1937,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.08000199</z>
               <w>-0.9967947</w>
               <eulerAngles>
@@ -1619,13 +1968,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.00717879133</z>
               <w>0.999974251</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>0.822635949</z>
               </eulerAngles>
             </Rotation>
@@ -1650,8 +1999,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.08000199</z>
               <w>-0.9967947</w>
               <eulerAngles>
@@ -1681,8 +2030,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.995543361</z>
               <w>-0.0943050459</w>
               <eulerAngles>
@@ -1712,13 +2061,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9967947</z>
               <w>0.08000203</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>170.822632</z>
               </eulerAngles>
             </Rotation>
@@ -1743,8 +2092,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.999974251</z>
               <w>-0.00717876526</w>
               <eulerAngles>
@@ -1774,18 +2123,18 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.00717879133</z>
               <w>0.999974251</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>0.822635949</z>
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>6.51</TriggerPosX>
+          <TriggerPosX>3.83</TriggerPosX>
           <DropEnabled>true</DropEnabled>
           <Type>Stalactite</Type>
           <GreenMothChance>0</GreenMothChance>
@@ -1805,8 +2154,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.08000199</z>
               <w>-0.9967947</w>
               <eulerAngles>
@@ -1836,8 +2185,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.08000199</z>
               <w>-0.9967947</w>
               <eulerAngles>
@@ -1867,13 +2216,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.0943050161</z>
               <w>0.995543361</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>10.8226414</z>
               </eulerAngles>
             </Rotation>
@@ -1898,8 +2247,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.08000199</z>
               <w>-0.9967947</w>
               <eulerAngles>
@@ -1929,8 +2278,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>1</z>
               <w>-4.371139E-08</w>
               <eulerAngles>
@@ -1960,8 +2309,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.1736483</z>
               <w>-0.9848077</w>
               <eulerAngles>
@@ -1991,13 +2340,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9961947</z>
               <w>0.087155804</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>170</z>
               </eulerAngles>
             </Rotation>
@@ -2022,8 +2371,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.258819133</z>
               <w>-0.9659258</w>
               <eulerAngles>
@@ -2045,7 +2394,7 @@
         <StalType>
           <SpawnTransform>
             <Pos>
-              <x>-0.164073944</x>
+              <x>-0.164081573</x>
               <y>-4.78964233</y>
             </Pos>
             <Scale>
@@ -2053,8 +2402,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9848078</z>
               <w>-0.173648208</w>
               <eulerAngles>
@@ -2084,8 +2433,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>1</z>
               <w>-4.371139E-08</w>
               <eulerAngles>
@@ -2117,12 +2466,12 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
               <w>1</w>
               <eulerAngles>
-                <x>0</x>
+                <x>-0</x>
                 <y>0</y>
                 <z>0</z>
               </eulerAngles>
@@ -2132,48 +2481,66 @@
           <PathType>Clover</PathType>
         </MothType>
       </Moths>
-      <Spiders />
-      <Webs />
-      <Triggers>
-        <TriggerType>
+      <Spiders>
+        <SpiderType>
           <SpawnTransform>
             <Pos>
-              <x>-5.890003</x>
-              <y>0.9</y>
+              <x>-5.72491837</x>
+              <y>3.80964112</y>
             </Pos>
             <Scale>
-              <x>1</x>
-              <y>9.125015</y>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
               <w>1</w>
               <eulerAngles>
-                <x>0</x>
+                <x>-0</x>
                 <y>0</y>
                 <z>0</z>
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TrigEvent>
-            <Id>42</Id>
-            <Dialogue>
-              <string>Without hypersonic, we can't make it past here!</string>
-              <string>Go back and find the shrine to unlock the lantern's power!</string>
-            </Dialogue>
-            <EventType>Dialogue</EventType>
-            <EventId>None</EventId>
-            <ShowOnce>false</ShowOnce>
-            <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
-            <ShowOnRestart>true</ShowOnRestart>
-            <HasDependency>true</HasDependency>
-            <DependencyId>NoHypersonic</DependencyId>
-            <ForceShow>Always</ForceShow>
-          </TrigEvent>
-        </TriggerType>
-      </Triggers>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>9.504345</x>
+              <y>4.499641</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+      </Spiders>
+      <Webs />
+      <Triggers />
       <Npcs />
     </Cave>
     <Cave>
@@ -2196,8 +2563,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.995543361</z>
               <w>-0.0943050459</w>
               <eulerAngles>
@@ -2227,8 +2594,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.08000199</z>
               <w>-0.9967947</w>
               <eulerAngles>
@@ -2258,8 +2625,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.995543361</z>
               <w>-0.0943050459</w>
               <eulerAngles>
@@ -2289,13 +2656,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9967947</z>
               <w>0.08000203</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>170.822632</z>
               </eulerAngles>
             </Rotation>
@@ -2320,8 +2687,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.999974251</z>
               <w>-0.00717876526</w>
               <eulerAngles>
@@ -2351,13 +2718,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.0943050161</z>
               <w>0.995543361</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>10.8226414</z>
               </eulerAngles>
             </Rotation>
@@ -2382,18 +2749,18 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.00717879133</z>
               <w>0.999974251</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>0.822635949</z>
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <TriggerPosX>6.61</TriggerPosX>
+          <TriggerPosX>5.02</TriggerPosX>
           <DropEnabled>true</DropEnabled>
           <Type>Stalactite</Type>
           <GreenMothChance>0</GreenMothChance>
@@ -2413,8 +2780,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.08000199</z>
               <w>-0.9967947</w>
               <eulerAngles>
@@ -2444,13 +2811,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.0943050161</z>
               <w>0.995543361</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>10.8226414</z>
               </eulerAngles>
             </Rotation>
@@ -2475,8 +2842,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.166573927</z>
               <w>-0.986028969</w>
               <eulerAngles>
@@ -2506,8 +2873,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.08000199</z>
               <w>-0.9967947</w>
               <eulerAngles>
@@ -2539,12 +2906,12 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
               <w>1</w>
               <eulerAngles>
-                <x>0</x>
+                <x>-0</x>
                 <y>0</y>
                 <z>0</z>
               </eulerAngles>
@@ -2554,7 +2921,36 @@
           <PathType>Clover</PathType>
         </MothType>
       </Moths>
-      <Spiders />
+      <Spiders>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>-0.2821045</x>
+              <y>4.056069</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>0</x>
+            <y>0</y>
+          </AnchorPoint>
+        </SpiderType>
+      </Spiders>
       <Webs />
       <Triggers />
       <Npcs />
@@ -2579,13 +2975,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.0943050161</z>
               <w>0.995543361</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>10.8226414</z>
               </eulerAngles>
             </Rotation>
@@ -2610,8 +3006,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.08000199</z>
               <w>-0.9967947</w>
               <eulerAngles>
@@ -2643,12 +3039,12 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
               <w>1</w>
               <eulerAngles>
-                <x>0</x>
+                <x>-0</x>
                 <y>0</y>
                 <z>0</z>
               </eulerAngles>
@@ -2658,7 +3054,36 @@
           <PathType>Clover</PathType>
         </MothType>
       </Moths>
-      <Spiders />
+      <Spiders>
+        <SpiderType>
+          <SpawnTransform>
+            <Pos>
+              <x>-7.604244</x>
+              <y>4.45035458</y>
+            </Pos>
+            <Scale>
+              <x>0.7609469</x>
+              <y>0.7609473</y>
+            </Scale>
+            <Rotation>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
+              <w>1</w>
+              <eulerAngles>
+                <x>-0</x>
+                <y>0</y>
+                <z>0</z>
+              </eulerAngles>
+            </Rotation>
+          </SpawnTransform>
+          <SpiderSwings>false</SpiderSwings>
+          <AnchorPoint>
+            <x>-6.790001</x>
+            <y>0.8110328</y>
+          </AnchorPoint>
+        </SpiderType>
+      </Spiders>
       <Webs />
       <Triggers />
       <Npcs />
@@ -2679,11 +3104,11 @@
       <z>0</z>
       <w>0</w>
       <eulerAngles>
-        <x>0</x>
+        <x>-0</x>
         <y>0</y>
         <z>0</z>
       </eulerAngles>
     </Rotation>
   </Clumsy>
-  <ScoreToBeat>5700</ScoreToBeat>
+  <ScoreToBeat>5000</ScoreToBeat>
 </LevelCollection>

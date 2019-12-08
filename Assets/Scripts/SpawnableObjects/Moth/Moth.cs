@@ -58,6 +58,8 @@ public class Moth : Spawnable {
         Vector3 startPos = new Vector3();
         bool bStartPosSet = false;
 
+        GameStatics.Audio.Main.PlaySound(MainSounds.MothAbsorbed);
+        
         while (animTimer < animDuration)
         {
             animTimer += Time.deltaTime;
@@ -76,6 +78,7 @@ public class Moth : Spawnable {
             yield return null;
         }
         
+        GameStatics.Audio.Main.PlaySound(MainSounds.MothCollected);
         GameStatics.Player.Clumsy.lantern.ConsumeMoth(Colour);
 
         Deactivate();

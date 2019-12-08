@@ -11,26 +11,30 @@ public static class LevelProgressionHandler
         Main4, Main5, Main6, Boss2,
         Main7, Main8, Boss3,
         Main9, Main10, Main11, Boss4,
-        Main12, Main13, Main14, Boss5,
-        Main15, Main16, Boss6, Boss7, Boss8, Boss9,
-        BossS1, BossS2, BossS3,
-        Endless 
+        BossS1, BossS2,
+        Credits
     }
 
     // Get the next level based on the current path
     public static Levels GetNextLevel(Levels level)
     {
+        // Boss4 is the last level. If we get here, point to credits
+        if (level == Levels.Boss4)
+        {
+            return Levels.Credits;
+        }
+        
         switch (level)
         {
             case Levels.BossS1:
                 return Levels.Unassigned;
             case Levels.BossS2:
                 return Levels.Unassigned;
-            case Levels.Boss5:
+            case Levels.Boss4:
                 return Levels.Unassigned;
         }
 
-        if (level < Levels.Boss5)
+        if (level < Levels.Boss4)
         {
             return (Levels)(((int)level) + 1);
         }

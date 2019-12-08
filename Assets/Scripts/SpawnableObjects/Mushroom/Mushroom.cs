@@ -111,8 +111,7 @@ public class Mushroom : Spawnable {
         base.Spawn(transform, spawnTf);
         isTriggered = false;
         mushroomRenderer.enabled = true;
-        spore.transform.Rotate(Vector3.forward * 16f);  // Offsets the spore trajectory to line up with the shroom graphic
-                                                         // TODO set this in the editor using animations?
+        spore.transform.localEulerAngles = Vector3.forward * 16f;
     }
 
     public void DestroyMushroom()

@@ -133,10 +133,16 @@ namespace ClumsyBat.UI
 
         private IEnumerator PanelDropAnim(bool bEnteringScreen) // todo create separate coroutine for raising and dropping
         {
-            if (!bEnteringScreen)
+
+            if (bEnteringScreen)
+            {
+                GameStatics.Audio.Main.PlaySound(MainSounds.MenuDropdownShow);
+            }
+            else
             {
                 if (state == States.Hidden) yield break;
 
+                GameStatics.Audio.Main.PlaySound(MainSounds.MenuDropdownHide);
                 state = States.Hidden;
                 StartCoroutine(Bounce(-0.7f));
                 yield return new WaitForSecondsRealtime(BounceDuration);

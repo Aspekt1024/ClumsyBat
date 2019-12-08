@@ -51,7 +51,7 @@ namespace ClumsyBat.Players
 
             playerBody.velocity = velocity;
             player.Animate(ClumsyAnimator.ClumsyAnimations.Flap);
-            //player.PlaySound(ClumsyAudioControl.PlayerSounds.Flap);
+            GameStatics.Audio.Main.PlaySound(MainSounds.ClumsyFlap);
         }
 
 

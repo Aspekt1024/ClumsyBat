@@ -100,7 +100,7 @@ namespace ClumsyBat.UI.DropdownMenuComponents
 
         public void ShowLevelCompletion(Levels level, Levels nextLevel)
         {
-            this.nextLevel = nextLevel;
+            this.nextLevel = nextLevel; // TODO this being managed here is misleading. Should be delegated at the top level
             _menuHeader.Text.text = "LEVEL COMPLETE!";
             _subText.Text.text = Toolbox.Instance.LevelNames[GameStatics.LevelManager.Level];
             completionScreen.ShowLevelCompletion(level);

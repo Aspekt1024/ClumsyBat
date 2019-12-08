@@ -1,6 +1,8 @@
 ﻿using ClumsyBat.Players;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace ClumsyBat
 {
@@ -106,13 +108,27 @@ namespace ClumsyBat
             }
 
             var nextLevel = LevelProgressionHandler.GetNextLevel(GameStatics.LevelManager.Level);
-            GameStatics.UI.DropdownMenu.ShowLevelCompletion(GameStatics.LevelManager.Level, nextLevel);
+            if (nextLevel == LevelProgressionHandler.Levels.Credits)
+            {
+                StartCoroutine(GameCompleteRoutine());
+            }
+            else
+            {
+                GameStatics.UI.DropdownMenu.ShowLevelCompletion(GameStatics.LevelManager.Level, nextLevel);
+            }
         }
 
         public void GameOver()
         {
             Level.stateHandler.SetLevelOver(true);
             Level.ShowGameoverMenu();
+        }
+
+        private IEnumerator GameCompleteRoutine()
+        {
+            yield return new WaitForSeconds(1f);
+            yield return StartCoroutine(GameStatics.UI.LoadingScreen.ShowLoadScreen(3f));
+            SceneManager.LoadScene("Credits");
         }
     }
 }

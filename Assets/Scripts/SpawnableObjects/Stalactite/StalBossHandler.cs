@@ -66,7 +66,9 @@ public class StalBossHandler : MonoBehaviour {
     {
         for (int i = 0; i < stalPositionIndexes.Length; i++)
         {
+            if (i >= stalPositionIndexes.Length) break;
             int index = stalPositionIndexes[i];
+            if (index >= topStals.Length) continue;
             topStals[index].IsActive = false;
         }
     }

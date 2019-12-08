@@ -77,6 +77,7 @@ public class RushAbility : MonoBehaviour {
 
         if (dashRoutine != null) StopCoroutine(dashRoutine);
         dashRoutine = StartCoroutine(DashSequence(dir));
+        GameStatics.Audio.Main.PlaySound(MainSounds.ClumsyRush);
         
         GameStatics.Data.Stats.TimesDashed++;
 

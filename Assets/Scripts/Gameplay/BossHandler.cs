@@ -16,10 +16,6 @@ public class BossHandler : MonoBehaviour {
         {LevelProgressionHandler.Levels.Boss2, "NPCs/Bosses/BossBehaviours/Rockbreath4"},
         {LevelProgressionHandler.Levels.Boss3, "NPCs/Bosses/BossBehaviours/KingRockbreath2"},
         {LevelProgressionHandler.Levels.Boss4, "NPCs/Bosses/BossBehaviours/Rockbreath5"},
-        {LevelProgressionHandler.Levels.Boss5, "NPCs/Bosses/BossBehaviours/Nomee"},
-        {LevelProgressionHandler.Levels.Boss6, "NPCs/Bosses/BossBehaviours/RockbreathDemo"},
-        {LevelProgressionHandler.Levels.Boss7, "NPCs/Bosses/BossBehaviours/Rockbreath7"},
-        {LevelProgressionHandler.Levels.Boss8, "NPCs/Bosses/BossBehaviours/KingRockbreath3"},
     };
 
     private const float ResumeTimerDuration = 3f;

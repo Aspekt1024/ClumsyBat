@@ -48,7 +48,7 @@ namespace ClumsyBat.DataManagement
         {
             // This ignores secret levels (i.e. this is the main path only)
             Levels level = Levels.Main1;
-            while (level < Levels.Boss5 && (GetLevelData(level).LevelUnlocked || level == Levels.Main1))
+            while (level < Levels.Boss4 && (GetLevelData(level).LevelUnlocked || level == Levels.Main1))
             {
                 Levels nextLevel = LevelProgressionHandler.GetNextLevel(level);
                 if (nextLevel == Levels.Unassigned)

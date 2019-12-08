@@ -93,14 +93,7 @@ public class WebString {
     {
         spiderHinge.enabled = false;
     }
-
-    public void MoveLeft(float time, float speed)
-    {
-        if (webAnchor == null) return;
-        if (webAnchor.position.x > 20 || webAnchor.position.x < -20) return;
-        webAnchor.position += Vector3.left * time * speed;
-    }
-
+    
     public void Spawn(bool IsSwinging, Vector2 anchorPoint)
     {
         GenerateSections();

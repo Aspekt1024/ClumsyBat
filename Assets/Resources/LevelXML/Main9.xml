@@ -554,12 +554,12 @@
         <TriggerType>
           <SpawnTransform>
             <Pos>
-              <x>-5.73778534</x>
-              <y>0.06423925</y>
+              <x>-5.100136</x>
+              <y>-0.033490777</y>
             </Pos>
             <Scale>
               <x>1</x>
-              <y>11.338</y>
+              <y>9.749999</y>
             </Scale>
             <Rotation>
               <x>-0</x>
@@ -574,7 +574,7 @@
             </Rotation>
           </SpawnTransform>
           <TrigEvent>
-            <Id>47</Id>
+            <Id>4</Id>
             <Dialogue>
               <string>Swipe to dash through tight spaces</string>
             </Dialogue>
@@ -2369,8 +2369,8 @@
         <SpiderType>
           <SpawnTransform>
             <Pos>
-              <x>-7.050003</x>
-              <y>3.62</y>
+              <x>-8.300003</x>
+              <y>4.3</y>
             </Pos>
             <Scale>
               <x>0.7609469</x>
@@ -2388,7 +2388,7 @@
               </eulerAngles>
             </Rotation>
           </SpawnTransform>
-          <SpiderSwings>true</SpiderSwings>
+          <SpiderSwings>false</SpiderSwings>
           <AnchorPoint>
             <x>-5.33999634</x>
             <y>1.44635677</y>

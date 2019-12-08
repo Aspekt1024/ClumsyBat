@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="Windows-1252"?>
-<LevelCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<?xml version="1.0"?>
+<LevelCollection xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <CaveList>
     <Cave>
       <TopIndex>1000</TopIndex>
@@ -25,12 +25,12 @@
               <y>9.312517</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
               <w>1</w>
               <eulerAngles>
-                <x>0</x>
+                <x>-0</x>
                 <y>0</y>
                 <z>0</z>
               </eulerAngles>
@@ -76,8 +76,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.08000199</z>
               <w>-0.9967947</w>
               <eulerAngles>
@@ -107,13 +107,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.0943050161</z>
               <w>0.995543361</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>10.8226414</z>
               </eulerAngles>
             </Rotation>
@@ -138,13 +138,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9967947</z>
               <w>0.08000203</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>170.822632</z>
               </eulerAngles>
             </Rotation>
@@ -169,8 +169,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.999974251</z>
               <w>-0.00717876526</w>
               <eulerAngles>
@@ -200,8 +200,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.983535767</z>
               <w>-0.18071349</w>
               <eulerAngles>
@@ -231,13 +231,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9967947</z>
               <w>0.08000203</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>170.822632</z>
               </eulerAngles>
             </Rotation>
@@ -262,8 +262,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.964042962</z>
               <w>-0.265746623</w>
               <eulerAngles>
@@ -295,12 +295,12 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
               <w>1</w>
               <eulerAngles>
-                <x>0</x>
+                <x>-0</x>
                 <y>0</y>
                 <z>0</z>
               </eulerAngles>
@@ -335,8 +335,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.999974251</z>
               <w>-0.0071793613</w>
               <eulerAngles>
@@ -366,13 +366,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9967947</z>
               <w>0.08000203</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>170.822632</z>
               </eulerAngles>
             </Rotation>
@@ -397,8 +397,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.983535767</z>
               <w>-0.18071349</w>
               <eulerAngles>
@@ -428,13 +428,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9967947</z>
               <w>0.08000203</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>170.822632</z>
               </eulerAngles>
             </Rotation>
@@ -459,13 +459,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9967947</z>
               <w>0.08000203</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>170.822632</z>
               </eulerAngles>
             </Rotation>
@@ -490,8 +490,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.995543361</z>
               <w>-0.0943050459</w>
               <eulerAngles>
@@ -521,13 +521,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.007178106</z>
               <w>0.999974251</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>0.8225574</z>
               </eulerAngles>
             </Rotation>
@@ -552,8 +552,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.08000199</z>
               <w>-0.9967947</w>
               <eulerAngles>
@@ -583,8 +583,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.08000199</z>
               <w>-0.9967947</w>
               <eulerAngles>
@@ -614,13 +614,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.0943050161</z>
               <w>0.995543361</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>10.8226414</z>
               </eulerAngles>
             </Rotation>
@@ -645,13 +645,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9967947</z>
               <w>0.08000203</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>170.822632</z>
               </eulerAngles>
             </Rotation>
@@ -676,8 +676,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.995543361</z>
               <w>-0.0943050459</w>
               <eulerAngles>
@@ -709,12 +709,12 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
               <w>1</w>
               <eulerAngles>
-                <x>0</x>
+                <x>-0</x>
                 <y>0</y>
                 <z>0</z>
               </eulerAngles>
@@ -734,12 +734,12 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
               <w>1</w>
               <eulerAngles>
-                <x>0</x>
+                <x>-0</x>
                 <y>0</y>
                 <z>0</z>
               </eulerAngles>
@@ -774,13 +774,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9967947</z>
               <w>0.08000203</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>170.822632</z>
               </eulerAngles>
             </Rotation>
@@ -805,8 +805,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.995543361</z>
               <w>-0.0943050459</w>
               <eulerAngles>
@@ -836,8 +836,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.995543361</z>
               <w>-0.0943050459</w>
               <eulerAngles>
@@ -867,13 +867,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9967947</z>
               <w>0.08000203</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>170.822632</z>
               </eulerAngles>
             </Rotation>
@@ -898,8 +898,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.995543361</z>
               <w>-0.09430493</w>
               <eulerAngles>
@@ -929,12 +929,12 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
               <w>1</w>
               <eulerAngles>
-                <x>0</x>
+                <x>-0</x>
                 <y>0</y>
                 <z>0</z>
               </eulerAngles>
@@ -960,13 +960,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.007178799</z>
               <w>0.999974251</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>0.8226368</z>
               </eulerAngles>
             </Rotation>
@@ -991,13 +991,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.007178799</z>
               <w>0.999974251</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>0.8226368</z>
               </eulerAngles>
             </Rotation>
@@ -1022,13 +1022,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.09430502</z>
               <w>0.995543361</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>10.8226423</z>
               </eulerAngles>
             </Rotation>
@@ -1053,8 +1053,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.08000199</z>
               <w>-0.9967947</w>
               <eulerAngles>
@@ -1084,13 +1084,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.0943050161</z>
               <w>0.995543361</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>10.8226414</z>
               </eulerAngles>
             </Rotation>
@@ -1117,12 +1117,12 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
               <w>1</w>
               <eulerAngles>
-                <x>0</x>
+                <x>-0</x>
                 <y>0</y>
                 <z>0</z>
               </eulerAngles>
@@ -1157,13 +1157,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.007178799</z>
               <w>0.999974251</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>0.8226368</z>
               </eulerAngles>
             </Rotation>
@@ -1188,13 +1188,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9967947</z>
               <w>0.08000203</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>170.822632</z>
               </eulerAngles>
             </Rotation>
@@ -1219,13 +1219,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9967947</z>
               <w>0.08000203</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>170.822632</z>
               </eulerAngles>
             </Rotation>
@@ -1250,8 +1250,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.999974251</z>
               <w>-0.00717876526</w>
               <eulerAngles>
@@ -1281,13 +1281,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9967947</z>
               <w>0.08000203</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>170.822632</z>
               </eulerAngles>
             </Rotation>
@@ -1312,8 +1312,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.999974251</z>
               <w>-0.00717876526</w>
               <eulerAngles>
@@ -1345,12 +1345,12 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
               <w>1</w>
               <eulerAngles>
-                <x>0</x>
+                <x>-0</x>
                 <y>0</y>
                 <z>0</z>
               </eulerAngles>
@@ -1370,12 +1370,12 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
               <w>1</w>
               <eulerAngles>
-                <x>0</x>
+                <x>-0</x>
                 <y>0</y>
                 <z>0</z>
               </eulerAngles>
@@ -1410,13 +1410,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.0943050161</z>
               <w>0.995543361</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>10.8226414</z>
               </eulerAngles>
             </Rotation>
@@ -1441,8 +1441,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.08000199</z>
               <w>-0.9967947</w>
               <eulerAngles>
@@ -1472,13 +1472,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.00717879133</z>
               <w>0.999974251</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>0.822635949</z>
               </eulerAngles>
             </Rotation>
@@ -1503,8 +1503,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.08000199</z>
               <w>-0.9967947</w>
               <eulerAngles>
@@ -1534,8 +1534,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.995543361</z>
               <w>-0.0943050459</w>
               <eulerAngles>
@@ -1565,13 +1565,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9967947</z>
               <w>0.08000203</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>170.822632</z>
               </eulerAngles>
             </Rotation>
@@ -1596,8 +1596,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.999974251</z>
               <w>-0.00717876526</w>
               <eulerAngles>
@@ -1627,13 +1627,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.00717879133</z>
               <w>0.999974251</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>0.822635949</z>
               </eulerAngles>
             </Rotation>
@@ -1658,8 +1658,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.08000199</z>
               <w>-0.9967947</w>
               <eulerAngles>
@@ -1689,8 +1689,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.08000199</z>
               <w>-0.9967947</w>
               <eulerAngles>
@@ -1720,13 +1720,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.0943050161</z>
               <w>0.995543361</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>10.8226414</z>
               </eulerAngles>
             </Rotation>
@@ -1751,8 +1751,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.08000199</z>
               <w>-0.9967947</w>
               <eulerAngles>
@@ -1782,8 +1782,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>1</z>
               <w>-4.371139E-08</w>
               <eulerAngles>
@@ -1813,8 +1813,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.1736483</z>
               <w>-0.9848077</w>
               <eulerAngles>
@@ -1844,13 +1844,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9961947</z>
               <w>0.087155804</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>170</z>
               </eulerAngles>
             </Rotation>
@@ -1875,8 +1875,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.258819133</z>
               <w>-0.9659258</w>
               <eulerAngles>
@@ -1898,7 +1898,7 @@
         <StalType>
           <SpawnTransform>
             <Pos>
-              <x>-0.164073944</x>
+              <x>-0.164081573</x>
               <y>-4.78964233</y>
             </Pos>
             <Scale>
@@ -1906,8 +1906,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9848078</z>
               <w>-0.173648208</w>
               <eulerAngles>
@@ -1937,8 +1937,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>1</z>
               <w>-4.371139E-08</w>
               <eulerAngles>
@@ -1970,12 +1970,12 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
               <w>1</w>
               <eulerAngles>
-                <x>0</x>
+                <x>-0</x>
                 <y>0</y>
                 <z>0</z>
               </eulerAngles>
@@ -1999,12 +1999,12 @@
               <y>9.125015</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
               <w>1</w>
               <eulerAngles>
-                <x>0</x>
+                <x>-0</x>
                 <y>0</y>
                 <z>0</z>
               </eulerAngles>
@@ -2049,8 +2049,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.995543361</z>
               <w>-0.0943050459</w>
               <eulerAngles>
@@ -2080,8 +2080,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.08000199</z>
               <w>-0.9967947</w>
               <eulerAngles>
@@ -2111,8 +2111,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.995543361</z>
               <w>-0.0943050459</w>
               <eulerAngles>
@@ -2142,13 +2142,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.9967947</z>
               <w>0.08000203</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>170.822632</z>
               </eulerAngles>
             </Rotation>
@@ -2173,8 +2173,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.999974251</z>
               <w>-0.00717876526</w>
               <eulerAngles>
@@ -2204,13 +2204,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.0943050161</z>
               <w>0.995543361</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>10.8226414</z>
               </eulerAngles>
             </Rotation>
@@ -2235,13 +2235,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.00717879133</z>
               <w>0.999974251</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>0.822635949</z>
               </eulerAngles>
             </Rotation>
@@ -2266,8 +2266,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.08000199</z>
               <w>-0.9967947</w>
               <eulerAngles>
@@ -2297,13 +2297,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.0943050161</z>
               <w>0.995543361</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>10.8226414</z>
               </eulerAngles>
             </Rotation>
@@ -2328,8 +2328,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.166573927</z>
               <w>-0.986028969</w>
               <eulerAngles>
@@ -2359,8 +2359,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.08000199</z>
               <w>-0.9967947</w>
               <eulerAngles>
@@ -2392,12 +2392,12 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
               <w>1</w>
               <eulerAngles>
-                <x>0</x>
+                <x>-0</x>
                 <y>0</y>
                 <z>0</z>
               </eulerAngles>
@@ -2432,13 +2432,13 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.0943050161</z>
               <w>0.995543361</w>
               <eulerAngles>
-                <x>0</x>
-                <y>0</y>
+                <x>-0</x>
+                <y>-0</y>
                 <z>10.8226414</z>
               </eulerAngles>
             </Rotation>
@@ -2463,8 +2463,8 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
+              <x>-0</x>
+              <y>-0</y>
               <z>0.08000199</z>
               <w>-0.9967947</w>
               <eulerAngles>
@@ -2496,12 +2496,12 @@
               <y>1</y>
             </Scale>
             <Rotation>
-              <x>0</x>
-              <y>0</y>
-              <z>0</z>
+              <x>-0</x>
+              <y>-0</y>
+              <z>-0</z>
               <w>1</w>
               <eulerAngles>
-                <x>0</x>
+                <x>-0</x>
                 <y>0</y>
                 <z>0</z>
               </eulerAngles>
@@ -2532,11 +2532,11 @@
       <z>0</z>
       <w>0</w>
       <eulerAngles>
-        <x>0</x>
+        <x>-0</x>
         <y>0</y>
         <z>0</z>
       </eulerAngles>
     </Rotation>
   </Clumsy>
-  <ScoreToBeat>5700</ScoreToBeat>
+  <ScoreToBeat>5100</ScoreToBeat>
 </LevelCollection>
