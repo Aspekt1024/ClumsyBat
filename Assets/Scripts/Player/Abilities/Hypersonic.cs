@@ -3,7 +3,6 @@ using System.Collections;
 using ClumsyBat;
 using ClumsyBat.DataContainers;
 using ClumsyBat.Objects;
-using ClumsyBat.Players;
 
 public class Hypersonic : MonoBehaviour
 {
@@ -95,7 +94,7 @@ public class Hypersonic : MonoBehaviour
     {
         GameStatics.Data.Stats.HypersonicCount++;
         GameStatics.Camera.Shake(1f);
-        // TODO play sound
+        GameStatics.Audio.Clumsy.PlaySound(ClumsySounds.Hypersonic);
 
         _hypersonicCollider.enabled = true;
         _hypersonicSprite.enabled = true;

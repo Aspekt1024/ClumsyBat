@@ -29,7 +29,7 @@ public class Shield : MonoBehaviour {
         if (_state == ShieldStates.Knockback || _state == ShieldStates.Recovering) return true;
         if (_shieldCharges <= 0) return false;
 
-        GameStatics.Audio.Main.PlaySound(MainSounds.Shield);
+        GameStatics.Audio.Clumsy.PlaySound(ClumsySounds.Shield);
         _shieldCharges--;
         GameStatics.Data.Stats.ShieldUses++;
         lantern.SetColourFromShieldCharges(_shieldCharges);

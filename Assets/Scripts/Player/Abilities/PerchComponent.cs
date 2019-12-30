@@ -79,7 +79,7 @@ public class PerchComponent : MonoBehaviour
 
         SetPerchGraphics();
         GameStatics.Data.Stats.Perches++;
-        GameStatics.Audio.Main.PlaySound(MainSounds.Perch);
+        GameStatics.Audio.Clumsy.PlaySound(ClumsySounds.Perch);
         return true;
     }
 

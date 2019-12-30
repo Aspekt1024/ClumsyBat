@@ -1,23 +1,40 @@
-﻿public class ClumsyAudioControl : AudioController
+using System;
+using ClumsyBat;
+using UnityEngine;
+
+namespace ClumsyBat
 {
-    public enum PlayerSounds
+    public enum ClumsySounds
     {
-        Flap,
-        Flap2,
-        Collision 
+        Shield = 1000,
+        ClumsyDeath = 2000,
+        ClumsyFlap = 2010,
+        ClumsyRush = 2100,
+        HitCeiling = 2110,
+        Hypersonic = 2120,
+        Perch = 2200,
+        MothAbsorbed = 7000,
+        MothCollected = 7010,
     }
-
-    protected override void SetupAudioProperties()
+    
+    public class ClumsyAudioControl : AudioControl<ClumsySounds>
     {
-        PathFromAudioFolder = string.Empty;
-        AudioType = AudioTypes.SoundFx;
-        IsOnRepeat = false;
-    }
+        [Serializable]
+        public struct MainClip
+        {
+            public ClumsySounds sound;
+            public AudioClip clip;
+            public float cooldown;
+        }
+        
+        [SerializeField] private MainClip[] map;
 
-    protected override void SetupAudioDict()
-    {
-        AddToAudioDict(PlayerSounds.Flap, "ClumsyFlap", 1f);
-        AddToAudioDict(PlayerSounds.Collision, "RockCollision", 1f);
+        protected override void Init()
+        {
+            foreach (var clip in map)
+            {
+                AddClip(new ClumsyClip(clip.sound.ToString(), clip.clip, clip.cooldown));
+            }
+        }
     }
-
 }

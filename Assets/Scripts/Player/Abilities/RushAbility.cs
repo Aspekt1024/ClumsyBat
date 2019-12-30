@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using ClumsyBat;
+using ClumsyBat.Controllers;
 using ClumsyBat.DataContainers;
 using ClumsyBat.Players;
 
@@ -77,7 +78,10 @@ public class RushAbility : MonoBehaviour {
 
         if (dashRoutine != null) StopCoroutine(dashRoutine);
         dashRoutine = StartCoroutine(DashSequence(dir));
-        GameStatics.Audio.Main.PlaySound(MainSounds.ClumsyRush);
+        if (player.Controller is PlayerController)
+        {
+            GameStatics.Audio.Clumsy.PlaySound(ClumsySounds.ClumsyRush);
+        }
         
         GameStatics.Data.Stats.TimesDashed++;
 

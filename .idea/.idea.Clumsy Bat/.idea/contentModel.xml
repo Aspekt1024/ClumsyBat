@@ -298,12 +298,14 @@
         </e>
         <e p="scripts" t="Include">
           <e p="Audio" t="Include">
-            <e p="AudioController.cs" t="Include" />
+            <e p="AudioControl.cs" t="Include" />
             <e p="AudioControls" t="Include">
+              <e p="BossAudioControl.cs" t="Include" />
               <e p="ClumsyAudioControl.cs" t="Include" />
-              <e p="GameMusicControl.cs" t="Include" />
+              <e p="EnemyAudioControl.cs" t="Include" />
+              <e p="MainAudioControl.cs" t="Include" />
             </e>
-            <e p="MainAudioControl.cs" t="Include" />
+            <e p="MusicControl.cs" t="Include" />
           </e>
           <e p="Camera" t="Include">
             <e p="CameraFollowObject.cs" t="Include" />

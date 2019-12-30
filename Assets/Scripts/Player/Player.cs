@@ -2,7 +2,6 @@
 using System.Collections;
 using UnityEngine;
 
-using PlayerSounds = ClumsyAudioControl.PlayerSounds;
 using ClumsyAnimations = ClumsyBat.Players.ClumsyAnimator.ClumsyAnimations;
 using StaticActions = ClumsyBat.Players.ClumsyAbilityHandler.StaticActions;
 using DirectionalActions = ClumsyBat.Players.ClumsyAbilityHandler.DirectionalActions;
@@ -26,7 +25,6 @@ namespace ClumsyBat.Players
         public ClumsyAbilityHandler Abilities { get; private set; }
         
         private ClumsyAnimator animator;
-        private ClumsyAudioControl audioControl;
 
         public void InitAwake()
         {
@@ -35,7 +33,6 @@ namespace ClumsyBat.Players
             State = new PlayerState(this);
 
             animator = new ClumsyAnimator(this);
-            audioControl = gameObject.AddComponent<ClumsyAudioControl>();
             
             Abilities.SetData(GameStatics.Data.Abilities);
         }
@@ -212,7 +209,7 @@ namespace ClumsyBat.Players
             model.GetComponent<SpriteRenderer>().sortingLayerName = "UIFront";
             deathOverlay.Show();
 
-            audioControl.PlaySound(PlayerSounds.Collision);    // TODO replace with something... better? like an "ow!"
+            GameStatics.Audio.Clumsy.PlaySound(ClumsySounds.ClumsyDeath);
             GameStatics.GameManager.PauseGame();
             yield return new WaitForSecondsRealtime(1f);
             GameStatics.GameManager.ResumeGame();

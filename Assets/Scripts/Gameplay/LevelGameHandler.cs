@@ -8,8 +8,6 @@ namespace ClumsyBat
 {
     public class LevelGameHandler : MonoBehaviour
     {
-        public GameMusicControl GameMusic;
-        
         [HideInInspector] public LevelScript Level;
         [HideInInspector] public CaveHandler CaveHandler;
 
@@ -21,7 +19,6 @@ namespace ClumsyBat
         private void Start()
         {
             Level = FindObjectOfType<LevelScript>();
-            GameMusic = Level.gameObject.AddComponent<GameMusicControl>(); // TODO this ourselves
             CaveHandler = FindObjectOfType<CaveHandler>();
             player = GameStatics.Player.Clumsy;
             
