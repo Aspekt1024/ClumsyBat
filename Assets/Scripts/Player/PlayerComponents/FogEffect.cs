@@ -15,16 +15,16 @@ public class FogEffect : MonoBehaviour {
     private const float FullSizeDuration = 7f;      // How long the light source stays at max after activation
     private const float EcholocateScale = 10f;      // How large the echo vision can get
     private const float VisionSetupTime = .7f;      // How long it takes the vision to increase to full size
-    private float _shrinkDuration = 4f;              // How long the echo vision takes to fade
+    private float _shrinkDuration = 4f;             // How long the echo vision takes to fade
     private float _minFogScale = -0.4f;
 
     private float _initialScale;
     private float _echoScale;
-    private float _echolocateActivatedTime;          // Time the echo locate ability was activated
+    private float _echolocateActivatedTime;         // Time the echo locate ability was activated
 
-    private bool _bAbilityPaused = true;             // Handles whether the ability degenerates
-    private bool _bAbilityActivating;        // Quick animation to increase field of view
-    private bool _bAbilityAnimating;         // Startup Animation flag
+    private bool _bAbilityPaused = true;            // Handles whether the ability degenerates
+    private bool _bAbilityActivating;               // Quick animation to increase field of view
+    private bool _bAbilityAnimating;                // Startup Animation flag
 
     private bool _bIsMinimised;
     private float _minimiseStartTime;
@@ -39,15 +39,19 @@ public class FogEffect : MonoBehaviour {
     private Coroutine levelStartRoutine;
     private Coroutine changeScaleRoutine;
     private Coroutine expandRoutine;
+    private Coroutine fadeRoutine;
 
     private enum FogStates
     {
         Normal,
-        Minimised,
         ExpandingToRemove,
         Disabled
     }
     private FogStates _state;
+    
+    private static readonly int LightDist = Shader.PropertyToID("_LightDist");
+    private static readonly int PlayerPos = Shader.PropertyToID("_PlayerPos");
+    private static readonly int DarknessAlpha = Shader.PropertyToID("_DarknessAlpha");
 
     public void Echolocate()
     {
@@ -66,7 +70,7 @@ public class FogEffect : MonoBehaviour {
         }
         _minFogScale = -3f;
         _shrinkDuration = 1.5f;
-        StartCoroutine(FogFader());
+        fadeRoutine = StartCoroutine(FogFader());
     }
 
     public void Minimise()
@@ -122,16 +126,17 @@ public class FogEffect : MonoBehaviour {
         _bIsMinimised = false;
         _echoScale = -3f;
 
-        Material.SetVector("_PlayerPos", _lantern.position);
-        Material.SetFloat("_LightDist", _echoScale);
-        Material.SetFloat("_DarknessAlpha", 0.85f);
+        Material.SetVector(PlayerPos, _lantern.position);
+        Material.SetFloat(LightDist, _echoScale);
+        Material.SetFloat(DarknessAlpha, 0.85f);
         
     }
 
     private void FixedUpdate()
     {
-        transform.position = new Vector3(GameStatics.Camera.CurrentCamera.transform.position.x, 0f, transform.position.z);
-        Material.SetVector("_PlayerPos", _lantern.position);
+        var tf = transform;
+        tf.position = new Vector3(GameStatics.Camera.CurrentCamera.transform.position.x, 0f, tf.position.z);
+        Material.SetVector(PlayerPos, _lantern.position);
     }
 
     private void Update()
@@ -155,7 +160,7 @@ public class FogEffect : MonoBehaviour {
             
             _pulseTimer += Time.deltaTime;
             _echoScale += GetLightPulse();
-            Material.SetFloat("_LightDist", _echoScale);
+            Material.SetFloat(LightDist, _echoScale);
         }
     }
 
@@ -231,7 +236,7 @@ public class FogEffect : MonoBehaviour {
 
             _pulseTimer += Time.deltaTime;
             _echoScale += GetLightPulse();
-            Material.SetFloat("_LightDist", _echoScale);
+            Material.SetFloat(LightDist, _echoScale);
 
             yield return null;
         }
@@ -249,7 +254,7 @@ public class FogEffect : MonoBehaviour {
         {
             animTimer += Time.deltaTime;
             float alpha = startAlpha - (startAlpha - endAlpha) * (animTimer / animDuration);
-            Material.SetFloat("_DarknessAlpha", alpha);
+            Material.SetFloat(DarknessAlpha, alpha);
             yield return null;
         }
     }
@@ -280,7 +285,7 @@ public class FogEffect : MonoBehaviour {
         {
             animTimer += Time.deltaTime;
             float scale = echoStartScale - (echoStartScale - echoEndScale) * (animTimer / animDuration);
-            Material.SetFloat("_LightDist", scale);
+            Material.SetFloat(LightDist, scale);
             yield return null;
         }
         Disable();
@@ -288,6 +293,11 @@ public class FogEffect : MonoBehaviour {
 
     private void SetInitialState()
     {
+        if (fadeRoutine != null) StopCoroutine(fadeRoutine);
+        if (expandRoutine != null) StopCoroutine(expandRoutine);
+        if (changeScaleRoutine != null) StopCoroutine(changeScaleRoutine);
+        if (levelStartRoutine != null) StopCoroutine(levelStartRoutine);
+        
         _bIsMinimised = false;
         _bAbilityActivating = false;
         _bAbilityPaused = false;
@@ -298,11 +308,8 @@ public class FogEffect : MonoBehaviour {
         const float startAlpha = 0.85f;
         
         GetComponent<SpriteRenderer>().enabled = true;
-        Material.SetFloat("_DarknessAlpha", startAlpha);
+        Material.SetFloat(DarknessAlpha, startAlpha);
         _state = FogStates.Normal;
-
-        if (expandRoutine != null) StopCoroutine(expandRoutine);
-        if (changeScaleRoutine != null) StopCoroutine(changeScaleRoutine);
-        if (levelStartRoutine != null) StopCoroutine(levelStartRoutine);
+        
     }
 }

@@ -115,6 +115,7 @@ public class CrystalBoss : Boss {
         if (numActive == crystals.Count - 1)
         {
             CrystalBossWinSequence();
+            GameStatics.Audio.Boss.PlaySound(BossSounds.BossCrystalActivate);
         }
         else if (crystals[index].ID == id)
         {
@@ -139,6 +140,7 @@ public class CrystalBoss : Boss {
 
     private void ResetCrystals(int numActive)
     {
+        GameStatics.Audio.Boss.PlaySound(BossSounds.BossCrystalDeactivate);
         for (int i = 0; i < crystals.Count; i++)
         {
             crystals[i].Deactivate();
@@ -151,6 +153,8 @@ public class CrystalBoss : Boss {
         float animTimer = 0f;
 
         GameStatics.Camera.Shake(animDuration);
+        GameStatics.Audio.Boss.PlaySound(BossSounds.BossCrystalStartup);
+        GameStatics.Audio.Boss.PlaySound(BossSounds.BossCrystalRumble2s);
         while (animTimer < animDuration)
         {
             if (!Toolbox.Instance.GamePaused)
@@ -184,6 +188,7 @@ public class CrystalBoss : Boss {
             StartCoroutine(crystal.CrystalFloat());
         }
         EventStarted = true;
+        GameStatics.Audio.Boss.PlaySound(BossSounds.BossCrystalActivate);
     }
 
 

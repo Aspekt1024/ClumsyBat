@@ -45,7 +45,7 @@ public class BossData : MonoBehaviour {
 
         bossScripts.SetBaseProperties(BossStateMachine);
         BossStateMachine.StateMachineSetup(this, bossObject);
-        Toolbox.Instance.GamePaused = false;    // TODO shouldnt be done here...
+        GameStatics.GameManager.ResumeGame();
     }
 
     public void ClearBoss()

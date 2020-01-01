@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ClumsyBat;
 using UnityEngine;
 
 public class ProjectileAbility : BossAbility {
@@ -52,6 +53,7 @@ public class ProjectileAbility : BossAbility {
         newProjectile.Body.AddTorque(Random.Range(150f, 200f));
         newProjectile.SetReferences(caller, this);
         newProjectile.Activate();
+        GameStatics.Audio.Boss.PlaySound(BossSounds.ThrowProjectile);
 
         _projectiles.Add(newProjectile);
 

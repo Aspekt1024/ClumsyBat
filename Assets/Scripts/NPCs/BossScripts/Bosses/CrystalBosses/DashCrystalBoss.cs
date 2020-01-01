@@ -35,6 +35,7 @@ public class DashCrystalBoss : CrystalBoss {
         }
 
         GameStatics.Camera.Shake(duration - 1f);
+        GameStatics.Audio.Boss.PlaySound(BossSounds.BossCrystalRumble);
         while (timer < duration)
         {
             timer += Time.deltaTime;

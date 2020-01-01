@@ -53,20 +53,4 @@ public class Walk : BossAbility {
         }
         ((WalkAction)callerAction)?.EndWalk();
     }
-
-    // TODO remove?
-    private void ReverseDirectionIfAtEnd()
-    {
-        float camPosX = GameStatics.Camera.CurrentCamera.transform.position.x;
-        if (_direction == WalkDirection.Left && transform.position.x < -3.5f + camPosX)
-        {
-            _direction = WalkDirection.Right;
-            GetComponent<Boss>().FaceDirection(Boss.Direction.Right);
-        }
-        else if (_direction == WalkDirection.Right && transform.position.x > 4f + camPosX)
-        {
-            _direction = WalkDirection.Left;
-            GetComponent<Boss>().FaceDirection(Boss.Direction.Left);
-        }
-    }
 }

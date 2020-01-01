@@ -63,6 +63,8 @@ public class JumpPound : BossAbility
             GameStatics.Camera.Shake(0.7f);
             bossBody.velocity = Vector2.zero;
             bossBody.constraints = RigidbodyConstraints2D.FreezeRotation;
+            
+            GameStatics.Audio.Boss.PlaySound(BossSounds.BossStomp);
 
             if (callerAction.GetType().Equals(typeof(JumpAction)))
                 ((JumpAction)callerAction).Landed();

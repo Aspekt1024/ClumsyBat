@@ -18,10 +18,6 @@ public class ChargeAbility : BossAbility {
         bossScript = GetComponent<Boss>();
 	}
 	
-	void Update () {
-		
-	}
-
     public void Activate(ChargeAction actionRef)
     {
         chargeEnabled = true;
@@ -50,10 +46,11 @@ public class ChargeAbility : BossAbility {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.tag == "CaveWall" && chargeEnabled)
+        if (collision.collider.CompareTag("CaveWall") && chargeEnabled)
         {
             chargeEnabled = false;
             caller.HitWall();
+            GameStatics.Audio.Boss.PlaySound(BossSounds.BossCrash);
 
             if (Mathf.Abs(chargeSpeed) > 10f)
             {

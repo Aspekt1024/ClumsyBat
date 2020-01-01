@@ -40,6 +40,7 @@ namespace ClumsyBat
         public void ReloadLevelSelect() {buttonHandler.SetupLevelButtons();}
 
         public bool IsBossLevel => Level.ToString().Contains("Boss");
+        public bool IsCrystalLevel => Level == Levels.BossS1 || Level == Levels.BossS2;
         public bool IsInPlayMode => levelScript.stateHandler.GameHasStarted && !levelScript.stateHandler.IsLevelOver;
 
         private LevelCompletionHandler completionHandler = new LevelCompletionHandler();
@@ -90,6 +91,7 @@ namespace ClumsyBat
                 }
                 LevelContainer levelData = LevelContainer.LoadFromText(levelTxt.text);
                 GameStatics.Objects.SetupLevel(levelData);
+                GameStatics.Audio.Music.StartLevelMusic();
 
                 NumMoths = GetNumMoths(levelData);
                 ScoreToBeat = levelData.ScoreToBeat;

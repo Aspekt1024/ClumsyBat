@@ -171,6 +171,7 @@ public abstract class Boss : MonoBehaviour {
         DeathSequence();
         BossEvents.BossDeath();
         GameStatics.Data.Stats.BossesDefeated++;
+        GameStatics.Audio.Boss.PlaySound(BossSounds.BossDeath);
     }
 
     private IEnumerator Damaged()
@@ -179,6 +180,7 @@ public abstract class Boss : MonoBehaviour {
         const float flashDuration = 0.05f;
         
         bool flashOn = true;
+        GameStatics.Audio.Boss.PlaySound(BossSounds.BossDamaged);
 
         for (var i = 0; i < numFlashes; i++)
         {

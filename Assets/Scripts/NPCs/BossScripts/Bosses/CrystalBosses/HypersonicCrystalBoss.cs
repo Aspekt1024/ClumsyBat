@@ -34,6 +34,7 @@ public class HypersonicCrystalBoss : CrystalBoss {
             clumsy.FaceRight();
         }
 
+        GameStatics.Audio.Boss.PlaySound(BossSounds.BossCrystalRumble);
         GameStatics.Camera.Shake(duration - 1f);
         while (timer < duration)
         {

@@ -306,6 +306,10 @@
               <e p="MainAudioControl.cs" t="Include" />
             </e>
             <e p="MusicControl.cs" t="Include" />
+            <e p="MusicControls" t="Include">
+              <e p="BossMusicControl.cs" t="Include" />
+              <e p="LevelMusicControl.cs" t="Include" />
+            </e>
           </e>
           <e p="Camera" t="Include">
             <e p="CameraFollowObject.cs" t="Include" />
@@ -589,6 +593,7 @@
                 <e p="Walk.cs" t="Include" />
               </e>
               <e p="BossAbility.cs" t="Include" />
+              <e p="BossAnimationEventListener.cs" t="Include" />
               <e p="BossData.cs" t="Include" />
               <e p="Bosses" t="Include">
                 <e p="CrystalBoss.cs" t="Include" />

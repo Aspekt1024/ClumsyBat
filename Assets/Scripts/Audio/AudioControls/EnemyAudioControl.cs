@@ -25,8 +25,10 @@ namespace ClumsyBat
             public float cooldown;
         }
         
+#pragma warning disable 649 
         [SerializeField] private MainClip[] map;
-
+#pragma warning restore 649 
+        
         protected override void Init()
         {
             foreach (var clip in map)

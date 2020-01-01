@@ -62,6 +62,7 @@ public class CrystalBall : MonoBehaviour {
             activeTimer += Time.deltaTime;
             if (activeTimer > ActiveDuration)
             {
+                GameStatics.Audio.Boss.PlaySound(BossSounds.BossCrystalDeactivate);
                 Deactivate();
             }
         }
@@ -110,6 +111,7 @@ public class CrystalBall : MonoBehaviour {
 
     private IEnumerator ActivateRoutine()
     {
+        GameStatics.Audio.Boss.PlaySound(BossSounds.BossCrystalActivate);
         yield return StartCoroutine(PulseActive());
         StartCoroutine(PulseLight());
     }
@@ -403,5 +405,6 @@ public class CrystalBall : MonoBehaviour {
         brokenCrystal.gameObject.SetActive(true);
         brokenCrystal.Shatter();
         crystalRenderer.enabled = false;
+        GameStatics.Audio.Boss.PlaySound(BossSounds.BossCrystalShatter);
     }
 }

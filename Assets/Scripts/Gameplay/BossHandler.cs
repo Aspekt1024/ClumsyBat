@@ -65,6 +65,7 @@ public class BossHandler : MonoBehaviour {
         _state = BossGameState.MovingTowardsBoss;
         GameStatics.Player.Clumsy.Physics.SetNormalSpeed();
         GameStatics.Player.PossessByPlayer();
+        GameStatics.Audio.Music.StartBossEntranceMusic();
     }
 
     public void LevelComplete(bool viaSecretExit = false)
@@ -152,6 +153,10 @@ public class BossHandler : MonoBehaviour {
         GameStatics.Player.PossessByPlayer();
         player.Abilities.Flap.MovementMode = FlapComponent.MovementModes.LeftAndRight;
         BossEvents.BossFightStart();
+        if (!GameStatics.LevelManager.IsCrystalLevel)
+        {
+            GameStatics.Audio.Music.StartBossMainMusic();
+        }
     }
 
 
