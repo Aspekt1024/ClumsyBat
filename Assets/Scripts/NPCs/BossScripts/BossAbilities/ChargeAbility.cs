@@ -61,11 +61,8 @@ public class ChargeAbility : BossAbility {
 
     private IEnumerator Windup()
     {
-        if (chargeSpeed > 0)
-            GetComponent<Boss>().FaceDirection(Boss.Direction.Right);
-        else
-            GetComponent<Boss>().FaceDirection(Boss.Direction.Left);
-        
+        GetComponent<Boss>().FaceDirection(chargeSpeed > 0 ? Boss.Direction.Right : Boss.Direction.Left);
+
         body.AddForce(Vector2.up * 500f);
 
         const float windupTime = 1f;

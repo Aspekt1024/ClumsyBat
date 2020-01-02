@@ -1,9 +1,16 @@
+using System;
 using System.Collections;
 using Audio.MusicControls;
 using UnityEngine;
 
 namespace ClumsyBat.Music
 {
+    public enum MusicEventClips
+    {
+        Victory = 1000,
+        Gameover = 2000,
+    }
+    
     public class MusicControl : MonoBehaviour
     {
         #pragma warning disable 649
@@ -11,12 +18,14 @@ namespace ClumsyBat.Music
         [SerializeField] private AudioClip bossEntranceIntro;
         [SerializeField] private AudioClip bossEntranceLoop;
         [SerializeField] private AudioClip bossLoop;
+        [SerializeField] private AudioClip victoryClip;
+        [SerializeField] private AudioClip gameoverClip;
         #pragma warning restore 649
         
         private AudioSource audioSource;
         private LevelMusicControl levelMusic;
         private BossMusicControl bossMusic;
-
+        
         private void Awake()
         {
             audioSource = GetComponent<AudioSource>();
@@ -51,6 +60,19 @@ namespace ClumsyBat.Music
         public void StartBossMainMusic()
         {
             bossMusic.PlayBossTheme();
+        }
+
+        public void PlayEventClip(MusicEventClips clip)
+        {
+            switch (clip)
+            {
+                case MusicEventClips.Victory:
+                    Play(victoryClip);
+                    break;
+                case MusicEventClips.Gameover:
+                    Play(gameoverClip);
+                    break;
+            }
         }
 
         public void Play(AudioClip clip)

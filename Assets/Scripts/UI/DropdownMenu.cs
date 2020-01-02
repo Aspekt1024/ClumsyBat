@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using ClumsyBat.Music;
 using ClumsyBat.UI.DropdownMenuComponents;
 
 using Levels = LevelProgressionHandler.Levels;
@@ -64,6 +65,7 @@ namespace ClumsyBat.UI
             MainMenu.ShowScreen();
             ShowDropdownMenu();
             MainMenu.ShowLevelCompletion(level, nextLevel);
+            GameStatics.Audio.Music.PlayEventClip(MusicEventClips.Victory);
         }
         
         public void ShowOptions()
@@ -94,6 +96,7 @@ namespace ClumsyBat.UI
             MainMenu.SetupGameoverMenu();
             MainMenu.ShowScreen();
             ShowDropdownMenu();
+            GameStatics.Audio.Music.PlayEventClip(MusicEventClips.Gameover);
         }
         
         public void HideImmediate()

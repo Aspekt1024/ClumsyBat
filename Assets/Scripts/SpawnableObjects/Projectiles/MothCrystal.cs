@@ -186,6 +186,7 @@ public class MothCrystal : Projectile {
         
         Vector3 startPosition = MothEssenceObject.transform.position;
 
+        GameStatics.Audio.Clumsy.PlaySound(ClumsySounds.MothAbsorbed);
         while (timer < animDuration)
         {
             if (!Toolbox.Instance.GamePaused)
@@ -201,5 +202,6 @@ public class MothCrystal : Projectile {
         
         MothEssenceObject.SetActive(false);
         GameStatics.Player.Clumsy.lantern.ConsumeMoth(mothColour);
+        GameStatics.Audio.Clumsy.PlaySound(ClumsySounds.MothCollected);
     }
 }
