@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ClumsyBat;
 using UnityEngine;
 
 public class SpawnStalactites : BossAbility {
@@ -47,6 +48,7 @@ public class SpawnStalactites : BossAbility {
 
     private IEnumerator SpawnStal(int index, float spawnPosX, SpawnStalAction.StalSpawnDirection direction, SpawnStalAction.StalTypes type, float greenChance, float goldChance, float blueChance, int poolIndex)
     {
+        GameStatics.Audio.Enemy.PlaySound(EnemySounds.StalactiteForm);
         ActivateStal(index, spawnPosX, type, greenChance, goldChance, blueChance, poolIndex, direction);
         Transform stalTf = _stals[index].transform;
         stalTf.localRotation = new Quaternion();

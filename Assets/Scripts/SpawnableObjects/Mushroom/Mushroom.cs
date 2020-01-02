@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using ClumsyBat;
 using ClumsyBat.Players;
 
 public class Mushroom : Spawnable {
@@ -78,6 +79,7 @@ public class Mushroom : Spawnable {
         const float sporeRiseTime = 0.29f;
         spore.SetActive(true);
         sporeAnimator.Play("SporeAnim", 0, 0f);
+        GameStatics.Audio.Enemy.PlaySound(EnemySounds.MushroomSpore);
 
         float animationTimer = 0f;
         while (animationTimer < animationDuration)

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using ClumsyBat;
 using ClumsyBat.Players;
 
 public class SpiderClass : Spawnable {
@@ -82,7 +83,7 @@ public class SpiderClass : Spawnable {
     private void OnCollisionEnter2D(Collision2D other)
     {
         StopAllCoroutines();
-        web.Collision();
+        //web.Collision();
     }
 
     private IEnumerator Drop()
@@ -91,6 +92,7 @@ public class SpiderClass : Spawnable {
         const float shakeDuration = 0.6f;
         bool bRotateForward = true;
 
+        GameStatics.Audio.Enemy.PlaySound(EnemySounds.SpiderDrop);
         while (shakeTime < shakeDuration)
         {
             if (bRotateForward)

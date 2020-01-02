@@ -9,6 +9,7 @@ namespace ClumsyBat
         public MainAudioControl Main { get; private set; }
         public ClumsyAudioControl Clumsy { get; private set; }
         public BossAudioControl Boss { get; private set; }
+        public EnemyAudioControl Enemy { get; private set; }
         public MusicControl Music { get; private set; }
 
         private void Awake()
@@ -16,6 +17,7 @@ namespace ClumsyBat
             Main = gameObject.GetComponent<MainAudioControl>();
             Clumsy = gameObject.GetComponent<ClumsyAudioControl>();
             Boss = gameObject.GetComponent<BossAudioControl>();
+            Enemy = gameObject.GetComponent<EnemyAudioControl>();
             Music = gameObject.GetComponent<MusicControl>();
         }
     }

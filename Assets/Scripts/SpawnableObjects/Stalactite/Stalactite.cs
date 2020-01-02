@@ -65,11 +65,11 @@ namespace ClumsyBat.Objects
         {
             if (state == StalStates.Exploding || state == StalStates.Broken) return;
 
-            if (other.tag == "Boss")
+            if (other.CompareTag("Boss"))
             {
                 Break();
             }
-            else if (other.tag == "Player" && Type == SpawnStalAction.StalTypes.Crystal)
+            else if (other.CompareTag("Player") && Type == SpawnStalAction.StalTypes.Crystal)
             {
                 Break();
                 GameStatics.Objects.ObjectHandler.Moths.CollectMothFromCrystal(moth.transform.position, color);
@@ -134,11 +134,12 @@ namespace ClumsyBat.Objects
             stalUnbroken.SetActive(true);
             stalUnbroken.transform.position = transform.position;
 
-            transform.position = stalProps.SpawnTransform.Pos + Vector2.right * xOffset;
-            transform.position += Vector3.forward * Toolbox.Instance.ZLayers["Stalactite"];
+            var tf = transform;
+            tf.position = stalProps.SpawnTransform.Pos + Vector2.right * xOffset;
+            tf.position += Vector3.forward * Toolbox.Instance.ZLayers["Stalactite"];
 
-            transform.localScale = stalProps.SpawnTransform.Scale;
-            transform.rotation = stalProps.SpawnTransform.Rotation;
+            tf.localScale = stalProps.SpawnTransform.Scale;
+            tf.rotation = stalProps.SpawnTransform.Rotation;
             TriggerPosX = stalProps.TriggerPosX;
 
             dropControl.NewStalactite();
@@ -186,15 +187,16 @@ namespace ClumsyBat.Objects
 
             isExploding = true;
             stalCollider.enabled = false;
-            StartCoroutine(CrumbleAnim());
+            StartCoroutine(ExplodeAnim());
         }
 
-        private IEnumerator CrumbleAnim()
+        private IEnumerator ExplodeAnim()
         {
             anim.Explode();
             stalCollider.enabled = false;
             stalUnbroken.GetComponent<PolygonCollider2D>().enabled = false;
             dropControl.Exploded();
+            GameStatics.Audio.Enemy.PlaySound(EnemySounds.StalactiteExplode);
 
             float timer = 0f;
             float duration = 0.67f;
@@ -251,6 +253,7 @@ namespace ClumsyBat.Objects
         {
             anim.CrackOnImpact();
             StartCoroutine(Impact());
+            GameStatics.Audio.Enemy.PlaySound(EnemySounds.StalactiteCrack);
         }
 
         private IEnumerator Impact()
@@ -306,11 +309,11 @@ namespace ClumsyBat.Objects
             if (stalUnbroken != null) Destroy(stalUnbroken);
         }
 
-        public bool IsActive { get { return gameObject.activeSelf; } }
-        public bool IsForming { get { return state == StalStates.Forming; } }
-        public bool IsFalling { get { return state == StalStates.Falling; } }
-        public bool IsBroken { get { return state == StalStates.Broken; } }
+        public bool IsActive => gameObject.activeSelf;
+        public bool IsForming => state == StalStates.Forming;
+        public bool IsFalling => state == StalStates.Falling;
+        public bool IsBroken => state == StalStates.Broken;
         public void SetState(StalStates newState) { state = newState; }
-        public SpawnStalAction.StalSpawnDirection SpawnDirection { get { return direction; } }
+        public SpawnStalAction.StalSpawnDirection SpawnDirection => direction;
     }
 }

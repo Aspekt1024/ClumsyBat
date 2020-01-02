@@ -9,6 +9,7 @@ namespace ClumsyBat
         StalactiteFall = 4010,
         StalactiteExplode = 4020,
         StalactiteCreak = 4030,
+        StalactiteForm = 4040,
         SpiderDrop = 5000,
         SpiderHit = 5010,
         MushroomSpore = 6000,

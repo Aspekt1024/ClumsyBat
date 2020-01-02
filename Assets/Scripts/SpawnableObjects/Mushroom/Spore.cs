@@ -14,6 +14,7 @@ public class Spore : MonoBehaviour {
         if (other.CompareTag("Player"))
         {
             GameStatics.Player.Clumsy.fog.Minimise();
+            GameStatics.Audio.Enemy.PlaySound(EnemySounds.SporeEntered);
         }
     }
 }

@@ -34,7 +34,7 @@ public class WebString {
 
     public void Collision()
     {
-        Engage();
+        spiderHinge.enabled = true;
     }
 
     public void Clear()
@@ -83,12 +83,7 @@ public class WebString {
             AttachSection(activeSections);
         }
     }
-
-    public void Engage()
-    {
-        spiderHinge.enabled = true;
-    }
-
+    
     public void Disengage()
     {
         spiderHinge.enabled = false;

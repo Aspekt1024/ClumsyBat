@@ -119,6 +119,7 @@ public class StalDropComponent : MonoBehaviour {
             }
         }
         
+        GameStatics.Audio.Enemy.PlaySound(EnemySounds.StalactiteFall);
         float fallTime = 0f;
         float startingYPos = stalBody.transform.position.y;
         while (fallTime < FallDuration)
@@ -141,6 +142,7 @@ public class StalDropComponent : MonoBehaviour {
     IEnumerator Shake()
     {
         CreateRubbleEffect();
+        GameStatics.Audio.Enemy.PlaySound(EnemySounds.StalactiteCreak);
         
         _state = DropStates.Shaking;
         const float shakeInterval = 0.07f;

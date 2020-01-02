@@ -87,6 +87,7 @@ namespace ClumsyBat.Players
                     break;
                 case "Spider":
                     player.TakeDamage(collision.collider.transform, collision.collider.tag, collision.GetContact(0).point);
+                    GameStatics.Audio.Enemy.PlaySound(EnemySounds.SpiderHit);
                     break;
             }
         }
