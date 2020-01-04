@@ -83,7 +83,7 @@ public class SpiderClass : Spawnable {
     private void OnCollisionEnter2D(Collision2D other)
     {
         StopAllCoroutines();
-        //web.Collision();
+        web.Collision();
     }
 
     private IEnumerator Drop()

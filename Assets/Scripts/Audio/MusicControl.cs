@@ -49,21 +49,25 @@ namespace ClumsyBat.Music
 
         public void StartLevelMusic()
         {
+            if (!GameStatics.Data.Settings.MusicOn) return;
             levelMusic.Play();
         }
 
         public void StartBossEntranceMusic()
         {
+            if (!GameStatics.Data.Settings.MusicOn) return;
             bossMusic.PlayEntranceTheme();
         }
 
         public void StartBossMainMusic()
         {
+            if (!GameStatics.Data.Settings.MusicOn) return;
             bossMusic.PlayBossTheme();
         }
 
         public void PlayEventClip(MusicEventClips clip)
         {
+            if (!GameStatics.Data.Settings.MusicOn) return;
             switch (clip)
             {
                 case MusicEventClips.Victory:
@@ -77,11 +81,13 @@ namespace ClumsyBat.Music
 
         public void Play(AudioClip clip)
         {
+            if (!GameStatics.Data.Settings.MusicOn) return;
             StartCoroutine(StopThenPlay(clip));
         }
 
         public void PlayLoop(AudioClip clip)
         {
+            if (!GameStatics.Data.Settings.MusicOn) return;
             StartCoroutine(StopThenPlay(clip, loop: true));
         }
         

@@ -93,6 +93,7 @@ namespace ClumsyBat
             {
                 state = GameStates.MainMenu;
                 StartCoroutine(SwitchSceneRoutine(FadeToMainMenu));
+                GameStatics.Audio.Music.Stop();
             }
         }
 
@@ -100,6 +101,7 @@ namespace ClumsyBat
         {
             state = GameStates.MainMenu;
             StartCoroutine(SwitchSceneRoutine(FadeToLevelSelect));
+            GameStatics.Audio.Music.Stop();
         }
 
         public void LoadLevel(Levels level)

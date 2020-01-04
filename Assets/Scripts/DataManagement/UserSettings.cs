@@ -4,16 +4,31 @@ namespace ClumsyBat.DataManagement
 {
     public class UserSettings
     {
-        public void EnableMusic() { MusicOn = true; }
-        public void DisableMusic() { MusicOn = false; }
-        public void ToggleMusic() { MusicOn = !MusicOn; }
+        public void ToggleMusic()
+        {
+            MusicOn = !MusicOn;
+            if (!GameStatics.GameManager.IsInLevel) return;
 
-        public void EnableSFX() { SfxOn = true; }
-        public void DisableSFX() { SfxOn = false; }
+            if (MusicOn)
+            {
+                if (GameStatics.LevelManager.IsBossLevel)
+                {
+                    // TODO check if crystal level first, then
+                    // TODO determine if boss fight has already started
+                    GameStatics.Audio.Music.StartBossEntranceMusic();
+                }
+                else
+                {
+                    GameStatics.Audio.Music.StartLevelMusic();
+                }
+            }
+            else
+            {
+                GameStatics.Audio.Music.Stop();
+            }
+        }
         public void ToggleSFX() { SfxOn = !SfxOn; }
 
-        public void EnableTooltips() { TooltipsOn = true; }
-        public void DisableTooltips() { TooltipsOn = false; }
         public void ToggleTooltips() { TooltipsOn = !TooltipsOn; }
 
         public bool MusicOn { get; private set; }
