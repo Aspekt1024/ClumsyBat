@@ -16,6 +16,7 @@ namespace ClumsyBat.UI
         public DropdownMainMenu MainMenu;
         public DropdownOptionsMenu OptionsMenu;
         public DropdownStatsMenu StatsMenu;
+        public DropdownCreditsMenu CreditsMenu;
 
         private const float BounceDuration = 0.18f;
         private const float PanelDropAnimDuration = 0.30f;
@@ -79,6 +80,13 @@ namespace ClumsyBat.UI
         {
             HideAll();
             StatsMenu.ShowScreen();
+            ShowDropdownMenu();
+        }
+
+        public void ShowCredits()
+        {
+            HideAll();
+            CreditsMenu.ShowScreen();
             ShowDropdownMenu();
         }
         
@@ -200,6 +208,7 @@ namespace ClumsyBat.UI
             MainMenu.HideScreen();
             OptionsMenu.HideScreen();
             StatsMenu.HideScreen();
+            CreditsMenu.HideScreen();
         }
 
         private void GetMenuObjects()
@@ -222,6 +231,9 @@ namespace ClumsyBat.UI
                         break;
                     case "StatsPanel":
                         StatsMenu = rt.GetComponent<DropdownStatsMenu>();
+                        break;
+                    case "CreditsPanel":
+                        CreditsMenu = rt.GetComponent<DropdownCreditsMenu>();
                         break;
                 }
             }

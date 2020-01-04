@@ -555,6 +555,7 @@
           <e p="Menu" t="Include">
             <e p="DashIndicator.cs" t="Include" />
             <e p="DropdownMenu" t="Include">
+              <e p="DropdownCreditsMenu.cs" t="Include" />
               <e p="DropdownOptionsMenu.cs" t="Include" />
               <e p="DropdownStatsMenu.cs" t="Include" />
             </e>

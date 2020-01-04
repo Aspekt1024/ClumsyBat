@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace ClumsyBat.Menu
@@ -9,6 +10,7 @@ namespace ClumsyBat.Menu
         [SerializeField] private RectTransform playButton;
         [SerializeField] private RectTransform optionsButton;
         [SerializeField] private RectTransform statsButton;
+        [SerializeField] private RectTransform creditsButton;
 #pragma warning restore 649
 
         private float timeButtonPressed = -10f;
@@ -25,6 +27,7 @@ namespace ClumsyBat.Menu
             UIObjectAnimator.Instance.PopInObject(playButton);
             UIObjectAnimator.Instance.PopInObject(optionsButton);
             UIObjectAnimator.Instance.PopInObject(statsButton);
+            UIObjectAnimator.Instance.PopInObject(creditsButton);
         }
 
         public void PlayButtonPressed()
@@ -47,6 +50,13 @@ namespace ClumsyBat.Menu
             if (ButtonRecentlyPressed()) return;
             timeButtonPressed = Time.time;
             StartCoroutine(ShowDropdownRoutine(GameStatics.UI.DropdownMenu.ShowStats));
+        }
+
+        public void CreditsButtonPressed()
+        {
+            if (ButtonRecentlyPressed()) return;
+            timeButtonPressed = Time.time;
+            StartCoroutine(ShowDropdownRoutine(GameStatics.UI.DropdownMenu.ShowCredits));
         }
 
         private IEnumerator ShowDropdownRoutine(System.Action action)
