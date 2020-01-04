@@ -39,8 +39,8 @@
           <TrigEvent>
             <Id>28</Id>
             <Dialogue>
-              <string>Hi, I'm Nomee! These caves are dangerous, so I'll help you through!</string>
-              <string>I can talk to you through the lantern you're carrying!</string>
+              <string>Hey there, I'm Nomee! I live in the lantern you're carrying</string>
+              <string>I'll help you through these caves!</string>
             </Dialogue>
             <EventType>Dialogue</EventType>
             <EventId>None</EventId>
@@ -93,9 +93,8 @@
           <TrigEvent>
             <Id>25</Id>
             <Dialogue>
-              <string>These moths carry an essence that the lantern can gather.</string>
-              <string>The essence will help you through this cave by providing light.</string>
-              <string>Some moths will even unleash powerful abilities!</string>
+              <string>Collect all the moths you can! Their essence fuels the lantern.</string>
+              <string>Some moths even activate special abilities!</string>
             </Dialogue>
             <EventType>Dialogue</EventType>
             <EventId>None</EventId>
@@ -396,45 +395,7 @@
       </Moths>
       <Spiders />
       <Webs />
-      <Triggers>
-        <TriggerType>
-          <SpawnTransform>
-            <Pos>
-              <x>-9.270847</x>
-              <y>1.03068638</y>
-            </Pos>
-            <Scale>
-              <x>1</x>
-              <y>11.23749</y>
-            </Scale>
-            <Rotation>
-              <x>-0</x>
-              <y>-0</y>
-              <z>-0</z>
-              <w>1</w>
-              <eulerAngles>
-                <x>-0</x>
-                <y>0</y>
-                <z>0</z>
-              </eulerAngles>
-            </Rotation>
-          </SpawnTransform>
-          <TrigEvent>
-            <Id>29</Id>
-            <Dialogue>
-              <string>This is the end of this area! Did you collect all the essence?</string>
-            </Dialogue>
-            <EventType>Dialogue</EventType>
-            <EventId>None</EventId>
-            <ShowOnce>false</ShowOnce>
-            <ShowOnCompletedLevel>true</ShowOnCompletedLevel>
-            <ShowOnRestart>true</ShowOnRestart>
-            <HasDependency>false</HasDependency>
-            <DependencyId>None</DependencyId>
-            <ForceShow>Once</ForceShow>
-          </TrigEvent>
-        </TriggerType>
-      </Triggers>
+      <Triggers />
       <Npcs />
     </Cave>
   </CaveList>

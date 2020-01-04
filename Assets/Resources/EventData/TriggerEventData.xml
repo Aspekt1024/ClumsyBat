@@ -372,9 +372,8 @@
     <TriggerEvent>
       <Id>25</Id>
       <Dialogue>
-        <string>These moths carry an essence that the lantern can gather.</string>
-        <string>The essence will help you through this cave by providing light.</string>
-        <string>Some moths will even unleash powerful abilities!</string>
+        <string>Collect all the moths you can! Their essence fuels the lantern.</string>
+        <string>Some moths even activate special abilities!</string>
       </Dialogue>
       <EventType>Dialogue</EventType>
       <EventId>None</EventId>
@@ -416,8 +415,8 @@
     <TriggerEvent>
       <Id>28</Id>
       <Dialogue>
-        <string>Hi, I'm Nomee! These caves are dangerous, so I'll help you through!</string>
-        <string>I can talk to you through the lantern you're carrying!</string>
+        <string>Hey there, I'm Nomee! I live in the lantern you're carrying</string>
+        <string>I'll help you through these caves!</string>
       </Dialogue>
       <EventType>Dialogue</EventType>
       <EventId>None</EventId>
