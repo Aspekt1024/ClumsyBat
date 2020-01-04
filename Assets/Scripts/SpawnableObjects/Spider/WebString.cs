@@ -34,7 +34,10 @@ public class WebString {
 
     public void Collision()
     {
-        spiderHinge.enabled = true;
+        if (spiderHinge.connectedBody != null)
+        {
+            spiderHinge.enabled = true;
+        }
     }
 
     public void Clear()
