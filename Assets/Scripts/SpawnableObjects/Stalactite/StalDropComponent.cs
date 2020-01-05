@@ -115,7 +115,6 @@ public class StalDropComponent : MonoBehaviour {
             if (rubbleEffect != null)
             {
                 rubbleEffect.Stop();
-                Destroy(rubbleEffect.gameObject, 2f);
             }
         }
         
@@ -157,7 +156,6 @@ public class StalDropComponent : MonoBehaviour {
             }
             yield return new WaitForSeconds(shakeInterval);
         }
-        //stalBody.transform.Rotate(Vector3.zero);
     }
 
     private void CreateRubbleEffect()
@@ -169,6 +167,7 @@ public class StalDropComponent : MonoBehaviour {
         }
         rubbleEffect = Instantiate(rubblePrefab).GetComponent<ParticleSystem>();
         rubbleEffect.transform.position = new Vector3(transform.position.x, 5f, transform.position.z - 0.1f);
+        Destroy(rubbleEffect.gameObject, 3f);
     }
 
     public void SetPaused(bool bPaused)
@@ -191,12 +190,5 @@ public class StalDropComponent : MonoBehaviour {
                 stalBody.velocity = storedVelocity;
             }
         }
-    }
-
-    private void GetComponentList()
-    {
-        TriggerSprite = GetComponent<SpriteRenderer>();
-        stal = GetComponent<Stalactite>();
-        stalBody = transform.GetComponent<Rigidbody2D>();
     }
 }

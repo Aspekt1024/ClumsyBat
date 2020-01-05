@@ -13,6 +13,8 @@ public class JumpPound : BossAbility
     private JumpState _state;
     private Rigidbody2D bossBody;
     private BaseAction callerAction;
+
+    private Coroutine jumpRoutine;
     
     private void Start()
     {
@@ -22,7 +24,11 @@ public class JumpPound : BossAbility
     public void Jump(BaseAction caller, float jumpForce)
     {
         callerAction = caller;
-        StartCoroutine(JumpAndPound(jumpForce));
+        if (jumpRoutine != null)
+        {
+            StopCoroutine(jumpRoutine);
+        }
+        jumpRoutine = StartCoroutine(JumpAndPound(jumpForce));
     }
 
     private void Update()
@@ -31,7 +37,7 @@ public class JumpPound : BossAbility
         {
             _state = JumpState.Falling;
             
-            if (callerAction.GetType().Equals(typeof(JumpAction)))
+            if (callerAction.GetType() == typeof(JumpAction))
                 ((JumpAction)callerAction).TopOfJump();
         }
     }
@@ -39,8 +45,8 @@ public class JumpPound : BossAbility
     private IEnumerator JumpAndPound(float jumpForce = 1000f)
     {
         bossBody.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
-        bossBody.velocity = new Vector2(bossBody.velocity.x, 0f);
-        bossBody.AddForce(Vector2.up * jumpForce);
+        bossBody.velocity = new Vector2(bossBody.velocity.x, jumpForce / 50f);
+        //bossBody.AddForce(Vector2.up * jumpForce);
         yield return null;
         _state = JumpState.Jumping;
 
@@ -54,32 +60,20 @@ public class JumpPound : BossAbility
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (_state != JumpState.Falling) return;
-        if (other.collider.tag == "BossFloor")
-        {
-            _state = JumpState.Idle;
-            BossEvents.JumpLanded();
+        if (_state != JumpState.Falling || !other.collider.CompareTag("BossFloor")) return;
+        
+        _state = JumpState.Idle;
+        BossEvents.JumpLanded();
             
-            GameStatics.Camera.Shake(0.7f);
-            bossBody.velocity = Vector2.zero;
-            bossBody.constraints = RigidbodyConstraints2D.FreezeRotation;
+        GameStatics.Camera.Shake(0.7f);
+        bossBody.velocity = Vector2.zero;
+        bossBody.constraints = RigidbodyConstraints2D.FreezeRotation;
             
-            GameStatics.Audio.Boss.PlaySound(BossSounds.BossStomp);
+        GameStatics.Audio.Boss.PlaySound(BossSounds.BossStomp);
 
-            if (callerAction.GetType().Equals(typeof(JumpAction)))
-                ((JumpAction)callerAction).Landed();
+        if (callerAction.GetType() == typeof(JumpAction))
+        {
+            ((JumpAction)callerAction).Landed();
         }
     }
-    
-    private IEnumerator WaitSeconds(float secs)
-    {
-        float timer = 0f;
-        while (timer < secs)
-        {
-            if (!Toolbox.Instance.GamePaused)
-                timer += Time.deltaTime;
-            yield return null;
-        }
-    }
-
 }

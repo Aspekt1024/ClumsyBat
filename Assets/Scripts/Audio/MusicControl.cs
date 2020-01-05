@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using Audio.MusicControls;
 using UnityEngine;

@@ -602,8 +602,8 @@
     <TriggerEvent>
       <Id>41</Id>
       <Dialogue>
-        <string>Secret passages lead to essence shrines</string>
-        <string>You can unlock the power of the lanterna t these</string>
+        <string>There's a secret passage down here!</string>
+        <string>I bet it leads to a shrine, where you can unlock new abilities!</string>
       </Dialogue>
       <EventType>Dialogue</EventType>
       <EventId>None</EventId>

@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="Windows-1252"?>
-<ActionDataCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<?xml version="1.0"?>
+<ActionDataCollection xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Actions>
     <BaseAction xsi:type="StartAction">
       <ID>0</ID>
@@ -229,6 +229,8 @@
           <OtherConnID>0</OtherConnID>
         </ActionConnection>
       </connections>
+      <LatchCount>1</LatchCount>
+      <Mode>Normal</Mode>
     </BaseAction>
     <BaseAction xsi:type="StateAction">
       <ID>12</ID>

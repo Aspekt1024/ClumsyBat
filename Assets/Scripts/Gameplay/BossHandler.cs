@@ -211,7 +211,7 @@ public class BossHandler : MonoBehaviour {
         switch (GameStatics.LevelManager.Level)
         {
             case LevelProgressionHandler.Levels.BossS1:
-                dialogue = "You found the hidden shrine! The key to defeating King Rockbreath can be found here.";
+                dialogue = "You found the hidden shrine! The key to defeating Rockbreath can be found here.";
                 break;
             case LevelProgressionHandler.Levels.Boss1:
                 if (!GameStatics.Data.Abilities.GetHypersonicStats().AbilityAvailable)
@@ -222,7 +222,7 @@ public class BossHandler : MonoBehaviour {
                 {
                     if (!GameStatics.Data.LevelDataHandler.IsCompleted(LevelProgressionHandler.Levels.Boss1))
                     {
-                        dialogue = "Now that you have unlocked the power of hypersonic, we can defeat King Rockbreath!";
+                        dialogue = "Now that you have unlocked the power of hypersonic, we can defeat Rockbreath!";
                     }
                     else
                     {
@@ -233,6 +233,6 @@ public class BossHandler : MonoBehaviour {
             default:
                 return;
         }
-        Toolbox.Tooltips.ShowDialogue(new TriggerEvent() { Dialogue = new List<string>() { dialogue } });
+        Toolbox.Tooltips.ShowDialogue(new TriggerEvent() { Dialogue = new List<string> { dialogue } });
     }
 }

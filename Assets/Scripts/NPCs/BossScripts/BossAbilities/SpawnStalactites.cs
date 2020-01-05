@@ -7,8 +7,8 @@ using UnityEngine;
 
 public class SpawnStalactites : BossAbility {
 
-    private const int INITIAL_STALCOUNT = 5;
-    private readonly List<Stalactite> _stals = new List<Stalactite>();
+    private const int InitialStalCount = 5;
+    private readonly List<Stalactite> stals = new List<Stalactite>();
     private GameObject rubblePrefab;
 
     private Transform stalParent;
@@ -28,10 +28,9 @@ public class SpawnStalactites : BossAbility {
 
     public override void Clear()
     {
-        foreach (var stalactite in _stals)
-        {
-            Destroy(stalactite.gameObject);
-        }
+        StopAllCoroutines();
+        stals.Clear();
+        Destroy(stalParent.gameObject);
     }
 
     public void DropAllStalactites()
@@ -50,7 +49,7 @@ public class SpawnStalactites : BossAbility {
     {
         GameStatics.Audio.Enemy.PlaySound(EnemySounds.StalactiteForm);
         ActivateStal(index, spawnPosX, type, greenChance, goldChance, blueChance, poolIndex, direction);
-        Transform stalTf = _stals[index].transform;
+        var stalTf = stals[index].transform;
         stalTf.localRotation = new Quaternion();
         
         float startY = stalTf.position.y;
@@ -71,10 +70,10 @@ public class SpawnStalactites : BossAbility {
         const float animDuration = 1.5f;
         float animTimer = 0f;
 
-        _stals[index].SetState(Stalactite.StalStates.Forming);
+        stals[index].SetState(Stalactite.StalStates.Forming);
         while (animTimer < animDuration)
         {
-            if (_stals[index].IsBroken) yield break;
+            if (stals[index].IsBroken) yield break;
 
             if (!Toolbox.Instance.GamePaused)
             {
@@ -85,15 +84,15 @@ public class SpawnStalactites : BossAbility {
             yield return null;
         }
 
-        if (!_stals[index].IsBroken)
+        if (!stals[index].IsBroken)
         {
-            _stals[index].SetState(Stalactite.StalStates.Normal);
+            stals[index].SetState(Stalactite.StalStates.Normal);
         }
     }
 
     private IEnumerator DropStalactites()
     {
-        var activeStals = _stals.Where(s => s.IsActive && !s.IsForming && !s.IsBroken).ToArray();
+        var activeStals = stals.Where(s => s.IsActive && !s.IsForming && !s.IsBroken).ToArray();
         foreach(var stal in activeStals)
         {
             stal.Drop();
@@ -103,28 +102,26 @@ public class SpawnStalactites : BossAbility {
 
     private IEnumerator DropStalactites(int[] dropOrder)
     {
-        for (int i = 0; i < dropOrder.Length; i++)
+        foreach (var index in dropOrder)
         {
-            int index = dropOrder[i];
-            if (_stals[index].IsActive && !_stals[index].IsForming)
-            {
-                _stals[index].Drop();
-                yield return new WaitForSeconds(0.2f);
-            }
+            if (!stals[index].IsActive || stals[index].IsForming) continue;
+            
+            stals[index].Drop();
+            yield return new WaitForSeconds(0.2f);
         }
     }
 
     private void ActivateStal(int index, float spawnPosX, SpawnStalAction.StalTypes type, float greenChance, float goldChance, float blueChance, int poolHandlerIndex, SpawnStalAction.StalSpawnDirection direction)
     {
-        _stals[index].gameObject.SetActive(true);
+        stals[index].gameObject.SetActive(true);
         const float startY = 10f;
-        Spawnable.SpawnType spawnTf = new Spawnable.SpawnType
+        var spawnTf = new Spawnable.SpawnType
         {
             Pos = new Vector2(spawnPosX, startY),
             Rotation = new Quaternion(),
             Scale = Vector2.one
         };
-        StalPool.StalType stalProps = new StalPool.StalType()
+        var stalProps = new StalPool.StalType()
         {
             SpawnTransform = spawnTf,
             DropEnabled = false,
@@ -136,18 +133,18 @@ public class SpawnStalactites : BossAbility {
             PoolHandlerIndex = poolHandlerIndex,
             Direction = direction
         };
-        _stals[index].Spawn(stalProps, 0);
+        stals[index].Spawn(stalProps, 0);
     }
 
     private int GetUnusedStalIndex()
     {
         int i = 0;
-        for (i = 0; i < _stals.Count - 1; i++)
+        for (i = 0; i < stals.Count - 1; i++)
         {
-            if (!_stals[i].IsActive) return i;
+            if (!stals[i].IsActive) return i;
         }
         AddNewStal();
-        return _stals.Count - 1;
+        return stals.Count - 1;
     }
 
 
@@ -155,7 +152,7 @@ public class SpawnStalactites : BossAbility {
     {
         stalParent = new GameObject("Stalactites").transform;
         stalParent.position = new Vector3(0f, 0f, Toolbox.Instance.ZLayers["Stalactite"]);
-        for (int i = 0; i < INITIAL_STALCOUNT; i++)
+        for (int i = 0; i < InitialStalCount; i++)
         {
             AddNewStal();
         }
@@ -163,10 +160,10 @@ public class SpawnStalactites : BossAbility {
 
     private void AddNewStal()
     {
-        Stalactite newStal = Instantiate(Resources.Load<Stalactite>("Obstacles/Stalactite"), stalParent);
+        var newStal = Instantiate(Resources.Load<Stalactite>("Obstacles/Stalactite"), stalParent);
         newStal.transform.position = Toolbox.Instance.HoldingArea;
         newStal.DropEnabled = false;
         newStal.gameObject.SetActive(false);
-        _stals.Add(newStal);
+        stals.Add(newStal);
     }
 }
